@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2010 cocos2d-x.org
  
  http://www.cocos2d-x.org
  
@@ -22,36 +22,21 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCETCTEXTURE_H__
-#define __CCETCTEXTURE_H__
+#pragma once
 
-#include "cocoa/CCObject.h"
-#include "platform/CCPlatformMacros.h"
-#include "CCGL.h"
+#import "cocos2d.h"
+#import "EAGLView.h"
 
-NS_CC_BEGIN
+@interface AppController : NSObject <NSApplicationDelegate>
+	{
+		NSWindow *window;
+		CCEAGLView *glView;
+	}
 
-class CC_DLL TextureETC : public Object
-{
-public:
-    TextureETC();
-    virtual ~TextureETC();
+	@property (nonatomic, assign) IBOutlet NSWindow* window;
+	@property (nonatomic, assign) IBOutlet CCEAGLView* glView;
 
-    bool initWithFile(const char* file);
+	-(IBAction) toggleFullScreen:(id)sender;
+	-(IBAction) exitFullScreen:(id)sender;
 
-    unsigned int getName() const;
-    unsigned int getWidth() const;
-    unsigned int getHeight() const;
-    
-private:
-    bool loadTexture(const char* file);
-    
-private:
-    GLuint _name;
-    unsigned int _width;
-    unsigned int _height;
-};
-
-NS_CC_END
-
-#endif /* defined(__CCETCTEXTURE_H__) */
+@end
