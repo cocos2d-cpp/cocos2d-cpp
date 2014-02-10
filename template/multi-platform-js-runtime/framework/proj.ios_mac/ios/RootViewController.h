@@ -1,5 +1,6 @@
 /****************************************************************************
- Copyright (c) 2010 cocos2d-x.org
+ Copyright (c) 2010-2011 cocos2d-x.org
+ Copyright (c) 2010      Ricardo Quesada
  
  http://www.cocos2d-x.org
  
@@ -22,13 +23,11 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "AppDelegate.h"
-#include "cocos2d.h"
- 
-USING_NS_CC;
+#import <UIKit/UIKit.h>
 
-int main(int argc, char *argv[])
-{
-    AppDelegate app;
-    return Application::getInstance()->run();
+
+@interface RootViewController : UIViewController {
+
 }
+- (BOOL)prefersStatusBarHidden;
+@end

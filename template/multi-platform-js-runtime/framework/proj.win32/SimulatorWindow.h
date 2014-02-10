@@ -1,6 +1,4 @@
-#!/usr/bin/python
-#coding=utf-8
-"""****************************************************************************
+/****************************************************************************
 Copyright (c) 2013 cocos2d-x.org
 
 http://www.cocos2d-x.org
@@ -22,32 +20,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-****************************************************************************"""
+****************************************************************************/
 
-import sys
-def commandCreate():
-        from module.core import CocosProject
-        project = CocosProject()
-        name, package, language, runtime, path = project.checkParams()
-        project.createPlatformProjects(name, package, language, runtime, path)
+#ifndef __SIMULATOR_WINDOW_H_
+#define __SIMULATOR_WINDOW_H_
 
+/************************
+@brief create Simulator
+*********************************/
+void createSimulator(const char* viewName, float width, float height,float frameZoomFactor = 1.0f);
 
-# ------------ main --------------
-if __name__ == '__main__':
-    """
-    There have double ways to create cocos project.
-    1.UI
-    2.console
-        #create_project.py --help
-        #create_project.py -n MyGame -k com.MyCompany.AwesomeGame -l javascript -p c:/mycompany
-    """
-    if len(sys.argv)==1:
-        try:
-            from module.ui import createTkCocosDialog
-            createTkCocosDialog()
-        except ImportError:
-            commandCreate()
-    else:
-        commandCreate()
-
-
+#endif /* __PROJECT_CONFIG_H_ */
