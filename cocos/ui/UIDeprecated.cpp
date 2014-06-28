@@ -1,5 +1,5 @@
 /****************************************************************************
- Copyright (c) 2013 cocos2d-x.org
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -22,42 +22,12 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __TestCpp__UIListViewTest__
-#define __TestCpp__UIListViewTest__
+#include "ui/UIDeprecated.h"
 
-#include "../UIScene.h"
-#include "ui/UIScrollView.h"
+NS_CC_BEGIN
 
-class UIListViewTest_Vertical : public UIScene
-{
-public:
-    UIListViewTest_Vertical();
-    ~UIListViewTest_Vertical();
-    bool init();
-    void selectedItemEvent(Ref* pSender, ListView::EventType type);
-    void selectedItemEventScrollView(Ref* pSender, ui::ScrollView::EventType type);
-
-protected:
-    UI_SCENE_CREATE_FUNC(UIListViewTest_Vertical)
-    Text* _displayValueLabel;
+namespace ui {
     
-    std::vector<std::string> _array;
-};
-
-class UIListViewTest_Horizontal : public UIScene
-{
-public:
-    UIListViewTest_Horizontal();
-    ~UIListViewTest_Horizontal();
-    bool init();
-    void selectedItemEvent(Ref* pSender, ListView::EventType type);
-
+const Margin MarginZero =  Margin::ZERO ;
     
-protected:
-    UI_SCENE_CREATE_FUNC(UIListViewTest_Horizontal)
-    Text* _displayValueLabel;
-    
-    std::vector<std::string> _array;
-};
-
-#endif /* defined(__TestCpp__UIListViewTest__) */
+}}

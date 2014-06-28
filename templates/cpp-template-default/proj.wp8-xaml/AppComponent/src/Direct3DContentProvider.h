@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013 cocos2d-x.org
+Copyright (c) Microsoft Open Technologies, Inc.
 
 http://www.cocos2d-x.org
 
@@ -22,49 +23,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCBATCHNODE_H__
-#define __CCBATCHNODE_H__
+#pragma once
 
-#include "2d/CCNode.h"
-#include "cocostudio/CCArmatureDefine.h"
+#include <wrl/module.h>
+#include <Windows.Phone.Graphics.Interop.h>
+#include <DrawingSurfaceNative.h>
 
-namespace cocos2d {
-    class GroupCommand;
-}
+#include "Direct3DInterop.h"
 
-namespace cocostudio {
-
-class BatchNode : public cocos2d::Node
+class Direct3DContentProvider : public Microsoft::WRL::RuntimeClass<
+		Microsoft::WRL::RuntimeClassFlags<Microsoft::WRL::WinRtClassicComMix>,
+		ABI::Windows::Phone::Graphics::Interop::IDrawingSurfaceBackgroundContentProvider,
+		IDrawingSurfaceBackgroundContentProviderNative>
 {
 public:
-    static BatchNode *create();
-public:
-	/**
-     * @js ctor
-     */
-    BatchNode();
-    /**
-     * @ js NA
-     * @ lua NA
-     */
-    ~BatchNode();
-    /**
-     *  @js NA
-     */
-    virtual bool init() override;
-    using Node::addChild;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, int tag) override;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, const std::string &name) override;
-    virtual void removeChild(cocos2d::Node* child, bool cleanup) override;
-    virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTransform, uint32_t parentFlags) override;
-    virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
-    
-protected:
-    void generateGroupCommand();
+	Direct3DContentProvider(PhoneDirect3DXamlAppComponent::Direct3DInterop^ controller);
 
-    cocos2d::GroupCommand* _groupCommand;
+	// IDrawingSurfaceContentProviderNative
+	HRESULT STDMETHODCALLTYPE Connect(_In_ IDrawingSurfaceRuntimeHostNative* host, _In_ ID3D11Device1* device);
+	void STDMETHODCALLTYPE Disconnect();
+
+	HRESULT STDMETHODCALLTYPE PrepareResources(_In_ const LARGE_INTEGER* presentTargetTime, _Inout_ DrawingSurfaceSizeF* desiredRenderTargetSize);
+	HRESULT STDMETHODCALLTYPE Draw(_In_ ID3D11Device1* device, _In_ ID3D11DeviceContext1* context, _In_ ID3D11RenderTargetView* renderTargetView);
+
+private:
+	PhoneDirect3DXamlAppComponent::Direct3DInterop^ m_controller;
+	Microsoft::WRL::ComPtr<IDrawingSurfaceRuntimeHostNative> m_host;
 };
-
-}
-
-#endif /*__CCBATCHNODE_H__*/

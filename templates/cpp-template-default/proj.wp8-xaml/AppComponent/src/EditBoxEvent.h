@@ -1,5 +1,5 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2014 cocos2d-x.org
 
 http://www.cocos2d-x.org
 
@@ -22,49 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCBATCHNODE_H__
-#define __CCBATCHNODE_H__
+#ifndef __EditBoxEVENT_H__
+#define __EditBoxEVENT_H__
 
-#include "2d/CCNode.h"
-#include "cocostudio/CCArmatureDefine.h"
+#include "InputEvent.h"
+#include <agile.h>
 
-namespace cocos2d {
-    class GroupCommand;
-}
 
-namespace cocostudio {
-
-class BatchNode : public cocos2d::Node
+namespace PhoneDirect3DXamlAppComponent
 {
-public:
-    static BatchNode *create();
-public:
-	/**
-     * @js ctor
-     */
-    BatchNode();
-    /**
-     * @ js NA
-     * @ lua NA
-     */
-    ~BatchNode();
-    /**
-     *  @js NA
-     */
-    virtual bool init() override;
-    using Node::addChild;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, int tag) override;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, const std::string &name) override;
-    virtual void removeChild(cocos2d::Node* child, bool cleanup) override;
-    virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTransform, uint32_t parentFlags) override;
-    virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
-    
-protected:
-    void generateGroupCommand();
+	class EditBoxEvent : public cocos2d::InputEvent
+	{
+	public:
+		EditBoxEvent(Platform::Object^ sender, Platform::String^ arg, Windows::Foundation::EventHandler<Platform::String^>^ handle);
 
-    cocos2d::GroupCommand* _groupCommand;
-};
+		virtual void execute();
 
+	private:
+		Platform::Agile<Platform::Object^> m_sender;
+		Platform::Agile<Platform::String^> m_args;
+		Platform::Agile<Windows::Foundation::EventHandler<Platform::String^>^> m_handler;
+	};
 }
 
-#endif /*__CCBATCHNODE_H__*/
+#endif

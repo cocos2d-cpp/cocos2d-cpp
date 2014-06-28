@@ -1,5 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2014 Chukong Technologies Inc.
+Copyright (c) 2013 cocos2d-x.org
+Copyright (c) Microsoft Open Technologies, Inc.
 
 http://www.cocos2d-x.org
 
@@ -22,49 +23,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCBATCHNODE_H__
-#define __CCBATCHNODE_H__
+//// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+//// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+//// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+//// PARTICULAR PURPOSE.
+////
+//// Copyright (c) Microsoft Corporation. All rights reserved
 
-#include "2d/CCNode.h"
-#include "cocostudio/CCArmatureDefine.h"
+#pragma once
 
-namespace cocos2d {
-    class GroupCommand;
-}
 
-namespace cocostudio {
-
-class BatchNode : public cocos2d::Node
+// This header defines helper utilities to make DirectX APIs work with exceptions.
+namespace DX
 {
-public:
-    static BatchNode *create();
-public:
-	/**
-     * @js ctor
-     */
-    BatchNode();
-    /**
-     * @ js NA
-     * @ lua NA
-     */
-    ~BatchNode();
-    /**
-     *  @js NA
-     */
-    virtual bool init() override;
-    using Node::addChild;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, int tag) override;
-    virtual void addChild(cocos2d::Node *pChild, int zOrder, const std::string &name) override;
-    virtual void removeChild(cocos2d::Node* child, bool cleanup) override;
-    virtual void visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTransform, uint32_t parentFlags) override;
-    virtual void draw(cocos2d::Renderer *renderer, const cocos2d::Mat4 &transform, uint32_t flags) override;
-    
-protected:
-    void generateGroupCommand();
-
-    cocos2d::GroupCommand* _groupCommand;
-};
-
+    inline void ThrowIfFailed(HRESULT hr)
+    {
+        if (FAILED(hr))
+        {
+            // Set a breakpoint on this line to catch DX API errors.
+            throw Platform::Exception::CreateException(hr);
+        }
+    }
 }
-
-#endif /*__CCBATCHNODE_H__*/
