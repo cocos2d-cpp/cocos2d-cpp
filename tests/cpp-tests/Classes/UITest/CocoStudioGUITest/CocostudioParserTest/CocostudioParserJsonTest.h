@@ -1,6 +1,5 @@
 /****************************************************************************
- Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -23,44 +22,32 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "CCControllerThumbstick.h"
-#include "CCControllerAxisInput.h"
-#include "CCControllerButtonInput.h"
+#ifndef __cocos2d_tests__CocostudioParserJsonTest__
+#define __cocos2d_tests__CocostudioParserJsonTest__
 
-NS_CC_BEGIN
+#include "cocos2d.h"
+#include "../../../testBasic.h"
 
-ControllerThumbstick::ControllerThumbstick()
-: _axisX(new ControllerAxisInput())
-, _axisY(new ControllerAxisInput())
-, _button(new ControllerButtonInput())
+class CocostudioParserJsonLayer : public cocos2d::Layer
 {
-    _axisX->setCollection(this);
-    _axisY->setCollection(this);
-    _button->setCollection(this);
-}
+public:
+    CocostudioParserJsonLayer(std::string jsonFile);
+    ~CocostudioParserJsonLayer(){}
+    virtual void onEnter();
+private:
+    std::string _jsonFile;
+};
 
-ControllerThumbstick::~ControllerThumbstick()
+class CocostudioParserJsonScene : public TestScene
 {
-    CC_SAFE_DELETE(_axisX);
-    CC_SAFE_DELETE(_axisY);
-    CC_SAFE_DELETE(_button);
-}
+public:
+    CocostudioParserJsonScene(std::string jsonFile);
+    ~CocostudioParserJsonScene(){}
+    virtual void onEnter();
+    virtual void runThisTest();
+    void BackCallback(cocos2d::Ref* pSender);
+private:
+    std::string _jsonFile;
+};
 
-ControllerAxisInput* ControllerThumbstick::getAxisX() const
-{
-    return _axisX;
-}
-
-ControllerAxisInput* ControllerThumbstick::getAxisY() const
-{
-    return _axisY;
-}
-
-ControllerButtonInput* ControllerThumbstick::getButton() const
-{
-    return _button;
-}
-
-
-
-NS_CC_END
+#endif /* defined(__cocos2d_tests__CocostudioParserJsonTest__) */

@@ -1,6 +1,5 @@
 /****************************************************************************
- Copyright (c) 2014 cocos2d-x.org
- Copyright (c) 2014 Chukong Technologies Inc.
+ Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
  
@@ -23,33 +22,37 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__CCControllerAxisInput__
-#define __cocos2d_libs__CCControllerAxisInput__
+#ifndef __cocos2d_tests__CocostudioParserTest__
+#define __cocos2d_tests__CocostudioParserTest__
 
-#include "CCPlatformMacros.h"
-#include "CCControllerElement.h"
+#include "cocos2d.h"
+#include "extensions/cocos-ext.h"
+#include "../../testBasic.h"
+#include "ui/CocosGUI.h"
 
-NS_CC_BEGIN
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace cocos2d::ui;
 
-class ControllerAxisInput : public ControllerElement
+class CocostudioParserTestMainLayer : public Layer
 {
 public:
-	float getValue() const;
-
-protected:
-    ControllerAxisInput();
-    virtual ~ControllerAxisInput();
+    virtual void onEnter();
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event  *event);
     
-    void setValue(float value);
+    void touchEvent(Ref* pSender, Widget::TouchEventType type);
     
-	float _value;
-    
-    friend class Controller;
-    friend class ControllerImpl;
-    friend class ControllerDirectionPad;
-    friend class ControllerThumbstick;
+private:
+    Vec2 _beginPos;
+    Menu* _itemMenu;
 };
 
-NS_CC_END
+class CocostudioParserTestScene : public TestScene
+{
+public:
+    virtual void onEnter();
+    virtual void runThisTest();
+    void BackCallback(Ref* pSender);
+};
 
-#endif /* defined(__cocos2d_libs__CCControllerAxisInput__) */
+#endif /* defined(__cocos2d_tests__CocostudioParserTest__) */
