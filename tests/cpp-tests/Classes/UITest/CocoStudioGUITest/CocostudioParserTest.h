@@ -1,5 +1,4 @@
 /****************************************************************************
- Copyright (c) 2013      Zynga Inc.
  Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
@@ -23,38 +22,37 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontAtlasCache_h_
-#define _CCFontAtlasCache_h_
+#ifndef __cocos2d_tests__CocostudioParserTest__
+#define __cocos2d_tests__CocostudioParserTest__
 
-#include <unordered_map>
+#include "cocos2d.h"
+#include "extensions/cocos-ext.h"
+#include "../../testBasic.h"
+#include "ui/CocosGUI.h"
 
-#include "2d/CCFontAtlas.h"
-#include "2d/CCLabel.h"
+USING_NS_CC;
+USING_NS_CC_EXT;
+using namespace cocos2d::ui;
 
-NS_CC_BEGIN
-
-class CC_DLL FontAtlasCache
-{  
+class CocostudioParserTestMainLayer : public Layer
+{
 public:
-    static FontAtlas * getFontAtlasTTF(const TTFConfig & config);
-    static FontAtlas * getFontAtlasFNT(const std::string& fontFileName, const Vec2& imageOffset = Vec2::ZERO);
-
-    static FontAtlas * getFontAtlasCharMap(const std::string& charMapFile, int itemWidth, int itemHeight, int startCharMap);
-    static FontAtlas * getFontAtlasCharMap(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap);
-    static FontAtlas * getFontAtlasCharMap(const std::string& plistFile);
+    virtual void onEnter();
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event  *event);
     
-    static bool releaseFontAtlas(FontAtlas *atlas);
-
-    /** Removes cached data.
-     It will purge the textures atlas and if multiple texture exist in one FontAtlas.
-     */
-    static void purgeCachedData();
+    void touchEvent(Ref* pSender, Widget::TouchEventType type);
     
-private: 
-    static std::string generateFontName(const std::string& fontFileName, int size, GlyphCollection theGlyphs, bool useDistanceField);
-    static std::unordered_map<std::string, FontAtlas *> _atlasMap;
+private:
+    Vec2 _beginPos;
+    Menu* _itemMenu;
 };
 
-NS_CC_END
+class CocostudioParserTestScene : public TestScene
+{
+public:
+    virtual void onEnter();
+    virtual void runThisTest();
+    void BackCallback(Ref* pSender);
+};
 
-#endif
+#endif /* defined(__cocos2d_tests__CocostudioParserTest__) */

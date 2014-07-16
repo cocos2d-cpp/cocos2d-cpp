@@ -1,5 +1,4 @@
 /****************************************************************************
- Copyright (c) 2013      Zynga Inc.
  Copyright (c) 2013-2014 Chukong Technologies Inc.
  
  http://www.cocos2d-x.org
@@ -23,38 +22,32 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef _CCFontAtlasCache_h_
-#define _CCFontAtlasCache_h_
+#ifndef __cocos2d_tests__CocostudioParserJsonTest__
+#define __cocos2d_tests__CocostudioParserJsonTest__
 
-#include <unordered_map>
+#include "cocos2d.h"
+#include "../../../testBasic.h"
 
-#include "2d/CCFontAtlas.h"
-#include "2d/CCLabel.h"
-
-NS_CC_BEGIN
-
-class CC_DLL FontAtlasCache
-{  
+class CocostudioParserJsonLayer : public cocos2d::Layer
+{
 public:
-    static FontAtlas * getFontAtlasTTF(const TTFConfig & config);
-    static FontAtlas * getFontAtlasFNT(const std::string& fontFileName, const Vec2& imageOffset = Vec2::ZERO);
-
-    static FontAtlas * getFontAtlasCharMap(const std::string& charMapFile, int itemWidth, int itemHeight, int startCharMap);
-    static FontAtlas * getFontAtlasCharMap(Texture2D* texture, int itemWidth, int itemHeight, int startCharMap);
-    static FontAtlas * getFontAtlasCharMap(const std::string& plistFile);
-    
-    static bool releaseFontAtlas(FontAtlas *atlas);
-
-    /** Removes cached data.
-     It will purge the textures atlas and if multiple texture exist in one FontAtlas.
-     */
-    static void purgeCachedData();
-    
-private: 
-    static std::string generateFontName(const std::string& fontFileName, int size, GlyphCollection theGlyphs, bool useDistanceField);
-    static std::unordered_map<std::string, FontAtlas *> _atlasMap;
+    CocostudioParserJsonLayer(std::string jsonFile);
+    ~CocostudioParserJsonLayer(){}
+    virtual void onEnter();
+private:
+    std::string _jsonFile;
 };
 
-NS_CC_END
+class CocostudioParserJsonScene : public TestScene
+{
+public:
+    CocostudioParserJsonScene(std::string jsonFile);
+    ~CocostudioParserJsonScene(){}
+    virtual void onEnter();
+    virtual void runThisTest();
+    void BackCallback(cocos2d::Ref* pSender);
+private:
+    std::string _jsonFile;
+};
 
-#endif
+#endif /* defined(__cocos2d_tests__CocostudioParserJsonTest__) */
