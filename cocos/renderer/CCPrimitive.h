@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2013-2014 Chukong Technologies Inc.
- 
+
  http://www.cocos2d-x.org
- 
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
- 
+
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
- 
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,48 +22,46 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __cocos2d_libs__TouchEvent__
-#define __cocos2d_libs__TouchEvent__
+#ifndef __CC_PRIMITIVE_H__
+#define __CC_PRIMITIVE_H__
 
-#include "base/CCEvent.h"
-#include "base/CCTouch.h"
-#include <vector>
+#include "renderer/CCVertexIndexData.h"
 
 NS_CC_BEGIN
 
-#define TOUCH_PERF_DEBUG 1
-
-class CC_DLL EventTouch : public Event
+class CC_DLL Primitive : public Ref
 {
 public:
-    static const int MAX_TOUCHES = 15;
+    static Primitive* create(VertexData* verts, IndexBuffer* indices, int type);
     
-    enum class EventCode
-    {
-        BEGAN,
-        MOVED,
-        ENDED,
-        CANCELLED
-    };
-
-    EventTouch();
-
-    inline EventCode getEventCode() const { return _eventCode; };
-    inline const std::vector<Touch*>& getTouches() const { return _touches; };
-
-#if TOUCH_PERF_DEBUG
-    void setEventCode(EventCode eventCode) { _eventCode = eventCode; };
-    void setTouches(const std::vector<Touch*>& touches) { _touches = touches; };
-#endif
+    const VertexData* getVertexData() const;
     
-private:
-    EventCode _eventCode;
-    std::vector<Touch*> _touches;
-
-    friend class GLView;
+    const IndexBuffer* getIndexData() const;
+    
+    int getType() const { return _type; }
+    
+    //called by rendering framework
+    void draw();
+    
+    int getStart() const { return _start; }
+    int getCount() const { return _count; }
+    void setStart(int start) { _start = start; }
+    void setCount(int count) { _count = count; }
+    
+protected:
+    Primitive();
+    virtual ~Primitive();
+    
+    bool init(VertexData* verts, IndexBuffer* indices, int type);
+    
+protected:
+    VertexData* _verts;
+    IndexBuffer* _indices;
+    int _start;
+    int _count;
+    int _type;
 };
-
 
 NS_CC_END
 
-#endif /* defined(__cocos2d_libs__TouchEvent__) */
+#endif //__CC_PRIMITIVE_H__
