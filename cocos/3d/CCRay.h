@@ -1,18 +1,18 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
-
+ 
  http://www.cocos2d-x.org
-
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  copies of the Software, and to permit persons to whom the Software is
  furnished to do so, subject to the following conditions:
-
+ 
  The above copyright notice and this permission notice shall be included in
  all copies or substantial portions of the Software.
-
+ 
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,56 +22,72 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#ifndef __CCSUBMESHSTATE_H__
-#define __CCSUBMESHSTATE_H__
+#ifndef __CC_RAY_H_
+#define __CC_RAY_H_
 
-#include <string>
-#include <vector>
-
-#include "3d/CCBundle3DData.h"
-
-#include "base/CCRef.h"
-#include "base/ccTypes.h"
+#include "base/ccMacros.h"
 #include "math/CCMath.h"
-#include "renderer/CCGLProgram.h"
+#include "CCAABB.h"
+#include "CCOBB.h"
+#include "3d/3dExport.h"
 
 NS_CC_BEGIN
 
-class Texture2D;
-class MeshSkin;
-/** 
- * SubMeshState: visibility and apperence of submesh
- */
-class CC_DLL SubMeshState : public Ref
+class CC_3D_DLL Ray
 {
 public:
+    /**
+     * Constructor.
+     */
+    Ray();
 
-    /**create submesh from primitivetype indexformat and indices*/
-    static SubMeshState* create();
-
-    /**texture getter and setter*/
-    void setTexture(Texture2D* tex);
-    Texture2D* getTexture() const { return _texture; }
+    /**
+     * Constructor.
+     */
+    Ray(const Ray& ray);
     
-    /**visible getter and setter*/
-    void setVisible(bool visible) { _visible = visible; }
-    bool isVisible() const { return _visible; }
-    
-    /**skin getter and setter*/
-    void setSkin(MeshSkin* skin);
-    MeshSkin* getSkin() const { return _skin; }
+    /**
+     * Constructs a new ray initialized to the specified values.
+     *
+     * @param origin The ray's origin.
+     * @param direction The ray's direction.
+     */
+    Ray(const Vec3& origin, const Vec3& direction);
 
-CC_CONSTRUCTOR_ACCESS:
-    
-    SubMeshState();
-    virtual ~SubMeshState();
+    /**
+     * Destructor.
+     */
+    ~Ray();
 
-protected:
-    Texture2D* _texture;  //texture that submesh is using
-    MeshSkin*  _skin;     //skin
-    bool       _visible; // is the submesh visible
+    /**
+     * Check whether this ray intersects the specified bounding box.
+     */
+    bool intersects(const AABB& aabb) const;
+
+    /**
+     * Check whether this ray intersects the specified obb.
+     */
+    bool intersects(const OBB& obb) const;
+
+    /**
+     * Sets this ray to the specified values.
+     *
+     * @param origin The ray's origin.
+     * @param direction The ray's direction.
+     */
+    void set(const Vec3& origin, const Vec3& direction);
+
+    /**
+     * Transforms this ray by the given transformation matrix.
+     *
+     * @param matrix The transformation matrix to transform by.
+     */
+    void transform(const Mat4& matrix);
+
+    Vec3 _origin;        // The ray origin position.
+    Vec3 _direction;     // The ray direction vector.
 };
 
 NS_CC_END
 
-#endif // __CCSUBMESHSTATE_H__
+#endif
