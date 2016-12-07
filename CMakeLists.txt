@@ -107,25 +107,3 @@ if(BUILD_CPP_TESTS)
   add_subdirectory(tests/cpp-tests)
 endif(BUILD_CPP_TESTS)
 
-## Scripting
-if(BUILD_LUA_LIBS)
-    add_subdirectory(cocos/scripting/lua-bindings)
-
-  # build lua tests
-  if(BUILD_LUA_TESTS)
-    add_subdirectory(tests/lua-tests/project)
-    add_subdirectory(tests/lua-empty-test/project)
-  endif(BUILD_LUA_TESTS)
-
-endif(BUILD_LUA_LIBS)
-
-## JS
-if(BUILD_JS_LIBS)
-  add_subdirectory(cocos/scripting/js-bindings)
-
-  # build js tests
-  if(BUILD_JS_TESTS)
-    add_subdirectory(tests/js-tests/project)
-  endif(BUILD_JS_TESTS)
-
-endif(BUILD_JS_LIBS)
