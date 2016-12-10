@@ -1,8 +1,8 @@
 {
     "version":"v3-deps-115",
-    "zip_file_size":"135533806",
-    "repo_name":"cocos2d-x-3rd-party-libs-bin",
-    "repo_parent":"https://github.com/cocos2d/",
+    "zip_file_size":"85541995",
+    "repo_name":"cocos2d-cpp-3rd-party-libs-bin",
+    "repo_parent":"https://github.com/cocos2d-cpp/",
     "move_dirs":{
         "fbx-conv":"tools"
     }
