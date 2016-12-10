@@ -30,6 +30,7 @@ bool ERRCHECK(FMOD_RESULT result)
     return false;
 }
 
+#if FMOD_VERSION < 0x00040000
 FMOD_RESULT F_CALLBACK channelCallback(FMOD_CHANNELCONTROL *channelcontrol,
                                        FMOD_CHANNELCONTROL_TYPE controltype,
                                        FMOD_CHANNELCONTROL_CALLBACK_TYPE callbacktype,
@@ -40,6 +41,18 @@ FMOD_RESULT F_CALLBACK channelCallback(FMOD_CHANNELCONTROL *channelcontrol,
     }
     return FMOD_OK;
 }
+#else
+FMOD_RESULT F_CALLBACK channelCallback(FMOD_CHANNEL *channel,
+                                       FMOD_CHANNEL_CALLBACKTYPE type,
+                                       void *commanddata1,
+                                       void *commanddata2)
+{
+    if (type == FMOD_CHANNEL_CALLBACKTYPE_END) {
+        g_AudioEngineImpl->onSoundFinished((FMOD::Channel *)channel);
+    }
+    return FMOD_OK;
+}
+#endif // FMOD_VERSION
 
 AudioEngineImpl::AudioEngineImpl()
 {
@@ -131,9 +144,13 @@ bool AudioEngineImpl::resume(int audioID)
     try {
         if (!mapChannelInfo[audioID].channel) {
             FMOD::Channel *channel = nullptr;
-            FMOD::ChannelGroup *channelgroup = nullptr;
             //starts the sound in pause mode, use the channel to unpause
+#if FMOD_VERSION < 0x00040000
+            FMOD::ChannelGroup *channelgroup = nullptr;
             FMOD_RESULT result = pSystem->playSound(mapChannelInfo[audioID].sound, channelgroup, true, &channel);
+#else
+            FMOD_RESULT result = pSystem->playSound(FMOD_CHANNEL_REUSE, mapChannelInfo[audioID].sound, true, &channel);
+#endif
             if (ERRCHECK(result)) {
                 return false;
             }

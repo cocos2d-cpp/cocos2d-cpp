@@ -25,9 +25,10 @@ find_path(FMOD_INCLUDE_DIR fmod.hpp
   /opt/local # DarwinPorts
   /opt/csw # Blastwave
   /opt
+  /usr/include/fmodex # gentoo
   )
 
-find_library(FMOD_LIBRARY NAMES fmod fmod64
+find_library(FMOD_LIBRARY NAMES fmod fmod64 fmodex fmodex64
   HINTS ENV FMOD_DIR
   PATH_SUFFIXES lib
   PATHS
@@ -39,6 +40,7 @@ find_library(FMOD_LIBRARY NAMES fmod fmod64
   /opt/local # DarwinPorts
   /opt/csw # Blastwave
   /opt
+  /opt/fmodex/api/lib # gentoo
   )
 
 set(FMOD_INCLUDE_DIRS "${FMOD_INCLUDE_DIR}")
