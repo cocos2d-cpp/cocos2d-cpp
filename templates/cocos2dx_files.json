@@ -3869,5 +3869,5 @@
         "tools/simulator/libsimulator/proj.win32/stdafx.cpp", 
         "tools/simulator/libsimulator/proj.win32/stdafx.h", 
         "tools/simulator/libsimulator/proj.win32/targetver.h"
-    ], 
+    ]
 }
