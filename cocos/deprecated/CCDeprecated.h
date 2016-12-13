@@ -80,6 +80,7 @@
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCNotificationCenter.h"
 #include "deprecated/CCSet.h"
+#include "deprecated/CCString.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCGeometry.h"
 #include "platform/CCApplication.h"
