@@ -111,7 +111,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/base/CCController-android.cpp \
             ../../cocos/base/CCController.cpp \
             ../../cocos/base/CCData.cpp \
-            ../../cocos/base/CCDataVisitor.cpp \
             ../../cocos/base/CCDirector.cpp \
             ../../cocos/base/CCEvent.cpp \
             ../../cocos/base/CCEventAcceleration.cpp \

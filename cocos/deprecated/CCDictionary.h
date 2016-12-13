@@ -411,11 +411,6 @@ public:
      */
     static __Dictionary* createWithContentsOfFileThreadSafe(const char *pFileName);
 
-    /* override functions 
-     *  @js NA
-     *  @lua NA
-     */
-    virtual void acceptVisitor(DataVisitor &visitor);
     /**
      *  @js NA
      *  @lua NA

@@ -259,7 +259,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCConsole.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCController.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCData.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCDataVisitor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCDirector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCEvent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCEventAcceleration.h" />
@@ -898,7 +897,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCConsole.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCController.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCData.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCDataVisitor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCDirector.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCEvent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCEventAcceleration.cpp" />

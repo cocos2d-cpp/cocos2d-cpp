@@ -62,9 +62,6 @@
     <Filter Include="Classes\CurrentLanguageTest">
       <UniqueIdentifier>{583443c6-166b-4693-a2d1-ad846f6813bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\DataVisitorTest">
-      <UniqueIdentifier>{54e78cdc-cc15-4d83-8d3c-ff77beae1446}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\DrawPrimitivesTest">
       <UniqueIdentifier>{8e16d7fe-b605-4eaf-9474-ec8a1298abdc}</UniqueIdentifier>
     </Filter>
@@ -469,9 +466,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\CurrentLanguageTest\CurrentLanguageTest.cpp">
       <Filter>Classes\CurrentLanguageTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\DataVisitorTest\DataVisitorTest.cpp">
-      <Filter>Classes\DataVisitorTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\DrawPrimitivesTest\DrawPrimitivesTest.cpp">
       <Filter>Classes\DrawPrimitivesTest</Filter>
@@ -1065,9 +1059,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\CurrentLanguageTest\CurrentLanguageTest.h">
       <Filter>Classes\CurrentLanguageTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\DataVisitorTest\DataVisitorTest.h">
-      <Filter>Classes\DataVisitorTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\DrawPrimitivesTest\DrawPrimitivesTest.h">
       <Filter>Classes\DrawPrimitivesTest</Filter>

@@ -39,7 +39,6 @@
 #include "ConfigurationTest/ConfigurationTest.h"
 #include "ConsoleTest/ConsoleTest.h"
 #include "CurrentLanguageTest/CurrentLanguageTest.h"
-#include "DataVisitorTest/DataVisitorTest.h"
 #include "DownloaderTest/DownloaderTest.h"
 #include "DrawPrimitivesTest/DrawPrimitivesTest.h"
 #include "EffectsAdvancedTest/EffectsAdvancedTest.h"

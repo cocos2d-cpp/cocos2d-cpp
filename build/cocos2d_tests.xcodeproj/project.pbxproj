@@ -351,8 +351,6 @@
 		1AC35B5C18CECF0C00F37B72 /* CurlTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A318CECF0B00F37B72 /* CurlTest.cpp */; };
 		1AC35B5D18CECF0C00F37B72 /* CurrentLanguageTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A618CECF0B00F37B72 /* CurrentLanguageTest.cpp */; };
 		1AC35B5E18CECF0C00F37B72 /* CurrentLanguageTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A618CECF0B00F37B72 /* CurrentLanguageTest.cpp */; };
-		1AC35B5F18CECF0C00F37B72 /* DataVisitorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A918CECF0B00F37B72 /* DataVisitorTest.cpp */; };
-		1AC35B6018CECF0C00F37B72 /* DataVisitorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A918CECF0B00F37B72 /* DataVisitorTest.cpp */; };
 		1AC35B6118CECF0C00F37B72 /* DrawPrimitivesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359AC18CECF0B00F37B72 /* DrawPrimitivesTest.cpp */; };
 		1AC35B6218CECF0C00F37B72 /* DrawPrimitivesTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359AC18CECF0B00F37B72 /* DrawPrimitivesTest.cpp */; };
 		1AC35B6318CECF0C00F37B72 /* EffectsAdvancedTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359AF18CECF0B00F37B72 /* EffectsAdvancedTest.cpp */; };
@@ -929,7 +927,6 @@
 		507B41941C31BEA60067B53E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35C8418CECF1400F37B72 /* main.m */; };
 		507B41951C31BEA60067B53E /* UIScrollViewTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29080D6B191B595E0066F8DF /* UIScrollViewTest.cpp */; };
 		507B41961C31BEA60067B53E /* CCControlScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A6B18CECF0B00F37B72 /* CCControlScene.cpp */; };
-		507B41981C31BEA60067B53E /* DataVisitorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A918CECF0B00F37B72 /* DataVisitorTest.cpp */; };
 		507B41991C31BEA60067B53E /* CurrentLanguageTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359A618CECF0B00F37B72 /* CurrentLanguageTest.cpp */; };
 		507B419B1C31BEA60067B53E /* UICheckBoxTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 29080D3F191B595E0066F8DF /* UICheckBoxTest.cpp */; };
 		507B419C1C31BEA60067B53E /* Bug-350.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3597B18CECF0B00F37B72 /* Bug-350.cpp */; };
@@ -2106,8 +2103,6 @@
 		1AC359A418CECF0B00F37B72 /* CurlTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurlTest.h; sourceTree = "<group>"; };
 		1AC359A618CECF0B00F37B72 /* CurrentLanguageTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CurrentLanguageTest.cpp; sourceTree = "<group>"; };
 		1AC359A718CECF0B00F37B72 /* CurrentLanguageTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentLanguageTest.h; sourceTree = "<group>"; };
-		1AC359A918CECF0B00F37B72 /* DataVisitorTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataVisitorTest.cpp; sourceTree = "<group>"; };
-		1AC359AA18CECF0B00F37B72 /* DataVisitorTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataVisitorTest.h; sourceTree = "<group>"; };
 		1AC359AC18CECF0B00F37B72 /* DrawPrimitivesTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrawPrimitivesTest.cpp; sourceTree = "<group>"; };
 		1AC359AD18CECF0B00F37B72 /* DrawPrimitivesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawPrimitivesTest.h; sourceTree = "<group>"; };
 		1AC359AF18CECF0B00F37B72 /* EffectsAdvancedTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectsAdvancedTest.cpp; sourceTree = "<group>"; };
@@ -3478,7 +3473,6 @@
 				1AC359A118CECF0B00F37B72 /* controller.h */,
 				1AC359A218CECF0B00F37B72 /* CurlTest */,
 				1AC359A518CECF0B00F37B72 /* CurrentLanguageTest */,
-				1AC359A818CECF0B00F37B72 /* DataVisitorTest */,
 				1AC359AB18CECF0B00F37B72 /* DrawPrimitivesTest */,
 				1AC359AE18CECF0B00F37B72 /* EffectsAdvancedTest */,
 				1AC359B118CECF0B00F37B72 /* EffectsTest */,
@@ -3769,15 +3763,6 @@
 				1AC359A718CECF0B00F37B72 /* CurrentLanguageTest.h */,
 			);
 			path = CurrentLanguageTest;
-			sourceTree = "<group>";
-		};
-		1AC359A818CECF0B00F37B72 /* DataVisitorTest */ = {
-			isa = PBXGroup;
-			children = (
-				1AC359A918CECF0B00F37B72 /* DataVisitorTest.cpp */,
-				1AC359AA18CECF0B00F37B72 /* DataVisitorTest.h */,
-			);
-			path = DataVisitorTest;
 			sourceTree = "<group>";
 		};
 		1AC359AB18CECF0B00F37B72 /* DrawPrimitivesTest */ = {
@@ -6975,7 +6960,6 @@
 				292CF01419A1965E00E8E6A0 /* UIEditBoxTest.cpp in Sources */,
 				B6DD2FFC1B04979C00E47F5F /* NavMeshTest.cpp in Sources */,
 				D0FD03641A3B546400825BB5 /* AllocatorTest.cpp in Sources */,
-				1AC35B5F18CECF0C00F37B72 /* DataVisitorTest.cpp in Sources */,
 				1AC35B5D18CECF0C00F37B72 /* CurrentLanguageTest.cpp in Sources */,
 				1AC35B3B18CECF0C00F37B72 /* Bug-350.cpp in Sources */,
 				1AC35C4718CECF0C00F37B72 /* SchedulerTest.cpp in Sources */,
@@ -7145,7 +7129,6 @@
 				507B41941C31BEA60067B53E /* main.m in Sources */,
 				507B41951C31BEA60067B53E /* UIScrollViewTest.cpp in Sources */,
 				507B41961C31BEA60067B53E /* CCControlScene.cpp in Sources */,
-				507B41981C31BEA60067B53E /* DataVisitorTest.cpp in Sources */,
 				507B41991C31BEA60067B53E /* CurrentLanguageTest.cpp in Sources */,
 				507B419B1C31BEA60067B53E /* UICheckBoxTest.cpp in Sources */,
 				507B419C1C31BEA60067B53E /* Bug-350.cpp in Sources */,
@@ -7373,7 +7356,6 @@
 				1AC35C9818CECF1400F37B72 /* main.m in Sources */,
 				29080DCC191B595E0066F8DF /* UIScrollViewTest.cpp in Sources */,
 				1AC35BE818CECF0C00F37B72 /* CCControlScene.cpp in Sources */,
-				1AC35B6018CECF0C00F37B72 /* DataVisitorTest.cpp in Sources */,
 				1AC35B5E18CECF0C00F37B72 /* CurrentLanguageTest.cpp in Sources */,
 				29080DA8191B595E0066F8DF /* UICheckBoxTest.cpp in Sources */,
 				1AC35B3C18CECF0C00F37B72 /* Bug-350.cpp in Sources */,

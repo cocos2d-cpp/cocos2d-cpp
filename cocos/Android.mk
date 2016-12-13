@@ -113,7 +113,6 @@ base/CCConsole.cpp \
 base/CCController-android.cpp \
 base/CCController.cpp \
 base/CCData.cpp \
-base/CCDataVisitor.cpp \
 base/CCDirector.cpp \
 base/CCEvent.cpp \
 base/CCEventAcceleration.cpp \

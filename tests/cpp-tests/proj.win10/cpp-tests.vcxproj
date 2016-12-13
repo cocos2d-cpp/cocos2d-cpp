@@ -328,7 +328,6 @@
     <ClInclude Include="..\Classes\controller.h" />
     <ClInclude Include="..\Classes\CurlTest\CurlTest.h" />
     <ClInclude Include="..\Classes\CurrentLanguageTest\CurrentLanguageTest.h" />
-    <ClInclude Include="..\Classes\DataVisitorTest\DataVisitorTest.h" />
     <ClInclude Include="..\Classes\DownloaderTest\DownloaderTest.h" />
     <ClInclude Include="..\Classes\DrawPrimitivesTest\DrawPrimitivesTest.h" />
     <ClInclude Include="..\Classes\EffectsAdvancedTest\EffectsAdvancedTest.h" />
@@ -523,7 +522,6 @@
     <ClCompile Include="..\Classes\controller.cpp" />
     <ClCompile Include="..\Classes\CurlTest\CurlTest.cpp" />
     <ClCompile Include="..\Classes\CurrentLanguageTest\CurrentLanguageTest.cpp" />
-    <ClCompile Include="..\Classes\DataVisitorTest\DataVisitorTest.cpp" />
     <ClCompile Include="..\Classes\DownloaderTest\DownloaderTest.cpp" />
     <ClCompile Include="..\Classes\DrawPrimitivesTest\DrawPrimitivesTest.cpp" />
     <ClCompile Include="..\Classes\EffectsAdvancedTest\EffectsAdvancedTest.cpp" />

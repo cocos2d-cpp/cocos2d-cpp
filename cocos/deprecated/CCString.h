@@ -184,11 +184,6 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void acceptVisitor(DataVisitor &visitor);
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual __String* clone() const override;
     
 private:

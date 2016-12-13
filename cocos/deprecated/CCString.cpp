@@ -263,11 +263,6 @@ __String* __String::createWithContentsOfFile(const std::string &filename)
     return __String::create(std::move(str));
 }
 
-void __String::acceptVisitor(DataVisitor &visitor)
-{
-    visitor.visit(this);
-}
-
 __String* __String::clone() const
 {
     return __String::create(_string);

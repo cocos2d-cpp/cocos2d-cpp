@@ -411,8 +411,6 @@
         "cocos/base/CCController.h", 
         "cocos/base/CCData.cpp", 
         "cocos/base/CCData.h", 
-        "cocos/base/CCDataVisitor.cpp", 
-        "cocos/base/CCDataVisitor.h", 
         "cocos/base/CCDirector.cpp", 
         "cocos/base/CCDirector.h", 
         "cocos/base/CCEvent.cpp", 

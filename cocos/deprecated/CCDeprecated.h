@@ -70,7 +70,6 @@
 #include "2d/CCTransitionPageTurn.h"
 #include "2d/CCTransitionProgress.h"
 #include "base/CCConfiguration.h"
-#include "base/CCDataVisitor.h"
 #include "base/CCEvent.h"
 #include "base/CCIMEDelegate.h"
 #include "base/CCScheduler.h"
@@ -596,8 +595,6 @@ CC_DEPRECATED_ATTRIBUTE static inline AffineTransform CCAffineTransformIdentity(
 CC_DEPRECATED_ATTRIBUTE typedef Ref CCObject;
 CC_DEPRECATED_ATTRIBUTE typedef Ref Object;
 CC_DEPRECATED_ATTRIBUTE typedef Event CCEvent;
-CC_DEPRECATED_ATTRIBUTE typedef DataVisitor CCDataVisitor;
-CC_DEPRECATED_ATTRIBUTE typedef PrettyPrinter CCPrettyPrinter;
 CC_DEPRECATED_ATTRIBUTE typedef Acceleration CCAcceleration;
 CC_DEPRECATED_ATTRIBUTE typedef TextureAtlas CCTextureAtlas;
 CC_DEPRECATED_ATTRIBUTE typedef Configuration CCConfiguration;

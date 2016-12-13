@@ -2032,7 +2032,6 @@
 		507B3AD01C31BDD30067B53E /* CCPUEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E11C1AA80A6500DDB1C5 /* CCPUEmitter.cpp */; };
 		507B3AD11C31BDD30067B53E /* MathUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBD261925AB0000A911A9 /* MathUtil.cpp */; };
 		507B3AD21C31BDD30067B53E /* DetourNavMeshQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6DD2F8D1B04825B00E47F5F /* DetourNavMeshQuery.cpp */; };
-		507B3AD31C31BDD30067B53E /* CCDataVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDD01925AB6E00A911A9 /* CCDataVisitor.cpp */; };
 		507B3AD41C31BDD30067B53E /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB18F1AF9AA1A00B9B856 /* SpuContactManifoldCollisionAlgorithm.cpp */; };
 		507B3AD51C31BDD30067B53E /* CCNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57009C180BC5D20088DEC7 /* CCNode.cpp */; };
 		507B3AD61C31BDD30067B53E /* CCDrawingPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */; };
@@ -2701,7 +2700,6 @@
 		507B3D891C31BDD30067B53E /* CCBundle3DData.h in Headers */ = {isa = PBXBuildFile; fileRef = 15AE17F019AAD2F700C27E9E /* CCBundle3DData.h */; };
 		507B3D8A1C31BDD30067B53E /* CCActionManagerEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C594D180E930E00EF57C3 /* CCActionManagerEx.h */; };
 		507B3D8B1C31BDD30067B53E /* CDOpenALSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE71807A56F005B8026 /* CDOpenALSupport.h */; };
-		507B3D8C1C31BDD30067B53E /* CCDataVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD11925AB6E00A911A9 /* CCDataVisitor.h */; };
 		507B3D8D1C31BDD30067B53E /* gim_basic_geometry_operations.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0B71AF9AA1900B9B856 /* gim_basic_geometry_operations.h */; };
 		507B3D8E1C31BDD30067B53E /* TextBMFontReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FCEB8918C72017004AD434 /* TextBMFontReader.h */; };
 		507B3D8F1C31BDD30067B53E /* CCAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570048180BC5A10088DEC7 /* CCAction.h */; };
@@ -3784,10 +3782,6 @@
 		50ABBE3A1925AB6F00A911A9 /* CCData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDCE1925AB6E00A911A9 /* CCData.cpp */; };
 		50ABBE3B1925AB6F00A911A9 /* CCData.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDCF1925AB6E00A911A9 /* CCData.h */; };
 		50ABBE3C1925AB6F00A911A9 /* CCData.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDCF1925AB6E00A911A9 /* CCData.h */; };
-		50ABBE3D1925AB6F00A911A9 /* CCDataVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDD01925AB6E00A911A9 /* CCDataVisitor.cpp */; };
-		50ABBE3E1925AB6F00A911A9 /* CCDataVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDD01925AB6E00A911A9 /* CCDataVisitor.cpp */; };
-		50ABBE3F1925AB6F00A911A9 /* CCDataVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD11925AB6E00A911A9 /* CCDataVisitor.h */; };
-		50ABBE401925AB6F00A911A9 /* CCDataVisitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD11925AB6E00A911A9 /* CCDataVisitor.h */; };
 		50ABBE411925AB6F00A911A9 /* CCDirector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDD21925AB6E00A911A9 /* CCDirector.cpp */; };
 		50ABBE421925AB6F00A911A9 /* CCDirector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDD21925AB6E00A911A9 /* CCDirector.cpp */; };
 		50ABBE431925AB6F00A911A9 /* CCDirector.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD31925AB6E00A911A9 /* CCDirector.h */; };
@@ -6739,8 +6733,6 @@
 		50ABBDCD1925AB6E00A911A9 /* CCConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCConsole.h; path = ../base/CCConsole.h; sourceTree = "<group>"; };
 		50ABBDCE1925AB6E00A911A9 /* CCData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCData.cpp; path = ../base/CCData.cpp; sourceTree = "<group>"; };
 		50ABBDCF1925AB6E00A911A9 /* CCData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCData.h; path = ../base/CCData.h; sourceTree = "<group>"; };
-		50ABBDD01925AB6E00A911A9 /* CCDataVisitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCDataVisitor.cpp; path = ../base/CCDataVisitor.cpp; sourceTree = "<group>"; };
-		50ABBDD11925AB6E00A911A9 /* CCDataVisitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCDataVisitor.h; path = ../base/CCDataVisitor.h; sourceTree = "<group>"; };
 		50ABBDD21925AB6E00A911A9 /* CCDirector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCDirector.cpp; path = ../base/CCDirector.cpp; sourceTree = "<group>"; };
 		50ABBDD31925AB6E00A911A9 /* CCDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCDirector.h; path = ../base/CCDirector.h; sourceTree = "<group>"; };
 		50ABBDD41925AB6E00A911A9 /* CCEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCEvent.cpp; path = ../base/CCEvent.cpp; sourceTree = "<group>"; };
@@ -8129,8 +8121,6 @@
 				50ABBDCD1925AB6E00A911A9 /* CCConsole.h */,
 				50ABBDCE1925AB6E00A911A9 /* CCData.cpp */,
 				50ABBDCF1925AB6E00A911A9 /* CCData.h */,
-				50ABBDD01925AB6E00A911A9 /* CCDataVisitor.cpp */,
-				50ABBDD11925AB6E00A911A9 /* CCDataVisitor.h */,
 				50ABBDD21925AB6E00A911A9 /* CCDirector.cpp */,
 				50ABBDD31925AB6E00A911A9 /* CCDirector.h */,
 				50ABBDD41925AB6E00A911A9 /* CCEvent.cpp */,
@@ -12297,7 +12287,6 @@
 				B665E31C1AA80A6500DDB1C5 /* CCPUOnClearObserver.h in Headers */,
 				50ABBE3B1925AB6F00A911A9 /* CCData.h in Headers */,
 				B665E3A41AA80A6500DDB1C5 /* CCPUPositionEmitterTranslator.h in Headers */,
-				50ABBE3F1925AB6F00A911A9 /* CCDataVisitor.h in Headers */,
 				15AE199F19AAD39600C27E9E /* SliderReader.h in Headers */,
 				B665E2641AA80A6500DDB1C5 /* CCPUDoExpireEventHandler.h in Headers */,
 				B6CAB2B91AF9AA1A00B9B856 /* btConvexTriangleMeshShape.h in Headers */,
@@ -12541,7 +12530,6 @@
 				507B3D891C31BDD30067B53E /* CCBundle3DData.h in Headers */,
 				507B3D8A1C31BDD30067B53E /* CCActionManagerEx.h in Headers */,
 				507B3D8B1C31BDD30067B53E /* CDOpenALSupport.h in Headers */,
-				507B3D8C1C31BDD30067B53E /* CCDataVisitor.h in Headers */,
 				507B3D8D1C31BDD30067B53E /* gim_basic_geometry_operations.h in Headers */,
 				507B3D8E1C31BDD30067B53E /* TextBMFontReader.h in Headers */,
 				5020A1AF1D49912500E80C72 /* IkConstraint.h in Headers */,
@@ -13597,7 +13585,6 @@
 				15AE181F19AAD2F700C27E9E /* CCBundle3DData.h in Headers */,
 				15AE193119AAD35100C27E9E /* CCActionManagerEx.h in Headers */,
 				15AE185B19AAD31200C27E9E /* CDOpenALSupport.h in Headers */,
-				50ABBE401925AB6F00A911A9 /* CCDataVisitor.h in Headers */,
 				B6CAB3401AF9AA1A00B9B856 /* gim_basic_geometry_operations.h in Headers */,
 				15AE19B719AAD39700C27E9E /* TextBMFontReader.h in Headers */,
 				1A570064180BC5A10088DEC7 /* CCAction.h in Headers */,
@@ -15093,7 +15080,6 @@
 				A05DCF9D1B90584E00EE040B /* CCDownloader-curl.cpp in Sources */,
 				B6CAB2FD1AF9AA1A00B9B856 /* btTriangleIndexVertexArray.cpp in Sources */,
 				50ABC0111926664800A911A9 /* CCGLView.cpp in Sources */,
-				50ABBE3D1925AB6F00A911A9 /* CCDataVisitor.cpp in Sources */,
 				382384071A25900F002C4610 /* FlatBuffersSerialize.cpp in Sources */,
 				5070031D1B69735200E83DDD /* HttpClient-winrt.cpp in Sources */,
 				B6CAB3631AF9AA1A00B9B856 /* btContinuousConvexCollision.cpp in Sources */,
@@ -15758,7 +15744,6 @@
 				507B3AD01C31BDD30067B53E /* CCPUEmitter.cpp in Sources */,
 				507B3AD11C31BDD30067B53E /* MathUtil.cpp in Sources */,
 				507B3AD21C31BDD30067B53E /* DetourNavMeshQuery.cpp in Sources */,
-				507B3AD31C31BDD30067B53E /* CCDataVisitor.cpp in Sources */,
 				507B3AD41C31BDD30067B53E /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */,
 				507B3AD51C31BDD30067B53E /* CCNode.cpp in Sources */,
 				507B3AD61C31BDD30067B53E /* CCDrawingPrimitives.cpp in Sources */,
@@ -16609,7 +16594,6 @@
 				B665E2931AA80A6500DDB1C5 /* CCPUEmitter.cpp in Sources */,
 				50ABBD4D1925AB0000A911A9 /* MathUtil.cpp in Sources */,
 				B6DD2FCC1B04825B00E47F5F /* DetourNavMeshQuery.cpp in Sources */,
-				50ABBE3E1925AB6F00A911A9 /* CCDataVisitor.cpp in Sources */,
 				B6CAB4B21AF9AA1A00B9B856 /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */,
 				1A57009F180BC5D20088DEC7 /* CCNode.cpp in Sources */,
 				1A57010F180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */,

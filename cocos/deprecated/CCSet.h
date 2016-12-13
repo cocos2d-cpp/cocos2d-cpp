@@ -29,7 +29,6 @@ THE SOFTWARE.
 
 #include <set>
 #include "base/CCRef.h"
-#include "base/CCDataVisitor.h"
 
 NS_CC_BEGIN
 
@@ -103,11 +102,6 @@ public:
     *@brief Return the first element if it contains elements, or null if it doesn't contain any element.
     */
     Ref* anyObject();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void acceptVisitor(DataVisitor &visitor);
 
 private:
     std::set<Ref *> *_set;

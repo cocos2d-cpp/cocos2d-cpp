@@ -28,7 +28,6 @@
 
 #include "base/CCRef.h"
 #include "base/CCConsole.h"
-#include "base/CCDataVisitor.h"
 #include "platform/CCCommon.h"
 
 NS_CC_BEGIN
@@ -60,9 +59,6 @@ public:
     virtual ~__Integer() {
         CCLOGINFO("deallocing ~__Integer: %p", this);
     }
-
-    /* override functions */
-    virtual void acceptVisitor(DataVisitor &visitor) { visitor.visit(this); }
 
     // overrides
     virtual __Integer* clone() const override

@@ -39,8 +39,6 @@ THE SOFTWARE.
 #include "base/ccCArray.h"
 #endif
 
-#include "base/CCDataVisitor.h"
-
 #if CC_USE_ARRAY_VECTOR
 /**
  * A reference counting-managed pointer for classes derived from RCBase which can
@@ -494,10 +492,6 @@ public:
      */
     void reduceMemoryFootprint();
   
-    /* override functions 
-     * @js NA
-     */
-    virtual void acceptVisitor(DataVisitor &visitor);
     /**
      * @js NA
      * @lua NA

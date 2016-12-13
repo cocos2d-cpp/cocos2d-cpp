@@ -453,11 +453,6 @@ __Dictionary* __Dictionary::createWithContentsOfFileThreadSafe(const char *pFile
     return visitDict(FileUtils::getInstance()->getValueMapFromFile(pFileName));
 }
 
-void __Dictionary::acceptVisitor(DataVisitor &visitor)
-{
-    return visitor.visit(this);
-}
-
 __Dictionary* __Dictionary::createWithContentsOfFile(const char *pFileName)
 {
     auto ret = createWithContentsOfFileThreadSafe(pFileName);
