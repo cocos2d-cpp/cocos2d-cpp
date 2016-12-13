@@ -378,9 +378,6 @@ Developers:
         add Hungarian language support
         fixed compilation errors after adding support of webp image format.
 
-    Tomoaki Shimizu (tks2shimizu)
-        Adding randomObject to CCDictionary.
-
     Igor Zavorotkin (ivzave)
         Adding lua support for linux platform.
 
@@ -391,7 +388,6 @@ Developers:
         Fixing a crash for call runAnimation() in CCBAnimationManagerDelegate::completedAnimationSequenceNamed.
         Fixing a bug that CCControl's touch priority is not set correctly; m_nDefaultTouchPriority is never used.
         Fixing a syntax error for RENDER_IN_SUBPIXEL macro.
-        Implement CCDictionary::writeToFile().
         Fixing a bug that unused spriteframes also need to be removed when purgeCachedData.
         Adding a method to get duration of timeline for CCBAnimationManager class, it's easy for getting duration of animation in JSB.
 

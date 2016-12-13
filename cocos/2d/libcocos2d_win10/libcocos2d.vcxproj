@@ -438,7 +438,6 @@
     <ClCompile Include="..\..\cocos2d.cpp" />
     <ClCompile Include="..\..\deprecated\CCArray.cpp" />
     <ClCompile Include="..\..\deprecated\CCDeprecated.cpp" />
-    <ClCompile Include="..\..\deprecated\CCDictionary.cpp" />
     <ClCompile Include="..\..\deprecated\CCNotificationCenter.cpp" />
     <ClCompile Include="..\..\deprecated\CCSet.cpp" />
     <ClCompile Include="..\..\deprecated\CCString.cpp" />
@@ -1050,7 +1049,6 @@
     <ClInclude Include="..\..\deprecated\CCArray.h" />
     <ClInclude Include="..\..\deprecated\CCBool.h" />
     <ClInclude Include="..\..\deprecated\CCDeprecated.h" />
-    <ClInclude Include="..\..\deprecated\CCDictionary.h" />
     <ClInclude Include="..\..\deprecated\CCDouble.h" />
     <ClInclude Include="..\..\deprecated\CCFloat.h" />
     <ClInclude Include="..\..\deprecated\CCInteger.h" />

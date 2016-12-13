@@ -945,9 +945,6 @@
     <ClCompile Include="..\..\deprecated\CCDeprecated.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\deprecated\CCDictionary.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\deprecated\CCNotificationCenter.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
@@ -2763,9 +2760,6 @@
       <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\deprecated\CCDeprecated.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\deprecated\CCDictionary.h">
       <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\deprecated\CCDouble.h">

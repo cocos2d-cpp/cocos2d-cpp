@@ -96,32 +96,10 @@ public:
     virtual std::string subtitle() const override;
 };
 
-class DictionaryStringKeyPerfTest : public PerformanceContainerScene
-{
-public:
-    CREATE_FUNC(DictionaryStringKeyPerfTest);
-    
-    virtual void generateTestFunctions() override;
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
-
 class TemplateMapIntKeyPerfTest : public PerformanceContainerScene
 {
 public:
     CREATE_FUNC(TemplateMapIntKeyPerfTest);
-    
-    virtual void generateTestFunctions() override;
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
-
-class DictionaryIntKeyPerfTest : public PerformanceContainerScene
-{
-public:
-    CREATE_FUNC(DictionaryIntKeyPerfTest);
     
     virtual void generateTestFunctions() override;
     

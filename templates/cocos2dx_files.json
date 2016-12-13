@@ -535,8 +535,6 @@
         "cocos/deprecated/CCBool.h", 
         "cocos/deprecated/CCDeprecated.cpp", 
         "cocos/deprecated/CCDeprecated.h", 
-        "cocos/deprecated/CCDictionary.cpp", 
-        "cocos/deprecated/CCDictionary.h", 
         "cocos/deprecated/CCDouble.h", 
         "cocos/deprecated/CCFloat.h", 
         "cocos/deprecated/CCInteger.h", 

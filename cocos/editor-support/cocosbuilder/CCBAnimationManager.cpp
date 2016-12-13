@@ -39,18 +39,6 @@ bool CCBAnimationManager::init()
 
 CCBAnimationManager::~CCBAnimationManager()
 {
-//     DictElement *pElement = nullptr;
-//     CCDICT_FOREACH(_nodeSequences, pElement)
-//     {
-//         Node *node = (Node*)pElement->getIntKey();
-//         node->release();
-//     }
-//     
-//     CCDICT_FOREACH(_baseValues, pElement)
-//     {
-//         Node *node = (Node*)pElement->getIntKey();
-//         node->release();
-//     }
     if (_rootNode)
     {
         _rootNode->stopAllActions();
