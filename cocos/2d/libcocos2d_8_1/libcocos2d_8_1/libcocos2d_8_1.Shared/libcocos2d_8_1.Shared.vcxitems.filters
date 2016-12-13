@@ -363,9 +363,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDouble.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCFloat.h">
       <Filter>deprecated</Filter>
     </ClInclude>

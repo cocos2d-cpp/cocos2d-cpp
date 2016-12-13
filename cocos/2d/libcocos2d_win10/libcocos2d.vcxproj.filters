@@ -2759,9 +2759,6 @@
     <ClInclude Include="..\..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\deprecated\CCDouble.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\deprecated\CCFloat.h">
       <Filter>deprecated</Filter>
     </ClInclude>

@@ -1048,7 +1048,6 @@
     <ClInclude Include="..\..\cocos2d.h" />
     <ClInclude Include="..\..\deprecated\CCArray.h" />
     <ClInclude Include="..\..\deprecated\CCDeprecated.h" />
-    <ClInclude Include="..\..\deprecated\CCDouble.h" />
     <ClInclude Include="..\..\deprecated\CCFloat.h" />
     <ClInclude Include="..\..\deprecated\CCInteger.h" />
     <ClInclude Include="..\..\deprecated\CCNotificationCenter.h" />

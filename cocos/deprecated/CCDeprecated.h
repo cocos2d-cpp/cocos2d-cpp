@@ -76,7 +76,6 @@
 #include "base/CCUserDefault.h"
 #include "base/ccTypes.h"
 #include "deprecated/CCArray.h"
-#include "deprecated/CCDouble.h"
 #include "deprecated/CCFloat.h"
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCNotificationCenter.h"
@@ -1089,8 +1088,6 @@ CC_DEPRECATED_ATTRIBUTE typedef __SetIterator SetIterator;
 CC_DEPRECATED_ATTRIBUTE typedef __Array CCArray;
 CC_DEPRECATED_ATTRIBUTE typedef __Array Array;
 
-CC_DEPRECATED_ATTRIBUTE typedef __Double Double;
-CC_DEPRECATED_ATTRIBUTE typedef __Double CCDouble;
 CC_DEPRECATED_ATTRIBUTE typedef __Float Float;
 CC_DEPRECATED_ATTRIBUTE typedef __Float CCFloat;
 CC_DEPRECATED_ATTRIBUTE typedef __Integer Integer;

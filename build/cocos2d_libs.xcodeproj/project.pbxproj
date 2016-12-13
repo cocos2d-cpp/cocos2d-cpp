@@ -871,8 +871,6 @@
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
 		1A01C68D18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
-		1A01C69218F57BE800EFE3A6 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67D18F57BE800EFE3A6 /* CCDouble.h */; };
-		1A01C69318F57BE800EFE3A6 /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67D18F57BE800EFE3A6 /* CCDouble.h */; };
 		1A01C69418F57BE800EFE3A6 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
 		1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
 		1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
@@ -3461,7 +3459,6 @@
 		507B40A11C31BDD30067B53E /* CCNodeGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = ED9C6A9318599AD8000A5232 /* CCNodeGrid.h */; };
 		507B40A21C31BDD30067B53E /* CCThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBF2C1926664700A911A9 /* CCThread.h */; };
 		507B40A31C31BDD30067B53E /* UITextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 2905FA1218CF08D100240AA3 /* UITextField.h */; };
-		507B40A41C31BDD30067B53E /* CCDouble.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67D18F57BE800EFE3A6 /* CCDouble.h */; };
 		507B40A51C31BDD30067B53E /* CCPUColorAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0FB1AA80A6500DDB1C5 /* CCPUColorAffectorTranslator.h */; };
 		507B40A71C31BDD30067B53E /* Export.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE11807A56F005B8026 /* Export.h */; };
 		507B40A81C31BDD30067B53E /* btMultimaterialTriangleMeshShape.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB07E1AF9AA1900B9B856 /* btMultimaterialTriangleMeshShape.h */; };
@@ -5824,7 +5821,6 @@
 		1A01C67718F57BE800EFE3A6 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
-		1A01C67D18F57BE800EFE3A6 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
 		1A01C67E18F57BE800EFE3A6 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		1A01C67F18F57BE800EFE3A6 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
 		1A01C68018F57BE800EFE3A6 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
@@ -7995,7 +7991,6 @@
 				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
-				1A01C67D18F57BE800EFE3A6 /* CCDouble.h */,
 				1A01C67E18F57BE800EFE3A6 /* CCFloat.h */,
 				1A01C67F18F57BE800EFE3A6 /* CCInteger.h */,
 				1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */,
@@ -12202,7 +12197,6 @@
 				B6CAB35B1AF9AA1A00B9B856 /* gim_memory.h in Headers */,
 				B6CAB3DF1AF9AA1A00B9B856 /* btTypedConstraint.h in Headers */,
 				50ABBE571925AB6F00A911A9 /* CCEventFocus.h in Headers */,
-				1A01C69218F57BE800EFE3A6 /* CCDouble.h in Headers */,
 				15AE18F919AAD35000C27E9E /* CCBone.h in Headers */,
 				50ABBE251925AB6F00A911A9 /* base64.h in Headers */,
 				15AE1B9C19AADFDF00C27E9E /* UIRelativeBox.h in Headers */,
@@ -13349,7 +13343,6 @@
 				507B40A21C31BDD30067B53E /* CCThread.h in Headers */,
 				5020A17F1D49912500E80C72 /* AttachmentVertices.h in Headers */,
 				507B40A31C31BDD30067B53E /* UITextField.h in Headers */,
-				507B40A41C31BDD30067B53E /* CCDouble.h in Headers */,
 				507B40A51C31BDD30067B53E /* CCPUColorAffectorTranslator.h in Headers */,
 				507B40A71C31BDD30067B53E /* Export.h in Headers */,
 				507B40A81C31BDD30067B53E /* btMultimaterialTriangleMeshShape.h in Headers */,
@@ -14401,7 +14394,6 @@
 				ED9C6A9718599AD8000A5232 /* CCNodeGrid.h in Headers */,
 				50ABC0201926664800A911A9 /* CCThread.h in Headers */,
 				15AE1B8519AADA9A00C27E9E /* UITextField.h in Headers */,
-				1A01C69318F57BE800EFE3A6 /* CCDouble.h in Headers */,
 				B665E2511AA80A6500DDB1C5 /* CCPUColorAffectorTranslator.h in Headers */,
 				15AE184B19AAD30500C27E9E /* Export.h in Headers */,
 				B6CAB2D01AF9AA1A00B9B856 /* btMultimaterialTriangleMeshShape.h in Headers */,
