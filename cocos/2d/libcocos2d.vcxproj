@@ -456,7 +456,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\deprecated\CCArray.cpp" />
     <ClCompile Include="..\deprecated\CCDeprecated.cpp" />
     <ClCompile Include="..\deprecated\CCNotificationCenter.cpp" />
-    <ClCompile Include="..\deprecated\CCSet.cpp" />
     <ClCompile Include="..\deprecated\CCString.cpp" />
     <ClCompile Include="..\editor-support\cocosbuilder\CCBAnimationManager.cpp" />
     <ClCompile Include="..\editor-support\cocosbuilder\CCBFileLoader.cpp" />
@@ -1053,7 +1052,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\deprecated\CCFloat.h" />
     <ClInclude Include="..\deprecated\CCInteger.h" />
     <ClInclude Include="..\deprecated\CCNotificationCenter.h" />
-    <ClInclude Include="..\deprecated\CCSet.h" />
     <ClInclude Include="..\deprecated\CCString.h" />
     <ClInclude Include="..\editor-support\cocosbuilder\CCBAnimationManager.h" />
     <ClInclude Include="..\editor-support\cocosbuilder\CCBFileLoader.h" />

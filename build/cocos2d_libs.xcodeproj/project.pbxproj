@@ -875,10 +875,6 @@
 		1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
 		1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
 		1A01C69718F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
-		1A01C69818F57BE800EFE3A6 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68018F57BE800EFE3A6 /* CCSet.cpp */; };
-		1A01C69918F57BE800EFE3A6 /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68018F57BE800EFE3A6 /* CCSet.cpp */; };
-		1A01C69A18F57BE800EFE3A6 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68118F57BE800EFE3A6 /* CCSet.h */; };
-		1A01C69B18F57BE800EFE3A6 /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68118F57BE800EFE3A6 /* CCSet.h */; };
 		1A01C69C18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		1A01C69E18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
@@ -1775,7 +1771,6 @@
 		507B39CD1C31BDD30067B53E /* CCNodeLoaderLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AD71D21180E26E600808F54 /* CCNodeLoaderLibrary.cpp */; };
 		507B39CE1C31BDD30067B53E /* CCActionFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C5948180E930E00EF57C3 /* CCActionFrame.cpp */; };
 		507B39CF1C31BDD30067B53E /* btConvexConvexAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB0381AF9AA1900B9B856 /* btConvexConvexAlgorithm.cpp */; };
-		507B39D01C31BDD30067B53E /* CCSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68018F57BE800EFE3A6 /* CCSet.cpp */; };
 		507B39D11C31BDD30067B53E /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		507B39D21C31BDD30067B53E /* sweep.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15FB20831AE7C57D00C31518 /* sweep.cc */; };
 		507B39D31C31BDD30067B53E /* ImageViewReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEB7018C72017004AD434 /* ImageViewReader.cpp */; };
@@ -3247,7 +3242,6 @@
 		507B3FC81C31BDD30067B53E /* DetourAlloc.h in Headers */ = {isa = PBXBuildFile; fileRef = B6DD2F841B04825B00E47F5F /* DetourAlloc.h */; };
 		507B3FC91C31BDD30067B53E /* SpuConvexPenetrationDepthSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1A01AF9AA1A00B9B856 /* SpuConvexPenetrationDepthSolver.h */; };
 		507B3FCA1C31BDD30067B53E /* CCPUBaseForceAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0DD1AA80A6500DDB1C5 /* CCPUBaseForceAffectorTranslator.h */; };
-		507B3FCB1C31BDD30067B53E /* CCSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68118F57BE800EFE3A6 /* CCSet.h */; };
 		507B3FCC1C31BDD30067B53E /* CCPUSphereColliderTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1D51AA80A6500DDB1C5 /* CCPUSphereColliderTranslator.h */; };
 		507B3FCD1C31BDD30067B53E /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1C1925AB6F00A911A9 /* utlist.h */; };
 		507B3FCE1C31BDD30067B53E /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570353180BD0B00088DEC7 /* unzip.h */; };
@@ -5823,8 +5817,6 @@
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
 		1A01C67E18F57BE800EFE3A6 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		1A01C67F18F57BE800EFE3A6 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
-		1A01C68018F57BE800EFE3A6 /* CCSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCSet.cpp; sourceTree = "<group>"; };
-		1A01C68118F57BE800EFE3A6 /* CCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSet.h; sourceTree = "<group>"; };
 		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		1A01C68318F57BE800EFE3A6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
@@ -7995,8 +7987,6 @@
 				1A01C67F18F57BE800EFE3A6 /* CCInteger.h */,
 				1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */,
 				1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */,
-				1A01C68018F57BE800EFE3A6 /* CCSet.cpp */,
-				1A01C68118F57BE800EFE3A6 /* CCSet.h */,
 				1A01C68218F57BE800EFE3A6 /* CCString.cpp */,
 				1A01C68318F57BE800EFE3A6 /* CCString.h */,
 			);
@@ -11518,7 +11508,6 @@
 				15AE188719AAD33D00C27E9E /* CCBSequenceProperty.h in Headers */,
 				B665E2D01AA80A6500DDB1C5 /* CCPUInterParticleCollider.h in Headers */,
 				5020A1FB1D49912500E80C72 /* SkeletonJson.h in Headers */,
-				1A01C69A18F57BE800EFE3A6 /* CCSet.h in Headers */,
 				182C5CB31A95964700C30D34 /* Node3DReader.h in Headers */,
 				5020A1E91D49912500E80C72 /* SkeletonBatch.h in Headers */,
 				1A570083180BC5A10088DEC7 /* CCActionManager.h in Headers */,
@@ -13110,7 +13099,6 @@
 				507B3FC81C31BDD30067B53E /* DetourAlloc.h in Headers */,
 				507B3FC91C31BDD30067B53E /* SpuConvexPenetrationDepthSolver.h in Headers */,
 				507B3FCA1C31BDD30067B53E /* CCPUBaseForceAffectorTranslator.h in Headers */,
-				507B3FCB1C31BDD30067B53E /* CCSet.h in Headers */,
 				503341A11D9DC7B400770EC7 /* SkeletonBinary.h in Headers */,
 				507B3FCC1C31BDD30067B53E /* CCPUSphereColliderTranslator.h in Headers */,
 				50864CBD1C7BC1B000B3BAB1 /* cpPinJoint.h in Headers */,
@@ -14164,7 +14152,6 @@
 				B6DD2FBA1B04825B00E47F5F /* DetourAlloc.h in Headers */,
 				B6CAB4D21AF9AA1A00B9B856 /* SpuConvexPenetrationDepthSolver.h in Headers */,
 				B665E2151AA80A6500DDB1C5 /* CCPUBaseForceAffectorTranslator.h in Headers */,
-				1A01C69B18F57BE800EFE3A6 /* CCSet.h in Headers */,
 				294D7D971D0E67B4002CE7B7 /* CCDevice-apple.h in Headers */,
 				B665E4051AA80A6600DDB1C5 /* CCPUSphereColliderTranslator.h in Headers */,
 				50864CBC1C7BC1B000B3BAB1 /* cpPinJoint.h in Headers */,
@@ -15261,7 +15248,6 @@
 				15AE1A5219AAD40300C27E9E /* b2Draw.cpp in Sources */,
 				50ED2BE419BEAF7900A0AB90 /* UIEditBoxImpl-win32.cpp in Sources */,
 				50ABBE1F1925AB6F00A911A9 /* atitc.cpp in Sources */,
-				1A01C69818F57BE800EFE3A6 /* CCSet.cpp in Sources */,
 				B6CAB2351AF9AA1A00B9B856 /* btCompoundCollisionAlgorithm.cpp in Sources */,
 				B6CAB3451AF9AA1A00B9B856 /* gim_box_set.cpp in Sources */,
 				1AAF584F180E40B9000584C8 /* LocalStorage.cpp in Sources */,
@@ -15452,7 +15438,6 @@
 				507B39CD1C31BDD30067B53E /* CCNodeLoaderLibrary.cpp in Sources */,
 				507B39CE1C31BDD30067B53E /* CCActionFrame.cpp in Sources */,
 				507B39CF1C31BDD30067B53E /* btConvexConvexAlgorithm.cpp in Sources */,
-				507B39D01C31BDD30067B53E /* CCSet.cpp in Sources */,
 				507B39D11C31BDD30067B53E /* CCString.cpp in Sources */,
 				507B39D21C31BDD30067B53E /* sweep.cc in Sources */,
 				502AF97A1D0711CA006AF256 /* CCVRGenericHeadTracker.cpp in Sources */,
@@ -16304,7 +16289,6 @@
 				15AE192C19AAD35100C27E9E /* CCActionFrame.cpp in Sources */,
 				B6CAB2461AF9AA1A00B9B856 /* btConvexConvexAlgorithm.cpp in Sources */,
 				5020A1BD1D49912500E80C72 /* MeshAttachment.c in Sources */,
-				1A01C69918F57BE800EFE3A6 /* CCSet.cpp in Sources */,
 				1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */,
 				15FB20981AE7C57D00C31518 /* sweep.cc in Sources */,
 				502AF9791D0711C9006AF256 /* CCVRGenericHeadTracker.cpp in Sources */,

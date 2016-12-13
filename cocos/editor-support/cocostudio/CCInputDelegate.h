@@ -33,10 +33,6 @@ THE SOFTWARE.
 #include "base/CCEventListener.h"
 #include "editor-support/cocostudio/CocosStudioExport.h"
 
-namespace cocos2d {
-    class __Set;
-}
-
 namespace cocostudio {
 
 /**
@@ -70,39 +66,6 @@ public:
      * @js NA
      */
     CC_DEPRECATED_ATTRIBUTE virtual void didAccelerate(cocos2d::Acceleration* accelerationValue) final;
-    // Deprecated touch callbacks.
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual bool ccTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchCancelled(cocos2d::Touch* touch, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesBegan(cocos2d::__Set* touches, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesMoved(cocos2d::__Set* touches, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesEnded(cocos2d::__Set* touches, cocos2d::Event* event) final;
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void ccTouchesCancelled(cocos2d::__Set* touches, cocos2d::Event* event) final;
     /**
      * @js NA
      */

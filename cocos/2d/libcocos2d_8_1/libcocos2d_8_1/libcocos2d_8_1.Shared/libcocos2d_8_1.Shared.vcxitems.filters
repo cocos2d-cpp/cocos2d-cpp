@@ -372,9 +372,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCNotificationCenter.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCSet.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.h">
       <Filter>deprecated</Filter>
     </ClInclude>
@@ -2218,9 +2215,6 @@
       <Filter>deprecated</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCNotificationCenter.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCSet.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.cpp">

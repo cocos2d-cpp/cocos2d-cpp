@@ -538,8 +538,6 @@
         "cocos/deprecated/CCInteger.h", 
         "cocos/deprecated/CCNotificationCenter.cpp", 
         "cocos/deprecated/CCNotificationCenter.h", 
-        "cocos/deprecated/CCSet.cpp", 
-        "cocos/deprecated/CCSet.h", 
         "cocos/deprecated/CCString.cpp", 
         "cocos/deprecated/CCString.h", 
         "cocos/deprecated/CMakeLists.txt", 

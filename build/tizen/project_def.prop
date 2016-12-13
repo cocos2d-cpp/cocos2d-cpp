@@ -165,7 +165,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/deprecated/CCArray.cpp \
             ../../cocos/deprecated/CCDeprecated.cpp \
             ../../cocos/deprecated/CCNotificationCenter.cpp \
-            ../../cocos/deprecated/CCSet.cpp \
             ../../cocos/deprecated/CCString.cpp \
             ../../cocos/editor-support/cocosbuilder/CCBAnimationManager.cpp \
             ../../cocos/editor-support/cocosbuilder/CCBFileLoader.cpp \

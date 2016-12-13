@@ -79,7 +79,6 @@
 #include "deprecated/CCFloat.h"
 #include "deprecated/CCInteger.h"
 #include "deprecated/CCNotificationCenter.h"
-#include "deprecated/CCSet.h"
 #include "deprecated/CCString.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCGeometry.h"
@@ -967,8 +966,6 @@ CC_DEPRECATED_ATTRIBUTE typedef Menu::State tMenuState;
 CC_DEPRECATED_ATTRIBUTE const Touch::DispatchMode kCCTouchesOneByOne = Touch::DispatchMode::ONE_BY_ONE;
 CC_DEPRECATED_ATTRIBUTE const Touch::DispatchMode kCCTouchesAllAtOnce = Touch::DispatchMode::ALL_AT_ONCE;
 
-CC_DEPRECATED_ATTRIBUTE typedef Touch::DispatchMode ccTouchesMode;
-
 CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatPNG = Image::Format::PNG;
 CC_DEPRECATED_ATTRIBUTE const Image::Format kCCImageFormatJPEG = Image::Format::JPG;
 
@@ -1081,10 +1078,6 @@ CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable( int flags ) { /* ignore *
 CC_DEPRECATED_ATTRIBUTE typedef int ccGLServerState;
 
 CC_DEPRECATED_ATTRIBUTE typedef Data CCData;
-CC_DEPRECATED_ATTRIBUTE typedef __Set CCSet;
-CC_DEPRECATED_ATTRIBUTE typedef __SetIterator CCSetIterator;
-CC_DEPRECATED_ATTRIBUTE typedef __Set Set;
-CC_DEPRECATED_ATTRIBUTE typedef __SetIterator SetIterator;
 
 CC_DEPRECATED_ATTRIBUTE typedef __Array CCArray;
 CC_DEPRECATED_ATTRIBUTE typedef __Array Array;
