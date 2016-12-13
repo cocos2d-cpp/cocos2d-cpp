@@ -313,7 +313,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ZipUtils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\cocos2d.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCArray.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCBool.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDouble.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCFloat.h" />

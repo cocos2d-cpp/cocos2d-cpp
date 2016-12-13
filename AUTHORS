@@ -188,7 +188,6 @@ Developers:
         fix memory leak of CCTextureCache::addImageAsync() on iOS
 
     tks2shimizu
-        add CCFloat, CCDouble and CCBool
         Add append function for String class
         Adding String::componentsSeparatedByString function for splitting string.
 

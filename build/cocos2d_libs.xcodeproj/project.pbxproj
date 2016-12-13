@@ -867,8 +867,6 @@
 		1A01C68518F57BE800EFE3A6 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67618F57BE800EFE3A6 /* CCArray.cpp */; };
 		1A01C68618F57BE800EFE3A6 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
 		1A01C68718F57BE800EFE3A6 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
-		1A01C68818F57BE800EFE3A6 /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67818F57BE800EFE3A6 /* CCBool.h */; };
-		1A01C68918F57BE800EFE3A6 /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67818F57BE800EFE3A6 /* CCBool.h */; };
 		1A01C68A18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
@@ -2755,7 +2753,6 @@
 		507B3DC71C31BDD30067B53E /* CCMotionStreak3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E2A09C11BAA91B70086B878 /* CCMotionStreak3D.h */; };
 		507B3DC81C31BDD30067B53E /* btConvexPointCloudShape.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB06D1AF9AA1900B9B856 /* btConvexPointCloudShape.h */; };
 		507B3DCA1C31BDD30067B53E /* btBoxBoxDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0261AF9AA1900B9B856 /* btBoxBoxDetector.h */; };
-		507B3DCC1C31BDD30067B53E /* CCBool.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67818F57BE800EFE3A6 /* CCBool.h */; };
 		507B3DCD1C31BDD30067B53E /* CCPUDoStopSystemEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1151AA80A6500DDB1C5 /* CCPUDoStopSystemEventHandler.h */; };
 		507B3DCE1C31BDD30067B53E /* CSParse3DBinary_generated.h in Headers */ = {isa = PBXBuildFile; fileRef = 182C5CAD1A95961600C30D34 /* CSParse3DBinary_generated.h */; };
 		507B3DCF1C31BDD30067B53E /* CCSprite3D.h in Headers */ = {isa = PBXBuildFile; fileRef = 15AE180219AAD2F700C27E9E /* CCSprite3D.h */; };
@@ -5825,7 +5822,6 @@
 		18956BB11A9DFBFD006E9155 /* Particle3DReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particle3DReader.h; path = Particle3DReader/Particle3DReader.h; sourceTree = "<group>"; };
 		1A01C67618F57BE800EFE3A6 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
 		1A01C67718F57BE800EFE3A6 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
-		1A01C67818F57BE800EFE3A6 /* CCBool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBool.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
 		1A01C67D18F57BE800EFE3A6 /* CCDouble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDouble.h; sourceTree = "<group>"; };
@@ -7997,7 +7993,6 @@
 			children = (
 				1A01C67618F57BE800EFE3A6 /* CCArray.cpp */,
 				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
-				1A01C67818F57BE800EFE3A6 /* CCBool.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
 				1A01C67D18F57BE800EFE3A6 /* CCDouble.h */,
@@ -11725,7 +11720,6 @@
 				B6CAB3271AF9AA1A00B9B856 /* btGImpactBvh.h in Headers */,
 				15AE198D19AAD36E00C27E9E /* CheckBoxReader.h in Headers */,
 				50F965541CD0360000ADE813 /* CCVRGenericRenderer.h in Headers */,
-				1A01C68818F57BE800EFE3A6 /* CCBool.h in Headers */,
 				B665E2741AA80A6500DDB1C5 /* CCPUDoPlacementParticleEventHandler.h in Headers */,
 				B6CAB2FF1AF9AA1A00B9B856 /* btTriangleIndexVertexArray.h in Headers */,
 				15AE18E519AAD35000C27E9E /* CCActionFrame.h in Headers */,
@@ -12584,7 +12578,6 @@
 				507B3DC71C31BDD30067B53E /* CCMotionStreak3D.h in Headers */,
 				507B3DC81C31BDD30067B53E /* btConvexPointCloudShape.h in Headers */,
 				507B3DCA1C31BDD30067B53E /* btBoxBoxDetector.h in Headers */,
-				507B3DCC1C31BDD30067B53E /* CCBool.h in Headers */,
 				507B3DCD1C31BDD30067B53E /* CCPUDoStopSystemEventHandler.h in Headers */,
 				507B3DCE1C31BDD30067B53E /* CSParse3DBinary_generated.h in Headers */,
 				507B3DCF1C31BDD30067B53E /* CCSprite3D.h in Headers */,
@@ -13641,7 +13634,6 @@
 				3E2A09C51BAA91B70086B878 /* CCMotionStreak3D.h in Headers */,
 				B6CAB2AE1AF9AA1A00B9B856 /* btConvexPointCloudShape.h in Headers */,
 				B6CAB2221AF9AA1A00B9B856 /* btBoxBoxDetector.h in Headers */,
-				1A01C68918F57BE800EFE3A6 /* CCBool.h in Headers */,
 				B665E2851AA80A6500DDB1C5 /* CCPUDoStopSystemEventHandler.h in Headers */,
 				182C5CB61A95965500C30D34 /* CSParse3DBinary_generated.h in Headers */,
 				15AE184319AAD2F700C27E9E /* CCSprite3D.h in Headers */,

@@ -532,7 +532,6 @@
         "cocos/cocos2d.h", 
         "cocos/deprecated/CCArray.cpp", 
         "cocos/deprecated/CCArray.h", 
-        "cocos/deprecated/CCBool.h", 
         "cocos/deprecated/CCDeprecated.cpp", 
         "cocos/deprecated/CCDeprecated.h", 
         "cocos/deprecated/CCDouble.h", 

@@ -1988,9 +1988,6 @@
     <ClInclude Include="..\deprecated\CCArray.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="..\deprecated\CCBool.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>
     </ClInclude>

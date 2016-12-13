@@ -1049,7 +1049,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\base\ZipUtils.h" />
     <ClInclude Include="..\cocos2d.h" />
     <ClInclude Include="..\deprecated\CCArray.h" />
-    <ClInclude Include="..\deprecated\CCBool.h" />
     <ClInclude Include="..\deprecated\CCDeprecated.h" />
     <ClInclude Include="..\deprecated\CCDouble.h" />
     <ClInclude Include="..\deprecated\CCFloat.h" />
