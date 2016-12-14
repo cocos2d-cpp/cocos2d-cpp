@@ -76,7 +76,6 @@
 #include "base/CCUserDefault.h"
 #include "base/ccTypes.h"
 #include "deprecated/CCArray.h"
-#include "deprecated/CCNotificationCenter.h"
 #include "deprecated/CCString.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCGeometry.h"
@@ -599,11 +598,6 @@ CC_DEPRECATED_ATTRIBUTE typedef IMEDelegate CCIMEDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef IMEKeyboardNotificationInfo CCIMEKeyboardNotificationInfo;
 CC_DEPRECATED_ATTRIBUTE typedef TextFieldDelegate CCTextFieldDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef TextFieldTTF CCTextFieldTTF;
-CC_DEPRECATED_ATTRIBUTE typedef __NotificationCenter CCNotificationCenter;
-CC_DEPRECATED_ATTRIBUTE typedef __NotificationCenter NotificationCenter;
-//CC_DEPRECATED_ATTRIBUTE typedef TargetedTouchDelegate CCTargetedTouchDelegate;
-//CC_DEPRECATED_ATTRIBUTE typedef StandardTouchDelegate CCStandardTouchDelegate;
-//CC_DEPRECATED_ATTRIBUTE typedef TouchDelegate CCTouchDelegate;
 CC_DEPRECATED_ATTRIBUTE typedef Image CCImage;
 CC_DEPRECATED_ATTRIBUTE typedef UserDefault CCUserDefault;
 

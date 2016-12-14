@@ -438,7 +438,6 @@
     <ClCompile Include="..\..\cocos2d.cpp" />
     <ClCompile Include="..\..\deprecated\CCArray.cpp" />
     <ClCompile Include="..\..\deprecated\CCDeprecated.cpp" />
-    <ClCompile Include="..\..\deprecated\CCNotificationCenter.cpp" />
     <ClCompile Include="..\..\deprecated\CCString.cpp" />
     <ClCompile Include="..\..\editor-support\cocosbuilder\CCBAnimationManager.cpp" />
     <ClCompile Include="..\..\editor-support\cocosbuilder\CCBFileLoader.cpp" />
@@ -1047,7 +1046,6 @@
     <ClInclude Include="..\..\cocos2d.h" />
     <ClInclude Include="..\..\deprecated\CCArray.h" />
     <ClInclude Include="..\..\deprecated\CCDeprecated.h" />
-    <ClInclude Include="..\..\deprecated\CCNotificationCenter.h" />
     <ClInclude Include="..\..\deprecated\CCString.h" />
     <ClInclude Include="..\..\editor-support\cocosbuilder\CCBAnimationManager.h" />
     <ClInclude Include="..\..\editor-support\cocosbuilder\CCBFileLoader.h" />

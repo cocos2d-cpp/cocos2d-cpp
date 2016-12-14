@@ -27,7 +27,7 @@
 /// @cond DO_NOT_SHOW
 
 /**
- * This header is used for defining event types using in NotificationCenter
+ * This header is used for defining event types using in EventDispatcher
  */
 
 // The application will come to foreground.

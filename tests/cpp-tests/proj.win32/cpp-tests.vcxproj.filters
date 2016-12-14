@@ -130,9 +130,6 @@
     <Filter Include="Classes\ExtensionsTest\ControlExtensionTest\CCControlSwitchTest">
       <UniqueIdentifier>{8eaa1432-0ee2-46d9-9717-40a71efb3fb1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\ExtensionsTest\NotificationCenterTest">
-      <UniqueIdentifier>{73050120-a703-4a41-a797-54b3fe4c6997}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\ExtensionsTest\CocosBuilderTest">
       <UniqueIdentifier>{2a3d945a-4162-4f91-8178-47f4608b4932}</UniqueIdentifier>
     </Filter>
@@ -464,9 +461,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\ControlExtensionTest\CCControlSwitchTest\CCControlSwitchTest.cpp">
       <Filter>Classes\ExtensionsTest\ControlExtensionTest\CCControlSwitchTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\NotificationCenterTest\NotificationCenterTest.cpp">
-      <Filter>Classes\ExtensionsTest\NotificationCenterTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\CocosBuilderTest.cpp">
       <Filter>Classes\ExtensionsTest\CocosBuilderTest</Filter>
@@ -871,9 +865,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ExtensionsTest\ControlExtensionTest\CCControlSwitchTest\CCControlSwitchTest.h">
       <Filter>Classes\ExtensionsTest\ControlExtensionTest\CCControlSwitchTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\NotificationCenterTest\NotificationCenterTest.h">
-      <Filter>Classes\ExtensionsTest\NotificationCenterTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\CocosBuilderTest.h">
       <Filter>Classes\ExtensionsTest\CocosBuilderTest</Filter>

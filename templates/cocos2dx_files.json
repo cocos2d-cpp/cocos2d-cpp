@@ -534,8 +534,6 @@
         "cocos/deprecated/CCArray.h", 
         "cocos/deprecated/CCDeprecated.cpp", 
         "cocos/deprecated/CCDeprecated.h", 
-        "cocos/deprecated/CCNotificationCenter.cpp", 
-        "cocos/deprecated/CCNotificationCenter.h", 
         "cocos/deprecated/CCString.cpp", 
         "cocos/deprecated/CCString.h", 
         "cocos/deprecated/CMakeLists.txt", 

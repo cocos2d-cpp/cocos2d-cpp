@@ -71,7 +71,6 @@ LOCAL_SRC_FILES := main.cpp \
 ../../../Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp \
 ../../../Classes/ExtensionsTest/NetworkTest/SocketIOTest.cpp \
 ../../../Classes/ExtensionsTest/NetworkTest/WebSocketTest.cpp \
-../../../Classes/ExtensionsTest/NotificationCenterTest/NotificationCenterTest.cpp \
 ../../../Classes/ExtensionsTest/TableViewTest/CustomTableViewCell.cpp \
 ../../../Classes/ExtensionsTest/TableViewTest/TableViewTestScene.cpp \
 ../../../Classes/FileUtilsTest/FileUtilsTest.cpp \

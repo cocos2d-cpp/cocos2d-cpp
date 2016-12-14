@@ -875,10 +875,6 @@
 		1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		1A01C69E18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
 		1A01C69F18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
-		1A01C6A418F58F7500EFE3A6 /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */; };
-		1A01C6A518F58F7500EFE3A6 /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */; };
-		1A01C6A618F58F7500EFE3A6 /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */; };
-		1A01C6A718F58F7500EFE3A6 /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */; };
 		1A087AE81860400400196EF5 /* edtaa3func.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A087AE61860400400196EF5 /* edtaa3func.cpp */; };
 		1A087AE91860400400196EF5 /* edtaa3func.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A087AE61860400400196EF5 /* edtaa3func.cpp */; };
 		1A087AEA1860400400196EF5 /* edtaa3func.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A087AE71860400400196EF5 /* edtaa3func.h */; };
@@ -1781,7 +1777,6 @@
 		507B39DC1C31BDD30067B53E /* CCImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBF271926664700A911A9 /* CCImage.cpp */; };
 		507B39DD1C31BDD30067B53E /* CCPURandomiserTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E1A81AA80A6500DDB1C5 /* CCPURandomiserTranslator.cpp */; };
 		507B39DE1C31BDD30067B53E /* DetourPathCorridor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6DD2F991B04825B00E47F5F /* DetourPathCorridor.cpp */; };
-		507B39DF1C31BDD30067B53E /* CCNotificationCenter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */; };
 		507B39E01C31BDD30067B53E /* UIEditBoxImpl-mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 292DB13719B4574100A80320 /* UIEditBoxImpl-mac.mm */; };
 		507B39E11C31BDD30067B53E /* SpuGatheringCollisionDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB1941AF9AA1A00B9B856 /* SpuGatheringCollisionDispatcher.cpp */; };
 		507B39E21C31BDD30067B53E /* btPoint2PointConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB1001AF9AA1900B9B856 /* btPoint2PointConstraint.cpp */; };
@@ -3439,7 +3434,6 @@
 		507B40991C31BDD30067B53E /* CCPUBaseCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0D71AA80A6500DDB1C5 /* CCPUBaseCollider.h */; };
 		507B409A1C31BDD30067B53E /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
 		507B409B1C31BDD30067B53E /* CCPUScriptTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1C11AA80A6500DDB1C5 /* CCPUScriptTranslator.h */; };
-		507B409C1C31BDD30067B53E /* CCNotificationCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */; };
 		507B409D1C31BDD30067B53E /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1E1925AB6F00A911A9 /* ZipUtils.h */; };
 		507B409E1C31BDD30067B53E /* CCTextureCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBD821925AB4100A911A9 /* CCTextureCache.h */; };
 		507B409F1C31BDD30067B53E /* CCVertexIndexBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = B276EF5D1988D1D500CD400F /* CCVertexIndexBuffer.h */; };
@@ -5811,8 +5805,6 @@
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
 		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		1A01C68318F57BE800EFE3A6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
-		1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
-		1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNotificationCenter.h; sourceTree = "<group>"; };
 		1A087AE61860400400196EF5 /* edtaa3func.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edtaa3func.cpp; sourceTree = "<group>"; };
 		1A087AE71860400400196EF5 /* edtaa3func.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edtaa3func.h; sourceTree = "<group>"; };
 		1A1645AE191B726C008C7C7F /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
@@ -7975,8 +7967,6 @@
 				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
-				1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */,
-				1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */,
 				1A01C68218F57BE800EFE3A6 /* CCString.cpp */,
 				1A01C68318F57BE800EFE3A6 /* CCString.h */,
 			);
@@ -11753,7 +11743,6 @@
 				B6CAB3311AF9AA1A00B9B856 /* btGImpactQuantizedBvh.h in Headers */,
 				B665E3B01AA80A6500DDB1C5 /* CCPURender.h in Headers */,
 				B6CAB2291AF9AA1A00B9B856 /* btCollisionDispatcher.h in Headers */,
-				1A01C6A618F58F7500EFE3A6 /* CCNotificationCenter.h in Headers */,
 				5020A15F1D49912500E80C72 /* AnimationStateData.h in Headers */,
 				B665E3A81AA80A6500DDB1C5 /* CCPURandomiser.h in Headers */,
 				1A57020A180BCBDF0088DEC7 /* CCMotionStreak.h in Headers */,
@@ -13307,7 +13296,6 @@
 				507B40991C31BDD30067B53E /* CCPUBaseCollider.h in Headers */,
 				507B409A1C31BDD30067B53E /* CCArray.h in Headers */,
 				507B409B1C31BDD30067B53E /* CCPUScriptTranslator.h in Headers */,
-				507B409C1C31BDD30067B53E /* CCNotificationCenter.h in Headers */,
 				5020A1791D49912500E80C72 /* AttachmentLoader.h in Headers */,
 				507B409D1C31BDD30067B53E /* ZipUtils.h in Headers */,
 				507B409E1C31BDD30067B53E /* CCTextureCache.h in Headers */,
@@ -14357,7 +14345,6 @@
 				B665E2091AA80A6500DDB1C5 /* CCPUBaseCollider.h in Headers */,
 				1A01C68718F57BE800EFE3A6 /* CCArray.h in Headers */,
 				B665E3DD1AA80A6600DDB1C5 /* CCPUScriptTranslator.h in Headers */,
-				1A01C6A718F58F7500EFE3A6 /* CCNotificationCenter.h in Headers */,
 				50ABBEDA1925AB6F00A911A9 /* ZipUtils.h in Headers */,
 				50ABBDC01925AB4100A911A9 /* CCTextureCache.h in Headers */,
 				B276EF641988D1D500CD400F /* CCVertexIndexBuffer.h in Headers */,
@@ -14561,7 +14548,6 @@
 				5020A1BC1D49912500E80C72 /* MeshAttachment.c in Sources */,
 				B665E3821AA80A6500DDB1C5 /* CCPUPathFollower.cpp in Sources */,
 				502AF9781D0711B8006AF256 /* CCVRGenericHeadTracker.cpp in Sources */,
-				1A01C6A418F58F7500EFE3A6 /* CCNotificationCenter.cpp in Sources */,
 				15AE1A5D19AAD40300C27E9E /* b2Body.cpp in Sources */,
 				15AE1BDA19AAE01E00C27E9E /* CCControlSwitch.cpp in Sources */,
 				B6CAB3B71AF9AA1A00B9B856 /* btGeneric6DofConstraint.cpp in Sources */,
@@ -15437,7 +15423,6 @@
 				507B39DC1C31BDD30067B53E /* CCImage.cpp in Sources */,
 				507B39DD1C31BDD30067B53E /* CCPURandomiserTranslator.cpp in Sources */,
 				507B39DE1C31BDD30067B53E /* DetourPathCorridor.cpp in Sources */,
-				507B39DF1C31BDD30067B53E /* CCNotificationCenter.cpp in Sources */,
 				507B39E01C31BDD30067B53E /* UIEditBoxImpl-mac.mm in Sources */,
 				507B39E11C31BDD30067B53E /* SpuGatheringCollisionDispatcher.cpp in Sources */,
 				507B39E21C31BDD30067B53E /* btPoint2PointConstraint.cpp in Sources */,
@@ -16288,7 +16273,6 @@
 				50ABC0161926664800A911A9 /* CCImage.cpp in Sources */,
 				B665E3AB1AA80A6500DDB1C5 /* CCPURandomiserTranslator.cpp in Sources */,
 				B6DD2FE21B04825B00E47F5F /* DetourPathCorridor.cpp in Sources */,
-				1A01C6A518F58F7500EFE3A6 /* CCNotificationCenter.cpp in Sources */,
 				292DB14E19B4574100A80320 /* UIEditBoxImpl-mac.mm in Sources */,
 				B6CAB4BC1AF9AA1A00B9B856 /* SpuGatheringCollisionDispatcher.cpp in Sources */,
 				B6CAB3CA1AF9AA1A00B9B856 /* btPoint2PointConstraint.cpp in Sources */,

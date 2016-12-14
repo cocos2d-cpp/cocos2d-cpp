@@ -87,7 +87,6 @@ set(TESTS_SRC
   Classes/ExtensionsTest/ControlExtensionTest/CCControlSwitchTest/CCControlSwitchTest.cpp
   Classes/ExtensionsTest/ExtensionsTest.cpp
   Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp
-  Classes/ExtensionsTest/NotificationCenterTest/NotificationCenterTest.cpp
   Classes/ExtensionsTest/TableViewTest/CustomTableViewCell.cpp
   Classes/ExtensionsTest/TableViewTest/TableViewTestScene.cpp
   Classes/FileUtilsTest/FileUtilsTest.cpp

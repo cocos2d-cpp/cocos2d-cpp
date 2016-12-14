@@ -212,9 +212,6 @@
     <Filter Include="Classes\ExtensionsTest\NetworkTest">
       <UniqueIdentifier>{44105a0d-741e-48b5-9d78-0402eec04cfc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\ExtensionsTest\NotificationCenterTest">
-      <UniqueIdentifier>{c278bd7b-bfd0-4f93-b080-68276c138f64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\ExtensionsTest\TableViewTest">
       <UniqueIdentifier>{bdf10730-fe07-490e-8494-421b4a73f708}</UniqueIdentifier>
     </Filter>
@@ -532,9 +529,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\NetworkTest\WebSocketTest.cpp">
       <Filter>Classes\ExtensionsTest\NetworkTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\NotificationCenterTest\NotificationCenterTest.cpp">
-      <Filter>Classes\ExtensionsTest\NotificationCenterTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\TableViewTest\CustomTableViewCell.cpp">
       <Filter>Classes\ExtensionsTest\TableViewTest</Filter>
@@ -1167,9 +1161,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ExtensionsTest\NetworkTest\WebSocketTest.h">
       <Filter>Classes\ExtensionsTest\NetworkTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\NotificationCenterTest\NotificationCenterTest.h">
-      <Filter>Classes\ExtensionsTest\NotificationCenterTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ExtensionsTest\TableViewTest\CustomTableViewCell.h">
       <Filter>Classes\ExtensionsTest\TableViewTest</Filter>

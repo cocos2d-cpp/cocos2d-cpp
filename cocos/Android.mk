@@ -193,7 +193,6 @@ vr/CCVRGenericRenderer.cpp \
 vr/CCVRGenericHeadTracker.cpp \
 deprecated/CCArray.cpp \
 deprecated/CCDeprecated.cpp \
-deprecated/CCNotificationCenter.cpp \
 deprecated/CCString.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \

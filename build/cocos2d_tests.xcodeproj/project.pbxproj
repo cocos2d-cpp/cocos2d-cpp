@@ -395,8 +395,6 @@
 		1AC35BF818CECF0C00F37B72 /* SocketIOTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8018CECF0B00F37B72 /* SocketIOTest.cpp */; };
 		1AC35BF918CECF0C00F37B72 /* WebSocketTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8218CECF0B00F37B72 /* WebSocketTest.cpp */; };
 		1AC35BFA18CECF0C00F37B72 /* WebSocketTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8218CECF0B00F37B72 /* WebSocketTest.cpp */; };
-		1AC35BFB18CECF0C00F37B72 /* NotificationCenterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8518CECF0B00F37B72 /* NotificationCenterTest.cpp */; };
-		1AC35BFC18CECF0C00F37B72 /* NotificationCenterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8518CECF0B00F37B72 /* NotificationCenterTest.cpp */; };
 		1AC35BFF18CECF0C00F37B72 /* CustomTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8B18CECF0B00F37B72 /* CustomTableViewCell.cpp */; };
 		1AC35C0018CECF0C00F37B72 /* CustomTableViewCell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8B18CECF0B00F37B72 /* CustomTableViewCell.cpp */; };
 		1AC35C0118CECF0C00F37B72 /* TableViewTestScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8D18CECF0B00F37B72 /* TableViewTestScene.cpp */; };
@@ -990,7 +988,6 @@
 		507B41E91C31BEA60067B53E /* CCControlSceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A6D18CECF0B00F37B72 /* CCControlSceneManager.cpp */; };
 		507B41EB1C31BEA60067B53E /* TimelineCallbackTestLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC359DA18CECF0B00F37B72 /* TimelineCallbackTestLayer.cpp */; };
 		507B41EC1C31BEA60067B53E /* Bug-CCDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94D793D51B4B7A3600F60F10 /* Bug-CCDrawNode.cpp */; };
-		507B41EE1C31BEA60067B53E /* NotificationCenterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A8518CECF0B00F37B72 /* NotificationCenterTest.cpp */; };
 		507B41F01C31BEA60067B53E /* NavMeshTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6DD2FFA1B04979C00E47F5F /* NavMeshTest.cpp */; };
 		507B41F11C31BEA60067B53E /* LightTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6C039D719C95D83007207DC /* LightTest.cpp */; };
 		507B41F41C31BEA60067B53E /* Bug-422.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3597D18CECF0B00F37B72 /* Bug-422.cpp */; };
@@ -2161,8 +2158,6 @@
 		1AC35A8118CECF0B00F37B72 /* SocketIOTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTest.h; sourceTree = "<group>"; };
 		1AC35A8218CECF0B00F37B72 /* WebSocketTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebSocketTest.cpp; sourceTree = "<group>"; };
 		1AC35A8318CECF0B00F37B72 /* WebSocketTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSocketTest.h; sourceTree = "<group>"; };
-		1AC35A8518CECF0B00F37B72 /* NotificationCenterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NotificationCenterTest.cpp; sourceTree = "<group>"; };
-		1AC35A8618CECF0B00F37B72 /* NotificationCenterTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCenterTest.h; sourceTree = "<group>"; };
 		1AC35A8B18CECF0B00F37B72 /* CustomTableViewCell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CustomTableViewCell.cpp; sourceTree = "<group>"; };
 		1AC35A8C18CECF0B00F37B72 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		1AC35A8D18CECF0B00F37B72 /* TableViewTestScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableViewTestScene.cpp; sourceTree = "<group>"; };
@@ -3801,7 +3796,6 @@
 				1AC35A7B18CECF0B00F37B72 /* ExtensionsTest.cpp */,
 				1AC35A7C18CECF0B00F37B72 /* ExtensionsTest.h */,
 				1AC35A7D18CECF0B00F37B72 /* NetworkTest */,
-				1AC35A8418CECF0B00F37B72 /* NotificationCenterTest */,
 				1AC35A8A18CECF0B00F37B72 /* TableViewTest */,
 			);
 			path = ExtensionsTest;
@@ -4004,15 +3998,6 @@
 				1AC35A8318CECF0B00F37B72 /* WebSocketTest.h */,
 			);
 			path = NetworkTest;
-			sourceTree = "<group>";
-		};
-		1AC35A8418CECF0B00F37B72 /* NotificationCenterTest */ = {
-			isa = PBXGroup;
-			children = (
-				1AC35A8518CECF0B00F37B72 /* NotificationCenterTest.cpp */,
-				1AC35A8618CECF0B00F37B72 /* NotificationCenterTest.h */,
-			);
-			path = NotificationCenterTest;
 			sourceTree = "<group>";
 		};
 		1AC35A8A18CECF0B00F37B72 /* TableViewTest */ = {
@@ -7027,7 +7012,6 @@
 				1AC35CA618CECF1E00F37B72 /* main.cpp in Sources */,
 				1AC35BE918CECF0C00F37B72 /* CCControlSceneManager.cpp in Sources */,
 				1AC35B7318CECF0C00F37B72 /* TimelineCallbackTestLayer.cpp in Sources */,
-				1AC35BFB18CECF0C00F37B72 /* NotificationCenterTest.cpp in Sources */,
 				1AC35B3D18CECF0C00F37B72 /* Bug-422.cpp in Sources */,
 				1AC35BF518CECF0C00F37B72 /* HttpClientTest.cpp in Sources */,
 				1AC35B4F18CECF0C00F37B72 /* ClickAndMoveTest.cpp in Sources */,
@@ -7192,7 +7176,6 @@
 				507B41E91C31BEA60067B53E /* CCControlSceneManager.cpp in Sources */,
 				507B41EB1C31BEA60067B53E /* TimelineCallbackTestLayer.cpp in Sources */,
 				507B41EC1C31BEA60067B53E /* Bug-CCDrawNode.cpp in Sources */,
-				507B41EE1C31BEA60067B53E /* NotificationCenterTest.cpp in Sources */,
 				507B41F01C31BEA60067B53E /* NavMeshTest.cpp in Sources */,
 				507B41F11C31BEA60067B53E /* LightTest.cpp in Sources */,
 				507B41F41C31BEA60067B53E /* Bug-422.cpp in Sources */,
@@ -7422,7 +7405,6 @@
 				1AC35BEA18CECF0C00F37B72 /* CCControlSceneManager.cpp in Sources */,
 				1AC35B7418CECF0C00F37B72 /* TimelineCallbackTestLayer.cpp in Sources */,
 				94D793DA1B4B7A3600F60F10 /* Bug-CCDrawNode.cpp in Sources */,
-				1AC35BFC18CECF0C00F37B72 /* NotificationCenterTest.cpp in Sources */,
 				B6DD2FFD1B04979C00E47F5F /* NavMeshTest.cpp in Sources */,
 				B6C039DA19C95D83007207DC /* LightTest.cpp in Sources */,
 				1AC35B3E18CECF0C00F37B72 /* Bug-422.cpp in Sources */,

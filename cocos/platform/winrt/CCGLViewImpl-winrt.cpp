@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include "base/CCEventListenerKeyboard.h"
 #include "platform/winrt/CCApplication.h"
 #include "platform/winrt/CCWinRTUtils.h"
-#include "deprecated/CCNotificationCenter.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventMouse.h"
 
