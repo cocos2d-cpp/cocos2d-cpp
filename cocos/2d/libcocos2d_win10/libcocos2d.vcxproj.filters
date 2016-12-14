@@ -2756,9 +2756,6 @@
     <ClInclude Include="..\..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\deprecated\CCInteger.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\deprecated\CCNotificationCenter.h">
       <Filter>deprecated</Filter>
     </ClInclude>

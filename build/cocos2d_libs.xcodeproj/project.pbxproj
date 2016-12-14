@@ -871,8 +871,6 @@
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
 		1A01C68D18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
-		1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
-		1A01C69718F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
 		1A01C69C18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		1A01C69E18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
@@ -3352,7 +3350,6 @@
 		507B403C1C31BDD30067B53E /* btConvexConvexAlgorithm.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0391AF9AA1900B9B856 /* btConvexConvexAlgorithm.h */; };
 		507B403D1C31BDD30067B53E /* CCPUGravityAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1391AA80A6500DDB1C5 /* CCPUGravityAffectorTranslator.h */; };
 		507B403E1C31BDD30067B53E /* MathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBD271925AB0000A911A9 /* MathUtil.h */; };
-		507B403F1C31BDD30067B53E /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
 		507B40401C31BDD30067B53E /* CCSkybox.h in Headers */ = {isa = PBXBuildFile; fileRef = B6D38B871AC3AFAC00043997 /* CCSkybox.h */; };
 		507B40411C31BDD30067B53E /* CCTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168651807AF4E005B8026 /* CCTableViewCell.h */; };
 		507B40421C31BDD30067B53E /* CCPUTranslateManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1E51AA80A6500DDB1C5 /* CCPUTranslateManager.h */; };
@@ -5812,7 +5809,6 @@
 		1A01C67718F57BE800EFE3A6 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
-		1A01C67F18F57BE800EFE3A6 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
 		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		1A01C68318F57BE800EFE3A6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNotificationCenter.cpp; sourceTree = "<group>"; };
@@ -7979,7 +7975,6 @@
 				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
-				1A01C67F18F57BE800EFE3A6 /* CCInteger.h */,
 				1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */,
 				1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */,
 				1A01C68218F57BE800EFE3A6 /* CCString.cpp */,
@@ -11765,7 +11760,6 @@
 				1A570212180BCBF40088DEC7 /* CCProgressTimer.h in Headers */,
 				B6CAB2E71AF9AA1A00B9B856 /* btSphereShape.h in Headers */,
 				1A570216180BCBF40088DEC7 /* CCRenderTexture.h in Headers */,
-				1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */,
 				B665E3F41AA80A6600DDB1C5 /* CCPUSlaveEmitter.h in Headers */,
 				15AE1B6919AADA9900C27E9E /* UIDeprecated.h in Headers */,
 				1A570223180BCC1A0088DEC7 /* CCParticleBatchNode.h in Headers */,
@@ -13214,7 +13208,6 @@
 				50F965591CD0360000ADE813 /* CCVRProtocol.h in Headers */,
 				507B403D1C31BDD30067B53E /* CCPUGravityAffectorTranslator.h in Headers */,
 				507B403E1C31BDD30067B53E /* MathUtil.h in Headers */,
-				507B403F1C31BDD30067B53E /* CCInteger.h in Headers */,
 				507B40401C31BDD30067B53E /* CCSkybox.h in Headers */,
 				507B40411C31BDD30067B53E /* CCTableViewCell.h in Headers */,
 				507B40421C31BDD30067B53E /* CCPUTranslateManager.h in Headers */,
@@ -14269,7 +14262,6 @@
 				50F965581CD0360000ADE813 /* CCVRProtocol.h in Headers */,
 				B665E2CD1AA80A6500DDB1C5 /* CCPUGravityAffectorTranslator.h in Headers */,
 				50ABBD4F1925AB0000A911A9 /* MathUtil.h in Headers */,
-				1A01C69718F57BE800EFE3A6 /* CCInteger.h in Headers */,
 				B6D38B8D1AC3AFAC00043997 /* CCSkybox.h in Headers */,
 				15AE1C0619AAE01E00C27E9E /* CCTableViewCell.h in Headers */,
 				B665E4251AA80A6600DDB1C5 /* CCPUTranslateManager.h in Headers */,
