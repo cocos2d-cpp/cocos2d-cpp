@@ -871,8 +871,6 @@
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
 		1A01C68D18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
-		1A01C69418F57BE800EFE3A6 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
-		1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
 		1A01C69618F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
 		1A01C69718F57BE800EFE3A6 /* CCInteger.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67F18F57BE800EFE3A6 /* CCInteger.h */; };
 		1A01C69C18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
@@ -2961,7 +2959,6 @@
 		507B3EA81C31BDD30067B53E /* CCSpriteLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD71D2B180E26E600808F54 /* CCSpriteLoader.h */; };
 		507B3EA91C31BDD30067B53E /* btGpuUtilsSharedCode.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1401AF9AA1900B9B856 /* btGpuUtilsSharedCode.h */; };
 		507B3EAA1C31BDD30067B53E /* CCSSceneReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C597D180E930E00EF57C3 /* CCSSceneReader.h */; };
-		507B3EAB1C31BDD30067B53E /* CCFloat.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67E18F57BE800EFE3A6 /* CCFloat.h */; };
 		507B3EAC1C31BDD30067B53E /* CCPUAlignAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0D31AA80A6500DDB1C5 /* CCPUAlignAffector.h */; };
 		507B3EAD1C31BDD30067B53E /* DetourProximityGrid.h in Headers */ = {isa = PBXBuildFile; fileRef = B6DD2F9E1B04825B00E47F5F /* DetourProximityGrid.h */; };
 		507B3EAE1C31BDD30067B53E /* HeapManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1841AF9AA1A00B9B856 /* HeapManager.h */; };
@@ -5815,7 +5812,6 @@
 		1A01C67718F57BE800EFE3A6 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
-		1A01C67E18F57BE800EFE3A6 /* CCFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFloat.h; sourceTree = "<group>"; };
 		1A01C67F18F57BE800EFE3A6 /* CCInteger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInteger.h; sourceTree = "<group>"; };
 		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
 		1A01C68318F57BE800EFE3A6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
@@ -7983,7 +7979,6 @@
 				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
-				1A01C67E18F57BE800EFE3A6 /* CCFloat.h */,
 				1A01C67F18F57BE800EFE3A6 /* CCInteger.h */,
 				1A01C6A218F58F7500EFE3A6 /* CCNotificationCenter.cpp */,
 				1A01C6A318F58F7500EFE3A6 /* CCNotificationCenter.h */,
@@ -12066,7 +12061,6 @@
 				50864CD01C7BC1B100B3BAB1 /* cpShape.h in Headers */,
 				15AE1BA419AADFDF00C27E9E /* UILayoutManager.h in Headers */,
 				2962D5E81C61CBF9004821A3 /* CCUITextInput.h in Headers */,
-				1A01C69418F57BE800EFE3A6 /* CCFloat.h in Headers */,
 				50864CB81C7BC1B000B3BAB1 /* cpMarch.h in Headers */,
 				1A57034D180BD09B0088DEC7 /* tinyxml2.h in Headers */,
 				B6CAB4C31AF9AA1A00B9B856 /* Box.h in Headers */,
@@ -12801,7 +12795,6 @@
 				507B3EA81C31BDD30067B53E /* CCSpriteLoader.h in Headers */,
 				507B3EA91C31BDD30067B53E /* btGpuUtilsSharedCode.h in Headers */,
 				507B3EAA1C31BDD30067B53E /* CCSSceneReader.h in Headers */,
-				507B3EAB1C31BDD30067B53E /* CCFloat.h in Headers */,
 				507B3EAC1C31BDD30067B53E /* CCPUAlignAffector.h in Headers */,
 				507B3EAD1C31BDD30067B53E /* DetourProximityGrid.h in Headers */,
 				507B3EAE1C31BDD30067B53E /* HeapManager.h in Headers */,
@@ -13855,7 +13848,6 @@
 				15AE18DA19AAD33D00C27E9E /* CCSpriteLoader.h in Headers */,
 				B6CAB4401AF9AA1A00B9B856 /* btGpuUtilsSharedCode.h in Headers */,
 				15AE196219AAD35100C27E9E /* CCSSceneReader.h in Headers */,
-				1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */,
 				B665E2011AA80A6500DDB1C5 /* CCPUAlignAffector.h in Headers */,
 				B6DD2FEC1B04825B00E47F5F /* DetourProximityGrid.h in Headers */,
 				B6CAB49C1AF9AA1A00B9B856 /* HeapManager.h in Headers */,
