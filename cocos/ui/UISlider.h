@@ -36,7 +36,6 @@ NS_CC_BEGIN
  */
 
 class Sprite;
-struct CC_DLL ResourceData;
 
 namespace ui {
     class Scale9Sprite;
@@ -269,12 +268,6 @@ public:
     Sprite* getSlidBallPressedRenderer() const;
     Sprite* getSlidBallDisabledRenderer() const;
     Node* getSlidBallRenderer() const;
-
-    ResourceData getBackFile();
-    ResourceData getProgressBarFile();
-    ResourceData getBallNormalFile();
-    ResourceData getBallPressedFile();
-    ResourceData getBallDisabledFile();
 
 CC_CONSTRUCTOR_ACCESS:
     virtual bool init() override;

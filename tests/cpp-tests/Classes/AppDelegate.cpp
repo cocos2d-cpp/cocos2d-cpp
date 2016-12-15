@@ -27,7 +27,6 @@
 
 #include "cocos2d.h"
 #include "controller.h"
-#include "editor-support/cocostudio/CocoStudio.h"
 #include "extensions/cocos-ext.h"
 
 USING_NS_CC;
@@ -39,8 +38,6 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    //SimpleAudioEngine::end();
-    cocostudio::ArmatureDataManager::destroyInstance();
 }
 
 // if you want a different context, modify the value of glContextAttrs

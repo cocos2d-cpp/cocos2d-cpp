@@ -1,6 +1,5 @@
 #include "ParticleTest.h"
 #include "../testResource.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 USING_NS_CC;
 

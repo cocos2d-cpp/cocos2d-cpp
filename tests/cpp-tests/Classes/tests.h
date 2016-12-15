@@ -87,7 +87,6 @@
 #include "TileMapTest/TileMapTest2.h"
 #include "TouchesTest/TouchesTest.h"
 #include "TransitionsTest/TransitionsTest.h"
-#include "UITest/UITest.h"
 #include "UnitTest/UnitTest.h"
 #include "UserDefaultTest/UserDefaultTest.h"
 #include "VibrateTest/VibrateTest.h"

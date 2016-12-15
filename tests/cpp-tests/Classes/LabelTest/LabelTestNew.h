@@ -5,7 +5,6 @@
 #include "renderer/CCCustomCommand.h"
 #include "ui/CocosGUI.h"
 #include "extensions/cocos-ext.h"
-#include "editor-support/cocostudio/LocalizationManager.h"
 
 DEFINE_TEST_SUITE(NewLabelTests);
 
@@ -846,8 +845,6 @@ public:
 
     cocos2d::Label* _label1;
     cocos2d::Label* _label2;
-    cocostudio::ILocalizationManager* _localizationJson;
-    cocostudio::ILocalizationManager* _localizationBin;
 };
 
 class LabelIssue15214 : public AtlasDemoNew

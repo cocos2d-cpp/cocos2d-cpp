@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include "ui/UIScale9Sprite.h"
 #include "ui/UIHelper.h"
 #include "2d/CCSprite.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -295,14 +294,6 @@ void ImageView::copySpecialProperties(Widget *widget)
     }
 }
 
-ResourceData ImageView::getRenderFile()
-{
-    ResourceData rData;
-    rData.type = (int)_imageTexType;
-    rData.file = _textureFile;
-    return rData;
-}
-    
 void ImageView::setGLProgram(GLProgram* glProgram)
 {
     Widget::setGLProgram(glProgram);

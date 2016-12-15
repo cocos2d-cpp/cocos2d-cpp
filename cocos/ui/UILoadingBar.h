@@ -34,8 +34,6 @@ NS_CC_BEGIN
  * @{
  */
 
-struct CC_DLL ResourceData;
-
 namespace ui {
     class Scale9Sprite;
 
@@ -173,8 +171,6 @@ public:
     virtual Size getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     virtual std::string getDescription() const override;
-
-    ResourceData getRenderFile(); 
 
 protected:
     virtual void initRenderer() override;

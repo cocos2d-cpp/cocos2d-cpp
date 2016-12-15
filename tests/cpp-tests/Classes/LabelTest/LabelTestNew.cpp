@@ -3079,12 +3079,6 @@ std::string LabelStrikethrough::subtitle() const
 
 LabelLocalizationTest::LabelLocalizationTest()
 {
-    _localizationJson = cocostudio::JsonLocalizationManager::getInstance();
-    _localizationJson->initLanguageData("configs/en-US.lang.json");
-
-    _localizationBin = cocostudio::BinLocalizationManager::getInstance();
-    _localizationBin->initLanguageData("configs/ENGLISH.lang.csb");
-
     const float BUTTON_WIDTH = 100;
     float startPosX = 0;
     Size winSize = Director::getInstance()->getVisibleSize();
@@ -3114,7 +3108,7 @@ LabelLocalizationTest::LabelLocalizationTest()
         this->addChild(label);
     }
 
-    _label1 = Label::createWithSystemFont(_localizationJson->getLocalizationString("Text Label"), "Arial", 24);
+    _label1 = Label::createWithSystemFont("Text Label", "Arial", 24);
     addChild(_label1, 0);
     _label1->setPosition(Vec2(winSize.width / 2, winSize.height * 1 / 3));
 
@@ -3123,7 +3117,7 @@ LabelLocalizationTest::LabelLocalizationTest()
     addChild(label, 0);
     label->setPosition(Vec2(20, winSize.height * 1 / 3 + 24));
 
-    _label2 = Label::createWithSystemFont(_localizationBin->getLocalizationString("Text Label"), "Arial", 24);
+    _label2 = Label::createWithSystemFont("Text Label", "Arial", 24);
     addChild(_label2, 0);
     _label2->setPosition(Vec2(winSize.width / 2, winSize.height * 1 / 2));
 
@@ -3155,24 +3149,20 @@ void LabelLocalizationTest::onChangedRadioButtonSelect(RadioButton* radioButton,
     {
     case RadioButton::EventType::SELECTED:
     {
-        switch (radioButton->getTag()) {
+        switch (radioButton->getTag())
+        {
         case 0:
-            _localizationJson->initLanguageData("configs/en-US.lang.json");
-            _label1->setString(_localizationJson->getLocalizationString("Text Label"));
-            _localizationBin->initLanguageData("configs/ENGLISH.lang.csb");
-            _label2->setString(_localizationJson->getLocalizationString("Text Label"));
+            // used to be localized
+            _label1->setString("Text Label");
+            _label2->setString("Text Label");
             break;
         case 1:
-            _localizationJson->initLanguageData("configs/zh-CN.lang.json");
-            _label1->setString(_localizationJson->getLocalizationString("Text Label"));
-            _localizationBin->initLanguageData("configs/CHINESE.lang.csb");
-            _label2->setString(_localizationJson->getLocalizationString("Text Label"));
+            _label1->setString("Text Label");
+            _label2->setString("Text Label");
             break;
         case 2:
-            _localizationJson->initLanguageData("configs/ja-JP.lang.json");
-            _label1->setString(_localizationJson->getLocalizationString("Text Label"));
-            _localizationBin->initLanguageData("configs/JAPANESE.lang.csb");
-            _label2->setString(_localizationJson->getLocalizationString("Text Label"));
+            _label1->setString("Text Label");
+            _label2->setString("Text Label");
             break;
         default:
             break;

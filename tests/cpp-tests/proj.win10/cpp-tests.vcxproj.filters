@@ -179,9 +179,6 @@
     <Filter Include="Classes\TransitionsTest">
       <UniqueIdentifier>{f2357ab1-759e-42fa-87f3-1e33a775c912}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\UITest">
-      <UniqueIdentifier>{c84d9ab4-0f15-4a7e-b214-238249f06204}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\UnitTest">
       <UniqueIdentifier>{e45b72a6-fe38-4c7a-986a-424d303b847f}</UniqueIdentifier>
     </Filter>
@@ -203,9 +200,6 @@
     <Filter Include="Classes\ExtensionsTest\AssetsManagerExTest">
       <UniqueIdentifier>{a60b411f-fae8-461b-afe7-8e8033d2153c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest">
-      <UniqueIdentifier>{4d8e2aef-dfcc-45f6-a027-8aea00cafa29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\ExtensionsTest\ControlExtensionTest">
       <UniqueIdentifier>{128e1a02-7a70-4b1e-940d-3ff988396f58}</UniqueIdentifier>
     </Filter>
@@ -214,36 +208,6 @@
     </Filter>
     <Filter Include="Classes\ExtensionsTest\TableViewTest">
       <UniqueIdentifier>{bdf10730-fe07-490e-8494-421b4a73f708}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest">
-      <UniqueIdentifier>{67e286b7-a1a6-49c2-ad15-6cdc9ed53007}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\ButtonTest">
-      <UniqueIdentifier>{314aae2a-4e9f-40d3-96a7-6792101fbc83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder">
-      <UniqueIdentifier>{ab6bb602-44bb-49dc-8bf7-b1a894a51281}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\LabelTest">
-      <UniqueIdentifier>{9601d114-2994-4921-aa77-68b5d5dda079}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\MenuTest">
-      <UniqueIdentifier>{9697d5ba-4925-4f8a-b03c-f6e077bb235e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\ParticleSystemTest">
-      <UniqueIdentifier>{2c6bf95b-0dc3-4dd1-9261-b09abbf7a5ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\ScrollViewTest">
-      <UniqueIdentifier>{8ee0bd19-66cb-44af-8909-148cea32993e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\SpriteTest">
-      <UniqueIdentifier>{87d01b39-db32-43ea-a3b7-fa78270496f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\TestHeader">
-      <UniqueIdentifier>{6e5ff90e-737d-4fed-83c4-4019f1cdbfd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest">
-      <UniqueIdentifier>{4ce89c31-a7c7-4f75-8ba2-20728bec004c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\ExtensionsTest\ControlExtensionTest\CCControlButtonTest">
       <UniqueIdentifier>{ac122973-5abd-4170-8c04-2fe623c34b0b}</UniqueIdentifier>
@@ -266,60 +230,6 @@
     <Filter Include="Classes\FontTest">
       <UniqueIdentifier>{ccc87a7c-9e62-4035-a4c5-f7a5880139a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest">
-      <UniqueIdentifier>{8d6fe7eb-ba6c-4cea-93b2-1adaf2c8e2ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIButtonTest">
-      <UniqueIdentifier>{119e04c5-5d54-4972-aeb8-9bb32f7a33ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UICheckBoxTest">
-      <UniqueIdentifier>{04b6873a-ec2a-4695-80b5-df70a54a37d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIFocusTest">
-      <UniqueIdentifier>{3df38e07-ce63-44fa-900b-e20d39848bad}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIImageViewTest">
-      <UniqueIdentifier>{e5a446a6-fee6-4802-952b-eb18a397f446}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UILayoutTest">
-      <UniqueIdentifier>{16c5df56-4880-4bf2-a626-fc8974cd9df3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIListViewTest">
-      <UniqueIdentifier>{5e03116b-9f99-4db3-808a-b36aaae5dae0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UILoadingBarTest">
-      <UniqueIdentifier>{baf5dbe8-8801-4333-a8c2-6f96fbe31b5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIPageViewTest">
-      <UniqueIdentifier>{11da21cc-bd40-4f2c-8bf9-5056772f1ba0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIRichTextTest">
-      <UniqueIdentifier>{733a8fe7-3fee-43e8-9437-d220158bb48b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIScrollViewTest">
-      <UniqueIdentifier>{ac191442-d014-4327-84cc-e31d233cb5ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UISliderTest">
-      <UniqueIdentifier>{684498f9-817b-4058-a932-0cd4d9cde9eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UITextAtlasTest">
-      <UniqueIdentifier>{8af92cb5-8107-4998-8fa8-f7e959146a06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UITextBMFontTest">
-      <UniqueIdentifier>{62e7ccf1-beeb-4f93-b069-5a81e62776a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UITextFieldTest">
-      <UniqueIdentifier>{2d74d632-649d-4d94-bf6a-cfa01315a5b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UITextTest">
-      <UniqueIdentifier>{82556440-cf2a-45b7-8a23-718c25ad9007}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIWebViewTest">
-      <UniqueIdentifier>{842b8441-0677-46fd-ac69-effbe83b0776}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIWidgetAddNodeTest">
-      <UniqueIdentifier>{ea7e291b-1de5-4be5-9f59-c92dfcb5dac5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\SpritePolygonTest">
       <UniqueIdentifier>{f10b76ee-8c87-4b9f-b8af-ace7a38bb6f2}</UniqueIdentifier>
     </Filter>
@@ -337,12 +247,6 @@
     </Filter>
     <Filter Include="Classes\DownloaderTest">
       <UniqueIdentifier>{a6b76076-ceeb-43e6-9005-1656c65778b6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UIRadioButtonTest">
-      <UniqueIdentifier>{fd63b656-b611-447b-b4a1-f2d11f92ff83}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\UITest\CocoStudioGUITest\UITabContorlTest">
-      <UniqueIdentifier>{c6bd28ea-2696-4d05-90b2-2646ed934a49}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\VRTests">
       <UniqueIdentifier>{848aacea-a328-4797-9119-403b3c94d3d7}</UniqueIdentifier>
@@ -475,27 +379,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\ExtensionsTest.cpp">
       <Filter>Classes\ExtensionsTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\CocosBuilderTest.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest\AnimationsTestLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\ButtonTest\ButtonTestLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ButtonTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder\HelloCocosBuilderLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\MenuTest\MenuTestLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\MenuTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\TestHeader\TestHeaderLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TestHeader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest\TimelineCallbackTestLayer.cpp">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ExtensionsTest\ControlExtensionTest\CCControlScene.cpp">
       <Filter>Classes\ExtensionsTest\ControlExtensionTest</Filter>
@@ -659,69 +542,6 @@
     <ClCompile Include="..\Classes\TransitionsTest\TransitionsTest.cpp">
       <Filter>Classes\TransitionsTest</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UITest\UITest.cpp">
-      <Filter>Classes\UITest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\CocosGUIScene.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIEditBoxTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIScale9SpriteTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIScene.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIButtonTest\UIButtonTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIButtonTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UICheckBoxTest\UICheckBoxTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UICheckBoxTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIFocusTest\UIFocusTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIFocusTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIImageViewTest\UIImageViewTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIImageViewTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UILayoutTest\UILayoutTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UILayoutTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIListViewTest\UIListViewTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIListViewTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UILoadingBarTest\UILoadingBarTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UILoadingBarTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIPageViewTest\UIPageViewTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIPageViewTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIRichTextTest\UIRichTextTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIRichTextTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIScrollViewTest\UIScrollViewTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIScrollViewTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UISliderTest\UISliderTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UISliderTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UITextAtlasTest\UITextAtlasTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextAtlasTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UITextBMFontTest\UITextBMFontTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextBMFontTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UITextFieldTest\UITextFieldTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextFieldTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UITextTest\UITextTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIWidgetAddNodeTest\UIWidgetAddNodeTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIWidgetAddNodeTest</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UnitTest\RefPtrTest.cpp">
       <Filter>Classes\UnitTest</Filter>
     </ClCompile>
@@ -776,12 +596,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\DownloaderTest\DownloaderTest.cpp">
       <Filter>Classes\DownloaderTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UIRadioButtonTest\UIRadioButtonTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIRadioButtonTest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\UITest\CocoStudioGUITest\UITabControlTest\UITabControlTest.cpp">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITabContorlTest</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SpriteFrameCacheTest\SpriteFrameCacheTest.cpp" />
     <ClCompile Include="..\Classes\VRTest\VRTest.cpp">
@@ -1066,69 +880,6 @@
     <ClInclude Include="..\Classes\ExtensionsTest\ExtensionsTest.h">
       <Filter>Classes\ExtensionsTest</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\CocosBuilderTest.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest\AnimationsLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest\AnimationsTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\AnimationsTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ButtonTest\ButtonTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ButtonTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ButtonTest\ButtonTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ButtonTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder\HelloCocosBuilderLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder\HelloCocosBuilderLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\HelloCocosBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\LabelTest\LabelTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\LabelTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\LabelTest\LabelTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\LabelTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\MenuTest\MenuTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\MenuTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\MenuTest\MenuTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\MenuTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ParticleSystemTest\ParticleSystemTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ParticleSystemTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ParticleSystemTest\ParticleSystemTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ParticleSystemTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ScrollViewTest\ScrollViewTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ScrollViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\ScrollViewTest\ScrollViewTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\ScrollViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\SpriteTest\SpriteTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\SpriteTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\SpriteTest\SpriteTestLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\SpriteTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\TestHeader\TestHeaderLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TestHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\TestHeader\TestHeaderLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TestHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest\TimelineCallbackLayerLoader.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest\TimelineCallbackTestLayer.h">
-      <Filter>Classes\ExtensionsTest\CocosBuilderTest\TimelineCallbackTest</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ExtensionsTest\ControlExtensionTest\CCControlScene.h">
       <Filter>Classes\ExtensionsTest\ControlExtensionTest</Filter>
     </ClInclude>
@@ -1297,69 +1048,6 @@
     <ClInclude Include="..\Classes\TransitionsTest\TransitionsTest.h">
       <Filter>Classes\TransitionsTest</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\UITest\UITest.h">
-      <Filter>Classes\UITest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\CocosGUIScene.h">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIEditBoxTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIScale9SpriteTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIScene.h">
-      <Filter>Classes\UITest\CocoStudioGUITest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIButtonTest\UIButtonTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIButtonTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UICheckBoxTest\UICheckBoxTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UICheckBoxTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIFocusTest\UIFocusTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIFocusTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIImageViewTest\UIImageViewTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIImageViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UILayoutTest\UILayoutTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UILayoutTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIListViewTest\UIListViewTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIListViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UILoadingBarTest\UILoadingBarTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UILoadingBarTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIPageViewTest\UIPageViewTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIPageViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIRichTextTest\UIRichTextTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIRichTextTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIScrollViewTest\UIScrollViewTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIScrollViewTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UISliderTest\UISliderTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UISliderTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITextAtlasTest\UITextAtlasTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextAtlasTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITextBMFontTest\UITextBMFontTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextBMFontTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITextFieldTest\UITextFieldTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextFieldTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITextTest\UITextTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITextTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIWidgetAddNodeTest\UIWidgetAddNodeTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIWidgetAddNodeTest</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\UnitTest\RefPtrTest.h">
       <Filter>Classes\UnitTest</Filter>
     </ClInclude>
@@ -1415,16 +1103,8 @@
     <ClInclude Include="..\Classes\DownloaderTest\DownloaderTest.h">
       <Filter>Classes\DownloaderTest</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UIRadioButtonTest\UIRadioButtonTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UIRadioButtonTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITabControlTest\UITabControlTest.h">
-      <Filter>Classes\UITest\CocoStudioGUITest\UITabContorlTest</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\SpriteFrameCacheTest\SpriteFrameCacheTest.h" />
     <ClInclude Include="..\Classes\CocosStudio3DTest\CocosStudio3DTest.h" />
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\CocoStudioGUITest.h" />
-    <ClInclude Include="..\Classes\UITest\CocoStudioGUITest\UITextTest\UITextTest_Editor.h" />
     <ClInclude Include="..\Classes\VRTest\VRTest.h">
       <Filter>Classes\VRTests</Filter>
     </ClInclude>

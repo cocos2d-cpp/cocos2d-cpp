@@ -24,7 +24,6 @@ THE SOFTWARE.
 
 #include "ui/UIAbstractCheckButton.h"
 #include "2d/CCSprite.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -572,47 +571,6 @@ void AbstractCheckButton::copySpecialProperties(Widget *widget)
         _isBackgroundDisabledTextureLoaded = abstractCheckButton->_isBackgroundDisabledTextureLoaded;
         _isFrontCrossDisabledTextureLoaded = abstractCheckButton->_isFrontCrossDisabledTextureLoaded;
     }
-}
-
-
-ResourceData AbstractCheckButton::getBackNormalFile()
-{
-    ResourceData rData;
-    rData.type = (int)_backGroundTexType;
-    rData.file = _backGroundFileName;
-    return rData;
-}
-
-ResourceData AbstractCheckButton::getBackPressedFile()
-{
-    ResourceData rData;
-    rData.type = (int)_backGroundSelectedTexType;
-    rData.file = _backGroundSelectedFileName;
-    return rData;
-}
-
-ResourceData AbstractCheckButton::getBackDisabledFile()
-{
-    ResourceData rData;
-    rData.type = (int)_backGroundDisabledTexType;
-    rData.file = _backGroundDisabledFileName;
-    return rData;
-}
-
-ResourceData AbstractCheckButton::getCrossNormalFile()
-{
-    ResourceData rData;
-    rData.type = (int)_frontCrossTexType;
-    rData.file = _frontCrossFileName;
-    return rData;
-}
-
-ResourceData AbstractCheckButton::getCrossDisabledFile()
-{
-    ResourceData rData;
-    rData.type = (int)_frontCrossDisabledTexType;
-    rData.file = _frontCrossDisabledFileName;
-    return rData;
 }
 
 }

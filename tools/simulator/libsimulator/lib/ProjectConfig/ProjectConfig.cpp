@@ -3,7 +3,6 @@
 
 #include "ProjectConfig/ProjectConfig.h"
 #include "ProjectConfig/SimulatorConfig.h"
-#include "cocostudio/LocalizationManager.h"
 
 #ifdef _MSC_VER
 #define strcasecmp _stricmp
@@ -663,14 +662,6 @@ void ProjectConfig::setLanguageDataPath(const std::string &filePath)
     {
         isBinary = false;
     }
-
-    cocostudio::ILocalizationManager* lm;
-    if (isBinary)
-        lm = cocostudio::BinLocalizationManager::getInstance();
-    else
-        lm = cocostudio::JsonLocalizationManager::getInstance();
-    lm->initLanguageData(filePath);
-    cocostudio::LocalizationHelper::setCurrentManager(lm, isBinary);
 }
 
 bool ProjectConfig::isAppMenu() const

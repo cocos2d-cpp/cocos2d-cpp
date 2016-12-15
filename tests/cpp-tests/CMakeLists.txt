@@ -70,13 +70,6 @@ set(TESTS_SRC
   Classes/EffectsAdvancedTest/EffectsAdvancedTest.cpp
   Classes/EffectsTest/EffectsTest.cpp
   Classes/ExtensionsTest/AssetsManagerExTest/AssetsManagerExTest.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/AnimationsTest/AnimationsTestLayer.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/ButtonTest/ButtonTestLayer.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/CocosBuilderTest.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/HelloCocosBuilder/HelloCocosBuilderLayer.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/MenuTest/MenuTestLayer.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/TestHeader/TestHeaderLayer.cpp
-  Classes/ExtensionsTest/CocosBuilderTest/TimelineCallbackTest/TimelineCallbackTestLayer.cpp
   Classes/ExtensionsTest/ControlExtensionTest/CCControlButtonTest/CCControlButtonTest.cpp
   Classes/ExtensionsTest/ControlExtensionTest/CCControlColourPicker/CCControlColourPickerTest.cpp
   Classes/ExtensionsTest/ControlExtensionTest/CCControlPotentiometerTest/CCControlPotentiometerTest.cpp
@@ -135,29 +128,6 @@ set(TESTS_SRC
   Classes/TouchesTest/Paddle.cpp
   Classes/TouchesTest/TouchesTest.cpp
   Classes/TransitionsTest/TransitionsTest.cpp
-  Classes/UITest/CocoStudioGUITest/CocosGUIScene.cpp
-  Classes/UITest/CocoStudioGUITest/UIButtonTest/UIButtonTest.cpp
-  Classes/UITest/CocoStudioGUITest/UICheckBoxTest/UICheckBoxTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIRadioButtonTest/UIRadioButtonTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIFocusTest/UIFocusTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIImageViewTest/UIImageViewTest.cpp
-  Classes/UITest/CocoStudioGUITest/UILayoutTest/UILayoutTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIListViewTest/UIListViewTest.cpp
-  Classes/UITest/CocoStudioGUITest/UILoadingBarTest/UILoadingBarTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIPageViewTest/UIPageViewTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIRichTextTest/UIRichTextTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIScale9SpriteTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIScene.cpp
-  Classes/UITest/CocoStudioGUITest/UISceneManager.cpp
-  Classes/UITest/CocoStudioGUITest/UIScrollViewTest/UIScrollViewTest.cpp
-  Classes/UITest/CocoStudioGUITest/UISliderTest/UISliderTest.cpp
-  Classes/UITest/CocoStudioGUITest/UITextAtlasTest/UITextAtlasTest.cpp
-  Classes/UITest/CocoStudioGUITest/UITextBMFontTest/UITextBMFontTest.cpp
-  Classes/UITest/CocoStudioGUITest/UITextFieldTest/UITextFieldTest.cpp
-  Classes/UITest/CocoStudioGUITest/UITextTest/UITextTest.cpp
-  Classes/UITest/CocoStudioGUITest/UIWidgetAddNodeTest/UIWidgetAddNodeTest.cpp
-  Classes/UITest/CocoStudioGUITest/UITabControlTest/UITabControlTest.cpp
-  Classes/UITest/UITest.cpp
   Classes/UnitTest/RefPtrTest.cpp
   Classes/UnitTest/UnitTest.cpp
   Classes/UserDefaultTest/UserDefaultTest.cpp
@@ -206,8 +176,6 @@ else()
         Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp
         Classes/ExtensionsTest/NetworkTest/SocketIOTest.cpp
         Classes/ExtensionsTest/NetworkTest/WebSocketTest.cpp
-
-        Classes/UITest/CocoStudioGUITest/UIEditBoxTest.cpp
     )
 endif()
 

@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
 #include "2d/CCSprite.h"
-#include "editor-support/cocostudio/CocosStudioExtension.h"
 
 NS_CC_BEGIN
 
@@ -421,14 +420,6 @@ void LoadingBar::copySpecialProperties(Widget *widget)
         setPercent(loadingBar->_percent);
         setDirection(loadingBar->_direction);
     }
-}
-
-ResourceData LoadingBar::getRenderFile()
-{
-    ResourceData rData;
-    rData.type = (int)_renderBarTexType;
-    rData.file = _textureFile;
-    return rData;
 }
 
 }
