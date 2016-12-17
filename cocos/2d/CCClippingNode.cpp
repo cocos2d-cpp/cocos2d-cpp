@@ -262,17 +262,6 @@ void ClippingNode::setStencil(Node *stencil)
     if (_stencil == stencil)
         return;
     
-#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-    if (sEngine)
-    {
-        if (_stencil)
-            sEngine->releaseScriptObject(this, _stencil);
-        if (stencil)
-            sEngine->retainScriptObject(this, stencil);
-    }
-#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-    
     //cleanup current stencil
     if(_stencil != nullptr && _stencil->isRunning())
     {

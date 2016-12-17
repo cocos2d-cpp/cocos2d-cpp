@@ -671,16 +671,6 @@ void Node::setUserData(void *userData)
 
 void Node::setUserObject(Ref* userObject)
 {
-#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-    auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-    if (sEngine)
-    {
-        if (userObject)
-            sEngine->retainScriptObject(this, userObject);
-        if (_userObject)
-            sEngine->releaseScriptObject(this, _userObject);
-    }
-#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
     CC_SAFE_RETAIN(userObject);
     CC_SAFE_RELEASE(_userObject);
     _userObject = userObject;
@@ -1049,13 +1039,7 @@ void Node::removeAllChildrenWithCleanup(bool cleanup)
         {
             child->cleanup();
         }
-#if CC_ENABLE_GC_FOR_NATIVE_OBJECTS
-        auto sEngine = ScriptEngineManager::getInstance()->getScriptEngine();
-        if (sEngine)
-        {
-            sEngine->releaseScriptObject(this, child);
-        }
-#endif // CC_ENABLE_GC_FOR_NATIVE_OBJECTS
+
         // set parent nil at the end
         child->setParent(nullptr);
     }
