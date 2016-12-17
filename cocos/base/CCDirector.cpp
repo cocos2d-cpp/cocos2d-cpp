@@ -192,7 +192,7 @@ Director::~Director(void)
     CC_SAFE_RELEASE(_notificationNode);
     CC_SAFE_RELEASE(_scheduler);
     CC_SAFE_RELEASE(_actionManager);
-    CC_SAFE_DELETE(_defaultFBO);
+    CC_SAFE_RELEASE(_defaultFBO);
     
     delete _eventBeforeUpdate;
     delete _eventAfterUpdate;

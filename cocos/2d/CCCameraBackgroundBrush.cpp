@@ -316,8 +316,8 @@ CameraBackgroundSkyBoxBrush* CameraBackgroundSkyBoxBrush::create(
         }
         else
         {
-            CC_SAFE_DELETE(texture);
             CC_SAFE_DELETE(ret);
+            texture->release();
         }
     }
 

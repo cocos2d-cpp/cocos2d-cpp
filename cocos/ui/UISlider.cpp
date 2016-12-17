@@ -324,11 +324,7 @@ void Slider::loadSlidBallTextureNormal(const std::string& normal,TextureResType 
 {
     _slidBallNormalTextureFile = normal;
     _ballNTexType = texType;
-    if (normal.empty())
-    {
-        _slidBallNormalRenderer->init();
-    }
-    else
+    if (not normal.empty())
     {
         switch (_ballNTexType)
         {
@@ -355,11 +351,7 @@ void Slider::loadSlidBallTexturePressed(const std::string& pressed,TextureResTyp
     _slidBallPressedTextureFile = pressed;
     _isSliderBallPressedTextureLoaded = !pressed.empty();
     _ballPTexType = texType;
-    if (pressed.empty())
-    {
-        _slidBallPressedRenderer->init();
-    }
-    else
+    if (not pressed.empty())
     {
         switch (_ballPTexType)
         {
@@ -388,11 +380,7 @@ void Slider::loadSlidBallTextureDisabled(const std::string& disabled,TextureResT
     _slidBallDisabledTextureFile = disabled;
     _isSliderBallDisabledTexturedLoaded = !disabled.empty();
     _ballDTexType = texType;
-    if (disabled.empty())
-    {
-        _slidBallDisabledRenderer->init();
-    }
-    else
+    if (not disabled.empty())
     {
         switch (_ballDTexType)
         {

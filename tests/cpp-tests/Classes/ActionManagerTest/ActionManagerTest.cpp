@@ -351,7 +351,7 @@ std::string StopActionsByFlagsTest::subtitle() const
 //------------------------------------------------------------------
 class SpriteIssue14050: public Sprite
 {
-public:
+private:
     SpriteIssue14050()
     {
         log("SpriteIssue14050::constructor");
@@ -360,15 +360,21 @@ public:
     {
         log("SpriteIssue14050::destructor");
     }
+public:
+    static SpriteIssue14050* create(const std::string & s)
+    {
+        auto sprite = new (std::nothrow) SpriteIssue14050;
+        sprite->initWithFile(s);
+        sprite->autorelease();
+        return sprite;
+    }
 };
 
 void Issue14050Test::onEnter()
 {
     ActionManagerTest::onEnter();
-
-    auto sprite = new (std::nothrow) SpriteIssue14050;
-    sprite->initWithFile("Images/grossini.png");
-    sprite->autorelease();
+    
+    auto sprite = SpriteIssue14050::create("Images/grossini.png");
 
     auto move = MoveBy::create(2, Vec2(100, 100));
     sprite->runAction(move);
