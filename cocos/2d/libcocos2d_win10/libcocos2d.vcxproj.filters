@@ -507,9 +507,6 @@
     <ClCompile Include="..\..\audio\winrt\SimpleAudioEngine.cpp">
       <Filter>cocosdenshion\winrt</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\deprecated\CCArray.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\deprecated\CCDeprecated.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
@@ -1954,9 +1951,6 @@
     </ClInclude>
     <ClInclude Include="..\..\audio\winrt\MediaStreamer.h">
       <Filter>cocosdenshion\winrt</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\deprecated\CCArray.h">
-      <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>

@@ -863,10 +863,6 @@
 		18956BB31A9DFBFD006E9155 /* Particle3DReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18956BB01A9DFBFD006E9155 /* Particle3DReader.cpp */; };
 		18956BB41A9DFBFD006E9155 /* Particle3DReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 18956BB11A9DFBFD006E9155 /* Particle3DReader.h */; };
 		18956BB51A9DFBFD006E9155 /* Particle3DReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 18956BB11A9DFBFD006E9155 /* Particle3DReader.h */; };
-		1A01C68418F57BE800EFE3A6 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67618F57BE800EFE3A6 /* CCArray.cpp */; };
-		1A01C68518F57BE800EFE3A6 /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67618F57BE800EFE3A6 /* CCArray.cpp */; };
-		1A01C68618F57BE800EFE3A6 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
-		1A01C68718F57BE800EFE3A6 /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
 		1A01C68A18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
@@ -2525,7 +2521,6 @@
 		507B3CE81C31BDD30067B53E /* TGAlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE191925AB6F00A911A9 /* TGAlib.cpp */; };
 		507B3CE91C31BDD30067B53E /* CCDownloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50693C5C1B6BF2AE005C5820 /* CCDownloader.cpp */; };
 		507B3CEA1C31BDD30067B53E /* Light3DReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0C261F261BE7528900707478 /* Light3DReader.cpp */; };
-		507B3CEB1C31BDD30067B53E /* CCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67618F57BE800EFE3A6 /* CCArray.cpp */; };
 		507B3CEC1C31BDD30067B53E /* CCPUFlockCenteringAffectorTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E12A1AA80A6500DDB1C5 /* CCPUFlockCenteringAffectorTranslator.cpp */; };
 		507B3CEE1C31BDD30067B53E /* CCDevice-ios.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503DD8D11926736A00CD74DD /* CCDevice-ios.mm */; };
 		507B3CEF1C31BDD30067B53E /* b2Contact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46A168F01807AF9C005B8026 /* b2Contact.cpp */; };
@@ -3430,7 +3425,6 @@
 		507B40971C31BDD30067B53E /* btSliderConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1051AF9AA1900B9B856 /* btSliderConstraint.h */; };
 		507B40981C31BDD30067B53E /* btGpu3DGridBroadphaseSharedCode.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB13C1AF9AA1900B9B856 /* btGpu3DGridBroadphaseSharedCode.h */; };
 		507B40991C31BDD30067B53E /* CCPUBaseCollider.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0D71AA80A6500DDB1C5 /* CCPUBaseCollider.h */; };
-		507B409A1C31BDD30067B53E /* CCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67718F57BE800EFE3A6 /* CCArray.h */; };
 		507B409B1C31BDD30067B53E /* CCPUScriptTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1C11AA80A6500DDB1C5 /* CCPUScriptTranslator.h */; };
 		507B409D1C31BDD30067B53E /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1E1925AB6F00A911A9 /* ZipUtils.h */; };
 		507B409E1C31BDD30067B53E /* CCTextureCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBD821925AB4100A911A9 /* CCTextureCache.h */; };
@@ -5793,8 +5787,6 @@
 		182C5CE41A9D725400C30D34 /* UserCameraReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserCameraReader.h; path = UserCameraReader/UserCameraReader.h; sourceTree = "<group>"; };
 		18956BB01A9DFBFD006E9155 /* Particle3DReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Particle3DReader.cpp; path = Particle3DReader/Particle3DReader.cpp; sourceTree = "<group>"; };
 		18956BB11A9DFBFD006E9155 /* Particle3DReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particle3DReader.h; path = Particle3DReader/Particle3DReader.h; sourceTree = "<group>"; };
-		1A01C67618F57BE800EFE3A6 /* CCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCArray.cpp; sourceTree = "<group>"; };
-		1A01C67718F57BE800EFE3A6 /* CCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCArray.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
 		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
@@ -7955,8 +7947,6 @@
 		1A01C67518F57BE800EFE3A6 /* deprecated */ = {
 			isa = PBXGroup;
 			children = (
-				1A01C67618F57BE800EFE3A6 /* CCArray.cpp */,
-				1A01C67718F57BE800EFE3A6 /* CCArray.h */,
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
 				1A01C68218F57BE800EFE3A6 /* CCString.cpp */,
@@ -11441,7 +11431,6 @@
 				B6CAB53B1AF9AA1A00B9B856 /* cl_gl.h in Headers */,
 				1A5701A3180BCB590088DEC7 /* CCFontAtlas.h in Headers */,
 				15AE18E919AAD35000C27E9E /* CCActionManagerEx.h in Headers */,
-				1A01C68618F57BE800EFE3A6 /* CCArray.h in Headers */,
 				1A5701A7180BCB590088DEC7 /* CCFontAtlasCache.h in Headers */,
 				B6CAB3D31AF9AA1A00B9B856 /* btSliderConstraint.h in Headers */,
 				15AE1A7D19AAD40300C27E9E /* b2MotorJoint.h in Headers */,
@@ -13132,7 +13121,6 @@
 				507B40971C31BDD30067B53E /* btSliderConstraint.h in Headers */,
 				507B40981C31BDD30067B53E /* btGpu3DGridBroadphaseSharedCode.h in Headers */,
 				507B40991C31BDD30067B53E /* CCPUBaseCollider.h in Headers */,
-				507B409A1C31BDD30067B53E /* CCArray.h in Headers */,
 				507B409B1C31BDD30067B53E /* CCPUScriptTranslator.h in Headers */,
 				5020A1791D49912500E80C72 /* AttachmentLoader.h in Headers */,
 				507B409D1C31BDD30067B53E /* ZipUtils.h in Headers */,
@@ -14180,7 +14168,6 @@
 				B6CAB3D41AF9AA1A00B9B856 /* btSliderConstraint.h in Headers */,
 				B6CAB4381AF9AA1A00B9B856 /* btGpu3DGridBroadphaseSharedCode.h in Headers */,
 				B665E2091AA80A6500DDB1C5 /* CCPUBaseCollider.h in Headers */,
-				1A01C68718F57BE800EFE3A6 /* CCArray.h in Headers */,
 				B665E3DD1AA80A6600DDB1C5 /* CCPUScriptTranslator.h in Headers */,
 				50ABBEDA1925AB6F00A911A9 /* ZipUtils.h in Headers */,
 				50ABBDC01925AB4100A911A9 /* CCTextureCache.h in Headers */,
@@ -14598,7 +14585,6 @@
 				292DB14919B4574100A80320 /* UIEditBoxImpl-ios.mm in Sources */,
 				B6CAB2511AF9AA1A00B9B856 /* btEmptyCollisionAlgorithm.cpp in Sources */,
 				15AE181019AAD2F700C27E9E /* CCAnimation3D.cpp in Sources */,
-				1A01C68418F57BE800EFE3A6 /* CCArray.cpp in Sources */,
 				B6DD2FDD1B04825B00E47F5F /* DetourObstacleAvoidance.cpp in Sources */,
 				1A570112180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */,
 				B6CAB4B11AF9AA1A00B9B856 /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */,
@@ -16043,7 +16029,6 @@
 				507B3CE81C31BDD30067B53E /* TGAlib.cpp in Sources */,
 				507B3CE91C31BDD30067B53E /* CCDownloader.cpp in Sources */,
 				507B3CEA1C31BDD30067B53E /* Light3DReader.cpp in Sources */,
-				507B3CEB1C31BDD30067B53E /* CCArray.cpp in Sources */,
 				507B3CEC1C31BDD30067B53E /* CCPUFlockCenteringAffectorTranslator.cpp in Sources */,
 				507B3CEE1C31BDD30067B53E /* CCDevice-ios.mm in Sources */,
 				507B3CEF1C31BDD30067B53E /* b2Contact.cpp in Sources */,
@@ -16898,7 +16883,6 @@
 				50ABBED01925AB6F00A911A9 /* TGAlib.cpp in Sources */,
 				50693C5F1B6BF2AE005C5820 /* CCDownloader.cpp in Sources */,
 				0C261F291BE7528900707478 /* Light3DReader.cpp in Sources */,
-				1A01C68518F57BE800EFE3A6 /* CCArray.cpp in Sources */,
 				B665E2AF1AA80A6500DDB1C5 /* CCPUFlockCenteringAffectorTranslator.cpp in Sources */,
 				503DD8E31926736A00CD74DD /* CCDevice-ios.mm in Sources */,
 				15AE1AB419AAD40300C27E9E /* b2Contact.cpp in Sources */,

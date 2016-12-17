@@ -34,7 +34,6 @@ THE SOFTWARE.
 #include <stdarg.h>
 #include <string>
 #include <functional>
-#include "deprecated/CCArray.h"
 #include "base/CCRef.h"
 
 // We need to include `StringUtils::format()` and `StringUtils::toString()`
@@ -141,12 +140,6 @@ public:
      */
     void appendWithFormat(const char* format, ...);
 
-    /** split a string 
-     * @js NA
-     * @lua NA
-     */
-    __Array* componentsSeparatedByString(const char *delimiter);
-    
     /* override functions 
      * @js NA
      */

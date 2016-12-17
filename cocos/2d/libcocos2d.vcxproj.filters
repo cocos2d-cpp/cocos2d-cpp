@@ -165,9 +165,6 @@
     <ClCompile Include="..\..\external\xxhash\xxhash.c">
       <Filter>external\xxhash</Filter>
     </ClCompile>
-    <ClCompile Include="..\deprecated\CCArray.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="..\deprecated\CCDeprecated.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
@@ -1502,9 +1499,6 @@
     </ClInclude>
     <ClInclude Include="..\..\external\xxhash\xxhash.h">
       <Filter>external\xxhash</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCArray.h">
-      <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>

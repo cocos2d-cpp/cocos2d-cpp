@@ -25,6 +25,7 @@
 
 #include "SpriteTest.h"
 
+#include <vector>
 #include <cmath>
 #include <algorithm>
 
@@ -676,21 +677,22 @@ std::string SpriteBatchNodeZOrder::subtitle() const
 
 SpriteBatchNodeReorder::SpriteBatchNodeReorder()
 {
-    auto a = __Array::createWithCapacity(10);
+    std::vector<Node*> v{10, nullptr};
+
     auto asmtest = SpriteBatchNode::create("animations/ghosts.png");
     
-    for(int i=0; i<10; i++)
+    for (auto & p : v)
     {
         auto s1 = Sprite::createWithTexture(asmtest->getTexture(), Rect(0, 0, 50, 50));
-        a->addObject(s1);
+        p = s1;
         asmtest->addChild(s1, 10);
     }
     
-    for(int i=0; i<10; i++)
+    for(unsigned i = 0, s = v.size(); i < s; i++)
     {
-        if(i!=5)
+        if (i != 5)
         {
-            asmtest->reorderChild( static_cast<Node*>(a->getObjectAtIndex(i)), 9 );
+            asmtest->reorderChild(v[i], 9);
         }
     }
     
@@ -698,7 +700,8 @@ SpriteBatchNodeReorder::SpriteBatchNodeReorder()
     
     auto& children = asmtest->getChildren();
 
-    for(const auto &obj : children) {
+    for(const auto &obj : children)
+    {
         auto child = static_cast<Sprite*>(obj);
 
         ssize_t currentIndex = child->getAtlasIndex();

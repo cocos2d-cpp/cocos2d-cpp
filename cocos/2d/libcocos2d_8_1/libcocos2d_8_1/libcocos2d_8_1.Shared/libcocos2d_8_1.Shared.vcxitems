@@ -311,7 +311,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\utlist.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ZipUtils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\cocos2d.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCArray.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\math\CCAffineTransform.h" />
@@ -817,7 +816,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\TGAlib.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ZipUtils.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\cocos2d.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\math\CCAffineTransform.cpp" />

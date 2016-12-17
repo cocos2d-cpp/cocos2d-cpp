@@ -75,7 +75,6 @@
 #include "base/CCScheduler.h"
 #include "base/CCUserDefault.h"
 #include "base/ccTypes.h"
-#include "deprecated/CCArray.h"
 #include "deprecated/CCString.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCGeometry.h"
@@ -1070,9 +1069,6 @@ CC_DEPRECATED_ATTRIBUTE inline void CC_DLL ccGLEnable( int flags ) { /* ignore *
 CC_DEPRECATED_ATTRIBUTE typedef int ccGLServerState;
 
 CC_DEPRECATED_ATTRIBUTE typedef Data CCData;
-
-CC_DEPRECATED_ATTRIBUTE typedef __Array CCArray;
-CC_DEPRECATED_ATTRIBUTE typedef __Array Array;
 
 CC_DEPRECATED_ATTRIBUTE typedef __String CCString;
 CC_DEPRECATED_ATTRIBUTE typedef __String String;
