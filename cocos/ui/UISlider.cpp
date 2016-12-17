@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "2d/CCSprite.h"
 #include "2d/CCCamera.h"
+#include "base/CCTouch.h"
 
 NS_CC_BEGIN
 

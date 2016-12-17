@@ -29,7 +29,10 @@ THE SOFTWARE.
 #define __CCLAYER_H__
 
 #include "2d/CCNode.h"
+#include "base/CCEventKeyboard.h"
+#include "base/CCEventTouch.h"
 #include "base/CCProtocols.h"
+#include "base/CCTouch.h"
 #include "renderer/CCCustomCommand.h"
 
 
@@ -42,7 +45,7 @@ NS_CC_BEGIN
 
 class TouchScriptHandlerEntry;
 
-class EventListenerTouch;
+class Event;
 class EventListenerKeyboard;
 class EventListenerAcceleration;
 

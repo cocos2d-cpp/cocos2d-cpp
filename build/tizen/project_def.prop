@@ -136,7 +136,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/base/CCProperties.cpp \
             ../../cocos/base/CCRef.cpp \
             ../../cocos/base/CCScheduler.cpp \
-            ../../cocos/base/CCScriptSupport.cpp \
             ../../cocos/base/CCStencilStateManager.cpp \
             ../../cocos/base/CCTouch.cpp \
             ../../cocos/base/CCUserDefault-android.cpp \

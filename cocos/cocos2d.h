@@ -249,9 +249,6 @@ THE SOFTWARE.
 	#include "platform/tizen/CCStdC-tizen.h"
 #endif
 
-// script_support
-#include "base/CCScriptSupport.h"
-
 // sprite_nodes
 #include "2d/CCAnimation.h"
 #include "2d/CCAnimationCache.h"

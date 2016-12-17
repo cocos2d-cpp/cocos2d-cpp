@@ -341,11 +341,7 @@ THE SOFTWARE.
  * protected by default.
  */
 #ifndef CC_CONSTRUCTOR_ACCESS
-  #ifdef CC_ENABLE_SCRIPT_BINDING
-    #define CC_CONSTRUCTOR_ACCESS public
-  #else
-    #define CC_CONSTRUCTOR_ACCESS protected
-  #endif
+#   define CC_CONSTRUCTOR_ACCESS protected
 #endif
 
 /** @def CC_ENABLE_ALLOCATOR
@@ -353,7 +349,7 @@ THE SOFTWARE.
  * as specified by CC_ALLOCATOR_GLOBAL below.
  */
 #ifndef CC_ENABLE_ALLOCATOR
-# define CC_ENABLE_ALLOCATOR 0
+#   define CC_ENABLE_ALLOCATOR 0
 #endif
 
 /** @def CC_ENABLE_ALLOCATOR_DIAGNOSTICS

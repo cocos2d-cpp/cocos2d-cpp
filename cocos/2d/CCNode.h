@@ -33,7 +33,6 @@
 #include "base/ccMacros.h"
 #include "base/CCVector.h"
 #include "base/CCProtocols.h"
-#include "base/CCScriptSupport.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCMath.h"
 #include "2d/CCComponentContainer.h"
@@ -1970,12 +1969,6 @@ protected:
     bool _reorderChildDirty;          ///< children order dirty flag
     bool _isTransitionFinished;       ///< flag to indicate whether the transition was finished
 
-#if CC_ENABLE_SCRIPT_BINDING
-    int _scriptHandler;               ///< script handler for onEnter() & onExit(), used in Javascript binding and Lua binding.
-    int _updateScriptHandler;         ///< script handler for update() callback per frame, which is invoked from lua & javascript.
-    ccScriptType _scriptType;         ///< type of script binding, lua or javascript
-#endif
-    
     ComponentContainer *_componentContainer;        ///< Dictionary of components
     
     // opacity controls

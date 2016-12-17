@@ -454,9 +454,6 @@
     <ClCompile Include="..\base\CCScheduler.cpp">
       <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\base\CCScriptSupport.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
     <ClCompile Include="..\base\CCTouch.cpp">
       <Filter>base</Filter>
     </ClCompile>

@@ -62,10 +62,6 @@ THE SOFTWARE.
 #include "base/CCAsyncTaskPool.h"
 #include "platform/CCApplication.h"
 
-#if CC_ENABLE_SCRIPT_BINDING
-#include "base/CCScriptSupport.h"
-#endif
-
 /**
  Position of the FPS
  
@@ -1133,12 +1129,6 @@ void Director::restartDirector()
 
     // Restart animation
     startAnimation();
-    
-    // Real restart in script level
-#if CC_ENABLE_SCRIPT_BINDING
-    ScriptEvent scriptEvent(kRestartGame, nullptr);
-    ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
-#endif
 }
 
 void Director::setNextScene()

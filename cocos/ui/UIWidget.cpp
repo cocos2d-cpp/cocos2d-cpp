@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventFocus.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCTouch.h"
 #include "ui/UILayoutComponent.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCGLProgramState.h"
@@ -225,14 +226,6 @@ bool Widget::init()
 
 void Widget::onEnter()
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
-            return;
-    }
-#endif
-    
     if (!_usingLayoutComponent)
         updateSizeAndPosition();
     ProtectedNode::onEnter();
@@ -240,14 +233,6 @@ void Widget::onEnter()
 
 void Widget::onExit()
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnExit))
-            return;
-    }
-#endif
-    
     unscheduleUpdate();
     ProtectedNode::onExit();
 }

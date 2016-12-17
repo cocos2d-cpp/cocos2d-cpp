@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 #include "ui/UIScrollView.h"
 #include "base/CCDirector.h"
+#include "base/CCTouch.h"
 #include "base/ccUtils.h"
 #include "platform/CCDevice.h"
 #include "ui/UIScrollViewBar.h"
@@ -103,14 +104,6 @@ ScrollView* ScrollView::create()
 
 void ScrollView::onEnter()
 {
-#if CC_ENABLE_SCRIPT_BINDING
-    if (_scriptType == kScriptTypeJavascript)
-    {
-        if (ScriptEngineManager::sendNodeEventToJSExtended(this, kNodeOnEnter))
-            return;
-    }
-#endif
-
     Layout::onEnter();
     scheduleUpdate();
 }

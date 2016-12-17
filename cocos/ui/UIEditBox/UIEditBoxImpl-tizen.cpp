@@ -265,24 +265,6 @@ static void editBoxCallbackFunc(const char* pText, void* ctx)
         thiz->getDelegate()->editBoxEditingDidEnd(thiz->getEditBox());
         thiz->getDelegate()->editBoxReturn(thiz->getEditBox());
     }
-
-#if CC_ENABLE_SCRIPT_BINDING
-    EditBox* pEditBox = thiz->getEditBox();
-    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    {
-        CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "changed",pEditBox);
-        ScriptEvent event(kCommonEvent,(void*)&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-        memset(data.eventName, 0, sizeof(data.eventName));
-        strncpy(data.eventName, "ended", sizeof(data.eventName));
-        event.data = (void*)&data;
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-        memset(data.eventName, 0, sizeof(data.eventName));
-        strncpy(data.eventName, "return", sizeof(data.eventName));
-        event.data = (void*)&data;
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    }
-#endif
 }
 
 static Evas_Object * s_keypadWin = nullptr;
@@ -314,16 +296,6 @@ void EditBoxImplTizen::openKeyboard()
     {
         _delegate->editBoxEditingDidBegin(_editBox);
     }
-
-#if CC_ENABLE_SCRIPT_BINDING
-    EditBox* pEditBox = this->getEditBox();
-    if (NULL != pEditBox && 0 != pEditBox->getScriptEditBoxHandler())
-    {
-        CommonScriptData data(pEditBox->getScriptEditBoxHandler(), "began",pEditBox);
-        ScriptEvent event(cocos2d::kCommonEvent,(void*)&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    }
-#endif
 
     Evas_Object* parent = Application::getInstance()->_win;
     GLView* glView = Director::getInstance()->getOpenGLView();

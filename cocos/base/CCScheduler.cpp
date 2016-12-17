@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/utlist.h"
 #include "base/ccCArray.h"
-#include "base/CCScriptSupport.h"
 
 NS_CC_BEGIN
 
@@ -205,36 +204,6 @@ void TimerTargetCallback::cancel()
     _scheduler->unschedule(_key, _target);
 }
 
-#if CC_ENABLE_SCRIPT_BINDING
-
-// TimerScriptHandler
-
-bool TimerScriptHandler::initWithScriptHandler(int handler, float seconds)
-{
-    _scriptHandler = handler;
-    _elapsed = -1;
-    _interval = seconds;
-    
-    return true;
-}
-
-void TimerScriptHandler::trigger(float dt)
-{
-    if (0 != _scriptHandler)
-    {
-        SchedulerScriptData data(_scriptHandler,dt);
-        ScriptEvent event(kScheduleEvent,&data);
-        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
-    }
-}
-
-void TimerScriptHandler::cancel()
-{
-
-}
-
-#endif
-
 // implementation of Scheduler
 
 // Priority level reserved for system services.
@@ -253,9 +222,6 @@ Scheduler::Scheduler(void)
 , _currentTarget(nullptr)
 , _currentTargetSalvaged(false)
 , _updateHashLocked(false)
-#if CC_ENABLE_SCRIPT_BINDING
-, _scriptHandlerEntries(20)
-#endif
 {
     // I don't expect to have more than 30 functions to all per frame
     _functionsToPerform.reserve(30);
@@ -626,9 +592,6 @@ void Scheduler::unscheduleAllWithMinPriority(int minPriority)
             unscheduleUpdate(entry->target);
         }
     }
-#if CC_ENABLE_SCRIPT_BINDING
-    _scriptHandlerEntries.clear();
-#endif
 }
 
 void Scheduler::unscheduleAllForTarget(void *target)
@@ -666,29 +629,6 @@ void Scheduler::unscheduleAllForTarget(void *target)
     // update selector
     unscheduleUpdate(target);
 }
-
-#if CC_ENABLE_SCRIPT_BINDING
-unsigned int Scheduler::scheduleScriptFunc(unsigned int handler, float interval, bool paused)
-{
-    SchedulerScriptHandlerEntry* entry = SchedulerScriptHandlerEntry::create(handler, interval, paused);
-    _scriptHandlerEntries.pushBack(entry);
-    return entry->getEntryId();
-}
-
-void Scheduler::unscheduleScriptEntry(unsigned int scheduleScriptEntryID)
-{
-    for (ssize_t i = _scriptHandlerEntries.size() - 1; i >= 0; i--)
-    {
-        SchedulerScriptHandlerEntry* entry = _scriptHandlerEntries.at(i);
-        if (entry->getEntryId() == (int)scheduleScriptEntryID)
-        {
-            entry->markedForDeletion();
-            break;
-        }
-    }
-}
-
-#endif
 
 void Scheduler::resumeTarget(void *target)
 {
@@ -939,28 +879,6 @@ void Scheduler::update(float dt)
     _updateHashLocked = false;
     _currentTarget = nullptr;
 
-#if CC_ENABLE_SCRIPT_BINDING
-    //
-    // Script callbacks
-    //
-
-    // Iterate over all the script callbacks
-    if (!_scriptHandlerEntries.empty())
-    {
-        for (auto i = _scriptHandlerEntries.size() - 1; i >= 0; i--)
-        {
-            SchedulerScriptHandlerEntry* eachEntry = _scriptHandlerEntries.at(i);
-            if (eachEntry->isMarkedForDeletion())
-            {
-                _scriptHandlerEntries.erase(i);
-            }
-            else if (!eachEntry->isPaused())
-            {
-                eachEntry->getTimer()->update(dt);
-            }
-        }
-    }
-#endif
     //
     // Functions allocated from another thread
     //

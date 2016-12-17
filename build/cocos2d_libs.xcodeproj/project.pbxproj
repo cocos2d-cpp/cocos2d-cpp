@@ -2415,7 +2415,6 @@
 		507B3C771C31BDD30067B53E /* CCPUColorAffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E0F81AA80A6500DDB1C5 /* CCPUColorAffector.cpp */; };
 		507B3C781C31BDD30067B53E /* CCPUBaseForceAffector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E0DA1AA80A6500DDB1C5 /* CCPUBaseForceAffector.cpp */; };
 		507B3C791C31BDD30067B53E /* UILoadingBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2905FA0018CF08D000240AA3 /* UILoadingBar.cpp */; };
-		507B3C7A1C31BDD30067B53E /* CCScriptSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE031925AB6E00A911A9 /* CCScriptSupport.cpp */; };
 		507B3C7B1C31BDD30067B53E /* btDiscreteDynamicsWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB1101AF9AA1900B9B856 /* btDiscreteDynamicsWorld.cpp */; };
 		507B3C7C1C31BDD30067B53E /* BoneNodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C50306701B60B5B2001E6D43 /* BoneNodeReader.cpp */; };
 		507B3C7D1C31BDD30067B53E /* CCMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5012169E1AC473AD009A4BEA /* CCMaterial.cpp */; };
@@ -3281,7 +3280,6 @@
 		507B3FFA1C31BDD30067B53E /* CCPUMeshSurfaceEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1551AA80A6500DDB1C5 /* CCPUMeshSurfaceEmitter.h */; };
 		507B3FFB1C31BDD30067B53E /* b2Contact.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168F11807AF9C005B8026 /* b2Contact.h */; };
 		507B3FFC1C31BDD30067B53E /* CCPUCircleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0F11AA80A6500DDB1C5 /* CCPUCircleEmitter.h */; };
-		507B3FFD1C31BDD30067B53E /* CCScriptSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE041925AB6E00A911A9 /* CCScriptSupport.h */; };
 		507B3FFE1C31BDD30067B53E /* btTriangleShapeEx.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0B51AF9AA1900B9B856 /* btTriangleShapeEx.h */; };
 		507B3FFF1C31BDD30067B53E /* xxhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 46C02E0618E91123004B7456 /* xxhash.h */; };
 		507B40001C31BDD30067B53E /* btCharacterControllerInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0E91AF9AA1900B9B856 /* btCharacterControllerInterface.h */; };
@@ -3846,10 +3844,6 @@
 		50ABBEA01925AB6F00A911A9 /* CCScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */; };
 		50ABBEA11925AB6F00A911A9 /* CCScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE021925AB6E00A911A9 /* CCScheduler.h */; };
 		50ABBEA21925AB6F00A911A9 /* CCScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE021925AB6E00A911A9 /* CCScheduler.h */; };
-		50ABBEA31925AB6F00A911A9 /* CCScriptSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE031925AB6E00A911A9 /* CCScriptSupport.cpp */; };
-		50ABBEA41925AB6F00A911A9 /* CCScriptSupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE031925AB6E00A911A9 /* CCScriptSupport.cpp */; };
-		50ABBEA51925AB6F00A911A9 /* CCScriptSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE041925AB6E00A911A9 /* CCScriptSupport.h */; };
-		50ABBEA61925AB6F00A911A9 /* CCScriptSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE041925AB6E00A911A9 /* CCScriptSupport.h */; };
 		50ABBEA71925AB6F00A911A9 /* CCTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE051925AB6E00A911A9 /* CCTouch.cpp */; };
 		50ABBEA81925AB6F00A911A9 /* CCTouch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE051925AB6E00A911A9 /* CCTouch.cpp */; };
 		50ABBEA91925AB6F00A911A9 /* CCTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE061925AB6E00A911A9 /* CCTouch.h */; };
@@ -6740,8 +6734,6 @@
 		50ABBE001925AB6E00A911A9 /* CCRefPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCRefPtr.h; path = ../base/CCRefPtr.h; sourceTree = "<group>"; };
 		50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCScheduler.cpp; path = ../base/CCScheduler.cpp; sourceTree = "<group>"; };
 		50ABBE021925AB6E00A911A9 /* CCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCScheduler.h; path = ../base/CCScheduler.h; sourceTree = "<group>"; };
-		50ABBE031925AB6E00A911A9 /* CCScriptSupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCScriptSupport.cpp; path = ../base/CCScriptSupport.cpp; sourceTree = "<group>"; };
-		50ABBE041925AB6E00A911A9 /* CCScriptSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCScriptSupport.h; path = ../base/CCScriptSupport.h; sourceTree = "<group>"; };
 		50ABBE051925AB6E00A911A9 /* CCTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCTouch.cpp; path = ../base/CCTouch.cpp; sourceTree = "<group>"; };
 		50ABBE061925AB6E00A911A9 /* CCTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCTouch.h; path = ../base/CCTouch.h; sourceTree = "<group>"; };
 		50ABBE071925AB6E00A911A9 /* ccTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ccTypes.cpp; path = ../base/ccTypes.cpp; sourceTree = "<group>"; };
@@ -8121,8 +8113,6 @@
 				50ABBE001925AB6E00A911A9 /* CCRefPtr.h */,
 				50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */,
 				50ABBE021925AB6E00A911A9 /* CCScheduler.h */,
-				50ABBE031925AB6E00A911A9 /* CCScriptSupport.cpp */,
-				50ABBE041925AB6E00A911A9 /* CCScriptSupport.h */,
 				50ABBE051925AB6E00A911A9 /* CCTouch.cpp */,
 				50ABBE061925AB6E00A911A9 /* CCTouch.h */,
 				50ABBE071925AB6E00A911A9 /* ccTypes.cpp */,
@@ -11176,7 +11166,6 @@
 				50ABBE8D1925AB6F00A911A9 /* CCNS.h in Headers */,
 				B6CAB1E91AF9AA1A00B9B856 /* btAxisSweep3.h in Headers */,
 				B6CAB2331AF9AA1A00B9B856 /* btCollisionWorld.h in Headers */,
-				50ABBEA51925AB6F00A911A9 /* CCScriptSupport.h in Headers */,
 				292DB14519B4574100A80320 /* UIEditBoxImpl-android.h in Headers */,
 				15AE1B9A19AADFDF00C27E9E /* UIHBox.h in Headers */,
 				B665E2E41AA80A6500DDB1C5 /* CCPULineAffectorTranslator.h in Headers */,
@@ -12976,7 +12965,6 @@
 				507B3FFA1C31BDD30067B53E /* CCPUMeshSurfaceEmitter.h in Headers */,
 				507B3FFB1C31BDD30067B53E /* b2Contact.h in Headers */,
 				507B3FFC1C31BDD30067B53E /* CCPUCircleEmitter.h in Headers */,
-				507B3FFD1C31BDD30067B53E /* CCScriptSupport.h in Headers */,
 				507B3FFE1C31BDD30067B53E /* btTriangleShapeEx.h in Headers */,
 				507B3FFF1C31BDD30067B53E /* xxhash.h in Headers */,
 				507B40001C31BDD30067B53E /* btCharacterControllerInterface.h in Headers */,
@@ -14031,7 +14019,6 @@
 				15AE1AB519AAD40300C27E9E /* b2Contact.h in Headers */,
 				B665E23D1AA80A6500DDB1C5 /* CCPUCircleEmitter.h in Headers */,
 				5020A1781D49912500E80C72 /* AttachmentLoader.h in Headers */,
-				50ABBEA61925AB6F00A911A9 /* CCScriptSupport.h in Headers */,
 				B6CAB33C1AF9AA1A00B9B856 /* btTriangleShapeEx.h in Headers */,
 				46C02E0A18E91123004B7456 /* xxhash.h in Headers */,
 				B6CAB39E1AF9AA1A00B9B856 /* btCharacterControllerInterface.h in Headers */,
@@ -15072,7 +15059,6 @@
 				B6CAB3451AF9AA1A00B9B856 /* gim_box_set.cpp in Sources */,
 				1AAF584F180E40B9000584C8 /* LocalStorage.cpp in Sources */,
 				15AE1BD219AAE01E00C27E9E /* CCControlPotentiometer.cpp in Sources */,
-				50ABBEA31925AB6F00A911A9 /* CCScriptSupport.cpp in Sources */,
 				B6CAB2711AF9AA1A00B9B856 /* btSphereTriangleCollisionAlgorithm.cpp in Sources */,
 				38B8E2D519E66581002D7CE7 /* CSLoader.cpp in Sources */,
 				15AE190519AAD35000C27E9E /* CCDataReaderHelper.cpp in Sources */,
@@ -15939,7 +15925,6 @@
 				507B3C771C31BDD30067B53E /* CCPUColorAffector.cpp in Sources */,
 				507B3C781C31BDD30067B53E /* CCPUBaseForceAffector.cpp in Sources */,
 				507B3C791C31BDD30067B53E /* UILoadingBar.cpp in Sources */,
-				507B3C7A1C31BDD30067B53E /* CCScriptSupport.cpp in Sources */,
 				507B3C7B1C31BDD30067B53E /* btDiscreteDynamicsWorld.cpp in Sources */,
 				507B3C7C1C31BDD30067B53E /* BoneNodeReader.cpp in Sources */,
 				507B3C7D1C31BDD30067B53E /* CCMaterial.cpp in Sources */,
@@ -16795,7 +16780,6 @@
 				B665E24B1AA80A6500DDB1C5 /* CCPUColorAffector.cpp in Sources */,
 				B665E20F1AA80A6500DDB1C5 /* CCPUBaseForceAffector.cpp in Sources */,
 				15AE1B7419AADA9A00C27E9E /* UILoadingBar.cpp in Sources */,
-				50ABBEA41925AB6F00A911A9 /* CCScriptSupport.cpp in Sources */,
 				B6CAB3E81AF9AA1A00B9B856 /* btDiscreteDynamicsWorld.cpp in Sources */,
 				85505F0A1B60E3CE003F2CD4 /* BoneNodeReader.cpp in Sources */,
 				501216A11AC473AD009A4BEA /* CCMaterial.cpp in Sources */,

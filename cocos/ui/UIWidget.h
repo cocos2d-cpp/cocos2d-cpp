@@ -38,6 +38,7 @@ THE SOFTWARE.
  */
 NS_CC_BEGIN
 
+class Event;
 class EventListenerTouchOneByOne;
 class Camera;
 
@@ -54,7 +55,7 @@ typedef enum
     TOUCH_EVENT_MOVED,
     TOUCH_EVENT_ENDED,
     TOUCH_EVENT_CANCELED
-}TouchEventType;
+} TouchEventType;
     
 /**
  * Touch event callback.
