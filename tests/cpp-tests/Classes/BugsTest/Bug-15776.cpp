@@ -8,28 +8,33 @@
 
 #include "Bug-15776.h"
 
+#include <stdexcept>
 
 USING_NS_CC;
 
-
-//
-// IMPORTANT:
-// THIS TEST WILL CRASH ON TextureCache::addImage()
-// THIS IS NOT A BUG
-// It is expected to crash there
-//
 bool Bug15776Layer::init()
 {
     if (BugsTestBase::init())
     {
+#if (defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0)
+        log("Bug15776Layer test is not executed in debug mode");
+#else
         cocos2d::Image *cocos2dxImage = new cocos2d::Image();
         cocos2dxImage->initWithImageData(nullptr, 0);
-        // should not crash. invalid cocos2dImage
-        auto texture2d = Director::getInstance()->getTextureCache()->addImage(cocos2dxImage, "unused");
-        return texture2d;
+        try {
+            auto texture2d = Director::getInstance()
+                ->getTextureCache()->addImage(cocos2dxImage, "unused");
+            // Exception is expected to be thrown from std::map<>::at()
+            // called from Image::isCompressed()
+            // called from TextureCache::addImage()
+            return false;
+        } catch (std::out_of_range &) {
+            log("std::out_of_range caught");
+            delete cocos2dxImage;
+        }
+#endif
     }
-
-    return false;
+    return true;
 }
 
 std::string Bug15776Layer::title() const
@@ -39,5 +44,9 @@ std::string Bug15776Layer::title() const
 
 std::string Bug15776Layer::subtitle() const
 {
-    return "It should crash on TextureCache::addImage()";
+#if (defined(COCOS2D_DEBUG) && COCOS2D_DEBUG > 0)
+    return "Bug15776Layer test is not executed in debug mode";
+#else
+    return "std::out_of_range shall be caught. See console";
+#endif
 }
