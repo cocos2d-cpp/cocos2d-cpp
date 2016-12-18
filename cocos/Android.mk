@@ -190,7 +190,6 @@ vr/CCVRDistortion.cpp \
 vr/CCVRDistortionMesh.cpp \
 vr/CCVRGenericRenderer.cpp \
 vr/CCVRGenericHeadTracker.cpp \
-deprecated/CCDeprecated.cpp \
 physics/CCPhysicsBody.cpp \
 physics/CCPhysicsContact.cpp \
 physics/CCPhysicsJoint.cpp \
