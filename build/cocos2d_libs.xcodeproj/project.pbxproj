@@ -2511,7 +2511,6 @@
 		507B3EA41C31BDD30067B53E /* CCQuadCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBD751925AB4100A911A9 /* CCQuadCommand.h */; };
 		507B3EA51C31BDD30067B53E /* UILayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 29CB8F4B1929D1BB00C841D6 /* UILayoutManager.h */; };
 		507B3EA61C31BDD30067B53E /* btScaledBvhTriangleMeshShape.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0861AF9AA1900B9B856 /* btScaledBvhTriangleMeshShape.h */; };
-		507B3EA71C31BDD30067B53E /* CCRefPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE001925AB6E00A911A9 /* CCRefPtr.h */; };
 		507B3EA81C31BDD30067B53E /* CCSpriteLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD71D2B180E26E600808F54 /* CCSpriteLoader.h */; };
 		507B3EA91C31BDD30067B53E /* btGpuUtilsSharedCode.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1401AF9AA1900B9B856 /* btGpuUtilsSharedCode.h */; };
 		507B3EAA1C31BDD30067B53E /* CCSSceneReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C597D180E930E00EF57C3 /* CCSSceneReader.h */; };
@@ -3401,8 +3400,6 @@
 		50ABBE9A1925AB6F00A911A9 /* CCRef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDFE1925AB6E00A911A9 /* CCRef.cpp */; };
 		50ABBE9B1925AB6F00A911A9 /* CCRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDFF1925AB6E00A911A9 /* CCRef.h */; };
 		50ABBE9C1925AB6F00A911A9 /* CCRef.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDFF1925AB6E00A911A9 /* CCRef.h */; };
-		50ABBE9D1925AB6F00A911A9 /* CCRefPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE001925AB6E00A911A9 /* CCRefPtr.h */; };
-		50ABBE9E1925AB6F00A911A9 /* CCRefPtr.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE001925AB6E00A911A9 /* CCRefPtr.h */; };
 		50ABBE9F1925AB6F00A911A9 /* CCScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */; };
 		50ABBEA01925AB6F00A911A9 /* CCScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */; };
 		50ABBEA11925AB6F00A911A9 /* CCScheduler.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE021925AB6E00A911A9 /* CCScheduler.h */; };
@@ -6321,7 +6318,6 @@
 		50ABBDFD1925AB6E00A911A9 /* CCProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCProtocols.h; path = ../base/CCProtocols.h; sourceTree = "<group>"; };
 		50ABBDFE1925AB6E00A911A9 /* CCRef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCRef.cpp; path = ../base/CCRef.cpp; sourceTree = "<group>"; };
 		50ABBDFF1925AB6E00A911A9 /* CCRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCRef.h; path = ../base/CCRef.h; sourceTree = "<group>"; };
-		50ABBE001925AB6E00A911A9 /* CCRefPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCRefPtr.h; path = ../base/CCRefPtr.h; sourceTree = "<group>"; };
 		50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCScheduler.cpp; path = ../base/CCScheduler.cpp; sourceTree = "<group>"; };
 		50ABBE021925AB6E00A911A9 /* CCScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCScheduler.h; path = ../base/CCScheduler.h; sourceTree = "<group>"; };
 		50ABBE051925AB6E00A911A9 /* CCTouch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCTouch.cpp; path = ../base/CCTouch.cpp; sourceTree = "<group>"; };
@@ -7629,7 +7625,6 @@
 				50ABBDFD1925AB6E00A911A9 /* CCProtocols.h */,
 				50ABBDFE1925AB6E00A911A9 /* CCRef.cpp */,
 				50ABBDFF1925AB6E00A911A9 /* CCRef.h */,
-				50ABBE001925AB6E00A911A9 /* CCRefPtr.h */,
 				50ABBE011925AB6E00A911A9 /* CCScheduler.cpp */,
 				50ABBE021925AB6E00A911A9 /* CCScheduler.h */,
 				50ABBE051925AB6E00A911A9 /* CCTouch.cpp */,
@@ -11114,7 +11109,6 @@
 				50ABBE6F1925AB6F00A911A9 /* CCEventListenerKeyboard.h in Headers */,
 				15AE1A5619AAD40300C27E9E /* b2Math.h in Headers */,
 				B6CAB5071AF9AA1A00B9B856 /* btGeometryUtil.h in Headers */,
-				50ABBE9D1925AB6F00A911A9 /* CCRefPtr.h in Headers */,
 				B257B461198A353E00D9A687 /* CCPrimitiveCommand.h in Headers */,
 				B665E1F81AA80A6500DDB1C5 /* CCPUAffectorManager.h in Headers */,
 				50ABBE7B1925AB6F00A911A9 /* CCEventMouse.h in Headers */,
@@ -11757,7 +11751,6 @@
 				507B3EA41C31BDD30067B53E /* CCQuadCommand.h in Headers */,
 				507B3EA51C31BDD30067B53E /* UILayoutManager.h in Headers */,
 				507B3EA61C31BDD30067B53E /* btScaledBvhTriangleMeshShape.h in Headers */,
-				507B3EA71C31BDD30067B53E /* CCRefPtr.h in Headers */,
 				507B3EA81C31BDD30067B53E /* CCSpriteLoader.h in Headers */,
 				507B3EA91C31BDD30067B53E /* btGpuUtilsSharedCode.h in Headers */,
 				507B3EAA1C31BDD30067B53E /* CCSSceneReader.h in Headers */,
@@ -12793,7 +12786,6 @@
 				5020A1901D49912500E80C72 /* BoundingBoxAttachment.h in Headers */,
 				5020A16C1D49912500E80C72 /* AtlasAttachmentLoader.h in Headers */,
 				B6CAB2E01AF9AA1A00B9B856 /* btScaledBvhTriangleMeshShape.h in Headers */,
-				50ABBE9E1925AB6F00A911A9 /* CCRefPtr.h in Headers */,
 				B6CAB4401AF9AA1A00B9B856 /* btGpuUtilsSharedCode.h in Headers */,
 				B665E2011AA80A6500DDB1C5 /* CCPUAlignAffector.h in Headers */,
 				B6DD2FEC1B04825B00E47F5F /* DetourProximityGrid.h in Headers */,

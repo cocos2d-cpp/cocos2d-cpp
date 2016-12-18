@@ -131,7 +131,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\TouchesTest\Paddle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\TouchesTest\TouchesTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\TransitionsTest\TransitionsTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\RefPtrTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\UnitTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\UserDefaultTest\UserDefaultTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\VisibleRect.cpp" />
@@ -307,7 +306,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\TouchesTest\Paddle.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\TouchesTest\TouchesTest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\TransitionsTest\TransitionsTest.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\RefPtrTest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\UnitTest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\UserDefaultTest\UserDefaultTest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\VisibleRect.h" />

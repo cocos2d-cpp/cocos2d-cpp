@@ -918,7 +918,6 @@
     <ClInclude Include="..\..\base\CCProtocols.h" />
     <ClInclude Include="..\..\base\ccRandom.h" />
     <ClInclude Include="..\..\base\CCRef.h" />
-    <ClInclude Include="..\..\base\CCRefPtr.h" />
     <ClInclude Include="..\..\base\CCScheduler.h" />
     <ClInclude Include="..\..\base\CCTouch.h" />
     <ClInclude Include="..\..\base\ccTypes.h" />

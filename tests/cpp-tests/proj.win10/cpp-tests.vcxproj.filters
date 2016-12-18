@@ -542,9 +542,6 @@
     <ClCompile Include="..\Classes\TransitionsTest\TransitionsTest.cpp">
       <Filter>Classes\TransitionsTest</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UnitTest\RefPtrTest.cpp">
-      <Filter>Classes\UnitTest</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\UnitTest\UnitTest.cpp">
       <Filter>Classes\UnitTest</Filter>
     </ClCompile>
@@ -1047,9 +1044,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TransitionsTest\TransitionsTest.h">
       <Filter>Classes\TransitionsTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UnitTest\RefPtrTest.h">
-      <Filter>Classes\UnitTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\UnitTest\UnitTest.h">
       <Filter>Classes\UnitTest</Filter>

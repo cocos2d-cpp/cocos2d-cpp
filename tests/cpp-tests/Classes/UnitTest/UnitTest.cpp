@@ -1,5 +1,4 @@
 #include "UnitTest.h"
-#include "RefPtrTest.h"
 #include "ui/UIHelper.h"
 
 USING_NS_CC;
@@ -42,7 +41,6 @@ UnitTests::UnitTests()
     ADD_TEST_CASE(TemplateVectorTest);
     ADD_TEST_CASE(TemplateMapTest);
     ADD_TEST_CASE(ValueTest);
-    ADD_TEST_CASE(RefPtrTest);
     ADD_TEST_CASE(UTFConversionTest);
     ADD_TEST_CASE(UIHelperSubStringTest);
 #ifdef UNIT_TEST_FOR_OPTIMIZED_MATH_UTIL

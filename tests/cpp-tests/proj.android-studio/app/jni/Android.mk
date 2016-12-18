@@ -114,7 +114,6 @@ LOCAL_SRC_FILES := main.cpp \
 ../../../Classes/TouchesTest/Paddle.cpp \
 ../../../Classes/TouchesTest/TouchesTest.cpp \
 ../../../Classes/TransitionsTest/TransitionsTest.cpp \
-../../../Classes/UnitTest/RefPtrTest.cpp \
 ../../../Classes/UnitTest/UnitTest.cpp \
 ../../../Classes/UserDefaultTest/UserDefaultTest.cpp \
 ../../../Classes/VisibleRect.cpp \

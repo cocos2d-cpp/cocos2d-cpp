@@ -193,7 +193,6 @@ xcopy "$(OutDir)..\*.dll" "$(OutDir)" /D /Y</Command>
     <ClCompile Include="..\Classes\TerrainTest\TerrainTest.cpp" />
     <ClCompile Include="..\Classes\TexturePackerEncryptionTest\TextureAtlasEncryptionTest.cpp" />
     <ClCompile Include="..\Classes\TileMapTest\TileMapTest2.cpp" />
-    <ClCompile Include="..\Classes\UnitTest\RefPtrTest.cpp" />
     <ClCompile Include="..\Classes\UnitTest\UnitTest.cpp" />
     <ClCompile Include="..\Classes\VisibleRect.cpp" />
     <ClCompile Include="..\Classes\VRTest\VRTest.cpp" />
@@ -317,7 +316,6 @@ xcopy "$(OutDir)..\*.dll" "$(OutDir)" /D /Y</Command>
     <ClInclude Include="..\Classes\TerrainTest\TerrainTest.h" />
     <ClInclude Include="..\Classes\TexturePackerEncryptionTest\TextureAtlasEncryptionTest.h" />
     <ClInclude Include="..\Classes\TileMapTest\TileMapTest2.h" />
-    <ClInclude Include="..\Classes\UnitTest\RefPtrTest.h" />
     <ClInclude Include="..\Classes\UnitTest\UnitTest.h" />
     <ClInclude Include="..\Classes\VisibleRect.h" />
     <ClInclude Include="..\Classes\VRTest\VRTest.h" />

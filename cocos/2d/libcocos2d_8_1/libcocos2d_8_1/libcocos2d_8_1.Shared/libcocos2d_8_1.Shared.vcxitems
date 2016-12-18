@@ -292,7 +292,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCProtocols.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccRandom.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCRef.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCRefPtr.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCScheduler.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCTouch.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccTypes.h" />

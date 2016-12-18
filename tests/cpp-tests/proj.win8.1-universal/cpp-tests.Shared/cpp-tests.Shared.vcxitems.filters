@@ -435,9 +435,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\TransitionsTest\TransitionsTest.h">
       <Filter>Classes\TransitionsTest</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\RefPtrTest.h">
-      <Filter>Classes\UnitTest</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\UnitTest.h">
       <Filter>Classes\UnitTest</Filter>
     </ClInclude>
@@ -780,9 +777,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\TransitionsTest\TransitionsTest.cpp">
       <Filter>Classes\TransitionsTest</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\RefPtrTest.cpp">
-      <Filter>Classes\UnitTest</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\Classes\UnitTest\UnitTest.cpp">
       <Filter>Classes\UnitTest</Filter>

@@ -522,9 +522,6 @@
     <ClCompile Include="..\Classes\ShaderTest\ShaderTest2.cpp">
       <Filter>Classes\ShaderTest</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\UnitTest\RefPtrTest.cpp">
-      <Filter>Classes\UnitTest</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\BugsTest\Bug-Child.cpp">
       <Filter>Classes\BugsTest</Filter>
     </ClCompile>
@@ -1025,9 +1022,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ShaderTest\ShaderTest2.h">
       <Filter>Classes\ShaderTest</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\UnitTest\RefPtrTest.h">
-      <Filter>Classes\UnitTest</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\BugsTest\Bug-Child.h">
       <Filter>Classes\BugsTest</Filter>

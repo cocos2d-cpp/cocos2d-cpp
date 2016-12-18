@@ -399,7 +399,6 @@
     <ClInclude Include="..\Classes\TouchesTest\Paddle.h" />
     <ClInclude Include="..\Classes\TouchesTest\TouchesTest.h" />
     <ClInclude Include="..\Classes\TransitionsTest\TransitionsTest.h" />
-    <ClInclude Include="..\Classes\UnitTest\RefPtrTest.h" />
     <ClInclude Include="..\Classes\UnitTest\UnitTest.h" />
     <ClInclude Include="..\Classes\UserDefaultTest\UserDefaultTest.h" />
     <ClInclude Include="..\Classes\VisibleRect.h" />
@@ -542,7 +541,6 @@
     <ClCompile Include="..\Classes\TouchesTest\Paddle.cpp" />
     <ClCompile Include="..\Classes\TouchesTest\TouchesTest.cpp" />
     <ClCompile Include="..\Classes\TransitionsTest\TransitionsTest.cpp" />
-    <ClCompile Include="..\Classes\UnitTest\RefPtrTest.cpp" />
     <ClCompile Include="..\Classes\UnitTest\UnitTest.cpp" />
     <ClCompile Include="..\Classes\UserDefaultTest\UserDefaultTest.cpp" />
     <ClCompile Include="..\Classes\VisibleRect.cpp" />

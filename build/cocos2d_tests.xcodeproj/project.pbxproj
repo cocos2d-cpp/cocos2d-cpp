@@ -366,8 +366,6 @@
 		1AC35D0918CED84500F37B72 /* TileMaps in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CC818CED84500F37B72 /* TileMaps */; };
 		1AC35D0A18CED84500F37B72 /* zwoptex in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CC918CED84500F37B72 /* zwoptex */; };
 		1AC35D0B18CED84500F37B72 /* zwoptex in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CC918CED84500F37B72 /* zwoptex */; };
-		1F33634F18E37E840074764D /* RefPtrTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F33634D18E37E840074764D /* RefPtrTest.cpp */; };
-		1F33635018E37E840074764D /* RefPtrTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F33634D18E37E840074764D /* RefPtrTest.cpp */; };
 		27C5CE011C6E0469000CA4B3 /* SpriteFrameCacheTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27C5CDFF1C6E0469000CA4B3 /* SpriteFrameCacheTest.cpp */; };
 		27C5CE021C6E0470000CA4B3 /* SpriteFrameCacheTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27C5CDFF1C6E0469000CA4B3 /* SpriteFrameCacheTest.cpp */; };
 		27C5CE031C6E0477000CA4B3 /* SpriteFrameCacheTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27C5CDFF1C6E0469000CA4B3 /* SpriteFrameCacheTest.cpp */; };
@@ -545,7 +543,6 @@
 		507B417E1C31BEA60067B53E /* MotionStreakTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35AAD18CECF0C00F37B72 /* MotionStreakTest.cpp */; };
 		507B417F1C31BEA60067B53E /* AllocatorTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0FD03621A3B546400825BB5 /* AllocatorTest.cpp */; };
 		507B41801C31BEA60067B53E /* FontTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35A9318CECF0B00F37B72 /* FontTest.cpp */; };
-		507B41811C31BEA60067B53E /* RefPtrTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F33634D18E37E840074764D /* RefPtrTest.cpp */; };
 		507B41831C31BEA60067B53E /* ActionsTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC3593218CECF0A00F37B72 /* ActionsTest.cpp */; };
 		507B41841C31BEA60067B53E /* ShaderTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35AED18CECF0C00F37B72 /* ShaderTest.cpp */; };
 		507B41851C31BEA60067B53E /* BillBoardTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B609E67119C18DAD003D0074 /* BillBoardTest.cpp */; };
@@ -1369,8 +1366,6 @@
 		1AC35D0C18CED89100F37B72 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AC35D0E18CED89E00F37B72 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* cpp-tests Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "cpp-tests Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F33634D18E37E840074764D /* RefPtrTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RefPtrTest.cpp; sourceTree = "<group>"; };
-		1F33634E18E37E840074764D /* RefPtrTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefPtrTest.h; sourceTree = "<group>"; };
 		27C5CDFF1C6E0469000CA4B3 /* SpriteFrameCacheTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpriteFrameCacheTest.cpp; sourceTree = "<group>"; };
 		27C5CE001C6E0469000CA4B3 /* SpriteFrameCacheTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteFrameCacheTest.h; sourceTree = "<group>"; };
 		29AFEF6619ACCAA000F6B10A /* Test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = Test.html; path = "../tests/cpp-tests/Resources/Test.html"; sourceTree = "<group>"; };
@@ -2671,8 +2666,6 @@
 		1AC35B1418CECF0C00F37B72 /* UnitTest */ = {
 			isa = PBXGroup;
 			children = (
-				1F33634D18E37E840074764D /* RefPtrTest.cpp */,
-				1F33634E18E37E840074764D /* RefPtrTest.h */,
 				1AC35B1518CECF0C00F37B72 /* UnitTest.cpp */,
 				1AC35B1618CECF0C00F37B72 /* UnitTest.h */,
 			);
@@ -3997,7 +3990,6 @@
 				463D7E7E1D227CA400EA6BD1 /* Bug-15776.cpp in Sources */,
 				1AC35C0F18CECF0C00F37B72 /* LabelTest.cpp in Sources */,
 				1AC35C6918CECF0C00F37B72 /* VisibleRect.cpp in Sources */,
-				1F33634F18E37E840074764D /* RefPtrTest.cpp in Sources */,
 				1AC35C3F18CECF0C00F37B72 /* ReleasePoolTest.cpp in Sources */,
 				1AC35C5718CECF0C00F37B72 /* TextureCacheTest.cpp in Sources */,
 				1AC35C0118CECF0C00F37B72 /* TableViewTestScene.cpp in Sources */,
@@ -4077,7 +4069,6 @@
 				507B417E1C31BEA60067B53E /* MotionStreakTest.cpp in Sources */,
 				507B417F1C31BEA60067B53E /* AllocatorTest.cpp in Sources */,
 				507B41801C31BEA60067B53E /* FontTest.cpp in Sources */,
-				507B41811C31BEA60067B53E /* RefPtrTest.cpp in Sources */,
 				507B41831C31BEA60067B53E /* ActionsTest.cpp in Sources */,
 				507B41841C31BEA60067B53E /* ShaderTest.cpp in Sources */,
 				507B41851C31BEA60067B53E /* BillBoardTest.cpp in Sources */,
@@ -4222,7 +4213,6 @@
 				1AC35C1818CECF0C00F37B72 /* MotionStreakTest.cpp in Sources */,
 				D0FD03651A3B546400825BB5 /* AllocatorTest.cpp in Sources */,
 				1AC35C0618CECF0C00F37B72 /* FontTest.cpp in Sources */,
-				1F33635018E37E840074764D /* RefPtrTest.cpp in Sources */,
 				1AC35B2818CECF0C00F37B72 /* ActionsTest.cpp in Sources */,
 				1AC35C4A18CECF0C00F37B72 /* ShaderTest.cpp in Sources */,
 				B609E67419C18DAD003D0074 /* BillBoardTest.cpp in Sources */,

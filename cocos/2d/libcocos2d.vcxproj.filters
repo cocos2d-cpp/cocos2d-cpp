@@ -1795,9 +1795,6 @@
     <ClInclude Include="..\base\CCRef.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\base\CCRefPtr.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="..\base\CCScheduler.h">
       <Filter>base</Filter>
     </ClInclude>

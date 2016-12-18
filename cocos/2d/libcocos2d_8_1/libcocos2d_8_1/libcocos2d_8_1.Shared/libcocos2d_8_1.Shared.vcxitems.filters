@@ -814,9 +814,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCRef.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCRefPtr.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCScheduler.h">
       <Filter>base</Filter>
     </ClInclude>
