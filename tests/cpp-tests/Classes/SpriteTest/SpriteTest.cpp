@@ -688,11 +688,11 @@ SpriteBatchNodeReorder::SpriteBatchNodeReorder()
         asmtest->addChild(s1, 10);
     }
     
-    for(unsigned i = 0, s = v.size(); i < s; i++)
+    for (auto p : v)
     {
-        if (i != 5)
+        if (p != v[5])
         {
-            asmtest->reorderChild(v[i], 9);
+            asmtest->reorderChild(p, 9);
         }
     }
     
