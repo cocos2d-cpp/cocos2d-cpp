@@ -305,9 +305,9 @@ void ProgressTimer::updateRadial(void)
                 edgePtA = edgePtA.lerp(edgePtB, 1-_midpoint.x);
             }
 
-            //    s and t are returned by ccpLineIntersect
             float s = 0, t = 0;
-            if(Vec2::isLineIntersect(edgePtA, edgePtB, _midpoint, percentagePt, &s, &t))
+
+            if (Vec2::isLineIntersect(edgePtA, edgePtB, _midpoint, percentagePt, &s, &t))
             {
 
                 //    Since our hit test is on rays we have to deal with the top edge

@@ -42,25 +42,6 @@
 
 NS_CC_BEGIN
 
-const Vec2 CCPointZero;
-
-/* The "zero" size -- equivalent to Size(0, 0). */
-const Size CCSizeZero = Size::ZERO;
-
-/* The "zero" rectangle -- equivalent to Rect(0, 0, 0, 0). */
-const Rect CCRectZero = Rect::ZERO;
-
-
-const Color3B ccWHITE = Color3B::WHITE;
-const Color3B ccYELLOW = Color3B::YELLOW;
-const Color3B ccGREEN = Color3B::GREEN;
-const Color3B ccBLUE = Color3B::BLUE;
-const Color3B ccRED = Color3B::RED;
-const Color3B ccMAGENTA = Color3B::MAGENTA;
-const Color3B ccBLACK = Color3B::BLACK;
-const Color3B ccORANGE = Color3B::ORANGE;
-const Color3B ccGRAY = Color3B::GRAY;
-
 const BlendFunc kCCBlendFuncDisable = BlendFunc::DISABLE;
 
 const char* kCCShader_PositionTextureColor = GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR;

@@ -230,7 +230,7 @@ bool Vec2::isLineIntersect(const Vec2& A, const Vec2& B,
                             float *S, float *T)
 {
     // FAIL: Line undefined
-    if ( (A.x==B.x && A.y==B.y) || (C.x==D.x && C.y==D.y) )
+    if ( (A.x  == B.x && A.y == B.y) || (C.x == D.x && C.y == D.y) )
     {
         return false;
     }

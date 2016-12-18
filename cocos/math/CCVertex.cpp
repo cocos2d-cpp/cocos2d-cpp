@@ -87,10 +87,11 @@ void ccVertexLineToPolygon(Vec2 *points, float stroke, Vec2 *vertices, unsigned 
         Vec2 p4 = vertices[idx1+1];
 
         float s;
-        //BOOL fixVertex = !ccpLineIntersect(Vec2(p1.x, p1.y), Vec2(p4.x, p4.y), Vec2(p2.x, p2.y), Vec2(p3.x, p3.y), &s, &t);
+
         bool fixVertex = !ccVertexLineIntersect(p1.x, p1.y, p4.x, p4.y, p2.x, p2.y, p3.x, p3.y, &s);
+
         if(!fixVertex)
-            if (s<0.0f || s>1.0f)
+            if (s < 0.0f || s > 1.0f)
                 fixVertex = true;
 
         if(fixVertex)
