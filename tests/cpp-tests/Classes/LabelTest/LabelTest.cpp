@@ -926,34 +926,37 @@ void LabelTTFTest::setAlignmentBottom(Ref* sender)
     this->updateAlignment();
 }
 
-const char* LabelTTFTest::getCurrentAlignment()
+std::string LabelTTFTest::getCurrentAlignment()
 {
-    const char* vertical = nullptr;
-    const char* horizontal = nullptr;
+    std::string currentAlignment = "Alignment ";
+
     switch (_vertAlign) {
         case TextVAlignment::TOP:
-            vertical = "Top";
+            currentAlignment += "Top";
             break;
         case TextVAlignment::CENTER:
-            vertical = "Middle";
+            currentAlignment += "Middle";
             break;
         case TextVAlignment::BOTTOM:
-            vertical = "Bottom";
-            break;
-    }
-    switch (_horizAlign) {
-        case TextHAlignment::LEFT:
-            horizontal = "Left";
-            break;
-        case TextHAlignment::CENTER:
-            horizontal = "Center";
-            break;
-        case TextHAlignment::RIGHT:
-            horizontal = "Right";
+            currentAlignment += "Bottom";
             break;
     }
 
-    return String::createWithFormat("Alignment %s %s", vertical, horizontal)->getCString();
+    currentAlignment += ' ';
+
+    switch (_horizAlign) {
+        case TextHAlignment::LEFT:
+            currentAlignment += "Left";
+            break;
+        case TextHAlignment::CENTER:
+            currentAlignment += "Center";
+            break;
+        case TextHAlignment::RIGHT:
+            currentAlignment += "Right";
+            break;
+    }
+
+    return currentAlignment;
 }
 
 std::string LabelTTFTest::title() const

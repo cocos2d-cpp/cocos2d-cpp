@@ -135,9 +135,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\renderer\CCBatchCommand.h">
       <Filter>renderer</Filter>
     </ClInclude>
@@ -1616,9 +1613,6 @@
       <Filter>physics</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCDeprecated.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\deprecated\CCString.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\renderer\CCBatchCommand.cpp">

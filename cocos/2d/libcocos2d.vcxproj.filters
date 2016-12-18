@@ -168,9 +168,6 @@
     <ClCompile Include="..\deprecated\CCDeprecated.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="..\deprecated\CCString.cpp">
-      <Filter>deprecated</Filter>
-    </ClCompile>
     <ClCompile Include="..\cocos2d.cpp" />
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTF.c">
       <Filter>external\ConvertUTF</Filter>
@@ -1501,9 +1498,6 @@
       <Filter>external\xxhash</Filter>
     </ClInclude>
     <ClInclude Include="..\deprecated\CCDeprecated.h">
-      <Filter>deprecated</Filter>
-    </ClInclude>
-    <ClInclude Include="..\deprecated\CCString.h">
       <Filter>deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\cocos2d.h" />

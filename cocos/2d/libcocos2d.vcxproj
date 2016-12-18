@@ -453,7 +453,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="..\base\ZipUtils.cpp" />
     <ClCompile Include="..\cocos2d.cpp" />
     <ClCompile Include="..\deprecated\CCDeprecated.cpp" />
-    <ClCompile Include="..\deprecated\CCString.cpp" />
     <ClCompile Include="..\math\CCAffineTransform.cpp" />
     <ClCompile Include="..\math\CCGeometry.cpp" />
     <ClCompile Include="..\math\CCVertex.cpp" />
@@ -939,7 +938,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\base\ZipUtils.h" />
     <ClInclude Include="..\cocos2d.h" />
     <ClInclude Include="..\deprecated\CCDeprecated.h" />
-    <ClInclude Include="..\deprecated\CCString.h" />
     <ClInclude Include="..\math\CCAffineTransform.h" />
     <ClInclude Include="..\math\CCGeometry.h" />
     <ClInclude Include="..\math\CCMath.h" />

@@ -213,7 +213,7 @@ private:
     void  setAlignmentMiddle(cocos2d::Ref* sender);
     void  setAlignmentBottom(cocos2d::Ref* sender);
     void  updateAlignment();
-    const char* getCurrentAlignment();
+    std::string getCurrentAlignment();
 private:
     cocos2d::TextHAlignment _horizAlign;
     cocos2d::LabelTTF* _label;

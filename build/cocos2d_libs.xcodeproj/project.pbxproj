@@ -528,10 +528,6 @@
 		1A01C68B18F57BE800EFE3A6 /* CCDeprecated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */; };
 		1A01C68C18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
 		1A01C68D18F57BE800EFE3A6 /* CCDeprecated.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */; };
-		1A01C69C18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
-		1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
-		1A01C69E18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
-		1A01C69F18F57BE800EFE3A6 /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
 		1A087AE81860400400196EF5 /* edtaa3func.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A087AE61860400400196EF5 /* edtaa3func.cpp */; };
 		1A087AE91860400400196EF5 /* edtaa3func.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A087AE61860400400196EF5 /* edtaa3func.cpp */; };
 		1A087AEA1860400400196EF5 /* edtaa3func.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A087AE71860400400196EF5 /* edtaa3func.h */; };
@@ -1328,7 +1324,6 @@
 		507B39CD1C31BDD30067B53E /* CCNodeLoaderLibrary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AD71D21180E26E600808F54 /* CCNodeLoaderLibrary.cpp */; };
 		507B39CE1C31BDD30067B53E /* CCActionFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C5948180E930E00EF57C3 /* CCActionFrame.cpp */; };
 		507B39CF1C31BDD30067B53E /* btConvexConvexAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB0381AF9AA1900B9B856 /* btConvexConvexAlgorithm.cpp */; };
-		507B39D11C31BDD30067B53E /* CCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A01C68218F57BE800EFE3A6 /* CCString.cpp */; };
 		507B39D21C31BDD30067B53E /* sweep.cc in Sources */ = {isa = PBXBuildFile; fileRef = 15FB20831AE7C57D00C31518 /* sweep.cc */; };
 		507B39D31C31BDD30067B53E /* ImageViewReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEB7018C72017004AD434 /* ImageViewReader.cpp */; };
 		507B39D41C31BDD30067B53E /* btGeneric6DofSpringConstraint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB0F91AF9AA1900B9B856 /* btGeneric6DofSpringConstraint.cpp */; };
@@ -2967,7 +2962,6 @@
 		507B407B1C31BDD30067B53E /* b2Distance.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168BE1807AF9C005B8026 /* b2Distance.h */; };
 		507B407C1C31BDD30067B53E /* CCDisplayFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C596F180E930E00EF57C3 /* CCDisplayFactory.h */; };
 		507B407D1C31BDD30067B53E /* CCGLBufferedNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9DCA03180E6955007A3AD4 /* CCGLBufferedNode.h */; };
-		507B407E1C31BDD30067B53E /* CCString.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A01C68318F57BE800EFE3A6 /* CCString.h */; };
 		507B407F1C31BDD30067B53E /* pvr.h in Headers */ = {isa = PBXBuildFile; fileRef = 464AD6E4197EBB1400E502D8 /* pvr.h */; };
 		507B40801C31BDD30067B53E /* b2MotorJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = B3AF019F1842FBA400A98B85 /* b2MotorJoint.h */; };
 		507B40811C31BDD30067B53E /* btMultiBodyJointLimitConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1221AF9AA1900B9B856 /* btMultiBodyJointLimitConstraint.h */; };
@@ -5384,8 +5378,6 @@
 		18956BB11A9DFBFD006E9155 /* Particle3DReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particle3DReader.h; path = Particle3DReader/Particle3DReader.h; sourceTree = "<group>"; };
 		1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDeprecated.cpp; sourceTree = "<group>"; };
 		1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDeprecated.h; sourceTree = "<group>"; };
-		1A01C68218F57BE800EFE3A6 /* CCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCString.cpp; sourceTree = "<group>"; };
-		1A01C68318F57BE800EFE3A6 /* CCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCString.h; sourceTree = "<group>"; };
 		1A087AE61860400400196EF5 /* edtaa3func.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = edtaa3func.cpp; sourceTree = "<group>"; };
 		1A087AE71860400400196EF5 /* edtaa3func.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = edtaa3func.h; sourceTree = "<group>"; };
 		1A1645AE191B726C008C7C7F /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ConvertUTF.c; sourceTree = "<group>"; };
@@ -7474,8 +7466,6 @@
 			children = (
 				1A01C67918F57BE800EFE3A6 /* CCDeprecated.cpp */,
 				1A01C67A18F57BE800EFE3A6 /* CCDeprecated.h */,
-				1A01C68218F57BE800EFE3A6 /* CCString.cpp */,
-				1A01C68318F57BE800EFE3A6 /* CCString.h */,
 			);
 			name = deprecated;
 			path = ../cocos/deprecated;
@@ -11213,7 +11203,6 @@
 				50ABBE5B1925AB6F00A911A9 /* CCEventKeyboard.h in Headers */,
 				B6CAB2D31AF9AA1A00B9B856 /* btMultiSphereShape.h in Headers */,
 				B665E1F41AA80A6500DDB1C5 /* CCPUAffector.h in Headers */,
-				1A01C69E18F57BE800EFE3A6 /* CCString.h in Headers */,
 				50ABC00F1926664800A911A9 /* CCFileUtils.h in Headers */,
 				503341991D9DC7B400770EC7 /* kvec.h in Headers */,
 				B665E2981AA80A6500DDB1C5 /* CCPUEmitterManager.h in Headers */,
@@ -12238,7 +12227,6 @@
 				507B407C1C31BDD30067B53E /* CCDisplayFactory.h in Headers */,
 				507B407D1C31BDD30067B53E /* CCGLBufferedNode.h in Headers */,
 				5020A20F1D49912500E80C72 /* Slot.h in Headers */,
-				507B407E1C31BDD30067B53E /* CCString.h in Headers */,
 				507B407F1C31BDD30067B53E /* pvr.h in Headers */,
 				507B40801C31BDD30067B53E /* b2MotorJoint.h in Headers */,
 				507B40811C31BDD30067B53E /* btMultiBodyJointLimitConstraint.h in Headers */,
@@ -13208,7 +13196,6 @@
 				B6CAB5401AF9AA1A00B9B856 /* cl_platform.h in Headers */,
 				15AE1A4219AAD3D500C27E9E /* b2Distance.h in Headers */,
 				1A9DCA2A180E6955007A3AD4 /* CCGLBufferedNode.h in Headers */,
-				1A01C69F18F57BE800EFE3A6 /* CCString.h in Headers */,
 				464AD6E8197EBB1400E502D8 /* pvr.h in Headers */,
 				15AE1AC119AAD40300C27E9E /* b2MotorJoint.h in Headers */,
 				B6CAB40A1AF9AA1A00B9B856 /* btMultiBodyJointLimitConstraint.h in Headers */,
@@ -13909,7 +13896,6 @@
 				B6CAB39F1AF9AA1A00B9B856 /* btKinematicCharacterController.cpp in Sources */,
 				B6CAB2051AF9AA1A00B9B856 /* btOverlappingPairCache.cpp in Sources */,
 				1A570310180BCF190088DEC7 /* CCComponentContainer.cpp in Sources */,
-				1A01C69C18F57BE800EFE3A6 /* CCString.cpp in Sources */,
 				5020A1E61D49912500E80C72 /* SkeletonBatch.cpp in Sources */,
 				B6DD2FCB1B04825B00E47F5F /* DetourNavMeshQuery.cpp in Sources */,
 				B6CAB26D1AF9AA1A00B9B856 /* btSphereSphereCollisionAlgorithm.cpp in Sources */,
@@ -14175,7 +14161,6 @@
 				507B39CD1C31BDD30067B53E /* CCNodeLoaderLibrary.cpp in Sources */,
 				507B39CE1C31BDD30067B53E /* CCActionFrame.cpp in Sources */,
 				507B39CF1C31BDD30067B53E /* btConvexConvexAlgorithm.cpp in Sources */,
-				507B39D11C31BDD30067B53E /* CCString.cpp in Sources */,
 				507B39D21C31BDD30067B53E /* sweep.cc in Sources */,
 				502AF97A1D0711CA006AF256 /* CCVRGenericHeadTracker.cpp in Sources */,
 				507B39D31C31BDD30067B53E /* ImageViewReader.cpp in Sources */,
@@ -15019,7 +15004,6 @@
 				B6CAB4D41AF9AA1A00B9B856 /* SpuGatheringCollisionTask.cpp in Sources */,
 				B6CAB2461AF9AA1A00B9B856 /* btConvexConvexAlgorithm.cpp in Sources */,
 				5020A1BD1D49912500E80C72 /* MeshAttachment.c in Sources */,
-				1A01C69D18F57BE800EFE3A6 /* CCString.cpp in Sources */,
 				15FB20981AE7C57D00C31518 /* sweep.cc in Sources */,
 				502AF9791D0711C9006AF256 /* CCVRGenericHeadTracker.cpp in Sources */,
 				B6CAB3BC1AF9AA1A00B9B856 /* btGeneric6DofSpringConstraint.cpp in Sources */,

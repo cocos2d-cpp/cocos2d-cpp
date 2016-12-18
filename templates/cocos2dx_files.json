@@ -529,8 +529,6 @@
         "cocos/cocos2d.h", 
         "cocos/deprecated/CCDeprecated.cpp", 
         "cocos/deprecated/CCDeprecated.h", 
-        "cocos/deprecated/CCString.cpp", 
-        "cocos/deprecated/CCString.h", 
         "cocos/deprecated/CMakeLists.txt", 
         "cocos/editor-support/spine/Android.mk", 
         "cocos/editor-support/spine/Animation.c", 

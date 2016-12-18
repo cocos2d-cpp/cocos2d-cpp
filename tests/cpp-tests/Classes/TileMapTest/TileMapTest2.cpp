@@ -1208,13 +1208,16 @@ void TMXOrthoFlipRunTimeTestNew::flipIt(float dt)
 
 TMXOrthoFromXMLTestNew::TMXOrthoFromXMLTestNew()
 {
-    std::string resources = "TileMaps";        // partial paths are OK as resource paths.
-    std::string file = resources + "/orthogonal-test1.tmx";
+    auto fileUtils = FileUtils::getInstance();
 
-    auto str = __String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
-    CCASSERT(str != nullptr, "Unable to open file");
+    std::string resources = "TileMaps"; // partial paths are OK as resource paths.
+    std::string filename = resources + "/orthogonal-test1.tmx";
+    std::string fullPath = fileUtils->fullPathForFilename(filename);
+    std::string str = fileUtils->getStringFromFile(fullPath);
 
-    auto map = cocos2d::experimental::TMXTiledMap::createWithXML(str->getCString() ,resources.c_str());
+    CCASSERT(!str.empty(), "Unable to open file");
+
+    auto map = cocos2d::experimental::TMXTiledMap::createWithXML(str,resources.c_str());
     addChild(map, 0, kTagTileMap);
 
     auto s = map->getContentSize();
