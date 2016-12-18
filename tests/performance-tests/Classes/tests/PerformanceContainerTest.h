@@ -74,17 +74,6 @@ public:
     virtual std::string subtitle() const override;
 };
 
-class ArrayPerfTest : public PerformanceContainerScene
-{
-public:
-    CREATE_FUNC(ArrayPerfTest);
-    
-    virtual void generateTestFunctions() override;
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
-
 class TemplateMapStringKeyPerfTest : public PerformanceContainerScene
 {
 public:
