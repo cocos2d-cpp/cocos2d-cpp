@@ -1,4 +1,15 @@
-/external
-/tools/fbx-conv
+## EXTRA PACKAGES
+# zip with dependencies downloaded with download-deps.py
 /*-deps-*.zip
+# external dependencies extracted from zip-archive above
+/external
+# fbx-conv copied from /external dependencies
+/tools/fbx-conv
+
+## TEMPORARY FILES
+# compiled python code
 *.pyc
+
+## EDITORS AND IDE
+# vim swap files
+.*.swp
