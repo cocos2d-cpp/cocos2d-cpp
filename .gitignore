@@ -13,3 +13,7 @@
 ## EDITORS AND IDE
 # vim swap files
 .*.swp
+# xcode
+.DS_Store
+project.xcworkspace
+xcuserdata
