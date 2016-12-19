@@ -322,12 +322,6 @@
 		1AC35CD118CED84500F37B72 /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAC18CED84500F37B72 /* background.mp3 */; };
 		1AC35CD218CED84500F37B72 /* background.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAD18CED84500F37B72 /* background.ogg */; };
 		1AC35CD318CED84500F37B72 /* background.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAD18CED84500F37B72 /* background.ogg */; };
-		1AC35CD418CED84500F37B72 /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAE18CED84500F37B72 /* ccb */; };
-		1AC35CD518CED84500F37B72 /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAE18CED84500F37B72 /* ccb */; };
-		1AC35CD618CED84500F37B72 /* CocosBuilderExample.ccbproj in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAF18CED84500F37B72 /* CocosBuilderExample.ccbproj */; };
-		1AC35CD718CED84500F37B72 /* CocosBuilderExample.ccbproj in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAF18CED84500F37B72 /* CocosBuilderExample.ccbproj */; };
-		1AC35CD818CED84500F37B72 /* CocosBuilderExample.ccbresourcelog in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB018CED84500F37B72 /* CocosBuilderExample.ccbresourcelog */; };
-		1AC35CD918CED84500F37B72 /* CocosBuilderExample.ccbresourcelog in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB018CED84500F37B72 /* CocosBuilderExample.ccbresourcelog */; };
 		1AC35CDE18CED84500F37B72 /* components in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB318CED84500F37B72 /* components */; };
 		1AC35CDF18CED84500F37B72 /* components in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB318CED84500F37B72 /* components */; };
 		1AC35CE018CED84500F37B72 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB418CED84500F37B72 /* configs */; };
@@ -460,7 +454,6 @@
 		507B410E1C31BEA60067B53E /* Particles in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CC318CED84500F37B72 /* Particles */; };
 		507B410F1C31BEA60067B53E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35C7318CECF1400F37B72 /* Default-568h@2x.png */; };
 		507B41101C31BEA60067B53E /* Test.html in Resources */ = {isa = PBXBuildFile; fileRef = 29AFEF6619ACCAA000F6B10A /* Test.html */; };
-		507B41111C31BEA60067B53E /* ccb in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAE18CED84500F37B72 /* ccb */; };
 		507B41121C31BEA60067B53E /* configs in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB418CED84500F37B72 /* configs */; };
 		507B41131C31BEA60067B53E /* extensions in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB818CED84500F37B72 /* extensions */; };
 		507B41141C31BEA60067B53E /* audio in Resources */ = {isa = PBXBuildFile; fileRef = 3E2BDAD119BEA3E20055CDCD /* audio */; };
@@ -497,10 +490,8 @@
 		507B41331C31BEA60067B53E /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35C7818CECF1400F37B72 /* Icon-120.png */; };
 		507B41341C31BEA60067B53E /* Icon-58.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35C7F18CECF1400F37B72 /* Icon-58.png */; };
 		507B41351C31BEA60067B53E /* background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAC18CED84500F37B72 /* background.mp3 */; };
-		507B41361C31BEA60067B53E /* CocosBuilderExample.ccbresourcelog in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CB018CED84500F37B72 /* CocosBuilderExample.ccbresourcelog */; };
 		507B41371C31BEA60067B53E /* Shaders3D in Resources */ = {isa = PBXBuildFile; fileRef = B2507B6A192589AF00FA4972 /* Shaders3D */; };
 		507B41381C31BEA60067B53E /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CBA18CED84500F37B72 /* fonts */; };
-		507B41391C31BEA60067B53E /* CocosBuilderExample.ccbproj in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35CAF18CED84500F37B72 /* CocosBuilderExample.ccbproj */; };
 		507B413A1C31BEA60067B53E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AC35C7418CECF1400F37B72 /* Default.png */; };
 		507B413D1C31BEA60067B53E /* SpritePolygonTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6886696F1AE8E8B500C2CFD9 /* SpritePolygonTest.cpp */; };
 		507B413E1C31BEA60067B53E /* TextInputTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AC35AFC18CECF0C00F37B72 /* TextInputTest.cpp */; };
@@ -1341,9 +1332,6 @@
 		1AC35CA918CED84500F37B72 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = "../tests/cpp-tests/Resources/animations"; sourceTree = "<group>"; };
 		1AC35CAC18CED84500F37B72 /* background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = background.mp3; path = "../tests/cpp-tests/Resources/background.mp3"; sourceTree = "<group>"; };
 		1AC35CAD18CED84500F37B72 /* background.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; name = background.ogg; path = "../tests/cpp-tests/Resources/background.ogg"; sourceTree = "<group>"; };
-		1AC35CAE18CED84500F37B72 /* ccb */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ccb; path = "../tests/cpp-tests/Resources/ccb"; sourceTree = "<group>"; };
-		1AC35CAF18CED84500F37B72 /* CocosBuilderExample.ccbproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = CocosBuilderExample.ccbproj; path = "../tests/cpp-tests/Resources/CocosBuilderExample.ccbproj"; sourceTree = "<group>"; };
-		1AC35CB018CED84500F37B72 /* CocosBuilderExample.ccbresourcelog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CocosBuilderExample.ccbresourcelog; path = "../tests/cpp-tests/Resources/CocosBuilderExample.ccbresourcelog"; sourceTree = "<group>"; };
 		1AC35CB318CED84500F37B72 /* components */ = {isa = PBXFileReference; lastKnownFileType = folder; name = components; path = "../tests/cpp-tests/Resources/components"; sourceTree = "<group>"; };
 		1AC35CB418CED84500F37B72 /* configs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = configs; path = "../tests/cpp-tests/Resources/configs"; sourceTree = "<group>"; };
 		1AC35CB518CED84500F37B72 /* effect1.raw */ = {isa = PBXFileReference; lastKnownFileType = file; name = effect1.raw; path = "../tests/cpp-tests/Resources/effect1.raw"; sourceTree = "<group>"; };
@@ -2768,7 +2756,6 @@
 				3E92EA841921A7720094CD21 /* Sprite3DTest */,
 				3EA0FB5D191B92F100B170C8 /* cocosvideo.mp4 */,
 				1AC35CA918CED84500F37B72 /* animations */,
-				1AC35CAE18CED84500F37B72 /* ccb */,
 				1AC35CB318CED84500F37B72 /* components */,
 				1AC35CB418CED84500F37B72 /* configs */,
 				1AC35CB818CED84500F37B72 /* extensions */,
@@ -2782,8 +2769,6 @@
 				1AC35CC818CED84500F37B72 /* TileMaps */,
 				1AC35CC918CED84500F37B72 /* zwoptex */,
 				C08689C018D370C90093E810 /* background.caf */,
-				1AC35CAF18CED84500F37B72 /* CocosBuilderExample.ccbproj */,
-				1AC35CB018CED84500F37B72 /* CocosBuilderExample.ccbresourcelog */,
 				1AC35CC218CED84500F37B72 /* music.mid */,
 				1AC35CAC18CED84500F37B72 /* background.mp3 */,
 				1AC35CAD18CED84500F37B72 /* background.ogg */,
@@ -3581,7 +3566,6 @@
 				1AC35D0418CED84500F37B72 /* Shaders in Resources */,
 				15B3709319EE5D1000ABE682 /* Manifests in Resources */,
 				3E2F27BA19CFF52300E7C490 /* audio in Resources */,
-				1AC35CD818CED84500F37B72 /* CocosBuilderExample.ccbresourcelog in Resources */,
 				B2507B6B192589AF00FA4972 /* Shaders3D in Resources */,
 				1AC35D0618CED84500F37B72 /* spine in Resources */,
 				3E2F27BB19CFF52A00E7C490 /* background.wav in Resources */,
@@ -3604,12 +3588,10 @@
 				1AC35CD218CED84500F37B72 /* background.ogg in Resources */,
 				1AC35D0018CED84500F37B72 /* pew-pew-lei.wav in Resources */,
 				1AC35CD018CED84500F37B72 /* background.mp3 in Resources */,
-				1AC35CD618CED84500F37B72 /* CocosBuilderExample.ccbproj in Resources */,
 				3E92EA851921A7720094CD21 /* Sprite3DTest in Resources */,
 				1AC35CA318CECF1E00F37B72 /* InfoPlist.strings in Resources */,
 				1AC35CA418CECF1E00F37B72 /* MainMenu.xib in Resources */,
 				B603F1B41AC8FBFB00A9579C /* TerrainTest in Resources */,
-				1AC35CD418CED84500F37B72 /* ccb in Resources */,
 				C08689C118D370C90093E810 /* background.caf in Resources */,
 				1AC35CE418CED84500F37B72 /* effect1.wav in Resources */,
 			);
@@ -3661,7 +3643,6 @@
 				507B410E1C31BEA60067B53E /* Particles in Resources */,
 				507B410F1C31BEA60067B53E /* Default-568h@2x.png in Resources */,
 				507B41101C31BEA60067B53E /* Test.html in Resources */,
-				507B41111C31BEA60067B53E /* ccb in Resources */,
 				507B41121C31BEA60067B53E /* configs in Resources */,
 				507B41131C31BEA60067B53E /* extensions in Resources */,
 				507B41141C31BEA60067B53E /* audio in Resources */,
@@ -3698,10 +3679,8 @@
 				507B41331C31BEA60067B53E /* Icon-120.png in Resources */,
 				507B41341C31BEA60067B53E /* Icon-58.png in Resources */,
 				507B41351C31BEA60067B53E /* background.mp3 in Resources */,
-				507B41361C31BEA60067B53E /* CocosBuilderExample.ccbresourcelog in Resources */,
 				507B41371C31BEA60067B53E /* Shaders3D in Resources */,
 				507B41381C31BEA60067B53E /* fonts in Resources */,
-				507B41391C31BEA60067B53E /* CocosBuilderExample.ccbproj in Resources */,
 				507B413A1C31BEA60067B53E /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3765,7 +3744,6 @@
 				1AC35CFF18CED84500F37B72 /* Particles in Resources */,
 				1AC35C8818CECF1400F37B72 /* Default-568h@2x.png in Resources */,
 				29AFEF6719ACCAA000F6B10A /* Test.html in Resources */,
-				1AC35CD518CED84500F37B72 /* ccb in Resources */,
 				1AC35CE118CED84500F37B72 /* configs in Resources */,
 				1AC35CE918CED84500F37B72 /* extensions in Resources */,
 				3E2BDAD219BEA3E20055CDCD /* audio in Resources */,
@@ -3803,10 +3781,8 @@
 				1AC35C8D18CECF1400F37B72 /* Icon-120.png in Resources */,
 				1AC35C9418CECF1400F37B72 /* Icon-58.png in Resources */,
 				1AC35CD118CED84500F37B72 /* background.mp3 in Resources */,
-				1AC35CD918CED84500F37B72 /* CocosBuilderExample.ccbresourcelog in Resources */,
 				B2507B6C192589AF00FA4972 /* Shaders3D in Resources */,
 				1AC35CED18CED84500F37B72 /* fonts in Resources */,
-				1AC35CD718CED84500F37B72 /* CocosBuilderExample.ccbproj in Resources */,
 				1AC35C8918CECF1400F37B72 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

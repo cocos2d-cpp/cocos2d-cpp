@@ -152,14 +152,12 @@ public:
      While Nodes with LocalZOrder >=0 are the "right" subtree.
      
      @see `setGlobalZOrder`
-     @see `setVertexZ`
+     @see `setPositionZ`
      *
      * @param localZOrder The local Z order value.
      */
     virtual void setLocalZOrder(int localZOrder);
 
-    CC_DEPRECATED_ATTRIBUTE virtual void setZOrder(int localZOrder) { setLocalZOrder(localZOrder); }
-    
     /* 
      Helper function used by `setLocalZOrder`. Don't use it unless you know what you are doing.
      @js NA
@@ -188,8 +186,6 @@ public:
 
     virtual int getLocalZOrder() const { return _localZOrder; }
 
-    CC_DEPRECATED_ATTRIBUTE virtual int getZOrder() const { return getLocalZOrder(); }
-
     /**
      Defines the order in which the nodes are renderer.
      Nodes that have a Global Z Order lower, are renderer first.
@@ -205,7 +201,7 @@ public:
      And if ClippingNode is one of the ancestors, then "global Z order" will be relative to the ClippingNode.
 
      @see `setLocalZOrder()`
-     @see `setVertexZ()`
+     @see `setPositionZ()`
 
      @since v3.0
      *
@@ -440,10 +436,8 @@ public:
      * @see `setGlobalZValue()`
      *
      * @param positionZ  OpenGL Z vertex of this node.
-     * @js setVertexZ
      */
     virtual void setPositionZ(float positionZ);
-    CC_DEPRECATED_ATTRIBUTE virtual void setVertexZ(float vertexZ) { setPositionZ(vertexZ); }
 
     /**
      * Gets position Z coordinate of this node.
@@ -451,10 +445,8 @@ public:
      * @see setPositionZ(float)
      *
      * @return The position Z coordinate of this node.
-     * @js getVertexZ
      */
     virtual float getPositionZ() const;
-    CC_DEPRECATED_ATTRIBUTE virtual float getVertexZ() const { return getPositionZ(); }
 
     /**
      * Changes the X skew angle of the node in degrees.
@@ -640,10 +632,8 @@ public:
      * @param rotationX    The X rotation in degrees which performs a horizontal rotational skew.
      *
      * @warning The physics body doesn't support this.
-     * @js setRotationX
      */
     virtual void setRotationSkewX(float rotationX);
-    CC_DEPRECATED_ATTRIBUTE virtual void setRotationX(float rotationX) { return setRotationSkewX(rotationX); }
 
     /**
      * Gets the X rotation (angle) of the node in degrees which performs a horizontal rotation skew.
@@ -651,10 +641,8 @@ public:
      * @see `setRotationSkewX(float)`
      *
      * @return The X rotation in degrees.
-     * @js getRotationX 
      */
     virtual float getRotationSkewX() const;
-    CC_DEPRECATED_ATTRIBUTE virtual float getRotationX() const { return getRotationSkewX(); }
 
     /**
      * Sets the Y rotation (angle) of the node in degrees which performs a vertical rotational skew.
@@ -668,10 +656,8 @@ public:
      * @param rotationY    The Y rotation in degrees.
      *
      * @warning The physics body doesn't support this.
-     * @js setRotationY
      */
     virtual void setRotationSkewY(float rotationY);
-    CC_DEPRECATED_ATTRIBUTE virtual void setRotationY(float rotationY) { return setRotationSkewY(rotationY); }
 
     /**
      * Gets the Y rotation (angle) of the node in degrees which performs a vertical rotational skew.
@@ -679,19 +665,8 @@ public:
      * @see `setRotationSkewY(float)`
      *
      * @return The Y rotation in degrees.
-     * @js getRotationY
      */
     virtual float getRotationSkewY() const;
-    CC_DEPRECATED_ATTRIBUTE virtual float getRotationY() const { return getRotationSkewY(); }
-
-    /** @deprecated No longer needed
-    * @lua NA
-    */
-    CC_DEPRECATED_ATTRIBUTE void setGLServerState(int /*serverState*/) {}
-    /** @deprecated No longer needed
-    * @lua NA
-    */
-    CC_DEPRECATED_ATTRIBUTE int getGLServerState() const { return 0; }
 
     /**
      * Sets whether the anchor point will be (0,0) when you position this node.
@@ -702,7 +677,6 @@ public:
      * @param ignore    true if anchor point will be (0,0) when you position this node.
      */
     virtual void setIgnoreAnchorPointForPosition(bool ignore);
-    CC_DEPRECATED_ATTRIBUTE virtual void ignoreAnchorPointForPosition(bool ignore) { setIgnoreAnchorPointForPosition(ignore); }
     
     /**
      * Gets whether the anchor point will be (0,0) when you position this node.
@@ -1050,7 +1024,7 @@ public:
      * @return The GLProgram (shader) currently used for this node.
      */
     GLProgram* getGLProgram() const;
-    CC_DEPRECATED_ATTRIBUTE GLProgram* getShaderProgram() const { return getGLProgram(); }
+
     /**
      * Sets the shader program for this node
      *
@@ -1063,7 +1037,6 @@ public:
      * @param glprogram The shader program.
      */
     virtual void setGLProgram(GLProgram *glprogram);
-    CC_DEPRECATED_ATTRIBUTE void setShaderProgram(GLProgram *glprogram) { setGLProgram(glprogram); }
     
     /**
      * Return the GLProgramState currently used for this node.
@@ -1188,14 +1161,12 @@ public:
      */
     virtual Rect getBoundingBox() const;
 
-    /** @deprecated Use getBoundingBox instead */
-    CC_DEPRECATED_ATTRIBUTE virtual Rect boundingBox() const { return getBoundingBox(); }
-
     /** Set event dispatcher for scene.
      *
      * @param dispatcher The event dispatcher of scene.
      */
     virtual void setEventDispatcher(EventDispatcher* dispatcher);
+
     /** Get the event dispatcher of scene.
      *
      * @return The event dispatcher of scene.
@@ -1300,12 +1271,7 @@ public:
      */
     ssize_t getNumberOfRunningActionsByTag(int tag) const;
 
-
-    /** @deprecated Use getNumberOfRunningActions() instead */
-    CC_DEPRECATED_ATTRIBUTE ssize_t numberOfRunningActions() const { return getNumberOfRunningActions(); };
-
     /// @} end of Actions
-
 
     /// @{
     /// @name Scheduler and Timer
@@ -1488,8 +1454,6 @@ public:
      */
     void unscheduleAllCallbacks();
 
-    CC_DEPRECATED_ATTRIBUTE void unscheduleAllSelectors() { unscheduleAllCallbacks(); }
-
     /**
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter.
@@ -1500,17 +1464,6 @@ public:
      * This method is called internally by onExit.
      */
     virtual void pause(void);
-
-    /**
-     * Resumes all scheduled selectors, actions and event listeners.
-     * This method is called internally by onEnter.
-     */
-    CC_DEPRECATED_ATTRIBUTE void resumeSchedulerAndActions();
-    /**
-     * Pauses all scheduled selectors, actions and event listeners.
-     * This method is called internally by onExit.
-     */
-    CC_DEPRECATED_ATTRIBUTE void pauseSchedulerAndActions();
 
     /**
      * Update method will be called automatically every frame if "scheduleUpdate" is called, and the node is "live".
@@ -1571,20 +1524,14 @@ public:
      */
     virtual void setNodeToParentTransform(const Mat4& transform);
 
-    /** @deprecated use getNodeToParentTransform() instead */
-    CC_DEPRECATED_ATTRIBUTE virtual AffineTransform nodeToParentTransform() const { return getNodeToParentAffineTransform(); }
-
     /**
-     * Returns the matrix that transform parent's space coordinates to the node's (local) space coordinates.
+     * Returns the matrix that transforms parent's space coordinates to the node's (local) space coordinates.
      * The matrix is in Pixels.
      *
      * @return The transformation matrix.
      */
     virtual const Mat4& getParentToNodeTransform() const;
     virtual AffineTransform getParentToNodeAffineTransform() const;
-
-    /** @deprecated Use getParentToNodeTransform() instead */
-    CC_DEPRECATED_ATTRIBUTE virtual AffineTransform parentToNodeTransform() const { return getParentToNodeAffineTransform(); }
 
     /**
      * Returns the world affine transform matrix. The matrix is in Pixels.
@@ -1604,9 +1551,6 @@ public:
      */
     virtual Mat4 getWorldToNodeTransform() const;
     virtual AffineTransform getWorldToNodeAffineTransform() const;
-
-    /** @deprecated Use getWorldToNodeTransform() instead */
-    CC_DEPRECATED_ATTRIBUTE virtual AffineTransform worldToNodeTransform() const { return getWorldToNodeAffineTransform(); }
 
     /// @} end of Transformations
 
