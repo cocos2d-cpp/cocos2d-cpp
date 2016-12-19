@@ -44,7 +44,6 @@ void TextureAtlasEncryptionDemo::onEnter()
     // function call.
     // This is slightly less secure because the entire key is more easily
     // found in the compiled source. See the header docs for more information.
-    // ZipUtils::ccSetPvrEncryptionKey(0xaaaaaaaa, 0xbbbbbbbb, 0xcccccccc, 0xdddddddd);
 
     // 2) Load the encrypted atlas
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/encryptedAtlas.plist", "Images/encryptedAtlas.pvr.ccz");
