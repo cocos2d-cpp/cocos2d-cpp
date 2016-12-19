@@ -244,7 +244,7 @@ AudioEngineImpl::~AudioEngineImpl()
         _threadPool = nullptr;
     }
     auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->unschedule(schedule_selector(AudioEngineImpl::update), this);
+    scheduler->unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
 }
 
 bool AudioEngineImpl::init()
@@ -283,7 +283,7 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
             _lazyInitLoop = false;
 
             auto scheduler = Director::getInstance()->getScheduler();
-            scheduler->schedule(schedule_selector(AudioEngineImpl::update), this, 0.03f, false);
+            scheduler->schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.03f, false);
         }
     } while (0);
 
@@ -342,7 +342,7 @@ void AudioEngineImpl::update(float dt)
         _lazyInitLoop = true;
 
         auto scheduler = Director::getInstance()->getScheduler();
-        scheduler->unschedule(schedule_selector(AudioEngineImpl::update), this);
+        scheduler->unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
     }
 }
 

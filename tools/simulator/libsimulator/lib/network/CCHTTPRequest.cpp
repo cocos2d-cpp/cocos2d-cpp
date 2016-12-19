@@ -353,7 +353,7 @@ void HTTPRequest::update(float dt)
     Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
     if (_curlState != kCCHTTPRequestCURLStateIdle)
     {
-        Director::getInstance()->getScheduler()->schedule(schedule_selector(HTTPRequest::checkCURLState), this, 0, false);
+        Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(HTTPRequest::checkCURLState), this, 0, false);
     }
 
     if (_state == kCCHTTPRequestStateCompleted)

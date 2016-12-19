@@ -1382,7 +1382,7 @@ public:
      @code
      // firstly, implement a schedule function
      void MyNode::TickMe(float dt);
-     // wrap this function into a selector via schedule_selector macro.
+     // wrap this function into a selector via CC_SCHEDULE_SELECTOR macro.
      this->schedule(CC_SCHEDULE_SELECTOR(MyNode::TickMe), 0, 0, 0);
      @endcode
      *

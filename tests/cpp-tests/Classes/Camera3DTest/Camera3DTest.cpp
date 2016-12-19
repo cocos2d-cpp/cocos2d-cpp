@@ -135,7 +135,7 @@ CameraRotationTest::CameraRotationTest()
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_lis, this);
     
-    schedule(schedule_selector(CameraRotationTest::update));
+    schedule(CC_SCHEDULE_SELECTOR(CameraRotationTest::update));
 }
 
 CameraRotationTest::~CameraRotationTest()
@@ -720,7 +720,7 @@ void CameraCullingDemo::onEnter()
 {
     CameraBaseTest::onEnter();
 
-    schedule(schedule_selector(CameraCullingDemo::update), 0.0f);
+    schedule(CC_SCHEDULE_SELECTOR(CameraCullingDemo::update), 0.0f);
     
     auto s = Director::getInstance()->getWinSize();
     /*auto listener = EventListenerTouchAllAtOnce::create();
@@ -1005,7 +1005,7 @@ void CameraArcBallDemo::onEnter()
 {
     CameraBaseTest::onEnter();
     _rotationQuat.set(0.0f, 0.0f, 0.0f, 1.0f);
-    schedule(schedule_selector(CameraArcBallDemo::update), 0.0f);
+    schedule(CC_SCHEDULE_SELECTOR(CameraArcBallDemo::update), 0.0f);
     auto s = Director::getInstance()->getWinSize();
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(CameraArcBallDemo::onTouchsMoved, this);
@@ -1220,7 +1220,7 @@ std::string FogTestDemo::title() const
 void FogTestDemo::onEnter()
 {
     CameraBaseTest::onEnter();
-    schedule(schedule_selector(FogTestDemo::update), 0.0f);
+    schedule(CC_SCHEDULE_SELECTOR(FogTestDemo::update), 0.0f);
     Director::getInstance()->setClearColor(Color4F(0.5,0.5,0.5,1));
 
     auto s = Director::getInstance()->getWinSize();

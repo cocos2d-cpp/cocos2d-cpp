@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <vector>
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #if CC_REF_LEAK_DETECTION
 static void trackRef(Ref* ref);
@@ -174,4 +174,4 @@ static void untrackRef(Ref* ref)
 #endif // #if CC_REF_LEAK_DETECTION
 
 
-NS_CC_END
+} // namespace cocos2d
