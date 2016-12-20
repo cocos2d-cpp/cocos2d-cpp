@@ -436,19 +436,6 @@ void UserDefault::setDelegate(UserDefault *delegate)
     _userDefault = delegate;
 }
 
-
-// FIXME:: deprecated
-UserDefault* UserDefault::sharedUserDefault()
-{
-    return UserDefault::getInstance();
-}
-
-// FIXME:: deprecated
-void UserDefault::purgeSharedUserDefault()
-{
-    return UserDefault::destroyInstance();
-}
-
 bool UserDefault::isXMLFileExist()
 {
     return FileUtils::getInstance()->isFileExist(_filePath);
