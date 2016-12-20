@@ -34,7 +34,7 @@ NS_CC_BEGIN
 
 extern const char* cocos2dVersion();
 
-Configuration* Configuration::s_sharedConfiguration = nullptr;
+Configuration* Configuration::s_instance = nullptr;
 
 const char* Configuration::CONFIG_FILE_LOADED = "config_file_loaded";
 
@@ -173,32 +173,19 @@ void Configuration::gatherGPUInfo()
 
 Configuration* Configuration::getInstance()
 {
-    if (! s_sharedConfiguration)
+    if (! s_instance)
     {
-        s_sharedConfiguration = new (std::nothrow) Configuration();
-        s_sharedConfiguration->init();
+        s_instance = new (std::nothrow) Configuration();
+        s_instance->init();
     }
     
-    return s_sharedConfiguration;
+    return s_instance;
 }
 
 void Configuration::destroyInstance()
 {
-    CC_SAFE_RELEASE_NULL(s_sharedConfiguration);
+    CC_SAFE_RELEASE_NULL(s_instance);
 }
-
-// FIXME: deprecated
-Configuration* Configuration::sharedConfiguration()
-{
-    return Configuration::getInstance();
-}
-
-// FIXME: deprecated
-void Configuration::purgeConfiguration()
-{
-    Configuration::destroyInstance();
-}
-
 
 bool Configuration::checkForGLExtension(const std::string &searchName) const
 {

@@ -61,12 +61,6 @@ public:
      */
     static void destroyInstance();
 
-    /** @deprecated Use getInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static Configuration *sharedConfiguration();
-
-    /** @deprecated Use destroyInstance() instead */
-    CC_DEPRECATED_ATTRIBUTE static void purgeConfiguration();
-
 public:
     /** Destructor
      * @js NA
@@ -243,8 +237,8 @@ public:
 
 private:
     Configuration(void);
-    static Configuration    *s_sharedConfiguration;
-	static std::string		s_configfile;
+    static Configuration * s_instance;
+	static std::string     s_configfile;
     
 protected:
     GLint           _maxTextureSize;

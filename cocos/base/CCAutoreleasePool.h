@@ -153,10 +153,8 @@ class CC_DLL PoolManager
 {
 public:
 
-    CC_DEPRECATED_ATTRIBUTE static PoolManager* sharedPoolManager() { return getInstance(); }
     static PoolManager* getInstance();
     
-    CC_DEPRECATED_ATTRIBUTE static void purgePoolManager() { destroyInstance(); }
     static void destroyInstance();
     
     /**
