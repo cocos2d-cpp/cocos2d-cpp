@@ -532,7 +532,6 @@
     <ClCompile Include="..\..\ui\UICheckBox.cpp" />
     <ClCompile Include="..\..\ui\UIEditBox\UIEditBoxImpl-common.cpp" />
     <ClCompile Include="..\..\ui\UIRadioButton.cpp" />
-    <ClCompile Include="..\..\ui\UIDeprecated.cpp" />
     <ClCompile Include="..\..\ui\UIEditBox\UIEditBox.cpp" />
     <ClCompile Include="..\..\ui\UIEditBox\UIEditBoxImpl-winrt.cpp" />
     <ClCompile Include="..\..\ui\UIHBox.cpp" />
@@ -1048,7 +1047,6 @@
     <ClInclude Include="..\..\ui\GUIExport.h" />
     <ClInclude Include="..\..\ui\UIButton.h" />
     <ClInclude Include="..\..\ui\UICheckBox.h" />
-    <ClInclude Include="..\..\ui\UIDeprecated.h" />
     <ClInclude Include="..\..\ui\UIEditBox\UIEditBox.h" />
     <ClInclude Include="..\..\ui\UIEditBox\UIEditBoxImpl-winrt.h" />
     <ClInclude Include="..\..\ui\UIEditBox\UIEditBoxImpl.h" />

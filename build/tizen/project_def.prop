@@ -278,7 +278,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/ui/UIAbstractCheckButton.cpp \
             ../../cocos/ui/UIButton.cpp \
             ../../cocos/ui/UICheckBox.cpp \
-            ../../cocos/ui/UIDeprecated.cpp \
             ../../cocos/ui/UIEditBox/UIEditBox.cpp \
             ../../cocos/ui/UIEditBox/UIEditBoxImpl-android.cpp \
             ../../cocos/ui/UIEditBox/UIEditBoxImpl-common.cpp \

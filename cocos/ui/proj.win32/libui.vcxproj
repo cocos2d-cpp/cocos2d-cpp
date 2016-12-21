@@ -15,7 +15,6 @@
     <ClInclude Include="..\GUIExport.h" />
     <ClInclude Include="..\UIButton.h" />
     <ClInclude Include="..\UICheckBox.h" />
-    <ClInclude Include="..\UIDeprecated.h" />
     <ClInclude Include="..\UIEditBox\UIEditBox.h" />
     <ClInclude Include="..\UIEditBox\UIEditBoxImpl.h" />
     <ClInclude Include="..\UIEditBox\UIEditBoxImplWin.h" />
@@ -48,7 +47,6 @@
     <ClCompile Include="..\UIAbstractCheckButton.cpp" />
     <ClCompile Include="..\UICheckBox.cpp" />
     <ClCompile Include="..\UIRadioButton.cpp" />
-    <ClCompile Include="..\UIDeprecated.cpp" />
     <ClCompile Include="..\UIEditBox\UIEditBox.cpp" />
     <ClCompile Include="..\UIEditBox\UIEditBoxImplWin.cpp" />
     <ClCompile Include="..\UIHBox.cpp" />

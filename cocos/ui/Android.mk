@@ -35,7 +35,6 @@ UIHBox.cpp \
 UIVBox.cpp \
 UIRelativeBox.cpp \
 UIVideoPlayer-android.cpp \
-UIDeprecated.cpp \
 UIScale9Sprite.cpp \
 UIWebView.cpp \
 UIWebViewImpl-android.cpp \

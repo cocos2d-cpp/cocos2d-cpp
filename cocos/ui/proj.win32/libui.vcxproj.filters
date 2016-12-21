@@ -87,9 +87,6 @@
     <ClInclude Include="..\UILayoutManager.h">
       <Filter>Layouts</Filter>
     </ClInclude>
-    <ClInclude Include="..\UIDeprecated.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="..\GUIExport.h">
       <Filter>System</Filter>
     </ClInclude>
@@ -190,9 +187,6 @@
     </ClCompile>
     <ClCompile Include="..\UILayoutManager.cpp">
       <Filter>Layouts</Filter>
-    </ClCompile>
-    <ClCompile Include="..\UIDeprecated.cpp">
-      <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="..\UIScale9Sprite.cpp">
       <Filter>BaseClasses</Filter>

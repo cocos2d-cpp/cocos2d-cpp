@@ -1224,9 +1224,6 @@
     <ClCompile Include="..\..\ui\CocosGUI.cpp">
       <Filter>ui\System</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ui\UIDeprecated.cpp">
-      <Filter>ui\System</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\ui\UIHelper.cpp">
       <Filter>ui\System</Filter>
     </ClCompile>
@@ -2724,9 +2721,6 @@
       <Filter>ui\System</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ui\GUIExport.h">
-      <Filter>ui\System</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ui\UIDeprecated.h">
       <Filter>ui\System</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ui\UIHelper.h">

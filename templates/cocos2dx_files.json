@@ -1066,8 +1066,6 @@
         "cocos/ui/UIButton.h", 
         "cocos/ui/UICheckBox.cpp", 
         "cocos/ui/UICheckBox.h", 
-        "cocos/ui/UIDeprecated.cpp", 
-        "cocos/ui/UIDeprecated.h", 
         "cocos/ui/UIEditBox/Mac/CCUIEditBoxMac.h", 
         "cocos/ui/UIEditBox/Mac/CCUIEditBoxMac.mm", 
         "cocos/ui/UIEditBox/Mac/CCUIMultilineTextField.h", 
