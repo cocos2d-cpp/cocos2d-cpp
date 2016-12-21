@@ -508,7 +508,7 @@ void GLViewImpl::OnRendering()
 {
 	if(m_running && m_initialized)
 	{
-		Director::sharedDirector()->mainLoop();
+		Director::getInstance()->mainLoop();
 	}
 }
 
@@ -569,7 +569,7 @@ void GLViewImpl::UpdateForWindowSizeChange()
         setFrameSize(width, height);
         Size designSize = getDesignResolutionSize();
         GLViewImpl::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, ResolutionPolicy::SHOW_ALL);
-        Director::sharedDirector()->setProjection(Director::sharedDirector()->getProjection());
+        Director::getInstance()->setProjection(Director::getInstance()->getProjection());
    }
 }
 

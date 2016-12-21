@@ -201,8 +201,6 @@ void MenuLayerMainMenu::menuCallbackBugsTest(Ref *pSender)
 
 void MenuLayerMainMenu::onQuit(Ref* sender)
 {
-    //[[Director sharedDirector] end];
-    //getCocosApp()->exit();
 }
 
 void MenuLayerMainMenu::menuMovingCallback(Ref *pSender)

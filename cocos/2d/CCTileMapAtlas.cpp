@@ -108,11 +108,6 @@ void TileMapAtlas::loadTGAfile(const std::string& file)
 {
     std::string fullPath = FileUtils::getInstance()->fullPathForFilename(file);
 
-    //    //Find the path of the file
-    //    NSBundle *mainBndl = [Director sharedDirector].loadingBundle;
-    //    String *resourcePath = [mainBndl resourcePath];
-    //    String * path = [resourcePath stringByAppendingPathComponent:file];
-
     _TGAInfo = tgaLoad( fullPath.c_str() );
 #if 1
     if( _TGAInfo->status != TGA_OK ) 
