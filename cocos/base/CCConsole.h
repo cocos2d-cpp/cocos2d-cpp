@@ -51,10 +51,7 @@ typedef SSIZE_T ssize_t;
 #include "base/ccMacros.h"
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
-
-/// The max length of CCLog message.
-static const int MAX_LOG_LENGTH = 16*1024;
+namespace cocos2d {
 
 /**
  @brief Output Debug message.
@@ -270,7 +267,7 @@ private:
     static void sendHelp(int fd, const std::map<std::string, Command>& commands, const char* msg);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif /* defined(__CCCONSOLE_H__) */

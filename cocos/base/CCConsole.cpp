@@ -68,16 +68,19 @@
 #include "base/base64.h"
 #include "base/ccUtils.h"
 #include "base/allocator/CCAllocatorDiagnostics.h"
-NS_CC_BEGIN
+
+namespace cocos2d {
 
 extern const char* cocos2dVersion(void);
 
-#define PROMPT  "> "
-
-static const size_t SEND_BUFSIZ = 512;
+std::string Console::Utility::_prompt("> ");
 
 /** private functions */
 namespace {
+
+constexpr int MAX_LOG_LENGTH = 16 * 1024;
+constexpr size_t SEND_BUFSIZ = 512;
+
 #if defined(__MINGW32__)
     // inet
     const char* inet_ntop(int af, const void* src, char* dst, int cnt)
@@ -186,15 +189,6 @@ namespace {
     }
 }
 
-// FIXME: Deprecated
-void CCLog(const char * format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    _log(format, args);
-    va_end(args);
-}
-
 void log(const char * format, ...)
 {
     va_list args;
@@ -206,8 +200,6 @@ void log(const char * format, ...)
 //
 //  Utility code
 //
-
-std::string Console::Utility::_prompt(PROMPT);
 
 //TODO: these general utils should be in a separate class
 //
@@ -1486,4 +1478,4 @@ void Console::sendHelp(int fd, const std::map<std::string, Command>& commands, c
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

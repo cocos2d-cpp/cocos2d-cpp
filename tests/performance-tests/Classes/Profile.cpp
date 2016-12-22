@@ -29,9 +29,12 @@
 #define DEVICE_NAME         "DeviceName"
 #define OS_VERSION          "SystemVersion"
 
-static Profile* s_profile = nullptr;
+namespace {
+const int MAX_LOG_LENGTH = 16 * 1024;
+Profile* s_profile = nullptr;
+}
 
-USING_NS_CC;
+using namespace cocos2d;
 
 // tools methods
 std::string genStr(const char* format, ...)
