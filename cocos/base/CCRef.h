@@ -147,7 +147,6 @@ public:
 
 class Node;
 
-typedef void (Ref::*SEL_MenuHandler)(Ref*);
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
