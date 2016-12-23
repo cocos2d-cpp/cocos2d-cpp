@@ -467,7 +467,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCClippingRectangleNode.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCComponentContainer.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawingPrimitives.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawNode.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCFastTMXLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCFastTMXTiledMap.h" />
@@ -959,7 +958,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCClippingRectangleNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCComponentContainer.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawingPrimitives.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCFastTMXLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCFastTMXTiledMap.cpp" />

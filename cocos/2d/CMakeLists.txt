@@ -29,7 +29,6 @@ set(COCOS_2D_SRC
   2d/CCClippingRectangleNode.cpp
   2d/CCComponentContainer.cpp
   2d/CCComponent.cpp
-  2d/CCDrawingPrimitives.cpp
   2d/CCDrawNode.cpp
   2d/CCFastTMXLayer.cpp
   2d/CCFastTMXTiledMap.cpp

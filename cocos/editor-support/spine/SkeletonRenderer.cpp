@@ -270,9 +270,8 @@ void SkeletonRenderer::drawDebug (Renderer* renderer, const Mat4 &transform, uin
     
     DrawNode* drawNode = DrawNode::create();
     
-    if (_debugSlots) {
-        // Slots.
-        // DrawPrimitives::setDrawColor4B(0, 0, 255, 255);
+    if (_debugSlots)
+    {
         glLineWidth(1);
         Vec2 points[4];
         V3F_C4B_T2F_Quad quad;

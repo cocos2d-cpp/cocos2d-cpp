@@ -114,8 +114,6 @@
         "cocos/2d/CCComponentContainer.h", 
         "cocos/2d/CCDrawNode.cpp", 
         "cocos/2d/CCDrawNode.h", 
-        "cocos/2d/CCDrawingPrimitives.cpp", 
-        "cocos/2d/CCDrawingPrimitives.h", 
         "cocos/2d/CCFastTMXLayer.cpp", 
         "cocos/2d/CCFastTMXLayer.h", 
         "cocos/2d/CCFastTMXTiledMap.cpp", 

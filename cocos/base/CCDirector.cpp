@@ -31,7 +31,6 @@ THE SOFTWARE.
 // standard includes
 #include <string>
 
-#include "2d/CCDrawingPrimitives.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "platform/CCFileUtils.h"
 
@@ -1004,13 +1003,6 @@ void Director::reset()
     
     FontFreeType::shutdownFreeType();
     
-    // purge all managed caches
-
-    //it will crash clang static analyzer so hide it if __clang_analyzer__ defined
-#ifndef __clang_analyzer__
-    DrawPrimitives::free();
-#endif
-
     AnimationCache::destroyInstance();
     SpriteFrameCache::destroyInstance();
     GLProgramCache::destroyInstance();

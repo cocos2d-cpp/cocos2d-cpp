@@ -544,9 +544,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCComponentContainer.h">
       <Filter>2d</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawingPrimitives.h">
-      <Filter>2d</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawNode.h">
       <Filter>2d</Filter>
     </ClInclude>
@@ -1965,9 +1962,6 @@
       <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCComponentContainer.cpp">
-      <Filter>2d</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawingPrimitives.cpp">
       <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCDrawNode.cpp">

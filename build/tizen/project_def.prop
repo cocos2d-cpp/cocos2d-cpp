@@ -33,7 +33,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/2d/CCComponent.cpp \
             ../../cocos/2d/CCComponentContainer.cpp \
             ../../cocos/2d/CCDrawNode.cpp \
-            ../../cocos/2d/CCDrawingPrimitives.cpp \
             ../../cocos/2d/CCFastTMXLayer.cpp \
             ../../cocos/2d/CCFastTMXTiledMap.cpp \
             ../../cocos/2d/CCFont.cpp \

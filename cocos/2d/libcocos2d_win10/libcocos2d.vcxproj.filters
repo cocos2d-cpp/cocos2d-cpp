@@ -204,9 +204,6 @@
     <ClCompile Include="..\CCComponentContainer.cpp">
       <Filter>2d</Filter>
     </ClCompile>
-    <ClCompile Include="..\CCDrawingPrimitives.cpp">
-      <Filter>2d</Filter>
-    </ClCompile>
     <ClCompile Include="..\CCDrawNode.cpp">
       <Filter>2d</Filter>
     </ClCompile>
@@ -1581,9 +1578,6 @@
       <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="..\CCComponentContainer.h">
-      <Filter>2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CCDrawingPrimitives.h">
       <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="..\CCDrawNode.h">

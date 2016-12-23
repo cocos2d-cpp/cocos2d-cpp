@@ -585,7 +585,6 @@
     <ClCompile Include="..\CCClippingRectangleNode.cpp" />
     <ClCompile Include="..\CCComponent.cpp" />
     <ClCompile Include="..\CCComponentContainer.cpp" />
-    <ClCompile Include="..\CCDrawingPrimitives.cpp" />
     <ClCompile Include="..\CCDrawNode.cpp" />
     <ClCompile Include="..\CCFastTMXLayer.cpp" />
     <ClCompile Include="..\CCFastTMXTiledMap.cpp" />
@@ -1092,7 +1091,6 @@
     <ClInclude Include="..\CCClippingRectangleNode.h" />
     <ClInclude Include="..\CCComponent.h" />
     <ClInclude Include="..\CCComponentContainer.h" />
-    <ClInclude Include="..\CCDrawingPrimitives.h" />
     <ClInclude Include="..\CCDrawNode.h" />
     <ClInclude Include="..\CCFastTMXLayer.h" />
     <ClInclude Include="..\CCFastTMXTiledMap.h" />

@@ -591,10 +591,6 @@
 		1A57009F180BC5D20088DEC7 /* CCNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57009C180BC5D20088DEC7 /* CCNode.cpp */; };
 		1A5700A0180BC5D20088DEC7 /* CCNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57009D180BC5D20088DEC7 /* CCNode.h */; };
 		1A5700A1180BC5D20088DEC7 /* CCNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57009D180BC5D20088DEC7 /* CCNode.h */; };
-		1A57010E180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */; };
-		1A57010F180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */; };
-		1A570110180BC8EE0088DEC7 /* CCDrawingPrimitives.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57010B180BC8EE0088DEC7 /* CCDrawingPrimitives.h */; };
-		1A570111180BC8EE0088DEC7 /* CCDrawingPrimitives.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57010B180BC8EE0088DEC7 /* CCDrawingPrimitives.h */; };
 		1A570112180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010C180BC8EE0088DEC7 /* CCDrawNode.cpp */; };
 		1A570113180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010C180BC8EE0088DEC7 /* CCDrawNode.cpp */; };
 		1A570114180BC8EE0088DEC7 /* CCDrawNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57010D180BC8EE0088DEC7 /* CCDrawNode.h */; };
@@ -1563,7 +1559,6 @@
 		507B3AD21C31BDD30067B53E /* DetourNavMeshQuery.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6DD2F8D1B04825B00E47F5F /* DetourNavMeshQuery.cpp */; };
 		507B3AD41C31BDD30067B53E /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB18F1AF9AA1A00B9B856 /* SpuContactManifoldCollisionAlgorithm.cpp */; };
 		507B3AD51C31BDD30067B53E /* CCNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57009C180BC5D20088DEC7 /* CCNode.cpp */; };
-		507B3AD61C31BDD30067B53E /* CCDrawingPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */; };
 		507B3AD71C31BDD30067B53E /* CCPUSlaveEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E1CC1AA80A6500DDB1C5 /* CCPUSlaveEmitter.cpp */; };
 		507B3AD81C31BDD30067B53E /* CCDrawNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57010C180BC8EE0088DEC7 /* CCDrawNode.cpp */; };
 		507B3AD91C31BDD30067B53E /* CCGrabber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570117180BC90D0088DEC7 /* CCGrabber.cpp */; };
@@ -2363,7 +2358,6 @@
 		507B3E1A1C31BDD30067B53E /* UIScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2905FA0818CF08D000240AA3 /* UIScrollView.h */; };
 		507B3E1B1C31BDD30067B53E /* ccShader_PositionTexture.vert in Headers */ = {isa = PBXBuildFile; fileRef = 5034CA02191D591000CE6051 /* ccShader_PositionTexture.vert */; };
 		507B3E1C1C31BDD30067B53E /* ProjectNodeReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 382384351A259126002C4610 /* ProjectNodeReader.h */; };
-		507B3E1D1C31BDD30067B53E /* CCDrawingPrimitives.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57010B180BC8EE0088DEC7 /* CCDrawingPrimitives.h */; };
 		507B3E1E1C31BDD30067B53E /* btMatrix3x3.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1C21AF9AA1A00B9B856 /* btMatrix3x3.h */; };
 		507B3E1F1C31BDD30067B53E /* CCConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDCD1925AB6E00A911A9 /* CCConsole.h */; };
 		507B3E201C31BDD30067B53E /* btDiscreteDynamicsWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1111AF9AA1900B9B856 /* btDiscreteDynamicsWorld.h */; };
@@ -5398,8 +5392,6 @@
 		1A570097180BC5C10088DEC7 /* CCAtlasNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAtlasNode.h; sourceTree = "<group>"; };
 		1A57009C180BC5D20088DEC7 /* CCNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCNode.cpp; sourceTree = "<group>"; };
 		1A57009D180BC5D20088DEC7 /* CCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNode.h; sourceTree = "<group>"; };
-		1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCDrawingPrimitives.cpp; sourceTree = "<group>"; };
-		1A57010B180BC8EE0088DEC7 /* CCDrawingPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDrawingPrimitives.h; sourceTree = "<group>"; };
 		1A57010C180BC8EE0088DEC7 /* CCDrawNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CCDrawNode.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		1A57010D180BC8EE0088DEC7 /* CCDrawNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCDrawNode.h; sourceTree = "<group>"; };
 		1A570117180BC90D0088DEC7 /* CCGrabber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCGrabber.cpp; sourceTree = "<group>"; };
@@ -7626,8 +7618,6 @@
 		1A570109180BC8DC0088DEC7 /* draw-nodes */ = {
 			isa = PBXGroup;
 			children = (
-				1A57010A180BC8ED0088DEC7 /* CCDrawingPrimitives.cpp */,
-				1A57010B180BC8EE0088DEC7 /* CCDrawingPrimitives.h */,
 				1A57010C180BC8EE0088DEC7 /* CCDrawNode.cpp */,
 				1A57010D180BC8EE0088DEC7 /* CCDrawNode.h */,
 			);
@@ -10601,7 +10591,6 @@
 				15AE1A6B19AAD40300C27E9E /* b2ChainAndCircleContact.h in Headers */,
 				5020A1891D49912500E80C72 /* BoneData.h in Headers */,
 				B6CAB4451AF9AA1A00B9B856 /* btParallelConstraintSolver.h in Headers */,
-				1A570110180BC8EE0088DEC7 /* CCDrawingPrimitives.h in Headers */,
 				B6CAB5091AF9AA1A00B9B856 /* btGrahamScan2dConvexHull.h in Headers */,
 				50CB247D19D9C5A100687767 /* AudioPlayer.h in Headers */,
 				50864CA01C7BC1B000B3BAB1 /* cpBB.h in Headers */,
@@ -11564,7 +11553,6 @@
 				50864CB71C7BC1B000B3BAB1 /* cpHastySpace.h in Headers */,
 				5020A1C11D49912500E80C72 /* MeshAttachment.h in Headers */,
 				5020A2151D49912500E80C72 /* SlotData.h in Headers */,
-				507B3E1D1C31BDD30067B53E /* CCDrawingPrimitives.h in Headers */,
 				507B3E1E1C31BDD30067B53E /* btMatrix3x3.h in Headers */,
 				507B3E1F1C31BDD30067B53E /* CCConsole.h in Headers */,
 				507B3E201C31BDD30067B53E /* btDiscreteDynamicsWorld.h in Headers */,
@@ -12602,7 +12590,6 @@
 				15AE1B7B19AADA9A00C27E9E /* UIScrollView.h in Headers */,
 				5020A1D81D49912500E80C72 /* RegionAttachment.h in Headers */,
 				50864CB61C7BC1B000B3BAB1 /* cpHastySpace.h in Headers */,
-				1A570111180BC8EE0088DEC7 /* CCDrawingPrimitives.h in Headers */,
 				B6CAB5121AF9AA1A00B9B856 /* btMatrix3x3.h in Headers */,
 				50ABBE381925AB6F00A911A9 /* CCConsole.h in Headers */,
 				B6CAB3EA1AF9AA1A00B9B856 /* btDiscreteDynamicsWorld.h in Headers */,
@@ -13547,7 +13534,6 @@
 				B6CAB3E11AF9AA1A00B9B856 /* btUniversalConstraint.cpp in Sources */,
 				15AE183819AAD2F700C27E9E /* CCRay.cpp in Sources */,
 				50ABBE391925AB6F00A911A9 /* CCData.cpp in Sources */,
-				1A57010E180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */,
 				B6CAB3D11AF9AA1A00B9B856 /* btSliderConstraint.cpp in Sources */,
 				50ABBED71925AB6F00A911A9 /* ZipUtils.cpp in Sources */,
 				B665E3B61AA80A6500DDB1C5 /* CCPURibbonTrail.cpp in Sources */,
@@ -14384,7 +14370,6 @@
 				507B3AD21C31BDD30067B53E /* DetourNavMeshQuery.cpp in Sources */,
 				507B3AD41C31BDD30067B53E /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */,
 				507B3AD51C31BDD30067B53E /* CCNode.cpp in Sources */,
-				507B3AD61C31BDD30067B53E /* CCDrawingPrimitives.cpp in Sources */,
 				507B3AD71C31BDD30067B53E /* CCPUSlaveEmitter.cpp in Sources */,
 				507B3AD81C31BDD30067B53E /* CCDrawNode.cpp in Sources */,
 				507B3AD91C31BDD30067B53E /* CCGrabber.cpp in Sources */,
@@ -15196,7 +15181,6 @@
 				B6DD2FCC1B04825B00E47F5F /* DetourNavMeshQuery.cpp in Sources */,
 				B6CAB4B21AF9AA1A00B9B856 /* SpuContactManifoldCollisionAlgorithm.cpp in Sources */,
 				1A57009F180BC5D20088DEC7 /* CCNode.cpp in Sources */,
-				1A57010F180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */,
 				B665E3F31AA80A6600DDB1C5 /* CCPUSlaveEmitter.cpp in Sources */,
 				1A570113180BC8EE0088DEC7 /* CCDrawNode.cpp in Sources */,
 				1A57011C180BC90D0088DEC7 /* CCGrabber.cpp in Sources */,

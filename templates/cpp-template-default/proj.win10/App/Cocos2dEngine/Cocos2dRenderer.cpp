@@ -91,10 +91,11 @@ void Cocos2dRenderer::DeviceLost()
     Pause();
 
     auto director = cocos2d::Director::getInstance();
-    if (director->getOpenGLView()) {
+
+    if (director->getOpenGLView())
+    {
         cocos2d::GL::invalidateStateCache();
         cocos2d::GLProgramCache::getInstance()->reloadDefaultGLPrograms();
-        cocos2d::DrawPrimitives::init();
         cocos2d::VolatileTextureMgr::reloadAllTextures();
 
         cocos2d::EventCustom recreatedEvent(EVENT_RENDERER_RECREATED);

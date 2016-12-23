@@ -111,7 +111,6 @@ THE SOFTWARE.
 #include "2d/CCClippingNode.h"
 #include "2d/CCClippingRectangleNode.h"
 #include "2d/CCDrawNode.h"
-#include "2d/CCDrawingPrimitives.h"
 #include "2d/CCFontFNT.h"
 #include "2d/CCLabel.h"
 #include "2d/CCLabelAtlas.h"
