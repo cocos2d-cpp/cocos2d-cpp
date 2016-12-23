@@ -6,19 +6,19 @@
 
 #include <string>
 
-DEFINE_TEST_SUITE(DrawPrimitivesTests);
+DEFINE_TEST_SUITE(DrawNodeTests);
 
-class DrawPrimitivesBaseTest : public TestCase
+class DrawNodeBaseTest : public TestCase
 {
 public:
     virtual std::string title() const override;
 };
 
-class DrawPrimitivesTest : public DrawPrimitivesBaseTest
+class SimpleDrawNodeTest : public DrawNodeBaseTest
 {
 public:
-    CREATE_FUNC(DrawPrimitivesTest);
-    DrawPrimitivesTest();
+    CREATE_FUNC(SimpleDrawNodeTest);
+    SimpleDrawNodeTest();
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -29,7 +29,7 @@ protected:
     cocos2d::CustomCommand _customCommand;
 };
 
-class DrawNodeTest : public DrawPrimitivesBaseTest
+class DrawNodeTest : public DrawNodeBaseTest
 {
 public:
     CREATE_FUNC(DrawNodeTest);
@@ -40,7 +40,7 @@ public:
     virtual std::string subtitle() const override;
 };
 
-class PrimitivesCommandTest : public DrawPrimitivesBaseTest
+class PrimitivesCommandTest : public DrawNodeBaseTest
 {
 public:
     CREATE_FUNC(PrimitivesCommandTest);
@@ -60,7 +60,7 @@ protected:
     cocos2d::PrimitiveCommand _primitiveCommand;
 };
 
-class Issue11942Test : public DrawPrimitivesBaseTest
+class Issue11942Test : public DrawNodeBaseTest
 {
 public:
     CREATE_FUNC(Issue11942Test);

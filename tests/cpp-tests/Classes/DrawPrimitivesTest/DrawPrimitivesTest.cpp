@@ -13,60 +13,55 @@ USING_NS_CC;
 
 using namespace std;
 
-DrawPrimitivesTests::DrawPrimitivesTests()
+DrawNodeTests::DrawNodeTests()
 {
-    ADD_TEST_CASE(DrawPrimitivesTest);
+    ADD_TEST_CASE(SimpleDrawNodeTest);
     ADD_TEST_CASE(DrawNodeTest);
     ADD_TEST_CASE(PrimitivesCommandTest);
     ADD_TEST_CASE(Issue11942Test);
 }
 
-string DrawPrimitivesBaseTest::title() const
+string DrawNodeBaseTest::title() const
 {
     return "No title";
 }
 
-// DrawPrimitivesTest
+// SimpleDrawNodeTest
 
-DrawPrimitivesTest::DrawPrimitivesTest()
+SimpleDrawNodeTest::SimpleDrawNodeTest()
 {
 }
 
-void DrawPrimitivesTest::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+void SimpleDrawNodeTest::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
     _customCommand.init(_globalZOrder);
-    _customCommand.func = CC_CALLBACK_0(DrawPrimitivesTest::onDraw, this, transform, flags);
+    _customCommand.func = CC_CALLBACK_0(SimpleDrawNodeTest::onDraw, this, transform, flags);
     renderer->addCommand(&_customCommand);
 }
 
-void DrawPrimitivesTest::onDraw(const Mat4 &transform, uint32_t flags)
+void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
 {
     Director* director = Director::getInstance();
-    director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, transform);
+
+    auto s = director->getWinSize();
     
-    //draw
-    CHECK_GL_ERROR_DEBUG();
-    
-    // draw a simple line
-    // The default state is:
-    // Line Width: 1
-    // color: 255,255,255,255 (white, non-transparent)
-    // Anti-Aliased
-    //  glEnable(GL_LINE_SMOOTH);
-    DrawPrimitives::drawLine( VisibleRect::leftBottom(), VisibleRect::rightTop() );
-    
-    CHECK_GL_ERROR_DEBUG();
-    
-    // line: color, width, aliased
-    // glLineWidth > 1 and GL_LINE_SMOOTH are not compatible
-    // GL_SMOOTH_LINE_WIDTH_RANGE = (1,1) on iPhone
-    //  glDisable(GL_LINE_SMOOTH);
-    glLineWidth( 5.0f );
-    DrawPrimitives::setDrawColor4B(255,0,0,255);
-    DrawPrimitives::drawLine( VisibleRect::leftTop(), VisibleRect::rightBottom() );
-    
-    CHECK_GL_ERROR_DEBUG();
+    auto draw = DrawNode::create();
+
+    addChild(draw, 10);
+
+    // draw a line
+    draw->setLineWidth(1.0f);
+    draw->drawLine(VisibleRect::leftBottom(),
+                   VisibleRect::rightTop(),
+                   Color4F(1.0f, 1.0f, 1.0f, 1.0f));
+
+    // Different length of the line requires another DrawNode
+    auto draw1 = DrawNode::create();
+    addChild(draw1, 10);
+    draw1->setLineWidth(5.0f);
+    draw1->drawLine(VisibleRect::leftTop(),
+                    VisibleRect::rightBottom(),
+                    Color4F(1.0f, 0.0f, 0.0f, 1.0f));
     
     // TIP:
     // If you are going to use always thde same color or width, you don't
@@ -74,97 +69,103 @@ void DrawPrimitivesTest::onDraw(const Mat4 &transform, uint32_t flags)
     //
     // Remember: OpenGL is a state-machine.
     
-    // draw big point in the center
-    DrawPrimitives::setPointSize(64);
-    DrawPrimitives::setDrawColor4B(0,0,255,128);
-    DrawPrimitives::drawPoint( VisibleRect::center() );
+    // draw big point in the center (i.e. a square)
+    // FIXME: opacity doesn't seem to work
+    draw->drawPoint(VisibleRect::center(), 128.0f, Color4F(0, 0, 1, 0.5));
     
-    CHECK_GL_ERROR_DEBUG();
-    
-    // draw 4 small points
-    Vec2 points[] = { Vec2(60,60), Vec2(70,70), Vec2(60,70), Vec2(70,60) };
-    DrawPrimitives::setPointSize(4);
-    DrawPrimitives::setDrawColor4B(0,255,255,255);
-    DrawPrimitives::drawPoints( points, 4);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
-    // draw a green circle with 10 segments
-    glLineWidth(16);
-    DrawPrimitives::setDrawColor4B(0, 255, 0, 255);
-    DrawPrimitives::drawCircle( VisibleRect::center(), 100, 0, 10, false);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    std::vector<Vec2> points = { Vec2(60,60), Vec2(70,70), Vec2(60,70), Vec2(70,60) };
+    draw->drawPoints(points.data(), points.size(), 8.0f, Color4F(0, 1.0f, 1.0f, 1.0f));
+
+    auto draw2 = DrawNode::create();
+    addChild(draw2, 10);
+    draw2->setLineWidth(16.0f);
+    draw2->drawCircle(VisibleRect::center(),
+                      100.0f, // radius
+                      0.0f, // angle
+                      10, // segments
+                      false, // drawLineToCenter
+                      Color4F(0.0f, 1.0f, 0.0f, 1.0f));
+
     // draw a green circle with 50 segments with line to center
-    glLineWidth(2);
-    DrawPrimitives::setDrawColor4B(0, 255, 255, 255);
-    DrawPrimitives::drawCircle( VisibleRect::center(), 50, CC_DEGREES_TO_RADIANS(90), 50, true);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    auto draw3 = DrawNode::create();
+    addChild(draw3, 10);
+    draw3->setLineWidth(2);
+    draw3->drawCircle(VisibleRect::center(),
+                      50,
+                      CC_DEGREES_TO_RADIANS(90),
+                      50,
+                      true,
+                      Color4F(0.0f, 1.0f, 1.0f, 1.0f));
+ 
     // draw a pink solid circle with 50 segments
-    glLineWidth(2);
-    DrawPrimitives::setDrawColor4B(255, 0, 255, 255);
-    DrawPrimitives::drawSolidCircle( VisibleRect::center() + Vec2(140,0), 40, CC_DEGREES_TO_RADIANS(90), 50, 1.0f, 1.0f);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    draw3->drawSolidCircle(VisibleRect::center() + Vec2(140, 0),
+                           40,
+                           CC_DEGREES_TO_RADIANS(90),
+                           50,
+                           1.0f, // scaleX
+                           1.0f, // scaleY
+                           Color4F(1.0f, 0.0f, 1.0f, 1.0f));
+ 
     // open yellow poly
-    DrawPrimitives::setDrawColor4B(255, 255, 0, 255);
-    glLineWidth(10);
-    Vec2 vertices[] = { Vec2(0,0), Vec2(50,50), Vec2(100,50), Vec2(100,100), Vec2(50,100) };
-    DrawPrimitives::drawPoly( vertices, 5, false);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    std::vector<Vec2> vertices = {
+        Vec2(0,0),    Vec2(50,50),
+        Vec2(100,50), Vec2(100,100),
+        Vec2(50,100)
+    };
+    auto draw4 = DrawNode::create();
+    addChild(draw4, 10);
+    draw4->setLineWidth(10);
+    draw4->drawPoly(vertices.data(),
+                    vertices.size(),
+                    false,
+                    Color4F(1.0f, 1.0f, 0.0f, 1.0f));
+
     // filled poly
-    glLineWidth(1);
-    Vec2 filledVertices[] = { Vec2(0,120), Vec2(50,120), Vec2(50,170), Vec2(25,200), Vec2(0,170) };
-    DrawPrimitives::drawSolidPoly(filledVertices, 5, Color4F(0.5f, 0.5f, 1, 1 ) );
-    
-    
+    std::vector<Vec2> filledVertices = {
+        Vec2(0,120), Vec2(50,120),
+        Vec2(50,170), Vec2(25,200),
+        Vec2(0,170)
+    };
+    draw->drawSolidPoly(filledVertices.data(),
+                        filledVertices.size(),
+                        Color4F(0.5f, 0.5f, 1.0f, 1.0f));
+
     // closed purble poly
-    DrawPrimitives::setDrawColor4B(255, 0, 255, 255);
-    glLineWidth(2);
-    Vec2 vertices2[] = { Vec2(30,130), Vec2(30,230), Vec2(50,200) };
-    DrawPrimitives::drawPoly( vertices2, 3, true);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    std::vector<Vec2> vertices2 = { Vec2(30,130), Vec2(30,230), Vec2(50,200) };
+    draw3->drawPoly(vertices2.data(), vertices2.size(), true, Color4F(1.0f, 0, 1.0f, 1.0f));
+ 
     // draw quad bezier path
-    DrawPrimitives::drawQuadBezier(VisibleRect::leftTop(), VisibleRect::center(), VisibleRect::rightTop(), 50);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    draw3->drawQuadBezier(VisibleRect::leftTop(),
+                          VisibleRect::center(),
+                          VisibleRect::rightTop(),
+                          50,
+                          Color4F(1.0f, 0, 1.0f, 1.0f));
+
     // draw cubic bezier path
-    DrawPrimitives::drawCubicBezier(VisibleRect::center(), Vec2(VisibleRect::center().x+30,VisibleRect::center().y+50), Vec2(VisibleRect::center().x+60,VisibleRect::center().y-50),VisibleRect::right(),100);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
+    draw3->drawCubicBezier(VisibleRect::center(),
+                           Vec2(VisibleRect::center().x + 30,
+                                VisibleRect::center().y + 50),
+                           Vec2(VisibleRect::center().x + 60,
+                                VisibleRect::center().y - 50),
+                           VisibleRect::right(),
+                           100,
+                           Color4F(1.0f, 0, 1.0f, 1.0f));
+
     //draw a solid polygon
-    Vec2 vertices3[] = {Vec2(60,160), Vec2(70,190), Vec2(100,190), Vec2(90,160)};
-    DrawPrimitives::drawSolidPoly( vertices3, 4, Color4F(1,1,0,1) );
-    
-    // restore original values
-    glLineWidth(1);
-    DrawPrimitives::setDrawColor4B(255,255,255,255);
-    DrawPrimitives::setPointSize(1);
-    
-    CHECK_GL_ERROR_DEBUG();
-    
-    //end draw
-    director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
+    std::vector<Vec2> vertices3 = {Vec2(60,160), Vec2(70,190), Vec2(100,190), Vec2(90,160)};
+    draw3->drawSolidPoly(vertices3.data(),
+                         vertices3.size(),
+                         Color4F(1, 1, 0, 1));
 }
 
-string DrawPrimitivesTest::title() const
+string SimpleDrawNodeTest::title() const
 {
-    return "draw primitives";
+    return "DrawNode simple";
 }
 
-string DrawPrimitivesTest::subtitle() const
+string SimpleDrawNodeTest::subtitle() const
 {
-    return "Drawing Primitives. Use DrawNode instead";
+    return "Color.a doesn't work for the large center point";
 }
 
 // DrawNodeTest
