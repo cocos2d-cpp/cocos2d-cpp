@@ -478,11 +478,6 @@ void EditBox::keyboardWillShow(IMEKeyboardNotificationInfo& info)
     }
 }
 
-void EditBox::keyboardDidShow(IMEKeyboardNotificationInfo& /*info*/)
-{
-	
-}
-
 void EditBox::keyboardWillHide(IMEKeyboardNotificationInfo& info)
 {
     // CCLOG("CCEditBox::keyboardWillHide");
@@ -490,11 +485,6 @@ void EditBox::keyboardWillHide(IMEKeyboardNotificationInfo& info)
     {
         _editBoxImpl->doAnimationWhenKeyboardMove(info.duration, -_adjustHeight);
     }
-}
-
-void EditBox::keyboardDidHide(IMEKeyboardNotificationInfo& /*info*/)
-{
-	
 }
 
 }

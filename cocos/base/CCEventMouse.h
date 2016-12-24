@@ -53,7 +53,6 @@ class CC_DLL EventMouse : public Event
 public:
     /**
     * MouseEventType Different types of MouseEvent.
-    * @js NA
     */
     enum class MouseEventType
     {
@@ -65,9 +64,7 @@ public:
     };
 
     /** Constructor.
-     *
      * @param mouseEventCode A given mouse event type.
-     * @js ctor
      */
     EventMouse(MouseEventType mouseEventCode);
 
@@ -77,22 +74,20 @@ public:
      * @param scrollY The scroll data of y axis.
      */
     void setScrollData(float scrollX, float scrollY) { _scrollX = scrollX; _scrollY = scrollY; }
+
     /** Get mouse scroll data of x axis.
-     * 
      * @return The scroll data of x axis.
      */
     float getScrollX() const { return _scrollX; }
+
     /** Get mouse scroll data of y axis.
-     *
      * @return The scroll data of y axis.
      */
     float getScrollY() const { return _scrollY; }
 
     /** Set the cursor position.
-     *
      * @param x The x coordinate of cursor position.
      * @param y The y coordinate of cursor position.
-     * @js setLocation
      */
     void setCursorPosition(float x, float y) { 
         _x = x;
@@ -108,67 +103,58 @@ public:
     }
 
     /** Set mouse button.
-     * 
      * @param button a given mouse button.
-     * @js setButton
      */
     void setMouseButton(int button) { _mouseButton = button; }
+
     /** Get mouse button.
-     *
      * @return The mouse button.
-     * @js getButton
      */
     int getMouseButton() const { return _mouseButton; }
+
     /** Get the cursor position of x axis.
-     *
      * @return The x coordinate of cursor position.
-     * @js getLocationX
      */
+
     float getCursorX() const { return _x; }
+
     /** Get the cursor position of y axis.
-     *
      * @return The y coordinate of cursor position.
-     * @js getLocationY
      */
     float getCursorY() const { return _y; }
 
     /** Returns the current touch location in OpenGL coordinates.
-     *
      * @return The current touch location in OpenGL coordinates.
      */
     Vec2 getLocation() const;
+    
     /** Returns the previous touch location in OpenGL coordinates.
-     *
      * @return The previous touch location in OpenGL coordinates.
-     * @js NA
      */
     Vec2 getPreviousLocation() const;
+
     /** Returns the start touch location in OpenGL coordinates.
-     *
      * @return The start touch location in OpenGL coordinates.
-     * @js NA
      */
     Vec2 getStartLocation() const;
+
     /** Returns the delta of 2 current touches locations in screen coordinates.
-     *
      * @return The delta of 2 current touches locations in screen coordinates.
      */
     Vec2 getDelta() const;
+
     /** Returns the current touch location in screen coordinates.
-     *
      * @return The current touch location in screen coordinates.
      */
     Vec2 getLocationInView() const;
+
     /** Returns the previous touch location in screen coordinates.
-     *
      * @return The previous touch location in screen coordinates.
-     * @js NA
      */
     Vec2 getPreviousLocationInView() const;
+
     /** Returns the start touch location in screen coordinates.
-     *
      * @return The start touch location in screen coordinates.
-     * @js NA
      */
     Vec2 getStartLocationInView() const;
 

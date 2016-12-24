@@ -53,9 +53,6 @@ public:
      */
     static EventListenerFocus* create();
     
-    /** Destructor.
-     * @js NA
-     */
     virtual ~EventListenerFocus();
     
     /// Overrides

@@ -229,18 +229,8 @@ namespace ui {
                                const std::string& normal9SpriteBg,
                                TextureResType texType = TextureResType::LOCAL);
             
-        /**
-         * Constructor.
-         * @js ctor
-         * @lua new
-         */
         EditBox(void);
             
-        /**
-         * Destructor.
-         * @js NA
-         * @lua NA
-         */
         virtual ~EditBox(void);
             
         /**
@@ -265,14 +255,9 @@ namespace ui {
 
         /**
          * Gets/Sets the delegate for edit box.
-         * @lua NA
          */
         void setDelegate(EditBoxDelegate* delegate);
 
-        /**
-         * @js NA
-         * @lua NA
-         */
         EditBoxDelegate* getDelegate();
             
         /**
@@ -364,14 +349,12 @@ namespace ui {
          * Sets the maximum input length of the edit box.
          * Setting this value enables multiline input mode by default.
          * Available on Android, iOS and Windows Phone.
-         *
          * @param maxLength The maximum length.
          */
         void setMaxLength(int maxLength);
             
         /**
          * Gets the maximum input length of the edit box.
-         *
          * @return Maximum input length.
          */
         int getMaxLength();
@@ -401,41 +384,11 @@ namespace ui {
          */
         virtual std::string getDescription() const override;
 
-        /**
-         * @js NA
-         * @lua NA
-         */
         virtual void draw(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
         virtual void onEnter(void) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
         virtual void onExit(void) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
         virtual void keyboardWillShow(IMEKeyboardNotificationInfo& info) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
-        virtual void keyboardDidShow(IMEKeyboardNotificationInfo& info) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
         virtual void keyboardWillHide(IMEKeyboardNotificationInfo& info) override;
-        /**
-         * @js NA
-         * @lua NA
-         */
-        virtual void keyboardDidHide(IMEKeyboardNotificationInfo& info) override;
             
         /* callback functions
          * @js NA

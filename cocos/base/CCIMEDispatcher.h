@@ -41,16 +41,10 @@ NS_CC_BEGIN
 class CC_DLL IMEDispatcher
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
     ~IMEDispatcher();
 
     /**
      * @brief Returns the shared IMEDispatcher object for the system.
-     * @js NA
-     * @lua NA
      */
     static IMEDispatcher* sharedDispatcher();
 

@@ -288,19 +288,6 @@ void IMEDispatcher::dispatchKeyboardWillShow(IMEKeyboardNotificationInfo& info)
 
 void IMEDispatcher::dispatchKeyboardDidShow(IMEKeyboardNotificationInfo& info)
 {
-    if (_impl)
-    {
-        IMEDelegate * delegate = nullptr;
-        DelegateIter last = _impl->_delegateList.end();
-        for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
-        {
-            delegate = *(first);
-            if (delegate)
-            {
-                delegate->keyboardDidShow(info);
-            }
-        }
-    }
 }
 
 void IMEDispatcher::dispatchKeyboardWillHide(IMEKeyboardNotificationInfo& info)
@@ -322,19 +309,6 @@ void IMEDispatcher::dispatchKeyboardWillHide(IMEKeyboardNotificationInfo& info)
 
 void IMEDispatcher::dispatchKeyboardDidHide(IMEKeyboardNotificationInfo& info)
 {
-    if (_impl)
-    {
-        IMEDelegate * delegate = nullptr;
-        DelegateIter last = _impl->_delegateList.end();
-        for (DelegateIter first = _impl->_delegateList.begin(); first != last; ++first)
-        {
-            delegate = *(first);
-            if (delegate)
-            {
-                delegate->keyboardDidHide(info);
-            }
-        }
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////
