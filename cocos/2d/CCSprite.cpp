@@ -1468,7 +1468,7 @@ void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, 
 
     AnimationFrame* frame = a->getFrames().at(frameIndex);
 
-    CCASSERT(frame, "CCSprite#setDisplayFrame. Invalid frame");
+    CCASSERT(frame, "CCSprite#setDisplayFrameWithAnimationName. Invalid frame");
 
     setSpriteFrame(frame->getSpriteFrame());
 }

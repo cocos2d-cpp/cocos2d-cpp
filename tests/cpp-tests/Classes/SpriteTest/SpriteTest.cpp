@@ -1904,8 +1904,8 @@ void SpriteFrameAliasNameTest::onEnter()
     // All Sprites added to a SpriteBatchNode are drawn in one OpenGL ES draw call
     // If the Sprites are not added to a SpriteBatchNode then an OpenGL ES draw call will be needed for each one, which is less efficient
     //
-    // When you animate a sprite, Animation changes the frame of the sprite using setDisplayFrame: (this is why the animation must be in the same texture)
-    // When setDisplayFrame: is used in the Animation it changes the frame to one specified by the SpriteFrames that were added to the animation,
+    // When you animate a sprite, Animation changes the frame of the sprite using setSpriteFrame: (this is why the animation must be in the same texture)
+    // When setSpriteFrame: is used in the Animation it changes the frame to one specified by the SpriteFrames that were added to the animation,
     // but texture id is still the same and so the sprite is still a child of the SpriteBatchNode, 
     // and therefore all the animation sprites are also drawn as part of the SpriteBatchNode
     //

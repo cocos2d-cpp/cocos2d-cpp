@@ -289,9 +289,6 @@ public:
     virtual void setSpriteFrame(SpriteFrame* newFrame);
     /** @} */
 
-    /** @deprecated Use `setSpriteFrame()` instead. */
-    CC_DEPRECATED_ATTRIBUTE virtual void setDisplayFrame(SpriteFrame *newFrame) { setSpriteFrame(newFrame); }
-
     /**
      * Returns whether or not a SpriteFrame is being displayed.
      */
@@ -301,15 +298,8 @@ public:
      * Returns the current displayed frame.
      */
     virtual SpriteFrame* getSpriteFrame() const;
-    /** @deprecated Use `getSpriteFrame()` instead.
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual SpriteFrame* getDisplayFrame() const { return getSpriteFrame(); }
-    /** @deprecated Use `getSpriteFrame()` instead. */
-    CC_DEPRECATED_ATTRIBUTE virtual SpriteFrame* displayFrame() const { return getSpriteFrame(); };
 
     /// @} End of frames methods
-
 
     /// @{
     /// @name Animation methods
@@ -399,16 +389,6 @@ public:
      */
     void setFlippedX(bool flippedX);
 
-    /** @deprecated Use isFlippedX() instead.
-    * @js NA
-    * @lua NA
-    */
-    CC_DEPRECATED_ATTRIBUTE bool isFlipX() { return isFlippedX(); };
-    /** @deprecated Use setFlippedX() instead
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE void setFlipX(bool flippedX) { setFlippedX(flippedX); };
-
     /**
      * Return the flag which indicates whether the sprite is flipped vertically or not.
      *
@@ -428,15 +408,6 @@ public:
     void setFlippedY(bool flippedY);
 
     /// @} End of Sprite properties getter/setters
-
-    /** @deprecated Use isFlippedY() instead.
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE bool isFlipY() { return isFlippedY(); };
-    /** @deprecated Use setFlippedY() instead.
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE void setFlipY(bool flippedY) { setFlippedY(flippedY); };
 
     /**
      * returns a reference of the polygon information associated with this sprite
