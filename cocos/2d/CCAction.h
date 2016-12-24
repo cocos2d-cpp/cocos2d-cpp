@@ -52,10 +52,7 @@ class CC_DLL Action : public Ref, public Clonable
 public:
     /** Default tag used for all the actions. */
     static const int INVALID_TAG = -1;
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual std::string description() const;
 
     /** Returns a clone of action.
@@ -71,7 +68,6 @@ public:
     /** Returns a new action that performs the exact reverse of the action. 
      *
      * @return A new action that performs the exact reverse of the action.
-     * @js NA
      */
     virtual Action* reverse() const
     {
@@ -351,12 +347,6 @@ public:
      */
     void setBoundarySet(bool value) { _boundarySet = value; }
     
-    /** @deprecated Alter behavior - turn on/off boundary. 
-     *
-     * @param value Turn on/off boundary.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setBoudarySet(bool value) { setBoundarySet(value); }
-
     //
     // Override
     //
@@ -364,16 +354,13 @@ public:
     virtual Follow* reverse() const override;
     /**
      * @param dt in seconds.
-     * @js NA
      */
     virtual void step(float dt) override;
     virtual bool isDone() const override;
     virtual void stop() override;
 
 CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
+
     Follow()
     : _followedNode(nullptr)
     , _boundarySet(false)
@@ -386,10 +373,7 @@ CC_CONSTRUCTOR_ACCESS:
     , _offsetY(0.0)
     , _worldRect(Rect::ZERO)
     {}
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~Follow();
     
     /**

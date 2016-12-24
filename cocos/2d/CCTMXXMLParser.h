@@ -95,14 +95,8 @@ This information is obtained from the TMX file.
 class CC_DLL TMXLayerInfo : public Ref
 {
 public:
-    /**
-     * @js ctor
-     */
     TMXLayerInfo();
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~TMXLayerInfo();
 
     void setProperties(ValueMap properties);
@@ -144,14 +138,7 @@ public:
     std::string     _originSourceImage;
 
 public:
-    /**
-     * @js ctor
-     */
     TMXTilesetInfo();
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~TMXTilesetInfo();
     Rect getRectForGID(uint32_t gid);
 };
@@ -177,18 +164,8 @@ public:
     /** creates a TMX Format with an XML string and a TMX resource path */
     static TMXMapInfo * createWithXML(const std::string& tmxString, const std::string& resourcePath);
     
-    /** creates a TMX Format with a tmx file */
-    CC_DEPRECATED_ATTRIBUTE static TMXMapInfo * formatWithTMXFile(const char *tmxFile) { return TMXMapInfo::create(tmxFile); };
-    /** creates a TMX Format with an XML string and a TMX resource path */
-    CC_DEPRECATED_ATTRIBUTE static TMXMapInfo * formatWithXML(const char* tmxString, const char* resourcePath) { return TMXMapInfo::createWithXML(tmxString, resourcePath); };
-    /**
-     * @js ctor
-     */
     TMXMapInfo();
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~TMXMapInfo();
     
     /** initializes a TMX format with a  tmx file */
@@ -264,7 +241,6 @@ public:
 
     /// is storing characters?
     bool isStoringCharacters() const { return _storingCharacters; }
-    CC_DEPRECATED_ATTRIBUTE bool getStoringCharacters() const { return isStoringCharacters(); }
     void setStoringCharacters(bool storingCharacters) { _storingCharacters = storingCharacters; }
 
     /// properties
@@ -275,20 +251,10 @@ public:
     }
     
     // implement pure virtual methods of SAXDelegator
-    /**
-     * @js NA
-     * @lua NA
-     */
     void startElement(void *ctx, const char *name, const char **atts) override;
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     void endElement(void *ctx, const char *name) override;
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     void textHandler(void *ctx, const char *ch, size_t len) override;
     
     const std::string& getCurrentString() const { return _currentString; }

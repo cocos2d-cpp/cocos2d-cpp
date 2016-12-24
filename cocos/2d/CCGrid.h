@@ -53,8 +53,6 @@ public:
     static GridBase* create(const Size& gridSize);
     /**
     Destructor.
-     * @js NA
-     * @lua NA
      */
     virtual ~GridBase(void);
 
@@ -107,7 +105,6 @@ public:
     
     /**@{
      Interface for custom action when before or after draw.
-     @js NA
      */
     virtual void beforeBlit() {}
     virtual void afterBlit() {}
@@ -163,37 +160,22 @@ public:
     static Grid3D* create(const Size& gridSize, Texture2D *texture, bool flipped, const Rect& rect);
     /**
      Constructor.
-     * @js ctor
      */
     Grid3D();
     /**
      Destructor.
-     * @js NA
-     * @lua NA
      */
     ~Grid3D(void);
 
     /** Returns the vertex at a given position.
-     * @js NA
-     * @lua NA
      */
     Vec3 getVertex(const Vec2& pos) const;
-    /** @deprecated Use getVertex() instead 
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE Vec3 vertex(const Vec2& pos) const { return getVertex(pos); }
+
     /** Returns the original (non-transformed) vertex at a given position.
-     * @js NA
-     * @lua NA
      */
     Vec3 getOriginalVertex(const Vec2& pos) const;
-    /** @deprecated Use getOriginalVertex() instead 
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE Vec3 originalVertex(const Vec2& pos) const { return getOriginalVertex(pos); }
 
     /** Sets a new vertex at a given position.
-     * @lua NA
      */
     void setVertex(const Vec2& pos, const Vec3& vertex);
     /**@{
@@ -208,7 +190,6 @@ public:
     
     /**@{
      Getter and Setter for depth test state when blit.
-     @js NA
      */
     void setNeedDepthTestForBlit( bool neededDepthTest) { _needDepthTestForBlit = neededDepthTest; }
     bool getNeedDepthTestForBlit() const { return _needDepthTestForBlit; }
@@ -240,37 +221,22 @@ public:
     static TiledGrid3D* create(const Size& gridSize, Texture2D *texture, bool flipped, const Rect& rect);
     /**
      Constructor.
-     * @js ctor
      */
     TiledGrid3D();
     /**
      Destructor.
-     * @js NA
-     * @lua NA
      */
     ~TiledGrid3D();
 
     /** Returns the tile at the given position.
-     * @js NA
-     * @lua NA
      */
     Quad3 getTile(const Vec2& pos) const;
-    /** returns the tile at the given position 
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE Quad3 tile(const Vec2& pos) const { return getTile(pos); }
+
     /** Returns the original tile (untransformed) at the given position.
-     * @js NA
-     * @lua NA
      */
     Quad3 getOriginalTile(const Vec2& pos) const;
-    /** returns the original tile (untransformed) at the given position 
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE Quad3 originalTile(const Vec2& pos) const { return getOriginalTile(pos); }
 
     /** Sets a new tile.
-     * @lua NA
      */
     void setTile(const Vec2& pos, const Quad3& coords);
 

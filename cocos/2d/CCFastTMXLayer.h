@@ -106,7 +106,7 @@ public:
     int getTileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr);
 
     /** Sets the tile gid (gid = tile global id) at a given tile coordinate.
-     * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
+     * The Tile GID can be obtained by using the method "getTileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
      * If a tile is already placed at that position, then it will be removed.
      * @param gid The gid value.
      * @param tileCoordinate The tile coordinate.
@@ -114,7 +114,7 @@ public:
     void setTileGID(int gid, const Vec2& tileCoordinate);
 
     /** Sets the tile gid (gid = tile global id) at a given tile coordinate.
-     * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
+     * The Tile GID can be obtained by using the method "getTileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
      * If a tile is already placed at that position, then it will be removed.
      * Use withFlags if the tile flags need to be changed as well.
      *

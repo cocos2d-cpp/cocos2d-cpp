@@ -82,7 +82,6 @@ class PolygonInfo;
  - [Zwoptex](https://zwopple.com/zwoptex/)
  
  @since v0.9
- @js cc.spriteFrameCache
  */
 class CC_DLL SpriteFrameCache : public Ref
 {
@@ -90,28 +89,14 @@ public:
     /** Returns the shared instance of the Sprite Frame cache.
      *
      * @return The instance of the Sprite Frame Cache.
-     * @js NA
      */
     static SpriteFrameCache* getInstance();
 
-    /** @deprecated Use getInstance() instead
-     @js NA
-	*/
-    CC_DEPRECATED_ATTRIBUTE static SpriteFrameCache* sharedSpriteFrameCache() { return SpriteFrameCache::getInstance(); }
-
     /** Destroys the cache. It releases all the Sprite Frames and the retained instance.
-	 * @js NA
      */
     static void destroyInstance();
 
-    /** @deprecated Use destroyInstance() instead
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE static void purgeSharedSpriteFrameCache() { return SpriteFrameCache::destroyInstance(); }
-
     /** Destructor.
-     * @js NA
-     * @lua NA
      */
     virtual ~SpriteFrameCache();
     
@@ -124,8 +109,6 @@ public:
     /** Adds multiple Sprite Frames from a plist file.
      * A texture will be loaded automatically. The texture name will composed by replacing the .plist suffix with .png.
      * If you want to use another texture, you should use the addSpriteFramesWithFile(const std::string& plist, const std::string& textureFileName) method.
-     * @js addSpriteFrames
-     * @lua addSpriteFrames
      *
      * @param plist Plist file name.
      */
@@ -133,8 +116,6 @@ public:
 
     /** Adds multiple Sprite Frames from a plist file. The texture will be associated with the created sprite frames.
      @since v0.99.5
-     * @js addSpriteFrames
-     * @lua addSpriteFrames
      *
      * @param plist Plist file name.
      * @param textureFileName Texture file name.
@@ -142,8 +123,6 @@ public:
     void addSpriteFramesWithFile(const std::string& plist, const std::string& textureFileName);
 
     /** Adds multiple Sprite Frames from a plist file. The texture will be associated with the created sprite frames. 
-     * @js addSpriteFrames
-     * @lua addSpriteFrames
      *
      * @param plist Plist file name.
      * @param texture Texture pointer.
@@ -151,8 +130,6 @@ public:
     void addSpriteFramesWithFile(const std::string&plist, Texture2D *texture);
 
     /** Adds multiple Sprite Frames from a plist file content. The texture will be associated with the created sprite frames. 
-     * @js NA
-     * @lua addSpriteFrames
      *
      * @param plist_content Plist file content string.
      * @param texture Texture pointer.
@@ -168,8 +145,6 @@ public:
     void addSpriteFrame(SpriteFrame *frame, const std::string& frameName);
 
     /** Check if multiple Sprite Frames from a plist file have been loaded.
-    * @js NA
-    * @lua NA
     *
     * @param plist Plist file name.
     * @return True if the file is loaded.
@@ -187,7 +162,6 @@ public:
     /** Removes unused sprite frames.
      * Sprite Frames that have a retain count of 1 will be deleted.
      * It is convenient to call this method after when starting a new Scene.
-	 * @js NA
      */
     void removeUnusedSpriteFrames();
 
@@ -211,7 +185,6 @@ public:
     * It is convenient to call this method when a specific texture needs to be removed.
     *
     * @param plist_content The string of the plist content that needs to removed.
-    * @js NA
     */
     void removeSpriteFramesFromFileContent(const std::string& plist_content);
 
@@ -226,16 +199,11 @@ public:
     /** Returns an Sprite Frame that was previously added.
      If the name is not found it will return nil.
      You should retain the returned copy if you are going to use it.
-     * @js getSpriteFrame
-     * @lua getSpriteFrame
      *
      * @param name A certain sprite frame name.
      * @return The sprite frame.
      */
     SpriteFrame* getSpriteFrameByName(const std::string& name);
-
-    /** @deprecated use getSpriteFrameByName() instead */
-    CC_DEPRECATED_ATTRIBUTE SpriteFrame* spriteFrameByName(const std::string&name) { return getSpriteFrameByName(name); }
 
     bool reloadTexture(const std::string& plist);
 

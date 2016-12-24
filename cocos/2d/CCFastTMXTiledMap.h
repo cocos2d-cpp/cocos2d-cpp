@@ -52,7 +52,7 @@ class TMXLayer;
 
  * Features:
  * - Each tile will be treated as an Sprite.
- * - The sprites are created on demand. They will be created only when you call "layer->tileAt(position)".
+ * - The sprites are created on demand. They will be created only when you call "layer->getTileAt(position)".
  * - Each tile can be rotated / moved / scaled / tinted / "opaqued", since each tile is a Sprite.
  * - Tiles can be added/removed in runtime.
  * - The z-order of the tiles can be modified in runtime.

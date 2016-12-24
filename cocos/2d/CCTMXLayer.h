@@ -73,14 +73,8 @@ public:
      * @return An autorelease object.
      */
     static TMXLayer * create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    /**
-     * @js ctor
-     */
+
     TMXLayer();
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~TMXLayer();
 
     /** Initializes a TMXLayer with a tileset info, a layer info and a map info.
@@ -94,7 +88,7 @@ public:
 
     /** Dealloc the map that contains the tile position from memory.
      * Unless you want to know at runtime the tiles positions, you can safely call this method.
-     * If you are going to call layer->tileGIDAt() then, don't release the map.
+     * If you are going to call layer->getTileGIDAt() then, don't release the map.
      */
     void releaseMap();
 
@@ -109,10 +103,6 @@ public:
      * @return Returns the tile (Sprite) at a given a tile coordinate.
      */
     Sprite* getTileAt(const Vec2& tileCoordinate);
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE Sprite* tileAt(const Vec2& tileCoordinate) { return getTileAt(tileCoordinate); };
     
     /** Returns the tile gid at a given tile coordinate. It also returns the tile flags.
      * This method requires the tile map has not been previously released (eg. don't call [layer releaseMap]).
@@ -122,15 +112,9 @@ public:
      * @return Returns the tile gid at a given tile coordinate. It also returns the tile flags.
      */
 	uint32_t getTileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr);
-    /**
-     * @js NA
-     */
-    CC_DEPRECATED_ATTRIBUTE uint32_t tileGIDAt(const Vec2& tileCoordinate, TMXTileFlags* flags = nullptr){
-        return getTileGIDAt(tileCoordinate, flags);
-    }
 
     /** Sets the tile gid (gid = tile global id) at a given tile coordinate.
-     * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
+     * The Tile GID can be obtained by using the method "getTileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
      * If a tile is already placed at that position, then it will be removed.
      *
      * @param gid The tile gid.
@@ -139,7 +123,7 @@ public:
     void setTileGID(uint32_t gid, const Vec2& tileCoordinate);
 
     /** Sets the tile gid (gid = tile global id) at a given tile coordinate.
-     * The Tile GID can be obtained by using the method "tileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
+     * The Tile GID can be obtained by using the method "getTileGIDAt" or by using the TMX editor -> Tileset Mgr +1.
      * If a tile is already placed at that position, then it will be removed.
      * Use withFlags if the tile flags need to be changed as well.
      * 
@@ -162,10 +146,6 @@ public:
      * @return The position in points of a given tile coordinate.
      */
 	Vec2 getPositionAt(const Vec2& tileCoordinate);
-    /**
-    * @js NA
-    */
-    CC_DEPRECATED_ATTRIBUTE Vec2 positionAt(const Vec2& tileCoordinate) { return getPositionAt(tileCoordinate); };
 
     /** Return the value for the specific property name.
      *
@@ -173,10 +153,6 @@ public:
      * @return Return the value for the specific property name.
      */
 	Value getProperty(const std::string& propertyName) const;
-    /**
-    * @js NA
-    */
-    CC_DEPRECATED_ATTRIBUTE Value propertyNamed(const std::string& propertyName) const { return getProperty(propertyName); };
 
     /** Creates the tiles. */
     void setupTiles();
@@ -218,8 +194,6 @@ public:
     void setMapTileSize(const Size& size) { _mapTileSize = size; }
     
     /** Pointer to the map of tiles.
-     * @js NA
-     * @lua NA
      * @return Pointer to the map of tiles.
      */
     uint32_t* getTiles() const { return _tiles; };
@@ -239,7 +213,6 @@ public:
     /** Set tileset information for the layer.
      *
      * @param info The tileset information for the layer.
-     * @js NA
      */
     void setTileSet(TMXTilesetInfo* info) {
         CC_SAFE_RETAIN(info);
@@ -288,9 +261,7 @@ public:
     virtual void addChild(Node * child, int zOrder, int tag) override;
     // super method
     void removeChild(Node* child, bool cleanup) override;
-    /**
-    * @js NA
-    */
+
     virtual std::string getDescription() const override;
 
 protected:

@@ -111,14 +111,6 @@ public:
      */
     void setReverseDirection(bool value);
 
-    /** Set the Reverse direction.
-     * @js setReverseDirection
-     * @lua setReverseDirection
-     * @param reverse If reverse is false it will clockwise,if is true it will Anti-clockwise.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setReverseProgress(bool reverse) { setReverseDirection(reverse); }
-
-
     /**
      *    Midpoint is used to modify the progress start position.
      *    If you're using radials type then the midpoint changes the center point.
@@ -162,14 +154,7 @@ public:
     virtual GLubyte getOpacity() const override;
     
 CC_CONSTRUCTOR_ACCESS:
-    /**
-     * @js ctor
-     */
     ProgressTimer();
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~ProgressTimer();
     
     /** Initializes a progress timer with the sprite as the shape the timer goes through */
