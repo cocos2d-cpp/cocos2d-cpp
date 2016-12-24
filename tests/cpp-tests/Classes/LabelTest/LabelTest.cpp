@@ -981,12 +981,14 @@ LabelTTFMultiline::LabelTTFMultiline()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto center = LabelTTF::create("word wrap \"testing\" (bla0) bla1 'bla2' [bla3] (bla4) {bla5} {bla6} [bla7] (bla8) [bla9] 'bla0' \"bla1\"",
-                                            "Paint Boy",
-                                            32,
-                                            Size(s.width/2,200),
-                                            TextHAlignment::CENTER,
-                                            TextVAlignment::TOP);
+    constexpr auto txt = "word wrap \"testing\" (bla0) bla1 'bla2' [bla3] (bla4) {bla5} {bla6} [bla7] (bla8) [bla9] 'bla0' \"bla1\"";
+
+    auto center = Label::createWithTTF(txt,
+                                       "fonts/Paint Boy.ttf",
+                                       24,
+                                       Size(s.width/2,200),
+                                       TextHAlignment::CENTER,
+                                       TextVAlignment::TOP);
 
     center->setPosition(Vec2(s.width / 2, 150));
 
@@ -995,25 +997,25 @@ LabelTTFMultiline::LabelTTFMultiline()
 
 std::string LabelTTFMultiline::title() const
 {
-    return "Testing LabelTTF Word Wrap";
+    return "Testing Label with TTF: Word Wrap";
 }
 
 std::string LabelTTFMultiline::subtitle() const
 {
-    return "Word wrap using LabelTTF and a custom TTF font";
+    return "Word wrap using Label with a custom TTF font";
 }
 
 LabelTTFChinese::LabelTTFChinese()
 {
     auto size = Director::getInstance()->getWinSize();
-    auto label = LabelTTF::create("中国", "Marker Felt", 30);
+    auto label = Label::createWithTTF("中国", "fonts/Marker Felt.ttf", 30);
     label->setPosition(Vec2(size.width / 2, size.height /2));
     this->addChild(label);
 }
 
 std::string LabelTTFChinese::title() const
 {
-    return "Testing LabelTTF with Chinese character";
+    return "Testing Label with TTF\nwith Chinese characters";
 }
 
 LabelBMFontChinese::LabelBMFontChinese()
@@ -1240,10 +1242,10 @@ LabelTTFOpacityTest::LabelTTFOpacityTest()
     auto layer = LayerColor::create(Color4B(128, 128, 128, 255));
     addChild(layer, -10);
 
-    auto label1 = LabelTTF::create("Testing opacity", "Marker Felt", 48);
+    auto label1 = Label::createWithTTF("Testing opacity", "fonts/Marker Felt.ttf", 48);
     addChild(label1);
-    label1->setFontFillColor(Color3B::RED);
-    label1->setPosition(Vec2(s.width/2, s.height/2));
+    label1->setTextColor(Color4B::RED);
+    label1->setPosition(Vec2(s.width / 2, s.height / 2));
 
     auto fadeOut = FadeOut::create(2);
     auto fadeIn = FadeIn::create(2);
@@ -1254,7 +1256,7 @@ LabelTTFOpacityTest::LabelTTFOpacityTest()
 
 std::string LabelTTFOpacityTest::title() const
 {
-    return "Testing opacity";
+    return "Label with TTF: Testing opacity";
 }
 
 std::string LabelTTFOpacityTest::subtitle() const
@@ -1354,23 +1356,23 @@ TTFFontInit::TTFFontInit()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto font = LabelTTF::create();
+    auto font = Label::create();
 
-    font->setFontName("Marker Felt");
-    font->setFontSize(48);
+    font->setTTFConfig( TTFConfig("fonts/Marker Felt.ttf", 48) );
+
     font->setString("It is working!");
     this->addChild(font);
-    font->setPosition(Vec2(s.width/2,s.height/4*2));
+    font->setPosition( Vec2(s.width / 2, s.height / 2) );
 }
 
 std::string TTFFontInit::title() const
 {
-    return "LabelTTF create()";
+    return "Label config()";
 }
 
 std::string TTFFontInit::subtitle() const
 {
-    return "Testing LabelTTF::create() wihtout params";
+    return "Testing Label::create() wihtout params";
 }
 
 TTFFontShadowAndStroke::TTFFontShadowAndStroke()
