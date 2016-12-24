@@ -216,7 +216,7 @@ private:
     std::string getCurrentAlignment();
 private:
     cocos2d::TextHAlignment _horizAlign;
-    cocos2d::LabelTTF* _label;
+    cocos2d::Label*         _label;
     cocos2d::TextVAlignment _vertAlign;
 };
 

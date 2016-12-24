@@ -745,7 +745,7 @@ std::string LabelsEmpty::title() const
 
 std::string LabelsEmpty::subtitle() const
 {
-    return "3 empty labels: LabelAtlas, LabelTTF and LabelBMFont";
+    return "3 empty labels: LabelAtlas, Label with TTF and LabelBMFont";
 }
 
 //------------------------------------------------------------------
@@ -887,7 +887,8 @@ void  LabelTTFTest::updateAlignment()
 
     CC_SAFE_RELEASE(_label);
 
-    _label = LabelTTF::create(this->getCurrentAlignment(), "Marker Felt", 32,
+    _label = Label::createWithTTF(this->getCurrentAlignment(),
+                                  "fonts/Marker Felt.ttf", 32,
                                   blockSize, _horizAlign, _vertAlign);
     _label->retain();
 
@@ -968,7 +969,7 @@ std::string LabelTTFTest::getCurrentAlignment()
 
 std::string LabelTTFTest::title() const
 {
-    return "Testing LabelTTF";
+    return "Testing Label created with TTF";
 }
 
 std::string LabelTTFTest::subtitle() const
