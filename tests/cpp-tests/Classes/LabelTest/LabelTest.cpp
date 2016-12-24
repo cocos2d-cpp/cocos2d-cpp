@@ -689,6 +689,7 @@ std::string BitmapFontMultiLine::subtitle() const
 // LabelsEmpty
 //
 //------------------------------------------------------------------
+//
 LabelsEmpty::LabelsEmpty()
 {
     auto s = Director::getInstance()->getWinSize();
@@ -698,10 +699,10 @@ LabelsEmpty::LabelsEmpty()
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height-100));
 
-    // LabelTTF
-    auto label2 = LabelTTF::create("", "Arial", 24);
+    // Label with TTF
+    auto label2 = Label::createWithTTF("", "fonts/arial.ttf", 24);
     addChild(label2, 0, kTagBitmapAtlas2);
-    label2->setPosition(Vec2(s.width/2, s.height/2));
+    label2->setPosition(Vec2(s.width / 2, s.height / 2));
 
     // LabelAtlas
     auto label3 = LabelAtlas::create("", "fonts/tuffy_bold_italic-charmap.png", 48, 64, ' ');
@@ -716,7 +717,7 @@ LabelsEmpty::LabelsEmpty()
 void LabelsEmpty::updateStrings(float dt)
 {
     auto label1 = static_cast<LabelBMFont*>( getChildByTag(kTagBitmapAtlas1) );
-    auto label2 = static_cast<LabelTTF*>( getChildByTag(kTagBitmapAtlas2) );
+    auto label2 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas2) );
     auto label3 = static_cast<LabelAtlas*>( getChildByTag(kTagBitmapAtlas3) );
 
     if( ! setEmpty )
