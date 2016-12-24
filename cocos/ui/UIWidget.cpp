@@ -319,11 +319,6 @@ void Widget::setContentSize(const cocos2d::Size &contentSize)
     onSizeChanged();
 }
 
-void Widget::setSize(const Size &size)
-{
-    this->setContentSize(size);
-}
-
 void Widget::setSizePercent(const Vec2 &percent)
 {
     if (_usingLayoutComponent)
@@ -917,12 +912,6 @@ void Widget::cancelUpEvent()
     this->release();
 }
 
-void Widget::addTouchEventListener(Ref *target, SEL_TouchEvent selector)
-{
-    _touchEventListener = target;
-    _touchEventSelector = selector;
-}
-
 void Widget::addTouchEventListener(const ccWidgetTouchCallback& callback)
 {
     this->_touchEventCallback = callback;
@@ -1143,11 +1132,6 @@ void Widget::setLayoutParameter(LayoutParameter *parameter)
 LayoutParameter* Widget::getLayoutParameter()const
 {
     return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at((int)_layoutParameterType));
-}
-
-LayoutParameter* Widget::getLayoutParameter(LayoutParameter::Type type)
-{
-    return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at((int)type));
 }
 
 std::string Widget::getDescription() const
@@ -1451,10 +1435,6 @@ void Widget::onFocusChange(Widget* widgetLostFocus, Widget* widgetGetFocus)
     }
 }
     
-Widget* Widget::getCurrentFocusedWidget(bool /*isWidget*/){
-    return getCurrentFocusedWidget();
-}
-
 Widget* Widget::getCurrentFocusedWidget()
 {
     return _focusedWidget;
