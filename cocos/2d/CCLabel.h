@@ -32,7 +32,7 @@
 #include "2d/CCFontAtlas.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -44,8 +44,7 @@ NS_CC_BEGIN
  * @struct TTFConfig
  * @see `GlyphCollection`
  */
-typedef struct _ttfConfig
-{
+struct TTFConfig {
     std::string fontFilePath;
     float fontSize;
 
@@ -60,9 +59,17 @@ typedef struct _ttfConfig
     bool underline;
     bool strikethrough;
 
-    _ttfConfig(const std::string& filePath = "",float size = 12, const GlyphCollection& glyphCollection = GlyphCollection::DYNAMIC,
-        const char *customGlyphCollection = nullptr, bool useDistanceField = false, int outline = 0,
-               bool useItalics = false, bool useBold = false, bool useUnderline = false, bool useStrikethrough = false)
+    TTFConfig(const std::string& filePath = "",
+              float size = 12,
+              const GlyphCollection& glyphCollection = GlyphCollection::DYNAMIC,
+              const char *customGlyphCollection = nullptr,
+              bool useDistanceField = false,
+              int outline = 0,
+              bool useItalics = false,
+              bool useBold = false,
+              bool useUnderline = false,
+              bool useStrikethrough = false)
+
         : fontFilePath(filePath)
         , fontSize(size)
         , glyphs(glyphCollection)
@@ -79,7 +86,7 @@ typedef struct _ttfConfig
             distanceFieldEnabled = false;
         }
     }
-} TTFConfig;
+};
 
 enum class TextFormatter : char
 {
@@ -783,6 +790,6 @@ private:
 // end group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /*__COCOS2D_CCLABEL_H */

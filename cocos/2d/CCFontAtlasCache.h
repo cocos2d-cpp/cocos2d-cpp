@@ -35,12 +35,12 @@ NS_CC_BEGIN
 
 class FontAtlas;
 class Texture2D;
-struct _ttfConfig;
+struct TTFConfig;
 
 class CC_DLL FontAtlasCache
 {  
 public:
-    static FontAtlas* getFontAtlasTTF(const _ttfConfig* config);
+    static FontAtlas* getFontAtlasTTF(const TTFConfig* config);
     static FontAtlas* getFontAtlasFNT(const std::string& fontFileName, const Vec2& imageOffset = Vec2::ZERO);
 
     static FontAtlas* getFontAtlasCharMap(const std::string& charMapFile, int itemWidth, int itemHeight, int startCharMap);

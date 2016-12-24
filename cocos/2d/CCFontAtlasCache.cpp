@@ -47,7 +47,7 @@ void FontAtlasCache::purgeCachedData()
     _atlasMap.clear();
 }
 
-FontAtlas* FontAtlasCache::getFontAtlasTTF(const _ttfConfig* config)
+FontAtlas* FontAtlasCache::getFontAtlasTTF(const TTFConfig* config)
 {
     auto realFontFilename = FileUtils::getInstance()->getNewFilename(config->fontFilePath);  // resolves real file path, to prevent storing multiple atlases for the same file.
     bool useDistanceField = config->distanceFieldEnabled;
