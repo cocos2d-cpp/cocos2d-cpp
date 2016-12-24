@@ -258,24 +258,29 @@ LabelTTFAlignment::LabelTTFAlignment()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto ttf0 = LabelTTF::create("Alignment 0\nnew line", "Helvetica", 12,
-                                          Size(256, 32), TextHAlignment::LEFT);
+    const auto         width        = s.width / 2;
+    decltype(s.height) height_level = 2;
     
-    ttf0->setPosition(Vec2(s.width/2,(s.height/6)*2));
-    ttf0->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->addChild(ttf0);
-    
-    auto ttf1 = LabelTTF::create("Alignment 1\nnew line", "Helvetica", 12,
-                                      Size(245, 32), TextHAlignment::CENTER);
-    ttf1->setPosition(Vec2(s.width/2,(s.height/6)*3));
-    ttf1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->addChild(ttf1);
+    auto nextHeight = [sixth_height = s.height / 6, & height_level] {
+        auto curr = height_level + 1;
+        height_level += 1;
+        return sixth_height * (height_level - 1);
+    };
 
-    auto ttf2 = LabelTTF::create("Alignment 2\nnew line", "Helvetica", 12,
-                                          Size(245, 32), TextHAlignment::RIGHT);
-    ttf2->setPosition(Vec2(s.width/2,(s.height/6)*4));
-    ttf2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-    this->addChild(ttf2);
+    for (auto hAlign : { TextHAlignment::LEFT,
+                        TextHAlignment::CENTER,
+                        TextHAlignment::RIGHT })
+    {
+        auto txt = "Alignment " + std::to_string(static_cast<long>(hAlign)) + '\n'
+            + "new line";
+        auto ttf = Label::createWithTTF(txt,
+                                        "fonts/arial.ttf", 12,
+                                        Size(256, 32), hAlign);
+
+        ttf->setPosition( Vec2{width, nextHeight()} );
+        ttf->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+        this->addChild(ttf);
+    }
 }
 
 std::string LabelTTFAlignment::title() const
@@ -287,6 +292,7 @@ std::string LabelTTFAlignment::subtitle() const
 {
     return "Tests alignment values";
 }
+
 //------------------------------------------------------------------
 //
 // Atlas3
