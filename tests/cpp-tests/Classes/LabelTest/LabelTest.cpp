@@ -797,7 +797,6 @@ LabelAtlasHD::LabelAtlasHD()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = LabelAtlas::create("TESTING RETINA DISPLAY", "fonts/larabie-16.plist");
     label1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
@@ -827,8 +826,8 @@ LabelGlyphDesigner::LabelGlyphDesigner()
     auto layer = LayerColor::create(Color4B(128,128,128,255));
     addChild(layer, -10);
 
-    // LabelBMFont
-    auto label1 = LabelBMFont::create("Testing Glyph Designer", "fonts/futura-48.fnt");
+    auto label1 = Label::createWithBMFont("fonts/futura-48.fnt",
+                                          "Testing Glyph Designer");
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/2));
 }
