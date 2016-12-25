@@ -365,7 +365,7 @@ void Atlas3::step(float dt)
 
 std::string Atlas3::title() const
 {
-    return "CCLabelBMFont";
+    return "CCLabel with BMFont";
 }
 
 std::string Atlas3::subtitle() const
