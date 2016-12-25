@@ -303,7 +303,8 @@ Atlas3::Atlas3()
     auto col = LayerColor::create( Color4B(128,128,128,255) );
     addChild(col, -10);
     
-    auto label1 = LabelBMFont::create("Test",  "fonts/bitmapFontTest2.fnt");
+    auto label1 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt",
+                                          "Test");
     
     // testing anchors
     label1->setAnchorPoint( Vec2::ANCHOR_BOTTOM_LEFT );
@@ -319,7 +320,8 @@ Atlas3::Atlas3()
     // color and opacity work OK because bitmapFontAltas2 loads a BMP image (not a PNG image)
     // If you want to use both opacity and color, it is recommended to use NON premultiplied images like BMP images
     // Of course, you can also tell XCode not to compress PNG images, but I think it doesn't work as expected
-    auto label2 = LabelBMFont::create("Test", "fonts/bitmapFontTest2.fnt");
+    auto label2 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt",
+                                          "Test");
     // testing anchors
     label2->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
     label2->setColor( Color3B::RED );
@@ -330,7 +332,8 @@ Atlas3::Atlas3()
         nullptr);
     label2->runAction( RepeatForever::create(tint) );
     
-    auto label3 = LabelBMFont::create("Test", "fonts/bitmapFontTest2.fnt");
+    auto label3 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt",
+                                          "Test");
     // testing anchors
     label3->setAnchorPoint( Vec2::ANCHOR_TOP_RIGHT );
     addChild(label3, 0, kTagBitmapAtlas3);
@@ -350,13 +353,13 @@ void Atlas3::step(float dt)
     sprintf(string, "%2.2f Test j", _time);
     //string.format("%2.2f Test j", _time);
     
-    auto label1 = (LabelBMFont*) getChildByTag(kTagBitmapAtlas1);
+    auto label1 = (Label*) getChildByTag(kTagBitmapAtlas1);
     label1->setString(string);
     
-    auto label2 = (LabelBMFont*) getChildByTag(kTagBitmapAtlas2);
+    auto label2 = (Label*) getChildByTag(kTagBitmapAtlas2);
     label2->setString(string);
     
-    auto label3 = (LabelBMFont*) getChildByTag(kTagBitmapAtlas3);
+    auto label3 = (Label*) getChildByTag(kTagBitmapAtlas3);
     label3->setString(string);
 }
 
@@ -1055,7 +1058,10 @@ BitmapFontMultiLineAlignment::BitmapFontMultiLineAlignment()
     auto size = Director::getInstance()->getWinSize();
 
     // create and initialize a Label
-    _labelShouldRetain = LabelBMFont::create(LongSentencesExample, "fonts/markerFelt.fnt", size.width/1.5, TextHAlignment::CENTER);
+    _labelShouldRetain = Label::createWithBMFont("fonts/markerFelt.fnt",
+                                                 LongSentencesExample,
+                                                 TextHAlignment::CENTER,
+                                                 size.width / 1.5f);
     _labelShouldRetain->retain();
 
     _arrowsBarShouldRetain = Sprite::create("Images/arrowsBar.png");
@@ -1261,18 +1267,18 @@ BMFontOneAtlas::BMFontOneAtlas()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto label1 = LabelBMFont::create("This is Helvetica", "fonts/helvetica-32.fnt");
+    auto label1 = Label::createWithBMFont("fonts/helvetica-32.fnt", "This is Helvetica");
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/3*2));
 
-    auto label2 = LabelBMFont::create("And this is Geneva", "fonts/geneva-32.fnt", 0, TextHAlignment::LEFT, Vec2(0, 128));
+    auto label2 = Label::createWithBMFont("fonts/geneva-32.fnt", "And this is Geneva", TextHAlignment::LEFT, 0, Vec2(0, 128));
     addChild(label2);
     label2->setPosition(Vec2(s.width/2, s.height/3*1));
 }
 
 std::string BMFontOneAtlas::title() const
 {
-    return "CCLabelBMFont with one texture";
+    return "Label with BMFont with one texture";
 }
 
 std::string BMFontOneAtlas::subtitle() const
@@ -1291,26 +1297,26 @@ BMFontUnicode::BMFontUnicode()
 
     auto s = Director::getInstance()->getWinSize();
 
-    auto label1 = LabelBMFont::create(spanish, "fonts/arial-unicode-26.fnt", 200, TextHAlignment::LEFT);
+    auto label1 = Label::createWithBMFont("fonts/arial-unicode-26.fnt", spanish, TextHAlignment::LEFT, 200);
     addChild(label1);
-    label1->setPosition(Vec2(s.width/2, s.height/5*4));
+    label1->setPosition(Vec2(s.width/2, s.height/10*6));
 
-    auto label2 = LabelBMFont::create(chinese, "fonts/arial-unicode-26.fnt");
+    auto label2 = Label::createWithBMFont("fonts/arial-unicode-26.fnt", chinese);
     addChild(label2);
-    label2->setPosition(Vec2(s.width/2, s.height/5*3));
+    label2->setPosition(Vec2(s.width/2, s.height/10*5));
 
-    auto label3 = LabelBMFont::create(russian, "fonts/arial-26-en-ru.fnt");
+    auto label3 = Label::createWithBMFont("fonts/arial-26-en-ru.fnt", russian);
     addChild(label3);
-    label3->setPosition(Vec2(s.width/2, s.height/5*2));
+    label3->setPosition(Vec2(s.width/2, s.height/10*4));
 
-    auto label4 = LabelBMFont::create(japanese, "fonts/arial-unicode-26.fnt");
+    auto label4 = Label::createWithBMFont("fonts/arial-unicode-26.fnt", japanese);
     addChild(label4);
-    label4->setPosition(Vec2(s.width/2, s.height/5*1));
+    label4->setPosition(Vec2(s.width/2, s.height/10*3));
 }
 
 std::string BMFontUnicode::title() const
 {
-    return "CCLabelBMFont with Unicode support";
+    return "Label with BMFont with Unicode support";
 }
 
 std::string BMFontUnicode::subtitle() const
@@ -1324,9 +1330,9 @@ BMFontInit::BMFontInit()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto bmFont = LabelBMFont::create();
+    auto bmFont = Label::create();
 
-    bmFont->setFntFile("fonts/helvetica-32.fnt");
+    bmFont->setBMFontFilePath("fonts/helvetica-32.fnt");
     bmFont->setString("It is working!");
     this->addChild(bmFont);
     bmFont->setPosition(Vec2(s.width/2,s.height/4*2));
@@ -1334,12 +1340,12 @@ BMFontInit::BMFontInit()
 
 std::string BMFontInit::title() const
 {
-    return "LabelBMFont create()";
+    return "Label create(), then BMFont";
 }
 
 std::string BMFontInit::subtitle() const
 {
-    return "Testing LabelBMFont::create() wihtout params";
+    return "Testing Label::create() wihtout params";
 }
 
 // TTFFontInit
@@ -1359,7 +1365,7 @@ TTFFontInit::TTFFontInit()
 
 std::string TTFFontInit::title() const
 {
-    return "Label config()";
+    return "Label config(), then TTF font";
 }
 
 std::string TTFFontInit::subtitle() const
@@ -1373,9 +1379,9 @@ Issue1343::Issue1343()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto bmFont = LabelBMFont::create();
+    auto bmFont = Label::create();
 
-    bmFont->setFntFile("fonts/font-issue1343.fnt");
+    bmFont->setBMFontFilePath("fonts/font-issue1343.fnt");
     bmFont->setString("ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890abcdefghijklmnopqrstuvwxyz.,'");
 
     this->addChild(bmFont);
@@ -1401,8 +1407,8 @@ LabelBMFontBounds::LabelBMFontBounds()
     auto layer = LayerColor::create(Color4B(128,128,128,255));
     addChild(layer, -10);
     
-    // LabelBMFont
-    auto label1 = LabelBMFont::create("Testing Glyph Designer", "fonts/boundsTestFont.fnt");
+    // Label with BMFont
+    auto label1 = Label::createWithBMFont("fonts/boundsTestFont.fnt", "Testing Glyph Designer");
     
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/2));
@@ -1428,7 +1434,7 @@ LabelBMFontBounds::LabelBMFontBounds()
 
 std::string LabelBMFontBounds::title() const
 {
-    return "Testing LabelBMFont Bounds";
+    return "Testing Label with BMFont Bounds";
 }
 
 std::string LabelBMFontBounds::subtitle() const
@@ -1447,7 +1453,7 @@ void LabelBMFontCrashTest::onEnter()
     label1->initWithString("test", "fonts/bitmapFontTest2.fnt");
     this->addChild(label1);
     // Visit will call draw where the function "ccGLBindVAO(m_uVAOname);" will be invoked.
-    label1->visit();
+    dynamic_cast<Node*>(label1)->visit();
     
     // Remove this label
     label1->removeFromParentAndCleanup(true);
@@ -1474,9 +1480,9 @@ LabelBMFontBinaryFormat::LabelBMFontBinaryFormat()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    auto bmFont = LabelBMFont::create();
+    auto bmFont = Label::create();
 
-    bmFont->setFntFile("fonts/Roboto.bmf.fnt");
+    bmFont->setBMFontFilePath("fonts/Roboto.bmf.fnt");
     bmFont->setString("It is working!");
     this->addChild(bmFont);
     bmFont->setPosition(Vec2(s.width/2,s.height/4*2));
@@ -1484,7 +1490,7 @@ LabelBMFontBinaryFormat::LabelBMFontBinaryFormat()
 
 std::string LabelBMFontBinaryFormat::title() const
 {
-    return "LabelBMFont Binary FNT File";
+    return "Label with BMFont Binary FNT File";
 }
 
 std::string LabelBMFontBinaryFormat::subtitle() const

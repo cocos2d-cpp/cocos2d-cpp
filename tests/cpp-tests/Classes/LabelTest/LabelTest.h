@@ -265,9 +265,9 @@ public:
     void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
 
 public:
-    cocos2d::LabelBMFont* _labelShouldRetain;
-    cocos2d::Sprite* _arrowsBarShouldRetain;
-    cocos2d::Sprite* _arrowsShouldRetain;
+    cocos2d::Label        *_labelShouldRetain;
+    cocos2d::Sprite       *_arrowsBarShouldRetain;
+    cocos2d::Sprite       *_arrowsShouldRetain;
     cocos2d::MenuItemFont *_lastSentenceItem, *_lastAlignmentItem;
     bool _drag;
 };

@@ -386,7 +386,7 @@ std::set<unsigned int>* BMFontConfiguration::parseBinaryConfigFile(unsigned char
             uint16_t scaleW = 0; memcpy(&scaleW, pData + 4, 2);
             uint16_t scaleH = 0; memcpy(&scaleH, pData + 6, 2);
 
-            CCASSERT(scaleW <= Configuration::getInstance()->getMaxTextureSize() && scaleH <= Configuration::getInstance()->getMaxTextureSize(), "CCLabelBMFont: page can't be larger than supported");
+            CCASSERT(scaleW <= Configuration::getInstance()->getMaxTextureSize() && scaleH <= Configuration::getInstance()->getMaxTextureSize(), "BMFontConfiguration: page can't be larger than supported");
 
             uint16_t pages = 0; memcpy(&pages, pData + 8, 2);
             CCASSERT(pages == 1, "CCBitfontAtlas: only supports 1 page");
@@ -486,7 +486,7 @@ void BMFontConfiguration::parseImageFileName(const char* line, const std::string
     // page ID. Sanity check
     int pageId;
     sscanf(line, "page id=%d", &pageId);
-    CCASSERT(pageId == 0, "LabelBMFont file could not be found");
+    CCASSERT(pageId == 0, "BMFontConfiguration: Image file could not be found");
     // file 
     char fileName[255];
     sscanf(strchr(line,'"') + 1, "%[^\"]", fileName);
@@ -524,12 +524,12 @@ void BMFontConfiguration::parseCommonArguments(const char* line)
     sscanf(tmp, "%d", &value);
 
     int maxTextureSize = Configuration::getInstance()->getMaxTextureSize();
-    CCASSERT(value <= maxTextureSize, "CCLabelBMFont: page can't be larger than supported");
+    CCASSERT(value <= maxTextureSize, "BMFontConfiguration: page can't be larger than supported");
 
     // scaleH. sanity check
     tmp = strstr(tmp, "scaleH=") + 7;
     sscanf(tmp, "%d", &value);
-    CCASSERT(value <= maxTextureSize, "CCLabelBMFont: page can't be larger than supported");
+    CCASSERT(value <= maxTextureSize, "BMFontConfiguration: page can't be larger than supported");
 
     // pages. sanity check
     tmp = strstr(tmp, "pages=") + 6;

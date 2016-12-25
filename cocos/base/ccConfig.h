@@ -77,7 +77,7 @@ THE SOFTWARE.
  * The "correct" way to prevent artifacts is by using the spritesheet-artifact-fixer.py or a similar tool.
 
  * Affected nodes:
- * - Sprite / SpriteBatchNode and subclasses: LabelBMFont, TMXTiledMap.
+ * - Sprite / SpriteBatchNode and subclasses: TMXTiledMap
  * - LabelAtlas.
  * - QuadParticleSystem.
  * - TileMap.
@@ -195,15 +195,6 @@ THE SOFTWARE.
  */
 #ifndef CC_SPRITEBATCHNODE_DEBUG_DRAW
 #define CC_SPRITEBATCHNODE_DEBUG_DRAW 0
-#endif
-
-/** @def CC_LABELBMFONT_DEBUG_DRAW
- * If enabled, all subclasses of LabelBMFont will draw a bounding box.
- * Useful for debugging purposes only. It is recommended to leave it disabled.
- * To enable set it to a value different than 0. Disabled by default.
- */
-#ifndef CC_LABELBMFONT_DEBUG_DRAW
-#define CC_LABELBMFONT_DEBUG_DRAW 0
 #endif
 
 /** @def CC_LABELATLAS_DEBUG_DRAW
