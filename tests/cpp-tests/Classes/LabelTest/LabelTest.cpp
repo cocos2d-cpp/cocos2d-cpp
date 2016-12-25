@@ -557,31 +557,40 @@ std::string Atlas6::subtitle() const
 AtlasBitmapColor::AtlasBitmapColor()
 {
     auto s = Director::getInstance()->getWinSize();
+
+    const auto width = s.width / 2;
+    constexpr char font_fname[] = "fonts/bitmapFontTest5.fnt";
+
+    struct {
+        std::string        txt;
+        const Color3B      color;
+        decltype(s.height) height;
+    } params[] = {
+        {"Blue",  Color3B::BLUE,  s.height / 4,   },
+        {"Red",   Color3B::RED,   s.height / 4 * 2},
+        {"G",     Color3B::GREEN, s.height / 4 * 3}
+    };
+
+    Label* label = nullptr;
     
-    LabelBMFont* label = nullptr;
-    label = LabelBMFont::create("Blue", "fonts/bitmapFontTest5.fnt");
-    label->setColor( Color3B::BLUE );
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, s.height/4) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+    for (auto p : params)
+    {
+        label = Label::createWithBMFont(font_fname, p.txt);
+        label->setColor( p.color );
+        addChild(label);
+        label->setPosition( Vec2{width, p.height} );
+        label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+    }
 
-    label = LabelBMFont::create("Red", "fonts/bitmapFontTest5.fnt");
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, 2*s.height/4) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-    label->setColor( Color3B::RED );
-
-    label = LabelBMFont::create("G", "fonts/bitmapFontTest5.fnt");
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, 3*s.height/4) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-    label->setColor( Color3B::GREEN );
-    label->setString("Green");
+    if (label)
+    {
+        label->setString("Green");
+    }
 }
 
 std::string AtlasBitmapColor::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string AtlasBitmapColor::subtitle() const
