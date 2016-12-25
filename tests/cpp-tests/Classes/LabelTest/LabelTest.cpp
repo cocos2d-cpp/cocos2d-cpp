@@ -396,17 +396,17 @@ Atlas4::Atlas4()
     addChild(drawNode, -1);
 
     // Upper Label
-    auto label = LabelBMFont::create("Bitmap Font Atlas", "fonts/bitmapFontTest.fnt");
+    auto label = Label::createWithBMFont("fonts/bitmapFontTest.fnt",
+                                         "Bitmap Font Atlas");
     addChild(label);
     
     label->setPosition( Vec2(s.width/2, s.height/2) );
     label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
     
     
-    auto BChar = (Sprite*) label->getChildByTag(0);
-    auto FChar = (Sprite*) label->getChildByTag(7);
-    auto AChar = (Sprite*) label->getChildByTag(12);
-    
+    auto BChar = (Sprite*) label->getLetter(0);
+    auto FChar = (Sprite*) label->getLetter(7);
+    auto AChar = (Sprite*) label->getLetter(12);
     
     auto rotate = RotateBy::create(2, 360);
     auto rot_4ever = RepeatForever::create(rotate);
@@ -431,11 +431,12 @@ Atlas4::Atlas4()
     
     
     // Bottom Label
-    auto label2 = LabelBMFont::create("00.0", "fonts/bitmapFontTest.fnt");
+    auto label2 = Label::createWithBMFont("fonts/bitmapFontTest.fnt",
+                                          "00.0");
     addChild(label2, 0, kTagBitmapAtlas2);
     label2->setPosition( Vec2(s.width/2.0f, 80) );
     
-    auto lastChar = (Sprite*) label2->getChildByTag(3);
+    auto lastChar = (Sprite*) label2->getLetter(3);
     lastChar->runAction( rot_4ever->clone() );
     
     schedule(CC_CALLBACK_1(Atlas4::step, this), 0.1f, "step_key");
@@ -449,13 +450,13 @@ void Atlas4::step(float dt)
 //     std::string string;
 //     string.format("%04.1f", _time);
     
-    auto label1 = (LabelBMFont*) getChildByTag(kTagBitmapAtlas2);
+    auto label1 = (Label*)getChildByTag(kTagBitmapAtlas2);
     label1->setString(string);
 }
 
 std::string Atlas4::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string Atlas4::subtitle() const
