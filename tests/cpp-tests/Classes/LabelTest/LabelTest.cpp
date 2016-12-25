@@ -429,7 +429,6 @@ Atlas4::Atlas4()
     FChar->runAction(jump_4ever);
     AChar->runAction(fade_4ever);
     
-    
     // Bottom Label
     auto label2 = Label::createWithBMFont("fonts/bitmapFontTest.fnt",
                                           "00.0");
@@ -478,18 +477,19 @@ std::string Atlas4::subtitle() const
 
 Atlas5::Atlas5()
 {
-    auto label = LabelBMFont::create("abcdefg", "fonts/bitmapFontTest4.fnt");
+    auto label = Label::createWithBMFont("fonts/bitmapFontTest4.fnt",
+                                         "abcdefg");
     addChild(label);
     
     auto s = Director::getInstance()->getWinSize();
     
-    label->setPosition( Vec2(s.width/2, s.height/2) );
+    label->setPosition( Vec2(s.width / 2, s.height / 2) );
     label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 }
 
 std::string Atlas5::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string Atlas5::subtitle() const
