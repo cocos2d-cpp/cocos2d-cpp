@@ -612,25 +612,24 @@ std::string AtlasBitmapColor::subtitle() const
 
 AtlasFastBitmap::AtlasFastBitmap()
 {
-        // Upper Label
-        for( int i=0 ; i < 100;i ++ ) 
-        {
-            char str[6] = {0};
-            sprintf(str, "-%d-", i);
-            auto label = LabelBMFont::create(str, "fonts/bitmapFontTest.fnt");
-            addChild(label);
-            
-            auto s = Director::getInstance()->getWinSize();
+    // Upper Label
+    for (int i = 0; i < 100; i++) 
+    {
+        auto label = Label::createWithBMFont("fonts/bitmapFontTest.fnt",
+                                             '-'+std::to_string(i)+'-');
+        addChild(label);
 
-            auto p = Vec2( CCRANDOM_0_1() * s.width, CCRANDOM_0_1() * s.height);
-            label->setPosition( p );
-            label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-        }
+        auto s = Director::getInstance()->getWinSize();
+
+        auto p = Vec2( CCRANDOM_0_1() * s.width, CCRANDOM_0_1() * s.height);
+        label->setPosition( p );
+        label->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+    }
 }
 
 std::string AtlasFastBitmap::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string AtlasFastBitmap::subtitle() const
