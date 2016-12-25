@@ -709,8 +709,8 @@ LabelsEmpty::LabelsEmpty()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
-    auto label1 = LabelBMFont::create("", "fonts/bitmapFontTest3.fnt");
+    // Label with BMFont
+    auto label1 = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "");
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height-100));
 
@@ -731,14 +731,14 @@ LabelsEmpty::LabelsEmpty()
 
 void LabelsEmpty::updateStrings(float dt)
 {
-    auto label1 = static_cast<LabelBMFont*>( getChildByTag(kTagBitmapAtlas1) );
+    auto label1 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas1) );
     auto label2 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas2) );
     auto label3 = static_cast<LabelAtlas*>( getChildByTag(kTagBitmapAtlas3) );
 
     if( ! setEmpty )
     {
-        label1->setString("not empty");
-        label2->setString("not empty");
+        label1->setString("not empty (BMFont)");
+        label2->setString("not empty (TTF)");
         label3->setString("hi");
 
         setEmpty = true;
@@ -760,7 +760,7 @@ std::string LabelsEmpty::title() const
 
 std::string LabelsEmpty::subtitle() const
 {
-    return "3 empty labels: LabelAtlas, Label with TTF and LabelBMFont";
+    return "3 empty labels: LabelAtlas, Labels with TTF and BMFont";
 }
 
 //------------------------------------------------------------------
