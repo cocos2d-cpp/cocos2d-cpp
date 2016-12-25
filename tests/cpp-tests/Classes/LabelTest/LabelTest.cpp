@@ -772,8 +772,8 @@ LabelBMFontHD::LabelBMFontHD()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
-    auto label1 = LabelBMFont::create("TESTING RETINA DISPLAY", "fonts/konqa32.fnt");
+    auto label1 = Label::createWithBMFont("fonts/konqa32.fnt",
+                                          "TESTING RETINA DISPLAY");
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/2));
 }
