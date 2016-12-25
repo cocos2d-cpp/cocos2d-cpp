@@ -1035,14 +1035,15 @@ std::string LabelTTFChinese::title() const
 LabelBMFontChinese::LabelBMFontChinese()
 {
     auto size = Director::getInstance()->getWinSize();
-    auto label = LabelBMFont::create("中国", "fonts/bitmapFontChinese.fnt");
+    auto label = Label::createWithBMFont("fonts/bitmapFontChinese.fnt",
+                                         "中国");
     label->setPosition(Vec2(size.width / 2, size.height /2));
     this->addChild(label);
 }
 
 std::string LabelBMFontChinese::title() const
 {
-    return "Testing LabelBMFont with Chinese character";
+    return "Testing Label with BMFont\nwith Chinese characters";
 }
 
 /// BitmapFontMultiLineAlignment
