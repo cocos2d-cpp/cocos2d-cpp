@@ -142,8 +142,6 @@
         "cocos/2d/CCLabelAtlas.h", 
         "cocos/2d/CCLabelBMFont.cpp", 
         "cocos/2d/CCLabelBMFont.h", 
-        "cocos/2d/CCLabelTTF.cpp", 
-        "cocos/2d/CCLabelTTF.h", 
         "cocos/2d/CCLabelTextFormatter.cpp", 
         "cocos/2d/CCLabelTextFormatter.h", 
         "cocos/2d/CCLayer.cpp", 

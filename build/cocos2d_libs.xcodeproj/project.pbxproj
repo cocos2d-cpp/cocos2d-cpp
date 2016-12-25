@@ -639,10 +639,6 @@
 		1A5701C8180BCB5A0088DEC7 /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */; };
 		1A5701C9180BCB5A0088DEC7 /* CCLabelTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */; };
 		1A5701CA180BCB5A0088DEC7 /* CCLabelTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */; };
-		1A5701CB180BCB5A0088DEC7 /* CCLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570199180BCB590088DEC7 /* CCLabelTTF.cpp */; };
-		1A5701CC180BCB5A0088DEC7 /* CCLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570199180BCB590088DEC7 /* CCLabelTTF.cpp */; };
-		1A5701CD180BCB5A0088DEC7 /* CCLabelTTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57019A180BCB590088DEC7 /* CCLabelTTF.h */; };
-		1A5701CE180BCB5A0088DEC7 /* CCLabelTTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57019A180BCB590088DEC7 /* CCLabelTTF.h */; };
 		1A5701DE180BCB8C0088DEC7 /* CCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A5701D4180BCB8C0088DEC7 /* CCLayer.cpp */; };
 		1A5701DF180BCB8C0088DEC7 /* CCLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A5701D4180BCB8C0088DEC7 /* CCLayer.cpp */; };
 		1A5701E0180BCB8C0088DEC7 /* CCLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A5701D5180BCB8C0088DEC7 /* CCLayer.h */; };
@@ -1653,7 +1649,6 @@
 		507B3B361C31BDD30067B53E /* MiniCLTaskScheduler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB1DF1AF9AA1A00B9B856 /* MiniCLTaskScheduler.cpp */; };
 		507B3B371C31BDD30067B53E /* ListViewReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50FCEB7618C72017004AD434 /* ListViewReader.cpp */; };
 		507B3B381C31BDD30067B53E /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */; };
-		507B3B391C31BDD30067B53E /* CCLabelTTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570199180BCB590088DEC7 /* CCLabelTTF.cpp */; };
 		507B3B3A1C31BDD30067B53E /* CCNinePatchImageParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 291901421B05895600F8B4BA /* CCNinePatchImageParser.cpp */; };
 		507B3B3B1C31BDD30067B53E /* CCPUPointEmitterTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E1A01AA80A6500DDB1C5 /* CCPUPointEmitterTranslator.cpp */; };
 		507B3B3C1C31BDD30067B53E /* NodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 382384261A2590F9002C4610 /* NodeReader.cpp */; };
@@ -2518,7 +2513,6 @@
 		507B3EC31C31BDD30067B53E /* b2Rope.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A169331807AF9C005B8026 /* b2Rope.h */; };
 		507B3EC41C31BDD30067B53E /* CCAllocatorMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FD03411A3B51AA00825BB5 /* CCAllocatorMacros.h */; };
 		507B3EC51C31BDD30067B53E /* CCPUVelocityMatchingAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1E91AA80A6500DDB1C5 /* CCPUVelocityMatchingAffector.h */; };
-		507B3EC61C31BDD30067B53E /* CCLabelTTF.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57019A180BCB590088DEC7 /* CCLabelTTF.h */; };
 		507B3EC71C31BDD30067B53E /* b2ChainAndPolygonContact.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168ED1807AF9C005B8026 /* b2ChainAndPolygonContact.h */; };
 		507B3EC81C31BDD30067B53E /* CCPUTextureRotatorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1E31AA80A6500DDB1C5 /* CCPUTextureRotatorTranslator.h */; };
 		507B3EC91C31BDD30067B53E /* CCRenderState.h in Headers */ = {isa = PBXBuildFile; fileRef = 5012168D1AC47380009A4BEA /* CCRenderState.h */; };
@@ -5416,8 +5410,6 @@
 		1A570195180BCB590088DEC7 /* CCLabelBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFont.h; sourceTree = "<group>"; };
 		1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTextFormatter.cpp; sourceTree = "<group>"; };
 		1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTextFormatter.h; sourceTree = "<group>"; };
-		1A570199180BCB590088DEC7 /* CCLabelTTF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTTF.cpp; sourceTree = "<group>"; };
-		1A57019A180BCB590088DEC7 /* CCLabelTTF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTTF.h; sourceTree = "<group>"; };
 		1A5701D4180BCB8C0088DEC7 /* CCLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CCLayer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		1A5701D5180BCB8C0088DEC7 /* CCLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLayer.h; sourceTree = "<group>"; };
 		1A5701D6180BCB8C0088DEC7 /* CCScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCScene.cpp; sourceTree = "<group>"; };
@@ -7658,8 +7650,6 @@
 				1A570195180BCB590088DEC7 /* CCLabelBMFont.h */,
 				1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */,
 				1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */,
-				1A570199180BCB590088DEC7 /* CCLabelTTF.cpp */,
-				1A57019A180BCB590088DEC7 /* CCLabelTTF.h */,
 			);
 			name = "label-nodes";
 			sourceTree = "<group>";
@@ -10683,7 +10673,6 @@
 				5034CA37191D591100CE6051 /* ccShader_PositionColorLengthTexture.vert in Headers */,
 				B6CAB32D1AF9AA1A00B9B856 /* btGImpactMassUtil.h in Headers */,
 				15AE1B6419AADA9900C27E9E /* UICheckBox.h in Headers */,
-				1A5701CD180BCB5A0088DEC7 /* CCLabelTTF.h in Headers */,
 				15AE1A3319AAD3D500C27E9E /* b2CircleShape.h in Headers */,
 				1A5701E0180BCB8C0088DEC7 /* CCLayer.h in Headers */,
 				1A5701E4180BCB8C0088DEC7 /* CCScene.h in Headers */,
@@ -11727,7 +11716,6 @@
 				5020A1A91D49912500E80C72 /* extension.h in Headers */,
 				507B3EC41C31BDD30067B53E /* CCAllocatorMacros.h in Headers */,
 				507B3EC51C31BDD30067B53E /* CCPUVelocityMatchingAffector.h in Headers */,
-				507B3EC61C31BDD30067B53E /* CCLabelTTF.h in Headers */,
 				507B3EC71C31BDD30067B53E /* b2ChainAndPolygonContact.h in Headers */,
 				507B3EC81C31BDD30067B53E /* CCPUTextureRotatorTranslator.h in Headers */,
 				507B3EC91C31BDD30067B53E /* CCRenderState.h in Headers */,
@@ -12755,7 +12743,6 @@
 				15AE1ADB19AAD41000C27E9E /* b2Rope.h in Headers */,
 				D0FD03561A3B51AA00825BB5 /* CCAllocatorMacros.h in Headers */,
 				B665E42D1AA80A6600DDB1C5 /* CCPUVelocityMatchingAffector.h in Headers */,
-				1A5701CE180BCB5A0088DEC7 /* CCLabelTTF.h in Headers */,
 				15AE1AB119AAD40300C27E9E /* b2ChainAndPolygonContact.h in Headers */,
 				B665E4211AA80A6600DDB1C5 /* CCPUTextureRotatorTranslator.h in Headers */,
 				501216911AC47380009A4BEA /* CCRenderState.h in Headers */,
@@ -13625,7 +13612,6 @@
 				B665E3761AA80A6500DDB1C5 /* CCPUParticleFollowerTranslator.cpp in Sources */,
 				B6CAB2E91AF9AA1A00B9B856 /* btStaticPlaneShape.cpp in Sources */,
 				5020A2041D49912500E80C72 /* Skin.c in Sources */,
-				1A5701CB180BCB5A0088DEC7 /* CCLabelTTF.cpp in Sources */,
 				50ABBE711925AB6F00A911A9 /* CCEventListenerMouse.cpp in Sources */,
 				50FC3FA91D74C2D1001C936A /* CCEventListenerController.cpp in Sources */,
 				B6CAB3C91AF9AA1A00B9B856 /* btPoint2PointConstraint.cpp in Sources */,
@@ -14466,7 +14452,6 @@
 				507B3B361C31BDD30067B53E /* MiniCLTaskScheduler.cpp in Sources */,
 				507B3B371C31BDD30067B53E /* ListViewReader.cpp in Sources */,
 				507B3B381C31BDD30067B53E /* CCLabelTextFormatter.cpp in Sources */,
-				507B3B391C31BDD30067B53E /* CCLabelTTF.cpp in Sources */,
 				507B3B3A1C31BDD30067B53E /* CCNinePatchImageParser.cpp in Sources */,
 				507B3B3B1C31BDD30067B53E /* CCPUPointEmitterTranslator.cpp in Sources */,
 				507B3B3C1C31BDD30067B53E /* NodeReader.cpp in Sources */,
@@ -15264,7 +15249,6 @@
 				B665E28B1AA80A6500DDB1C5 /* CCPUDynamicAttribute.cpp in Sources */,
 				B6CAB5481AF9AA1A00B9B856 /* MiniCLTaskScheduler.cpp in Sources */,
 				1A5701C8180BCB5A0088DEC7 /* CCLabelTextFormatter.cpp in Sources */,
-				1A5701CC180BCB5A0088DEC7 /* CCLabelTTF.cpp in Sources */,
 				5020A1931D49912500E80C72 /* Cocos2dAttachmentLoader.cpp in Sources */,
 				291901461B05895600F8B4BA /* CCNinePatchImageParser.cpp in Sources */,
 				B665E39B1AA80A6500DDB1C5 /* CCPUPointEmitterTranslator.cpp in Sources */,

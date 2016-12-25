@@ -600,7 +600,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="CCLabelAtlas.cpp" />
     <ClCompile Include="CCLabelBMFont.cpp" />
     <ClCompile Include="CCLabelTextFormatter.cpp" />
-    <ClCompile Include="CCLabelTTF.cpp" />
     <ClCompile Include="CCLayer.cpp" />
     <ClCompile Include="CCLight.cpp" />
     <ClCompile Include="CCMenu.cpp" />
@@ -1097,7 +1096,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="CCLabel.h" />
     <ClInclude Include="CCLabelAtlas.h" />
     <ClInclude Include="CCLabelBMFont.h" />
-    <ClInclude Include="CCLabelTTF.h" />
     <ClInclude Include="CCLayer.h" />
     <ClInclude Include="CCLight.h" />
     <ClInclude Include="CCMenu.h" />

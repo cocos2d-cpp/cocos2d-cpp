@@ -327,18 +327,6 @@ public:
     virtual std::string subtitle() const override;
 };
 
-class TTFFontShadowAndStroke : public AtlasDemo
-{
-public:
-    CREATE_FUNC(TTFFontShadowAndStroke);
-
-    TTFFontShadowAndStroke();
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
-
-
 class Issue1343 : public AtlasDemo
 {
 public:

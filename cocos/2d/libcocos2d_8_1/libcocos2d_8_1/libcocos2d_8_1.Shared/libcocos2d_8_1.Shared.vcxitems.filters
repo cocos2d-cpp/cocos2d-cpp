@@ -592,9 +592,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTextFormatter.h">
       <Filter>2d</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTTF.h">
-      <Filter>2d</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLayer.h">
       <Filter>2d</Filter>
     </ClInclude>
@@ -2010,9 +2007,6 @@
       <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTextFormatter.cpp">
-      <Filter>2d</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTTF.cpp">
       <Filter>2d</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLayer.cpp">

@@ -2,14 +2,7 @@
 #include "../testResource.h"
 #include "cocos2d.h"
 
-USING_NS_CC;
-
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
+using namespace cocos2d;
 
 enum {
     kTagTileMap = 1,
@@ -59,7 +52,6 @@ LabelTests::LabelTests()
     ADD_TEST_CASE(Issue1343);
     ADD_TEST_CASE(LabelTTFAlignment);
     ADD_TEST_CASE(LabelBMFontBounds);
-    ADD_TEST_CASE(TTFFontShadowAndStroke);
     // should be moved to another test
     ADD_TEST_CASE(Atlas1);
     ADD_TEST_CASE(LabelBMFontCrashTest);
@@ -285,7 +277,7 @@ LabelTTFAlignment::LabelTTFAlignment()
 
 std::string LabelTTFAlignment::title() const
 {
-    return "CCLabelTTF alignment";
+    return "Label with TTF alignment";
 }
 
 std::string LabelTTFAlignment::subtitle() const
@@ -1375,126 +1367,6 @@ std::string TTFFontInit::subtitle() const
     return "Testing Label::create() wihtout params";
 }
 
-TTFFontShadowAndStroke::TTFFontShadowAndStroke()
-{
-    auto layer = LayerColor::create(Color4B(0,190,0,255));
-    addChild(layer, -10);
-    
-    auto s = Director::getInstance()->getWinSize();
-    
-    Color3B tintColorRed(  255, 0, 0   );
-    Color3B tintColorYellow( 255, 255, 0 );
-    Color3B tintColorBlue( 0, 0, 255   );
-    Color3B strokeColor( 0, 0, 255  );
-    Color3B strokeShadowColor( 255, 0, 0   );
-    
-    Size shadowOffset(12.0, 12.0);
-    
-    FontDefinition shadowTextDef;
-    shadowTextDef._fontSize = 20;
-    shadowTextDef._fontName = std::string("Marker Felt");
-    
-    shadowTextDef._shadow._shadowEnabled = true;
-    shadowTextDef._shadow._shadowOffset  = shadowOffset;
-    shadowTextDef._shadow._shadowOpacity = 1.0;
-    shadowTextDef._shadow._shadowBlur    = 1.0;
-    shadowTextDef._fontFillColor   = tintColorRed;
-    
-    // shadow only label
-    auto fontShadow = LabelTTF::createWithFontDefinition("Shadow Only Red Text", shadowTextDef);
-    
-    // add label to the scene
-    this->addChild(fontShadow);
-    fontShadow->setPosition(Vec2(s.width/2,s.height/4*2.5));
-    
-
-    // create the stroke only label
-    FontDefinition strokeTextDef;
-    strokeTextDef._fontSize = 20;
-    strokeTextDef._fontName = std::string("Marker Felt");
-    
-    strokeTextDef._stroke._strokeEnabled = true;
-    strokeTextDef._stroke._strokeColor   = strokeColor;
-    strokeTextDef._stroke._strokeSize    = 1.5;
-    
-    strokeTextDef._fontFillColor   = tintColorYellow;
-    
-    // stroke only label
-    auto fontStroke = LabelTTF::createWithFontDefinition("Stroke Only Yellow Text", strokeTextDef);
-    
-    // add label to the scene
-    this->addChild(fontStroke);
-    fontStroke->setPosition(Vec2(s.width/2,s.height/4*1.8));
-    
-    
-    
-    // create the label stroke and shadow
-    FontDefinition strokeShaodwTextDef;
-    strokeShaodwTextDef._fontSize = 20;
-    strokeShaodwTextDef._fontName = std::string("Marker Felt");
-    
-    strokeShaodwTextDef._stroke._strokeEnabled = true;
-    strokeShaodwTextDef._stroke._strokeColor   = strokeShadowColor;
-    strokeShaodwTextDef._stroke._strokeSize    = 1.5;
-    
-    strokeShaodwTextDef._shadow._shadowEnabled = true;
-    strokeShaodwTextDef._shadow._shadowOffset  = shadowOffset;
-    strokeShaodwTextDef._shadow._shadowOpacity = 1.0;
-    strokeShaodwTextDef._shadow._shadowBlur    = 1.0;
-    
-    
-    strokeShaodwTextDef._fontFillColor   = tintColorBlue;
-    
-    // shadow + stroke label
-    auto fontStrokeAndShadow = LabelTTF::createWithFontDefinition("Stroke & Shadow Blue Text", strokeShaodwTextDef);
-    
-    // add label to the scene
-    this->addChild(fontStrokeAndShadow);
-    fontStrokeAndShadow->setPosition(Vec2(s.width/2,s.height/4*1.1));
-    
-    auto buttonBG = MenuItemImage::create("cocosui/animationbuttonnormal.png", "cocosui/animationbuttonpressed.png");
-    buttonBG->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
-    buttonBG->setPosition(VisibleRect::left());
-    
-    // create the label stroke and shadow
-    strokeShaodwTextDef._fontSize = 18;
-    strokeShaodwTextDef._fontName = "Marker Felt";
-    
-    strokeShaodwTextDef._stroke._strokeEnabled = true;
-    strokeShaodwTextDef._stroke._strokeColor   = Color3B::BLACK;
-    strokeShaodwTextDef._stroke._strokeSize    = 3.0f;
-    
-    strokeShaodwTextDef._shadow._shadowEnabled = false;
-    strokeShaodwTextDef._shadow._shadowOffset  = Size(1, 1);
-    strokeShaodwTextDef._shadow._shadowOpacity = 1.0;
-    strokeShaodwTextDef._shadow._shadowBlur    = 0.5f;
-    
-    strokeShaodwTextDef._fontFillColor   = Color3B::WHITE;
-    
-    // shadow + stroke label
-    fontStrokeAndShadow = LabelTTF::createWithFontDefinition("Test", strokeShaodwTextDef);
-    
-    // add label to the scene
-    buttonBG->addChild(fontStrokeAndShadow);
-    fontStrokeAndShadow->setPosition(Vec2(buttonBG->getContentSize().width/2, buttonBG->getContentSize().height/2));
-    
-    auto menu = Menu::create(buttonBG, nullptr);
-    menu->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-    menu->setPosition(Vec2::ZERO);
-    addChild(menu);
-}
-
-std::string TTFFontShadowAndStroke::title() const
-{
-    return "CCLabelTTF  shadows + stroke";
-}
-
-std::string TTFFontShadowAndStroke::subtitle() const
-{
-    return "Test for support of TTF label with stroke and shadow";
-}
-
-
 // Issue1343
 
 Issue1343::Issue1343()
@@ -1619,9 +1491,3 @@ std::string LabelBMFontBinaryFormat::subtitle() const
 {
     return "This label uses font file in AngelCode binary format";
 }
-
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif

@@ -125,7 +125,6 @@ private:
  Supported nodes:
  - BitmapFontAtlas
  - LabelAtlas
- - LabelTTF
  - Label
  */
 class CC_DLL MenuItemLabel : public MenuItem
