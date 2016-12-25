@@ -512,26 +512,30 @@ Atlas6::Atlas6()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    LabelBMFont* label = nullptr;
-    label = LabelBMFont::create("FaFeFiFoFu", "fonts/bitmapFontTest5.fnt");
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, s.height/2+50) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE ) ;
-    
-    label = LabelBMFont::create("fafefifofu", "fonts/bitmapFontTest5.fnt");
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, s.height/2) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+    const auto         width  = s.width / 2;
+    decltype(s.height) height = s.height / 2 + 50;
 
-    label = LabelBMFont::create("aeiou", "fonts/bitmapFontTest5.fnt");
-    addChild(label);
-    label->setPosition( Vec2(s.width/2, s.height/2-50) );
-    label->setAnchorPoint( Vec2::ANCHOR_MIDDLE ); 
+    auto nextHeight = [&height] {
+        auto curr = height;
+        height -= 50;
+        return curr;
+    };
+
+    for (auto txt : {"FaFeFiFoFu", "fafefifofu", "aeiou"})
+    {
+        Label* label = Label::createWithBMFont(
+            "fonts/bitmapFontTest5.fnt",
+            txt
+        );
+        addChild(label);
+        label->setPosition( Vec2{width, nextHeight()} );
+        label->setAnchorPoint( Vec2::ANCHOR_MIDDLE ) ;
+    }
 }
 
 std::string Atlas6::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string Atlas6::subtitle() const
