@@ -634,7 +634,7 @@ std::string AtlasFastBitmap::title() const
 
 std::string AtlasFastBitmap::subtitle() const
 {
-    return "Creating several LabelBMFont with the same .fnt file should be fast";
+    return "Creating several Labels with BMFont with the same .fnt file should be fast";
 }
 
 //------------------------------------------------------------------
@@ -653,7 +653,9 @@ BitmapFontMultiLine::BitmapFontMultiLine()
     Size s;
 
     // Left
-    auto label1 = LabelBMFont::create(" Multi line\nLeft", "fonts/bitmapFontTest3.fnt");
+    auto label1 = Label::createWithBMFont("fonts/bitmapFontTest3.fnt",
+                                          " Multi line\n"
+                                          "Left");
     label1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
     addChild(label1, 0, kTagBitmapAtlas1);
 
@@ -662,7 +664,9 @@ BitmapFontMultiLine::BitmapFontMultiLine()
 
 
     // Center
-    auto label2 = LabelBMFont::create("Multi line\nCenter", "fonts/bitmapFontTest3.fnt");
+    auto label2 = Label::createWithBMFont("fonts/bitmapFontTest3.fnt",
+                                          "Multi line\n"
+                                          "Center");
     label2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
     addChild(label2, 0, kTagBitmapAtlas2);
 
@@ -670,7 +674,10 @@ BitmapFontMultiLine::BitmapFontMultiLine()
     CCLOG("content size: %.2fx%.2f", s.width, s.height);
 
     // right
-    auto label3 = LabelBMFont::create("Multi line\nRight\nThree lines Three", "fonts/bitmapFontTest3.fnt");
+    auto label3 = Label::createWithBMFont("fonts/bitmapFontTest3.fnt",
+                                          "Multi line\n"
+                                          "Right\n"
+                                          "Three lines Three");
     label3->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
     addChild(label3, 0, kTagBitmapAtlas3);
 
@@ -684,7 +691,7 @@ BitmapFontMultiLine::BitmapFontMultiLine()
 
 std::string BitmapFontMultiLine::title() const
 {
-    return "CCLabelBMFont";
+    return "Label with BMFont";
 }
 
 std::string BitmapFontMultiLine::subtitle() const
