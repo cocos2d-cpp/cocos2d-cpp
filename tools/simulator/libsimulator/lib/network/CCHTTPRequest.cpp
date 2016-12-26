@@ -28,7 +28,7 @@ bool HTTPRequest::initWithDelegate(HTTPRequestDelegate *delegate, const char *ur
 
 bool HTTPRequest::initWithUrl(const char *url, int method)
 {
-    CCAssert(url, "HTTPRequest::initWithUrl() - invalid url");
+    CCASSERT(url, "HTTPRequest::initWithUrl() - invalid url");
     _curl = curl_easy_init();
     curl_easy_setopt(_curl, CURLOPT_URL, url);
     curl_easy_setopt(_curl, CURLOPT_USERAGENT, "libcurl");
@@ -55,7 +55,7 @@ HTTPRequest::~HTTPRequest(void)
 
 void HTTPRequest::setRequestUrl(const char *url)
 {
-    CCAssert(url, "HTTPRequest::setRequestUrl() - invalid url");
+    CCASSERT(url, "HTTPRequest::setRequestUrl() - invalid url");
     _url = url;
     curl_easy_setopt(_curl, CURLOPT_URL, _url.c_str());
 }
@@ -67,22 +67,22 @@ const string HTTPRequest::getRequestUrl(void)
 
 void HTTPRequest::addRequestHeader(const char *header)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::addRequestHeader() - request not idle");
-    CCAssert(header, "HTTPRequest::addRequestHeader() - invalid header");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::addRequestHeader() - request not idle");
+    CCASSERT(header, "HTTPRequest::addRequestHeader() - invalid header");
     _headers.push_back(string(header));
 }
 
 void HTTPRequest::addPOSTValue(const char *key, const char *value)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::addPOSTValue() - request not idle");
-    CCAssert(key, "HTTPRequest::addPOSTValue() - invalid key");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::addPOSTValue() - request not idle");
+    CCASSERT(key, "HTTPRequest::addPOSTValue() - invalid key");
     _postFields[string(key)] = string(value ? value : "");
 }
 
 void HTTPRequest::setPOSTData(const char *data)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setPOSTData() - request not idle");
-    CCAssert(data, "HTTPRequest::setPOSTData() - invalid post data");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setPOSTData() - request not idle");
+    CCASSERT(data, "HTTPRequest::setPOSTData() - invalid post data");
     _postFields.clear();
     curl_easy_setopt(_curl, CURLOPT_POST, 1L);
     curl_easy_setopt(_curl, CURLOPT_COPYPOSTFIELDS, data);
@@ -109,19 +109,19 @@ void HTTPRequest::addFormContents(const char *name, const char *value)
 
 void HTTPRequest::setCookieString(const char *cookie)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setAcceptEncoding() - request not idle");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setAcceptEncoding() - request not idle");
     curl_easy_setopt(_curl, CURLOPT_COOKIE, cookie ? cookie : "");
 }
 
 const string HTTPRequest::getCookieString(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseData() - request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseData() - request not completed");
     return _responseCookies;
 }
 
 void HTTPRequest::setAcceptEncoding(int acceptEncoding)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setAcceptEncoding() - request not idle");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setAcceptEncoding() - request not idle");
     switch (acceptEncoding)
     {
         case kCCHTTPRequestAcceptEncodingGzip:
@@ -139,14 +139,14 @@ void HTTPRequest::setAcceptEncoding(int acceptEncoding)
 
 void HTTPRequest::setTimeout(int timeout)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setTimeout() - request not idle");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::setTimeout() - request not idle");
     curl_easy_setopt(_curl, CURLOPT_CONNECTTIMEOUT, timeout);
     curl_easy_setopt(_curl, CURLOPT_TIMEOUT, timeout);
 }
 
 bool HTTPRequest::start(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateIdle, "HTTPRequest::start() - request not idle");
+    CCASSERT(_state == kCCHTTPRequestStateIdle, "HTTPRequest::start() - request not idle");
 
     _state = kCCHTTPRequestStateInProgress;
     _curlState = kCCHTTPRequestCURLStateBusy;
@@ -203,13 +203,13 @@ int HTTPRequest::getState(void)
 
 int HTTPRequest::getResponseStatusCode(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "Request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "Request not completed");
     return _responseCode;
 }
 
 const HTTPRequestHeaders &HTTPRequest::getResponseHeaders(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseHeaders() - request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseHeaders() - request not completed");
     return _responseHeaders;
 }
 
@@ -225,13 +225,13 @@ const string HTTPRequest::getResponseHeadersString()
 
 const string HTTPRequest::getResponseString(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseString() - request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseString() - request not completed");
     return string(_responseBuffer ? static_cast<char*>(_responseBuffer) : "");
 }
 
 void *HTTPRequest::getResponseData(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseData() - request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseData() - request not completed");
     void *buff = malloc(_responseDataLength);
     memcpy(buff, _responseBuffer, _responseDataLength);
     return buff;
@@ -239,16 +239,16 @@ void *HTTPRequest::getResponseData(void)
 
 int HTTPRequest::getResponseDataLength(void)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "Request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "Request not completed");
     return (int)_responseDataLength;
 }
 
 size_t HTTPRequest::saveResponseData(const char *filename)
 {
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::saveResponseData() - request not completed");
+    CCASSERT(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::saveResponseData() - request not completed");
     
     FILE *fp = fopen(filename, "wb");
-    CCAssert(fp, "HTTPRequest::saveResponseData() - open file failure");
+    CCASSERT(fp, "HTTPRequest::saveResponseData() - open file failure");
     
     size_t writedBytes = _responseDataLength;
     if (writedBytes > 0)

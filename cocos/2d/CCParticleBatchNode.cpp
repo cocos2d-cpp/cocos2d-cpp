@@ -484,7 +484,10 @@ void ParticleBatchNode::setTexture(Texture2D* texture)
     _textureAtlas->setTexture(texture);
 
     // If the new texture has No premultiplied alpha, AND the blendFunc hasn't been changed, then update it
-    if( texture && ! texture->hasPremultipliedAlpha() && ( _blendFunc.src == CC_BLEND_SRC && _blendFunc.dst == CC_BLEND_DST ) )
+    if( texture
+        && ! texture->hasPremultipliedAlpha()
+        && ( _blendFunc.src == GL_ONE
+             && _blendFunc.dst == GL_ONE_MINUS_SRC_ALPHA ) )
     {
         _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
     }

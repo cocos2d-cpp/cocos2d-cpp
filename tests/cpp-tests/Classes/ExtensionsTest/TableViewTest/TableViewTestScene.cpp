@@ -31,7 +31,7 @@ bool TableViewTest::init()
     testNode->setName("testNode");
     tableView->addChild(testNode);
     tableView->removeChild(testNode, true);
-    CCAssert(nullptr == tableView->getChildByName("testNode"), "The added child has been removed!");
+    CCASSERT(nullptr == tableView->getChildByName("testNode"), "The added child has been removed!");
 
 
 	tableView = TableView::create(this, Size(60, 250));

@@ -1028,7 +1028,8 @@ void ParticleSystem::updateBlendFunc()
         
         _opacityModifyRGB = false;
         
-        if( _texture && ( _blendFunc.src == CC_BLEND_SRC && _blendFunc.dst == CC_BLEND_DST ) )
+        if( _texture && ( _blendFunc.src == GL_ONE
+                          && _blendFunc.dst == GL_ONE_MINUS_SRC_ALPHA ) )
         {
             if( premultiplied )
             {

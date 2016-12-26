@@ -99,7 +99,7 @@ void Vec4::add(const Vec4& v)
 
 void Vec4::add(const Vec4& v1, const Vec4& v2, Vec4* dst)
 {
-    GP_ASSERT(dst);
+    CCASSERT(dst, "");
 
     dst->x = v1.x + v2.x;
     dst->y = v1.y + v2.y;
@@ -109,7 +109,7 @@ void Vec4::add(const Vec4& v1, const Vec4& v2, Vec4* dst)
 
 void Vec4::clamp(const Vec4& min, const Vec4& max)
 {
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w));
+    CCASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w), "");
 
     // Clamp the x value.
     if (x < min.x)
@@ -138,8 +138,8 @@ void Vec4::clamp(const Vec4& min, const Vec4& max)
 
 void Vec4::clamp(const Vec4& v, const Vec4& min, const Vec4& max, Vec4* dst)
 {
-    GP_ASSERT(dst);
-    GP_ASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w));
+    CCASSERT(dst, "");
+    CCASSERT(!(min.x > max.x || min.y > max.y || min.z > max.z || min.w > max.w), "");
 
     // Clamp the x value.
     dst->x = v.x;
@@ -263,7 +263,7 @@ void Vec4::set(float xx, float yy, float zz, float ww)
 
 void Vec4::set(const float* array)
 {
-    GP_ASSERT(array);
+    CCASSERT(array, "");
 
     x = array[0];
     y = array[1];
@@ -297,7 +297,7 @@ void Vec4::subtract(const Vec4& v)
 
 void Vec4::subtract(const Vec4& v1, const Vec4& v2, Vec4* dst)
 {
-    GP_ASSERT(dst);
+    CCASSERT(dst, "");
 
     dst->x = v1.x - v2.x;
     dst->y = v1.y - v2.y;

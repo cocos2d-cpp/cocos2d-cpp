@@ -164,18 +164,6 @@ public:
      */
     virtual void _setLocalZOrder(int z);
 
-    /** !!! ONLY FOR INTERNAL USE
-    * Sets the arrival order when this node has a same ZOrder with other children.
-    *
-    * A node which called addChild subsequently will take a larger arrival order,
-    * If two children have the same Z order, the child with larger arrival order will be drawn later.
-    *
-    * @warning This method is used internally for localZOrder sorting, don't change this manually
-    *
-    * @param orderOfArrival   The arrival order.
-    */
-    void updateOrderOfArrival();
-
     /**
      * Gets the local Z order of this node.
      *
@@ -908,15 +896,10 @@ public:
     static void sortNodes(cocos2d::Vector<_T*>& nodes)
     {
         static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
-#if CC_64BITS
-        std::sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return (n1->_localZOrderAndArrival < n2->_localZOrderAndArrival);
-        });
-#else
-        std::stable_sort(std::begin(nodes), std::end(nodes), [](_T* n1, _T* n2) {
-            return n1->_localZOrder < n2->_localZOrder;
-        });
-#endif
+        std::stable_sort(std::begin(nodes), std::end(nodes),
+                         [](_T* n1, _T* n2) {
+                             return n1->_localZOrder < n2->_localZOrder;
+                         });
     }
 
     /// @} end of Children and Parent

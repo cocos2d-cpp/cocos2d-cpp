@@ -143,7 +143,7 @@ void blendResetToCache(void)
 #if CC_ENABLE_GL_STATE_CACHE
 	SetBlending(s_blendingSource, s_blendingDest);
 #else
-	SetBlending(CC_BLEND_SRC, CC_BLEND_DST);
+	SetBlending(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 #endif // CC_ENABLE_GL_STATE_CACHE
 }
 

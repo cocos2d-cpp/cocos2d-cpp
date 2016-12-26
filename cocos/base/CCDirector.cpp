@@ -709,7 +709,7 @@ void Director::setAlphaBlending(bool on)
 {
     if (on)
     {
-        GL::blendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+        GL::blendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     }
     else
     {

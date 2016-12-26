@@ -83,7 +83,6 @@ Node::Node()
 , _transformUpdated(true)
 // children (lazy allocs)
 // lazy alloc
-, _localZOrderAndArrival(0)
 , _localZOrder(0)
 , _globalZOrder(0)
 , _parent(nullptr)
@@ -232,6 +231,7 @@ void Node::setLocalZOrder(int z)
         return;
     
     _setLocalZOrder(z);
+
     if (_parent)
     {
         _parent->reorderChild(this, z);
@@ -244,13 +244,7 @@ void Node::setLocalZOrder(int z)
 /// used internally to alter the zOrder variable. DON'T call this method manually
 void Node::_setLocalZOrder(int z)
 {
-    _localZOrderAndArrival = (static_cast<std::int64_t>(z) << 32) | (_localZOrderAndArrival & 0xffffffff);
     _localZOrder = z;
-}
-
-void Node::updateOrderOfArrival()
-{
-    _localZOrderAndArrival = (_localZOrderAndArrival & 0xffffffff00000000) | (++s_globalOrderOfArrival);
 }
 
 void Node::setGlobalZOrder(float globalZOrder)
@@ -919,8 +913,6 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
     
     child->setParent(this);
 
-    child->updateOrderOfArrival();
-
     if( _running )
     {
         child->onEnter();
@@ -1085,7 +1077,6 @@ void Node::reorderChild(Node *child, int zOrder)
 {
     CCASSERT( child != nullptr, "Child must be non-nil");
     _reorderChildDirty = true;
-    child->updateOrderOfArrival();
     child->_setLocalZOrder(zOrder);
 }
 

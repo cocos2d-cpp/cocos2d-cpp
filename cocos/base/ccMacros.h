@@ -37,27 +37,14 @@ THE SOFTWARE.
 
 #ifndef CCASSERT
 #if COCOS2D_DEBUG > 0
-    #define CCASSERT(cond, msg) CC_ASSERT(cond)
+    #define CCASSERT(cond, msg) CC_ASSERT((cond) && (msg))
 #else
     #define CCASSERT(cond, msg)
 #endif
 
-#define GP_ASSERT(cond) CCASSERT(cond, "")
-
-// FIXME:: Backward compatible
-#define CCAssert CCASSERT
 #endif  // CCASSERT
 
 #include "base/ccConfig.h"
-
-/** @def CC_SWAP
-simple macro that swaps 2 variables
- @deprecated use std::swap() instead
-*/
-#define CC_SWAP(x, y, type)    \
-{    type temp = (x);        \
-    x = y; y = temp;        \
-}
 
 #include "base/ccRandom.h"
 
@@ -82,40 +69,6 @@ simple macro that swaps 2 variables
 #define CC_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
 #define CC_REPEAT_FOREVER (UINT_MAX -1)
-#define kRepeatForever CC_REPEAT_FOREVER
-
-/** @def CC_BLEND_SRC
-default gl blend src function. Compatible with premultiplied alpha images.
-*/
-#define CC_BLEND_SRC GL_ONE
-#define CC_BLEND_DST GL_ONE_MINUS_SRC_ALPHA
-
-
-/** @def CC_NODE_DRAW_SETUP
- Helpful macro that setups the GL server state, the correct GL program and sets the Model View Projection matrix
- @since v2.0
- */
-#define CC_NODE_DRAW_SETUP() \
-do { \
-    CCASSERT(getGLProgram(), "No shader program set for this node"); \
-    { \
-        getGLProgram()->use(); \
-        getGLProgram()->setUniformsForBuiltins(_modelViewTransform); \
-    } \
-} while(0)
-
-
- /** @def CC_DIRECTOR_END
-  Stops and removes the director from memory.
-  Removes the GLView from its parent
-
-  @since v0.99.4
-  */
-#define CC_DIRECTOR_END()                                       \
-do {                                                            \
-    Director *__director = cocos2d::Director::getInstance();             \
-    __director->end();                                          \
-} while(0)
 
 /** @def CC_CONTENT_SCALE_FACTOR
 On Mac it returns 1;
@@ -169,10 +122,6 @@ cocos2d::Size( (__size_in_points__).width * CC_CONTENT_SCALE_FACTOR(), (__size_i
 #ifndef FLT_EPSILON
 #define FLT_EPSILON     1.192092896e-07F
 #endif // FLT_EPSILON
-
-#define DISALLOW_COPY_AND_ASSIGN(TypeName) \
-            TypeName(const TypeName&);\
-            void operator=(const TypeName&)
 
 /**
 Helper macros which converts 4-byte little/big endian 
@@ -261,21 +210,10 @@ CC_ASSERT(__gl_error_code == GL_NO_ERROR, "Error"); \
 } while(0)
 #endif
 
- /*********************************/
- /** 64bits Program Sense Macros **/
- /*********************************/
-#if defined(_M_X64) || defined(_WIN64) || defined(__LP64__) || defined(_LP64) || defined(__x86_64)
-#define CC_64BITS 1
-#else
-#define CC_64BITS 0
-#endif
-
-
 /** @def CC_INCREMENT_GL_DRAWS_BY_ONE
  Increments the GL Draws counts by one.
  The number of calls per frame are displayed on the screen when the Director's stats are enabled.
  */
-#define CC_INCREMENT_GL_DRAWS(__n__) cocos2d::Director::getInstance()->getRenderer()->addDrawnBatches(__n__)
 #define CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(__drawcalls__, __vertices__) \
     do {                                                                \
         auto __renderer__ = cocos2d::Director::getInstance()->getRenderer();     \

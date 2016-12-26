@@ -86,7 +86,7 @@ inline void Vec3::set(float xx, float yy, float zz)
 
 inline void Vec3::set(const float* array)
 {
-    GP_ASSERT(array);
+    CCASSERT(array, "");
 
     x = array[0];
     y = array[1];
