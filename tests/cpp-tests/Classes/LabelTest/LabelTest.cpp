@@ -1469,25 +1469,26 @@ void LabelBMFontCrashTest::onEnter()
     
     auto winSize = Director::getInstance()->getWinSize();
     //Create a label and add it
-    auto label1 = new (std::nothrow) LabelBMFont();
-    label1->initWithString("test", "fonts/bitmapFontTest2.fnt");
+    auto label1 = Label::create();
+    label1->setBMFontFilePath("fonts/bitmapFontTest2.fnt");
+    label1->setString("test");
     this->addChild(label1);
     // Visit will call draw where the function "ccGLBindVAO(m_uVAOname);" will be invoked.
     dynamic_cast<Node*>(label1)->visit();
     
     // Remove this label
     label1->removeFromParentAndCleanup(true);
-    label1->release();
     
     // Create a new label and add it (then crashes)
-    auto label2 = LabelBMFont::create("test 2", "fonts/bitmapFontTest.fnt");
+    auto label2 = Label::createWithBMFont("fonts/bitmapFontTest.fnt",
+                                          "test 2");
     label2->setPosition(Vec2(winSize.width/2, winSize.height/2));
     this->addChild(label2);
 }
 
 std::string LabelBMFontCrashTest::title() const
 {
-    return "LabelBMFont Crash Test";
+    return "Label with BMFont Crash Test";
 }
 
 std::string LabelBMFontCrashTest::subtitle() const
