@@ -1120,13 +1120,6 @@ void SocketIO::destroyInstance()
     CC_SAFE_DELETE(_inst);
 }
 
-SIOClient* SocketIO::connect(SocketIO::SIODelegate& delegate, const std::string& uri)
-{
-
-    return SocketIO::connect(uri, delegate);
-
-}
-
 SIOClient* SocketIO::connect(const std::string& uri, SocketIO::SIODelegate& delegate)
 {
     std::string host = uri;

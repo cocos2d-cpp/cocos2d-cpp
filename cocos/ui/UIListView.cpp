@@ -472,11 +472,6 @@ void ListView::setDirection(Direction dir)
     ScrollView::setDirection(dir);
 }
     
-void ListView::refreshView()
-{
-    forceDoLayout();
-}
-
 void ListView::requestDoLayout()
 {
     _innerContainerDoLayoutDirty = true;
@@ -500,13 +495,6 @@ void ListView::doLayout()
     _innerContainer->forceDoLayout();
     _innerContainerDoLayoutDirty = false;
 }
-    
-void ListView::addEventListenerListView(Ref *target, SEL_ListViewEvent selector)
-{
-    _listViewEventListener = target;
-    _listViewEventSelector = selector;
-}
-
     
 void ListView::addEventListener(const ccListViewCallback& callback)
 {

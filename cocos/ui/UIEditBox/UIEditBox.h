@@ -73,13 +73,6 @@ namespace ui {
             
             
         /**
-         * This method is called when an edit box loses focus after keyboard is hidden.
-         * @param editBox The edit box object that generated the event.
-         * @deprecated Use editBoxEditingDidEndWithAction() instead to receive reason for end
-         */
-        CC_DEPRECATED_ATTRIBUTE virtual void editBoxEditingDidEnd(EditBox* editBox) {};
-            
-        /**
          * This method is called when the edit box text was changed.
          * @param editBox The edit box object that generated the event.
          * @param text The new text.

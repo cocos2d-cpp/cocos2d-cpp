@@ -367,14 +367,6 @@ public:
     
     /**
      * Add an event click callback to ListView, then one item of Listview is clicked, the callback will be called.
-     *@deprecated Use  `addEventListener` instead.
-     *@param target A pointer of `Ref*` type.
-     *@param selector A member function pointer with type of `SEL_ListViewEvent`.
-     */
-    CC_DEPRECATED_ATTRIBUTE void addEventListenerListView(Ref* target, SEL_ListViewEvent selector);
-
-    /**
-     * Add an event click callback to ListView, then one item of Listview is clicked, the callback will be called.
      *@param callback A callback function with type of `ccListViewCallback`.
      */
     void addEventListener(const ccListViewCallback& callback);
@@ -390,20 +382,8 @@ public:
     
     virtual std::string getDescription() const override;
     
-    /**
-     * @brief Refresh view and layout of ListView manually.
-     * This method will mark ListView content as dirty and the content view will be refreshed in the next frame.
-     * @deprecated Use method requestDoLayout() instead
-     */
-    CC_DEPRECATED_ATTRIBUTE void requestRefreshView();
-
-    /**
-     * @brief Refresh content view of ListView.
-     * @deprecated Use method forceDoLayout() instead
-     */
-    CC_DEPRECATED_ATTRIBUTE void refreshView();
-
 CC_CONSTRUCTOR_ACCESS:
+
     virtual bool init() override;
     
 protected:

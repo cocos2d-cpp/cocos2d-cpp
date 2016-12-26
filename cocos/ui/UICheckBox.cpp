@@ -134,12 +134,6 @@ void CheckBox::dispatchSelectChangedEvent(bool selected)
     
 }
 
-void CheckBox::addEventListenerCheckBox(Ref *target, SEL_SelectedStateEvent selector)
-{
-    _checkBoxEventListener = target;
-    _checkBoxEventSelector = selector;
-}
-
 void CheckBox::addEventListener(const ccCheckBoxCallback& callback)
 {
     _checkBoxEventCallback = callback;

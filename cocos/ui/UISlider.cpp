@@ -494,12 +494,6 @@ float Slider::getPercentWithBallPos(const Vec2 &pt) const
     return ((p.x/_barLength) * static_cast<float>(_maxPercent));
 }
 
-void Slider::addEventListenerSlider(Ref *target, SEL_SlidPercentChangedEvent selector)
-{
-    _sliderEventListener = target;
-    _sliderEventSelector = selector;
-}
-    
 void Slider::addEventListener(const ccSliderCallback& callback)
 {
     _eventCallback = callback;

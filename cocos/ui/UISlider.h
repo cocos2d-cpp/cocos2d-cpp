@@ -223,8 +223,6 @@ public:
      */
     int getMaxPercent()const;
 
-    
-    CC_DEPRECATED_ATTRIBUTE void addEventListenerSlider(Ref* target,SEL_SlidPercentChangedEvent selector);
     /**
      * Add call back function called when slider's percent has changed to slider.
      *

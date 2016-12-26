@@ -444,13 +444,6 @@ public:
     SizeType getSizeType() const;
 
     /**
-     * Get the size of widget
-     *
-     * @return Widget content size.
-     */
-    CC_DEPRECATED_ATTRIBUTE const Size& getSize() const;
-    
-    /**
      * Get the user defined widget size.
      *@return User defined size.
      */

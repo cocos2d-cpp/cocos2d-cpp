@@ -119,14 +119,12 @@ public:
     * If "key" is nil, then a new texture will be created each time.
     */
     Texture2D* addImage(Image *image, const std::string &key);
-    CC_DEPRECATED_ATTRIBUTE Texture2D* addUIImage(Image *image, const std::string& key) { return addImage(image,key); }
 
     /** Returns an already created texture. Returns nil if the texture doesn't exist.
     @param key It's the related/absolute path of the file image.
     @since v0.99.5
     */
     Texture2D* getTextureForKey(const std::string& key) const;
-    CC_DEPRECATED_ATTRIBUTE Texture2D* textureForKey(const std::string& key) const { return getTextureForKey(key); }
 
     /** Reload texture from the image file.
     * If the file image hasn't loaded before, load it.

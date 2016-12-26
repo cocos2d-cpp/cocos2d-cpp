@@ -522,16 +522,6 @@ void RelativeLayoutManager::calculateFinalPositionWithRelativeAlign()
     }
 }
 
-bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtocol *layout)
-{
-    return calculateFinalPositionWithRelativeWidget(layout);
-}
-
-void RelativeLayoutManager::caculateFinalPositionWithRelativeAlign()
-{
-    calculateFinalPositionWithRelativeAlign();
-}
-
 void RelativeLayoutManager::doLayout(LayoutProtocol *layout)
 {
     

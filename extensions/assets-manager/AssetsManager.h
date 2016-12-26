@@ -221,10 +221,6 @@ public:
     virtual void onSuccess() {};
 };
 
-// Deprecated declaration
-CC_DEPRECATED_ATTRIBUTE typedef AssetsManager CCAssetsManager;
-CC_DEPRECATED_ATTRIBUTE typedef AssetsManagerDelegateProtocol CCAssetsManagerDelegateProtocol;
-
 } // namespace extension
 } // namespace cocos2d;
 

@@ -334,7 +334,6 @@ void EditBoxImplCommon::editBoxEditingDidBegin()
     if (pDelegate != nullptr)
     {
         pDelegate->editBoxEditingDidEndWithAction(_editBox, action);
-        pDelegate->editBoxEditingDidEnd(_editBox);
         pDelegate->editBoxReturn(_editBox);
     }
     

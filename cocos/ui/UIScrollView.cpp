@@ -1092,12 +1092,6 @@ void ScrollView::dispatchEvent(ScrollviewEventType scrollEventType, EventType ev
     this->release();
 }
 
-void ScrollView::addEventListenerScrollView(Ref *target, SEL_ScrollViewEvent selector)
-{
-    _scrollViewEventListener = target;
-    _scrollViewEventSelector = selector;
-}
-
 void ScrollView::addEventListener(const ccScrollViewCallback& callback)
 {
     _eventCallback = callback;

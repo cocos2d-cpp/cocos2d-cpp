@@ -101,17 +101,13 @@ public:
                      const std::string& startCharMap);
     
     /**Set string value for labelatlas.
-     *
      * @param value A given string needs to be displayed.
      */
-    CC_DEPRECATED_ATTRIBUTE void setStringValue(const std::string& value){this->setString(value);}
     void setString(const std::string& value);
     
     /**Get string value for labelatlas.
-     *
      * @return The string value of TextAtlas.
      */
-    CC_DEPRECATED_ATTRIBUTE const std::string& getStringValue() const{return this->getString();}
     const std::string& getString() const;
     
     /**

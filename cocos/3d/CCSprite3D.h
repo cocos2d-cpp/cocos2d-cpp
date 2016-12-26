@@ -103,9 +103,6 @@ public:
     /** get mesh count */
     ssize_t getMeshCount() const { return _meshes.size(); }
     
-    /**get skin*/
-    CC_DEPRECATED_ATTRIBUTE MeshSkin* getSkin() const;
-    
     Skeleton3D* getSkeleton() const { return _skeleton; }
     
     /**get AttachNode by bone name, return nullptr if not exist*/

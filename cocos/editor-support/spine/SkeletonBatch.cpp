@@ -93,7 +93,7 @@ namespace spine {
         _command->triangles->indexCount = triangles.indexCount;
         _command->triangles->indices = triangles.indices;
         
-        _command->trianglesCommand->init(globalZOrder, textureID, glProgramState, blendFunc, *_command->triangles, transform);
+        _command->trianglesCommand->init(globalZOrder, textureID, glProgramState, blendFunc, *_command->triangles, transform, 0);
         renderer->addCommand(_command->trianglesCommand);
         
         if (!_command->next) _command->next = new Command();

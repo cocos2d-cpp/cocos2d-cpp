@@ -486,11 +486,6 @@ bool Widget::isIgnoreContentAdaptWithSize() const
     return _ignoreSize;
 }
 
-const Size& Widget::getSize() const
-{
-    return this->getContentSize();
-}
-
 const Size& Widget::getCustomSize() const
 {
     return _customSize;

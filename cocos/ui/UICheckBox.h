@@ -130,29 +130,6 @@ public:
                             TextureResType texType = TextureResType::LOCAL);
 
     /**
-     * Change Checkbox state to selected.
-     *
-     * @deprecated use `isSelected()` instead
-     * @param selected   True means the Checkbox will be selected, false means unselected.
-     */
-    CC_DEPRECATED_ATTRIBUTE void setSelectedState(bool selected){this->setSelected(selected);}
-
-    /**
-     * Query whether the CheckBox is selected or not.
-     *
-     * @deprecated use `setSelected(bool)` instead.
-     * @return selected    true that checkbox is selected, false otherwise.
-     */
-    CC_DEPRECATED_ATTRIBUTE bool getSelectedState()const{return this->isSelected();}
-    
-    /**Add a callback function which would be called when checkbox is selected or unselected.
-     *@deprecated use `addEventListener(const ccCheckBoxCallback&)` instead
-     *@param target A pointer type in Ref*.
-     *@param selector A member function pointer in SEL_SelectedStateEvent.
-     */
-    CC_DEPRECATED_ATTRIBUTE void addEventListenerCheckBox(Ref* target,SEL_SelectedStateEvent selector);
-
-    /**
      *Add a callback function which would be called when checkbox is selected or unselected.
      *@param callback A std::function with type @see `ccCheckBoxCallback`
      */

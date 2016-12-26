@@ -29,14 +29,6 @@ THE SOFTWARE.
 
 #include "audio/include/Export.h"
 
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#define CC_DEPRECATED_ATTRIBUTE __attribute__((deprecated))
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#define CC_DEPRECATED_ATTRIBUTE __declspec(deprecated)
-#else
-#define CC_DEPRECATED_ATTRIBUTE
-#endif
-
 /**
 * @addtogroup audio
 * @{
@@ -58,89 +50,58 @@ class EXPORT_DLL SimpleAudioEngine
 public:
     /**
      * Returns a shared instance of the SimpleAudioEngine.
-     * @js NA
      */
     static SimpleAudioEngine* getInstance();
 
     /**
-     * @deprecated Use `getInstance` instead.
-     * @js NA
-     * @lua NA
-     */
-    CC_DEPRECATED_ATTRIBUTE static SimpleAudioEngine* sharedEngine() { return SimpleAudioEngine::getInstance(); }
-
-    /**
      * Release the shared Engine object.
-     *
      * @warning It must be called before the application exit, or it will lead to memory leaks.
-     * @lua destroyInstance
      */
     static void end();
 
     /**
      * Preload background music.
-     *
      * @param filePath The path of the background music file.
-     * @js NA
-     * @lua preloadMusic
      */
     virtual void preloadBackgroundMusic(const char* filePath);
     
     /**
      * Play background music.
-     * 
      * @param filePath The path of the background music file,or the FileName of T_SoundResInfo.
      * @param loop Whether the background music loop or not.
-     * @js playMusic
-     * @lua playMusic
      */
     virtual void playBackgroundMusic(const char* filePath, bool loop = false);
 
     /**
      * Stop playing background music.
-     *
      * @param releaseData If release the background music data or not.As default value is false.
-     * @js stopMusic
-     * @lua stopMusic
      */
     virtual void stopBackgroundMusic(bool releaseData = false);
 
     /**
      * Pause playing background music.
-     * @js pauseMusic
-     * @lua pauseMusic
      */
     virtual void pauseBackgroundMusic();
 
     /**
      * Resume playing background music.
-     * @js resumeMusic
-     * @lua resumeMusic
      */
     virtual void resumeBackgroundMusic();
 
     /**
      * Rewind playing background music.
-     * @js rewindMusic
-     * @lua rewindMusic
      */
     virtual void rewindBackgroundMusic();
 
     /**
      * Indicates whether any background music can be played or not.
-     *
      * @return <i>true</i> if background music can be played, otherwise <i>false</i>.
-     * @js willPlayMusic
-     * @lua willPlayMusic
      */
     virtual bool willPlayBackgroundMusic();
 
     /**
      * Indicates whether the background music is playing.
-     *
      * @return <i>true</i> if the background music is playing, otherwise <i>false</i>.
-     * @js isMusicPlaying
-     * @lua isMusicPlaying
      */
     virtual bool isBackgroundMusicPlaying();
 
@@ -150,17 +111,12 @@ public:
 
     /**
      * The volume of the background music within the range of 0.0 as the minimum and 1.0 as the maximum.
-     * @js getMusicVolume
-     * @lua getMusicVolume
      */
     virtual float getBackgroundMusicVolume();
 
     /**
      * Set the volume of background music.
-     *
      * @param volume must be within the range of 0.0 as the minimum and 1.0 as the maximum.
-     * @js setMusicVolume
-     * @lua setMusicVolume
      */
     virtual void setBackgroundMusicVolume(float volume);
 
@@ -171,7 +127,6 @@ public:
 
     /**
      * Set the volume of sound effects.
-     *
      * @param volume must be within the range of 0.0 as the minimum and 1.0 as the maximum.
      */
     virtual void setEffectsVolume(float volume);
@@ -181,7 +136,6 @@ public:
 
     /**
      * Play sound effect with a file path, pitch, pan and gain.
-     *
      * @param filePath The path of the effect file.
      * @param loop Determines whether to loop the effect playing or not. The default value is false.
      * @param pitch Frequency, normal value is 1.0. Will also change effect play time.
@@ -198,7 +152,6 @@ public:
 
     /**
      * Pause playing sound effect.
-     *
      * @param soundId The return value of function playEffect.
      */
     virtual void pauseEffect(unsigned int soundId);
@@ -210,7 +163,6 @@ public:
 
     /**
      * Resume playing sound effect.
-     *
      * @param soundId The return value of function playEffect.
      */
     virtual void resumeEffect(unsigned int soundId);
@@ -222,7 +174,6 @@ public:
 
     /**
      * Stop playing sound effect.
-     *
      * @param soundId The return value of function playEffect.
      */
     virtual void stopEffect(unsigned int soundId);
@@ -234,17 +185,13 @@ public:
 
     /**
      * Preload a compressed audio file.
-     *
      * The compressed audio will be decoded to wave, then written into an internal buffer in SimpleAudioEngine.
-     *
      * @param filePath The path of the effect file.
-     * @js NA
      */
     virtual void preloadEffect(const char* filePath);
 
     /**
      * Unload the preloaded effect from internal buffer.
-     *
      * @param filePath The path of the effect file.
      */
     virtual void unloadEffect(const char* filePath);
