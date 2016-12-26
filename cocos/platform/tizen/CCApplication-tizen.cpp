@@ -112,7 +112,7 @@ static void del_gl(Evas_Object *obj) {
 
 }
 
-// sharedApplication pointer
+// getInstance pointer
 Application* Application::__instance = nullptr;
 
 Application::Application()
@@ -500,24 +500,6 @@ void Application::setAnimationInterval(float interval)
     ecore_animator_frametime_set(interval);
 }
 
-void Application::setResourceRootPath(const std::string& rootResDir)
-{
-    _resourceRootPath = rootResDir;
-    if (_resourceRootPath[_resourceRootPath.length() - 1] != '/')
-    {
-        _resourceRootPath += '/';
-    }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
-    searchPaths.insert(searchPaths.begin(), _resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
-}
-
-const std::string& Application::getResourceRootPath(void)
-{
-    return _resourceRootPath;
-}
-
 Application::Platform Application::getTargetPlatform()
 {
     return Platform::OS_TIZEN;
@@ -567,12 +549,6 @@ Application* Application::getInstance()
 {
     CC_ASSERT(__instance);
     return __instance;
-}
-
-// @deprecated Use getInstance() instead
-Application* Application::sharedApplication()
-{
-    return Application::getInstance();
 }
 
 const char * Application::getCurrentLanguageCode()

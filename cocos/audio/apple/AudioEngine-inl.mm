@@ -104,7 +104,7 @@ void AudioEngineInterruptionListenerCallback(void* user_data, UInt32 interruptio
         }
         
         if (reason == AVAudioSessionInterruptionTypeEnded) {
-            if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+            if ([UIApplication getInstance].applicationState == UIApplicationStateActive) {
                 NSError *error = nil;
                 [[AVAudioSession sharedInstance] setActive:YES error:&error];
                 alcMakeContextCurrent(s_ALContext);

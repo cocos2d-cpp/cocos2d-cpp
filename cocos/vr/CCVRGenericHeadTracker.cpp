@@ -196,7 +196,7 @@ void VRGenericHeadTracker::startTracking()
         [motionMgr startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
     }
 
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    UIInterfaceOrientation orientation = [UIApplication getInstance].statusBarOrientation;
     if (orientation == UIInterfaceOrientationLandscapeLeft)
     {
         _deviceToDisplay = getRotateEulerMatrix(0.f, 0.f, 90.f);

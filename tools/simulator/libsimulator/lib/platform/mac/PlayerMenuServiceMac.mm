@@ -187,7 +187,7 @@ PlayerMenuServiceMac::PlayerMenuServiceMac()
 {
     // @TODO: build menu with **EDIT** menu
     
-    NSApplication *thisApp = [NSApplication sharedApplication];
+    NSApplication *thisApp = [NSApplication getInstance];
     _root._menu = [thisApp mainMenu];
 }
 

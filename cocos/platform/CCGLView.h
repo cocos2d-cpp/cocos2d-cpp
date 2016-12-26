@@ -150,12 +150,6 @@ public:
     /** The OpenGL context attrs. */
     static GLContextAttrs _glContextAttrs;
 
-    /** @deprecated
-     * Polls input events. Subclass must implement methods if platform
-     * does not provide event callbacks.
-     */
-    CC_DEPRECATED_ATTRIBUTE virtual void pollInputEvents();
-    
     /** Polls the events. */
     virtual void pollEvents();
 

@@ -24,17 +24,17 @@ FileUtilsTests::FileUtilsTests()
 void TestResolutionDirectories::onEnter()
 {
     FileUtilsDemo::onEnter();
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     std::string ret;
 
-    sharedFileUtils->purgeCachedEntries();
-    _defaultSearchPathArray = sharedFileUtils->getSearchPaths();
+    file_utils->purgeCachedEntries();
+    _defaultSearchPathArray = file_utils->getSearchPaths();
     std::vector<std::string> searchPaths = _defaultSearchPathArray;
     searchPaths.insert(searchPaths.begin(),   "Misc");
-    sharedFileUtils->setSearchPaths(searchPaths);
+    file_utils->setSearchPaths(searchPaths);
 
-    _defaultResolutionsOrderArray = sharedFileUtils->getSearchResolutionsOrder();
+    _defaultResolutionsOrderArray = file_utils->getSearchResolutionsOrder();
     std::vector<std::string> resolutionsOrder = _defaultResolutionsOrderArray;
 
     resolutionsOrder.insert(resolutionsOrder.begin(), "resources-ipadhd");
@@ -44,22 +44,22 @@ void TestResolutionDirectories::onEnter()
     resolutionsOrder.insert(resolutionsOrder.begin()+4, "resources-hd");
     resolutionsOrder.insert(resolutionsOrder.begin()+5, "resources-iphone");
 
-    sharedFileUtils->setSearchResolutionsOrder(resolutionsOrder);
+    file_utils->setSearchResolutionsOrder(resolutionsOrder);
 
     for( int i=1; i<7; i++) {
         auto filename = StringUtils::format("test%d.txt", i);
-        ret = sharedFileUtils->fullPathForFilename(filename);
+        ret = file_utils->fullPathForFilename(filename);
         log("%s -> %s", filename.c_str(), ret.c_str());
     }
 }
 
 void TestResolutionDirectories::onExit()
 {
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     // reset search path
-    sharedFileUtils->setSearchPaths(_defaultSearchPathArray);
-    sharedFileUtils->setSearchResolutionsOrder(_defaultResolutionsOrderArray);
+    file_utils->setSearchPaths(_defaultSearchPathArray);
+    file_utils->setSearchResolutionsOrder(_defaultResolutionsOrderArray);
     FileUtilsDemo::onExit();
 }
 
@@ -78,14 +78,14 @@ std::string TestResolutionDirectories::subtitle() const
 void TestSearchPath::onEnter()
 {
     FileUtilsDemo::onEnter();
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     std::string ret;
 
-    sharedFileUtils->purgeCachedEntries();
-    _defaultSearchPathArray = sharedFileUtils->getSearchPaths();
+    file_utils->purgeCachedEntries();
+    _defaultSearchPathArray = file_utils->getSearchPaths();
     std::vector<std::string> searchPaths = _defaultSearchPathArray;
-    std::string writablePath = sharedFileUtils->getWritablePath();
+    std::string writablePath = file_utils->getWritablePath();
     std::string fileName = writablePath+"external.txt";
     char szBuf[100] = "Hello Cocos2d-x!";
     FILE* fp = fopen(fileName.c_str(), "wb");
@@ -101,22 +101,22 @@ void TestSearchPath::onEnter()
     searchPaths.insert(searchPaths.begin(), writablePath);
     searchPaths.insert(searchPaths.begin()+1,   "Misc/searchpath1");
     searchPaths.insert(searchPaths.begin()+2, "Misc/searchpath2");
-    sharedFileUtils->setSearchPaths(searchPaths);
+    file_utils->setSearchPaths(searchPaths);
 
-    _defaultResolutionsOrderArray = sharedFileUtils->getSearchResolutionsOrder();
+    _defaultResolutionsOrderArray = file_utils->getSearchResolutionsOrder();
     std::vector<std::string> resolutionsOrder = _defaultResolutionsOrderArray;
 
     resolutionsOrder.insert(resolutionsOrder.begin(), "resources-ipad");
-    sharedFileUtils->setSearchResolutionsOrder(resolutionsOrder);
+    file_utils->setSearchResolutionsOrder(resolutionsOrder);
 
     for( int i=1; i<3; i++) {
         auto filename = StringUtils::format("file%d.txt", i);
-        ret = sharedFileUtils->fullPathForFilename(filename);
+        ret = file_utils->fullPathForFilename(filename);
         log("%s -> %s", filename.c_str(), ret.c_str());
     }
 
     // Gets external.txt from writable path
-    std::string fullPath = sharedFileUtils->fullPathForFilename("external.txt");
+    std::string fullPath = file_utils->fullPathForFilename("external.txt");
     log("external file path = %s", fullPath.c_str());
     if (fullPath.length() > 0)
     {
@@ -134,11 +134,11 @@ void TestSearchPath::onEnter()
 
 void TestSearchPath::onExit()
 {
-    FileUtils *sharedFileUtils = FileUtils::getInstance();
+    FileUtils *file_utils = FileUtils::getInstance();
 
     // reset search path
-    sharedFileUtils->setSearchPaths(_defaultSearchPathArray);
-    sharedFileUtils->setSearchResolutionsOrder(_defaultResolutionsOrderArray);
+    file_utils->setSearchPaths(_defaultSearchPathArray);
+    file_utils->setSearchResolutionsOrder(_defaultResolutionsOrderArray);
     FileUtilsDemo::onExit();
 }
 
@@ -158,13 +158,13 @@ void TestFilenameLookup::onEnter()
 {
     FileUtilsDemo::onEnter();
 
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     ValueMap dict;
     dict["grossini.bmp"] = Value("Images/grossini.png");
     dict["grossini.xcf"] = Value("Images/grossini.png");
 
-    sharedFileUtils->setFilenameLookupDictionary(dict);
+    file_utils->setFilenameLookupDictionary(dict);
 
     // Instead of loading carlitos.xcf, it will load grossini.png
     auto sprite = Sprite::create("grossini.xcf");
@@ -177,10 +177,10 @@ void TestFilenameLookup::onEnter()
 void TestFilenameLookup::onExit()
 {
 
-    FileUtils *sharedFileUtils = FileUtils::getInstance();
+    FileUtils *file_utils = FileUtils::getInstance();
 
     // reset filename lookup
-    sharedFileUtils->setFilenameLookupDictionary(ValueMap());
+    file_utils->setFilenameLookupDictionary(ValueMap());
 
     FileUtilsDemo::onExit();
 }
@@ -196,18 +196,18 @@ void TestIsFileExist::onEnter()
 {
     FileUtilsDemo::onEnter();
     auto s = Director::getInstance()->getWinSize();
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     Label* label = nullptr;
     bool isExist = false;
 
-    isExist = sharedFileUtils->isFileExist("Images/grossini.png");
+    isExist = file_utils->isFileExist("Images/grossini.png");
 
     label = Label::createWithSystemFont(isExist ? "Images/grossini.png exists" : "Images/grossini.png doesn't exist", "", 20);
     label->setPosition(s.width/2, s.height/3);
     this->addChild(label);
 
-    isExist = sharedFileUtils->isFileExist("Images/grossini.xcf");
+    isExist = file_utils->isFileExist("Images/grossini.xcf");
     label = Label::createWithSystemFont(isExist ? "Images/grossini.xcf exists" : "Images/grossini.xcf doesn't exist", "", 20);
     label->setPosition(s.width/2, s.height/3*2);
     this->addChild(label);
@@ -216,10 +216,10 @@ void TestIsFileExist::onEnter()
 void TestIsFileExist::onExit()
 {
 
-    FileUtils *sharedFileUtils = FileUtils::getInstance();
+    FileUtils *file_utils = FileUtils::getInstance();
 
     // reset filename lookup
-    sharedFileUtils->setFilenameLookupDictionary(ValueMap());
+    file_utils->setFilenameLookupDictionary(ValueMap());
 
     FileUtilsDemo::onExit();
 }
@@ -271,10 +271,10 @@ void TestIsDirectoryExist::onEnter()
 void TestIsDirectoryExist::onExit()
 {
 
-    FileUtils *sharedFileUtils = FileUtils::getInstance();
+    FileUtils *file_utils = FileUtils::getInstance();
 
     // reset filename lookup
-    sharedFileUtils->purgeCachedEntries();
+    file_utils->purgeCachedEntries();
 
     FileUtilsDemo::onExit();
 }
@@ -295,7 +295,7 @@ void TestFileFuncs::onEnter()
 {
     FileUtilsDemo::onEnter();
     auto s = Director::getInstance()->getWinSize();
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     int x = s.width/2,
         y = s.height/5;
@@ -303,7 +303,7 @@ void TestFileFuncs::onEnter()
 
     std::string filename = "__test.test";
     std::string filename2 = "__newtest.test";
-    std::string filepath = sharedFileUtils->getWritablePath() + filename;
+    std::string filepath = file_utils->getWritablePath() + filename;
     std::string content = "Test string content to put into created file";
     std::string msg;
 
@@ -312,29 +312,29 @@ void TestFileFuncs::onEnter()
     fclose(out);
 
     // Check whether file can be created
-    if (sharedFileUtils->isFileExist(filepath))
+    if (file_utils->isFileExist(filepath))
     {
         label = Label::createWithSystemFont("Test file '__test.test' created", "", 20);
         label->setPosition(x, y * 4);
         this->addChild(label);
 
         // getFileSize Test
-        long size = sharedFileUtils->getFileSize(filepath);
+        long size = file_utils->getFileSize(filepath);
         msg = StringUtils::format("getFileSize: Test file size equals %ld", size);
         label = Label::createWithSystemFont(msg, "", 20);
         label->setPosition(x, y * 3);
         this->addChild(label);
 
         // renameFile Test
-        if (sharedFileUtils->renameFile(sharedFileUtils->getWritablePath(), filename, filename2))
+        if (file_utils->renameFile(file_utils->getWritablePath(), filename, filename2))
         {
             label = Label::createWithSystemFont("renameFile: Test file renamed to  '__newtest.test'", "", 20);
             label->setPosition(x, y * 2);
             this->addChild(label);
 
             // removeFile Test
-            filepath = sharedFileUtils->getWritablePath() + filename2;
-            if (sharedFileUtils->removeFile(filepath))
+            filepath = file_utils->getWritablePath() + filename2;
+            if (file_utils->removeFile(filepath))
             {
                 label = Label::createWithSystemFont("removeFile: Test file removed", "", 20);
                 label->setPosition(x, y * 1);
@@ -378,21 +378,21 @@ void TestDirectoryFuncs::onEnter()
 {
     FileUtilsDemo::onEnter();
     auto s = Director::getInstance()->getWinSize();
-    auto sharedFileUtils = FileUtils::getInstance();
+    auto file_utils = FileUtils::getInstance();
 
     int x = s.width/2,
     y = s.height/4;
     Label* label = nullptr;
 
-    std::string dir = sharedFileUtils->getWritablePath() + "__test";
+    std::string dir = file_utils->getWritablePath() + "__test";
     std::string subDir = "dir1/dir2";
     std::string fullSubDir = dir + "/" + subDir;
     std::string msg;
     bool ok;
 
     // Check whether dir can be created
-    ok = sharedFileUtils->createDirectory(dir);
-    if (ok && sharedFileUtils->isDirectoryExist(dir))
+    ok = file_utils->createDirectory(dir);
+    if (ok && file_utils->isDirectoryExist(dir))
     {
         msg = StringUtils::format("createDirectory: Directory '__test' created");
         label = Label::createWithSystemFont(msg, "", 20);
@@ -400,8 +400,8 @@ void TestDirectoryFuncs::onEnter()
         this->addChild(label);
 
         // Create sub directories recursively
-        ok = sharedFileUtils->createDirectory(fullSubDir);
-        if (ok && sharedFileUtils->isDirectoryExist(fullSubDir))
+        ok = file_utils->createDirectory(fullSubDir);
+        if (ok && file_utils->isDirectoryExist(fullSubDir))
         {
             msg = StringUtils::format("createDirectory: Sub directories '%s' created", subDir.c_str());
             label = Label::createWithSystemFont(msg, "", 20);
@@ -417,8 +417,8 @@ void TestDirectoryFuncs::onEnter()
         }
 
         // Remove directory
-        ok = sharedFileUtils->removeDirectory(dir);
-        if (ok && !sharedFileUtils->isDirectoryExist(dir))
+        ok = file_utils->removeDirectory(dir);
+        if (ok && !file_utils->isDirectoryExist(dir))
         {
             msg = StringUtils::format("removeDirectory: Directory '__test' removed");
             label = Label::createWithSystemFont(msg, "", 20);
@@ -977,9 +977,9 @@ void TestUnicodePath::onEnter()
 void TestUnicodePath::onExit()
 {
 
-    FileUtils *sharedFileUtils = FileUtils::getInstance();
-    sharedFileUtils->purgeCachedEntries();
-    sharedFileUtils->setFilenameLookupDictionary(ValueMap());
+    FileUtils *file_utils = FileUtils::getInstance();
+    file_utils->purgeCachedEntries();
+    file_utils->setFilenameLookupDictionary(ValueMap());
     FileUtilsDemo::onExit();
 }
 

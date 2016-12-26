@@ -747,7 +747,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     end.origin.y = viewSize.height - end.origin.y - end.size.height;
 #else
     CGFloat tmp;
-    switch (getFixedOrientation([[UIApplication sharedApplication] statusBarOrientation]))
+    switch (getFixedOrientation([[UIApplication getInstance] statusBarOrientation]))
     {
         case UIInterfaceOrientationPortrait:
             begin.origin.y = viewSize.height - begin.origin.y - begin.size.height;
@@ -889,7 +889,7 @@ UIInterfaceOrientation getFixedOrientation(UIInterfaceOrientation statusBarOrien
 #if defined(CC_TARGET_OS_TVOS)
     self.frame = CGRectMake(originalRect_.origin.x, originalRect_.origin.y - dis, originalRect_.size.width, originalRect_.size.height);
 #else
-    switch (getFixedOrientation([[UIApplication sharedApplication] statusBarOrientation]))
+    switch (getFixedOrientation([[UIApplication getInstance] statusBarOrientation]))
     {
         case UIInterfaceOrientationPortrait:
             self.frame = CGRectMake(originalRect_.origin.x, originalRect_.origin.y - dis, originalRect_.size.width, originalRect_.size.height);

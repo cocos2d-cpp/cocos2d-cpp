@@ -308,7 +308,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
 {
     if ([self launch:args])
     {
-        [[NSApplication sharedApplication] terminate:self];
+        [[NSApplication getInstance] terminate:self];
     }
     else
     {
@@ -381,7 +381,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
     director->setOpenGLView(eglView);
     
     _window = eglView->getCocoaWindow();
-    [[NSApplication sharedApplication] setDelegate: self];
+    [[NSApplication getInstance] setDelegate: self];
     [_window center];
     
     [self setZoom:_project.getFrameScale()];
@@ -397,7 +397,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
 
 - (void) adjustEditMenuIndex
 {
-    NSApplication *thisApp = [NSApplication sharedApplication];
+    NSApplication *thisApp = [NSApplication getInstance];
     NSMenu *mainMenu = [thisApp mainMenu];
     
     NSMenuItem *editMenuItem = [mainMenu itemWithTitle:@"Edit"];
@@ -699,7 +699,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
 -(IBAction)onFileClose:(id)sender
 {
     CC_SAFE_DELETE(_app);
-    [[NSApplication sharedApplication] terminate:self];
+    [[NSApplication getInstance] terminate:self];
 }
 
 -(IBAction)onWindowAlwaysOnTop:(id)sender
@@ -721,7 +721,7 @@ static void glfwDropFunc(GLFWwindow *window, int count, const char **files)
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
     CC_SAFE_DELETE(_app);
-    [[NSApplication sharedApplication] terminate:self];
+    [[NSApplication getInstance] terminate:self];
 }
 
 @end

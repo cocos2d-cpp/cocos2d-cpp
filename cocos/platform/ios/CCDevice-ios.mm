@@ -238,7 +238,7 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
 
     double tmp = _acceleration->x;
 
-    switch ([[UIApplication sharedApplication] statusBarOrientation])
+    switch ([[UIApplication getInstance] statusBarOrientation])
     {
         case UIInterfaceOrientationLandscapeRight:
             _acceleration->x = -_acceleration->y;
@@ -586,7 +586,7 @@ Data Device::getTextureDataForText(const char * text, const FontDefinition& text
 
 void Device::setKeepScreenOn(bool value)
 {
-    [[UIApplication sharedApplication] setIdleTimerDisabled:(BOOL)value];
+    [[UIApplication getInstance] setIdleTimerDisabled:(BOOL)value];
 }
 
 /*!

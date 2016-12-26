@@ -74,7 +74,7 @@ static id s_sharedDirectorCaller;
     self = [super init];
     if (self)
     {
-        isAppActive = [UIApplication sharedApplication].applicationState == UIApplicationStateActive;
+        isAppActive = [UIApplication getInstance].applicationState == UIApplicationStateActive;
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(appDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
         [nc addObserver:self selector:@selector(appDidBecomeInactive) name:UIApplicationWillResignActiveNotification object:nil];

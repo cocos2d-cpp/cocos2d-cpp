@@ -48,7 +48,7 @@ static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
 
 namespace cocos2d {
 
-// sharedApplication pointer
+// getInstance pointer
 Application * Application::sm_pSharedApplication = nullptr;
 
 Application::Application()
@@ -85,12 +85,6 @@ Application* Application::getInstance()
 {
     CCASSERT(sm_pSharedApplication, "");
     return sm_pSharedApplication;
-}
-
-// @deprecated Use getInstance() instead
-Application* Application::sharedApplication()
-{
-    return Application::getInstance();
 }
 
 const char * Application::getCurrentLanguageCode()

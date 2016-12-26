@@ -85,7 +85,7 @@ static AppDelegate s_sharedApplication;
     [window makeKeyAndVisible];
 
 #if !defined(CC_TARGET_OS_TVOS)
-    [[UIApplication sharedApplication] setStatusBarHidden:true];
+    [[UIApplication getInstance] setStatusBarHidden:true];
 #endif
     
     // IMPORTANT: Setting the GLView should be done after creating the RootViewController

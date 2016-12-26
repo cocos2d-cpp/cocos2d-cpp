@@ -72,12 +72,6 @@ Application* Application::getInstance()
     return sm_pSharedApplication;
 }
 
-// @deprecated Use getInstance() instead
-Application* Application::sharedApplication()
-{
-    return Application::getInstance();
-}
-
 const char * Application::getCurrentLanguageCode()
 {
     static char code[3]={0};
@@ -151,7 +145,7 @@ bool Application::openURL(const std::string &url)
 {
     NSString* msg = [NSString stringWithCString:url.c_str() encoding:NSUTF8StringEncoding];
     NSURL* nsUrl = [NSURL URLWithString:msg];
-    return [[UIApplication sharedApplication] openURL:nsUrl];
+    return [[UIApplication getInstance] openURL:nsUrl];
 }
 
 void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {

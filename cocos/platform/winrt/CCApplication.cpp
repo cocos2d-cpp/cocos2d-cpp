@@ -45,7 +45,7 @@ using namespace Windows::Foundation;
 
 namespace cocos2d {
 
-// sharedApplication pointer
+// getInstance pointer
 Application * Application::sm_pSharedApplication = nullptr;
 
 
@@ -56,7 +56,7 @@ Application * Application::sm_pSharedApplication = nullptr;
 // implement Application
 ////////////////////////////////////////////////////////////////////////////////
 
-// sharedApplication pointer
+// getInstance pointer
 Application * s_pSharedApplication = nullptr;
 
 Application::Application() :
@@ -265,25 +265,6 @@ bool Application::openURL(const std::string &url)
         return false;
     }
 #endif
-}
-
-void Application::setResourceRootPath(const std::string& rootResDir)
-{
-    m_resourceRootPath = rootResDir;
-    std::replace(m_resourceRootPath.begin(), m_resourceRootPath.end(), '\\', '/');
-    if (m_resourceRootPath[m_resourceRootPath.length() - 1] != '/')
-    {
-        m_resourceRootPath += '/';
-    }
-    FileUtils* pFileUtils = FileUtils::getInstance();
-    std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
-    searchPaths.insert(searchPaths.begin(), m_resourceRootPath);
-    pFileUtils->setSearchPaths(searchPaths);
-}
-
-const std::string& Application::getResourceRootPath(void)
-{
-    return m_resourceRootPath;
 }
 
 void Application::setStartupScriptFilename(const std::string& startupScriptFile)

@@ -249,9 +249,7 @@ std::string ConsoleUploadFile::title() const
 
 std::string ConsoleUploadFile::subtitle() const
 {
-    auto sharedFileUtils = FileUtils::getInstance();
-    
-    std::string writablePath = sharedFileUtils->getWritablePath();
+    std::string writablePath = FileUtils::getInstance()->getWritablePath();
 
     return "file uploaded to:" + writablePath + _target_file_name;
 }
