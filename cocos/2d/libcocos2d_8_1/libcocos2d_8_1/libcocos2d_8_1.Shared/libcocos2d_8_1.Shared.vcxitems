@@ -481,7 +481,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCGrid.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabel.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelAtlas.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelBMFont.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTextFormatter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\CCLight.h" />
@@ -971,7 +970,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCGrid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabel.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelAtlas.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelBMFont.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLabelTextFormatter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\CCLight.cpp" />

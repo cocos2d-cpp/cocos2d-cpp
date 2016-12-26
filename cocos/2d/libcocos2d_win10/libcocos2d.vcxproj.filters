@@ -246,9 +246,6 @@
     <ClCompile Include="..\CCLabelAtlas.cpp">
       <Filter>2d</Filter>
     </ClCompile>
-    <ClCompile Include="..\CCLabelBMFont.cpp">
-      <Filter>2d</Filter>
-    </ClCompile>
     <ClCompile Include="..\CCLabelTextFormatter.cpp">
       <Filter>2d</Filter>
     </ClCompile>
@@ -1617,9 +1614,6 @@
       <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="..\CCLabelAtlas.h">
-      <Filter>2d</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CCLabelBMFont.h">
       <Filter>2d</Filter>
     </ClInclude>
     <ClInclude Include="..\CCLabelTextFormatter.h">

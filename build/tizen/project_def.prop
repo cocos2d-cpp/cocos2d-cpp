@@ -46,7 +46,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/2d/CCGrid.cpp \
             ../../cocos/2d/CCLabel.cpp \
             ../../cocos/2d/CCLabelAtlas.cpp \
-            ../../cocos/2d/CCLabelBMFont.cpp \
             ../../cocos/2d/CCLabelTextFormatter.cpp \
             ../../cocos/2d/CCLayer.cpp \
             ../../cocos/2d/CCLight.cpp \

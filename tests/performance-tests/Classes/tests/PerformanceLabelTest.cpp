@@ -42,9 +42,9 @@ PerformceLabelTests::PerformceLabelTests()
 {
     _curTestCase = kCaseLabelTTFUpdate;
     addTestCase("LabelTTF Performance Test", [](){ return LabelMainScene::create(); });
-    addTestCase("LabelBMFont Performance Test", [](){ return LabelMainScene::create(); });
+    addTestCase("Label with BMFont Performance Test", [](){ return LabelMainScene::create(); });
     addTestCase("Label Performance Test", [](){ return LabelMainScene::create(); });
-    addTestCase("LabelBMFont large text Performance", [](){ return LabelMainScene::create(); });
+    addTestCase("Label with BMFont large text Performance", [](){ return LabelMainScene::create(); });
     addTestCase("Label large text Performance", [](){ return LabelMainScene::create(); });
 }
 
@@ -99,11 +99,11 @@ std::string LabelMainScene::title() const
     case kCaseLabelTTFUpdate:
         return "Testing LabelTTF Update";
     case kCaseLabelBMFontUpdate:
-        return "Testing LabelBMFont Update";
+        return "Testing Label with BMFont Update";
     case kCaseLabelUpdate:
         return "Testing Label Update";
     case kCaseLabelBMFontBigLabels:
-        return "Testing LabelBMFont Big Labels";
+        return "Testing Label with BMFont Big Labels";
     case kCaseLabelBigLabels:
         return "Testing Label Big Labels";
     default:
@@ -151,7 +151,7 @@ void LabelMainScene::onIncrease(Ref* sender)
     case kCaseLabelBMFontUpdate:
         for( int i=0;i< kNodesIncrease;i++)
         {
-            auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt","LabelBMFont");
+            auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt","Label with BMFont");
             label->setPosition(Vec2((size.width/2 + rand() % 50), ((int)size.height/2 + rand() % 50)));
             _labelContainer->addChild(label, 1, _quantityNodes);
 
@@ -330,13 +330,13 @@ void LabelMainScene::endStat(float dt)
             tf = "LabelTTF";
             break;
         case kCaseLabelBMFontUpdate:
-            tf = "LabelBMFont";
+            tf = "Label with BMFont";
             break;
         case kCaseLabelUpdate:
             tf = "Label";
             break;
         case kCaseLabelBMFontBigLabels:
-            tf = "LabelBMFont Big Labels";
+            tf = "Label with BMFont Big Labels";
             break;
         case kCaseLabelBigLabels:
             tf = "Label Big Labels";

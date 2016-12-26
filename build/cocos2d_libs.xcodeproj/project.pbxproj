@@ -631,10 +631,6 @@
 		1A5701BE180BCB5A0088DEC7 /* CCLabelAtlas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570192180BCB590088DEC7 /* CCLabelAtlas.cpp */; };
 		1A5701BF180BCB5A0088DEC7 /* CCLabelAtlas.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570193180BCB590088DEC7 /* CCLabelAtlas.h */; };
 		1A5701C0180BCB5A0088DEC7 /* CCLabelAtlas.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570193180BCB590088DEC7 /* CCLabelAtlas.h */; };
-		1A5701C1180BCB5A0088DEC7 /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570194180BCB590088DEC7 /* CCLabelBMFont.cpp */; };
-		1A5701C2180BCB5A0088DEC7 /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570194180BCB590088DEC7 /* CCLabelBMFont.cpp */; };
-		1A5701C3180BCB5A0088DEC7 /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570195180BCB590088DEC7 /* CCLabelBMFont.h */; };
-		1A5701C4180BCB5A0088DEC7 /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570195180BCB590088DEC7 /* CCLabelBMFont.h */; };
 		1A5701C7180BCB5A0088DEC7 /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */; };
 		1A5701C8180BCB5A0088DEC7 /* CCLabelTextFormatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */; };
 		1A5701C9180BCB5A0088DEC7 /* CCLabelTextFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */; };
@@ -1626,7 +1622,6 @@
 		507B3B1D1C31BDD30067B53E /* UIEditBoxImpl-common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A0E749F51BA8FD7F001A8332 /* UIEditBoxImpl-common.cpp */; };
 		507B3B1E1C31BDD30067B53E /* btMultiSapBroadphase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B6CAB0151AF9AA1900B9B856 /* btMultiSapBroadphase.cpp */; };
 		507B3B1F1C31BDD30067B53E /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46A168B91807AF9C005B8026 /* b2CollideEdge.cpp */; };
-		507B3B201C31BDD30067B53E /* CCLabelBMFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A570194180BCB590088DEC7 /* CCLabelBMFont.cpp */; };
 		507B3B211C31BDD30067B53E /* edtaa3func.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A087AE61860400400196EF5 /* edtaa3func.cpp */; };
 		507B3B221C31BDD30067B53E /* CCPUOnEventFlagObserverTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E1721AA80A6500DDB1C5 /* CCPUOnEventFlagObserverTranslator.cpp */; };
 		507B3B231C31BDD30067B53E /* CCColliderDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C595E180E930E00EF57C3 /* CCColliderDetector.cpp */; };
@@ -1675,7 +1670,6 @@
 		507B3B521C31BDD30067B53E /* b2MotorJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3AF019E1842FBA400A98B85 /* b2MotorJoint.cpp */; };
 		507B3B531C31BDD30067B53E /* CCEventAssetsManagerEx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B3707019EE414C00ABE682 /* CCEventAssetsManagerEx.cpp */; };
 		507B3B541C31BDD30067B53E /* UIWebView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29394CED19B01DBA00D2DE1A /* UIWebView.mm */; };
-		507B3B551C31BDD30067B53E /* CCLabelBMFontLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AD71D0E180E26E600808F54 /* CCLabelBMFontLoader.cpp */; };
 		507B3B571C31BDD30067B53E /* CCPUCollisionAvoidanceAffectorTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E0F61AA80A6500DDB1C5 /* CCPUCollisionAvoidanceAffectorTranslator.cpp */; };
 		507B3B581C31BDD30067B53E /* CCThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBF2B1926664700A911A9 /* CCThread.cpp */; };
 		507B3B591C31BDD30067B53E /* CCUISingleLineTextField.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2980F01C1BA9A5550059E678 /* CCUISingleLineTextField.mm */; };
@@ -2466,7 +2460,6 @@
 		507B3E901C31BDD30067B53E /* btUniversalConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB10D1AF9AA1900B9B856 /* btUniversalConstraint.h */; };
 		507B3E911C31BDD30067B53E /* CCRay.h in Headers */ = {isa = PBXBuildFile; fileRef = 15AE17FE19AAD2F700C27E9E /* CCRay.h */; };
 		507B3E921C31BDD30067B53E /* ccShader_Position_uColor.frag in Headers */ = {isa = PBXBuildFile; fileRef = 5034CA0B191D591000CE6051 /* ccShader_Position_uColor.frag */; };
-		507B3E931C31BDD30067B53E /* CCLabelBMFont.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570195180BCB590088DEC7 /* CCLabelBMFont.h */; };
 		507B3E941C31BDD30067B53E /* SpuContactResult.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB19F1AF9AA1A00B9B856 /* SpuContactResult.h */; };
 		507B3E951C31BDD30067B53E /* CCBatchNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C595B180E930E00EF57C3 /* CCBatchNode.h */; };
 		507B3E961C31BDD30067B53E /* CCPUParticleSystem3D.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1911AA80A6500DDB1C5 /* CCPUParticleSystem3D.h */; };
@@ -3018,7 +3011,6 @@
 		507B40D31C31BDD30067B53E /* CCPUEmitterManager.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E11F1AA80A6500DDB1C5 /* CCPUEmitterManager.h */; };
 		507B40D41C31BDD30067B53E /* gim_contact.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0BE1AF9AA1900B9B856 /* gim_contact.h */; };
 		507B40D51C31BDD30067B53E /* UIVideoPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EA0FB69191C841D00B170C8 /* UIVideoPlayer.h */; };
-		507B40D61C31BDD30067B53E /* CCLabelBMFontLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD71D0F180E26E600808F54 /* CCLabelBMFontLoader.h */; };
 		507B40D71C31BDD30067B53E /* CCCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBF211926664700A911A9 /* CCCommon.h */; };
 		507B40D81C31BDD30067B53E /* CCCameraBackgroundBrush.h in Headers */ = {isa = PBXBuildFile; fileRef = A045F6DB1BA816A1005076C7 /* CCCameraBackgroundBrush.h */; };
 		507B40D91C31BDD30067B53E /* LoadingBarReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 50FCEB7A18C72017004AD434 /* LoadingBarReader.h */; };
@@ -5406,8 +5398,6 @@
 		1A570191180BCB590088DEC7 /* CCLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabel.h; sourceTree = "<group>"; };
 		1A570192180BCB590088DEC7 /* CCLabelAtlas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelAtlas.cpp; sourceTree = "<group>"; };
 		1A570193180BCB590088DEC7 /* CCLabelAtlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelAtlas.h; sourceTree = "<group>"; };
-		1A570194180BCB590088DEC7 /* CCLabelBMFont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelBMFont.cpp; sourceTree = "<group>"; };
-		1A570195180BCB590088DEC7 /* CCLabelBMFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFont.h; sourceTree = "<group>"; };
 		1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTextFormatter.cpp; sourceTree = "<group>"; };
 		1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTextFormatter.h; sourceTree = "<group>"; };
 		1A5701D4180BCB8C0088DEC7 /* CCLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CCLayer.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -5591,8 +5581,6 @@
 		1AD71D0B180E26E600808F54 /* CCControlButtonLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlButtonLoader.h; sourceTree = "<group>"; };
 		1AD71D0C180E26E600808F54 /* CCControlLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCControlLoader.cpp; sourceTree = "<group>"; };
 		1AD71D0D180E26E600808F54 /* CCControlLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCControlLoader.h; sourceTree = "<group>"; };
-		1AD71D0E180E26E600808F54 /* CCLabelBMFontLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelBMFontLoader.cpp; sourceTree = "<group>"; };
-		1AD71D0F180E26E600808F54 /* CCLabelBMFontLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFontLoader.h; sourceTree = "<group>"; };
 		1AD71D10180E26E600808F54 /* CCLabelTTFLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLabelTTFLoader.cpp; sourceTree = "<group>"; };
 		1AD71D11180E26E600808F54 /* CCLabelTTFLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelTTFLoader.h; sourceTree = "<group>"; };
 		1AD71D12180E26E600808F54 /* CCLayerColorLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCLayerColorLoader.cpp; sourceTree = "<group>"; };
@@ -7646,8 +7634,6 @@
 				1A570191180BCB590088DEC7 /* CCLabel.h */,
 				1A570192180BCB590088DEC7 /* CCLabelAtlas.cpp */,
 				1A570193180BCB590088DEC7 /* CCLabelAtlas.h */,
-				1A570194180BCB590088DEC7 /* CCLabelBMFont.cpp */,
-				1A570195180BCB590088DEC7 /* CCLabelBMFont.h */,
 				1A570197180BCB590088DEC7 /* CCLabelTextFormatter.cpp */,
 				1A570198180BCB590088DEC7 /* CCLabelTextFormatter.h */,
 			);
@@ -10664,7 +10650,6 @@
 				A045F6DE1BA816A1005076C7 /* CCCameraBackgroundBrush.h in Headers */,
 				50ABBED91925AB6F00A911A9 /* ZipUtils.h in Headers */,
 				50643BDB19BFAF4400EF68ED /* CCStdC.h in Headers */,
-				1A5701C3180BCB5A0088DEC7 /* CCLabelBMFont.h in Headers */,
 				B6CAB33F1AF9AA1A00B9B856 /* gim_basic_geometry_operations.h in Headers */,
 				B6CAAFFC1AF9A9E100B9B856 /* CCPhysics3DWorld.h in Headers */,
 				50ABBE5F1925AB6F00A911A9 /* CCEventListener.h in Headers */,
@@ -11667,7 +11652,6 @@
 				507B3E901C31BDD30067B53E /* btUniversalConstraint.h in Headers */,
 				507B3E911C31BDD30067B53E /* CCRay.h in Headers */,
 				507B3E921C31BDD30067B53E /* ccShader_Position_uColor.frag in Headers */,
-				507B3E931C31BDD30067B53E /* CCLabelBMFont.h in Headers */,
 				507B3E941C31BDD30067B53E /* SpuContactResult.h in Headers */,
 				507B3E951C31BDD30067B53E /* CCBatchNode.h in Headers */,
 				507B3E961C31BDD30067B53E /* CCPUParticleSystem3D.h in Headers */,
@@ -12259,7 +12243,6 @@
 				507B40D31C31BDD30067B53E /* CCPUEmitterManager.h in Headers */,
 				507B40D41C31BDD30067B53E /* gim_contact.h in Headers */,
 				507B40D51C31BDD30067B53E /* UIVideoPlayer.h in Headers */,
-				507B40D61C31BDD30067B53E /* CCLabelBMFontLoader.h in Headers */,
 				507B40D71C31BDD30067B53E /* CCCommon.h in Headers */,
 				507B40D81C31BDD30067B53E /* CCCameraBackgroundBrush.h in Headers */,
 				507B40D91C31BDD30067B53E /* LoadingBarReader.h in Headers */,
@@ -12696,7 +12679,6 @@
 				50693C611B6BF2AE005C5820 /* CCDownloader.h in Headers */,
 				B6CAB3E41AF9AA1A00B9B856 /* btUniversalConstraint.h in Headers */,
 				15AE183B19AAD2F700C27E9E /* CCRay.h in Headers */,
-				1A5701C4180BCB5A0088DEC7 /* CCLabelBMFont.h in Headers */,
 				B6CAB4D01AF9AA1A00B9B856 /* SpuContactResult.h in Headers */,
 				B665E37D1AA80A6500DDB1C5 /* CCPUParticleSystem3D.h in Headers */,
 				B665E25D1AA80A6500DDB1C5 /* CCPUDoEnableComponentEventHandler.h in Headers */,
@@ -13586,7 +13568,6 @@
 				15AE1A8819AAD40300C27E9E /* b2PrismaticJoint.cpp in Sources */,
 				50ABBE491925AB6F00A911A9 /* CCEventAcceleration.cpp in Sources */,
 				B665E28E1AA80A6500DDB1C5 /* CCPUDynamicAttributeTranslator.cpp in Sources */,
-				1A5701C1180BCB5A0088DEC7 /* CCLabelBMFont.cpp in Sources */,
 				B665E30A1AA80A6500DDB1C5 /* CCPUNoise.cpp in Sources */,
 				15AE182C19AAD2F700C27E9E /* CCMeshVertexIndexData.cpp in Sources */,
 				15AE1A8C19AAD40300C27E9E /* b2RevoluteJoint.cpp in Sources */,
@@ -14428,7 +14409,6 @@
 				507B3B1D1C31BDD30067B53E /* UIEditBoxImpl-common.cpp in Sources */,
 				507B3B1E1C31BDD30067B53E /* btMultiSapBroadphase.cpp in Sources */,
 				507B3B1F1C31BDD30067B53E /* b2CollideEdge.cpp in Sources */,
-				507B3B201C31BDD30067B53E /* CCLabelBMFont.cpp in Sources */,
 				507B3B211C31BDD30067B53E /* edtaa3func.cpp in Sources */,
 				507B3B221C31BDD30067B53E /* CCPUOnEventFlagObserverTranslator.cpp in Sources */,
 				507B3B231C31BDD30067B53E /* CCColliderDetector.cpp in Sources */,
@@ -14478,7 +14458,6 @@
 				507B3B521C31BDD30067B53E /* b2MotorJoint.cpp in Sources */,
 				507B3B531C31BDD30067B53E /* CCEventAssetsManagerEx.cpp in Sources */,
 				507B3B541C31BDD30067B53E /* UIWebView.mm in Sources */,
-				507B3B551C31BDD30067B53E /* CCLabelBMFontLoader.cpp in Sources */,
 				507B3B571C31BDD30067B53E /* CCPUCollisionAvoidanceAffectorTranslator.cpp in Sources */,
 				507B3B581C31BDD30067B53E /* CCThread.cpp in Sources */,
 				507B3B591C31BDD30067B53E /* CCUISingleLineTextField.mm in Sources */,
@@ -15229,7 +15208,6 @@
 				A0E749F81BA8FD7F001A8332 /* UIEditBoxImpl-common.cpp in Sources */,
 				B6CAB2021AF9AA1A00B9B856 /* btMultiSapBroadphase.cpp in Sources */,
 				15AE1A3D19AAD3D500C27E9E /* b2CollideEdge.cpp in Sources */,
-				1A5701C2180BCB5A0088DEC7 /* CCLabelBMFont.cpp in Sources */,
 				1A087AE91860400400196EF5 /* edtaa3func.cpp in Sources */,
 				B665E33F1AA80A6500DDB1C5 /* CCPUOnEventFlagObserverTranslator.cpp in Sources */,
 				B6CAB37C1AF9AA1A00B9B856 /* btGjkPairDetector.cpp in Sources */,

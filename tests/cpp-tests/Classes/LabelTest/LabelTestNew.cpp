@@ -428,7 +428,6 @@ LabelFNTandTTFEmpty::LabelFNTandTTFEmpty()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "", TextHAlignment::CENTER, s.width);
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height - 100));
@@ -486,7 +485,6 @@ LabelFNTRetina::LabelFNTRetina()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/konqa32.fnt", "TESTING RETINA DISPLAY");
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/2));
@@ -780,7 +778,6 @@ LabelFNTBounds::LabelFNTBounds()
     auto layer = LayerColor::create(Color4B(128,128,128,255));
     addChild(layer, -10);
     
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/boundsTestFont.fnt", "Testing Glyph Designer", TextHAlignment::CENTER,s.width);
     addChild(label1);
     label1->setPosition(Vec2(s.width/2, s.height/2));
@@ -2845,7 +2842,6 @@ LabelItalics::LabelItalics()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "hello non-italics", TextHAlignment::CENTER, s.width);
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height*4/6));
@@ -2897,7 +2893,6 @@ LabelBold::LabelBold()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "hello non-bold", TextHAlignment::CENTER, s.width);
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height*4/6));
@@ -2949,7 +2944,6 @@ LabelUnderline::LabelUnderline()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    // LabelBMFont
     auto label1 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "hello non-underline", TextHAlignment::CENTER, s.width);
     addChild(label1, 0, kTagBitmapAtlas1);
     label1->setPosition(Vec2(s.width/2, s.height*4/6));

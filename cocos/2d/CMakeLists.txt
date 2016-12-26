@@ -42,7 +42,6 @@ set(COCOS_2D_SRC
   2d/CCGrabber.cpp
   2d/CCGrid.cpp
   2d/CCLabelAtlas.cpp
-  2d/CCLabelBMFont.cpp
   2d/CCLabel.cpp
   2d/CCLabelTextFormatter.cpp
   2d/CCLayer.cpp

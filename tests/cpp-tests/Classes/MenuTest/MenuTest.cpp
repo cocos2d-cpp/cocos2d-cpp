@@ -89,7 +89,6 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     item4->setFontSizeObj(20);
     item4->setFontName("fonts/Marker Felt.ttf");
     
-    // Label Item (LabelBMFont)
     auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "configuration");
     auto item5 = MenuItemLabel::create(label, CC_CALLBACK_1(MenuLayerMainMenu::menuCallbackConfig, this));
 
