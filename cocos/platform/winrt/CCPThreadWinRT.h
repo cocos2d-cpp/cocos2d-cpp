@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 typedef HANDLE pthread_t;
 typedef HANDLE pthread_mutex_t;
@@ -56,7 +56,7 @@ void pthread_mutex_destroy(pthread_mutex_t* m);
 #define pthread_cond_signal(x)
 #define pthread_cond_init(x, y)
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

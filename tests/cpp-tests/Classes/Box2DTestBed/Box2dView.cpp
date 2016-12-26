@@ -3,7 +3,7 @@
 #include "Test.h"
 #include "renderer/CCRenderer.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define kAccelerometerFrequency 30
 #define FRAMES_BETWEEN_PRESSES_FOR_DOUBLE_CLICK 10

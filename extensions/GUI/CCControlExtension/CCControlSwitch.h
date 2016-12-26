@@ -34,7 +34,8 @@
 namespace cocos2d { class Sprite; }
 namespace cocos2d { class Label; }
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 class ControlSwitchSprite;
 
@@ -105,7 +106,8 @@ protected:
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif /* __CCCONTROLSWITCH_H__ */
 

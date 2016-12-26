@@ -47,7 +47,7 @@ THE SOFTWARE.
 
 // implementation TextureAtlas
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 TextureAtlas::TextureAtlas()
     :_indices(nullptr)
@@ -699,5 +699,5 @@ void TextureAtlas::drawNumberOfQuads(ssize_t numberOfQuads, ssize_t start)
 }
 
 
-NS_CC_END
+} // namespace cocos2d
 

@@ -28,7 +28,7 @@
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Barrel Distortion
 class Distortion
@@ -48,6 +48,6 @@ private:
     float _coefficients[s_numberOfCoefficients];
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* CCVRDistortion_h */

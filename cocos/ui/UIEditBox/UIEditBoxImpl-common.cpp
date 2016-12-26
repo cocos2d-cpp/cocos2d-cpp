@@ -40,7 +40,7 @@ static const int CC_EDIT_BOX_PADDING = 5;
 #define PASSWORD_CHAR "\u25CF"
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -358,6 +358,6 @@ void EditBoxImplCommon::editBoxEditingChanged(const std::string& text)
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 

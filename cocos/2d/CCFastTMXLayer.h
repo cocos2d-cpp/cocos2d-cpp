@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "renderer/CCPrimitiveCommand.h"
 #include "base/CCMap.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TMXMapInfo;
 class TMXLayerInfo;
@@ -358,6 +358,6 @@ public:
 // end of tilemap_parallax_nodes group
 /// @}
 } //end of namespace experimental
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTMX_LAYER2_H__

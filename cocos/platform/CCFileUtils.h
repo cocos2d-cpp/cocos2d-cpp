@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "base/CCValue.h"
 #include "base/CCData.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -209,7 +209,7 @@ public:
      *  - To write a adapter for existing class, write a specialized ResizableBufferAdapter for that class, see follow code.
      *
      *  @code
-     *  NS_CC_BEGIN // ResizableBufferAdapter needed in cocos2d namespace.
+     *  // ResizableBufferAdapter needed in cocos2d namespace.
      *  template<>
      *  class ResizableBufferAdapter<AlreadyExistsBuffer> : public ResizableBuffer {
      *  public:
@@ -223,7 +223,6 @@ public:
      *          // your code here
      *      }
      *  };
-     *  NS_CC_END
      *  @endcode
      *
      *  @param[in]  filename The resource file name which contains the path.
@@ -744,6 +743,6 @@ protected:
 // end of support group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif    // __CC_FILEUTILS_H__

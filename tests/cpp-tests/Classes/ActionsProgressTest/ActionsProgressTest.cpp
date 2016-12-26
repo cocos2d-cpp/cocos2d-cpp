@@ -26,7 +26,7 @@
 #include "ActionsProgressTest.h"
 #include "../testResource.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 ActionsProgressTests::ActionsProgressTests()
 {

@@ -27,7 +27,8 @@
 #include "AssetsManagerEx.h"
 #include "base/ccUTF8.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 const std::string EventListenerAssetsManagerEx::LISTENER_ID = "__cc_assets_manager_";
 
@@ -95,4 +96,5 @@ bool EventListenerAssetsManagerEx::checkAvailable()
     return ret;
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

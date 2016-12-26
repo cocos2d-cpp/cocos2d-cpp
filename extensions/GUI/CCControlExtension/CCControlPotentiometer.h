@@ -31,7 +31,8 @@
 #include "2d/CCProgressTimer.h"
 #include "extensions/ExtensionExport.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /**
  * @addtogroup GUI
@@ -116,6 +117,7 @@ protected:
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif /* __CCCONTROLPOTENTIOMETER_H__ */

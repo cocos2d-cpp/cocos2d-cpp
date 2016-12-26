@@ -32,7 +32,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "platform/CCGL.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -111,7 +111,7 @@ protected:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif
 

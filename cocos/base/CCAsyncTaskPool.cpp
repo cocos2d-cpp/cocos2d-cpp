@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 #include "base/CCAsyncTaskPool.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AsyncTaskPool* AsyncTaskPool::s_asyncTaskPool = nullptr;
 
@@ -52,4 +52,4 @@ AsyncTaskPool::~AsyncTaskPool()
 {
 }
 
-NS_CC_END
+} // namespace cocos2d

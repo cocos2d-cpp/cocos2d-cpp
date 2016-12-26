@@ -30,7 +30,7 @@
 #include <vector>
 #include <unordered_map>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ControllerImpl;
 class EventListenerController;
@@ -217,6 +217,6 @@ private:
 // end group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCController__) */

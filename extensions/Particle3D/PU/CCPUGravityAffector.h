@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUGravityAffector : public PUAffector
 {
@@ -58,6 +58,6 @@ protected:
 
     float _gravity;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

@@ -37,8 +37,8 @@
 #include "base/allocator/CCAllocatorDiagnostics.h"
 #include "base/CCConfiguration.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 /**
  * ObjectTraits describes an allocatable object.
@@ -165,8 +165,8 @@ public:
 #endif
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_STRATEGY_POOL_H

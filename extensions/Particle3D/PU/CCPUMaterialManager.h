@@ -29,7 +29,7 @@
 #include "base/ccTypes.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL PUMaterial : public Ref
 {
@@ -74,7 +74,7 @@ protected:
     MaterialVector _materialMap;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif
 

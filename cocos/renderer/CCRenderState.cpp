@@ -33,7 +33,7 @@
 #include "renderer/ccGLStateCache.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 RenderState::StateBlock* RenderState::StateBlock::_defaultState = nullptr;
 
@@ -915,4 +915,4 @@ void RenderState::StateBlock::setDepthFunction(DepthFunction func)
 //    }
 //}
 
-NS_CC_END
+} // namespace cocos2d

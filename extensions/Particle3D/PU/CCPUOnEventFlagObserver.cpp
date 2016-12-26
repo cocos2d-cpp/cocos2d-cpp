@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUOnEventFlagObserver.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const unsigned int PUOnEventFlagObserver::DEFAULT_EVENT_FLAG = 0;
@@ -61,4 +61,4 @@ void PUOnEventFlagObserver::copyAttributesTo( PUObserver* observer )
     onEventFlagObserver->_eventFlag = _eventFlag;
 }
 
-NS_CC_END
+} // namespace cocos2d

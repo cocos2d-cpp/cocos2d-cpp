@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUAffector::PUAffector()
 : _affectorScale(Vec3::ONE)
@@ -231,4 +231,4 @@ void PUAffector::process( PUParticle3D* particle, float delta, bool firstParticl
     updatePUAffector(particle, delta);
 }
 
-NS_CC_END
+} // namespace cocos2d

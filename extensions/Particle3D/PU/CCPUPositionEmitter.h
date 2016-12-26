@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUPositionEmitter : public PUEmitter
 {
@@ -83,6 +83,6 @@ protected:
     size_t _index;
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

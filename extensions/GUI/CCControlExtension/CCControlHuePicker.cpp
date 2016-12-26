@@ -31,7 +31,8 @@
 
 #include "CCControlHuePicker.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 ControlHuePicker::ControlHuePicker()
 : _hue(0.0f)
@@ -190,4 +191,5 @@ void ControlHuePicker::onTouchMoved(Touch* touch, Event* /*event*/)
     checkSliderPosition(touchLocation);
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

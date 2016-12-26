@@ -27,7 +27,8 @@
 #include <functional>
 #include "AssetsManagerEx.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 EventAssetsManagerEx::EventAssetsManagerEx(const std::string& eventName, cocos2d::extension::AssetsManagerEx *manager, const EventCode &code, float percent/* = 0 */, float percentByFile/* = 0*/, const std::string& assetId/* = "" */, const std::string& message/* = "" */, int curle_code/* = CURLE_OK*/, int curlm_code/* = CURLM_OK*/)
 : EventCustom(eventName)
@@ -43,4 +44,5 @@ EventAssetsManagerEx::EventAssetsManagerEx(const std::string& eventName, cocos2d
 }
 
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

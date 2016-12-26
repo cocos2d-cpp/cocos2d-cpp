@@ -32,7 +32,7 @@
 #import "math/CCGeometry.h"
 #import "platform/ios/CCDirectorCaller-ios.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Application* Application::sm_pSharedApplication = nullptr;
 
@@ -158,6 +158,6 @@ void Application::applicationScreenSizeChanged(int newWidth, int newHeight) {
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_IOS

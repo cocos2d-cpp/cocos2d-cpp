@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUScriptTranslator.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUParticleSystem3DTranslator:public PUScriptTranslator
 {
@@ -52,6 +52,6 @@ protected:
     PUParticleSystem3D *_system;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif 

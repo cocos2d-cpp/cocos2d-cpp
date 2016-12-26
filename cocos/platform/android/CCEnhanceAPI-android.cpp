@@ -36,7 +36,7 @@
 //}
 //#endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EnhanceAPI::EnhanceAPI()
 {
@@ -105,7 +105,7 @@ int EnhanceAPI::setLowPowerMode(bool enable)
     }
     return ret;
 }
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

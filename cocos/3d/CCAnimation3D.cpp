@@ -26,7 +26,7 @@
 #include "3d/CCBundle3D.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Animation3D* Animation3D::create(const std::string& fileName, const std::string& animationName)
 {
@@ -248,4 +248,4 @@ Animation3DCache::~Animation3DCache()
     removeAllAnimations();
 }
 
-NS_CC_END
+} // namespace cocos2d

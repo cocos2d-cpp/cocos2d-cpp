@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 extern const char* cocos2dVersion();
 
@@ -411,4 +411,4 @@ void Configuration::loadConfigFile(const std::string& filename)
     Director::getInstance()->getEventDispatcher()->dispatchEvent(_loadedEvent);
 }
 
-NS_CC_END
+} // namespace cocos2d

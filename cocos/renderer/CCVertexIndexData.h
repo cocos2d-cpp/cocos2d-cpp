@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class VertexBuffer;
 /**
@@ -179,7 +179,7 @@ protected:
     std::map<int, BufferAttribute> _vertexStreams;
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

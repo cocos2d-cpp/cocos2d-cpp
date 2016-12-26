@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <functional>
 #include "2d/CCAction.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup actions
@@ -404,6 +404,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCINSTANT_ACTION_H__

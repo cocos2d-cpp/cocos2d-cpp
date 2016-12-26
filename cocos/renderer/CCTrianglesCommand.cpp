@@ -30,7 +30,7 @@
 #include "renderer/CCRenderer.h"
 #include "renderer/CCTexture2D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 TrianglesCommand::TrianglesCommand()
 :_materialID(0)
@@ -122,4 +122,4 @@ void TrianglesCommand::useMaterial() const
     _glProgramState->apply(_mv);
 }
 
-NS_CC_END
+} // namespace cocos2d

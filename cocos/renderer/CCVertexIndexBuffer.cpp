@@ -28,7 +28,7 @@
 #include "base/CCEventDispatcher.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 bool VertexBuffer::_enableShadowCopy = true;
@@ -305,4 +305,4 @@ void IndexBuffer::recreateVBO() const
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

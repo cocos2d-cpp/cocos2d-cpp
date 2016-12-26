@@ -28,7 +28,7 @@
 #include "recast/Detour/DetourNavMeshBuilder.h"
 #include "recast/fastlz/fastlz.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 LinearAllocator::LinearAllocator(const int cap)
 : buffer(nullptr)
@@ -284,6 +284,6 @@ bool inRange(const float* v1, const float* v2, const float r, const float h)
     return (dx*dx + dz*dz) < r*r && fabsf(dy) < h;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH

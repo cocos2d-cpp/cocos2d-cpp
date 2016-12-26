@@ -67,7 +67,7 @@ static void internalBodyUpdateVelocity(cpBody *body, cpVect gravity, cpFloat dam
     cpBodySetTorque(body, 0.0f);
 }
 
-NS_CC_BEGIN
+namespace cocos2d {
 extern const float PHYSICS_INFINITY;
 
 const std::string PhysicsBody::COMPONENT_NAME = "PhysicsBody";
@@ -978,6 +978,6 @@ void PhysicsBody::removeFromPhysicsWorld()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_USE_PHYSICS

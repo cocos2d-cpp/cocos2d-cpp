@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "platform/CCGL.h"
 #include "platform/CCGLView.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup base
@@ -699,6 +699,6 @@ class DisplayLinkDirector : public Director
 // end of base group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCDIRECTOR_H__

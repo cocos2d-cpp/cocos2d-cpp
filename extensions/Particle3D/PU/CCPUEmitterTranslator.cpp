@@ -29,7 +29,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
 #include "extensions/Particle3D/PU/CCPUEmitterManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUEmitterTranslator::PUEmitterTranslator()
 :_emitter(nullptr)
@@ -645,4 +645,4 @@ void PUEmitterTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode *
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

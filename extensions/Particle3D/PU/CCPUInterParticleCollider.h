@@ -30,7 +30,7 @@
 #include "CCPUBaseCollider.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 struct PUParticle3D;
 class  CC_DLL PUParticle3DInterParticleCollider : public PUBaseCollider
 {
@@ -86,6 +86,6 @@ protected:
     InterParticleCollisionResponse _interParticleCollisionResponse;
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

@@ -29,7 +29,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
 #include "extensions/Particle3D/PU/CCPUBaseColliderTranslator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUSphereColliderTranslator::PUSphereColliderTranslator()
 {
@@ -96,4 +96,4 @@ bool PUSphereColliderTranslator::translateChildObject( PUScriptCompiler* /*compi
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

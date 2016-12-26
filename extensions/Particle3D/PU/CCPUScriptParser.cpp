@@ -25,7 +25,7 @@
 
 #include "CCPUScriptParser.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUScriptParser::PUScriptParser()
 {
@@ -535,4 +535,4 @@ PUConcreteNode::~PUConcreteNode()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

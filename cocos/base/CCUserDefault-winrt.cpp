@@ -37,7 +37,7 @@ using namespace std;
 
 #define XML_FILE_NAME "UserDefault.xml"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /**
@@ -332,6 +332,6 @@ void UserDefault::deleteValueForKey(const char* key)
     flush();
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

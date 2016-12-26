@@ -30,7 +30,7 @@
 
 #include "platform/CCGLView.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL GLViewImpl : public GLView
 {
@@ -54,7 +54,7 @@ protected:
     bool initWithFullScreen(const std::string& viewName);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 

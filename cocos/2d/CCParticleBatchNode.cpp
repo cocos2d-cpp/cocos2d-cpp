@@ -38,7 +38,7 @@
 #include "base/CCProfiling.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ParticleBatchNode::ParticleBatchNode()
 : _textureAtlas(nullptr)
@@ -505,4 +505,4 @@ const BlendFunc& ParticleBatchNode::getBlendFunc() const
     return _blendFunc;
 }
 
-NS_CC_END
+} // namespace cocos2d

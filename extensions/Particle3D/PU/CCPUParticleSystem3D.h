@@ -33,7 +33,7 @@
 #include <vector>
 #include <map>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * 3d particle system
@@ -429,6 +429,6 @@ protected:
     PUParticleSystem3D *                _parentParticleSystem;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

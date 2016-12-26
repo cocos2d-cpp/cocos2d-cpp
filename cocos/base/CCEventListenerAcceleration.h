@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** @class EventListenerAcceleration
  * @brief Acceleration event listener.
@@ -70,7 +70,7 @@ private:
     friend class LuaEventListenerAcceleration;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

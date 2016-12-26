@@ -27,7 +27,7 @@
 #include "AppLang.h"
 #include "ConfigParser.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static WNDPROC g_oldWindowProc = NULL;
 INT_PTR CALLBACK AboutDialogCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -805,4 +805,4 @@ LRESULT CALLBACK SimulatorWin::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, L
     return g_oldWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-PLAYER_NS_END
+} // namespace player

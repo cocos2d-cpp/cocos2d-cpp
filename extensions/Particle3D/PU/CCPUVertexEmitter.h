@@ -31,7 +31,7 @@
 #include <list>
 
 //Particle3DVertexEmitter NOT SUPPORT YET
-NS_CC_BEGIN
+namespace cocos2d {
 //
 //class  Particle3DVertexEmitter : public PUEmitter
 //{
@@ -166,6 +166,6 @@ NS_CC_BEGIN
 //	*/
 //	unsigned short _calculateRequestedParticles(float timeElapsed);
 //};
-NS_CC_END
+} // namespace cocos2d
 
 #endif

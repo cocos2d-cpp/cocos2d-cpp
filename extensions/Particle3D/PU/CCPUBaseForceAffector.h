@@ -30,7 +30,7 @@
 #include "math/CCMath.h"
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUBaseForceAffector : public PUAffector
 {
@@ -68,6 +68,6 @@ protected:
     ForceApplication _forceApplication;
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

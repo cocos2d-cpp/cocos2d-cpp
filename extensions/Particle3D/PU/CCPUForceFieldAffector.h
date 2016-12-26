@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUForceField.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUForceFieldAffector : public PUAffector
 {
@@ -157,6 +157,6 @@ protected:
     Vec3 _basePosition;
     bool _suppressGeneration; // Prevents re-generation of the complete forcefield after a change.
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

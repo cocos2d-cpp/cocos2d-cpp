@@ -35,7 +35,7 @@
 #include "math/CCMath.h"
 #include "renderer/CCMeshCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _3d
@@ -278,6 +278,6 @@ protected:
 extern std::string CC_DLL s_uniformSamplerName[];//uniform sampler names array
 /// @endcond
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCMESH_H__

@@ -64,7 +64,7 @@ do { \
 #define CHECK_AL_ERROR_DEBUG() 
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
 
 class AudioEngineImpl;
@@ -141,7 +141,7 @@ protected:
 } ;
 
 }
-NS_CC_END
+} // namespace cocos2d
 
 #endif
 

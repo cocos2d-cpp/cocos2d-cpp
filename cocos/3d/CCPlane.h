@@ -28,7 +28,7 @@
 #include "base/ccMacros.h"
 #include "math/CCMath.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum class PointSide
 {
@@ -105,6 +105,6 @@ protected:
     float _dist; // original displacement of the normal
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

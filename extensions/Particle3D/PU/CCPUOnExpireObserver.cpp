@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUOnExpireObserver.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //-----------------------------------------------------------------------
 bool PUOnExpireObserver::observe (PUParticle3D* particle, float /*timeElapsed*/)
@@ -44,4 +44,4 @@ PUOnExpireObserver* PUOnExpireObserver::create()
     return peo;
 }
 
-NS_CC_END
+} // namespace cocos2d

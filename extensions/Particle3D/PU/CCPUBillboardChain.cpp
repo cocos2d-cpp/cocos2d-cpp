@@ -36,7 +36,7 @@
 #include "2d/CCCamera.h"
 #include "3d/CCSprite3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const size_t PUBillboardChain::SEGMENT_EMPTY = std::numeric_limits<size_t>::max();
 //-----------------------------------------------------------------------
@@ -794,4 +794,4 @@ GLuint PUBillboardChain::getTextureName()
 //}
 //---------------------------------------------------------------------
 
-NS_CC_END
+} // namespace cocos2d

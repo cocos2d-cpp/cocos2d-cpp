@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include "2d/CCSprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #define CURSOR_TIME_SHOW_HIDE 0.5f
 #define CURSOR_DEFAULT_CHAR '|'
@@ -734,4 +734,4 @@ bool TextFieldTTF::isSecureTextEntry() const
     return _secureTextEntry;
 }
 
-NS_CC_END
+} // namespace cocos2d

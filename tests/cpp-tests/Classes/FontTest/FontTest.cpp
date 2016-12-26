@@ -3,7 +3,7 @@
 #include "2d/CCFontAtlasCache.h"
 #include "2d/CCFontFreeType.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 enum {
     kTagLabel1,

@@ -25,7 +25,7 @@
 #include "base/CCEventListener.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventListener::EventListener()
 {}
@@ -52,4 +52,4 @@ bool EventListener::checkAvailable()
 	return (_onEvent != nullptr);
 }
 
-NS_CC_END
+} // namespace cocos2d

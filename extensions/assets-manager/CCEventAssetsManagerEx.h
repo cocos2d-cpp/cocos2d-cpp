@@ -27,10 +27,10 @@
 
 #include "base/CCEvent.h"
 #include "base/CCEventCustom.h"
-#include "extensions/ExtensionMacros.h" 
 #include "extensions/ExtensionExport.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 class AssetsManagerEx;
 
@@ -94,6 +94,7 @@ private:
     float _percentByFile;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCEventAssetsManagerEx__) */

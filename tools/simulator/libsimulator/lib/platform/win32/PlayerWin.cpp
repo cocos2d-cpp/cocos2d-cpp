@@ -1,8 +1,8 @@
 ﻿
 #include "PlayerWin.h"
 
-USING_NS_CC;
-PLAYER_NS_BEGIN
+using namespace cocos2d;
+namespace player {
 
 PlayerWin::PlayerWin()
     : PlayerProtocol()
@@ -65,4 +65,4 @@ void PlayerWin::initServices()
     _taskService = new PlayerTaskServiceWin(_hwnd);
 }
 
-PLAYER_NS_END
+} // namespace player

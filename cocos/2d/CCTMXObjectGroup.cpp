@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "2d/CCTMXObjectGroup.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //implementation TMXObjectGroup
 
@@ -69,4 +69,4 @@ Value TMXObjectGroup::getProperty(const std::string& propertyName) const
     return Value();
 }
 
-NS_CC_END
+} // namespace cocos2d

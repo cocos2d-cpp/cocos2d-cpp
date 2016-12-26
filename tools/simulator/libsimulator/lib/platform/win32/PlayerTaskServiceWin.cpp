@@ -7,7 +7,7 @@
 
 static const int MAX_LOG_LENGTH = 16 * 1024;// from 2dx
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerTaskWin *PlayerTaskWin::create(const std::string &name, const std::string &executePath, const std::string &commandLineArguments)
 {
@@ -269,4 +269,4 @@ void PlayerTaskServiceWin::removeTask(const std::string &name)
     }
 }
 
-PLAYER_NS_END
+} // namespace player

@@ -32,7 +32,7 @@
 #include "2d/CCLabel.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::unordered_map<std::string, FontAtlas *> FontAtlasCache::_atlasMap;
 #define ATLAS_MAP_KEY_BUFFER 255
@@ -273,4 +273,4 @@ void FontAtlasCache::unloadFontAtlasTTF(const std::string& fontFileName)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

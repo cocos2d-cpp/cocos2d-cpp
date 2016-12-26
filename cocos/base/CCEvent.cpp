@@ -24,7 +24,7 @@
 
 #include "base/CCEvent.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Event::Event(Type type)
 : _type(type)
@@ -38,4 +38,4 @@ Event::~Event()
 }
 
 
-NS_CC_END
+} // namespace cocos2d

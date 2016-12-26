@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include <vector>
 #include <map>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 typedef struct _PrecompiledProgram
 {
@@ -84,6 +84,6 @@ protected:
     bool                m_isDirty;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif    // __CC_PRECOMPILED_SHADERS_H__

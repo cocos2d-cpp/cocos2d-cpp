@@ -32,7 +32,7 @@
 #include "math/CCMath.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class MeshCommand;
 class GLProgramState;
@@ -330,5 +330,5 @@ protected:
     std::string            _texFile;
 };
 
-NS_CC_END
+} // namespace cocos2d
 #endif

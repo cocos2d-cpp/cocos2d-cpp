@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "platform/linux/CCStdC-linux.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void MessageBox(const char * msg, const char * title)
 {
@@ -42,6 +42,6 @@ void LuaLog(const char * format)
     puts(format);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //  CC_TARGET_PLATFORM == CC_PLATFORM_LINUX

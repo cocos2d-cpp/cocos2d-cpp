@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include "platform/CCThread.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void* ThreadHelper::createAutoreleasePool()
 {
@@ -40,4 +40,4 @@ void ThreadHelper::releaseAutoreleasePool(void *autoreleasePool)
     [(NSAutoreleasePool*)autoreleasePool release];
 }
 
-NS_CC_END
+} // namespace cocos2d

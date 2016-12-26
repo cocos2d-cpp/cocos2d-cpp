@@ -27,7 +27,7 @@
 #include "Particle3D/CCParticleSystem3D.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define PARTICLE_SYSTEM_TAG 0x0001
 

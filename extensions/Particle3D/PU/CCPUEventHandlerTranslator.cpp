@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUEventHandlerManager.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUEventHandlerTranslator::PUEventHandlerTranslator()
 :_handler(nullptr)
@@ -121,4 +121,4 @@ void PUEventHandlerTranslator::translate(PUScriptCompiler* compiler, PUAbstractN
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

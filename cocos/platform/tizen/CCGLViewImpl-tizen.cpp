@@ -34,7 +34,7 @@
 #include "base/CCIMEDispatcher.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 GLViewImpl* GLViewImpl::createWithRect(const std::string& viewName, Rect rect, float frameZoomFactor)
 {
@@ -212,6 +212,6 @@ void GLViewImpl::setIMEKeyboardState(bool open)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN

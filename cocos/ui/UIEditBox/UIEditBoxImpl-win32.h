@@ -32,7 +32,7 @@
 
 #include "ui/UIEditBox/UIEditBoxImpl.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -117,7 +117,7 @@ private:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
 

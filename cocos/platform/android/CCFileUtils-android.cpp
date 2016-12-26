@@ -44,7 +44,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AAssetManager* FileUtilsAndroid::assetmanager = nullptr;
 ZipFile* FileUtilsAndroid::obbfile = nullptr;
@@ -322,6 +322,6 @@ string FileUtilsAndroid::getWritablePath() const
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID

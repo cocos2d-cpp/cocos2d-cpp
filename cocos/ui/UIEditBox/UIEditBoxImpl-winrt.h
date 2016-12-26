@@ -33,7 +33,7 @@ using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Input;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -149,7 +149,7 @@ namespace ui {
 
 } // namespace ui
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_WINRT
 

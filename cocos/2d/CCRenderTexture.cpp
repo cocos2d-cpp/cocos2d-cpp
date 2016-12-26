@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "2d/CCCamera.h"
 #include "renderer/CCTextureCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation RenderTexture
 RenderTexture::RenderTexture()
@@ -815,4 +815,4 @@ void RenderTexture::end()
 
 }
 
-NS_CC_END
+} // namespace cocos2d

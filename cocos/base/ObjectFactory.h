@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL ObjectFactory
 {
@@ -67,6 +67,6 @@ private:
     FactoryMap _typeMap;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

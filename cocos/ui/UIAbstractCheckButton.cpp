@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "ui/UIAbstractCheckButton.h"
 #include "2d/CCSprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -575,4 +575,4 @@ void AbstractCheckButton::copySpecialProperties(Widget *widget)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

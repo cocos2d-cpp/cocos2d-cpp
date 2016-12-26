@@ -133,7 +133,6 @@
 		9FF504B11A5EA75D00AFDA55 /* DeviceEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF5049C1A5EA75D00AFDA55 /* DeviceEx.h */; };
 		9FF504B21A5EA75D00AFDA55 /* PlayerEditBoxServiceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF5049D1A5EA75D00AFDA55 /* PlayerEditBoxServiceProtocol.h */; };
 		9FF504B31A5EA75D00AFDA55 /* PlayerFileDialogServiceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF5049E1A5EA75D00AFDA55 /* PlayerFileDialogServiceProtocol.h */; };
-		9FF504B41A5EA75D00AFDA55 /* PlayerMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF5049F1A5EA75D00AFDA55 /* PlayerMacros.h */; };
 		9FF504B51A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9FF504A01A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.cpp */; };
 		9FF504B61A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF504A11A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.h */; };
 		9FF504B71A5EA75D00AFDA55 /* PlayerMessageBoxServiceProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FF504A21A5EA75D00AFDA55 /* PlayerMessageBoxServiceProtocol.h */; };
@@ -261,7 +260,6 @@
 		9FF5049C1A5EA75D00AFDA55 /* DeviceEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceEx.h; sourceTree = "<group>"; };
 		9FF5049D1A5EA75D00AFDA55 /* PlayerEditBoxServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerEditBoxServiceProtocol.h; sourceTree = "<group>"; };
 		9FF5049E1A5EA75D00AFDA55 /* PlayerFileDialogServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerFileDialogServiceProtocol.h; sourceTree = "<group>"; };
-		9FF5049F1A5EA75D00AFDA55 /* PlayerMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMacros.h; sourceTree = "<group>"; };
 		9FF504A01A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayerMenuServiceProtocol.cpp; sourceTree = "<group>"; };
 		9FF504A11A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMenuServiceProtocol.h; sourceTree = "<group>"; };
 		9FF504A21A5EA75D00AFDA55 /* PlayerMessageBoxServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerMessageBoxServiceProtocol.h; sourceTree = "<group>"; };
@@ -436,7 +434,6 @@
 				9FF5049C1A5EA75D00AFDA55 /* DeviceEx.h */,
 				9FF5049D1A5EA75D00AFDA55 /* PlayerEditBoxServiceProtocol.h */,
 				9FF5049E1A5EA75D00AFDA55 /* PlayerFileDialogServiceProtocol.h */,
-				9FF5049F1A5EA75D00AFDA55 /* PlayerMacros.h */,
 				9FF504A01A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.cpp */,
 				9FF504A11A5EA75D00AFDA55 /* PlayerMenuServiceProtocol.h */,
 				9FF504A21A5EA75D00AFDA55 /* PlayerMessageBoxServiceProtocol.h */,
@@ -579,7 +576,6 @@
 				9FF504BF1A5EA75D00AFDA55 /* PlayerTaskServiceProtocol.h in Headers */,
 				9FB6387D1A635BA300AAEC43 /* atomicops_internals_arm_gcc.h in Headers */,
 				9FB638641A635BA300AAEC43 /* config.h in Headers */,
-				9FF504B41A5EA75D00AFDA55 /* PlayerMacros.h in Headers */,
 				9FB6388A1A635BA300AAEC43 /* hash.h in Headers */,
 				9FB638711A635BA300AAEC43 /* zero_copy_stream.h in Headers */,
 				9FB638781A635BA300AAEC43 /* message_lite.h in Headers */,

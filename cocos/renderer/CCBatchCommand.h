@@ -32,7 +32,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TextureAtlas;
 class GLProgram;
@@ -76,7 +76,7 @@ protected:
     /**ModelView transform.*/
     Mat4 _mv;
 };
-NS_CC_END
+} // namespace cocos2d
 
 /**
  end of support group

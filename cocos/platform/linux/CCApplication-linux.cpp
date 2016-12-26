@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 // sharedApplication pointer
@@ -270,7 +270,7 @@ LanguageType Application::getCurrentLanguage()
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX
 

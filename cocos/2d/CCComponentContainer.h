@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/CCMap.h"
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Component;
 class Node;
@@ -72,7 +72,7 @@ private:
     friend class Node;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif  // __CC_FRAMEWORK_COMCONTAINER_H__

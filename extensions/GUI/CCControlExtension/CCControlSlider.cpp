@@ -31,7 +31,8 @@
 #include "base/CCTouch.h"
 #include "base/CCDirector.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 ControlSlider::ControlSlider()
 : _value(0.0f)
@@ -320,4 +321,5 @@ float ControlSlider::valueForLocation(Vec2 location)
     return MAX(MIN(_minimumValue + percent * (_maximumValue - _minimumValue), _maximumAllowedValue), _minimumAllowedValue);
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

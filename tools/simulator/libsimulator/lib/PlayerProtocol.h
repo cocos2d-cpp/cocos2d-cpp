@@ -2,7 +2,6 @@
 #ifndef __PLAYER_PROTOCOL_H_
 #define __PLAYER_PROTOCOL_H_
 
-#include "PlayerMacros.h"
 #include "PlayerSettings.h"
 
 #include "PlayerFileDialogServiceProtocol.h"
@@ -14,7 +13,7 @@
 #include "ProjectConfig/ProjectConfig.h"
 #include "SimulatorExport.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class CC_LIBSIM_DLL PlayerProtocol
 {
@@ -42,6 +41,6 @@ private:
     static PlayerProtocol *_instance;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_PROTOCOL_H_

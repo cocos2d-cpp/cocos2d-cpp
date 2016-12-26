@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 /**
  * Defines a math utility class.
@@ -131,7 +131,7 @@ private:
 
 };
 
-NS_CC_MATH_END
+} // namespace cocos2d
 /**
  end of base group
  @}

@@ -26,7 +26,7 @@
 #include "CCPUBehaviourManager.h"
 #include "extensions/Particle3D/PU/CCPUSlaveBehaviour.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUBehaviourManager::PUBehaviourManager()
 {
     
@@ -59,4 +59,4 @@ PUBehaviour* PUBehaviourManager::createBehaviour( const std::string &type )
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

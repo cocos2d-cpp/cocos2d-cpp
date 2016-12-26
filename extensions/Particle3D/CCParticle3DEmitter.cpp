@@ -24,7 +24,7 @@
 
 #include "CCParticle3DEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Particle3DEmitter::Particle3DEmitter()
 : _particleSystem(nullptr)
@@ -48,4 +48,4 @@ void Particle3DEmitter::emit(int /*count*/)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

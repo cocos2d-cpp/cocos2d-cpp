@@ -18,7 +18,7 @@
  This file was modified to fit the cocos2d-x project
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 class MathUtilNeon64
 {
@@ -262,4 +262,4 @@ inline void MathUtilNeon64::crossVec3(const float* v1, const float* v2, float* d
     );
 }
 
-NS_CC_MATH_END
+} // namespace cocos2d

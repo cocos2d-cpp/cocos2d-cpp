@@ -24,7 +24,7 @@
 
 #include "DrawNode3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 DrawNode3D::DrawNode3D()
@@ -228,4 +228,4 @@ void DrawNode3D::setBlendFunc(const BlendFunc &blendFunc)
     _blendFunc = blendFunc;
 }
 
-NS_CC_END
+} // namespace cocos2d

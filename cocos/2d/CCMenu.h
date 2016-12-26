@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCLayer.h"
 #include "base/CCValue.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 class Touch;
 
 /**
@@ -207,6 +207,6 @@ private:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif//__CCMENU_H_

@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "platform/winrt/CCPThreadWinRT.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void pthread_mutex_init(pthread_mutex_t* m, void* attributes) {
 	*m = CreateMutexEx(NULL,FALSE,0,NULL);
@@ -52,6 +52,6 @@ void pthread_mutex_destroy(pthread_mutex_t* m)
 }
 
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

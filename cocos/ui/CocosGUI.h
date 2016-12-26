@@ -62,7 +62,7 @@ THE SOFTWARE.
  * @addtogroup ui
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 namespace ui {
 
 
@@ -74,7 +74,7 @@ CC_GUI_DLL const char* CocosGUIVersion();
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 // end of ui group
 /// @}
 

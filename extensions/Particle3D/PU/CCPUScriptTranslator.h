@@ -33,7 +33,7 @@
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Define static tokens
 enum eDefineStaticToken
@@ -1342,6 +1342,6 @@ public:
     
     virtual bool isParticleSystemTranslator() const { return false; }
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__ssaafsdf__CCScriptTranslator__) */

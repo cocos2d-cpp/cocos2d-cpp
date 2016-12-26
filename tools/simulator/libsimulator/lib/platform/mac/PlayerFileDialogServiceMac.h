@@ -1,10 +1,9 @@
 #ifndef __PLAY_FILE_DIALOG_SERVICE_MAC_H
 #define __PLAY_FILE_DIALOG_SERVICE_MAC_H
 
-#include "PlayerMacros.h"
 #include "PlayerFileDialogServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerFileDialogServiceMac : public PlayerFileDialogServiceProtocol
 {
@@ -24,6 +23,6 @@ public:
                                       const std::string &directory)const;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAY_FILE_DIALOG_SERVICE_MAC_H

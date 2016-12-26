@@ -34,7 +34,8 @@
 #include "2d/CCLayer.h"
 #include "extensions/ExtensionExport.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 
 class Invocation;
@@ -273,6 +274,7 @@ CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType 
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif

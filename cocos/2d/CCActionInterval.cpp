@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "platform/CCStdC.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Extra action for making a Sequence or Spawn when only adding one action to it.
 class ExtraAction : public FiniteTimeAction
@@ -2839,4 +2839,4 @@ ActionFloat* ActionFloat::reverse() const
     return ActionFloat::create(_duration, _to, _from, _callback);
 }
 
-NS_CC_END
+} // namespace cocos2d

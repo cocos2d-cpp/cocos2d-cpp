@@ -21,7 +21,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\assets-manager\Manifest.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\cocos-ext.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\ExtensionExport.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\ExtensionMacros.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\GUI\CCControlExtension\CCControl.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\GUI\CCControlExtension\CCControlButton.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\GUI\CCControlExtension\CCControlColourPicker.h" />

@@ -40,7 +40,7 @@
 
 #include "platform/CCSAXParser.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::ui;
 
 class ListenerComponent : public Component

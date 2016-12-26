@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "2d/CCFastTMXLayer.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental {
 
 // implementation FastTMXTiledMap
@@ -257,5 +257,5 @@ std::string TMXTiledMap::getDescription() const
 
 } //end of namespace experimental
 
-NS_CC_END
+} // namespace cocos2d
 

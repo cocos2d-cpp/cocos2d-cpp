@@ -25,7 +25,7 @@
 #include "ui/UILayoutManager.h"
 #include "ui/UILayout.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -574,4 +574,4 @@ void RelativeLayoutManager::doLayout(LayoutProtocol *layout)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

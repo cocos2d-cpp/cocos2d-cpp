@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCNodeGrid.h"
 #include "renderer/CCRenderer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 TransitionPageTurn::TransitionPageTurn()
 {
@@ -170,4 +170,4 @@ ActionInterval* TransitionPageTurn:: actionWithSize(const Size& vector)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

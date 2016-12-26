@@ -40,7 +40,7 @@
 #include "2d/CCActionInterval.h"
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN;
+namespace cocos2d {
 
 class Node;
 
@@ -342,6 +342,6 @@ extern CC_DLL Vec2 ccCardinalSplineAt(Vec2 &p0, Vec2 &p1, Vec2 &p2, Vec2 &p3, fl
 // end of actions group
 /// @}
 
-NS_CC_END;
+} // namespace cocos2d
 
 #endif // __CCACTION_CATMULLROM_H__

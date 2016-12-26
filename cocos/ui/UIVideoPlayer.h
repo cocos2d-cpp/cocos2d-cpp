@@ -34,7 +34,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
     namespace ui{
 
@@ -210,7 +210,7 @@ namespace experimental{
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 // end group
 /// @}
 #endif

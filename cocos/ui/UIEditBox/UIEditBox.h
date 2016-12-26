@@ -31,7 +31,7 @@
 #include "ui/UIButton.h"
 #include "ui/UIScale9Sprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup ui
@@ -428,7 +428,7 @@ namespace ui {
 
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __UIEDITTEXT_H__ */
 

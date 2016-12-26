@@ -38,7 +38,7 @@ THE SOFTWARE.
 */
 static void PVRFrameEnableControlWindow(bool bEnable);
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // sharedApplication pointer
 Application * Application::sm_pSharedApplication = nullptr;
@@ -293,7 +293,7 @@ void Application::setStartupScriptFilename(const std::string& startupScriptFile)
     std::replace(_startupScriptFilename.begin(), _startupScriptFilename.end(), '\\', '/');
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 //////////////////////////////////////////////////////////////////////////
 // Local function

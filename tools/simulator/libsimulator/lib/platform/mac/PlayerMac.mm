@@ -3,7 +3,7 @@
 #include "PlayerMac.h"
 
 
-PLAYER_NS_BEGIN
+namespace player {
 using namespace cocos2d;
 
 PlayerMac* PlayerMac::create()
@@ -79,4 +79,4 @@ PlayerTaskServiceProtocol *PlayerMac::getTaskService()
     return _taskService;
 }
 
-PLAYER_NS_END
+} // namespace player

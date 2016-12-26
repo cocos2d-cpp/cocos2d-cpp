@@ -4,10 +4,9 @@
 
 #include <vector>
 
-#include "PlayerMacros.h"
 #include "PlayerMessageBoxServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerMessageBoxServiceMac : public PlayerMessageBoxServiceProtocol
 {
@@ -24,6 +23,6 @@ protected:
     std::vector<MessageBoxInfo> getTitles(int buttons);
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MessageBoxServiceMac_h

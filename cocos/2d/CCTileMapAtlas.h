@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCAtlasNode.h"
 #include "base/CCValue.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /// @cond DO_NOT_SHOW
 
@@ -115,7 +115,7 @@ protected:
 
 /// @endcond
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTILE_MAP_ATLAS__
 

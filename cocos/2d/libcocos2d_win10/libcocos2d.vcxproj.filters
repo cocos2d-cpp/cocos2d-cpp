@@ -2435,9 +2435,6 @@
     <ClInclude Include="..\..\..\extensions\ExtensionExport.h">
       <Filter>extension</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\extensions\ExtensionMacros.h">
-      <Filter>extension</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>

@@ -32,7 +32,7 @@
  * @addtogroup base
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL StencilStateManager
 {
@@ -73,7 +73,7 @@ private:
     GLint _mask_layer_le;
 };
 
-NS_CC_END
+} // namespace cocos2d
 // end of base group
 /** @} */
 #endif /* StencilStateManager_hpp */

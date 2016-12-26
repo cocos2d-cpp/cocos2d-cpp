@@ -57,7 +57,7 @@ using namespace Platform;
 using namespace Microsoft::WRL;
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static GLViewImpl* s_pEglView = nullptr;
 
@@ -638,4 +638,4 @@ void GLViewImpl::ProcessEvents()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

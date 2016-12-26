@@ -36,7 +36,7 @@ THE SOFTWARE.
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 using namespace Windows::Graphics::Display;
 using namespace Windows::Storage;
@@ -385,4 +385,4 @@ void destroyMappedCacheFile(const std::string& key)
     UserDefault::getInstance()->setStringForKey(key.c_str(), "");
 }
 
-NS_CC_END
+} // namespace cocos2d

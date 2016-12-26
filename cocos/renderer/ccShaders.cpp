@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #define STRINGIFY(A)  #A
 
-NS_CC_BEGIN
+namespace cocos2d {
 //
 
 #include "renderer/ccShader_Position_uColor.frag"
@@ -95,4 +95,4 @@ NS_CC_BEGIN
 // ETC1 ALPHA support
 #include "renderer/ccShader_ETC1AS_PositionTextureColor.frag"
 #include "renderer/ccShader_ETC1AS_PositionTextureGray.frag"
-NS_CC_END
+} // namespace cocos2d

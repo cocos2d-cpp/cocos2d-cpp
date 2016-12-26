@@ -37,7 +37,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //Used for internal
 class GroupCommandManager : public Ref
@@ -79,7 +79,7 @@ protected:
     int _renderQueueID;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /**
  end of support group

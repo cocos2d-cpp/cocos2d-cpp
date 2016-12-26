@@ -52,7 +52,7 @@ THE SOFTWARE.
     #include "renderer/CCTextureCache.h"
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 
@@ -1502,4 +1502,4 @@ void Texture2D::setAlphaTexture(Texture2D* alphaTexture)
         this->_hasPremultipliedAlpha = true; // PremultipliedAlpha should be true.
     }
 }
-NS_CC_END
+} // namespace cocos2d

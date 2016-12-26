@@ -35,7 +35,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "renderer/CCRenderState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgramState;
 class Technique;
@@ -103,7 +103,7 @@ protected:
     VertexAttribBinding* _vertexAttribBinding;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 

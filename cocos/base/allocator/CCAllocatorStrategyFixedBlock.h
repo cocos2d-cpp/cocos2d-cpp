@@ -44,8 +44,8 @@
 #include "base/allocator/CCAllocatorMutex.h"
 #include "base/allocator/CCAllocatorDiagnostics.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 // @brief define this to cause this allocator to fallback to the global allocator
 // this is just for testing purposes to see if this allocator is broken.
@@ -270,8 +270,8 @@ protected:
     size_t _allocated;
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_STRATEGY_FIXED_BLOCK_H

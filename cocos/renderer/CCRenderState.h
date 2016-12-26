@@ -36,7 +36,7 @@
 #include "base/ccTypes.h"
 #include "base/CCVector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 class Pass;
@@ -465,6 +465,6 @@ protected:
     Texture2D* _texture;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCRenderState__) */

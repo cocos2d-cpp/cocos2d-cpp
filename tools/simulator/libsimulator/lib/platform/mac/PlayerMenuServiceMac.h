@@ -5,16 +5,15 @@
 #include <unordered_map>
 
 #include "cocos2d.h"
-#include "PlayerMacros.h"
 #include "PlayerMenuServiceProtocol.h"
 
 //
 // Menu item Helper
 //
 
-PLAYER_NS_BEGIN
+namespace player {
 class PlayerMenuItemMac;
-PLAYER_NS_END
+} // namespace player
 
 @interface NNMenuItem : NSMenuItem <NSMenuDelegate>
 {
@@ -32,7 +31,7 @@ PLAYER_NS_END
 // PlayerMenuItemMac
 //
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerMenuItemMac : public PlayerMenuItem
 {
@@ -77,6 +76,6 @@ private:
     std::unordered_map<std::string, PlayerMenuItemMac*> _items;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MENU_SERVICE_MAC_H_

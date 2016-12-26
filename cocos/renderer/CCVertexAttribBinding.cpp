@@ -26,7 +26,7 @@
 #include "base/CCConfiguration.h"
 #include "3d/CCMeshVertexIndexData.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::string s_attributeNames[] = {
     GLProgram::ATTRIBUTE_NAME_POSITION,
@@ -253,4 +253,4 @@ void VertexAttribBinding::setVertexAttribPointer(const std::string &name, GLint 
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -38,7 +38,7 @@ obtained from https://directxtk.codeplex.com
 #include <wincodec.h>
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 	typedef const unsigned char* ImageBlob;
@@ -94,7 +94,7 @@ void SafeRelease(T **ppObj)
 }
 
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif
 #endif    // #ifndef __WIC_IMAGE_LOADER_H__

@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include <math.h> // M_PI
 #undef _USE_MATH_DEFINES
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace tweenfunc {
     
@@ -549,4 +549,4 @@ float bezieratFunction( float a, float b, float c, float d, float t )
     
 }
 
-NS_CC_END
+} // namespace cocos2d

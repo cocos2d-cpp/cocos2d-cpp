@@ -35,7 +35,7 @@
 #include "base/CCDirector.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // ios no MessageBox, use log instead
 void MessageBox(const char * msg, const char * title)
@@ -61,6 +61,6 @@ void LuaLog(const char * format)
     puts(format);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_IOS

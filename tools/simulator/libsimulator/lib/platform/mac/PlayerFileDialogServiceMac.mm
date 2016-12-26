@@ -9,7 +9,7 @@ NSOpenGLContext *__context = glfwGetNSGLContext(glfwGetCurrentContext()); \
 [__context makeCurrentContext]; \
 }
 
-PLAYER_NS_BEGIN
+namespace player {
 
 std::string PlayerFileDialogServiceMac::openFile(const std::string &title,
                                                  const std::string &directory,
@@ -171,4 +171,4 @@ std::string PlayerFileDialogServiceMac::saveFile(const std::string &title,
     return filePath;
 }
 
-PLAYER_NS_END
+} // namespace player

@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 #include "AppEvent.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 ///////////////////////////////////////  menu helper  //////////////////////////////////////////////
 static bool __G_IS_MENUBAR_ENABLED__ = true;    // WTF
@@ -105,7 +105,7 @@ static bool __G_IS_MENUBAR_ENABLED__ = true;    // WTF
 
 
 
-PLAYER_NS_BEGIN
+namespace player {
 
 //
 
@@ -367,4 +367,4 @@ void PlayerMenuServiceMac::updateChildrenOrder(PlayerMenuItemMac *parent)
     }
 }
 
-PLAYER_NS_END
+} // namespace player

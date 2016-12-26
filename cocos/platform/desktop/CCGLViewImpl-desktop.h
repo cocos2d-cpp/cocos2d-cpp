@@ -51,7 +51,7 @@ THE SOFTWARE.
 #include "glfw3native.h"
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL GLViewImpl : public GLView
 {
@@ -173,6 +173,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
 };
 
-NS_CC_END   // end of namespace   cocos2d
+} // namespace cocos2d
 
 #endif  // end of __CC_EGLViewImpl_DESKTOP_H__

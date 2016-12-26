@@ -30,7 +30,7 @@
 #include "tinyxml2.h"
 #include "rapidxml/rapidxml_sax3.hpp"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class XmlSaxHander : public tinyxml2::XMLVisitor
 {
@@ -192,6 +192,6 @@ void SAXParser::setDelegator(SAXDelegator* delegator)
     _delegator = delegator;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 

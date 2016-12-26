@@ -5,7 +5,7 @@
 
 #include "Bug-350.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug350Layer::init()
 {

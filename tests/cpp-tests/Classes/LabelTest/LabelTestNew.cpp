@@ -3,7 +3,7 @@
 #include "renderer/CCRenderer.h"
 #include "2d/CCFontAtlasCache.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace ui;
 using namespace extension;
 

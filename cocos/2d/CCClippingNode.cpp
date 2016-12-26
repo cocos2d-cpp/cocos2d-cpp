@@ -39,7 +39,7 @@
 #define CC_CLIPPING_NODE_OPENGLES 1
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #if CC_CLIPPING_NODE_OPENGLES
 static void setProgram(Node *n, GLProgram *p)
@@ -319,4 +319,4 @@ void ClippingNode::setInverted(bool inverted)
 }
 
 
-NS_CC_END
+} // namespace cocos2d

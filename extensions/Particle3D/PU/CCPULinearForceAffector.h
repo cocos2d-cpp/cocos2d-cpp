@@ -30,7 +30,7 @@
 #include "CCPUBaseForceAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PULinearForceAffector : public PUBaseForceAffector
 {
@@ -47,6 +47,6 @@ CC_CONSTRUCTOR_ACCESS:
     PULinearForceAffector(void){};
     virtual ~PULinearForceAffector(void){};
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

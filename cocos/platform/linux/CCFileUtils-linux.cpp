@@ -42,7 +42,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 FileUtils* FileUtils::getInstance()
 {
@@ -121,6 +121,6 @@ bool FileUtilsLinux::isFileExistInternal(const std::string& strFilePath) const
     return (stat(strPath.c_str(), &sts) != -1) ? true : false;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_LINUX

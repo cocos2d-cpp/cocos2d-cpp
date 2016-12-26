@@ -72,7 +72,7 @@ This file was modified to fit the cocos2d-x project
 
 #include "math/MathUtil.inl"
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 void MathUtil::smooth(float* x, float target, float elapsedTime, float responseTime)
 {
@@ -275,4 +275,4 @@ void MathUtil::crossVec3(const float* v1, const float* v2, float* dst)
 #endif
 }
 
-NS_CC_MATH_END
+} // namespace cocos2d

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCNode.h"
 /*#include "ccArray.h"*/
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct _ccArray;
 
@@ -113,7 +113,7 @@ private:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCPARALLAX_NODE_H__
 

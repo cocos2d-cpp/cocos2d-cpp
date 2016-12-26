@@ -32,7 +32,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CameraBackgroundColorBrush;
 class CameraBackgroundDepthBrush;
@@ -271,6 +271,6 @@ private:
     bool _textureValid;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif// _CCCAMERA_BACKGROUND_BRUSH_H__

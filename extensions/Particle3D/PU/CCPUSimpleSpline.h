@@ -30,7 +30,7 @@
 #include "math/CCMath.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 class PUSimpleSpline
 {
 public:
@@ -104,6 +104,6 @@ protected:
 
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

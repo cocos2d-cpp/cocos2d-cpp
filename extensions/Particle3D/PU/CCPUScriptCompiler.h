@@ -28,7 +28,7 @@
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUScriptParser.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** This enum holds the types of the possible abstract nodes */
 enum PUAbstractNodeType
@@ -161,6 +161,6 @@ private:
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__ssaafsdf__CCScriptCompile__) */

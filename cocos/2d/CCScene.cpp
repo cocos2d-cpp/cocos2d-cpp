@@ -47,7 +47,7 @@ THE SOFTWARE.
 #include "navmesh/CCNavMesh.h"
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Scene::Scene()
 {
@@ -363,4 +363,4 @@ void Scene::stepPhysicsAndNavigation(float deltaTime)
 }
 #endif
 
-NS_CC_END
+} // namespace cocos2d

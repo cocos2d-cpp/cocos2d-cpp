@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static std::string s_pszResourcePath;
 
@@ -383,4 +383,4 @@ string CCFileUtilsWinRT::getAppPath()
     return convertPathFormatToUnixStyle(std::string(PlatformStringToString(package->InstalledLocation->Path)));
 }
 
-NS_CC_END
+} // namespace cocos2d

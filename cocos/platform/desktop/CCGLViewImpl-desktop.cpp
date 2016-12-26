@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // GLFWEventHandler
 
@@ -1059,4 +1059,4 @@ bool GLViewImpl::initGlew()
     return true;
 }
 
-NS_CC_END // end of namespace cocos2d;
+} // namespace cocos2d

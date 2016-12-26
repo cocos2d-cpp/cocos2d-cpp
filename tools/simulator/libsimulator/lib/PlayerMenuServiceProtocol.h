@@ -5,11 +5,10 @@
 #include <string>
 
 #include "cocos2d.h"
-#include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 #include "SimulatorExport.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 #define kPlayerSuperModifyKey "super"
 #define kPlayerShiftModifyKey "shift"
@@ -62,6 +61,6 @@ public:
     virtual void setMenuBarEnabled(bool enabled) = 0;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MENU_SERVICE_PROTOCOL_H

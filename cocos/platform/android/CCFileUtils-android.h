@@ -36,7 +36,7 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 #include "jni.h"
 #include "android/asset_manager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ZipFile;
 
@@ -82,7 +82,7 @@ private:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

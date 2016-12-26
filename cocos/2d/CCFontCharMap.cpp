@@ -29,7 +29,7 @@
 #include "base/CCDirector.h"
 #include "renderer/CCTextureCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 FontCharMap * FontCharMap::create(const std::string& plistFile)
 {
@@ -144,4 +144,4 @@ FontAtlas * FontCharMap::createFontAtlas()
     return tempAtlas;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -51,7 +51,7 @@
 #include "extensions/Particle3D/PU/CCPUVelocityMatchingAffector.h"
 #include "extensions/Particle3D/PU/CCPUVortexAffector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUAffectorManager::PUAffectorManager()
 {
     
@@ -184,4 +184,4 @@ PUAffector* PUAffectorManager::createAffector( const std::string &type )
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

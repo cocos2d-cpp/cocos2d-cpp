@@ -27,7 +27,7 @@
 #include "2d/CCCamera.h"
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 RenderCommand::RenderCommand()
 : _type(RenderCommand::Type::UNKNOWN_COMMAND)
@@ -65,4 +65,4 @@ void RenderCommand::printID()
     printf("Command Depth: %f\n", _globalOrder);
 }
 
-NS_CC_END
+} // namespace cocos2d

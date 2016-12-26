@@ -37,7 +37,7 @@
 
 #include "base/CCRef.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
     namespace experimental{
 #define MAX_AUDIOINSTANCES 32
 
@@ -102,7 +102,7 @@ private:
     
 };
 }
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_ENGINE_LINUX_H_
 #endif
 

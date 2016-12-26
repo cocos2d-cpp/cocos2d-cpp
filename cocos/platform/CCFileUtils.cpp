@@ -41,7 +41,7 @@ THE SOFTWARE.
 #endif
 #include <sys/stat.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Implement DictMaker
 
@@ -1264,4 +1264,4 @@ void FileUtils::valueVectorCompact(ValueVector& /*valueVector*/)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d

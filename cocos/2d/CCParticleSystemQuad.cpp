@@ -43,7 +43,7 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ParticleSystemQuad::ParticleSystemQuad()
 :_quads(nullptr)
@@ -705,4 +705,4 @@ std::string ParticleSystemQuad::getDescription() const
 {
     return StringUtils::format("<ParticleSystemQuad | Tag = %d, Total Particles = %d>", _tag, _totalParticles);
 }
-NS_CC_END
+} // namespace cocos2d

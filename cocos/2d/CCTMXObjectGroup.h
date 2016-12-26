@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "base/CCValue.h"
 #include "base/CCRef.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -138,6 +138,6 @@ protected:
 // end of tilemap_parallax_nodes group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTMX_OBJECT_GROUP_H__

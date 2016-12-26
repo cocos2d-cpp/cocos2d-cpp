@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/ccConfig.h"
 #include "base/CCConfiguration.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static const int MAX_ATTRIBUTES = 16;
 static const int MAX_ACTIVE_TEXTURE = 16;
@@ -276,4 +276,4 @@ void setProjectionMatrixDirty( void )
 
 } // Namespace GL
 
-NS_CC_END
+} // namespace cocos2d

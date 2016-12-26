@@ -71,7 +71,7 @@ static void replaceDefines(const std::string& compileTimeDefines, std::string& o
 }
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR = "#ShaderETC1ASPositionTextureColor";
 const char* GLProgram::SHADER_NAME_ETC1AS_POSITION_TEXTURE_COLOR_NO_MVP = "#ShaderETC1ASPositionTextureColor_noMVP";
 
@@ -1017,5 +1017,5 @@ inline void GLProgram::clearShader()
     _vertShader = _fragShader = 0;
 }
 
-NS_CC_END
+} // namespace cocos2d
 

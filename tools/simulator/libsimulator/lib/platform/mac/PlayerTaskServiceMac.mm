@@ -99,7 +99,7 @@
 
 @end
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerTaskMac *PlayerTaskMac::create(const std::string &name, const std::string &executePath, const std::string &commandLineArguments)
 {
@@ -243,4 +243,4 @@ void PlayerTaskServiceMac::removeTask(const std::string &name)
     }
 }
 
-PLAYER_NS_END
+} // namespace player

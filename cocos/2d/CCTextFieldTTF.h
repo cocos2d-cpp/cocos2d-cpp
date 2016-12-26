@@ -33,7 +33,7 @@ THE SOFTWARE.
  * @addtogroup ui
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TextFieldTTF;
 
@@ -285,7 +285,7 @@ private:
     LengthStack * _lens;
 };
 
-NS_CC_END
+} // namespace cocos2d
 // end of ui group
 /// @}
 

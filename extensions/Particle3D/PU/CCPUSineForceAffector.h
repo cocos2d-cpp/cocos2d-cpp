@@ -30,7 +30,7 @@
 #include "CCPUBaseForceAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUSineForceAffector : public PUBaseForceAffector
 {
@@ -66,6 +66,6 @@ protected:
     float _frequencyMax;
     float _frequency;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

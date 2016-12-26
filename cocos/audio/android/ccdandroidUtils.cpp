@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 
 
-USING_NS_CC;
+using namespace cocos2d;
 
 namespace CocosDenshion {
     namespace android {

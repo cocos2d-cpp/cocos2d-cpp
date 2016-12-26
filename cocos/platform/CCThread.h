@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -60,7 +60,7 @@ public:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif    // __CC_PLATFORM_THREAD_H__

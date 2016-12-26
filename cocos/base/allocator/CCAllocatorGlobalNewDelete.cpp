@@ -30,7 +30,7 @@
 
 #include <assert.h>
 
-USING_NS_CC_ALLOCATOR;
+using namespace cocos2d::allocator;
 
 #if CC_ENABLE_ALLOCATOR
 #if CC_ENABLE_ALLOCATOR_GLOBAL_NEW_DELETE

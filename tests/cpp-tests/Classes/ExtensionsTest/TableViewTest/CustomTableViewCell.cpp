@@ -1,6 +1,6 @@
 #include "CustomTableViewCell.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 void CustomTableViewCell::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {

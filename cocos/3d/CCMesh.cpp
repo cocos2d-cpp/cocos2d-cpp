@@ -42,7 +42,7 @@
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Helpers
 
@@ -703,4 +703,4 @@ GLuint Mesh::getIndexBuffer() const
 {
     return _meshIndexData->getIndexBuffer()->getVBO();
 }
-NS_CC_END
+} // namespace cocos2d

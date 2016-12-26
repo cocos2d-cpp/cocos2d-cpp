@@ -25,7 +25,7 @@
 
 #include "base/CCEventController.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventController::EventController(ControllerEventType type, Controller* controller, int keyCode)
 : Event(Type::GAME_CONTROLLER)
@@ -47,4 +47,4 @@ EventController::EventController(ControllerEventType type, Controller* controlle
     
 }
 
-NS_CC_END
+} // namespace cocos2d

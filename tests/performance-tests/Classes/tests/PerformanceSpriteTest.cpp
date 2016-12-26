@@ -30,7 +30,7 @@
 
 #include <cmath>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #if defined(_MSC_VER) && _MSC_VER<1800
 #define CC_ROUND(__f__) __f__

@@ -25,7 +25,7 @@
 
 #include "CCPUPlane.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //-----------------------------------------------------------------------
 PUPlane::PUPlane ()
 {
@@ -170,4 +170,4 @@ float PUPlane::normalize(void)
 
 	return fLength;
 }
-NS_CC_END
+} // namespace cocos2d

@@ -36,7 +36,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Value;
 
@@ -246,7 +246,7 @@ private:
 
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif /* defined(__cocos2d_libs__CCValue__) */

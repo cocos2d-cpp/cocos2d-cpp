@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 struct PUParticle3D;
 class  CC_DLL PUGeometryRotator : public PUAffector
 {
@@ -101,6 +101,6 @@ protected:
     */
     PUDynamicAttributeHelper _dynamicAttributeHelper;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

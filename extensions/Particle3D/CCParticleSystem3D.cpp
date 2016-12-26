@@ -27,7 +27,7 @@
 #include "CCParticle3DAffector.h"
 #include "CCParticle3DRender.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Particle3D::Particle3D()
 : color(Vec4::ONE)
@@ -215,4 +215,4 @@ void ParticleSystem3D::setEnabled( bool enabled )
     _isEnabled = enabled;
 }
 
-NS_CC_END
+} // namespace cocos2d

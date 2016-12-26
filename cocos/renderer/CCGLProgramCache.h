@@ -38,7 +38,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgram;
 
@@ -112,7 +112,7 @@ private:
     std::unordered_map<std::string, GLProgram*> _programs;
 };
 
-NS_CC_END
+} // namespace cocos2d
 // end of shaders group
 /// @}
 

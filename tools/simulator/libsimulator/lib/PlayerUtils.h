@@ -2,14 +2,12 @@
 #ifndef __PLAYER_UTILS_H_
 #define __PLAYER_UTILS_H_
 
-#include "PlayerMacros.h"
-
 #include <string>
 #include <vector>
 
 using namespace std;
 
-PLAYER_NS_BEGIN
+namespace player {
 
 template<class T>
 vector<T> splitString(T str, T pattern)
@@ -31,6 +29,6 @@ vector<T> splitString(T str, T pattern)
     return result;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_UTILS_H_

@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -75,7 +75,7 @@ enum class LanguageType
 // END of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif    // __CC_COMMON_H__

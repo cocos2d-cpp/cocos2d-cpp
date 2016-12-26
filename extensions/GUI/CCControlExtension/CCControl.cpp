@@ -35,7 +35,8 @@
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventListenerTouch.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 Control::Control()
 : _enabled(false)
@@ -337,4 +338,5 @@ Control::EventType operator|(Control::EventType a, Control::EventType b) {
     return static_cast<Control::EventType>(static_cast<int>(a) | static_cast<int>(b));
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

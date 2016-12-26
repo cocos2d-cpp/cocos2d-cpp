@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/ccTypes.h"
 #include "renderer/CCTexture2D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * RGBA protocol that affects Node's color and opacity
@@ -279,7 +279,7 @@ public:
     
     virtual void stop() = 0;
 };
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif // __BASE_CCPROTOCOLS_H__

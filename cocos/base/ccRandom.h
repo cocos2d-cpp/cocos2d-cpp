@@ -35,7 +35,7 @@ THE SOFTWARE.
 * @addtogroup base
 * @{
 */
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /**
@@ -120,7 +120,7 @@ inline float rand_0_1() {
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 // end group
 /// @}
 #endif //__ccRandom_H_

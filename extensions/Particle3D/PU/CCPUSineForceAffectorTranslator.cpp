@@ -29,7 +29,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
 #include "extensions/Particle3D/PU/CCPUBaseForceAffectorTranslator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUSineForceAffectorTranslator::PUSineForceAffectorTranslator()
 {
@@ -109,4 +109,4 @@ bool PUSineForceAffectorTranslator::translateChildObject( PUScriptCompiler* /*co
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

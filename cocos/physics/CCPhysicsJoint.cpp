@@ -31,7 +31,7 @@
 #include "physics/CCPhysicsHelper.h"
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PhysicsJoint::PhysicsJoint()
 : _bodyA(nullptr)
@@ -801,5 +801,5 @@ void PhysicsJointMotor::setRate(float rate)
     cpSimpleMotorSetRate(_cpConstraints.front(), rate);
 }
 
-NS_CC_END
+} // namespace cocos2d
 #endif // CC_USE_PHYSICS

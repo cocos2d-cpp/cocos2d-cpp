@@ -1,7 +1,7 @@
 #include "RotateWorldTest.h"
 #include "../testResource.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 RotateWorldTests::RotateWorldTests()
 {

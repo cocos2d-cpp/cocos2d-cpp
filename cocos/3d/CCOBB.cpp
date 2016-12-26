@@ -24,7 +24,7 @@
 
 #include "3d/CCOBB.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #define ROTATE(a,i,j,k,l) g=a.m[i + 4 * j]; h=a.m[k + 4 * l]; a.m[i + 4 * j]=(float)(g-s*(h+g*tau)); a.m[k + 4 * l]=(float)(h+s*(g-h*tau));
 
@@ -451,4 +451,4 @@ void OBB::transform(const Mat4& mat)
     computeExtAxis();
 }
 
-NS_CC_END
+} // namespace cocos2d

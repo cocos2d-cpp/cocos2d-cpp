@@ -34,7 +34,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /// @cond EventController
 class Controller;
@@ -105,7 +105,7 @@ protected:
     friend class EventListenerController;
 };
 /// @endcond EventController
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

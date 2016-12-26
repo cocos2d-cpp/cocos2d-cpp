@@ -1,7 +1,7 @@
 #include "PerformanceLabelTest.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define DELAY_TIME              1
 #define STAT_TIME               3

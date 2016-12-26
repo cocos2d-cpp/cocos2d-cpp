@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "platform/CCGL.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 
@@ -69,6 +69,6 @@ protected:
 // end of effects group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __EFFECTS_CCGRABBER_H__

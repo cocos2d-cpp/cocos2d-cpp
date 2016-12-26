@@ -28,7 +28,7 @@
 
 #if (CC_ENABLE_BULLET_INTEGRATION)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Physics3DConstraint::Physics3DConstraint()
 : _bodyA(nullptr)
@@ -833,7 +833,7 @@ void Physics3D6DofConstraint::setUseFrameOffset(bool frameOffsetOnOff) const
     static_cast<btGeneric6DofConstraint*>(_constraint)->setUseFrameOffset(frameOffsetOnOff);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_ENABLE_BULLET_INTEGRATION
 

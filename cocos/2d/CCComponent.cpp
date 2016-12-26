@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "2d/CCComponent.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Component::Component()
 : _owner(nullptr)
@@ -92,4 +92,4 @@ void Component::setEnabled(bool enabled)
     _enabled = enabled;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -25,7 +25,7 @@
 
 #include "CCPUParticleSystem3DTranslator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUParticleSystem3DTranslator::PUParticleSystem3DTranslator()
 {
@@ -264,4 +264,4 @@ void PUParticleSystem3DTranslator::translate(PUScriptCompiler* compiler, PUAbstr
 
 
 
-NS_CC_END
+} // namespace cocos2d

@@ -31,7 +31,7 @@
 #include "math/Vec2.h"
 #include "platform/CCGL.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 DistortionMesh::DistortionMesh(Distortion *distortion,
                                float screenWidth, float screenHeight,
@@ -150,4 +150,4 @@ DistortionMesh::DistortionMesh(Distortion *distortion,
 //    GLCheckForError();
 }
 
-NS_CC_END
+} // namespace cocos2d

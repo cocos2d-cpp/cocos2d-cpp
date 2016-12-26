@@ -28,7 +28,7 @@
 #include "ui/UILayout.h"
 #include "ui/UITabControl.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui
 {
@@ -732,4 +732,4 @@ namespace ui
     }
 
 }
-NS_CC_END
+} // namespace cocos2d

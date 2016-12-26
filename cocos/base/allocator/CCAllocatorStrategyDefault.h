@@ -31,8 +31,8 @@
 #include "base/allocator/CCAllocatorMacros.h"
 #include "base/allocator/CCAllocatorBase.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 // @brief
 // The default allocation strategy that just falls through to malloc and free
@@ -53,8 +53,8 @@ public:
     }
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_STRATEGY_DEFAULT_H

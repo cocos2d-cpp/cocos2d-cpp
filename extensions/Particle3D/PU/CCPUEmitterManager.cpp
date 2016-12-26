@@ -33,7 +33,7 @@
 #include "extensions/Particle3D/PU/CCPUSlaveEmitter.h"
 #include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUEmitterManager::PUEmitterManager()
 {
     
@@ -98,4 +98,4 @@ PUEmitter* PUEmitterManager::createEmitter( const std::string &type )
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

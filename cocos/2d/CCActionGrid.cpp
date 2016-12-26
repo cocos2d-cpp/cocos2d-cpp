@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCNodeGrid.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // implementation of GridAction
 
 bool GridAction::initWithDuration(float duration, const Size& gridSize)
@@ -439,4 +439,4 @@ ReuseGrid* ReuseGrid::reverse() const
     return this->clone();
 }
 
-NS_CC_END
+} // namespace cocos2d

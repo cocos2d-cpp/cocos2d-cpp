@@ -36,7 +36,7 @@
 #include "renderer/CCFrameBuffer.h"
 #include "renderer/CCRenderState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Camera* Camera::_visitingCamera = nullptr;
 experimental::Viewport Camera::_defaultViewport;
@@ -539,4 +539,4 @@ bool Camera::isBrushValid()
     return _clearBrush != nullptr && _clearBrush->isValid();
 }
 
-NS_CC_END
+} // namespace cocos2d

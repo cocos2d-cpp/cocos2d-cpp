@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "2d/CCSprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -308,4 +308,4 @@ void ImageView::setGLProgramState(cocos2d::GLProgramState* glProgramState)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

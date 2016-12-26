@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Lock
 {
@@ -47,6 +47,6 @@ public:
     void unlock(void);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __PLATFORM_IPHONE_PLATFORM_CCLOCK_H__

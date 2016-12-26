@@ -24,7 +24,7 @@
 
 #include "3d/CCPlane.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Plane::Plane()
 :
@@ -92,4 +92,4 @@ PointSide Plane::getSide(const Vec3& point) const
         return PointSide::IN_PLANE;
 }
 
-NS_CC_END
+} // namespace cocos2d

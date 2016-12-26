@@ -37,7 +37,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation TMXLayerInfo
 TMXLayerInfo::TMXLayerInfo()
@@ -797,4 +797,4 @@ void TMXMapInfo::textHandler(void* /*ctx*/, const char *ch, size_t len)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

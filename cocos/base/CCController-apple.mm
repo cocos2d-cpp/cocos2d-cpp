@@ -98,7 +98,7 @@ static GCControllerConnectionEventHandler* __instance = nil;
 
 @end
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ControllerImpl
 {
@@ -319,6 +319,6 @@ void Controller::receiveExternalKeyEvent(int externalKeyCode,bool receive)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

@@ -29,7 +29,7 @@
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUOnQuotaObserver.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  PUOnQuotaObserverTranslator : public PUScriptTranslator
 {
@@ -41,6 +41,6 @@ public:
     virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode *node);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

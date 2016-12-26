@@ -26,7 +26,8 @@
 
 #include "CCInvocation.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 Invocation* Invocation::create(Ref* target, Control::Handler action, Control::EventType controlEvent)
 {
@@ -53,4 +54,5 @@ void Invocation::invoke(Ref* sender)
     }                
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

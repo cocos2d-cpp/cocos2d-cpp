@@ -33,7 +33,7 @@
  * @addtogroup ui
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Label;
 
@@ -384,7 +384,7 @@ namespace ui {
 }
 // end group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __UITABVIEW_H__
 

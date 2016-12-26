@@ -1,7 +1,7 @@
 #include "main.h"
 #include "AppDelegate.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 int WINAPI _tWinMain(HINSTANCE hInstance,
 					   HINSTANCE hPrevInstance,

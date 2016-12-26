@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
 Custom command is used for call custom openGL command which can not be done by other commands,
 such as stencil function, depth functions etc. The render command is executed by calling a call back function.
@@ -72,7 +72,7 @@ public:
 protected:
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

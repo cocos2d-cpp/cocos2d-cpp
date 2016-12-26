@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "renderer/CCGroupCommand.h"
 #include "renderer/CCCustomCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class EventCustom;
 
@@ -371,6 +371,6 @@ private:
 // end of textures group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCRENDER_TEXTURE_H__

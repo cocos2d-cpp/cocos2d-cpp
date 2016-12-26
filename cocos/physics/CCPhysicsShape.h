@@ -33,7 +33,7 @@
 
 struct cpShape;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PhysicsBody;
 
@@ -733,7 +733,7 @@ protected:
 /** @} */
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_USE_PHYSICS
 #endif // __CCPHYSICS_FIXTURE_H__

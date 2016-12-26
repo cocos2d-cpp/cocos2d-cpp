@@ -26,7 +26,7 @@
 #include "TransitionsTest.h"
 #include "../testResource.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define TRANSITION_DURATION (1.2f)
 

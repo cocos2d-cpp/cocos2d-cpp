@@ -25,7 +25,7 @@
 
 #include "audio/winrt/AudioSourceReader.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
 
 typedef struct AudioInfo
@@ -158,7 +158,7 @@ private:
  };
 
 }
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_CACHE_PLAYER_H_
 #endif
 

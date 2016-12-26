@@ -30,7 +30,7 @@
 
 #include "2d/CCFont.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 class FontCharMap : public Font
@@ -66,6 +66,6 @@ private:
 
 /// @endcond
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(_CCFontCharMap_h_) */

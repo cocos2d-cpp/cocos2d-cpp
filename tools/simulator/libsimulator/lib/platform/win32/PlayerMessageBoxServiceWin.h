@@ -8,7 +8,7 @@
 #include "cocos2d.h"
 #include "PlayerMessageBoxServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerMessageBoxServiceWin : public PlayerMessageBoxServiceProtocol
 {
@@ -23,6 +23,6 @@ protected:
     HWND _hwnd;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MESSAGEBOX_SERVICE_WIN_H_

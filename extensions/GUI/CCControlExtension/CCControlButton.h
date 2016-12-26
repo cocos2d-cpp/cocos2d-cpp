@@ -35,7 +35,8 @@
 #include "base/CCMap.h"
 #include "ui/UIScale9Sprite.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /* Define the button margin for Left/Right edge */
 #define ControlButtonMarginLR 8 // px
@@ -253,6 +254,7 @@ private:
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif

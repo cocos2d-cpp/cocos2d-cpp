@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 #include "base/CCData.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct FontDefinition;
 
@@ -104,6 +104,6 @@ private:
 // end group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __CCDEVICE_H__ */

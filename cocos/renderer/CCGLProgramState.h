@@ -40,7 +40,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgram;
 class Texture2D;
@@ -473,7 +473,7 @@ protected:
 
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /**
  end of support group

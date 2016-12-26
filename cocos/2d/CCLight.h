@@ -27,7 +27,7 @@
 
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum class LightType
 {
@@ -289,6 +289,6 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~AmbientLight();
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

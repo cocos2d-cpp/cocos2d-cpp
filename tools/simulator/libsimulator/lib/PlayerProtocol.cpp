@@ -2,9 +2,9 @@
 #include "PlayerProtocol.h"
 #include "base/ccMacros.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
-USING_NS_CC;
+using namespace cocos2d;
 
 PlayerProtocol *PlayerProtocol::_instance = nullptr;
 
@@ -39,4 +39,4 @@ PlayerSettings PlayerProtocol::getPlayerSettings() const
     return _settings;
 }
 
-PLAYER_NS_END
+} // namespace player

@@ -1,7 +1,7 @@
 #include "AppDelegate.h"
 #include "controller.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static cocos2d::Size designResolutionSize = cocos2d::Size(960, 640);
 static cocos2d::Size smallResolutionSize = cocos2d::Size(960, 640);

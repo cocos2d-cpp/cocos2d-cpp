@@ -37,7 +37,8 @@
  * @addtogroup ui
  * @{
  */
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 class TableView;
 
@@ -329,7 +330,8 @@ public:
 
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 // end of ui group
 /// @}
 

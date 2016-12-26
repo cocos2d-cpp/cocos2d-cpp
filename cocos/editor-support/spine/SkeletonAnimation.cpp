@@ -34,7 +34,7 @@
 #include <spine/extension.h>
 #include <algorithm>
 
-USING_NS_CC;
+using namespace cocos2d;
 using std::min;
 using std::max;
 using std::vector;

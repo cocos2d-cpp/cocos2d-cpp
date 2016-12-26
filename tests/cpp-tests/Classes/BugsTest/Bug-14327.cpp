@@ -11,7 +11,7 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug14327Layer::init()
 {

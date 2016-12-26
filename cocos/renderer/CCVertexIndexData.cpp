@@ -26,7 +26,7 @@
 #include "renderer/ccGLStateCache.h"
 #include "renderer/CCVertexIndexBuffer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 VertexData* VertexData::create()
 {
@@ -145,4 +145,4 @@ void VertexData::use()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

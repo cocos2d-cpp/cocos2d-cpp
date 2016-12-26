@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const unsigned int kSceneFade = 0xFADEFADE;
 
@@ -1709,4 +1709,4 @@ ActionInterval* TransitionFadeDown::actionWithSize(const Size& size)
     return FadeOutDownTiles::create(_duration, size);
 }
 
-NS_CC_END
+} // namespace cocos2d

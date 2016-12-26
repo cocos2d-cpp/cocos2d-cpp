@@ -30,7 +30,7 @@
 #include "renderer/CCTexture2D.h"
 #include <set>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLView;
 class EventListenerCustom;
@@ -211,6 +211,6 @@ private:
 };
 } // end of namespace experimental
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__CC_FRAME_BUFFER_H__) */

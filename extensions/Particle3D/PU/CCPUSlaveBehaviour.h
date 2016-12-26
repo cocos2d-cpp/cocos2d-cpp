@@ -33,7 +33,7 @@
 #include <vector>
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class PUParticleSystem3D;
@@ -58,6 +58,6 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~PUSlaveBehaviour();
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

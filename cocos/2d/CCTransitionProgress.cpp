@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "2d/CCActionInstant.h"
 #include "2d/CCActionProgressTimer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum {
     kSceneRadial = 0xc001,
@@ -340,4 +340,4 @@ ProgressTimer* TransitionProgressOutIn::progressTimerNodeWithRenderTexture(Rende
     return node;
 }
 
-NS_CC_END
+} // namespace cocos2d

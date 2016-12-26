@@ -42,7 +42,7 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "network/HttpConnection-winrt.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -366,7 +366,7 @@ namespace network {
 
     }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 

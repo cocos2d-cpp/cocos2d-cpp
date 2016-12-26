@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/ccTypes.h"
 #include <agile.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 enum PointerEventType
@@ -165,7 +165,7 @@ protected:
   Platform::Agile<Windows::Foundation::EventHandler<EndEventArgs^>^> m_handler;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #ifndef __WINRT_INPUT_EVENT__
 

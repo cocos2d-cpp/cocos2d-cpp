@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "base/CCIMEDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AccelerometerEvent::AccelerometerEvent(const Acceleration& event)
     : m_event(event)
@@ -187,6 +187,6 @@ void UIEditBoxEndEvent::execute()
   }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 

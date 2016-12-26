@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "ui/UITextBMFont.h"
 #include "2d/CCLabel.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -187,4 +187,4 @@ void TextBMFont::resetRender()
 }
 }
 
-NS_CC_END
+} // namespace cocos2d

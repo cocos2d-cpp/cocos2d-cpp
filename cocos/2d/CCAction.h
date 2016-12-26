@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Node;
 
@@ -436,6 +436,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTIONS_CCACTION_H__

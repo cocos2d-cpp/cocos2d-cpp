@@ -35,7 +35,7 @@
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static map<std::string, FontBufferInfo> s_fontsNames;
 static FT_Library s_FreeTypeLibrary = nullptr;
@@ -751,4 +751,4 @@ unsigned char* CCFreeTypeFont::loadSystemFont(const char *pFontName, ssize_t *si
     return pBuffer;
 }
 
-NS_CC_END
+} // namespace cocos2d

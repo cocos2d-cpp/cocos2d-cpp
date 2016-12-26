@@ -31,7 +31,8 @@
 
 #include "CCControlSaturationBrightnessPicker.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 ControlSaturationBrightnessPicker::ControlSaturationBrightnessPicker()
 : _saturation(0.0f)
@@ -207,4 +208,5 @@ void ControlSaturationBrightnessPicker::onTouchMoved(Touch* touch, Event* /*even
     checkSliderPosition(touchLocation);
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

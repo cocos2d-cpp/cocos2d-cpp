@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "2d/CCLabel.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -442,4 +442,4 @@ void Text::copySpecialProperties(Widget *widget)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

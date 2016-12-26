@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AnimationCache* AnimationCache::s_sharedAnimationCache = nullptr;
 
@@ -239,4 +239,4 @@ void AnimationCache::addAnimationsWithFile(const std::string& plist)
 }
 
 
-NS_CC_END
+} // namespace cocos2d

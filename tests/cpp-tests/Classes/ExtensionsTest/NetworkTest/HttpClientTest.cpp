@@ -2,8 +2,8 @@
 #include "../ExtensionsTest.h"
 #include <string>
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 using namespace cocos2d::network;
 
 HttpClientTests::HttpClientTests()

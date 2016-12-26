@@ -28,7 +28,7 @@
 #include "audio/include/SimpleAudioEngine.h"
 #include "audio/include/AudioEngine.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::experimental;
 
 static float s_bgMusicVolume = 1.0f;

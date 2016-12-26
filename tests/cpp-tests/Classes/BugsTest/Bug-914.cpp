@@ -9,7 +9,7 @@
 // Import the interfaces
 #include"Bug-914.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 // on "init" you need to initialize your instance
 bool Bug914Layer::init()

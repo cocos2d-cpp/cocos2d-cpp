@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "platform/winrt/InputEvent.h"
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 class CC_DLL Application : public ApplicationProtocol
@@ -114,7 +114,7 @@ protected:
     static Application * sm_pSharedApplication;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
 

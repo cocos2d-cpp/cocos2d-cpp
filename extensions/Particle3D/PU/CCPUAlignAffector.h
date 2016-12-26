@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUAlignAffector : public PUAffector
 {
@@ -62,6 +62,6 @@ protected:
     bool _resize;
     PUParticle3D* _previousParticle;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** @class EventAcceleration
  * @brief Accelerometer event.
@@ -52,7 +52,7 @@ private:
     friend class EventListenerAcceleration;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

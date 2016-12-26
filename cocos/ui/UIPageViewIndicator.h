@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "ui/UIPageView.h"
 #include "2d/CCSprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
  * @addtogroup ui
  * @{
@@ -91,6 +91,6 @@ protected:
 }
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__UIPAGEVIEWINDICATOR_H__) */

@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUBehaviour::PUBehaviour( void ): 
 _particleSystem(nullptr),
@@ -60,4 +60,4 @@ void PUBehaviour::copyAttributesTo( PUBehaviour* behaviour )
     behaviour->_behaviourScale = _behaviourScale;
 }
 
-NS_CC_END
+} // namespace cocos2d

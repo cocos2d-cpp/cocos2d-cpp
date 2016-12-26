@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "base/ccUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -299,4 +299,4 @@ Vec2 ScrollViewBar::calculatePosition(float innerContainerMeasure, float scrollV
 }
 }
 
-NS_CC_END
+} // namespace cocos2d

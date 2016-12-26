@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "ui/UITextAtlas.h"
 #include "2d/CCLabel.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -191,4 +191,4 @@ void TextAtlas::copySpecialProperties(Widget *widget)
 }
     
 }
-NS_CC_END
+} // namespace cocos2d

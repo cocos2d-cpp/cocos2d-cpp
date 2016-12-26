@@ -7,7 +7,7 @@
 
 #include "Bug-899.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug899Layer::init()
 {

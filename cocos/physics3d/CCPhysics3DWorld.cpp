@@ -29,7 +29,7 @@
 
 #if (CC_ENABLE_BULLET_INTEGRATION)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Physics3DWorld::Physics3DWorld()
 : _btPhyiscsWorld(nullptr)
@@ -377,7 +377,7 @@ void Physics3DWorld::setGhostPairCallback()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_ENABLE_BULLET_INTEGRATION
 

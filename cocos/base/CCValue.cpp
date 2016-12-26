@@ -28,7 +28,7 @@
 #include <iomanip>
 #include "base/ccUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const ValueVector ValueVectorNull;
 const ValueMap ValueMapNull;
@@ -930,4 +930,4 @@ void Value::reset(Type type)
     _type = type;
 }
 
-NS_CC_END
+} // namespace cocos2d

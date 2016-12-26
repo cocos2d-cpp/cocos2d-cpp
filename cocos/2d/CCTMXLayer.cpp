@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCGLProgram.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 // TMXLayer - init & alloc & dealloc
@@ -845,4 +845,4 @@ std::string TMXLayer::getDescription() const
 }
 
 
-NS_CC_END
+} // namespace cocos2d

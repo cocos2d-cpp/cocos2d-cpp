@@ -25,7 +25,7 @@
 #include "base/CCEventCustom.h"
 #include "base/CCEvent.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventCustom::EventCustom(const std::string& eventName)
 : Event(Type::CUSTOM)
@@ -34,4 +34,4 @@ EventCustom::EventCustom(const std::string& eventName)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d

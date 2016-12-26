@@ -27,7 +27,7 @@
 #include "math/CCVertex.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void ccVertexLineToPolygon(Vec2 *points, float stroke, Vec2 *vertices, unsigned int offset, unsigned int nuPoints)
 {
@@ -138,4 +138,4 @@ bool ccVertexLineIntersect(float Ax, float Ay,
     return true;
 }
 
-NS_CC_END
+} // namespace cocos2d

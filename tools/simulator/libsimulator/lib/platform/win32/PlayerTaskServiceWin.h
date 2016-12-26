@@ -6,7 +6,7 @@
 
 #include "PlayerTaskServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerTaskWin : public PlayerTask
 {
@@ -60,6 +60,6 @@ protected:
     cocos2d::Map<std::string, PlayerTaskWin*> _tasks;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_TASK_SERVICE_WIN_H_

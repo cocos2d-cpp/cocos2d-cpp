@@ -1,7 +1,7 @@
 
 #include "PlayerMessageBoxServiceWin.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerMessageBoxServiceWin::PlayerMessageBoxServiceWin(HWND hwnd)
 : _hwnd(hwnd)
@@ -64,4 +64,4 @@ int PlayerMessageBoxServiceWin::showMessageBox(const std::string &title,
     return result;
 }
 
-PLAYER_NS_END
+} // namespace player

@@ -2,8 +2,8 @@
 #include "../testResource.h"
 #include "cocos2d.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 
 ShaderTests::ShaderTests()
 {

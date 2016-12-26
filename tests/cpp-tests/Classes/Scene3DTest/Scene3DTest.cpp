@@ -7,7 +7,7 @@
 #include "../testResource.h"
 #include "../TerrainTest/TerrainTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace spine;
 
 class SkeletonAnimationCullingFix : public SkeletonAnimation

@@ -640,7 +640,6 @@
     <ClInclude Include="..\..\..\extensions\cocos-ext.h" />
     <ClInclude Include="..\..\..\extensions\ExtensionDeprecated.h" />
     <ClInclude Include="..\..\..\extensions\ExtensionExport.h" />
-    <ClInclude Include="..\..\..\extensions\ExtensionMacros.h" />
     <ClInclude Include="..\..\..\extensions\GUI\CCControlExtension\CCControl.h" />
     <ClInclude Include="..\..\..\extensions\GUI\CCControlExtension\CCControlButton.h" />
     <ClInclude Include="..\..\..\extensions\GUI\CCControlExtension\CCControlColourPicker.h" />

@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "2d/CCActionEase.h"
 #include "2d/CCTweenFunction.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #ifndef M_PI_X_2
 #define M_PI_X_2 (float)M_PI * 2.0f
@@ -321,4 +321,4 @@ EaseBezierAction* EaseBezierAction::reverse() const
     return reverseAction;
 }
 
-NS_CC_END
+} // namespace cocos2d

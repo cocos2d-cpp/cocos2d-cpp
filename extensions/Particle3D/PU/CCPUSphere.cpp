@@ -25,7 +25,7 @@
 
 #include "CCPUSphere.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUSphere::PUSphere()
  : _radius(1.0)
@@ -77,4 +77,4 @@ void PUSphere::merge( const PUSphere& oth )
     _radius = newRadius;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -26,7 +26,7 @@
 #include "base/CCTouch.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // returns the current touch location in screen coordinates
 Vec2 Touch::getLocationInView() const 
@@ -82,4 +82,4 @@ float Touch::getMaxForce() const
     return _maxForce;
 }
 
-NS_CC_END
+} // namespace cocos2d

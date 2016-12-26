@@ -27,7 +27,7 @@
 #include "ui/GUIDefine.h"
 #include "ui/UIHelper.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     LayoutComponent::LayoutComponent()
@@ -671,4 +671,4 @@ namespace ui {
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

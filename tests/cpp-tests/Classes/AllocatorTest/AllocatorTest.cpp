@@ -27,8 +27,8 @@
 #include "cocos2d.h"
 #include <chrono>
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 using namespace cocos2d::ui;
 
 AllocatorTests::AllocatorTests()

@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUOnQuotaObserver.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //-----------------------------------------------------------------------
 bool PUOnQuotaObserver::observe (PUParticle3D* /*particle*/, float /*timeElapsed*/)
@@ -88,4 +88,4 @@ PUOnQuotaObserver* PUOnQuotaObserver::create()
     return pqo;
 }
 
-NS_CC_END
+} // namespace cocos2d

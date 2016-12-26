@@ -41,7 +41,7 @@
 
 #include <xxhash.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 Pass* Pass::create(Technique* technique)
@@ -196,4 +196,4 @@ VertexAttribBinding* Pass::getVertexAttributeBinding() const
 }
 
 
-NS_CC_END
+} // namespace cocos2d

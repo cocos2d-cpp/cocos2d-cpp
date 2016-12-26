@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 #include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUSphereSurfaceEmitterTranslator::PUSphereSurfaceEmitterTranslator()
 {
@@ -76,4 +76,4 @@ bool PUSphereSurfaceEmitterTranslator::translateChildObject( PUScriptCompiler* /
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

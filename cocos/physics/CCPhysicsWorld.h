@@ -35,7 +35,7 @@
 
 struct cpSpace;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PhysicsBody;
 class PhysicsJoint;
@@ -416,7 +416,7 @@ extern const float CC_DLL PHYSICS_INFINITY;
 /** @} */
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_USE_PHYSICS
 #endif // __CCPHYSICS_WORLD_H__

@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "ui/UIPageView.h"
 #include "ui/UIPageViewIndicator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -445,4 +445,4 @@ void PageView::remedyLayoutParameter(Widget *item)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

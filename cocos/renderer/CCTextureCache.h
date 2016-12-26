@@ -44,7 +44,7 @@ THE SOFTWARE.
     #include <list>
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -311,7 +311,7 @@ private:
 // end of textures group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTEXTURE_CACHE_H__
 

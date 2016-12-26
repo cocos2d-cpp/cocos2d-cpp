@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "base/CCMap.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup global
@@ -155,7 +155,7 @@ extern bool kProfilerCategoryParticles;
 // end of global group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif // __SUPPORT_CCPROFILING_H__

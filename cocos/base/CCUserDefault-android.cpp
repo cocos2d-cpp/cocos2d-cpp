@@ -46,7 +46,7 @@ THE SOFTWARE.
 static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * implements of UserDefault
@@ -521,6 +521,6 @@ void UserDefault::deleteValueForKey(const char* key)
 
     flush();
 }
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

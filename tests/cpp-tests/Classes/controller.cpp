@@ -4,7 +4,7 @@
 #include "BaseTest.h"
 #include "tests.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define TEST_TIME_OUT 50
 #define CREATE_TIME_OUT 25

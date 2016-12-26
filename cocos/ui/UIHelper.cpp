@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -197,4 +197,4 @@ Rect Helper::convertBoundingBoxToScreen(Node* node)
 }
 }
 
-NS_CC_END
+} // namespace cocos2d

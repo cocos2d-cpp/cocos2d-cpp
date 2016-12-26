@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCNode.h"
 #include "platform/CCStdC.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //
 // CameraAction
 //
@@ -243,4 +243,4 @@ void OrbitCamera::sphericalRadius(float *newRadius, float *zenith, float *azimut
     *newRadius = r / FLT_EPSILON;
 }
 
-NS_CC_END
+} // namespace cocos2d

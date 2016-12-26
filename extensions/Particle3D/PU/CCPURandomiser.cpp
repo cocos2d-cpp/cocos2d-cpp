@@ -26,7 +26,7 @@
 #include "CCPURandomiser.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const Vec3 PURandomiser::DEFAULT_MAX_DEVIATION(0, 0, 0);
@@ -168,4 +168,4 @@ void PURandomiser::copyAttributesTo( PUAffector* affector )
     randomiser->_randomDirection = _randomDirection;
 }
 
-NS_CC_END
+} // namespace cocos2d

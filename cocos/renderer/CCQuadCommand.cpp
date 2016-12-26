@@ -33,7 +33,7 @@
 #include "renderer/CCPass.h"
 #include "renderer/CCTexture2D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int QuadCommand::__indexCapacity = -1;
 GLushort* QuadCommand::__indices = nullptr;
@@ -115,4 +115,4 @@ void QuadCommand::init(float globalOrder, Texture2D* texture, GLProgramState* gl
     _alphaTextureID = texture->getAlphaTextureName();
 }
 
-NS_CC_END
+} // namespace cocos2d

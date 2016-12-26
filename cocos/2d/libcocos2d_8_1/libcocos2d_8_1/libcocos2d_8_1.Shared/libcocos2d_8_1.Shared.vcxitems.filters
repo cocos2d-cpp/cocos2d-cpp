@@ -336,9 +336,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\ExtensionExport.h">
       <Filter>extension</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\..\extensions\ExtensionMacros.h">
-      <Filter>extension</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\network\HttpClient.h">
       <Filter>network\Header Files</Filter>
     </ClInclude>

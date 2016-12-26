@@ -42,7 +42,7 @@
 #include "extensions/Particle3D/PU/CCPUOnVelocityObserverTranslator.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 class PUObserverManager
 {
 public:
@@ -75,7 +75,7 @@ protected:
     PUOnVelocityObserverTranslator _onVelocityObserverTranslator;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif 

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct Tile
 {
@@ -868,4 +868,4 @@ void SplitCols::update(float time)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -35,7 +35,7 @@
 @class UIEditBoxImplMac;
 @class NSFont;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -83,7 +83,7 @@ private:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 

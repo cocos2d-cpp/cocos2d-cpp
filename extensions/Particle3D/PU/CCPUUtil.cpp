@@ -26,7 +26,7 @@
 #include "CCPUUtil.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 cocos2d::Vec3 PUUtil::randomDeviant( const Vec3 &src, float angle, const Vec3& up /*= Vec3::ZERO*/ )
 {
@@ -115,4 +115,4 @@ cocos2d::Vec3 PUUtil::perpendicular( const Vec3 &src )
     return perp;
 }
 
-NS_CC_END
+} // namespace cocos2d

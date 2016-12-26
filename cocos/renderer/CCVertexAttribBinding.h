@@ -27,7 +27,7 @@
 #include "base/CCRef.h"
 #include "renderer/CCGLProgramState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class MeshIndexData;
 class VertexAttribValue;
@@ -124,6 +124,6 @@ private:
 extern std::string CC_DLL s_attributeNames[];//attribute names array
 /// @endcond
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_VERTEXATTRIBUTEBINDING_H_

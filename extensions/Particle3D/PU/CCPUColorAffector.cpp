@@ -26,7 +26,7 @@
 #include "CCPUColorAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const PUColorAffector::ColorOperation PUColorAffector::DEFAULT_COLOR_OPERATION = PUColorAffector::CAO_SET;
@@ -141,4 +141,4 @@ void PUColorAffector::copyAttributesTo( PUAffector* affector )
     colourAffector->_colorOperation = _colorOperation;
 }
 
-NS_CC_END
+} // namespace cocos2d

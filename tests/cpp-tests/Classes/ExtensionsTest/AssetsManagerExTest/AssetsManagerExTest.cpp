@@ -2,8 +2,8 @@
 #include "../../testResource.h"
 #include "cocos2d.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 
 const char* sceneManifests[] = {"Manifests/AMTestScene1/project.manifest", "Manifests/AMTestScene2/project.manifest", "Manifests/AMTestScene3/project.manifest"};
 const char* storagePaths[] = {"CppTests/AssetsManagerExTest/scene1/", "CppTests/AssetsManagerExTest/scene2/", "CppTests/AssetsManagerExTest/scene3"};

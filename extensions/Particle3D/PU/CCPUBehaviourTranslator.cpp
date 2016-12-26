@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUBehaviourManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUBehaviourTranslator::PUBehaviourTranslator()
 :_behaviour(nullptr)
@@ -120,4 +120,4 @@ void PUBehaviourTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

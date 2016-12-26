@@ -65,8 +65,8 @@
 #define MUTEX_UNLOCK(...)
 #endif
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 // so we cannot use std::mutex because it allocates memory
 // which causes an infinite loop of death and exceptions.
@@ -118,8 +118,8 @@ struct lockless_semantics
     CC_ALLOCATOR_INLINE void unlock() {}
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_MUTEX_H

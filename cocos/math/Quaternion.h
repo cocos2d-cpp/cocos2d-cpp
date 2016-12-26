@@ -31,7 +31,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 class Mat4;
 
@@ -410,7 +410,7 @@ private:
     static void slerpForSquad(const Quaternion& q1, const Quaternion& q2, float t, Quaternion* dst);
 };
 
-NS_CC_MATH_END
+} // namespace cocos2d
 /**
  end of base group
  @}

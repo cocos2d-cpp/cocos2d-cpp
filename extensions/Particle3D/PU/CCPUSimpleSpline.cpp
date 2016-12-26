@@ -26,7 +26,7 @@
 #include "CCPUSimpleSpline.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //---------------------------------------------------------------------
 PUSimpleSpline::PUSimpleSpline()
 {
@@ -251,4 +251,4 @@ void PUSimpleSpline::setAutoCalculate(bool autoCalc)
 {
     _autoCalc = autoCalc;
 }
-NS_CC_END
+} // namespace cocos2d

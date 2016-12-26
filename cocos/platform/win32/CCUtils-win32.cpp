@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include <sstream>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::wstring StringUtf8ToWideChar(const std::string& strUtf8)
 {
@@ -105,4 +105,4 @@ std::string UTF8StringToMultiByte(const std::string& strUtf8)
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d

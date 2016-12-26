@@ -36,7 +36,7 @@
 
 #if (CC_ENABLE_BULLET_INTEGRATION)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void Physics3DDebugDrawer::drawLine( const btVector3& from,const btVector3& to,const btVector3& color )
 {
@@ -200,7 +200,7 @@ void Physics3DDebugDrawer::clear()
     _bufferCount = 0;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_ENABLE_BULLET_INTEGRATION
 

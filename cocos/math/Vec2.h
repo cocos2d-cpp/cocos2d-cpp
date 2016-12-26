@@ -32,7 +32,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 /** Clamp a value between from and to.
  */
@@ -759,7 +759,7 @@ inline Vec2 operator*(float x, const Vec2& v);
 
 typedef Vec2 Point;
 
-NS_CC_MATH_END
+} // namespace cocos2d
 
 /**
  end of base group

@@ -35,7 +35,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** 
  Command used to render one or more Quads, similar to TrianglesCommand.
@@ -81,7 +81,7 @@ protected:
     static GLushort* __indices;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /**
  end of support group

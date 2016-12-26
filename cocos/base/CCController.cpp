@@ -31,7 +31,7 @@
 #include "base/CCEventController.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::vector<Controller*> Controller::s_allController;
 
@@ -110,6 +110,6 @@ void Controller::onAxisEvent(int axisCode, float value, bool isAnalog)
     _eventDispatcher->dispatchEvent(_axisEvent);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)

@@ -31,7 +31,7 @@
 
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PrimitiveCommand::PrimitiveCommand()
 : _materialID(0)
@@ -87,4 +87,4 @@ void PrimitiveCommand::execute() const
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1,_primitive->getCount());
 }
 
-NS_CC_END
+} // namespace cocos2d

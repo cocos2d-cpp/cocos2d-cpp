@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUJetAffector : public PUAffector
 {
@@ -62,6 +62,6 @@ protected:
     */
     PUDynamicAttribute* _dynAcceleration;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

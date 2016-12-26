@@ -45,7 +45,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static SpriteFrameCache *_sharedSpriteFrameCache = nullptr;
 
@@ -770,4 +770,4 @@ bool SpriteFrameCache::reloadTexture(const std::string& plist)
     return true;
 }
 
-NS_CC_END
+} // namespace cocos2d

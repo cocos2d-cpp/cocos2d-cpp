@@ -31,7 +31,7 @@
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeInAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeOutAnimates;
@@ -530,4 +530,4 @@ void Animate3D::removeFromMap()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

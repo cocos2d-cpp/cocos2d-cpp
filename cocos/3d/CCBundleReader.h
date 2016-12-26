@@ -32,7 +32,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _3d
@@ -215,6 +215,6 @@ inline bool BundleReader::readArray<std::string>(unsigned int *length, std::vect
 // end of 3d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

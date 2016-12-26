@@ -2,9 +2,7 @@
 #ifndef __PLAYER_SETTINGS_H_
 #define __PLAYER_SETTINGS_H_
 
-#include "PlayerMacros.h"
-
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerSettings
 {
@@ -20,6 +18,6 @@ public:
     int offsetY;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_SETTINGS_H_

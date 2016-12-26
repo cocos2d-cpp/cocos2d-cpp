@@ -31,11 +31,11 @@
 #define __CCINVOCATION_H__
 
 #include "base/CCRef.h"
-#include "../../ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 #include "CCControl.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /**
  * @addtogroup GUI
@@ -75,6 +75,7 @@ protected:
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif

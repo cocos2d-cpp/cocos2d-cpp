@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 typedef std::vector<std::string> strArray;
 
@@ -182,4 +182,4 @@ Size SizeFromString(const std::string& pszContent)
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -34,8 +34,8 @@
 
 
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 // @brief
 // AllocatorBase
@@ -109,8 +109,8 @@ public:
 #endif//CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_BASE_H

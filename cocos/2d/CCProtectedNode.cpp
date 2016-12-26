@@ -31,7 +31,7 @@
 #include "base/CCDirector.h"
 #include "2d/CCScene.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ProtectedNode::ProtectedNode() : _reorderProtectedChildDirty(false)
 {
@@ -411,4 +411,4 @@ void ProtectedNode::setCameraMask(unsigned short mask, bool applyChildren)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -29,7 +29,7 @@
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCGLProgram.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 BatchCommand::BatchCommand()
 : _textureID(0)
@@ -76,4 +76,4 @@ void BatchCommand::execute()
     _textureAtlas->drawQuads();
 }
 
-NS_CC_END
+} // namespace cocos2d

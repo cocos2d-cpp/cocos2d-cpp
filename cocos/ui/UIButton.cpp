@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include <algorithm>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -975,4 +975,4 @@ void Button::resetDisabledRender()
 
 }
 
-NS_CC_END
+} // namespace cocos2d

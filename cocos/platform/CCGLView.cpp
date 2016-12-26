@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "vr/CCVRProtocol.h"
 #include "vr/CCVRGenericRenderer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace {
     
@@ -519,4 +519,4 @@ void GLView::setVR(VRIRenderer* vrRenderer)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

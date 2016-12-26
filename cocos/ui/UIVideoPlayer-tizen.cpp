@@ -40,7 +40,7 @@
 #include <efl_extension.h>
 
 //-----------------------------------------------------------------------------------------------------------
-USING_NS_CC;
+using namespace cocos2d;
 
 #define QUIT_FULLSCREEN 1000
 

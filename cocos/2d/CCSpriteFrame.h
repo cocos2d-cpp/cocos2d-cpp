@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 
@@ -303,6 +303,6 @@ protected:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__SPRITE_CCSPRITE_FRAME_H__

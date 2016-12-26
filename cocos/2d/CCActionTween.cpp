@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 #include "2d/CCActionTween.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ActionTween* ActionTween::create(float duration, const std::string& key, float from, float to)
 {
@@ -77,4 +77,4 @@ ActionTween* ActionTween::reverse() const
 }
 
 
-NS_CC_END
+} // namespace cocos2d

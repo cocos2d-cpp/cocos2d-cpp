@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCTMXXMLParser.h"
 #include "base/ccCArray.h"
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TMXMapInfo;
 class TMXLayerInfo;
@@ -328,7 +328,7 @@ protected:
 // end of tilemap_parallax_nodes group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTMX_LAYER_H__
 

@@ -30,7 +30,7 @@
 #include "platform/CCFileUtils.h"
 #include "ui/UIWebViewImpl-tizen.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
     namespace ui{
 

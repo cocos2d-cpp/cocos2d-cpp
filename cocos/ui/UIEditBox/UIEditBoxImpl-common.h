@@ -31,7 +31,7 @@
 #include "ui/UIEditBox/UIEditBoxImpl-common.h"
 #include "ui/UIEditBox/UIEditBoxImpl.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -142,7 +142,7 @@ private:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif /* __UIEditBoxIMPLICOMMON_H__ */

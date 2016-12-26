@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum {
     kShaderType_PositionTextureColor,
@@ -650,4 +650,4 @@ std::string GLProgramCache::getShaderMacrosForLight() const
     return std::string(def);
 }
 
-NS_CC_END
+} // namespace cocos2d

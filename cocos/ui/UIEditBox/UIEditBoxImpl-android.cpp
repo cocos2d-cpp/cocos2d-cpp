@@ -38,7 +38,7 @@
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static const std::string editBoxClassName = "org/cocos2dx/lib/Cocos2dxEditBoxHelper";
 
@@ -245,7 +245,7 @@ const char* EditBoxImplAndroid::getNativeDefaultFontName()
 
 } //end of ui namespace
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) */
 

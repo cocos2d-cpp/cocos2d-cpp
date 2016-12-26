@@ -31,7 +31,7 @@
 #include <string>
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class FontAtlas;
 
@@ -45,7 +45,7 @@ public:
     virtual int getFontMaxHeight() const { return 0; }
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif

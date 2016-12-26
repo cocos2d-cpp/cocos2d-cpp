@@ -41,7 +41,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #endif
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 PUMaterial::PUMaterial()
@@ -194,4 +194,4 @@ bool PUMaterialCache::loadMaterialsFromSearchPaths( const std::string &fileFolde
     return state;
 }
 
-NS_CC_END
+} // namespace cocos2d

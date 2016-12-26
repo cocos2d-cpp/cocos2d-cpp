@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/ccTypes.h"
 #include "platform/apple/CCDevice-apple.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static NSAttributedString* __attributedStringWithFontSize(NSMutableAttributedString* attributedString, CGFloat fontSize)
 {
@@ -367,6 +367,6 @@ void Device::vibrate(float duration)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC

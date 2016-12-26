@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "PlayerEditBoxServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerEditBoxServiceWin : public PlayerEditBoxServiceProtocol
 {
@@ -31,6 +31,6 @@ protected:
     void removeFont();
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_EDITBOX_SERVICE_WIN_H_

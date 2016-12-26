@@ -42,7 +42,7 @@ THE SOFTWARE.
 #include <mutex>
 #include <queue>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CCEGL;
 class GLViewImpl;
@@ -164,7 +164,7 @@ private:
     std::mutex mMutex;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 

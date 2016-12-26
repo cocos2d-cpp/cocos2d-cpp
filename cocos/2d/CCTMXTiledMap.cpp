@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation TMXTiledMap
 
@@ -272,4 +272,4 @@ int TMXTiledMap::getLayerNum()
     return _tmxLayerNum;
 }
 
-NS_CC_END
+} // namespace cocos2d

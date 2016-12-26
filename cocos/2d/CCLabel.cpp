@@ -44,7 +44,7 @@
 #include "base/CCEventCustom.h"
 #include "2d/CCFontFNT.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * LabelLetter used to update the quad in texture atlas without SpriteBatchNode.
@@ -2154,4 +2154,4 @@ void Label::updateLetterSpriteScale(Sprite* sprite)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

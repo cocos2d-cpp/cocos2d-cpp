@@ -24,7 +24,8 @@ THE SOFTWARE.
 
 #include "CCControlUtils.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 Sprite* ControlUtils::addSpriteToTargetWithPosAndAnchor(const char* spriteName, Node * target, Vec2 pos, Vec2 anchor)
 {
@@ -168,4 +169,5 @@ Rect ControlUtils::RectUnion(const Rect& src1, const Rect& src2)
     return result;
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

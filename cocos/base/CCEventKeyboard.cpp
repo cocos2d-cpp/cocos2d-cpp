@@ -25,7 +25,7 @@
 
 #include "base/CCEventKeyboard.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventKeyboard::EventKeyboard(KeyCode keyCode, bool isPressed)
 : Event(Type::KEYBOARD)
@@ -33,4 +33,4 @@ EventKeyboard::EventKeyboard(KeyCode keyCode, bool isPressed)
 , _isPressed(isPressed)
 {}
 
-NS_CC_END
+} // namespace cocos2d

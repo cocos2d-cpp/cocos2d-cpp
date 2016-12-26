@@ -26,7 +26,7 @@
 #include "CCPUBoxCollider.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUBoxCollider::DEFAULT_WIDTH = 100.0f;
@@ -296,4 +296,4 @@ void PUBoxCollider::copyAttributesTo( PUAffector* affector )
     boxCollider->_innerCollision = _innerCollision;
 }
 
-NS_CC_END
+} // namespace cocos2d

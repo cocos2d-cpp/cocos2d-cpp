@@ -1,6 +1,6 @@
 #include "OpenURLTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 OpenURLTests::OpenURLTests()
 {

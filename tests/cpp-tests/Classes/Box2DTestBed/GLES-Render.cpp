@@ -24,7 +24,7 @@
 #include <stdarg.h>
 #include <string.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 GLESDebugDraw::GLESDebugDraw()
     : mRatio( 1.0f )

@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUSimpleSpline.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUPathFollower : public PUAffector
 {
@@ -66,6 +66,6 @@ protected:
 
     PUSimpleSpline _spline;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

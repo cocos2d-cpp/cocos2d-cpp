@@ -24,7 +24,7 @@
 
 #include "VisibleRect.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 Rect VisibleRect::s_visibleRect;
 

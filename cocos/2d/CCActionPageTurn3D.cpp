@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCGrid.h"
 #include "2d/CCNodeGrid.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PageTurn3D* PageTurn3D::create(float duration, const Size& gridSize)
 {
@@ -129,4 +129,4 @@ void PageTurn3D::update(float time)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -36,7 +36,8 @@
 #include "Box2D/Box2D.h"
 #endif
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 PhysicsSprite::PhysicsSprite()
 : _ignoreBodyRotation(false)
@@ -449,6 +450,7 @@ void PhysicsSprite::afterUpdate(EventCustom* /*event*/)
     setDirtyRecursively(true);
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif // CC_ENABLE_CHIPMUNK_INTEGRATION || CC_ENABLE_BOX2D_INTEGRATION

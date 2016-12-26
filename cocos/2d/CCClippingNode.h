@@ -33,7 +33,7 @@
 #include "renderer/CCGroupCommand.h"
 #include "renderer/CCCustomCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class StencilStateManager;
 /**
@@ -169,6 +169,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
 };
 /** @} */
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __MISCNODE_CCCLIPPING_NODE_H__

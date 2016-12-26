@@ -27,7 +27,8 @@
 
 #include "CCControlPotentiometer.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 ControlPotentiometer::ControlPotentiometer()
 : _value(0.0f)
@@ -260,4 +261,5 @@ void ControlPotentiometer::potentiometerEnded(Vec2 /*location*/)
     setSelected(false);
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

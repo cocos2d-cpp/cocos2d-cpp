@@ -30,7 +30,7 @@
 #include "base/ccTypes.h"
 #include "renderer/CCTexture2D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Scene;
 class Renderer;
@@ -59,6 +59,6 @@ public:
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CC_VR_PROTOCOL_H__

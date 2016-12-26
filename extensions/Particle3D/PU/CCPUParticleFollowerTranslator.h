@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUParticleFollower.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  PUParticleFollowerTranslator : public PUScriptTranslator
 {
@@ -42,6 +42,6 @@ public:
     virtual bool translateChildObject(PUScriptCompiler* compiler, PUAbstractNode *node);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

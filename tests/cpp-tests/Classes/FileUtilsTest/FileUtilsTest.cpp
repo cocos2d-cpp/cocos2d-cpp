@@ -1,6 +1,6 @@
 #include "FileUtilsTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 FileUtilsTests::FileUtilsTests()
 {
@@ -507,7 +507,7 @@ class CustomBuffer : public ResizableBuffer {};
 
 struct AlreadyExistsBuffer {};
 
-NS_CC_BEGIN
+namespace cocos2d {
 template<>
 class ResizableBufferAdapter<AlreadyExistsBuffer> : public ResizableBuffer {
 public:
@@ -520,7 +520,7 @@ public:
         return nullptr;
     }
 };
-NS_CC_END
+} // namespace cocos2d
 
 static void saveAsBinaryText(const std::string& filename, const std::vector<char>& binary){
     auto fs = FileUtils::getInstance();

@@ -620,7 +620,7 @@ void CWin32InputBox::Close(INT_PTR buttonId)
 	}
 }
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -923,6 +923,6 @@ void EditBoxImplWin::onEnter(void)
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */

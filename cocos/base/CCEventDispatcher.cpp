@@ -65,7 +65,7 @@ private:
 
 }
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static EventListener::ListenerID __getListenerID(Event* event)
 {
@@ -1609,4 +1609,4 @@ void EventDispatcher::releaseListener(EventListener* listener)
     CC_SAFE_RELEASE(listener);
 }
 
-NS_CC_END
+} // namespace cocos2d

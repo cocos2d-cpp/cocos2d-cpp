@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCComponent.h"
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ComponentContainer::ComponentContainer(Node* node)
 : _owner(node)
@@ -146,4 +146,4 @@ void ComponentContainer::onExit()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

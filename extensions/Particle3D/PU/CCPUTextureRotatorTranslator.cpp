@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 #include "extensions/Particle3D/PU/CCPUDynamicAttributeTranslator.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUTextureRotatorTranslator::PUTextureRotatorTranslator()
 {
@@ -173,4 +173,4 @@ bool PUTextureRotatorTranslator::translateChildObject( PUScriptCompiler* compile
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCParallaxNode.h"
 #include "base/ccCArray.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PointObject : public Ref
 {
@@ -166,4 +166,4 @@ void ParallaxNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     Node::visit(renderer, parentTransform, parentFlags);
 }
 
-NS_CC_END
+} // namespace cocos2d

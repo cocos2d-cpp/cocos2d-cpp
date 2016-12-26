@@ -36,7 +36,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** Base class of the `RenderCommand` hierarchy.
 *
@@ -128,7 +128,7 @@ protected:
     float _depth;
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

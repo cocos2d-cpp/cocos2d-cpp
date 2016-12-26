@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCCamera.h"
 #include "base/CCTouch.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -759,4 +759,4 @@ Node* Slider::getSlidBallRenderer() const {
 
 }
 
-NS_CC_END
+} // namespace cocos2d

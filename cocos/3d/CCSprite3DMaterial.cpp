@@ -33,7 +33,7 @@
 #include "base/CCDirector.h"
 #include "base/CCEventType.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Sprite3DMaterialCache* Sprite3DMaterialCache::_cacheInstance = nullptr;
 
@@ -330,4 +330,4 @@ void Sprite3DMaterialCache::removeUnusedSprite3DMaterial()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -35,7 +35,7 @@
 #include "base/CCRef.h"
 #include "platform/CCStdC.h" // ssize_t on windows
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Font;
 class Texture2D;
@@ -148,7 +148,7 @@ protected:
     friend class Label;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif /* defined(__cocos2d_libs__CCFontAtlas__) */

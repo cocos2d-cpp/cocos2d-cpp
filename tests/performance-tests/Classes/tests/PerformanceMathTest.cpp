@@ -1,7 +1,7 @@
 #include "PerformanceMathTest.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 // Enable profiles for this file
 #undef CC_PROFILER_DISPLAY_TIMERS

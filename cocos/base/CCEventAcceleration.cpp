@@ -24,7 +24,7 @@
 
 #include "base/CCEventAcceleration.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventAcceleration::EventAcceleration(const Acceleration& acc)
 : Event(Type::ACCELERATION)
@@ -32,4 +32,4 @@ EventAcceleration::EventAcceleration(const Acceleration& acc)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d

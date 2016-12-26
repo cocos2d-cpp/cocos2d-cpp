@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Scene;
 class CameraBackgroundBrush;
@@ -335,6 +335,6 @@ protected:
     GLint _oldViewport[4];
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif// __CCCAMERA_H_

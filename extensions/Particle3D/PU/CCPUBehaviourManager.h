@@ -32,7 +32,7 @@
 #include "extensions/Particle3D/PU/CCPUSlaveBehaviourTranslator.h"
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUBehaviourManager
 {
@@ -55,7 +55,7 @@ protected:
     PUSlaveBehaviourTranslator _slaveBehaviourTranslator;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif 

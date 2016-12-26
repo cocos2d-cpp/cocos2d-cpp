@@ -39,7 +39,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "audio/win32/AudioCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
 
 class AudioCache;
@@ -87,7 +87,7 @@ protected:
 };
 
 }
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_PLAYER_H_
 #endif //CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 

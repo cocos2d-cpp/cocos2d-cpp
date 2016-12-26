@@ -32,7 +32,7 @@
 #include <spine/spine-cocos2dx.h>
 #include <spine/extension.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 GLuint wrap (spAtlasWrap wrap) {
 	return wrap == SP_ATLAS_CLAMPTOEDGE ? GL_CLAMP_TO_EDGE : GL_REPEAT;

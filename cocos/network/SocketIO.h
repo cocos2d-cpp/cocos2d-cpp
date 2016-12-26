@@ -70,7 +70,7 @@ in the onClose method the pointer should be set to NULL or used to connect to a 
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -278,7 +278,7 @@ public:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 // end group
 /// @}

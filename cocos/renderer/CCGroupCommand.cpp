@@ -27,7 +27,7 @@
 #include "renderer/CCRenderer.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 GroupCommandManager::GroupCommandManager()
 {
@@ -90,4 +90,4 @@ GroupCommand::~GroupCommand()
     Director::getInstance()->getRenderer()->getGroupCommandManager()->releaseGroupID(_renderQueueID);
 }
 
-NS_CC_END
+} // namespace cocos2d

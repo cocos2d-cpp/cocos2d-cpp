@@ -34,7 +34,7 @@
 #include "audio/apple/AudioCache.h"
 #include "audio/apple/AudioPlayer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 class Scheduler;
 
 namespace experimental{
@@ -85,7 +85,7 @@ private:
     Scheduler* _scheduler;
 };
 }
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_ENGINE_INL_H_
 #endif
 

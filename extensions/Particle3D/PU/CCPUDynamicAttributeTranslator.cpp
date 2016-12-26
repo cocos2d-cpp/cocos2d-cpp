@@ -26,7 +26,7 @@
 #include "CCPUDynamicAttributeTranslator.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUDynamicAttributeTranslator::PUDynamicAttributeTranslator()
 {
     
@@ -223,4 +223,4 @@ void PUDynamicAttributeTranslator::translate(PUScriptCompiler* compiler, PUAbstr
 
 
 
-NS_CC_END
+} // namespace cocos2d

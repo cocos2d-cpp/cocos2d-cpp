@@ -27,10 +27,10 @@
 
 #include "base/CCEventListener.h"
 #include "base/CCEventListenerCustom.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 class EventAssetsManagerEx;
 class AssetsManagerEx;
@@ -81,6 +81,7 @@ protected:
     //friend class luaEventListenerAssetsManagerEx;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCEventListenerAssetsManagerEx__) */

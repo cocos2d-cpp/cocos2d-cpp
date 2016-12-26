@@ -36,7 +36,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 //class Plane;
 
@@ -987,7 +987,7 @@ inline Vec4& operator*=(Vec4& v, const Mat4& m);
  */
 inline Vec4 operator*(const Mat4& m, const Vec4& v);
 
-NS_CC_MATH_END
+} // namespace cocos2d
 /**
  end of base group
  @}

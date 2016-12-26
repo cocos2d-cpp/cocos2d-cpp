@@ -35,7 +35,7 @@
 
 using namespace std;
 
-NS_CC_BEGIN;
+namespace cocos2d {
 
 /*
  *  Implementation of PointArray
@@ -552,4 +552,4 @@ CatmullRomBy* CatmullRomBy::reverse() const
     return CatmullRomBy::create(_duration, reverse);
 }
 
-NS_CC_END;
+} // namespace cocos2d

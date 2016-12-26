@@ -30,7 +30,7 @@
 #include "recast/DebugUtils/DetourDebugDraw.h"
 #include <sstream>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #pragma pack(push,1)
 struct TileCacheSetHeader
@@ -633,6 +633,6 @@ void cocos2d::NavMesh::findPath(const Vec3 &start, const Vec3 &end, std::vector<
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH

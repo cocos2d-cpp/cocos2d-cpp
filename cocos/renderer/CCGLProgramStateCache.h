@@ -37,7 +37,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgram;
 
@@ -70,7 +70,7 @@ protected:
     static GLProgramStateCache* s_instance;
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

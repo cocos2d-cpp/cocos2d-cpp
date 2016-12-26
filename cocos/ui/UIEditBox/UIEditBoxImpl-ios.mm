@@ -42,7 +42,7 @@
 #define getEditBoxImplIOS() ((cocos2d::ui::EditBoxImplIOS *)_editBox)
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -250,7 +250,7 @@ UIFont* EditBoxImplIOS::constructFont(const char *fontName, int fontSize)
 }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) */
 

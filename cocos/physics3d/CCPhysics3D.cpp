@@ -30,7 +30,7 @@
 
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CC_DLL const char* physics3dVersion()
 {
@@ -39,7 +39,7 @@ CC_DLL const char* physics3dVersion()
 #endif
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 
 cocos2d::Vec3 convertbtVector3ToVec3( const btVector3 &btVec3 )

@@ -5,7 +5,7 @@
 
 #include "Bug-886.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug886Layer::init()
 {

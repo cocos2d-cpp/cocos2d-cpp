@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "base/ccCArray.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** Allocates and initializes a new array with specified capacity */
 ccArray* ccArrayNew(ssize_t capacity)
@@ -470,4 +470,4 @@ void ccCArrayFullRemoveArray(ccCArray *arr, ccCArray *minusArr)
 	arr->num -= back;
 }
 
-NS_CC_END
+} // namespace cocos2d

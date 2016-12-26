@@ -46,7 +46,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental {
 
 const int TMXLayer::FAST_TMX_ORIENTATION_ORTHO = 0;
@@ -891,4 +891,4 @@ std::string TMXLayer::getDescription() const
 
 } //end of namespace experimental
 
-NS_CC_END
+} // namespace cocos2d

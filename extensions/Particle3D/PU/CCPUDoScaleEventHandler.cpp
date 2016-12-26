@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUDoScaleEventHandler.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const PUDoScaleEventHandler::ScaleType PUDoScaleEventHandler::DEFAULT_SCALE_TYPE = PUDoScaleEventHandler::ST_TIME_TO_LIVE;
@@ -92,4 +92,4 @@ void PUDoScaleEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
     doScaleEventHandler->setScaleType(_scaleType);
 }
 
-NS_CC_END
+} // namespace cocos2d

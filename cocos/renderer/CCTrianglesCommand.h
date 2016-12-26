@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 /** 
  Command used to render one or more Triangles, which is similar to QuadCommand.
  Every TrianglesCommand will have generate material ID by give textureID, glProgramState, Blend function
@@ -115,7 +115,7 @@ protected:
     GLuint _alphaTextureID; // ANDROID ETC1 ALPHA supports.
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

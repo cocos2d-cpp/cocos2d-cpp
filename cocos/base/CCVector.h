@@ -36,7 +36,7 @@ THE SOFTWARE.
  * @addtogroup base
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 /*
  * Similar to std::vector, but it will manage reference count automatically internally.
@@ -514,6 +514,6 @@ protected:
 // end of base group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCVECTOR_H__

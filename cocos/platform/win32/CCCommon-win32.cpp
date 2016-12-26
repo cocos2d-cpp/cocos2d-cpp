@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "platform/CCStdC.h"
 #include "platform/win32/CCUtils-win32.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #define MAX_LEN         (cocos2d::kMaxLogLen + 1)
 
@@ -49,6 +49,6 @@ void LuaLog(const char *pszMsg)
     puts(UTF8StringToMultiByte(pszMsg).c_str());
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

@@ -31,7 +31,7 @@
 #include "3d/CCOBB.h"
 #include "3d/CCPlane.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Camera;
 
@@ -82,6 +82,6 @@ protected:
     bool _initialized;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif//__CC_FRUSTUM_H_

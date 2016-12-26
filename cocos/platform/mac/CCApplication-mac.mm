@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "math/CCGeometry.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static long getCurrentMillSecond()
 {
@@ -227,6 +227,6 @@ const std::string& Application::getStartupScriptFilename(void)
     return _startupScriptFilename;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC

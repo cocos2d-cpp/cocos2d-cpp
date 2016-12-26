@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "base/CCProtocols.h"
 #include "base/CCVector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Node;
 class SpriteFrame;
@@ -1680,6 +1680,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__ACTION_CCINTERVAL_ACTION_H__

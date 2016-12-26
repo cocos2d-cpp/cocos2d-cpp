@@ -33,7 +33,7 @@ THE SOFTWARE.
  * @addtogroup base
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /**
@@ -183,6 +183,6 @@ private:
  * @endcond
  */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__AUTORELEASEPOOL_H__

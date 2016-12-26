@@ -25,7 +25,7 @@
 
 #include "VRTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 VRTests::VRTests()
 {

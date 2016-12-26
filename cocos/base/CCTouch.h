@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup base
@@ -177,6 +177,6 @@ private:
 // end of base group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif  // __PLATFORM_TOUCH_H__

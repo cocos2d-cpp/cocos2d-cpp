@@ -33,7 +33,7 @@
 #include <vector>
 #include <map>
  
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**mesh vertex attribute
 * @js NA
@@ -449,6 +449,6 @@ public:
     ~Reference(){}
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CC_BUNDLE_3D_DATA_H__

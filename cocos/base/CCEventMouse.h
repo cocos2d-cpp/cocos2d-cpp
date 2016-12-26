@@ -43,7 +43,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** @class EventMouse
  * @brief The mouse event.
@@ -175,7 +175,7 @@ private:
     friend class EventListenerMouse;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

@@ -61,9 +61,6 @@
     <ClInclude Include="..\lib\PlayerFileDialogServiceProtocol.h">
       <Filter>service</Filter>
     </ClInclude>
-    <ClInclude Include="..\lib\PlayerMacros.h">
-      <Filter>service</Filter>
-    </ClInclude>
     <ClInclude Include="..\lib\PlayerMenuServiceProtocol.h">
       <Filter>service</Filter>
     </ClInclude>

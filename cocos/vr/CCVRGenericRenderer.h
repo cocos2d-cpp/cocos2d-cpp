@@ -29,7 +29,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCFrameBuffer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Camera;
 class Sprite;
@@ -79,6 +79,6 @@ protected:
     VRGenericHeadTracker* _headTracker;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CCVRGenericRenderer_hpp

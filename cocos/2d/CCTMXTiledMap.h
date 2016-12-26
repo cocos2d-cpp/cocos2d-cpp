@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "2d/CCTMXObjectGroup.h"
 #include "base/CCValue.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TMXLayer;
 class TMXLayerInfo;
@@ -308,7 +308,7 @@ private:
 // end of tilemap_parallax_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTMX_TILE_MAP_H__
 

@@ -271,7 +271,7 @@ static CCAccelerometerDispatcher* s_pAccelerometerDispatcher;
 
 //
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int Device::getDPI()
 {
@@ -601,6 +601,6 @@ void Device::vibrate(float duration)
     AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_IOS

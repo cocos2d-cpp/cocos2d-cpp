@@ -29,8 +29,8 @@
 #include "3d/CCBundle3D.h"
 #include "physics3d/CCPhysics3D.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
-USING_NS_CC_EXT;
-USING_NS_CC;
+using namespace cocos2d::extension;
+using namespace cocos2d;
 
 enum
 {

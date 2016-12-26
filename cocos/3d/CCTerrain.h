@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerCustom.h"
 #include "base/CCEventDispatcher.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _3d
@@ -524,5 +524,5 @@ protected:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 #endif

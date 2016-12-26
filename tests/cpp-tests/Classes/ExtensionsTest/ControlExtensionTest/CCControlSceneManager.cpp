@@ -7,7 +7,7 @@
 #include "CCControlPotentiometerTest/CCControlPotentiometerTest.h"
 #include "CCControlStepperTest/CCControlStepperTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 ControlTests::ControlTests()
 {

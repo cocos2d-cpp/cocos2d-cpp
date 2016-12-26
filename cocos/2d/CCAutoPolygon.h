@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "platform/CCImage.h"
 #include "renderer/CCTrianglesCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -279,6 +279,6 @@ protected:
     unsigned int _threshold;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #ifndef COCOS_2D_CCAUTOPOLYGON_H__

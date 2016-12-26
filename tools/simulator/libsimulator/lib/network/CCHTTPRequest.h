@@ -23,9 +23,9 @@
 #include "curl/curl.h"
 
 using namespace std;
-//USING_NS_CC;
 
-NS_CC_EXTRA_BEGIN
+namespace cocos2d {
+namespace extra {
 
 #define kCCHTTPRequestMethodGET                 0
 #define kCCHTTPRequestMethodPOST                1
@@ -221,6 +221,7 @@ private:
     static int progressCURL(void *userdata, double dltotal, double dlnow, double ultotal, double ulnow);
 };
 
-NS_CC_EXTRA_END
+} // namespace extra
+} // namespace cocos2d
 
 #endif /* __CC_HTTP_REQUEST_H_ */

@@ -39,7 +39,7 @@
 #include "platform/tizen/CCApplication-tizen.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -405,7 +405,7 @@ void EditBoxImplTizen::closeKeyboard()
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) */
 

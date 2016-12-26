@@ -27,7 +27,7 @@ obtained from https://directxtk.codeplex.com
 #include "platform/winrt/WICImageLoader-winrt.h"
 #include "platform/winrt/CCWinRTUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #if CC_USE_WIC
 
@@ -403,4 +403,4 @@ IWICImagingFactory* WICImageLoader::getWICFactory()
 
 #endif
 
-NS_CC_END
+} // namespace cocos2d

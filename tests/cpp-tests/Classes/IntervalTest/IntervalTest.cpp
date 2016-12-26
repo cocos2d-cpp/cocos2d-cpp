@@ -1,7 +1,7 @@
 #include "IntervalTest.h"
 #include "../testResource.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define SID_STEP1    100
 #define SID_STEP2    101

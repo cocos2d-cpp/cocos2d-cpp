@@ -28,7 +28,7 @@
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Distortion;
 
@@ -51,6 +51,6 @@ public:
     int _elementBufferID;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* CCVRDistortionMesh_h */

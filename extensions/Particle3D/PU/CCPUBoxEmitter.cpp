@@ -26,7 +26,7 @@
 #include "CCPUBoxEmitter.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float CCPUBoxEmitter::DEFAULT_WIDTH = 100.0f;
@@ -132,4 +132,4 @@ CCPUBoxEmitter* CCPUBoxEmitter::clone()
     return be;
 }
 
-NS_CC_END
+} // namespace cocos2d

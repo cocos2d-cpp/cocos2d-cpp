@@ -30,14 +30,14 @@
 #include "base/allocator/CCAllocatorMacros.h"
 #include "base/allocator/CCAllocatorStrategyDefault.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 /** Make visible at the global scope.*/
 extern CC_ALLOCATOR_GLOBAL ccAllocatorGlobal;
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_GLOBAL_H

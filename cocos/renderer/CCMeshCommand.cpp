@@ -41,7 +41,7 @@
 #include "renderer/CCPass.h"
 #include "xxhash.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 MeshCommand::MeshCommand()
@@ -336,4 +336,4 @@ void MeshCommand::listenRendererRecreated(EventCustom* event)
 
 #endif
 
-NS_CC_END
+} // namespace cocos2d

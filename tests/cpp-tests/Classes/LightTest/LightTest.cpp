@@ -1,6 +1,6 @@
 #include "LightTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 LightTests::LightTests()
 {

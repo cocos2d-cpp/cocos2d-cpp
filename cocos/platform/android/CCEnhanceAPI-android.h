@@ -22,7 +22,7 @@
 #include "platform/CCCommon.h"
 #include "platform/CCApplicationProtocol.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * The purpose of Enhance API is to optimize Cocos2D-X game engine special for Samsung products.
@@ -97,7 +97,7 @@ public:
     static int setLowPowerMode(bool enable);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

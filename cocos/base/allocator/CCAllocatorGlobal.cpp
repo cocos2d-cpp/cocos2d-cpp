@@ -28,13 +28,13 @@
 
 #if CC_ENABLE_ALLOCATOR
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 // @brief Declare the global allocator instance
 CC_ALLOCATOR_GLOBAL ccAllocatorGlobal;
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 #endif // CC_ENABLE_ALLOCATOR

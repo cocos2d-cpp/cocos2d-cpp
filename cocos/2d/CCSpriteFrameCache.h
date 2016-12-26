@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "base/CCValue.h"
 #include "base/CCMap.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Sprite;
 class Texture2D;
@@ -245,6 +245,6 @@ protected:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __SPRITE_CCSPRITE_FRAME_CACHE_H__

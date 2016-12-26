@@ -35,7 +35,7 @@
 #include "2d/CCCamera.h"
 #include "3d/CCSprite3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PURibbonTrail::PURibbonTrail(const std::string& name, const std::string &texFile, size_t maxElements, 
     size_t numberOfChains, bool useTextureCoords, bool useColours)
@@ -427,4 +427,4 @@ void PURibbonTrail::update( float deltaTime )
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

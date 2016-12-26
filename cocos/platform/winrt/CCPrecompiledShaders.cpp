@@ -35,7 +35,7 @@ using namespace Windows::Storage::Pickers;
 using namespace Windows::Storage::Streams;
 using namespace concurrency;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // singleton stuff
 static CCPrecompiledShaders *s_pPrecompiledShaders = nullptr;
@@ -287,6 +287,6 @@ void CCPrecompiledShaders::savePrecompiledShaders()
 
 
 
-NS_CC_END
+} // namespace cocos2d
 
 

@@ -26,7 +26,7 @@
 #include "CCPUParticleFollower.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUParticleFollower::DEFAULT_MAX_DISTANCE = 3.40282e+038f;
@@ -112,4 +112,4 @@ void PUParticleFollower::copyAttributesTo( PUAffector* affector )
     particleFollower->_minDistance = _minDistance;
 }
 
-NS_CC_END
+} // namespace cocos2d

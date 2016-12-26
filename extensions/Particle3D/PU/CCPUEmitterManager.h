@@ -39,7 +39,7 @@
 #include "extensions/Particle3D/PU/CCPUSphereSurfaceEmitterTranslator.h"
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUEmitterManager
 {
@@ -69,7 +69,7 @@ protected:
     PUSphereSurfaceEmitterTranslator _sphereSurfaceEmitterTranlator;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif 

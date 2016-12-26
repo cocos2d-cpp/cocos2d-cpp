@@ -42,7 +42,7 @@ THE SOFTWARE.
 #undef generic
 #undef internal
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 typedef struct TGlyph_
 {
@@ -135,6 +135,6 @@ private:
     int             m_fontFillColorA;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

@@ -31,7 +31,7 @@
 #include "base/CCDirector.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 NavMeshDebugDraw::NavMeshDebugDraw()
 : _primitiveType(GL_POINTS)
@@ -178,6 +178,6 @@ void NavMeshDebugDraw::clear()
     _primitiveList.clear();
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH

@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUDynamicAttribute.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUScaleAffector : public PUAffector
 {
@@ -102,6 +102,6 @@ protected:
 
     float _latestTimeElapsed;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

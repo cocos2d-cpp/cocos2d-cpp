@@ -31,7 +31,7 @@
 #include "3d/CCAABB.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 /** A sphere primitive, mostly used for bounds checking. 
 @remarks
     A sphere in math texts is normally represented by the function
@@ -89,6 +89,6 @@ public:
         
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

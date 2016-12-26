@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #ifndef __MINGW32__
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int gettimeofday(struct timeval * val, struct timezone *)
 {
@@ -46,7 +46,7 @@ int gettimeofday(struct timeval * val, struct timezone *)
     return 0;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __MINGW32__
 

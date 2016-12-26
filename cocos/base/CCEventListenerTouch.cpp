@@ -29,7 +29,7 @@
 
 #include <algorithm>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string EventListenerTouchOneByOne::LISTENER_ID = "__cc_touch_one_by_one";
 
@@ -188,4 +188,4 @@ EventListenerTouchAllAtOnce* EventListenerTouchAllAtOnce::clone()
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d

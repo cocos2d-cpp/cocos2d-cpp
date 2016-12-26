@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <string>
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -137,7 +137,7 @@ protected:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
 

@@ -34,7 +34,7 @@
 #include "ogg/ogg.h"
 #include "vorbis/vorbisfile.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
 
 const size_t PCMDATA_CACHEMAXSIZE = 2621440;
@@ -152,7 +152,7 @@ private:
 };
 
 }
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_SOURCE_READER_H_
 #endif
 

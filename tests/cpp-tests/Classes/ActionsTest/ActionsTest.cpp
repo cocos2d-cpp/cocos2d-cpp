@@ -32,7 +32,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCGroupCommand.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::ui;
 
 ActionsTests::ActionsTests()

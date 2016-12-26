@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUOnVelocityObserver.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static bool almostEquals(float a, float b, float epsilon = std::numeric_limits<float>::epsilon())
 {
@@ -85,4 +85,4 @@ void PUOnVelocityObserver::copyAttributesTo( PUObserver* observer )
     onVelocityObserver->_compare = _compare;
 }
 
-NS_CC_END
+} // namespace cocos2d

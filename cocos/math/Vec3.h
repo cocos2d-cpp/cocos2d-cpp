@@ -30,7 +30,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 class Mat4;
 class Quaternion;
@@ -502,7 +502,7 @@ inline Vec3 operator*(float x, const Vec3& v);
 
 //typedef Vec3 Point3;
 
-NS_CC_MATH_END
+} // namespace cocos2d
 /**
  end of base group
  @}

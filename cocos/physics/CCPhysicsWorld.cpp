@@ -40,7 +40,7 @@
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventCustom.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 const float PHYSICS_INFINITY = FLT_MAX;
 extern const char* PHYSICSCONTACT_EVENT_NAME;
 
@@ -1031,6 +1031,6 @@ void PhysicsWorld::afterSimulation(Node *node, const Mat4& parentToWorldTransfor
         afterSimulation(child, nodeToWorldTransform, nodeRotation);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_USE_PHYSICS

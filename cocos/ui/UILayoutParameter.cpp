@@ -25,7 +25,7 @@
 #include "ui/UILayoutParameter.h"
 #include "ui/UILayout.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -205,4 +205,4 @@ void RelativeLayoutParameter::copyProperties(LayoutParameter *model)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

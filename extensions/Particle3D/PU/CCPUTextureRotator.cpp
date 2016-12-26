@@ -26,7 +26,7 @@
 #include "CCPUTextureRotator.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // Constants
 const bool PUTextureRotator::DEFAULT_USE_OWN_SPEED = false;
 const float PUTextureRotator::DEFAULT_ROTATION_SPEED = 10.0f;
@@ -172,4 +172,4 @@ void PUTextureRotator::copyAttributesTo( PUAffector* affector )
     textureRotator->_useOwnRotationSpeed = _useOwnRotationSpeed;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -25,7 +25,7 @@
 #include "3d/CCAttachNode.h"
 #include "3d/CCSkeleton3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AttachNode* AttachNode::create(Bone3D* attachBone)
 {
@@ -78,5 +78,5 @@ void AttachNode::visit(Renderer *renderer, const Mat4& parentTransform, uint32_t
 {
     Node::visit(renderer, parentTransform, Node::FLAGS_DIRTY_MASK);
 }
-NS_CC_END
+} // namespace cocos2d
 

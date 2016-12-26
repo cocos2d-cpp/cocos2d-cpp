@@ -37,7 +37,7 @@ THE SOFTWARE.
 #include "renderer/CCCustomCommand.h"
 #include "2d/CCAutoPolygon.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class SpriteBatchNode;
 class SpriteFrame;
@@ -676,6 +676,6 @@ private:
 // end of sprite_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __SPRITE_NODE_CCSPRITE_H__

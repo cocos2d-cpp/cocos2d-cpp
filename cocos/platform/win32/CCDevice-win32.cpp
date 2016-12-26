@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "platform/CCStdC.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int Device::getDPI()
 {
@@ -499,6 +499,6 @@ void Device::vibrate(float /*duration*/)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32

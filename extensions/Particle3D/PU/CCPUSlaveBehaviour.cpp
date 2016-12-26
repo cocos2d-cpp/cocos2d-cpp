@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUSlaveBehaviour.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUSlaveBehaviour::PUSlaveBehaviour()
 : masterParticle(nullptr)
@@ -67,4 +67,4 @@ void PUSlaveBehaviour::copyAttributesTo( PUBehaviour* behaviour )
     PUBehaviour::copyAttributesTo(behaviour);
 }
 
-NS_CC_END
+} // namespace cocos2d

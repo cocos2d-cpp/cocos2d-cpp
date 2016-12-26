@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCQuadCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /*
 * creation with Texture2D
@@ -726,4 +726,4 @@ std::string SpriteBatchNode::getDescription() const
     return StringUtils::format("<SpriteBatchNode | tag = %d>", _tag);
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include <stdio.h>
 #include <jni.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 #define MAX_LEN         (cocos2d::kMaxLogLen + 1)
 
@@ -46,7 +46,7 @@ void LuaLog(const char * pszFormat)
     __android_log_write(ANDROID_LOG_DEBUG, "cocos2d-x debug info", pszFormat);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

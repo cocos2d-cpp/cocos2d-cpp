@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "ui/UIScale9Sprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -1489,4 +1489,4 @@ bool Widget::isLayoutComponentEnabled()const
 
 
 }
-NS_CC_END
+} // namespace cocos2d

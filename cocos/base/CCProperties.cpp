@@ -34,7 +34,7 @@
 #include "base/ccUTF8.h"
 #include "base/CCData.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 // Utility functions (shared with SceneLoader).
 /** @script{ignore} */

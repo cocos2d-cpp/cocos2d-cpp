@@ -44,7 +44,7 @@
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,4 +156,4 @@ MeshVertexData::~MeshVertexData()
     _indexs.clear();
 }
 
-NS_CC_END
+} // namespace cocos2d

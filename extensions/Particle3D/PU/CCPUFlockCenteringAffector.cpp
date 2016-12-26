@@ -26,7 +26,7 @@
 #include "CCPUFlockCenteringAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //-----------------------------------------------------------------------
 PUFlockCenteringAffector::PUFlockCenteringAffector() 
 : PUAffector(),
@@ -80,4 +80,4 @@ void PUFlockCenteringAffector::copyAttributesTo( PUAffector* affector )
     flockCenteringAffector->_count = _count;
 }
 
-NS_CC_END
+} // namespace cocos2d

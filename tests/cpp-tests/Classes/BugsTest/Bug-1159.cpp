@@ -9,7 +9,7 @@
 
 #include "Bug-1159.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug1159Layer::init()
 {

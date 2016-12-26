@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 #include "platform/CCThread.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // iOS and Mac already has a Thread.mm
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_MAC)
@@ -43,4 +43,4 @@ void ThreadHelper::releaseAutoreleasePool(void* /*autoreleasePool*/)
 
 #endif
 
-NS_CC_END
+} // namespace cocos2d

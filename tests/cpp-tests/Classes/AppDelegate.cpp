@@ -29,7 +29,7 @@
 #include "controller.h"
 #include "extensions/cocos-ext.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 AppDelegate::AppDelegate()
 : _testController(nullptr)

@@ -297,10 +297,10 @@ THE SOFTWARE.
 // vr
 #include "vr/CCVRGenericRenderer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CC_DLL const char* cocos2dVersion();
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __COCOS2D_H__

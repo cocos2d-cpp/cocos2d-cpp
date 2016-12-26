@@ -57,7 +57,7 @@
 #include "extensions/Particle3D/PU/CCPUVortexAffectorTranslator.h"
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUAffectorManager
 {
@@ -105,7 +105,7 @@ protected:
     PUVortexAffectorTranslator _vortexAffectorTranslator;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif 

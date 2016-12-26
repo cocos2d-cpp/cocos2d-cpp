@@ -5,10 +5,9 @@
 #include <string>
 #include <vector>
 
-#include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerFileDialogServiceProtocol : public PlayerServiceProtocol
 {
@@ -28,6 +27,6 @@ public:
                                       const std::string &directory) const = 0;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_FILE_DIALOG_SERVICE_PROTOCOL_H_

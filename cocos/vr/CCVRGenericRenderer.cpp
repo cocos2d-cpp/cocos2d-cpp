@@ -37,7 +37,7 @@
 #include "platform/CCGLView.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 VRGenericRenderer::VRGenericRenderer()
 : _vignetteEnabled(true)
@@ -223,4 +223,4 @@ void VRGenericRenderer::setupGLProgram()
     _glProgramState->retain();
 }
 
-NS_CC_END
+} // namespace cocos2d

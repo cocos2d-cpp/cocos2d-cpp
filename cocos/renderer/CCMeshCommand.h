@@ -31,7 +31,7 @@
 #include "renderer/CCRenderState.h"
 #include "math/CCMath.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgramState;
 class EventListenerCustom;
@@ -117,6 +117,6 @@ protected:
 #endif
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //_CC_MESHCOMMAND_H_

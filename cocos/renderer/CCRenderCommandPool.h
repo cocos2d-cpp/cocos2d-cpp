@@ -30,7 +30,7 @@
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 template <class T>
 class RenderCommandPool
@@ -96,7 +96,7 @@ private:
     //std::set<T*> _usedPool;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif

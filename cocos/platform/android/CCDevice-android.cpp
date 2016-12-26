@@ -36,7 +36,7 @@ THE SOFTWARE.
 
 static const std::string helperClassName = "org/cocos2dx/lib/Cocos2dxHelper";
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int Device::getDPI()
 {
@@ -181,7 +181,7 @@ void Device::vibrate(float duration)
     JniHelper::callStaticVoidMethod(helperClassName, "vibrate", duration);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 

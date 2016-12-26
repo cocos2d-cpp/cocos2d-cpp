@@ -6,7 +6,7 @@
 #include "Bug-458.h"
 #include "QuestionContainerSprite.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug458Layer::init()
 {

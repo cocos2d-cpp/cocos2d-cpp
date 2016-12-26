@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "platform/CCFileUtils.h"
 #include "platform/CCSAXParser.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct FileUtilsApple::IMPL {
     IMPL(NSBundle* bundle):bundle_([NSBundle mainBundle]) {}
@@ -485,4 +485,4 @@ bool FileUtilsApple::createDirectory(const std::string& path)
     return result;
 }
 
-NS_CC_END
+} // namespace cocos2d

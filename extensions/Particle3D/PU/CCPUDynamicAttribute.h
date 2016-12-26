@@ -31,7 +31,7 @@
 #include "CCPUSimpleSpline.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum PUInterpolationType
 {
@@ -330,6 +330,6 @@ class PUDynamicAttributeHelper
         */
         float calculate(PUDynamicAttribute* dyn, float x, float defaultValue = 0.0f);
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

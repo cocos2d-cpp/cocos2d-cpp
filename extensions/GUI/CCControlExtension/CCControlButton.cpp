@@ -32,7 +32,8 @@
 
 using namespace std;
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 enum
 {
@@ -740,4 +741,5 @@ ControlButton* ControlButton::create()
     return nullptr;
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

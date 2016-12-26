@@ -31,7 +31,7 @@
 #include "2d/CCScene.h"
 #include <algorithm>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 NavMeshAgentParam::NavMeshAgentParam()
 : radius(0.6f)
@@ -403,6 +403,6 @@ Vec3 NavMeshAgent::getVelocity() const
     return Vec3::ZERO;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH

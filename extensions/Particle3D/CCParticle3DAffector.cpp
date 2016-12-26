@@ -25,7 +25,7 @@
 #include "CCParticle3DAffector.h"
 #include "CCParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Particle3DAffector::Particle3DAffector()
 : _particleSystem(nullptr)
@@ -44,4 +44,4 @@ void Particle3DAffector::updateAffector(Particle3D* /*particle*/, float /*deltaT
     
 }
 
-NS_CC_END
+} // namespace cocos2d

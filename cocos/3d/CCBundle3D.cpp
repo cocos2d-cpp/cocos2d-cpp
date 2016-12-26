@@ -88,7 +88,7 @@ static const char* SCALE =  "scale";
 static const char* KEYTIME =  "keytime";
 static const char* AABBS = "aabb";
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void getChildMap(std::map<int, std::vector<int> >& map, SkinData* skinData, const rapidjson::Value& val)
 {
@@ -2247,4 +2247,4 @@ cocos2d::AABB Bundle3D::calculateAABB( const std::vector<float>& vertex, int str
     return aabb;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "platform/CCApplicationProtocol.h"
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL Application : public ApplicationProtocol
 {
@@ -123,7 +123,7 @@ protected:
     std::string _startupScriptFilename;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 

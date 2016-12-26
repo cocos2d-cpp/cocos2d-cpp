@@ -48,7 +48,7 @@ struct lws_protocols;
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class EventListenerCustom;
 
@@ -248,7 +248,7 @@ private:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 // end group
 /// @}

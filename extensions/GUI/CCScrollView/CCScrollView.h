@@ -29,14 +29,14 @@
 #include "2d/CCLayer.h"
 #include "base/CCEventListenerTouch.h"
 #include "2d/CCActionTween.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 
 /**
  * @addtogroup ui
  * @{
  */
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 
 class ScrollView;
@@ -390,7 +390,8 @@ protected:
 };
 
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 // end of ui group
 /// @}
 

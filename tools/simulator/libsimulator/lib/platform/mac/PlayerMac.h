@@ -13,7 +13,7 @@
 #include "PlayerUtils.h"
 
 #include "ProjectConfig/ProjectConfig.h"
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerMac : public PlayerProtocol
 {
@@ -38,6 +38,6 @@ protected:
     id _appController;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MAC_H_

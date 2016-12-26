@@ -1,6 +1,6 @@
 #include "MouseTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 template <typename T> std::string tostr(const T& t) { std::ostringstream os; os<<t; return os.str(); }
 

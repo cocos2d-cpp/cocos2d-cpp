@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <stdio.h>
 #include <Cocoa/Cocoa.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void LuaLog(const char * format)
 {
@@ -61,6 +61,6 @@ void MessageBox(const char * msg, const char * title)
                         contextInfo:nil];
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_MAC

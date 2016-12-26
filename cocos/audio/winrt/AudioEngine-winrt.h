@@ -31,7 +31,7 @@
 #include "audio/include/AudioEngine.h"
 #include "audio/winrt/AudioCachePlayer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
     namespace experimental{
 #define MAX_AUDIOINSTANCES 32
 
@@ -73,7 +73,7 @@ NS_CC_BEGIN
  };
 }
 
-NS_CC_END
+} // namespace cocos2d
 #endif // __AUDIO_ENGINE_WINRT_H_
 #endif
 

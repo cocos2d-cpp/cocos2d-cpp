@@ -1,7 +1,7 @@
 #include "2d/CCLight.h"
 #include "2d/CCScene.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void BaseLight::setIntensity(float intensity)
 {
@@ -181,4 +181,4 @@ AmbientLight::~AmbientLight()
 
 }
 
-NS_CC_END
+} // namespace cocos2d

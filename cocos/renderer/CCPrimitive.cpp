@@ -25,7 +25,7 @@
 #include "renderer/CCPrimitive.h"
 #include "renderer/CCVertexIndexBuffer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Primitive* Primitive::create(VertexData* verts, IndexBuffer* indices, int type)
 {
@@ -119,4 +119,4 @@ void Primitive::setCount(int count)
     _count = count;
 }
 
-NS_CC_END
+} // namespace cocos2d

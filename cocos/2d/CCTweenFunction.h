@@ -29,7 +29,7 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace tweenfunc {
     enum TweenType
@@ -293,7 +293,7 @@ namespace tweenfunc {
     float CC_DLL customEase(float time, float *easingParam);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif /*__CCTWEENFUNCTION_H__*/

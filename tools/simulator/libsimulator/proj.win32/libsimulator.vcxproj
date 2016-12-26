@@ -118,7 +118,6 @@
     <ClInclude Include="..\lib\DeviceEx.h" />
     <ClInclude Include="..\lib\PlayerEditBoxServiceProtocol.h" />
     <ClInclude Include="..\lib\PlayerFileDialogServiceProtocol.h" />
-    <ClInclude Include="..\lib\PlayerMacros.h" />
     <ClInclude Include="..\lib\PlayerMenuServiceProtocol.h" />
     <ClInclude Include="..\lib\PlayerMessageBoxServiceProtocol.h" />
     <ClInclude Include="..\lib\PlayerProtocol.h" />

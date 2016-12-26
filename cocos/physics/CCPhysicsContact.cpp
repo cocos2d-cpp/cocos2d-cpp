@@ -29,7 +29,7 @@
 #include "physics/CCPhysicsHelper.h"
 #include "base/CCEventCustom.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const char* PHYSICSCONTACT_EVENT_NAME = "PhysicsContactEvent";
 
@@ -476,5 +476,5 @@ EventListenerPhysicsContactWithGroup* EventListenerPhysicsContactWithGroup::clon
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d
 #endif // CC_USE_PHYSICS

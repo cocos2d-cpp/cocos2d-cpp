@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "renderer/CCGLProgram.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 GLProgramStateCache* GLProgramStateCache::s_instance = nullptr;
 
@@ -93,4 +93,4 @@ void GLProgramStateCache::removeAllGLProgramState()
     _glProgramStates.clear();
 }
 
-NS_CC_END
+} // namespace cocos2d

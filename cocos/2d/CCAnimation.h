@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 class SpriteFrame;
@@ -319,6 +319,6 @@ private:
 // end of sprite_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CC_ANIMATION_H__

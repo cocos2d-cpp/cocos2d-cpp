@@ -32,7 +32,7 @@
 #include "math/CCMath.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ParticleSystem3D;
 class Renderer;
@@ -144,6 +144,6 @@ protected:
     Vec3 _spriteSize;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

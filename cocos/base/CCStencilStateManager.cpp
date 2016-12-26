@@ -35,7 +35,7 @@
 #define CC_CLIPPING_NODE_OPENGLES 1
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 GLint StencilStateManager::s_layer = -1;
 
@@ -293,4 +293,4 @@ void StencilStateManager::onAfterVisit()
 }
 
 
-NS_CC_END
+} // namespace cocos2d

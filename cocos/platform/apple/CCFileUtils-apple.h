@@ -34,7 +34,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -74,6 +74,6 @@ private:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif    // __CC_FILEUTILS_APPLE_H__

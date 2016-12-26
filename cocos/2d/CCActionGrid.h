@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "2d/CCActionInstant.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GridBase;
 class NodeGrid;
@@ -401,6 +401,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTION_CCGRID_ACTION_H__

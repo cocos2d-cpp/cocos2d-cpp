@@ -26,7 +26,7 @@ THE SOFTWARE.
 #include "base/ObjectFactory.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ObjectFactory::TInfo::TInfo(void)
 :_class("")
@@ -123,4 +123,4 @@ void ObjectFactory::registerType(const TInfo &t)
     _typeMap.emplace(t._class, t);
 }
 
-NS_CC_END
+} // namespace cocos2d

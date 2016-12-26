@@ -33,7 +33,7 @@
 
 #include "resource.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static WNDPROC g_oldWindowProc = NULL;
 INT_PTR CALLBACK AboutDialogCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)

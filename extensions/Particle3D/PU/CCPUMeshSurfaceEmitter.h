@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** Definition of a Triangle
 */
@@ -255,6 +255,6 @@ protected:
     bool _directionSet;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

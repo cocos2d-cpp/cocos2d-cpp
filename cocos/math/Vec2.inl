@@ -20,7 +20,7 @@
 
 #include "math/Vec2.h"
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 inline Vec2::Vec2()
 : x(0.0f), y(0.0f)
@@ -231,4 +231,4 @@ void Vec2::setPoint(float xx, float yy)
     this->y = yy;
 }
 
-NS_CC_MATH_END
+} // namespace cocos2d

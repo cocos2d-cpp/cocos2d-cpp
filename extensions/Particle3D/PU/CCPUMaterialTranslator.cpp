@@ -26,7 +26,7 @@
 #include "CCPUMaterialTranslator.h"
 #include "extensions/Particle3D/PU/CCPUMaterialManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 enum MaterialToken
 {
@@ -436,4 +436,4 @@ void PUMaterialTextureUnitTranslator::translate( PUScriptCompiler* compiler, PUA
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

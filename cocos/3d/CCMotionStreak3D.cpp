@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "renderer/CCGLProgramState.h"
 #include "renderer/CCRenderState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 MotionStreak3D::MotionStreak3D()
 : _startingPositionInitialized(false)
@@ -413,4 +413,4 @@ void MotionStreak3D::draw(Renderer *renderer, const Mat4 &transform, uint32_t fl
     renderer->addCommand(&_customCommand);
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 #include "renderer/CCTexture2D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Grabber::Grabber(void)
     : _FBO(0)
@@ -94,4 +94,4 @@ Grabber::~Grabber()
     glDeleteFramebuffers(1, &_FBO);
 }
 
-NS_CC_END
+} // namespace cocos2d

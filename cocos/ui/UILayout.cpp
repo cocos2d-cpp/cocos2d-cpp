@@ -39,7 +39,7 @@ THE SOFTWARE.
 #include "base/CCStencilStateManager.hpp"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -1879,4 +1879,4 @@ void Layout::setCameraMask(unsigned short mask, bool applyChildren)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

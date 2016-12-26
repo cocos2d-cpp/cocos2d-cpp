@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "2d/CCComponent.h"
 #include "ui/GUIExport.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
  * @addtogroup ui
  * @{
@@ -424,5 +424,5 @@ namespace ui {
 
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 #endif /* defined(__cocos2d_libs__LayoutComponent__) */

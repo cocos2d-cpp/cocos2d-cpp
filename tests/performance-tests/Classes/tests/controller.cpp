@@ -5,7 +5,7 @@
 #include "tests.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define TEST_TIME_OUT 6000
 #define CREATE_TIME_OUT 25

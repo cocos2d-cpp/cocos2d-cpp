@@ -26,7 +26,7 @@
 #include "2d/CCGrid.h"
 #include "renderer/CCRenderer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 NodeGrid* NodeGrid::create()
 {
@@ -186,4 +186,4 @@ void NodeGrid::setGrid(GridBase *grid)
     _nodeGrid = grid;
 }
 
-NS_CC_END
+} // namespace cocos2d

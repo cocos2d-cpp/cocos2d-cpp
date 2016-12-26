@@ -5,7 +5,7 @@
 
 using namespace CocosDenshion;
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace std;
 
 AppDelegate::AppDelegate()

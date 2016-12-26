@@ -28,7 +28,7 @@
 // enable log
 #define COCOS2D_DEBUG 1
 
-USING_NS_CC;
+using namespace cocos2d;
 
 SpriteFrameCacheTests::SpriteFrameCacheTests()
 {

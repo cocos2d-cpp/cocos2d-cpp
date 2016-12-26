@@ -28,7 +28,7 @@
 
 #include "renderer/ccGLStateCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 unsigned char* getImageData(Image* img, Texture2D::PixelFormat&  ePixFmt)
 {
@@ -265,4 +265,4 @@ bool TextureCube::reloadTexture()
     return init(_imgPath[0], _imgPath[1], _imgPath[2], _imgPath[3], _imgPath[4], _imgPath[5]);
 }
 
-NS_CC_END
+} // namespace cocos2d

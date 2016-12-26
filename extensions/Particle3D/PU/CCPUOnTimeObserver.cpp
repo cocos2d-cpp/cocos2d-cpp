@@ -26,7 +26,7 @@
 #include "extensions/Particle3D/PU/CCPUOnTimeObserver.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUOnTimeObserver::DEFAULT_THRESHOLD = 0.0f;
@@ -121,4 +121,4 @@ void PUOnTimeObserver::copyAttributesTo( PUObserver* observer )
     onTimeObserver->_sinceStartSystem = _sinceStartSystem;
 }
 
-NS_CC_END
+} // namespace cocos2d

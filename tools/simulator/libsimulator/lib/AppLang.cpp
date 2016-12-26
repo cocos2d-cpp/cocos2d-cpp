@@ -5,7 +5,7 @@
 
 #include "AppLang.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 AppLang::AppLang()
     : _hasInit(false),

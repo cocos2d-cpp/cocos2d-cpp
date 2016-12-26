@@ -33,7 +33,7 @@
 #include <spine/extension.h>
 #include <algorithm>
 
-USING_NS_CC;
+using namespace cocos2d;
 #define EVENT_AFTER_DRAW_RESET_POSITION "director_after_draw"
 using std::max;
 

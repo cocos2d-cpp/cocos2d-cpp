@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL CCPUBoxEmitter : public PUEmitter
 {
@@ -80,6 +80,6 @@ protected:
 
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

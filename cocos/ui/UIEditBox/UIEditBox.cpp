@@ -26,7 +26,7 @@
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ui/UIEditBox/UIEditBoxImpl.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -489,4 +489,4 @@ void EditBox::keyboardWillHide(IMEKeyboardNotificationInfo& info)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

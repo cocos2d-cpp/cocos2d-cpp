@@ -27,8 +27,8 @@
 #include "base/allocator/CCAllocatorDiagnostics.h"
 #include "base/allocator/CCAllocatorGlobal.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 #if CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 AllocatorDiagnostics::AllocatorDiagnostics()
@@ -85,5 +85,5 @@ std::string AllocatorDiagnostics::diagnostics()
 }
 #endif//CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d

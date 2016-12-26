@@ -32,7 +32,7 @@
 #include "ui/UIEditBox/UIEditBox.h"
 #include "ui/UIEditBox/Mac/CCUIEditBoxMac.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -223,7 +223,7 @@ void EditBoxImplMac::nativeCloseKeyboard()
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
 

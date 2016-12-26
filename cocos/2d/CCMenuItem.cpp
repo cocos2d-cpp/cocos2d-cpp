@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include <stdarg.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
     
 static int _globalFontSize = kItemSize;
 static std::string _globalFontName = "Marker Felt";
@@ -805,4 +805,4 @@ MenuItem* MenuItemToggle::getSelectedItem()
     return _subItems.at(_selectedIndex);
 }
 
-NS_CC_END
+} // namespace cocos2d

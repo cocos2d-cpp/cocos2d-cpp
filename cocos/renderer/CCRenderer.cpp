@@ -47,7 +47,7 @@
 #include "2d/CCCamera.h"
 #include "2d/CCScene.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // helper
 static bool compareRenderCommand(RenderCommand* a, RenderCommand* b)
@@ -926,4 +926,4 @@ void Renderer::setClearColor(const Color4F &clearColor)
     _clearColor = clearColor;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -26,7 +26,7 @@
 #include "CCPUScriptLexer.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUScriptLexer::PUScriptLexer()
 {
     
@@ -295,4 +295,4 @@ void PUScriptLexer::setToken(const std::string &lexeme, int line, const std::str
         return c == '\n' || c == '\r';
     }
 
-NS_CC_END
+} // namespace cocos2d

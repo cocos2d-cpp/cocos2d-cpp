@@ -34,7 +34,7 @@ THE SOFTWARE.
 Misc free functions
 */
 
-NS_CC_BEGIN
+namespace cocos2d {
 /*
 ccNextPOT function is licensed under the same license that is used in Texture2D.m.
 */
@@ -165,6 +165,6 @@ namespace utils
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __SUPPORT_CC_UTILS_H__

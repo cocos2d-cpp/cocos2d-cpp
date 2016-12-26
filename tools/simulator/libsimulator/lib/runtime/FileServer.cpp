@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include <sys/stat.h>
 #endif
 
-USING_NS_CC;
+using namespace cocos2d;
 
 //1M size
 #define MAXPROTOLENGTH 1048576

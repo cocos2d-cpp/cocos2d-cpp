@@ -41,7 +41,7 @@
 #include "platform/tizen/CCApplication-tizen.h"
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 
 static sensor_h s_sensorHandle = nullptr;
 static sensor_listener_h s_sensorListener = nullptr;
@@ -352,6 +352,6 @@ void Device::vibrate(float /*duration*/)
 {
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN

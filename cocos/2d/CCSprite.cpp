@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // MARK: create, init, dealloc
 Sprite* Sprite::createWithTexture(Texture2D *texture)
@@ -1567,4 +1567,4 @@ void Sprite::setPolygonInfo(const PolygonInfo& info)
     _polyInfo = info;
 }
 
-NS_CC_END
+} // namespace cocos2d

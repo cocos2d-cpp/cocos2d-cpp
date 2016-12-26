@@ -35,7 +35,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PURibbonTrailVisualData : public Ref
 {
@@ -155,5 +155,5 @@ protected:
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 #endif

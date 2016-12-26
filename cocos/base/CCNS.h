@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup base
@@ -74,7 +74,7 @@ Size CC_DLL SizeFromString(const std::string& str);
 // end of data_structure group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __PLATFOMR_CCNS_H__
 

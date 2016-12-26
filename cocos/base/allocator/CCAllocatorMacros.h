@@ -30,19 +30,6 @@
 #include "base/ccConfig.h"
 #include "platform/CCPlatformMacros.h"
 
-// namespace allocator {}
-#ifdef __cplusplus
-    #define NS_CC_ALLOCATOR_BEGIN   namespace allocator {
-    #define NS_CC_ALLOCATOR_END     }
-    #define USING_NS_CC_ALLOCATOR   using namespace cocos2d::allocator
-    #define NS_CC_ALLOCATOR         ::cocos2d::allocator
-#else
-    #define NS_CC_ALLOCATOR_BEGIN
-    #define NS_CC_ALLOCATOR_END
-    #define USING_NS_CC_ALLOCATOR
-    #define NS_CC_ALLOCATOR
-#endif
-
 #if COCOS2D_DEBUG
 
     // @brief CC_ALLOCATOR_INLINE

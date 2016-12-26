@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 #include <list>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //////////////////////////////////////////////////////////////////////////
 // add/remove delegate in IMEDelegate Cons/Destructor
@@ -326,4 +326,4 @@ IMEDispatcher* IMEDispatcher::sharedDispatcher()
     return &s_instance;
 }
 
-NS_CC_END
+} // namespace cocos2d

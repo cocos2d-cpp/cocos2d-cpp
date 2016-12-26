@@ -30,7 +30,7 @@
 #include "math/CCMath.h"
 #include "CCPUNoise.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** Pure virtual ForceFieldCalculationFactory
 */
@@ -209,6 +209,6 @@ class PUForceField
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

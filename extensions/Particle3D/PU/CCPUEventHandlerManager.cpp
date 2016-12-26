@@ -32,7 +32,7 @@
 #include "extensions/Particle3D/PU/CCPUDoScaleEventHandler.h"
 #include "extensions/Particle3D/PU/CCPUDoStopSystemEventHandler.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUEventHandlerManager::PUEventHandlerManager()
 {
     
@@ -89,4 +89,4 @@ PUEventHandler* PUEventHandlerManager::createEventHandler( const std::string &ty
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

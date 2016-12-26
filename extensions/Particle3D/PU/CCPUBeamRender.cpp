@@ -40,7 +40,7 @@
 #include "2d/CCCamera.h"
 #include <sstream>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const bool PUBeamRender::DEFAULT_USE_VERTEX_COLOURS = false;
@@ -369,4 +369,4 @@ void PUBeamRender::copyAttributesTo(PUBeamRender *beamRender)
     beamRender->setTexCoordDirection(_texCoordDirection);
 }
 
-NS_CC_END
+} // namespace cocos2d

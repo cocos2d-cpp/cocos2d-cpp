@@ -24,7 +24,7 @@
     #define MUSIC_FILE        "background.mp3"
 #endif // CC_PLATFOR_WIN32
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace CocosDenshion;
 
 #define LINE_SPACE          40

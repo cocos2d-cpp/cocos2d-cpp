@@ -31,7 +31,7 @@
 #include <map>
 #include <list>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * 3d particle system
@@ -293,6 +293,6 @@ protected:
     bool _isEnabled;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

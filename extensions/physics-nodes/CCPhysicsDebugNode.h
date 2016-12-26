@@ -23,13 +23,13 @@
 #ifndef __PHYSICSNODES_DEBUGNODE_H__
 #define __PHYSICSNODES_DEBUGNODE_H__
 
-#include "extensions/ExtensionMacros.h"
 #include "2d/CCDrawNode.h"
 #include "extensions/ExtensionExport.h"
 
 struct cpSpace;
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /**
  * A BaseData that draws the components of a physics engine.
@@ -68,6 +68,7 @@ protected:
 
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif // __PHYSICSNODES_DEBUGNODE_H__

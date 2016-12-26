@@ -29,8 +29,8 @@
 #include "3d/CCBundle3D.h"
 #include "2d/CCLight.h"
 
-USING_NS_CC_EXT;
-USING_NS_CC;
+using namespace cocos2d::extension;
+using namespace cocos2d;
 
 struct AgentUserData
 {

@@ -31,7 +31,7 @@
 #include <unordered_map>
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class FontAtlas;
 class Texture2D;
@@ -70,7 +70,7 @@ private:
     static std::unordered_map<std::string, FontAtlas *> _atlasMap;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif

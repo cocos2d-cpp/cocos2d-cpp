@@ -26,7 +26,7 @@
 #include "CCPUPathFollower.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUPathFollower::PUPathFollower( void )
 {
@@ -87,4 +87,4 @@ void PUPathFollower::copyAttributesTo( PUAffector* affector )
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

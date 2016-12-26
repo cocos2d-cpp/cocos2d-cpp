@@ -40,7 +40,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -206,7 +206,7 @@ private:
 
 } // namespace network
 
-NS_CC_END
+} // namespace cocos2d
 
 // end group
 /// @}

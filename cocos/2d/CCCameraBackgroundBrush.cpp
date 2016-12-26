@@ -42,7 +42,7 @@
 #include "base/CCEventDispatcher.h"
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CameraBackgroundBrush::CameraBackgroundBrush()
 : _glProgramState(nullptr)
@@ -495,4 +495,4 @@ bool CameraBackgroundSkyBoxBrush::isValid()
     return _actived;
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -1,8 +1,8 @@
 #include "SchedulerTest.h"
 #include "../testResource.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 
 enum {
     kTagAnimationDance = 1,

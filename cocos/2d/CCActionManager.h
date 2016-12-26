@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "base/CCVector.h"
 #include "base/CCRef.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Action;
 
@@ -203,6 +203,6 @@ protected:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTION_CCACTION_MANAGER_H__

@@ -27,7 +27,7 @@ THE SOFTWARE.
 #define __INPUT_EVENT_TYPES__
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 enum class Cocos2dKeyEvent : int 
@@ -38,7 +38,7 @@ enum class Cocos2dKeyEvent : int
     Enter
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif // #ifndef __INPUT_EVENT_TYPES__

@@ -32,7 +32,7 @@
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static void printProperties(Properties* properties, int indent);
 

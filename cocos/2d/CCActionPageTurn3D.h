@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup actions
@@ -68,6 +68,6 @@ public:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTION_CCPAGETURN3D_ACTION_H__

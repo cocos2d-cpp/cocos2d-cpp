@@ -37,7 +37,7 @@
 
 #define ERRORLOG(msg) log("fun:%s,line:%d,msg:%s",__func__,__LINE__,#msg)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class EventCustom;
 class EventListener;
@@ -102,6 +102,6 @@ private:
 
 #endif // __AUDIO_ENGINE_INL_H_
  }
-NS_CC_END
+} // namespace cocos2d
 
 #endif

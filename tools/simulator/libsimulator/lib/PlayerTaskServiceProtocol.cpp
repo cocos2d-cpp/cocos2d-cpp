@@ -1,7 +1,7 @@
 
 #include "PlayerTaskServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 std::string PlayerTask::getName() const
 {
@@ -65,4 +65,4 @@ PlayerTask::PlayerTask(const std::string &name,
 {
 }
 
-PLAYER_NS_END
+} // namespace player

@@ -34,7 +34,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Event;
 
@@ -64,7 +64,7 @@ CC_CONSTRUCTOR_ACCESS:
     bool init();
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

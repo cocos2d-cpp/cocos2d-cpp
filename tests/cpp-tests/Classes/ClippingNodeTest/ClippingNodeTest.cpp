@@ -9,7 +9,7 @@
 #include "../testResource.h"
 #include "renderer/CCRenderer.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 enum {
 	kTagTitleLabel = 1,

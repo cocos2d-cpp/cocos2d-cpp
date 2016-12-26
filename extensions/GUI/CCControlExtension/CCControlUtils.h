@@ -35,10 +35,10 @@
 #define __CCCONTROL_UTILS_H__
 
 #include "2d/CCSprite.h"
-#include "../../ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 typedef struct
 {
@@ -103,6 +103,7 @@ public:
 /// @}
 /// @}
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif

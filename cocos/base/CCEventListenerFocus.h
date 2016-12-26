@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     class Widget;
@@ -70,7 +70,7 @@ CC_CONSTRUCTOR_ACCESS:
     friend class EventDispatcher;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

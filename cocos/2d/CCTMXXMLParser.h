@@ -39,7 +39,7 @@ THE SOFTWARE.
 
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TMXLayerInfo;
 class TMXTilesetInfo;
@@ -313,7 +313,7 @@ protected:
 // end of tilemap_parallax_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif

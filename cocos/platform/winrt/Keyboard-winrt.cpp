@@ -42,7 +42,7 @@ using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Input;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct keyCodeItem
 {
@@ -331,5 +331,5 @@ void KeyBoardWinRT::OnTextChanged(Platform::Object^ sender, TextChangedEventArgs
 }
 
 
-NS_CC_END
+} // namespace cocos2d
 

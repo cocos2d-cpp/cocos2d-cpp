@@ -27,7 +27,7 @@
 #include "base/CCEventFocus.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 const std::string EventListenerFocus::LISTENER_ID = "__cc_focus_event";
@@ -95,4 +95,4 @@ bool EventListenerFocus::checkAvailable()
 
 
 
-NS_CC_END
+} // namespace cocos2d

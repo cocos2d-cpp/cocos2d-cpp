@@ -52,7 +52,7 @@ using namespace Windows::UI::Xaml::Media;
 using namespace Windows::System;
 using namespace Windows::UI::ViewManagement;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static GLViewImpl* s_pEglView = nullptr;
 
@@ -579,6 +579,6 @@ void GLViewImpl::QueueEvent(std::shared_ptr<InputEvent>& event)
     mInputEvents.push(event);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

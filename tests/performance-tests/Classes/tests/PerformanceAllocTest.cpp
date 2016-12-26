@@ -6,7 +6,7 @@
 
 #include <algorithm>
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::ui;
 
 // Enable profiles for this file

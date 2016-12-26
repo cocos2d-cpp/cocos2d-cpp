@@ -1,7 +1,7 @@
 
 #include "PlayerMessageBoxServiceMac.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 int PlayerMessageBoxServiceMac::showMessageBox(const std::string &title,
                                          const std::string &message,
@@ -55,4 +55,4 @@ std::vector<PlayerMessageBoxServiceMac::MessageBoxInfo> PlayerMessageBoxServiceM
     return titles;
 }
 
-PLAYER_NS_END
+} // namespace player

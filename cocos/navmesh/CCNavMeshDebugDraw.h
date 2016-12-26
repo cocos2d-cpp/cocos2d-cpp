@@ -36,7 +36,7 @@
 #include <string>
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup 3d
@@ -102,7 +102,7 @@ private:
 
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH
 

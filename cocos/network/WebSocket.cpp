@@ -93,7 +93,7 @@ static void printWebSocketLog(int level, const char *line)
 #endif // #if COCOS2D_DEBUG > 0
 }
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -966,4 +966,4 @@ int WebSocket::onSocketCallback(struct lws *wsi,
 
 }
 
-NS_CC_END
+} // namespace cocos2d

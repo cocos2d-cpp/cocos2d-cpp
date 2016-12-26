@@ -36,7 +36,7 @@
 #include <spine/Cocos2dAttachmentLoader.h>
 #include <algorithm>
 
-USING_NS_CC;
+using namespace cocos2d;
 using std::min;
 using std::max;
 

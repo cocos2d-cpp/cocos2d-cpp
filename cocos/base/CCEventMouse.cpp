@@ -26,7 +26,7 @@
 #include "base/CCEventMouse.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 EventMouse::EventMouse(MouseEventType mouseEventCode)
 : Event(Type::MOUSE)
@@ -81,4 +81,4 @@ Vec2 EventMouse::getDelta() const
 {     
     return getLocation() - getPreviousLocation();
 }
-NS_CC_END
+} // namespace cocos2d

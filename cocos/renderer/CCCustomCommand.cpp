@@ -24,7 +24,7 @@
 
 #include "renderer/CCCustomCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CustomCommand::CustomCommand()
 : func(nullptr)
@@ -55,4 +55,4 @@ void CustomCommand::execute()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

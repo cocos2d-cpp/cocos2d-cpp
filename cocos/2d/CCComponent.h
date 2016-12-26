@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include <string>
 #include "base/CCRef.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Node;
 
@@ -83,7 +83,7 @@ protected:
     bool _enabled;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /// @endcond
 #endif  // __CC_FRAMEWORK_COMPONENT_H__

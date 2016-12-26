@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** @class EventCustom
  * @brief Custom event.
@@ -70,7 +70,7 @@ protected:
     std::string _eventName;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

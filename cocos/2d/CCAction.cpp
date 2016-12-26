@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //
 // Action Base Class
 //
@@ -309,6 +309,6 @@ void Follow::stop()
     Action::stop();
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 

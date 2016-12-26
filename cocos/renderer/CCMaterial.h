@@ -43,7 +43,7 @@
 #include "platform/CCPlatformMacros.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Technique;
 class Pass;
@@ -152,7 +152,7 @@ protected:
     Node* _target;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif /* defined(__cocos2d_libs__CCMaterial__) */

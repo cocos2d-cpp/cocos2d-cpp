@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "2d/CCParticleSystem.h"
 #include "renderer/CCQuadCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class SpriteFrame;
 class EventCustom;
@@ -194,7 +194,7 @@ private:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CC_PARTICLE_SYSTEM_QUAD_H__
 

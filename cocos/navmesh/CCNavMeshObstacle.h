@@ -35,7 +35,7 @@
 #include "recast/Detour/DetourNavMesh.h"
 #include "recast/DetourTileCache/DetourTileCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup 3d
@@ -116,7 +116,7 @@ private:
 
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH
 

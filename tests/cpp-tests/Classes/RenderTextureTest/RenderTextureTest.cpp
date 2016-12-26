@@ -1,6 +1,6 @@
 #include "RenderTextureTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::ui;
 
 RenderTextureTests::RenderTextureTests()

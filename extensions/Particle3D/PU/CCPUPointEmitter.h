@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUPointEmitter : public PUEmitter
 {
@@ -44,6 +44,6 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~PUPointEmitter(void);
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

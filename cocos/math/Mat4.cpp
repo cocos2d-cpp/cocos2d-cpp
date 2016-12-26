@@ -25,7 +25,7 @@
 #include "math/MathUtil.h"
 #include "base/ccMacros.h"
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 Mat4::Mat4()
 {
@@ -979,4 +979,4 @@ const Mat4 Mat4::ZERO = Mat4(
                     0, 0, 0, 0,
                     0, 0, 0, 0 );
 
-NS_CC_MATH_END
+} // namespace cocos2d

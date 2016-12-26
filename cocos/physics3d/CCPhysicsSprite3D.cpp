@@ -28,7 +28,7 @@
 
 #if (CC_ENABLE_BULLET_INTEGRATION)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PhysicsSprite3D* PhysicsSprite3D::create(const std::string &modelPath, Physics3DRigidBodyDes* rigidDes, const cocos2d::Vec3& translateInPhysics, const cocos2d::Quaternion& rotInPhsyics)
 {
@@ -95,7 +95,7 @@ PhysicsSprite3D::~PhysicsSprite3D()
     
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_ENABLE_BULLET_INTEGRATION
 

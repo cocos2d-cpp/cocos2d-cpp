@@ -25,7 +25,7 @@ THE SOFTWARE.
 #include "ui/UIListView.h"
 #include "ui/UIHelper.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static const float DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM = 1.0f;
 
@@ -1007,4 +1007,4 @@ void ListView::startMagneticScroll()
 }
 
 }
-NS_CC_END
+} // namespace cocos2d

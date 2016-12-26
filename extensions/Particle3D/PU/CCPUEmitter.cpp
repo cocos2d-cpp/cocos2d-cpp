@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUUtil.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const bool PUEmitter::DEFAULT_ENABLED = true;
@@ -966,4 +966,4 @@ void PUEmitter::copyAttributesTo( PUEmitter* emitter )
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

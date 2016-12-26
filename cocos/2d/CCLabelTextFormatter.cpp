@@ -30,7 +30,7 @@
 #include "2d/CCFontAtlas.h"
 #include "2d/CCFontFNT.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void Label::computeAlignmentOffset()
 {
@@ -391,4 +391,4 @@ void Label::recordPlaceholderInfo(int letterIndex, char16_t utf16Char)
     _lettersInfo[letterIndex].valid = false;
 }
 
-NS_CC_END
+} // namespace cocos2d

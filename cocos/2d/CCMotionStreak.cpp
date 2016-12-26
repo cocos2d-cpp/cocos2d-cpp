@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCGLProgramState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 MotionStreak::MotionStreak()
 : _fastMode(false)
@@ -404,4 +404,4 @@ void MotionStreak::draw(Renderer *renderer, const Mat4 &transform, uint32_t flag
     renderer->addCommand(&_customCommand);
 }
 
-NS_CC_END
+} // namespace cocos2d

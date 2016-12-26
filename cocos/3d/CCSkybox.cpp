@@ -35,7 +35,7 @@
 #include "3d/CCSkybox.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Skybox::Skybox()
     : _vao(0)
@@ -248,4 +248,4 @@ void Skybox::reload()
     initBuffers();
 }
 
-NS_CC_END
+} // namespace cocos2d

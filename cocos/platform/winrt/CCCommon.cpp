@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <vld.h>
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 void MessageBox(const char * pszMsg, const char * pszTitle)
@@ -66,4 +66,4 @@ void CCLuaLog(const char *pszMsg)
 #endif
 }
 
-NS_CC_END
+} // namespace cocos2d

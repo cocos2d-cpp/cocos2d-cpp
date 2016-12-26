@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUAffectorManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUAffectorTranslator::PUAffectorTranslator()
 :_affector(nullptr)
@@ -190,4 +190,4 @@ void PUAffectorTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "ui/CocosGUI.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -34,4 +34,4 @@ const char* CocosGUIVersion()
 }
 
 }
-NS_CC_END
+} // namespace cocos2d

@@ -26,7 +26,7 @@
 #include "base/CCEventAcceleration.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string EventListenerAcceleration::LISTENER_ID = "__cc_acceleration";
 
@@ -94,4 +94,4 @@ bool EventListenerAcceleration::checkAvailable()
     return true;
 }
 
-NS_CC_END
+} // namespace cocos2d

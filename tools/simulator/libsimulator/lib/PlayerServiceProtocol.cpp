@@ -1,6 +1,6 @@
 
 #include "PlayerServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
-PLAYER_NS_END
+} // namespace player

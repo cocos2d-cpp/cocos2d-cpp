@@ -27,12 +27,12 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CC_DLL const char* cocos2dVersion()
 {
     return "cocos2d-x-3.13.1";
 }
 
-NS_CC_END
+} // namespace cocos2d
 

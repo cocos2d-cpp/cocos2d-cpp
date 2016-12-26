@@ -33,7 +33,7 @@
 #include "platform/CCCommon.h"
 #include "platform/CCGLView.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /** Class that represent the OpenGL View
@@ -87,7 +87,7 @@ protected:
     void *_eaglview;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_IOS
 

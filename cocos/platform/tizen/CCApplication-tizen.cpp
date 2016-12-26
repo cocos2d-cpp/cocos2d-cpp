@@ -50,7 +50,7 @@
 
 ELEMENTARY_GLVIEW_GLOBAL_DEFINE();
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void stopAccelerometerSensor();
 void pauseAccelerometerSensor();
@@ -673,7 +673,7 @@ LanguageType Application::getCurrentLanguage()
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN
 

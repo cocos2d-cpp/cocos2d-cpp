@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include <algorithm>
 #include <math.h>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static unsigned short quadIndices9[]={
     0+4*0,1+4*0,2+4*0, 3+4*0,2+4*0,1+4*0,

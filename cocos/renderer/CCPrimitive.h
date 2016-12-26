@@ -32,7 +32,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class IndexBuffer;
 
@@ -83,7 +83,7 @@ protected:
     int _type;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 /**
  end of support group

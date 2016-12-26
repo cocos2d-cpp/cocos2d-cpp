@@ -1,7 +1,7 @@
 #include "PerformanceParticleTest.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define MAX_SUB_TEST_NUM        3
 #define DELAY_TIME              4

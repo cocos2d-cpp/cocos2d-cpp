@@ -7,7 +7,7 @@
 
 #include <string>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 JNITests::JNITests()
 {

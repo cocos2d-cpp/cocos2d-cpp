@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/firePngData.h"
 #include "renderer/CCTextureCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //
 // ParticleFire
 //
@@ -1233,4 +1233,4 @@ bool ParticleRain::initWithTotalParticles(int numberOfParticles)
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

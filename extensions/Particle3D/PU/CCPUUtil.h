@@ -30,7 +30,7 @@
 #include "math/CCMath.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUUtil
 {
@@ -39,6 +39,6 @@ public:
     static Vec3 randomDeviant(const Vec3 &src, float angle, const Vec3& up = Vec3::ZERO);
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

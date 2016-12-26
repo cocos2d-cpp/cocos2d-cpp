@@ -33,7 +33,7 @@
 #include "base/ccTypes.h"
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup platform
@@ -62,7 +62,7 @@ private:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif    // __CC_FILEUTILS_TIZEN_H__
 

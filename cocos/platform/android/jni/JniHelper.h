@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 #include "math/Vec3.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 typedef struct JniMethodInfo_
 {
@@ -300,6 +300,6 @@ private:
     static void reportError(const std::string& className, const std::string& methodName, const std::string& signature);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ANDROID_JNI_HELPER_H__

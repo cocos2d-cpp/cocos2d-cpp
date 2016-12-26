@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "ui/UICheckBox.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -170,4 +170,4 @@ void CheckBox::copySpecialProperties(Widget *widget)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

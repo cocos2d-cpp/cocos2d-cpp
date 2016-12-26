@@ -29,7 +29,7 @@
 #include "renderer/CCGroupCommand.h"
 #include "renderer/CCCustomCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GridBase;
 /**
@@ -109,6 +109,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid);
 };
 /** @} */
-NS_CC_END
+} // namespace cocos2d
 
 #endif

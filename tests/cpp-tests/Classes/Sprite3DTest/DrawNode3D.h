@@ -27,7 +27,7 @@
 
 #include "cocos2d.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * Copy DrawNode for 3D geometry drawing.
@@ -110,6 +110,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(DrawNode3D);
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __DRAW_NODE_3D_H__

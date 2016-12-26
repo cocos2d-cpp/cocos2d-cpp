@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -235,7 +235,7 @@ protected:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 // end group
 /// @}

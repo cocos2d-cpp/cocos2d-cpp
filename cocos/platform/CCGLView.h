@@ -84,7 +84,7 @@ struct GLContextAttrs
     int stencilBits;
 };
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Scene;
 class Renderer;
@@ -430,6 +430,6 @@ protected:
 // end of platform group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __CCGLVIEW_H__ */

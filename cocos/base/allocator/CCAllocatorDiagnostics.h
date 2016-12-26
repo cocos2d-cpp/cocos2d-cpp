@@ -33,8 +33,8 @@
 #include "base/allocator/CCAllocatorMutex.h"
 #include "base/allocator/CCAllocatorBase.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 #if CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 class AllocatorBase;
@@ -55,8 +55,8 @@ protected:
 };
 #endif//CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_DIAGNOSTICS_H

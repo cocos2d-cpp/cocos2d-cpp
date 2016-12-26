@@ -33,7 +33,7 @@ THE SOFTWARE.
 #include "platform/CCGL.h"
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup renderer
@@ -186,7 +186,7 @@ void CC_DLL bindVAO(GLuint vaoId);
 /// @}
 
 } // Namespace GL
-NS_CC_END
+} // namespace cocos2d
     
 
 #endif /* __CCGLSTATE_H__ */

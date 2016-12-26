@@ -32,7 +32,7 @@
 
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 	
 /**
  * @addtogroup _2d
@@ -200,6 +200,6 @@ private:
 // end of 2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CPROTECTEDCNODE_H__

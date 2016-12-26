@@ -5,7 +5,7 @@
 #define DELAY_TIME              4
 #define STAT_TIME               3
 
-USING_NS_CC;
+using namespace cocos2d;
 using namespace cocos2d::ui;
 
 static int kTagInfoLayer = 1;

@@ -28,7 +28,7 @@
 #include "ui/UILayout.h"
 #include "ui/GUIExport.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup ui
@@ -80,6 +80,6 @@ CC_CONSTRUCTOR_ACCESS:
 
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__UIHBox__) */

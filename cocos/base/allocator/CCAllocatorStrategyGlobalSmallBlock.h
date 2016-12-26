@@ -38,8 +38,8 @@
 #include "base/allocator/CCAllocatorGlobal.h"
 #include "base/allocator/CCAllocatorStrategyFixedBlock.h"
 
-NS_CC_BEGIN
-NS_CC_ALLOCATOR_BEGIN
+namespace cocos2d {
+namespace allocator {
 
 #if CC_ENABLE_ALLOCATOR_DIAGNOSTICS
 #define TRACK(slot, size, op) _smallBlockAllocations[slot] op size
@@ -312,8 +312,8 @@ protected:
 #endif
 };
 
-NS_CC_ALLOCATOR_END
-NS_CC_END
+} // namespace allocator
+} // namespace cocos2d
 
 /// @endcond
 #endif//CC_ALLOCATOR_STRATEGY_GLOBAL_SMALL_BLOCK_H

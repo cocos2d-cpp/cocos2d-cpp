@@ -25,7 +25,8 @@
 
 #include "CCTableViewCell.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 void TableViewCell::reset()
 {
@@ -42,4 +43,5 @@ void TableViewCell::setIdx(ssize_t idx)
     _idx = idx;
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

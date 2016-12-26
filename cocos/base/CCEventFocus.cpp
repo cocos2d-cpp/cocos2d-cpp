@@ -25,7 +25,7 @@
 
 #include "base/CCEventFocus.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 EventFocus::EventFocus(ui::Widget *widgetLoseFocus, ui::Widget* widgetGetFocus)
@@ -39,4 +39,4 @@ _widgetLoseFocus(widgetLoseFocus)
 
 
 
-NS_CC_END
+} // namespace cocos2d

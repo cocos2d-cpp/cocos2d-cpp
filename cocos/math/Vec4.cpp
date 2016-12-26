@@ -24,7 +24,7 @@
 #include "math/MathUtil.h"
 #include "base/ccMacros.h"
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 Vec4::Vec4()
     : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
@@ -312,4 +312,4 @@ const Vec4 Vec4::UNIT_Y = Vec4(0.0f, 1.0f, 0.0f, 0.0f);
 const Vec4 Vec4::UNIT_Z = Vec4(0.0f, 0.0f, 1.0f, 0.0f);
 const Vec4 Vec4::UNIT_W = Vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
-NS_CC_MATH_END
+} // namespace cocos2d

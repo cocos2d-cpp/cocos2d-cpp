@@ -36,7 +36,7 @@
 #include "extensions/Particle3D/PU/CCPUOnTimeObserver.h"
 #include "extensions/Particle3D/PU/CCPUOnVelocityObserver.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUObserverManager::PUObserverManager()
 {
     
@@ -109,4 +109,4 @@ PUObserver* PUObserverManager::createObserver( const std::string &type )
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

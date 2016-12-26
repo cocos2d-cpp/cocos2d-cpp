@@ -43,7 +43,7 @@
 #define strcasecmp _stricmp
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Helpers declaration
 static const char* getOptionalString(Properties* properties, const char* key, const char* defaultValue);
@@ -513,4 +513,4 @@ static const char* getOptionalString(Properties* properties, const char* key, co
     return ret;
 }
 
-NS_CC_END
+} // namespace cocos2d

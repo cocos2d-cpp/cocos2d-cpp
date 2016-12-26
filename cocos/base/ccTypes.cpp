@@ -27,7 +27,7 @@ Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string STD_STRING_EMPTY("");
 const ssize_t CC_INVALID_INDEX = -1;
@@ -253,4 +253,4 @@ const BlendFunc BlendFunc::ALPHA_PREMULTIPLIED = {GL_ONE, GL_ONE_MINUS_SRC_ALPHA
 const BlendFunc BlendFunc::ALPHA_NON_PREMULTIPLIED = {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA};
 const BlendFunc BlendFunc::ADDITIVE = {GL_SRC_ALPHA, GL_ONE};
 
-NS_CC_END
+} // namespace cocos2d

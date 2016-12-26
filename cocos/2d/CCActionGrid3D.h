@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "2d/CCActionGrid.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup actions
@@ -614,6 +614,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTION_CCGRID3D_ACTION_H__

@@ -7,7 +7,7 @@
 
 #include "Bug-CCDrawNode.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool BugDrawNodeLayer::init()
 {

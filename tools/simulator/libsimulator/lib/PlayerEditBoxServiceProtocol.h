@@ -5,10 +5,9 @@
 #include <string>
 
 #include "cocos2d.h"
-#include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerEditBoxServiceProtocol : public PlayerServiceProtocol
 {
@@ -32,6 +31,6 @@ protected:
     int _handler;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_EDITBOX_SERVICE_PROTOCOL_H_

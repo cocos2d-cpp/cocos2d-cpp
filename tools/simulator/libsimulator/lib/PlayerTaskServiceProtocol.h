@@ -5,10 +5,9 @@
 #include <string>
 
 #include "cocos2d.h"
-#include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerTask : public cocos2d::Ref
 {
@@ -58,6 +57,6 @@ public:
     virtual void removeTask(const std::string &name) = 0;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_TASK_SERVICE_PROTOCOL_H

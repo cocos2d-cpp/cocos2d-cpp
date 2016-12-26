@@ -27,7 +27,7 @@
 
 #include "2d/CCSprite.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
  * @addtogroup _3d
  * @{
@@ -129,7 +129,7 @@ private:
 // end of 3d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif // __CCBILLBOARD_H__

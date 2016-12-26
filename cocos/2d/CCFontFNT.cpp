@@ -36,7 +36,7 @@
 #include <set>
 #include <unordered_map>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup GUI
@@ -791,4 +791,4 @@ void FontFNT::reloadBMFontResource(const std::string& fntFilePath)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

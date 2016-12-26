@@ -34,7 +34,7 @@
 #import <OpenAL/al.h>
 #include "platform/CCPlatformMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 namespace experimental{
 
 class AudioCache;
@@ -87,7 +87,7 @@ protected:
 };
 
 }
-NS_CC_END
+} // namespace cocos2d
 
 #endif
 

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "2d/CCTweenFunction.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup actions
@@ -552,6 +552,6 @@ private:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __ACTION_CCEASE_ACTION_H__

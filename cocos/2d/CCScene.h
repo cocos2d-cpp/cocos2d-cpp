@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <string>
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Camera;
 class BaseLight;
@@ -225,6 +225,6 @@ public:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCSCENE_H__

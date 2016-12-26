@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include "platform/CCGL.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // implementation of GridBase
 
 GridBase* GridBase::create(const Size& gridSize)
@@ -798,4 +798,4 @@ void TiledGrid3D::reuse(void)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

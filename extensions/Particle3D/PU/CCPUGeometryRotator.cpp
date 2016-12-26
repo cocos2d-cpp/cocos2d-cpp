@@ -26,7 +26,7 @@
 #include "CCPUGeometryRotator.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //-----------------------------------------------------------------------
 // Constants
 const bool PUGeometryRotator::DEFAULT_USE_OWN = false;
@@ -183,4 +183,4 @@ void PUGeometryRotator::copyAttributesTo( PUAffector* affector )
 
 //-----------------------------------------------------------------------
 
-NS_CC_END
+} // namespace cocos2d

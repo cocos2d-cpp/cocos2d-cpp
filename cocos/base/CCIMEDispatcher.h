@@ -32,7 +32,7 @@ THE SOFTWARE.
  * @addtogroup base
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 /**
@@ -131,7 +131,7 @@ private:
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 // end of base group
 /// @}
 

@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "3d/CCAABB.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class  CC_DLL PUBaseCollider : public PUAffector
@@ -131,6 +131,6 @@ protected:
     float _velocityScale; // Value set in the particle system, but stored in the collider for convenience.
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

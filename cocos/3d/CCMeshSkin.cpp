@@ -26,7 +26,7 @@
 #include "3d/CCBundle3D.h"
 #include "3d/CCSkeleton3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static int PALETTE_ROWS = 3;
 
@@ -155,4 +155,4 @@ const Mat4& MeshSkin::getInvBindPose(const Bone3D* bone)
     return Mat4::IDENTITY;
 }
 
-NS_CC_END
+} // namespace cocos2d

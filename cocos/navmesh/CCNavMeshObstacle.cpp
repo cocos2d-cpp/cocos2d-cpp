@@ -30,7 +30,7 @@
 #include "2d/CCScene.h"
 #include "recast/DetourTileCache/DetourTileCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 NavMeshObstacle* NavMeshObstacle::create(float radius, float height)
 {
@@ -161,6 +161,6 @@ void NavMeshObstacle::syncToObstacle()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //CC_USE_NAVMESH

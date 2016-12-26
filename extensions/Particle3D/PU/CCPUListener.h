@@ -31,7 +31,7 @@
 #include <vector>
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class PUParticleSystem3D;
@@ -51,6 +51,6 @@ public:
     virtual void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) = 0;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

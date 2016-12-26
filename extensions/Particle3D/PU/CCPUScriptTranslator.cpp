@@ -26,7 +26,7 @@
 #include "CCPUScriptTranslator.h"
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUScriptTranslator::PUScriptTranslator(void)
 {
 }
@@ -494,4 +494,4 @@ void PUScriptTranslator::processNode( PUScriptCompiler *compiler, PUAbstractNode
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
 
-NS_CC_END
+} // namespace cocos2d

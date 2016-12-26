@@ -34,7 +34,7 @@ THE SOFTWARE.
 
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 class Animation;
@@ -115,6 +115,6 @@ private:
 // end of sprite_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CC_ANIMATION_CACHE_H__

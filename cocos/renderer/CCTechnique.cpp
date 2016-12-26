@@ -32,7 +32,7 @@
 #include "renderer/CCMaterial.h"
 #include "renderer/CCPass.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Technique* Technique::createWithGLProgramState(Material* parent, GLProgramState* state)
 {
@@ -126,4 +126,4 @@ const Vector<Pass*>& Technique::getPasses() const
     return _passes;
 }
 
-NS_CC_END
+} // namespace cocos2d

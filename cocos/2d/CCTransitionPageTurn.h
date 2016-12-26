@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCTransition.h"
 #include "renderer/CCCustomCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class NodeGrid;
 
@@ -119,7 +119,7 @@ protected:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCPAGE_TURN_TRANSITION_H__
 

@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 Scene* HelloWorld::createScene()
 {

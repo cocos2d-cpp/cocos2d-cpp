@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/ccMacros.h"
 
 // implementation of Vec2
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation of Size
 
@@ -278,4 +278,4 @@ Rect Rect::unionWithRect(const Rect & rect) const
 
 const Rect Rect::ZERO = Rect(0, 0, 0, 0);
 
-NS_CC_END
+} // namespace cocos2d

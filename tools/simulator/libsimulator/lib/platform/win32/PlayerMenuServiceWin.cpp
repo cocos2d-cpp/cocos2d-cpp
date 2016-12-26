@@ -1,7 +1,7 @@
 
 #include "PlayerMenuServiceWin.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerMenuItemWin *PlayerMenuItemWin::create(const std::string &menuId, const std::string &title)
 {
@@ -348,4 +348,4 @@ void PlayerMenuServiceWin::updateChildrenOrder(PlayerMenuItemWin *parent)
     }
 }
 
-PLAYER_NS_END
+} // namespace player

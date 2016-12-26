@@ -30,7 +30,6 @@
 #include <mutex>
 
 #include "2d/CCNode.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 
 
@@ -38,7 +37,8 @@ namespace cocos2d { namespace network {
     class Downloader;
 }}
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 class AssetsManagerDelegateProtocol;
 
@@ -225,6 +225,7 @@ public:
 CC_DEPRECATED_ATTRIBUTE typedef AssetsManager CCAssetsManager;
 CC_DEPRECATED_ATTRIBUTE typedef AssetsManagerDelegateProtocol CCAssetsManagerDelegateProtocol;
 
-NS_CC_EXT_END;
+} // namespace extension
+} // namespace cocos2d;
 
 #endif /* defined(__AssetsManager__) */

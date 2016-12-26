@@ -36,7 +36,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**@{
  Affine transform
@@ -111,7 +111,7 @@ CC_DLL Mat4 TransformConcat(const Mat4& t1, const Mat4& t2);
 
 extern CC_DLL const AffineTransform AffineTransformIdentity;
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base transform
 /// @}

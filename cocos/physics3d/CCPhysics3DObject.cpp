@@ -32,7 +32,7 @@
 #include "bullet/btBulletCollisionCommon.h"
 #include "bullet/btBulletDynamicsCommon.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Physics3DRigidBody::Physics3DRigidBody()
 : _btRigidBody(nullptr)
@@ -554,7 +554,7 @@ cocos2d::Mat4 Physics3DCollider::getWorldTransform() const
     return convertbtTransformToMat4(_btGhostObject->getWorldTransform());
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_ENABLE_BULLET_INTEGRATION
 

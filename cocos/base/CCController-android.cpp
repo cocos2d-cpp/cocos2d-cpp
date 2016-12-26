@@ -32,7 +32,7 @@
 #include "platform/android/jni/JniHelper.h"
 #include "base/CCEventController.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ControllerImpl
 {
@@ -159,7 +159,7 @@ void Controller::receiveExternalKeyEvent(int externalKeyCode,bool receive) {
     JniHelper::callStaticVoidMethod("org/cocos2dx/lib/GameControllerHelper", "receiveExternalKeyEvent", _deviceId, externalKeyCode, receive);
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 extern "C" {
 

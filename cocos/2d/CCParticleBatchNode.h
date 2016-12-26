@@ -34,7 +34,7 @@
 #include "base/CCProtocols.h"
 #include "renderer/CCBatchCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 class TextureAtlas;
@@ -182,7 +182,7 @@ private:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __CCPARTICLEBATCHNODE_H__ */
 

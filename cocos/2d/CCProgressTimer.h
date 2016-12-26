@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "renderer/CCCustomCommand.h"
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Sprite;
 
@@ -190,6 +190,6 @@ private:
 // end of misc_nodes group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__MISC_NODE_CCPROGRESS_TIMER_H__

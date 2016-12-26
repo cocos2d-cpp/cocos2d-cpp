@@ -36,7 +36,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 extern CC_DLL const GLchar * ccPosition_uColor_frag;
 extern CC_DLL const GLchar * ccPosition_uColor_vert;
@@ -95,7 +95,7 @@ extern CC_DLL const GLchar * ccCameraClearFrag;
 // ETC1 ALPHA supports.
 extern CC_DLL const GLchar* ccETC1ASPositionTextureColor_frag;
 extern CC_DLL const char* ccETC1ASPositionTextureGray_frag;
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

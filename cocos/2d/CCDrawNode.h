@@ -36,7 +36,7 @@
 #include "renderer/CCCustomCommand.h"
 #include "math/CCMath.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static const int DEFAULT_LINE_WIDTH = 2;
 
@@ -325,6 +325,6 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(DrawNode);
 };
 /** @} */
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCDRAWNODES_CCDRAW_NODE_H__

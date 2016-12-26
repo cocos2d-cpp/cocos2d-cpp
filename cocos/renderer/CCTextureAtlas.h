@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "base/CCRef.h"
 #include "base/ccConfig.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Texture2D;
 class EventCustom;
@@ -267,7 +267,7 @@ protected:
 // end of textures group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTEXTURE_ATLAS_H__
 

@@ -32,7 +32,7 @@
 #include <vector>
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class PUObserver;
@@ -57,6 +57,6 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~PUDoStopSystemEventHandler(void) {};
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

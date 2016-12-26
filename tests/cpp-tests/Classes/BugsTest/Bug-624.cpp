@@ -5,7 +5,7 @@
 
 #include "Bug-624.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 ////////////////////////////////////////////////////////
 //

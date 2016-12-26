@@ -39,7 +39,7 @@
 #include "2d/CCCamera.h"
 #include <sstream>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const bool PURibbonTrailRender::DEFAULT_USE_VERTEX_COLOURS = true;
@@ -412,4 +412,4 @@ void PURibbonTrailRender::updateParticles( const ParticlePool &pool )
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

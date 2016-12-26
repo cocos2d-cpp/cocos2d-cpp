@@ -2,7 +2,7 @@
 #include "renderer/CCRenderer.h"
 #include "renderer/CCCustomCommand.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"

@@ -36,7 +36,7 @@
 #include "physics/CCPhysicsWorld.h"
 #include "physics/CCPhysicsHelper.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 extern const float PHYSICS_INFINITY;
 static cpBody* s_sharedBody = nullptr;
 
@@ -978,6 +978,6 @@ bool PhysicsShape::containsPoint(const Vec2& point) const
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_USE_PHYSICS

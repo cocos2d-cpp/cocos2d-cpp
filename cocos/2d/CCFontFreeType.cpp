@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 
 FT_Library FontFreeType::_FTlibrary;
@@ -659,4 +659,4 @@ void FontFreeType::releaseFont(const std::string &fontName)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

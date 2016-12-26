@@ -4,8 +4,8 @@
 #include "renderer/CCRenderer.h"
 #include "renderer/CCCustomCommand.h"
 
-USING_NS_CC;
-USING_NS_CC_EXT;
+using namespace cocos2d;
+using namespace cocos2d::extension;
 
 #define PTM_RATIO 32
 

@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUVelocityMatchingAffector : public PUAffector
 {
@@ -64,6 +64,6 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
     float _radius;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

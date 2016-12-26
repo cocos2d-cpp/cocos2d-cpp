@@ -25,7 +25,7 @@ THE SOFTWARE.
 
 #include "platform/apple/CCLock-apple.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Lock::Lock(void)
 {
@@ -46,4 +46,4 @@ void Lock::unlock(void)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

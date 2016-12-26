@@ -1,5 +1,5 @@
 #include "3d/CCAnimationCurve.h"
-NS_CC_BEGIN
+namespace cocos2d {
 
 template <int componentSize>
 void AnimationCurve<componentSize>::evaluate(float time, float* dst, EvaluateType type) const
@@ -141,4 +141,4 @@ int AnimationCurve<componentSize>::determineIndex(float time) const
     return -1;
 }
 
-NS_CC_END
+} // namespace cocos2d

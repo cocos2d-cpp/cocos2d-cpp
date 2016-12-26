@@ -24,7 +24,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "math/CCGeometry.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Image;
 class SpriteFrame;
@@ -115,4 +115,4 @@ private:
     bool _isRotated;
 };
 
-NS_CC_END
+} // namespace cocos2d

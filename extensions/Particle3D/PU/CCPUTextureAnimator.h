@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUTextureAnimator : public PUAffector
 {
@@ -108,6 +108,6 @@ protected:
     unsigned short _textureCoordsEnd;
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

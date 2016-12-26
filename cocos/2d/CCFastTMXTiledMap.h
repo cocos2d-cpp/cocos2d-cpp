@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "2d/CCNode.h"
 #include "2d/CCTMXObjectGroup.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class TMXLayerInfo;
 class TMXTilesetInfo;
@@ -249,7 +249,7 @@ private:
     
 } //end of namespace experimental
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTMX_TILE_MAP2_H__
 

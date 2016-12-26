@@ -26,7 +26,7 @@
 #include "CCPUJetAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUJetAffector::DEFAULT_ACCELERATION = 1.0f;
@@ -90,4 +90,4 @@ void PUJetAffector::copyAttributesTo( PUAffector* affector )
     jetAffector->setDynAcceleration(getDynAcceleration()->clone());
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "ui/GUIExport.h"
 #include "2d/CCNode.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup ui
@@ -125,6 +125,6 @@ public:
 
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__CocoGUI__UISystem__) */

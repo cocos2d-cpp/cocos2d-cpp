@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCBatchCommand.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -274,6 +274,6 @@ protected:
 // end of sprite_nodes group
 /** @} */
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CC_SPRITE_BATCH_NODE_H__

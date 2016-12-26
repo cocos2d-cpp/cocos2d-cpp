@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUBillboardChain.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PURibbonTrail : public PUBillboardChain
 {
@@ -188,5 +188,5 @@ protected:
 
 };
 
-NS_CC_END
+} // namespace cocos2d
 #endif

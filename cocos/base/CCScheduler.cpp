@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/utlist.h"
 #include "base/ccCArray.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // data structures
 
@@ -1040,4 +1040,4 @@ void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

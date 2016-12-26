@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "2d/CCScene.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -1086,7 +1086,7 @@ private:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCTRANSITION_H__
 

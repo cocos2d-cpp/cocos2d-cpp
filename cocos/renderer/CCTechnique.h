@@ -37,7 +37,7 @@
 #include "platform/CCPlatformMacros.h"
 #include "base/CCVector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Pass;
 class GLProgramState;
@@ -90,6 +90,6 @@ protected:
     Vector<Pass*> _passes;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCTechnique__) */

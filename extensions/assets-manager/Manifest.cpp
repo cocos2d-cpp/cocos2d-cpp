@@ -45,7 +45,8 @@
 #define KEY_COMPRESSED_FILE     "compressedFile"
 #define KEY_DOWNLOAD_STATE      "downloadState"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 Manifest::Manifest(const std::string& manifestUrl/* = ""*/)
 : _versionLoaded(false)
@@ -503,4 +504,5 @@ void Manifest::saveToFile(const std::string &filepath)
         output << buffer.GetString() << std::endl;
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

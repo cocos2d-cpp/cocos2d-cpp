@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 bool isWindowsPhone();
 
@@ -63,6 +63,6 @@ std::string computeHashForFile(const std::string& filePath);
 bool createMappedCacheFile(/*In*/ const std::string& srcFilePath, /*Out*/ std::string& cacheFilePath, /*Optional*/ const std::string& ext = "");
 void destroyMappedCacheFile(const std::string& key);
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCWINRT_UTILS_H__

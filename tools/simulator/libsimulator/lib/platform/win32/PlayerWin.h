@@ -2,7 +2,6 @@
 
 #include "cocos2d.h"
 
-#include "PlayerMacros.h"
 #include "PlayerProtocol.h"
 #include "PlayerMenuServiceWin.h"
 #include "PlayerMessageBoxServiceWin.h"
@@ -11,7 +10,7 @@
 #include "PlayerTaskServiceWin.h"
 #include "SimulatorExport.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class CC_LIBSIM_DLL PlayerWin : public PlayerProtocol, public cocos2d::Ref
 {
@@ -41,4 +40,4 @@ protected:
 };
 
 
-PLAYER_NS_END
+} // namespace player

@@ -39,7 +39,7 @@
 #include "jni.h"
 #include "platform/android/jni/JniHelper.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 static int _initialized = 0;
 
 static std::string className = "org/cocos2dx/lib/Cocos2dxLocalStorage";

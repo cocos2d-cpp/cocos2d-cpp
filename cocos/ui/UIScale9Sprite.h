@@ -36,7 +36,7 @@
  * @addtogroup ui
  * @{
  */
-NS_CC_BEGIN
+namespace cocos2d {
 class DrawNode;
 class Texture2D;
 

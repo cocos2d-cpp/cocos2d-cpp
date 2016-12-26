@@ -46,7 +46,7 @@
 #undef internal
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL FontFreeType : public Font
 {
@@ -114,6 +114,6 @@ private:
 
 /// @endcond
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

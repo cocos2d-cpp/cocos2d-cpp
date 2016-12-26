@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUCollisionAvoidanceAffector : public PUAffector
 {
@@ -59,6 +59,6 @@ protected:
 
     float _radius;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

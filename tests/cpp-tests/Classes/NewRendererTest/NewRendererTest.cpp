@@ -24,7 +24,7 @@
 
 #include "NewRendererTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 NewRendererTests::NewRendererTests()
 {

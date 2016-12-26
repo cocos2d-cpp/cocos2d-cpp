@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "2d/CCActionInterval.h"
 #include "math/CCMath.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Camera;
 
@@ -177,6 +177,6 @@ protected:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCCAMERA_ACTION_H__

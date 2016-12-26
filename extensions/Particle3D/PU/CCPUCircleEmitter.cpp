@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUUtil.h"
 #include "base/ccRandom.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUCircleEmitter::DEFAULT_RADIUS = 100.0f;
@@ -267,4 +267,4 @@ PUCircleEmitter* PUCircleEmitter::clone()
     return be;
 }
 
-NS_CC_END
+} // namespace cocos2d

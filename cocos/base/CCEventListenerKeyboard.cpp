@@ -26,7 +26,7 @@
 #include "base/CCEventListenerKeyboard.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string EventListenerKeyboard::LISTENER_ID = "__cc_keyboard";
 
@@ -101,4 +101,4 @@ bool EventListenerKeyboard::init()
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

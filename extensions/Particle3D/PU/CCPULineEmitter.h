@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class  CC_DLL PULineEmitter : public PUEmitter
@@ -117,6 +117,6 @@ protected:
     float _scaledMaxIncrement;
     float _scaledLength;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

@@ -26,7 +26,7 @@
 #include "CCPUTechniqueTranslator.h"
 #include "extensions/Particle3D/PU/CCPUMaterialManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 PUTechniqueTranslator::PUTechniqueTranslator()//:mTechnique(0)
 {
@@ -401,4 +401,4 @@ void PUTechniqueTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

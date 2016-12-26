@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "ui/UIRadioButton.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     
@@ -371,4 +371,4 @@ void RadioButtonGroup::onChangedRadioButtonSelect(RadioButton* radioButton)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

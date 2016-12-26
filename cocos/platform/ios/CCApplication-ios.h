@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "platform/CCApplicationProtocol.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Rect;
 
@@ -109,7 +109,7 @@ protected:
     static Application * sm_pSharedApplication;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFORM_IOS
 

@@ -41,7 +41,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCRenderTexture.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 int ccNextPOT(int x)
 {
@@ -410,4 +410,4 @@ Node* findChild(Node* levelRoot, int tag)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

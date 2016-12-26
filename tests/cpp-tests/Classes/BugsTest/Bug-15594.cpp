@@ -11,7 +11,7 @@
 #include "Bug-15594.h"
 
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug15594Layer::init()
 {

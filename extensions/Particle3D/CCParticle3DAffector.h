@@ -28,7 +28,7 @@
 #include "base/CCRef.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ParticleSystem3D;
 struct Particle3D;
@@ -55,6 +55,6 @@ protected:
     bool _isEnabled;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

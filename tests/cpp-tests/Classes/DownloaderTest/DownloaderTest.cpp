@@ -30,7 +30,7 @@
 #include "ui/UILoadingBar.h"
 #include "network/CCDownloader.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 static const char* sURLList[] =
 {

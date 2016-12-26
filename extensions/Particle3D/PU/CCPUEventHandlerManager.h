@@ -37,7 +37,7 @@
 #include "extensions/Particle3D/PU/CCPUDoStopSystemEventHandlerTranslator.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 class PUEventHandlerManager
 {
 public:
@@ -67,7 +67,7 @@ protected:
 
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif 

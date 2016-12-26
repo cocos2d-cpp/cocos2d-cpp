@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation TileMapAtlas
 
@@ -250,4 +250,4 @@ void TileMapAtlas::updateAtlasValues()
 }
 
 
-NS_CC_END
+} // namespace cocos2d

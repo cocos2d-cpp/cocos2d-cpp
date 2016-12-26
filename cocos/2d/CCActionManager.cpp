@@ -34,7 +34,7 @@ THE SOFTWARE.
 #include "base/ccCArray.h"
 #include "base/uthash.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //
 // singleton stuff
 //
@@ -489,4 +489,4 @@ void ActionManager::update(float dt)
     _currentTarget = nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

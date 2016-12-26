@@ -24,7 +24,6 @@
 #define __PHYSICSNODES_CCPHYSICSSPRITE_H__
 
 #include "2d/CCSprite.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 #include "base/CCEventListenerCustom.h"
 
@@ -33,7 +32,8 @@
 struct cpBody;
 class b2Body;
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /** A Sprite subclass that is bound to a physics body.
  It works with:
@@ -146,7 +146,8 @@ protected:
     cocos2d::EventListenerCustom* _syncTransform;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif // CC_ENABLE_CHIPMUNK_INTEGRATION || CC_ENABLE_BOX2D_INTEGRATION
 

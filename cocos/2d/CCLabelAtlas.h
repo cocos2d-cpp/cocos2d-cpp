@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "renderer/CCCustomCommand.h"
 #include "2d/CCDrawNode.h"
 #endif
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _2d
@@ -125,6 +125,6 @@ protected:
 /// @}
 
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCLABEL_ATLAS_H__

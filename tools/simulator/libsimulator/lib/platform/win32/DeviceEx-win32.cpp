@@ -6,7 +6,7 @@
 #pragma comment(lib,"Iphlpapi.lib")
 
 using namespace std;
-PLAYER_NS_BEGIN
+namespace player {
 
 DeviceEx *DeviceEx::getInstance()
 {
@@ -134,4 +134,4 @@ std::string DeviceEx::makeUserGUID()
     return _userGUID;
 }
 
-PLAYER_NS_END
+} // namespace player

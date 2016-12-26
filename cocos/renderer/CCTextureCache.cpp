@@ -45,7 +45,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::string TextureCache::s_etc1AlphaFileSuffix = "@alpha";
 
@@ -883,5 +883,5 @@ void VolatileTextureMgr::reloadAllTextures()
 
 #endif // CC_ENABLE_CACHE_TEXTURE_DATA
 
-NS_CC_END
+} // namespace cocos2d
 

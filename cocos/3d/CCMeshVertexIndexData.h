@@ -39,7 +39,7 @@
 #include "renderer/CCVertexIndexBuffer.h"
 
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup _3d
@@ -142,6 +142,6 @@ protected:
 // end of 3d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CCMESHVERTEXINDEXDATA_H__

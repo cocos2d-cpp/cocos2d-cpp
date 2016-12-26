@@ -44,7 +44,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLProgram;
 class Director;
@@ -587,7 +587,7 @@ protected:
     UniformFlags _flags;
 };
 
-NS_CC_END
+} // namespace cocos2d
 /**
  end of support group
  @}

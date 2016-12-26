@@ -26,7 +26,7 @@
 #include "CCPUTextureAnimator.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // Constants
 const float PUTextureAnimator::DEFAULT_TIME_STEP = 0.0f;
 const unsigned short PUTextureAnimator::DEFAULT_TEXCOORDS_START = 0;
@@ -267,4 +267,4 @@ void PUTextureAnimator::copyAttributesTo( PUAffector* affector )
     textureAnimator->_startRandom = _startRandom;
 }
 
-NS_CC_END
+} // namespace cocos2d

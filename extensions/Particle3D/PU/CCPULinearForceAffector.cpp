@@ -26,7 +26,7 @@
 #include "CCPULinearForceAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //-----------------------------------------------------------------------
 void PULinearForceAffector::preUpdateAffector(float deltaTime)
@@ -67,4 +67,4 @@ void PULinearForceAffector::copyAttributesTo( PUAffector* affector )
     PUBaseForceAffector::copyAttributesTo(affector);
 }
 
-NS_CC_END
+} // namespace cocos2d

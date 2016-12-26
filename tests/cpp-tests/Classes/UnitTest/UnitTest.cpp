@@ -1,7 +1,7 @@
 #include "UnitTest.h"
 #include "ui/UIHelper.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 #if defined (__arm64__)

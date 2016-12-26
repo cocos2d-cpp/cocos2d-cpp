@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const unsigned int PUDoPlacementParticleEventHandler::DEFAULT_NUMBER_OF_PARTICLES = 1;
@@ -274,4 +274,4 @@ void PUDoPlacementParticleEventHandler::copyAttributesTo( PUEventHandler* eventH
     doPlacementParticleEventHandler->_inheritParticleDepth = _inheritParticleDepth;
 }
 
-NS_CC_END
+} // namespace cocos2d

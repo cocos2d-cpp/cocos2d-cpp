@@ -22,7 +22,7 @@ THE SOFTWARE.
 
 #include "3d/CCRay.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Ray::Ray()
 : _direction(0, 0, 1)
@@ -235,4 +235,4 @@ void Ray::transform(const Mat4& matrix)
     _direction.normalize();
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -36,12 +36,12 @@
 #include "CCEventAssetsManagerEx.h"
 
 #include "Manifest.h"
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 #include "json/document-wrapper.h"
 
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 /**
  * @brief   This class is used to auto update resources, such as pictures or scripts.
@@ -280,6 +280,7 @@ private:
     bool _inited;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 
 #endif /* defined(__AssetsManagerEx__) */

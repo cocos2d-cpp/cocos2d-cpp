@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "renderer/CCRenderer.h"
 #include "renderer/CCGLProgram.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // implementation AtlasNode
 
@@ -254,4 +254,4 @@ void AtlasNode::setQuadsToDraw(ssize_t quadsToDraw)
     _quadsToDraw = quadsToDraw;
 }
 
-NS_CC_END
+} // namespace cocos2d

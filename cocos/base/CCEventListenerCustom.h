@@ -32,7 +32,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class EventCustom;
 
@@ -84,7 +84,7 @@ protected:
     friend class LuaEventListenerCustom;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

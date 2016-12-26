@@ -1,7 +1,7 @@
 #include "PerformanceTextureTest.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 PerformceTextureTests::PerformceTextureTests()
 {

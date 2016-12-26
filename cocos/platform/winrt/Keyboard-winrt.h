@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include <agile.h>
 #include "platform/winrt/InputEvent.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ref class KeyBoardWinRT sealed
 {
@@ -49,4 +49,4 @@ private:
     Windows::UI::Xaml::Controls::TextBox^ m_textBox;
 };
 
-NS_CC_END
+} // namespace cocos2d

@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 class Mat4;
 
@@ -458,7 +458,7 @@ public:
  */
 inline Vec4 operator*(float x, const Vec4& v);
 
-NS_CC_MATH_END
+} // namespace cocos2d
 /**
  end of base group
  @}

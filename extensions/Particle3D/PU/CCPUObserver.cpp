@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUEventHandlerManager.h"
 #include "base/ccMacros.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const bool PUObserver::DEFAULT_ENABLED = true;
@@ -343,4 +343,4 @@ void PUObserver::copyAttributesTo( PUObserver* observer )
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

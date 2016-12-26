@@ -2059,9 +2059,6 @@
     <ClInclude Include="..\..\extensions\ExtensionExport.h">
       <Filter>extension</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\extensions\ExtensionMacros.h">
-      <Filter>extension</Filter>
-    </ClInclude>
     <ClInclude Include="..\audio\include\Export.h">
       <Filter>cocosdenshion\Header Files</Filter>
     </ClInclude>

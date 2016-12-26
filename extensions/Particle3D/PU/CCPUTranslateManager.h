@@ -38,7 +38,7 @@
 #include "extensions/Particle3D/PU/CCPUBehaviourTranslator.h"
 
 using namespace std;
-NS_CC_BEGIN
+namespace cocos2d {
 class PUMaterialCache;
 class PUTranslateManager
 {
@@ -80,7 +80,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~PUTranslateManager();
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 
 #endif /* defined(__cocos2d_libs__CCParticle3DTranslateManager__) */

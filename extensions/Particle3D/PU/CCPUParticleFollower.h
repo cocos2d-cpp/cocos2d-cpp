@@ -30,7 +30,7 @@
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUParticleFollower : public PUAffector
 {
@@ -66,6 +66,6 @@ protected:
     Vec3 _positionPreviousParticle;
     bool _first;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

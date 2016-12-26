@@ -9,7 +9,7 @@
 
 #include "Bug-12847.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug12847Layer::init()
 {

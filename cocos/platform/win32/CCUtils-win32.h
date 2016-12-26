@@ -30,12 +30,12 @@ THE SOFTWARE.
 
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 std::wstring CC_DLL StringUtf8ToWideChar(const std::string& strUtf8);
 std::string CC_DLL StringWideCharToUtf8(const std::wstring& strWideChar);
 std::string CC_DLL UTF8StringToMultiByte(const std::string& strUtf8);
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // __CC_UTILS_WIN32_H__

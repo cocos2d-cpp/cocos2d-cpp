@@ -27,7 +27,8 @@
 
 #include "CCControlStepper.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 #define ControlStepperLabelColorEnabled   Color3B(55, 55, 55)
 #define ControlStepperLabelColorDisabled  Color3B(147, 147, 147)
@@ -345,4 +346,5 @@ void ControlStepper::onTouchEnded(Touch *pTouch, Event* /*pEvent*/)
     }
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

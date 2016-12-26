@@ -25,7 +25,7 @@
 #include "3d/CCBundleReader.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 BundleReader::BundleReader()
 {
@@ -187,4 +187,4 @@ bool BundleReader::readMatrix(float* m)
     return (read(m, sizeof(float), 16) == 16);
 }
 
-NS_CC_END
+} // namespace cocos2d

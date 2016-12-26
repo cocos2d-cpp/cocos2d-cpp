@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "base/CCData.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static bool tgaLoadRLEImageData(unsigned char* Buffer, unsigned long bufSize, tImageTGA *info);
 void tgaFlipImage( tImageTGA *info );
@@ -335,4 +335,4 @@ void tgaDestroy(tImageTGA *info) {
         free(info);
     }
 }
-NS_CC_END
+} // namespace cocos2d

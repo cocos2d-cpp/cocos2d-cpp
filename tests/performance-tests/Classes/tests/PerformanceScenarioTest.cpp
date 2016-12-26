@@ -1,7 +1,7 @@
 #include "PerformanceScenarioTest.h"
 #include "Profile.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 #define DELAY_TIME              4
 #define STAT_TIME               3

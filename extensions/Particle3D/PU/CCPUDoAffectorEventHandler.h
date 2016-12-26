@@ -32,7 +32,7 @@
 #include <vector>
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUParticle3D;
 class PUObserver;
@@ -84,6 +84,6 @@ protected:
     bool _prePost;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

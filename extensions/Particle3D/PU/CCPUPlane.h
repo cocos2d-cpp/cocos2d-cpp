@@ -31,7 +31,7 @@
 #include "3d/CCAABB.h"
 #include <vector>
 
-NS_CC_BEGIN
+namespace cocos2d {
 /** Defines a plane in 3D space.
     @remarks
         A plane is defined in 3D space by the equation
@@ -140,6 +140,6 @@ public:
 };
 
 typedef std::vector<PUPlane> PlaneList;
-NS_CC_END
+} // namespace cocos2d
 
 #endif

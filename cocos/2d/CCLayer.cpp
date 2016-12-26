@@ -41,7 +41,7 @@ THE SOFTWARE.
 #include "base/CCEventListenerAcceleration.h"
 #include "base/ccUTF8.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Layer
 Layer::Layer()
@@ -692,4 +692,4 @@ std::string LayerMultiplex::getDescription() const
     return StringUtils::format("<LayerMultiplex | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
 }
 
-NS_CC_END
+} // namespace cocos2d

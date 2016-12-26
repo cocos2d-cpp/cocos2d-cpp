@@ -30,7 +30,7 @@
 #include <vector>
 #include <string>
 
-NS_CC_BEGIN
+namespace cocos2d {
 enum{
     TID_LBRACKET = 0, // {
     TID_RBRACKET, // }
@@ -78,6 +78,6 @@ class PUScriptLexer
     
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif 

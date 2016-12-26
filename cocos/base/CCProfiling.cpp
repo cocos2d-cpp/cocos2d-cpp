@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Profiling Categories
 /* set to false the categories that you don't want to profile */
@@ -174,5 +174,5 @@ void ProfilingResetTimingBlock(const char *timerName)
     timer->reset();
 }
 
-NS_CC_END
+} // namespace cocos2d
 

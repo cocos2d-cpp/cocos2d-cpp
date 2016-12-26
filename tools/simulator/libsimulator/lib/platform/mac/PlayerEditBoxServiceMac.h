@@ -33,7 +33,7 @@
 @end
 
 
-PLAYER_NS_BEGIN
+namespace player {
 class PlayerEditBoxServiceMac : public PlayerEditBoxServiceProtocol
 {
 public:
@@ -57,6 +57,6 @@ private:
     EditBoxServiceImplMac*  _sysEdit;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif

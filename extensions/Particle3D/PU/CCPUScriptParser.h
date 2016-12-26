@@ -36,7 +36,7 @@
 #include "base/CCRef.h"
 #include "extensions/Particle3D/PU/CCPUScriptLexer.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct PUConcreteNode;
 
@@ -86,6 +86,6 @@ class PUScriptParser
     
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__cocos2d_libs__CCScriptParser__) */

@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include "math/CCGeometry.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Image;
 class NinePatchInfo;
@@ -558,7 +558,7 @@ protected:
 // end of textures group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif //__CCTEXTURE2D_H__
 

@@ -1,7 +1,7 @@
 
 #include "PlayerMenuServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerMenuItem::PlayerMenuItem()
 : _order(0)
@@ -50,4 +50,4 @@ std::string PlayerMenuItem::getShortcut() const
     return _shortcut;
 }
 
-PLAYER_NS_END
+} // namespace player

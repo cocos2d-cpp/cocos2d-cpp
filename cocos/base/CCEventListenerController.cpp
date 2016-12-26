@@ -28,7 +28,7 @@
 #include "base/ccMacros.h"
 #include "base/CCController.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string EventListenerController::LISTENER_ID = "__cc_controller";
 
@@ -114,4 +114,4 @@ EventListenerController* EventListenerController::clone()
     return nullptr;
 }
 
-NS_CC_END
+} // namespace cocos2d

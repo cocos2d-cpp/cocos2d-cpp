@@ -102,22 +102,6 @@ CC_DEPRECATED_ATTRIBUTE static __TYPE__* node() \
 
 // Generic macros
 
-/// @name namespace cocos2d
-/// @{
-#ifdef __cplusplus
-    #define NS_CC_BEGIN                     namespace cocos2d {
-    #define NS_CC_END                       }
-    #define USING_NS_CC                     using namespace cocos2d
-    #define NS_CC                           ::cocos2d
-#else
-    #define NS_CC_BEGIN 
-    #define NS_CC_END 
-    #define USING_NS_CC 
-    #define NS_CC
-#endif 
-//  end of namespace group
-/// @}
-
 /** @def CC_PROPERTY_READONLY 
  * It is used to declare a protected variable. We can use getter to read the variable.
  * 

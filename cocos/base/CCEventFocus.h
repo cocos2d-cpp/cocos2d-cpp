@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
     class Widget;
@@ -61,7 +61,7 @@ private:
 };
 
 
-NS_CC_END
+} // namespace cocos2d
 
 // end of base group
 /// @}

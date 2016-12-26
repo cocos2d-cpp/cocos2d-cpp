@@ -34,7 +34,7 @@
 
 #include <Elementary.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 class Rect;
 
 class Application : public ApplicationProtocol
@@ -128,7 +128,7 @@ protected:
     static Application * __instance;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CCAPLICATION_TIZEN_H_
 

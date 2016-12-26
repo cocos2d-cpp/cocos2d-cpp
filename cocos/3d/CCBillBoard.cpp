@@ -29,7 +29,7 @@
 #include "renderer/CCRenderer.h"
 #include "renderer/CCGLProgramCache.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 BillBoard::BillBoard()
 : _mode(Mode::VIEW_POINT_ORIENTED)
@@ -243,4 +243,4 @@ BillBoard::Mode BillBoard::getMode() const
     return _mode;
 }
 
-NS_CC_END
+} // namespace cocos2d

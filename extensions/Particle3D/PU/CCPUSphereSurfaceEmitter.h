@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUSphereSurfaceEmitter : public PUEmitter
 {
@@ -63,6 +63,6 @@ protected:
     Vec3 _randomVector;
 
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

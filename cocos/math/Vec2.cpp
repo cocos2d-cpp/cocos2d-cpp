@@ -22,7 +22,7 @@
 #include "math/MathUtil.h"
 #include "base/ccMacros.h"
 
-NS_CC_MATH_BEGIN
+namespace cocos2d {
 
 // returns true if segment A-B intersects with segment C-D. S->E is the overlap part
 bool isOneDimensionSegmentOverlap(float A, float B, float C, float D, float *S, float * E)
@@ -345,4 +345,4 @@ const Vec2 Vec2::ANCHOR_MIDDLE_LEFT(0.0f, 0.5f);
 const Vec2 Vec2::ANCHOR_MIDDLE_TOP(0.5f, 1.0f);
 const Vec2 Vec2::ANCHOR_MIDDLE_BOTTOM(0.5f, 0.0f);
 
-NS_CC_MATH_END
+} // namespace cocos2d

@@ -26,7 +26,6 @@
 #ifndef __CCTABLEVIEWCELL_H__
 #define __CCTABLEVIEWCELL_H__
 
-#include "extensions/ExtensionMacros.h"
 #include "2d/CCNode.h"
 #include "extensions/ExtensionExport.h"
 
@@ -34,7 +33,8 @@
  * @addtogroup ui
  * @{
  */
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 
 /**
@@ -60,7 +60,8 @@ private:
     ssize_t _idx;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 // end of ui group
 /// @}
 

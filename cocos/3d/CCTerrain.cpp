@@ -24,7 +24,7 @@ THE SOFTWARE.
 
 #include "3d/CCTerrain.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 #include <stdlib.h>
 #include <float.h>
 #include <set>
@@ -40,7 +40,7 @@ USING_NS_CC;
 #include "2d/CCCamera.h"
 #include "platform/CCImage.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // check a number is power of two.
 static bool isPOT(int number)
@@ -1703,4 +1703,4 @@ bool Terrain::Triangle::getInsterctPoint(const Ray &ray, Vec3& interScetPoint)co
     return true;
 }
 
-NS_CC_END
+} // namespace cocos2d

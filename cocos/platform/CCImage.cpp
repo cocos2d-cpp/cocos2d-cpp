@@ -93,7 +93,7 @@ extern "C"
 #define CC_GL_ATC_RGBA_EXPLICIT_ALPHA_AMD                          0x8C93
 #define CC_GL_ATC_RGBA_INTERPOLATED_ALPHA_AMD                      0x87EE
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //////////////////////////////////////////////////////////////////////////
 //struct and data for pvr structure
@@ -2455,5 +2455,5 @@ void Image::setPVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
     _PVRHaveAlphaPremultiplied = haveAlphaPremultiplied;
 }
 
-NS_CC_END
+} // namespace cocos2d
 

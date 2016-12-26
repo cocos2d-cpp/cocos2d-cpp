@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include "PlayerMacros.h"
 #include "SimulatorExport.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class CC_LIBSIM_DLL DeviceEx
 {
@@ -24,4 +23,4 @@ private:
     std::string _userGUID;
 };
 
-PLAYER_NS_END
+} // namespace player

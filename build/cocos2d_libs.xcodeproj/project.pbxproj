@@ -396,9 +396,7 @@
 		15AE1BBF19AADFF000C27E9E /* WebSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF5368180E3374000584C8 /* WebSocket.cpp */; };
 		15AE1BC019AADFF000C27E9E /* WebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF5369180E3374000584C8 /* WebSocket.h */; };
 		15AE1BC119AADFFB00C27E9E /* cocos-ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A167D21807AF4D005B8026 /* cocos-ext.h */; };
-		15AE1BC219AADFFB00C27E9E /* ExtensionMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168321807AF4E005B8026 /* ExtensionMacros.h */; };
 		15AE1BC319AADFFB00C27E9E /* cocos-ext.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A167D21807AF4D005B8026 /* cocos-ext.h */; };
-		15AE1BC419AADFFB00C27E9E /* ExtensionMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168321807AF4E005B8026 /* ExtensionMacros.h */; };
 		15AE1BC519AAE00000C27E9E /* AssetsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF5351180E3060000584C8 /* AssetsManager.cpp */; };
 		15AE1BC619AAE00000C27E9E /* AssetsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AAF5352180E3060000584C8 /* AssetsManager.h */; };
 		15AE1BC719AAE00000C27E9E /* AssetsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AAF5351180E3060000584C8 /* AssetsManager.cpp */; };
@@ -2740,7 +2738,6 @@
 		507B3FB41C31BDD30067B53E /* CCColliderDetector.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8C595F180E930E00EF57C3 /* CCColliderDetector.h */; };
 		507B3FB51C31BDD30067B53E /* btConstraintSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0EF1AF9AA1900B9B856 /* btConstraintSolver.h */; };
 		507B3FB61C31BDD30067B53E /* CCAllocatorStrategyFixedBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = D0FD03441A3B51AA00825BB5 /* CCAllocatorStrategyFixedBlock.h */; };
-		507B3FB71C31BDD30067B53E /* ExtensionMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A168321807AF4E005B8026 /* ExtensionMacros.h */; };
 		507B3FB81C31BDD30067B53E /* CDConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A15FE61807A56F005B8026 /* CDConfig.h */; };
 		507B3FBA1C31BDD30067B53E /* btIDebugDraw.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1C01AF9AA1A00B9B856 /* btIDebugDraw.h */; };
 		507B3FBB1C31BDD30067B53E /* tinyxml2.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A57034A180BD09B0088DEC7 /* tinyxml2.h */; };
@@ -5824,7 +5821,6 @@
 		46A15FFE1807A56F005B8026 /* SimpleAudioEngine_objc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleAudioEngine_objc.h; sourceTree = "<group>"; };
 		46A15FFF1807A56F005B8026 /* SimpleAudioEngine_objc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SimpleAudioEngine_objc.m; sourceTree = "<group>"; };
 		46A167D21807AF4D005B8026 /* cocos-ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cocos-ext.h"; sourceTree = "<group>"; };
-		46A168321807AF4E005B8026 /* ExtensionMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionMacros.h; sourceTree = "<group>"; };
 		46A168351807AF4E005B8026 /* CCControl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCControl.cpp; sourceTree = "<group>"; };
 		46A168361807AF4E005B8026 /* CCControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCControl.h; sourceTree = "<group>"; };
 		46A168371807AF4E005B8026 /* CCControlButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CCControlButton.cpp; sourceTree = "<group>"; };
@@ -8545,7 +8541,6 @@
 				292DB15D19B461CA00A80320 /* ExtensionDeprecated.cpp */,
 				292DB15E19B461CA00A80320 /* ExtensionDeprecated.h */,
 				46A167D21807AF4D005B8026 /* cocos-ext.h */,
-				46A168321807AF4E005B8026 /* ExtensionMacros.h */,
 				1AAF5350180E305F000584C8 /* assets-manager */,
 				46A168331807AF4E005B8026 /* GUI */,
 				1AD71EEB180E27CF00808F54 /* physics-nodes */,
@@ -10873,7 +10868,6 @@
 				B6CAB3B91AF9AA1A00B9B856 /* btGeneric6DofConstraint.h in Headers */,
 				B6CAB24B1AF9AA1A00B9B856 /* btConvexPlaneCollisionAlgorithm.h in Headers */,
 				B6CAB5391AF9AA1A00B9B856 /* cl.h in Headers */,
-				15AE1BC219AADFFB00C27E9E /* ExtensionMacros.h in Headers */,
 				B5668D7F1B3838E4003CBD5E /* UIScrollViewBar.h in Headers */,
 				B665E4001AA80A6600DDB1C5 /* CCPUSphereCollider.h in Headers */,
 				B6CAB42D1AF9AA1A00B9B856 /* btVehicleRaycaster.h in Headers */,
@@ -11949,7 +11943,6 @@
 				507B3FB41C31BDD30067B53E /* CCColliderDetector.h in Headers */,
 				507B3FB51C31BDD30067B53E /* btConstraintSolver.h in Headers */,
 				507B3FB61C31BDD30067B53E /* CCAllocatorStrategyFixedBlock.h in Headers */,
-				507B3FB71C31BDD30067B53E /* ExtensionMacros.h in Headers */,
 				507B3FB81C31BDD30067B53E /* CDConfig.h in Headers */,
 				507B3FBA1C31BDD30067B53E /* btIDebugDraw.h in Headers */,
 				507B3FBB1C31BDD30067B53E /* tinyxml2.h in Headers */,
@@ -12936,7 +12929,6 @@
 				B6CAB3A81AF9AA1A00B9B856 /* btConstraintSolver.h in Headers */,
 				5020A15A1D49912500E80C72 /* AnimationState.h in Headers */,
 				D0FD035C1A3B51AA00825BB5 /* CCAllocatorStrategyFixedBlock.h in Headers */,
-				15AE1BC419AADFFB00C27E9E /* ExtensionMacros.h in Headers */,
 				15AE185A19AAD31200C27E9E /* CDConfig.h in Headers */,
 				B6CAB50E1AF9AA1A00B9B856 /* btIDebugDraw.h in Headers */,
 				1A57034E180BD09B0088DEC7 /* tinyxml2.h in Headers */,

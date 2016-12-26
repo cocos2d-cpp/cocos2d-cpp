@@ -29,7 +29,7 @@
 #include "base/CCRef.h"
 #include "math/CCMath.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class PUNoise3D
 {
@@ -77,6 +77,6 @@ protected:
     double _persistence;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif

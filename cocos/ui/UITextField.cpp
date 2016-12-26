@@ -28,7 +28,7 @@ THE SOFTWARE.
 #include "base/ccUTF8.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui {
 
@@ -864,4 +864,4 @@ void TextField::setCursorFromPoint(const Vec2 &point, const Camera* camera)
 
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -25,7 +25,7 @@
 #include "3d/CCFrustum.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 bool Frustum::initFrustum(const Camera* camera)
 {
@@ -92,4 +92,4 @@ void Frustum::createPlane(const Camera* camera)
     _plane[5].initPlane(-Vec3(mat.m[3] - mat.m[2], mat.m[7] - mat.m[6], mat.m[11] - mat.m[10]), (mat.m[15] - mat.m[14]));//far
 }
 
-NS_CC_END
+} // namespace cocos2d

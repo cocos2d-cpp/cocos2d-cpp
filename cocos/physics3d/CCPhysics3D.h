@@ -38,11 +38,11 @@
 #include "physics3d/CCPhysics3DComponent.h"
 #include "physics3d/CCPhysics3DConstraint.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CC_DLL const char* physics3dVersion();
 
-NS_CC_END
+} // namespace cocos2d
 
 #if (CC_ENABLE_BULLET_INTEGRATION)
 

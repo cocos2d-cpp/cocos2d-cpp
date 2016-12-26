@@ -35,7 +35,8 @@
 #endif
 #include "base/CCAsyncTaskPool.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 #define VERSION_FILENAME        "version.manifest"
 #define TEMP_MANIFEST_FILENAME  "project.manifest.temp"
@@ -1048,4 +1049,5 @@ void AssetsManagerEx::onDownloadUnitsFinished()
     }
 }
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d

@@ -26,7 +26,7 @@
 #include "CCPUTranslateManager.h"
 #include "extensions/Particle3D/PU/CCPUScriptCompiler.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PUTranslateManager::PUTranslateManager()
 {
     
@@ -135,4 +135,4 @@ void PUTranslateManager::translateMaterialSystem( PUMaterialCache *ms, const PUA
 }
 
 
-NS_CC_END
+} // namespace cocos2d

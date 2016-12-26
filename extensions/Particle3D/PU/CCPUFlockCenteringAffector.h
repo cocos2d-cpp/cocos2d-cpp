@@ -29,7 +29,7 @@
 
 #include "extensions/Particle3D/PU/CCPUAffector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUFlockCenteringAffector : public PUAffector
 {
@@ -52,6 +52,6 @@ protected:
     Vec3 _average;
     float _count;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

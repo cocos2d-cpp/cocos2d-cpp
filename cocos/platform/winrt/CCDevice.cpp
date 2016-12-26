@@ -40,7 +40,7 @@ using namespace Windows::Foundation;
 using namespace Windows::Phone::Devices::Notification;
 #endif // (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 CCFreeTypeFont sFT;
 
@@ -221,6 +221,6 @@ void Device::vibrate(float duration)
 #endif // (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

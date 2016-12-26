@@ -6,9 +6,9 @@
 
 #include "PlayerTaskServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 class PlayerTaskMac;
-PLAYER_NS_END
+} // namespace player
 
 @interface PlayerTaskPrivate : NSObject
 {
@@ -28,7 +28,7 @@ PLAYER_NS_END
 - (void) runScriptAsyn:(NSString *)absScriptPath withArguments:(NSArray *) arguments;
 @end
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerTaskMac : public PlayerTask
 {
@@ -74,7 +74,7 @@ protected:
     cocos2d::Map<std::string, PlayerTaskMac*> _tasks;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 
 #endif // __PLAYER_TASK_SERVICE_MAC_H_

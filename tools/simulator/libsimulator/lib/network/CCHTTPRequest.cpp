@@ -11,8 +11,8 @@ extern "C" {
 #endif
 #include <sstream>
 
-
-NS_CC_EXTRA_BEGIN
+namespace cocos2d {
+namespace extra {
 
 unsigned int HTTPRequest::s_id = 0;
 
@@ -551,4 +551,5 @@ int HTTPRequest::progressCURL(void *userdata, double dltotal, double dlnow, doub
     return static_cast<HTTPRequest*>(userdata)->onProgress(dltotal, dlnow, ultotal, ulnow);
 }
 
-NS_CC_EXTRA_END
+} // namespace extra
+} // namespace cocos2d

@@ -10,7 +10,7 @@
 #include "PlayerUtils.h"
 #include "PlayerFileDialogServiceWin.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerFileDialogServiceWin::PlayerFileDialogServiceWin(HWND hwnd)
 : _hwnd(hwnd)
@@ -273,4 +273,4 @@ std::vector<std::string> PlayerFileDialogServiceWin::openMultipleInternal(const 
     return result;
 }
 
-PLAYER_NS_END
+} // namespace player

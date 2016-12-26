@@ -40,7 +40,7 @@ THE SOFTWARE.
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 struct Color4B;
 struct Color4F;
@@ -613,7 +613,7 @@ public:
 extern const std::string CC_DLL STD_STRING_EMPTY;
 extern const ssize_t CC_DLL CC_INVALID_INDEX;
 
-NS_CC_END
+} // namespace cocos2d
 // end group
 /// @}
 #endif //__BASE_CCTYPES_H__

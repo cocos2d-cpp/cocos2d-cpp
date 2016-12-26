@@ -28,7 +28,7 @@
 #include "extensions/Particle3D/PU/CCPUEmitter.h"
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 //-----------------------------------------------------------------------
 PUDoEnableComponentEventHandler::PUDoEnableComponentEventHandler(void) : 
     PUEventHandler(),
@@ -168,4 +168,4 @@ void PUDoEnableComponentEventHandler::copyAttributesTo( PUEventHandler* eventHan
     doEnableComponentEventHandler->setComponentEnabled(_componentEnabled);
 }
 
-NS_CC_END
+} // namespace cocos2d

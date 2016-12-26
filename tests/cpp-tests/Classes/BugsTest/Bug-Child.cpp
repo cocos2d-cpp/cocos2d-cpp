@@ -8,7 +8,7 @@
 
 #include "Bug-Child.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool BugChild::init()
 {

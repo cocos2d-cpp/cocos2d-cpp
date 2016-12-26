@@ -27,7 +27,7 @@
 #include "base/ccRandom.h"
 #include "platform/CCStdC.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
     //-----------------------------------------------------------------------
     PUDynamicAttribute::PUDynamicAttribute (void)
 {
@@ -462,4 +462,4 @@ float PUDynamicAttributeHelper::calculate(PUDynamicAttribute* dyn, float x, floa
 
     return defaultValue;
 }
-NS_CC_END
+} // namespace cocos2d

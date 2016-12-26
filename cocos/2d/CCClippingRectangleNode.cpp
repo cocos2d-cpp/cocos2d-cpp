@@ -5,7 +5,7 @@
 #include "math/Vec2.h"
 #include "platform/CCGLView.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 ClippingRectangleNode* ClippingRectangleNode::create(const Rect& clippingRegion)
 {
@@ -81,4 +81,4 @@ void ClippingRectangleNode::visit(Renderer *renderer, const Mat4 &parentTransfor
     renderer->addCommand(&_afterVisitCmdScissor);
 }
 
-NS_CC_END
+} // namespace cocos2d

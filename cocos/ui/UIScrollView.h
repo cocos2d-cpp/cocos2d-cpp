@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "ui/GUIExport.h"
 #include <list>
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
  * @addtogroup ui
  * @{
@@ -685,5 +685,5 @@ protected:
 }
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 #endif /* defined(__CocoGUI__ScrollView__) */

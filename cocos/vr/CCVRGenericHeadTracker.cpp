@@ -40,7 +40,7 @@
 #include "platform/android/jni/JniHelper.h"
 #endif
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 //////
 
@@ -268,4 +268,4 @@ Mat4 VRGenericHeadTracker::getLocalRotation()
 #endif
 }
 
-NS_CC_END
+} // namespace cocos2d

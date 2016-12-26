@@ -24,7 +24,7 @@
 
 #include "ui/UIHBox.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace ui{
     
@@ -82,4 +82,4 @@ bool HBox::initWithSize(const Size& size)
     
 }
 
-NS_CC_END
+} // namespace cocos2d

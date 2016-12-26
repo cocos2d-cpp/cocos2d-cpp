@@ -35,7 +35,7 @@
 #include "3d/CCSprite3D.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Particle3DQuadRender::Particle3DQuadRender()
 : _meshCommand(nullptr)
@@ -369,4 +369,4 @@ void Particle3DRender::setBlendFunc(const BlendFunc &blendFunc)
     _stateBlock->setBlendFunc(blendFunc);
 }
 
-NS_CC_END
+} // namespace cocos2d

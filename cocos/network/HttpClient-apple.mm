@@ -37,7 +37,7 @@
 #include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 namespace network {
 
@@ -597,7 +597,7 @@ const std::string& HttpClient::getSSLVerification()
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // #if CC_TARGET_PLATFORM == CC_PLATFORM_MAC
 

@@ -26,7 +26,7 @@
 #include "vr/CCVRDistortion.h"
 #include <math.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 Distortion::Distortion()
 {
@@ -81,4 +81,4 @@ float Distortion::distortInverse(float radius)
     return r;
 }
 
-NS_CC_END
+} // namespace cocos2d

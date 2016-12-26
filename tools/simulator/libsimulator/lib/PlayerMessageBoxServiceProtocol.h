@@ -4,10 +4,9 @@
 
 #include <string>
 
-#include "PlayerMacros.h"
 #include "PlayerServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerMessageBoxServiceProtocol : public PlayerServiceProtocol
 {
@@ -30,6 +29,6 @@ public:
                                int buttonsType = BUTTONS_OK) = 0;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MESSAGEBOX_SERVICE_PROTOCOL_H

@@ -1,6 +1,6 @@
 #include "CurrentLanguageTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 CurrentLanguageTests::CurrentLanguageTests()
 {

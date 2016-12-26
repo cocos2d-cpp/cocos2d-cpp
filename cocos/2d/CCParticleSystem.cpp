@@ -58,7 +58,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // ideas taken from:
 //     . The ocean spray in your face [Jeff Lander]
@@ -1353,4 +1353,4 @@ void ParticleSystem::resumeEmissions()
 
 
 
-NS_CC_END
+} // namespace cocos2d

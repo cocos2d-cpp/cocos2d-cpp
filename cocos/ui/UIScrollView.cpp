@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "ui/UIScrollViewBar.h"
 #include "2d/CCTweenFunction.h"
 #include "2d/CCCamera.h"
-NS_CC_BEGIN
+namespace cocos2d {
 
 static const int NUMBER_OF_GATHERED_TOUCHES_FOR_MOVE_SPEED = 5;
 static const float OUT_OF_BOUNDARY_BREAKING_FACTOR = 0.05f;
@@ -1480,4 +1480,4 @@ Widget* ScrollView::findNextFocusedWidget(cocos2d::ui::Widget::FocusDirection di
 }
 }
 
-NS_CC_END
+} // namespace cocos2d

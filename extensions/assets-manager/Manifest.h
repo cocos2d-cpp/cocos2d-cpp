@@ -29,14 +29,14 @@
 #include <unordered_map>
 #include <vector>
 
-#include "extensions/ExtensionMacros.h"
 #include "extensions/ExtensionExport.h"
 #include "network/CCDownloader.h"
 #include "platform/CCFileUtils.h"
 
 #include "json/document-wrapper.h"
 
-NS_CC_EXT_BEGIN
+namespace cocos2d {
+namespace extension {
 
 struct DownloadUnit
 {
@@ -228,5 +228,6 @@ private:
     rapidjson::Document _json;
 };
 
-NS_CC_EXT_END
+} // namespace extension
+} // namespace cocos2d
 #endif /* defined(__Manifest__) */

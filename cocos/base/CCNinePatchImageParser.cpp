@@ -25,7 +25,7 @@
 #include "platform/CCImage.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 NinePatchImageParser::~NinePatchImageParser()
 {
@@ -214,4 +214,4 @@ bool NinePatchImageParser::isNinePatchImage(const std::string& filepath)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

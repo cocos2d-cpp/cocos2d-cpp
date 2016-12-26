@@ -26,7 +26,7 @@
 #include "CCPUScaleAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Constants
 const float PUScaleAffector::DEFAULT_X_SCALE = 1.0f;
@@ -281,4 +281,4 @@ void PUScaleAffector::copyAttributesTo( PUAffector* affector )
     scaleAffector->_sinceStartSystem = _sinceStartSystem;
 }
 
-NS_CC_END
+} // namespace cocos2d

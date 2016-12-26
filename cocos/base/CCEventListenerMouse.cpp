@@ -25,7 +25,7 @@
 
 #include "base/CCEventListenerMouse.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const std::string EventListenerMouse::LISTENER_ID = "__cc_mouse";
 
@@ -109,4 +109,4 @@ bool EventListenerMouse::init()
     return false;
 }
 
-NS_CC_END
+} // namespace cocos2d

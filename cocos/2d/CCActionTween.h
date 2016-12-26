@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 #include "2d/CCActionInterval.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * @addtogroup actions
@@ -120,7 +120,7 @@ protected:
 // end of actions group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __CCACTIONTWEEN_H__ */
 

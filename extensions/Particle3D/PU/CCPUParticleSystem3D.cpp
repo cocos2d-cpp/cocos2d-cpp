@@ -38,7 +38,7 @@
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
 #include "platform/CCFileUtils.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 float PUParticle3D::DEFAULT_TTL = 10.0f;
 float PUParticle3D::DEFAULT_MASS = 1.0f;
@@ -1432,4 +1432,4 @@ void PUParticleSystem3D::forceStopParticleSystem()
     unPrepared();
 }
 
-NS_CC_END
+} // namespace cocos2d

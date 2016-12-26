@@ -31,7 +31,7 @@
 #include "extensions/Particle3D/PU/CCPUSphere.h"
 #include "base/ccTypes.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class  CC_DLL PUSphereCollider : public PUBaseCollider
 {
@@ -80,6 +80,6 @@ protected:
     Vec3 _predictedPosition;
     bool _innerCollision;
 };
-NS_CC_END
+} // namespace cocos2d
 
 #endif

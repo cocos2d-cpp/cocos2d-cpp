@@ -33,7 +33,7 @@
  * @{
  */
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /** @file CCVertex.h */
 
@@ -46,7 +46,7 @@ bool CC_DLL ccVertexLineIntersect(float Ax, float Ay,
                              float Cx, float Cy,
                              float Dx, float Dy, float *T);
 
-NS_CC_END
+} // namespace cocos2d
 
 
 // end of base group

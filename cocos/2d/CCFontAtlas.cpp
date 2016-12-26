@@ -36,7 +36,7 @@
 #include "base/CCEventDispatcher.h"
 #include "base/CCEventType.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const int FontAtlas::CacheTextureWidth = 512;
 const int FontAtlas::CacheTextureHeight = 512;
@@ -485,4 +485,4 @@ void FontAtlas::setAntiAliasTexParameters()
     }
 }
 
-NS_CC_END
+} // namespace cocos2d

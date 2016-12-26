@@ -10,7 +10,7 @@
 #include "PlayerMenuServiceProtocol.h"
 #include "SimulatorExport.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class CC_LIBSIM_DLL PlayerMenuItemWin : public PlayerMenuItem
 {
@@ -66,6 +66,6 @@ private:
     void updateChildrenOrder(PlayerMenuItemWin *parent);
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_MENU_SERVICE_WIN_H_

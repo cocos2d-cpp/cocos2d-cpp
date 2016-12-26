@@ -24,7 +24,7 @@
 
 #include "3d/CCAABB.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AABB::AABB()
 {
@@ -186,4 +186,4 @@ void AABB::transform(const Mat4& mat)
     updateMinMax(corners, 8);
 }
 
-NS_CC_END
+} // namespace cocos2d

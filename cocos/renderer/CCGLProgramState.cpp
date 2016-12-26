@@ -40,7 +40,7 @@ THE SOFTWARE.
 #include "base/CCEventDispatcher.h"
 #include "2d/CCCamera.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // static vector with all the registered custom binding resolvers
 std::vector<GLProgramState::AutoBindingResolver*> GLProgramState::_customAutoBindingResolvers;
@@ -933,4 +933,4 @@ GLProgramState::AutoBindingResolver::~AutoBindingResolver()
         _customAutoBindingResolvers.erase(itr);
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "renderer/CCTexture2D.h"
 #include "base/CCDirector.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 AnimationFrame* AnimationFrame::create(SpriteFrame* spriteFrame, float delayUnits, const ValueMap& userInfo)
 {
@@ -199,4 +199,4 @@ Animation* Animation::clone() const
     return a;
 }
 
-NS_CC_END
+} // namespace cocos2d

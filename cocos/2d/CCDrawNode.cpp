@@ -34,7 +34,7 @@
 #include "2d/CCActionCatmullRom.h"
 #include "platform/CCGL.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // Vec2 == CGPoint in 32-bits, but not in 64-bits (OS X)
 // that's why the "v2f" functions are needed
@@ -939,4 +939,4 @@ GLfloat DrawNode::getLineWidth()
     return this->_lineWidth;
 }
 
-NS_CC_END
+} // namespace cocos2d

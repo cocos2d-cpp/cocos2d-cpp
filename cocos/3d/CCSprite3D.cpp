@@ -46,7 +46,7 @@
 #include "renderer/CCTechnique.h"
 #include "renderer/CCPass.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 static Sprite3DMaterial* getSprite3DMaterialForAttribs(MeshVertexData* meshVertexData, bool usesLight);
 
@@ -1037,4 +1037,4 @@ static Sprite3DMaterial* getSprite3DMaterialForAttribs(MeshVertexData* meshVerte
     return Sprite3DMaterial::createBuiltInMaterial(type, hasSkin);
 }
 
-NS_CC_END
+} // namespace cocos2d

@@ -1,6 +1,6 @@
 #include "WindowTest.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 WindowTests::WindowTests() {
     ADD_TEST_CASE(WindowTestWindowed1);

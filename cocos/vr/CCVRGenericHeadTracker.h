@@ -30,7 +30,7 @@
 #include "math/Vec3.h"
 #include "math/Mat4.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class CC_DLL VRGenericHeadTracker : public VRIHeadTracker
 {
@@ -53,6 +53,6 @@ protected:
     void* _motionMgr;
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* CCVRGenericHeadTracker_hpp */

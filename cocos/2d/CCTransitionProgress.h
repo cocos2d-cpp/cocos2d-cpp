@@ -30,7 +30,7 @@ THE SOFTWARE.
 
 #include "2d/CCTransition.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class ProgressTimer;
 class RenderTexture;
@@ -257,7 +257,7 @@ protected:
 // end of _2d group
 /// @}
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* __CCTRANSITIONPROGRESS_H__ */
 

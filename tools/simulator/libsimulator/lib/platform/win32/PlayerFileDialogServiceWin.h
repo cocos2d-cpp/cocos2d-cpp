@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "PlayerFileDialogServiceProtocol.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 class PlayerFileDialogServiceWin : public PlayerFileDialogServiceProtocol
 {
@@ -33,6 +33,6 @@ protected:
                                              bool isMulti) const;
 };
 
-PLAYER_NS_END
+} // namespace player
 
 #endif // __PLAYER_FILE_DIALOG_SERVICE_WIN_H_

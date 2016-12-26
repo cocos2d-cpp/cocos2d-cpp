@@ -38,7 +38,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 /**
  * define the functions here because we don't want to
@@ -523,6 +523,6 @@ void UserDefault::deleteValueForKey(const char* key)
     flush();
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // (CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_PLATFORM != CC_PLATFORM_ANDROID)

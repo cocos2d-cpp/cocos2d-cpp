@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUMaterialManager.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 PURendererTranslator::PURendererTranslator()
 {
     
@@ -751,4 +751,4 @@ void PURendererTranslator::translate(PUScriptCompiler* compiler, PUAbstractNode 
 
 
 
-NS_CC_END
+} // namespace cocos2d

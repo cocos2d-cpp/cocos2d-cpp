@@ -29,7 +29,7 @@ THE SOFTWARE.
 #include "2d/CCTextFieldTTF.h"
 #include "ui/GUIExport.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 /**
  * @addtogroup ui
  * @{
@@ -700,6 +700,6 @@ private:
 
 // end of ui group
 /// @}
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* defined(__TextField__) */

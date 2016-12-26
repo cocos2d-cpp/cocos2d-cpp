@@ -38,7 +38,7 @@ THE SOFTWARE.
 #include <memory>
 #include <wrl/client.h>
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class GLViewImpl;
 
@@ -190,6 +190,6 @@ private:
 
 };
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif    // end of __CC_EGLVIEWIMPL_WINRT_H__

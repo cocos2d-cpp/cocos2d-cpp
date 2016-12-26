@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "base/CCGameController.h"
 
-USING_NS_CC;
+using namespace cocos2d;
 
 class GameControllerTest : public cocos2d::Layer
 {

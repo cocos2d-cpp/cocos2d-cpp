@@ -28,7 +28,7 @@
 #include "cocos2d.h"
 #include <tuple>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 Shader2Tests::Shader2Tests()
 {

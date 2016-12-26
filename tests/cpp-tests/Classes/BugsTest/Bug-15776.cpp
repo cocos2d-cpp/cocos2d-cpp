@@ -10,7 +10,7 @@
 
 #include <stdexcept>
 
-USING_NS_CC;
+using namespace cocos2d;
 
 bool Bug15776Layer::init()
 {

@@ -27,7 +27,7 @@
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 #include "extensions/Particle3D/PU/CCPUUtil.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // Constants
 const float PUSphereSurfaceEmitter::DEFAULT_RADIUS = 10.0f;
 
@@ -117,4 +117,4 @@ PUSphereSurfaceEmitter* PUSphereSurfaceEmitter::clone()
     return be;
 }
 
-NS_CC_END
+} // namespace cocos2d

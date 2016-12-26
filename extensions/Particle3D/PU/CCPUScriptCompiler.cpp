@@ -26,7 +26,7 @@
 #include "CCPUScriptCompiler.h"
 #include "extensions/Particle3D/PU/CCPUTranslateManager.h"
 #include "platform/CCFileUtils.h"
-NS_CC_BEGIN
+namespace cocos2d {
 
 // ObjectAbstractNode
 PUObjectAbstractNode::PUObjectAbstractNode(PUAbstractNode *ptr)
@@ -409,4 +409,4 @@ PUScriptCompiler* PUScriptCompiler::Instance()
     return &psc;
 }
 
-NS_CC_END
+} // namespace cocos2d

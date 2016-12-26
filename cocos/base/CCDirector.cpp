@@ -72,7 +72,7 @@ THE SOFTWARE.
 
 using namespace std;
 
-NS_CC_BEGIN
+namespace cocos2d {
 // FIXME: it should be a Director ivar. Move it there once support for multiple directors is added
 
 // singleton stuff
@@ -1378,5 +1378,5 @@ void Director::setAnimationInterval(float interval)
     }    
 }
 
-NS_CC_END
+} // namespace cocos2d
 

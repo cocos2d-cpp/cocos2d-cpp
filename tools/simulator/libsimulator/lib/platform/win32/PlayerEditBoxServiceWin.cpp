@@ -5,7 +5,7 @@
 #include "cocos2d.h"
 #include "PlayerEditBoxServiceWin.h"
 
-PLAYER_NS_BEGIN
+namespace player {
 
 PlayerEditBoxServiceWin::PlayerEditBoxServiceWin(HWND hwnd)
 : _hfont(NULL)
@@ -95,4 +95,4 @@ void PlayerEditBoxServiceWin::setFormator(int /*formator*/ )
 
 }
 
-PLAYER_NS_END
+} // namespace player

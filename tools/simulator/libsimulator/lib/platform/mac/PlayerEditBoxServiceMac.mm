@@ -148,7 +148,7 @@
 
 
 
-PLAYER_NS_BEGIN;
+namespace player {;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -227,4 +227,4 @@ void PlayerEditBoxServiceMac::setFormator(int formator)
     CCLOG("Not support yet.");
 }
 
-PLAYER_NS_END;
+} // namespace player;

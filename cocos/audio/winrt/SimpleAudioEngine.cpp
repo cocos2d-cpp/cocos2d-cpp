@@ -24,7 +24,7 @@
 #include "platform/CCFileUtils.h"
 
 using namespace std;
-USING_NS_CC;
+using namespace cocos2d;
 
 namespace CocosDenshion {
 

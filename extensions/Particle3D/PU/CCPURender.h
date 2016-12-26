@@ -33,7 +33,7 @@
 #include "extensions/Particle3D/CCParticle3DRender.h"
 #include "renderer/CCRenderState.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 // particle render for quad
 struct PUParticle3D;
@@ -245,5 +245,5 @@ protected:
     std::vector<VertexInfo> _vertexTemplate;
 };
 
-NS_CC_END
+} // namespace cocos2d
 #endif

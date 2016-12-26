@@ -26,7 +26,7 @@
 #include "base/CCData.h"
 #include "base/CCConsole.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 const Data Data::Null;
 
@@ -133,4 +133,4 @@ unsigned char* Data::takeBuffer(ssize_t* size)
     return buffer;
 }
 
-NS_CC_END
+} // namespace cocos2d

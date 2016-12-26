@@ -32,7 +32,7 @@
 
 #include "ui/UIEditBox/UIEditBoxImpl-common.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 class Label;
 
@@ -80,7 +80,7 @@ private:
 
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif /* #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID) */
 

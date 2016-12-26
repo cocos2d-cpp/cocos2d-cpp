@@ -33,7 +33,7 @@
 #include "platform/ios/CCGLViewImpl-ios.h"
 #include "base/CCTouch.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 
 void* GLViewImpl::_pixelFormat = kEAGLColorFormatRGB565;
 int GLViewImpl::_depthFormat = GL_DEPTH_COMPONENT16;
@@ -227,6 +227,6 @@ void GLViewImpl::setIMEKeyboardState(bool open)
     }
 }
 
-NS_CC_END
+} // namespace cocos2d
 
 #endif // CC_PLATFOR_IOS

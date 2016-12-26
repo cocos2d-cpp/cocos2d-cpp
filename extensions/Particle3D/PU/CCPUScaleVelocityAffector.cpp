@@ -26,7 +26,7 @@
 #include "CCPUScaleVelocityAffector.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
 
-NS_CC_BEGIN
+namespace cocos2d {
 // Constants
 const float PUScaleVelocityAffector::DEFAULT_VELOCITY_SCALE = 1.0f;
 
@@ -121,4 +121,4 @@ void PUScaleVelocityAffector::copyAttributesTo( PUAffector* affector )
     scaleVelocityAffector->_stopAtFlip = _stopAtFlip;
 }
 
-NS_CC_END
+} // namespace cocos2d
