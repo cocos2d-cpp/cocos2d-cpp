@@ -1224,12 +1224,6 @@ void Texture2D::drawInRect(const Rect& rect)
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
-void Texture2D::PVRImagesHavePremultipliedAlpha(bool haveAlphaPremultiplied)
-{
-    Image::setPVRImagesHavePremultipliedAlpha(haveAlphaPremultiplied);
-}
-
-
 //
 // Use to apply MIN/MAG filter
 //
@@ -1395,7 +1389,7 @@ const char* Texture2D::getStringForFormat() const
             
         default:
             CCASSERT(false , "unrecognized pixel format");
-            CCLOG("stringForFormat: %ld, cannot give useful result", (long)_pixelFormat);
+            CCLOG("getStringForFormat: %ld, cannot give useful result", (long)_pixelFormat);
             break;
     }
 
