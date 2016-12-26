@@ -74,7 +74,7 @@ void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
     draw->drawPoint(VisibleRect::center(), 128.0f, Color4F(0, 0, 1, 0.5));
     
     std::vector<Vec2> points = { Vec2(60,60), Vec2(70,70), Vec2(60,70), Vec2(70,60) };
-    draw->drawPoints(points.data(), points.size(), 8.0f, Color4F(0, 1.0f, 1.0f, 1.0f));
+    draw->drawPoints(points.data(), static_cast<unsigned int>(points.size()), 8.0f, Color4F(0, 1.0f, 1.0f, 1.0f));
 
     auto draw2 = DrawNode::create();
     addChild(draw2, 10);
@@ -116,7 +116,7 @@ void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
     addChild(draw4, 10);
     draw4->setLineWidth(10);
     draw4->drawPoly(vertices.data(),
-                    vertices.size(),
+                    static_cast<unsigned int>(vertices.size()),
                     false,
                     Color4F(1.0f, 1.0f, 0.0f, 1.0f));
 
@@ -127,12 +127,12 @@ void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
         Vec2(0,170)
     };
     draw->drawSolidPoly(filledVertices.data(),
-                        filledVertices.size(),
+                        static_cast<unsigned int>(filledVertices.size()),
                         Color4F(0.5f, 0.5f, 1.0f, 1.0f));
 
     // closed purble poly
     std::vector<Vec2> vertices2 = { Vec2(30,130), Vec2(30,230), Vec2(50,200) };
-    draw3->drawPoly(vertices2.data(), vertices2.size(), true, Color4F(1.0f, 0, 1.0f, 1.0f));
+    draw3->drawPoly(vertices2.data(), static_cast<unsigned int>(vertices2.size()), true, Color4F(1.0f, 0, 1.0f, 1.0f));
  
     // draw quad bezier path
     draw3->drawQuadBezier(VisibleRect::leftTop(),
@@ -154,7 +154,7 @@ void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
     //draw a solid polygon
     std::vector<Vec2> vertices3 = {Vec2(60,160), Vec2(70,190), Vec2(100,190), Vec2(90,160)};
     draw3->drawSolidPoly(vertices3.data(),
-                         vertices3.size(),
+                         static_cast<unsigned int>(vertices3.size()),
                          Color4F(1, 1, 0, 1));
 }
 

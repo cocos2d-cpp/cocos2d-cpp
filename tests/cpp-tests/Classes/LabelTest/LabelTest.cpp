@@ -250,13 +250,13 @@ LabelTTFAlignment::LabelTTFAlignment()
 {
     auto s = Director::getInstance()->getWinSize();
 
-    const auto         width        = s.width / 2;
-    decltype(s.height) height_level = 2;
+    const auto width           = s.width / 2;
+    const auto height_distance = s.height / 6;
+    auto       height          = height_distance;
     
-    auto nextHeight = [sixth_height = s.height / 6, & height_level] {
-        auto curr = height_level + 1;
-        height_level += 1;
-        return sixth_height * (height_level - 1);
+    auto nextHeight = [height_distance, & height] {
+        height += height_distance;
+        return height;
     };
 
     for (auto hAlign : { TextHAlignment::LEFT,
