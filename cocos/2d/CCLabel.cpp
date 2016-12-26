@@ -1315,39 +1315,6 @@ void Label::setCameraMask(unsigned short mask, bool applyChildren)
     }
 }
 
-void Label::setFontDefinition(const FontDefinition& textDefinition)
-{
-    _systemFont = textDefinition._fontName;
-    _systemFontSize = textDefinition._fontSize;
-    _hAlignment = textDefinition._alignment;
-    _vAlignment = textDefinition._vertAlignment;
-    setDimensions(textDefinition._dimensions.width, textDefinition._dimensions.height);
-    Color4B textColor = Color4B(textDefinition._fontFillColor);
-    textColor.a = textDefinition._fontAlpha;
-    setTextColor(textColor);
-    
-#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID) && (CC_TARGET_PLATFORM != CC_PLATFORM_IOS)
-    if (textDefinition._stroke._strokeEnabled)
-    {
-        CCLOGERROR("Stroke Currently only supported on iOS and Android!");
-    }
-    _outlineSize = 0.f;
-#else
-    if (textDefinition._stroke._strokeEnabled && textDefinition._stroke._strokeSize > 0.f)
-    {
-        Color4B outlineColor = Color4B(textDefinition._stroke._strokeColor);
-        outlineColor.a = textDefinition._stroke._strokeAlpha;
-        enableOutline(outlineColor, textDefinition._stroke._strokeSize);
-    }
-#endif
-
-    if (textDefinition._shadow._shadowEnabled)
-    {
-        enableShadow(Color4B(0, 0, 0, 255 * textDefinition._shadow._shadowOpacity),
-            textDefinition._shadow._shadowOffset, textDefinition._shadow._shadowBlur);
-    }
-}
-
 void Label::updateContent()
 {
     if (_systemFontDirty)
