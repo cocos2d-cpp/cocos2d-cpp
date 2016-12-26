@@ -56,11 +56,6 @@ void TextureCache::setETC1AlphaFileSuffix(const std::string& suffix)
     s_etc1AlphaFileSuffix = suffix;
 }
 
-TextureCache * TextureCache::getInstance()
-{
-    return Director::getInstance()->getTextureCache();
-}
-
 TextureCache::TextureCache()
 : _loadingThread(nullptr)
 , _needQuit(false)
@@ -76,19 +71,6 @@ TextureCache::~TextureCache()
         texture.second->release();
 
     CC_SAFE_DELETE(_loadingThread);
-}
-
-void TextureCache::destroyInstance()
-{
-}
-
-TextureCache * TextureCache::sharedTextureCache()
-{
-    return Director::getInstance()->getTextureCache();
-}
-
-void TextureCache::purgeSharedTextureCache()
-{
 }
 
 std::string TextureCache::getDescription() const
@@ -580,14 +562,6 @@ Texture2D* TextureCache::getTextureForKey(const std::string &textureKeyName) con
     if (it != _textures.end())
         return it->second;
     return nullptr;
-}
-
-void TextureCache::reloadAllTextures()
-{
-    //will do nothing
-    // #if CC_ENABLE_CACHE_TEXTURE_DATA
-    //     VolatileTextureMgr::reloadAllTextures();
-    // #endif
 }
 
 std::string TextureCache::getTextureFilePath(cocos2d::Texture2D* texture) const

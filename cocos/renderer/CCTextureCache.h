@@ -50,10 +50,6 @@ namespace cocos2d {
  * @addtogroup _2d
  * @{
  */
-/*
-* From version 3.0, TextureCache will never to treated as a singleton, it will be owned by director.
-* All call by TextureCache::getInstance() should be replaced by Director::getInstance()->getTextureCache().
-*/
 
 /** @brief Singleton that handles the loading of textures.
 * Once the texture is loaded, the next time it will return.
@@ -62,26 +58,6 @@ namespace cocos2d {
 class CC_DLL TextureCache : public Ref
 {
 public:
-    /** Returns the shared instance of the cache. */
-    CC_DEPRECATED_ATTRIBUTE static TextureCache * getInstance();
-
-    /** @deprecated Use getInstance() instead. */
-    CC_DEPRECATED_ATTRIBUTE static TextureCache * sharedTextureCache();
-
-    /** Purges the cache. It releases the retained instance.
-     @since v0.99.0
-     */
-    CC_DEPRECATED_ATTRIBUTE static void destroyInstance();
-
-    /** @deprecated Use destroyInstance() instead. */
-    CC_DEPRECATED_ATTRIBUTE static void purgeSharedTextureCache();
-
-    /** Reload all textures.
-    Should not call it, called by frame work.
-    Now the function do nothing, use VolatileTextureMgr::reloadAllTextures.
-     */
-    CC_DEPRECATED_ATTRIBUTE static void reloadAllTextures();
-
     // ETC1 ALPHA supports.
     static void setETC1AlphaFileSuffix(const std::string& suffix);
 

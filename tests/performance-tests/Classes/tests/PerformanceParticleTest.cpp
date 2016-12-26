@@ -306,27 +306,6 @@ void ParticleMainScene::createParticleSystem()
         Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::A8);
         particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
         break;                        
-//     case 4:
-//         particleSystem->initWithTotalParticles(quantityParticles);
-//         ////---- particleSystem.texture = [[TextureCache sharedTextureCache] addImage:@"fire.pvr"];
-//         particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
-//         break;
-//    case 4:
-//        Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA8888);
-//        particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
-//        break;
-//    case 5:
-//        Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA4444);
-//        particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
-//        break;            
-//    case 6:
-//        Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::A8);
-//        particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
-//        break;                        
-//     case 8:
-//         ////---- particleSystem.texture = [[TextureCache sharedTextureCache] addImage:@"fire.pvr"];
-//         particleSystem->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
-//         break;
     default:
         particleSystem = nullptr;
         CCLOG("Shall not happen!");
