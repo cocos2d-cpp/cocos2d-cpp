@@ -3,12 +3,6 @@
 #include <iostream>
 #include <thread>
 
-#if CC_LUA_ENGINE_ENABLED > 0
-extern "C" {
-#include "lua.h"
-}
-#include "CCLuaEngine.h"
-#endif
 #include <sstream>
 
 namespace cocos2d {
@@ -26,31 +20,11 @@ HTTPRequest *HTTPRequest::createWithUrl(HTTPRequestDelegate *delegate,
     return request;
 }
 
-#if CC_LUA_ENGINE_ENABLED > 0
-HTTPRequest *HTTPRequest::createWithUrlLua(LUA_FUNCTION listener,
-                                               const char *url,
-                                               int method)
-{
-    HTTPRequest *request = new HTTPRequest();
-    request->initWithListener(listener, url, method);
-    request->autorelease();
-    return request;
-}
-#endif
-
 bool HTTPRequest::initWithDelegate(HTTPRequestDelegate *delegate, const char *url, int method)
 {
     _delegate = delegate;
     return initWithUrl(url, method);
 }
-
-#if CC_LUA_ENGINE_ENABLED > 0
-bool HTTPRequest::initWithListener(LUA_FUNCTION listener, const char *url, int method)
-{
-    _listener = listener;
-    return initWithUrl(url, method);
-}
-#endif
 
 bool HTTPRequest::initWithUrl(const char *url, int method)
 {
@@ -76,12 +50,6 @@ bool HTTPRequest::initWithUrl(const char *url, int method)
 HTTPRequest::~HTTPRequest(void)
 {
     cleanup();
-    if (_listener)
-    {
-#if (CC_LUA_ENGINE_ENABLED > 0)
-        LuaEngine::getInstance()->removeScriptHandler(_listener);
-#endif
-    }
     // CCLOG("HTTPRequest[0x%04x] - request removed", s_id);
 }
 
@@ -269,17 +237,6 @@ void *HTTPRequest::getResponseData(void)
     return buff;
 }
 
-#if CC_LUA_ENGINE_ENABLED > 0
-LUA_STRING HTTPRequest::getResponseDataLua(void)
-{
-    CCAssert(_state == kCCHTTPRequestStateCompleted, "HTTPRequest::getResponseDataLua() - request not completed");
-    LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
-    stack->clean();
-    stack->pushString(static_cast<char*>(_responseBuffer), (int)_responseDataLength);
-    return 1;
-}
-#endif
-
 int HTTPRequest::getResponseDataLength(void)
 {
     CCAssert(_state == kCCHTTPRequestStateCompleted, "Request not completed");
@@ -331,22 +288,6 @@ void HTTPRequest::update(float dt)
 {
     if (_state == kCCHTTPRequestStateInProgress)
     {
-#if CC_LUA_ENGINE_ENABLED > 0
-        if (_listener)
-        {
-            LuaValueDict dict;
-            
-            dict["name"] = LuaValue::stringValue("progress");
-            dict["total"] = LuaValue::intValue((int)_dltotal);
-            dict["dltotal"] = LuaValue::intValue((int)_dlnow);
-            dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
-            
-            LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
-            stack->clean();
-            stack->pushLuaValueDict(dict);
-            stack->executeFunctionByHandler(_listener, 1);
-        }
-#endif
         return;
     }
     
@@ -366,36 +307,6 @@ void HTTPRequest::update(float dt)
         // CCLOG("HTTPRequest[0x%04x] - request failed", s_id);
         if (_delegate) _delegate->requestFailed(this);
     }
-
-#if CC_LUA_ENGINE_ENABLED > 0
-    if (_listener)
-    {
-        LuaValueDict dict;
-
-        switch (_state)
-        {
-            case kCCHTTPRequestStateCompleted:
-                dict["name"] = LuaValue::stringValue("completed");
-                break;
-                
-            case kCCHTTPRequestStateCancelled:
-                dict["name"] = LuaValue::stringValue("cancelled");
-                break;
-                
-            case kCCHTTPRequestStateFailed:
-                dict["name"] = LuaValue::stringValue("failed");
-                break;
-                
-            default:
-                dict["name"] = LuaValue::stringValue("unknown");
-        }
-        dict["request"] = LuaValue::ccobjectValue(this, "HTTPRequest");
-        LuaStack *stack = LuaEngine::getInstance()->getLuaStack();
-        stack->clean();
-        stack->pushLuaValueDict(dict);
-        stack->executeFunctionByHandler(_listener, 1);
-    }
-#endif
 }
 
 // instance callback
