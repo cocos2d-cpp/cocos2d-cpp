@@ -106,7 +106,7 @@ Director::Director()
 {
 }
 
-bool Director::init(void)
+bool Director::init()
 {
     setDefaultValues();
 
@@ -838,7 +838,6 @@ void Director::runWithScene(Scene *scene)
 
 void Director::replaceScene(Scene *scene)
 {
-    //CCASSERT(_runningScene, "Use runWithScene: instead to start the director");
     CCASSERT(scene != nullptr, "the scene should not be null");
     
     if (_runningScene == nullptr) {
@@ -846,8 +845,10 @@ void Director::replaceScene(Scene *scene)
         return;
     }
     
-    if (scene == _nextScene)
+    if (scene == _scenesStack.back().get())
+    {
         return;
+    }
     
     if (_nextScene)
     {
@@ -856,15 +857,12 @@ void Director::replaceScene(Scene *scene)
             _nextScene->onExit();
         }
         _nextScene->cleanup();
-        _nextScene = nullptr;
     }
 
-    ssize_t index = _scenesStack.size() - 1;
-
     _sendCleanupToScene = true;
-    _scenesStack.replace(index, scene);
-
-    _nextScene = scene;
+    
+    _scenesStack.back() = to_retaining_ptr(scene);
+    _nextScene = _scenesStack.back().get();
 }
 
 void Director::pushScene(Scene *scene)
@@ -873,25 +871,24 @@ void Director::pushScene(Scene *scene)
 
     _sendCleanupToScene = false;
 
-    _scenesStack.pushBack(scene);
-    _nextScene = scene;
+    _scenesStack.push_back(to_retaining_ptr(scene));
+    _nextScene = _scenesStack.back().get();
 }
 
 void Director::popScene(void)
 {
     CCASSERT(_runningScene != nullptr, "running scene should not null");
     
-    _scenesStack.popBack();
-    ssize_t c = _scenesStack.size();
+    _scenesStack.pop_back();
 
-    if (c == 0)
+    if (_scenesStack.empty())
     {
         end();
     }
     else
     {
         _sendCleanupToScene = true;
-        _nextScene = _scenesStack.at(c - 1);
+        _nextScene = _scenesStack.back().get();
     }
 }
 
@@ -900,10 +897,9 @@ void Director::popToRootScene(void)
     popToSceneStackLevel(1);
 }
 
-void Director::popToSceneStackLevel(int level)
+void Director::popToSceneStackLevel(size_t level)
 {
     CCASSERT(_runningScene != nullptr, "A running Scene is needed");
-    ssize_t c = _scenesStack.size();
 
     // level 0? -> end
     if (level == 0)
@@ -913,20 +909,20 @@ void Director::popToSceneStackLevel(int level)
     }
 
     // current level or lower -> nothing
-    if (level >= c)
-        return;
-
-    auto firstOnStackScene = _scenesStack.back();
-    if (firstOnStackScene == _runningScene)
+    if (level >= _scenesStack.size())
     {
-        _scenesStack.popBack();
-        --c;
+        return;
+    }
+
+    if (_scenesStack.back().get() == _runningScene)
+    {
+        _scenesStack.pop_back();
     }
 
     // pop stack until reaching desired level
-    while (c > level)
+    for ( ; _scenesStack.size() > level; _scenesStack.pop_back())
     {
-        auto current = _scenesStack.back();
+        auto current = _scenesStack.back().get();
 
         if (current->isRunning())
         {
@@ -934,11 +930,9 @@ void Director::popToSceneStackLevel(int level)
         }
 
         current->cleanup();
-        _scenesStack.popBack();
-        --c;
     }
 
-    _nextScene = _scenesStack.back();
+    _nextScene = _scenesStack.back().get();
 
     // cleanup running scene
     _sendCleanupToScene = true;
@@ -961,9 +955,9 @@ void Director::reset()
         _runningScene->onExit();
         _runningScene->cleanup();
         _runningScene->release();
+        _runningScene = nullptr;
     }
     
-    _runningScene = nullptr;
     _nextScene = nullptr;
 
     _eventDispatcher->dispatchEvent(_eventResetDirector);
@@ -1063,28 +1057,28 @@ void Director::setNextScene()
     bool newIsTransition = dynamic_cast<TransitionScene*>(_nextScene) != nullptr;
 
     // If it is not a transition, call onExit/cleanup
-     if (! newIsTransition)
-     {
-         if (_runningScene)
-         {
-             _runningScene->onExitTransitionDidStart();
-             _runningScene->onExit();
-         }
- 
-         // issue #709. the root node (scene) should receive the cleanup message too
-         // otherwise it might be leaked.
-         if (_sendCleanupToScene && _runningScene)
-         {
-             _runningScene->cleanup();
-         }
-     }
+    if (! newIsTransition)
+    {
+        if (_runningScene)
+        {
+            _runningScene->onExitTransitionDidStart();
+            _runningScene->onExit();
+        }
+
+        // issue #709. the root node (scene) should receive the cleanup message too
+        // otherwise it might be leaked.
+        if (_sendCleanupToScene && _runningScene)
+        {
+            _runningScene->cleanup();
+        }
+    }
 
     if (_runningScene)
     {
         _runningScene->release();
     }
     _runningScene = _nextScene;
-    _nextScene->retain();
+    _runningScene->retain();
     _nextScene = nullptr;
 
     if ((! runningIsTransition) && _runningScene)

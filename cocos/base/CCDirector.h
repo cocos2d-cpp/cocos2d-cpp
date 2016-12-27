@@ -34,11 +34,12 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformMacros.h"
 #include "base/CCRef.h"
-#include "base/CCVector.h"
 #include "2d/CCScene.h"
 #include "math/CCMath.h"
 #include "platform/CCGL.h"
 #include "platform/CCGLView.h"
+
+#include <vector>
 
 namespace cocos2d {
 
@@ -134,16 +135,10 @@ public:
      */
     static Director* getInstance();
 
-    /**
-     * @js ctor
-     */
     Director();
-    
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     ~Director();
+
     bool init();
 
     // attribute
@@ -301,7 +296,7 @@ public:
      If level is 1, it will pop all scenes until it reaches to root scene.
      If level is <= than the current stack level, it won't do anything.
      */
- 	void popToSceneStackLevel(int level);
+ 	void popToSceneStackLevel(size_t level);
 
     /** Replaces the running scene with a new one. The running scene is terminated.
      * ONLY call it if there is a running scene.
@@ -649,7 +644,7 @@ protected:
     bool _sendCleanupToScene;
 
     /* scheduled scenes */
-    Vector<Scene*> _scenesStack;
+    std::vector<retaining_ptr<Scene>> _scenesStack;
     
     /* last time the main loop was updated */
     std::chrono::steady_clock::time_point _lastUpdate;

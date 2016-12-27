@@ -53,6 +53,8 @@ typedef SSIZE_T ssize_t;
 
 namespace cocos2d {
 
+class Node;
+
 /**
  @brief Output Debug message.
  */
@@ -68,8 +70,7 @@ void CC_DLL log(const char * format, ...) CC_FORMAT_PRINTF(1, 2);
  ```
  */
 
-class CC_DLL Console
-    : public Ref
+class CC_DLL Console : public Ref
 {
 public:
     /** Console Utils */

@@ -29,6 +29,8 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h"
 #include "base/ccConfig.h"
 
+#include <memory>
+
 #define CC_REF_LEAK_DETECTION 0
 
 /**
@@ -145,7 +147,17 @@ public:
 #endif
 };
 
-class Node;
+template<typename T>
+using retaining_ptr = std::unique_ptr<T,void(*)(T*)>;
+
+template<typename T>
+retaining_ptr<T> to_retaining_ptr(T * ptr)
+{
+    static_assert(std::is_base_of<Ref, T>::value,
+                  "retaining_ptr is for Ref-derived types only");
+    ptr->retain();
+    return retaining_ptr<T>(ptr, [](T * p){ p->release(); });
+}
 
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
