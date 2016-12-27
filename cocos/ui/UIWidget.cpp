@@ -166,7 +166,6 @@ _layoutParameterType(LayoutParameter::Type::NONE),
 _focused(false),
 _focusEnabled(true),
 _touchEventListener(nullptr),
-_touchEventSelector(nullptr),
 _ccEventCallback(nullptr),
 _callbackType(""),
 _callbackName("")
@@ -840,30 +839,24 @@ void Widget::onTouchCancelled(Touch* /*touch*/, Event* /*unusedEvent*/)
 void Widget::pushDownEvent()
 {
     this->retain();
+
     if (_touchEventCallback)
     {
         _touchEventCallback(this, TouchEventType::BEGAN);
     }
 
-    if (_touchEventListener && _touchEventSelector)
-    {
-        (_touchEventListener->*_touchEventSelector)(this,TOUCH_EVENT_BEGAN);
-    }
     this->release();
 }
 
 void Widget::moveEvent()
 {
     this->retain();
+
     if (_touchEventCallback)
     {
         _touchEventCallback(this, TouchEventType::MOVED);
     }
 
-    if (_touchEventListener && _touchEventSelector)
-    {
-        (_touchEventListener->*_touchEventSelector)(this,TOUCH_EVENT_MOVED);
-    }
     this->release();
 }
 
@@ -881,12 +874,8 @@ void Widget::releaseUpEvent()
         _touchEventCallback(this, TouchEventType::ENDED);
     }
 
-    if (_touchEventListener && _touchEventSelector)
+    if (_clickEventListener)
     {
-        (_touchEventListener->*_touchEventSelector)(this,TOUCH_EVENT_ENDED);
-    }
-
-    if (_clickEventListener) {
         _clickEventListener(this);
     }
     this->release();
@@ -895,15 +884,12 @@ void Widget::releaseUpEvent()
 void Widget::cancelUpEvent()
 {
     this->retain();
+
     if (_touchEventCallback)
     {
         _touchEventCallback(this, TouchEventType::CANCELED);
     }
 
-    if (_touchEventListener && _touchEventSelector)
-    {
-        (_touchEventListener->*_touchEventSelector)(this,TOUCH_EVENT_CANCELED);
-    }
     this->release();
 }
 
@@ -1214,7 +1200,6 @@ void Widget::copyProperties(Widget *widget)
     setCascadeOpacityEnabled(widget->isCascadeOpacityEnabled());
     _touchEventCallback = widget->_touchEventCallback;
     _touchEventListener = widget->_touchEventListener;
-    _touchEventSelector = widget->_touchEventSelector;
     _clickEventListener = widget->_clickEventListener;
     _focused = widget->_focused;
     _focusEnabled = widget->_focusEnabled;

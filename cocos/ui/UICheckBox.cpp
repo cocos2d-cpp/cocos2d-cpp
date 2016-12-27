@@ -31,14 +31,12 @@ namespace ui {
 IMPLEMENT_CLASS_GUI_INFO(CheckBox)
 
 CheckBox::CheckBox():
-_checkBoxEventListener(nullptr),
-_checkBoxEventSelector(nullptr)
+_checkBoxEventListener(nullptr)
 {
 }
 
 CheckBox::~CheckBox()
 {
-    _checkBoxEventSelector = nullptr;
 }
 
 CheckBox* CheckBox::create()
@@ -114,24 +112,20 @@ void CheckBox::onTouchEnded(Touch *touch, Event *unusedEvent)
 void CheckBox::dispatchSelectChangedEvent(bool selected)
 {
     EventType eventType = (selected ? EventType::SELECTED : EventType::UNSELECTED);
-    CheckBoxEventType checkBoxEventType = (selected ? CHECKBOX_STATE_EVENT_SELECTED : CHECKBOX_STATE_EVENT_UNSELECTED);
     
     this->retain();
+
     if (_checkBoxEventCallback)
     {
         _checkBoxEventCallback(this, eventType);
     }
+
     if (_ccEventCallback)
     {
         _ccEventCallback(this, static_cast<int>(eventType));
     }
     
-    if (_checkBoxEventListener && _checkBoxEventSelector)
-    {
-        (_checkBoxEventListener->*_checkBoxEventSelector)(this, checkBoxEventType);
-    }
     this->release();
-    
 }
 
 void CheckBox::addEventListener(const ccCheckBoxCallback& callback)
@@ -156,7 +150,6 @@ void CheckBox::copySpecialProperties(Widget *widget)
     {
         AbstractCheckButton::copySpecialProperties(widget);
         _checkBoxEventListener = checkBox->_checkBoxEventListener;
-        _checkBoxEventSelector = checkBox->_checkBoxEventSelector;
         _checkBoxEventCallback = checkBox->_checkBoxEventCallback;
         _ccEventCallback = checkBox->_ccEventCallback;
     }

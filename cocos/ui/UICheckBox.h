@@ -33,27 +33,7 @@ THE SOFTWARE.
  * @{
  */
 namespace cocos2d {
-
 namespace ui {
-
-/**
- * Checkbox event type, there are two type here:
- * - selected state
- * - unselected state
- * @deprecated use `CheckBox::EventType` instead
- */
-typedef enum
-{
-    CHECKBOX_STATE_EVENT_SELECTED,
-    CHECKBOX_STATE_EVENT_UNSELECTED
-} CheckBoxEventType;
-
-/**
- * A callback which will be called after checkbox event happens.
- * @deprecated use `CheckBox::ccCheckBoxCallback` instead.
- */
-typedef void (Ref::*SEL_SelectedStateEvent)(Ref*,CheckBoxEventType);
-#define checkboxselectedeventselector(_SELECTOR) (SEL_SelectedStateEvent)(&_SELECTOR)
 
 /**
  *  Checkbox is a specific type of two-states button that can be either checked or unchecked.
@@ -81,15 +61,11 @@ public:
     
     /**
      * Default constructor.
-     * 
-     * @lua new
      */
     CheckBox();
 
     /**
      * Default destructor.
-     * 
-     * @lua NA
      */
     virtual ~CheckBox();
 
@@ -151,26 +127,12 @@ protected:
     //if you use the old event callback, it will retain the _checkBoxEventListener
     Ref*       _checkBoxEventListener;
     
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_SelectedStateEvent    _checkBoxEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
-    
     ccCheckBoxCallback _checkBoxEventCallback;
-
 };
 
-}
-
+} // namespace ui
 } // namespace cocos2d
+
 // end of ui group
 /// @}
 

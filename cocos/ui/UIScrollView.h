@@ -42,31 +42,6 @@ namespace ui {
 class ScrollViewBar;
 
 /**
- *Scrollview scroll event type.
- *@deprecated use @see `ScrollView::EventType` instead.
- */
-typedef enum
-{
-    SCROLLVIEW_EVENT_SCROLL_TO_TOP,
-    SCROLLVIEW_EVENT_SCROLL_TO_BOTTOM,
-    SCROLLVIEW_EVENT_SCROLL_TO_LEFT,
-    SCROLLVIEW_EVENT_SCROLL_TO_RIGHT,
-    SCROLLVIEW_EVENT_SCROLLING,
-    SCROLLVIEW_EVENT_BOUNCE_TOP,
-    SCROLLVIEW_EVENT_BOUNCE_BOTTOM,
-    SCROLLVIEW_EVENT_BOUNCE_LEFT,
-    SCROLLVIEW_EVENT_BOUNCE_RIGHT,
-    SCROLLVIEW_EVENT_AUTOSCROLL_ENDED
-}ScrollviewEventType;
-
-/**
- * A callback which would be called when a ScrollView is scrolling.
- *@deprecated Use @see `ccScrollViewCallback` instead.
- */
-typedef void (Ref::*SEL_ScrollViewEvent)(Ref*, ScrollviewEventType);
-#define scrollvieweventselector(_SELECTOR) (SEL_ScrollViewEvent)(&_SELECTOR)
-
-/**
  * Layout container for a view hierarchy that can be scrolled by the user, allowing it to be larger than the physical display.
  * It holds a inner `Layout` container for storing child items horizontally or vertically.
  */
@@ -611,7 +586,7 @@ protected:
     
     void processScrollEvent(MoveDirection dir, bool bounce);
     void processScrollingEvent();
-    void dispatchEvent(ScrollviewEventType scrollEventType, EventType eventType);
+    void dispatchEvent(EventType eventType);
     
     void updateScrollBar(const Vec2& outOfBoundary);
 
@@ -659,18 +634,7 @@ protected:
     ScrollViewBar* _horizontalScrollBar;
     
     Ref* _scrollViewEventListener;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_ScrollViewEvent _scrollViewEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
+
     ccScrollViewCallback _eventCallback;
 };
 

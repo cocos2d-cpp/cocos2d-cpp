@@ -34,25 +34,8 @@ THE SOFTWARE.
  * @{
  */
 namespace cocos2d {
-
 namespace ui{
     
-/**
- * ListView click item event type.
- */
-typedef enum
-{
-    LISTVIEW_ONSELECTEDITEM_START,
-    LISTVIEW_ONSELECTEDITEM_END
-}ListViewEventType;
-
-/**
- * A callback which would be called when a ListView item is clicked.
- *@deprecated Use `ccListViewCallback` instead.
- */
-typedef void (Ref::*SEL_ListViewEvent)(Ref*,ListViewEventType);
-#define listvieweventselector(_SELECTOR) (SEL_ListViewEvent)(&_SELECTOR)
-
 /**
  *@brief ListView is a view group that displays a list of scrollable items.
  *The list items are inserted to the list by using `addChild` or  `insertDefaultItem`.
@@ -429,18 +412,7 @@ protected:
     bool _innerContainerDoLayoutDirty;
     
     Ref*       _listViewEventListener;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_ListViewEvent    _listViewEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
+
     ccListViewCallback _eventCallback;
 };
 

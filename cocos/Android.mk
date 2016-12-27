@@ -275,9 +275,9 @@ LOCAL_CFLAGS   +=  -fexceptions
 #    LOCAL_CFLAGS += -DHAVE_NEON=1
 #endif
 
-LOCAL_CPPFLAGS := -Wno-deprecated-declarations
+LOCAL_CPPFLAGS :=
 LOCAL_EXPORT_CFLAGS   := -DUSE_FILE32API
-LOCAL_EXPORT_CPPFLAGS := -Wno-deprecated-declarations
+LOCAL_EXPORT_CPPFLAGS :=
 
 include $(BUILD_STATIC_LIBRARY)
 

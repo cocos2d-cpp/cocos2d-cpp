@@ -43,7 +43,6 @@ _scrollTime(DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM),
 _curSelectedIndex(-1),
 _innerContainerDoLayoutDirty(true),
 _listViewEventListener(nullptr),
-_listViewEventSelector(nullptr),
 _eventCallback(nullptr)
 {
     this->setTouchEnabled(true);
@@ -52,7 +51,6 @@ _eventCallback(nullptr)
 ListView::~ListView()
 {
     _listViewEventListener = nullptr;
-    _listViewEventSelector = nullptr;
     _items.clear();
     CC_SAFE_RELEASE(_model);
 }
@@ -508,11 +506,8 @@ void ListView::selectedItemEvent(TouchEventType event)
     {
         case TouchEventType::BEGAN:
         {
-            if (_listViewEventListener && _listViewEventSelector)
+            if (_eventCallback)
             {
-                (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_START);
-            }
-            if (_eventCallback) {
                 _eventCallback(this,EventType::ON_SELECTED_ITEM_START);
             }
             if (_ccEventCallback)
@@ -523,11 +518,8 @@ void ListView::selectedItemEvent(TouchEventType event)
         break;
         default:
         {
-            if (_listViewEventListener && _listViewEventSelector)
+            if (_eventCallback)
             {
-                (_listViewEventListener->*_listViewEventSelector)(this, LISTVIEW_ONSELECTEDITEM_END);
-            }
-            if (_eventCallback) {
                 _eventCallback(this, EventType::ON_SELECTED_ITEM_END);
             }
             if (_ccEventCallback)
@@ -840,7 +832,6 @@ void ListView::copySpecialProperties(Widget *widget)
         setItemsMargin(listViewEx->_itemsMargin);
         setGravity(listViewEx->_gravity);
         _listViewEventListener = listViewEx->_listViewEventListener;
-        _listViewEventSelector = listViewEx->_listViewEventSelector;
         _eventCallback = listViewEx->_eventCallback;
     }
 }

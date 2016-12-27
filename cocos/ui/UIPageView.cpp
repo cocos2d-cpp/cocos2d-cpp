@@ -37,7 +37,6 @@ _indicatorPositionAsAnchorPoint(Vec2(0.5f, 0.1f)),
 _currentPageIndex(-1),
 _childFocusCancelOffset(5.0f),
 _pageViewEventListener(nullptr),
-_pageViewEventSelector(nullptr),
 _eventCallback(nullptr),
 _autoScrollStopEpsilon(0.001f),
 _previousPageIndex(-1),
@@ -48,7 +47,6 @@ _isTouchBegin(false)
 PageView::~PageView()
 {
     _pageViewEventListener = nullptr;
-    _pageViewEventSelector = nullptr;
 }
 
 PageView* PageView::create()
@@ -266,10 +264,6 @@ float PageView::getAutoScrollStopEpsilon() const
 void PageView::pageTurningEvent()
 {
     this->retain();
-    if (_pageViewEventListener && _pageViewEventSelector)
-    {
-        (_pageViewEventListener->*_pageViewEventSelector)(this, PAGEVIEW_EVENT_TURNING);
-    }
     if (_eventCallback)
     {
         _eventCallback(this,EventType::TURNING);
@@ -312,7 +306,6 @@ void PageView::copySpecialProperties(Widget *widget)
         _eventCallback = pageView->_eventCallback;
         _ccEventCallback = pageView->_ccEventCallback;
         _pageViewEventListener = pageView->_pageViewEventListener;
-        _pageViewEventSelector = pageView->_pageViewEventSelector;
         _currentPageIndex = pageView->_currentPageIndex;
         _previousPageIndex = pageView->_previousPageIndex;
         _childFocusCancelOffset = pageView->_childFocusCancelOffset;

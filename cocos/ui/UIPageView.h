@@ -33,26 +33,9 @@ THE SOFTWARE.
  * @{
  */
 namespace cocos2d {
-
 namespace ui {
 
 class PageViewIndicator;
-
-/**
- *PageView page turn event type.
- *@deprecated Use `PageView::EventType` instead.
- */
-typedef enum
-{
-    PAGEVIEW_EVENT_TURNING,
-}PageViewEventType;
-
-/**
- *A callback which would be called when a PageView turning event is happening.
- *@deprecated Use `PageView::ccPageViewCallback` instead.
- */
-typedef void (Ref::*SEL_PageViewEvent)(Ref*, PageViewEventType);
-#define pagevieweventselector(_SELECTOR)(SEL_PageViewEvent)(&_SELECTOR)
 
 /**
  *@brief Layout manager that allows the user to flip left & right and up & down through pages of data.
@@ -342,19 +325,9 @@ protected:
     float _childFocusCancelOffset;
 
     Ref* _pageViewEventListener;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#endif
-    SEL_PageViewEvent _pageViewEventSelector;
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#elif _MSC_VER >= 1400 //vs 2005 or higher
-#pragma warning (pop)
-#endif
+
     ccPageViewCallback _eventCallback;
+    
     float _autoScrollStopEpsilon;
     ssize_t _previousPageIndex;
     bool _isTouchBegin;

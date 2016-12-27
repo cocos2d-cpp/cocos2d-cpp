@@ -287,7 +287,6 @@ _touchWidth(0.0f),
 _touchHeight(0.0f),
 _useTouchArea(false),
 _textFieldEventListener(nullptr),
-_textFieldEventSelector(nullptr),
 _eventCallback(nullptr),
 _textFieldRendererAdaptDirty(true),
 _fontName("Thonburi"),
@@ -299,7 +298,6 @@ _fontType(FontType::SYSTEM)
 TextField::~TextField()
 {
     _textFieldEventListener = nullptr;
-    _textFieldEventSelector = nullptr;
 }
 
 TextField* TextField::create()
@@ -651,27 +649,23 @@ void TextField::setDeleteBackward(bool deleteBackward)
 void TextField::attachWithIMEEvent()
 {
     this->retain();
-    if (_textFieldEventListener && _textFieldEventSelector)
+
+    if (_eventCallback)
     {
-        (_textFieldEventListener->*_textFieldEventSelector)(this, TEXTFIELD_EVENT_ATTACH_WITH_IME);
-    }
-    if (_eventCallback) {
         _eventCallback(this, EventType::ATTACH_WITH_IME);
     }
     if (_ccEventCallback)
     {
         _ccEventCallback(this, static_cast<int>(EventType::ATTACH_WITH_IME));
     }
+
     this->release();
 }
 
 void TextField::detachWithIMEEvent()
 {
     this->retain();
-    if (_textFieldEventListener && _textFieldEventSelector)
-    {
-        (_textFieldEventListener->*_textFieldEventSelector)(this, TEXTFIELD_EVENT_DETACH_WITH_IME);
-    }
+
     if (_eventCallback)
     {
         _eventCallback(this, EventType::DETACH_WITH_IME);
@@ -686,10 +680,7 @@ void TextField::detachWithIMEEvent()
 void TextField::insertTextEvent()
 {
     this->retain();
-    if (_textFieldEventListener && _textFieldEventSelector)
-    {
-        (_textFieldEventListener->*_textFieldEventSelector)(this, TEXTFIELD_EVENT_INSERT_TEXT);
-    }
+
     if (_eventCallback)
     {
         _eventCallback(this, EventType::INSERT_TEXT);
@@ -698,16 +689,14 @@ void TextField::insertTextEvent()
     {
         _ccEventCallback(this, static_cast<int>(EventType::INSERT_TEXT));
     }
+
     this->release();
 }
 
 void TextField::deleteBackwardEvent()
 {
     this->retain();
-    if (_textFieldEventListener && _textFieldEventSelector)
-    {
-        (_textFieldEventListener->*_textFieldEventSelector)(this, TEXTFIELD_EVENT_DELETE_BACKWARD);
-    }
+
     if (_eventCallback)
     {
         _eventCallback(this, EventType::DELETE_BACKWARD);
@@ -716,6 +705,7 @@ void TextField::deleteBackwardEvent()
     {
         _ccEventCallback(this, static_cast<int>(EventType::DELETE_BACKWARD));
     }
+
     this->release();
 }
 
@@ -806,7 +796,6 @@ void TextField::copySpecialProperties(Widget *widget)
         _eventCallback = textField->_eventCallback;
         _ccEventCallback = textField->_ccEventCallback;
         _textFieldEventListener = textField->_textFieldEventListener;
-        _textFieldEventSelector = textField->_textFieldEventSelector;
     }
 }
     
