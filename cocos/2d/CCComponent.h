@@ -71,7 +71,7 @@ public:
     virtual void onAdd();
     virtual void onRemove();
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
     * @js ctor
     */

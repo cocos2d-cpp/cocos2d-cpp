@@ -73,7 +73,7 @@ public:
      */
     static RelativeBox* create(const Size& size);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     //initializes state of widget.
     virtual bool init() override;
     virtual bool initWithSize(const Size& size);

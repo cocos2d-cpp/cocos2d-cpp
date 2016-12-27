@@ -174,7 +174,7 @@ public:
      */
     cocos2d::Vec3 getPivotPointInB() const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DPointToPointConstraint();
     virtual ~Physics3DPointToPointConstraint();
     bool init(Physics3DRigidBody* rbA, const cocos2d::Vec3& pivotPointInA);
@@ -295,7 +295,7 @@ public:
     /**set use frame offset*/
     void setUseFrameOffset(bool frameOffsetOnOff);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DHingeConstraint()
     {
         _type = ConstraintType::HINGE;
@@ -408,7 +408,7 @@ public:
     /**set frames for rigid body A and B*/
     void setFrames(const cocos2d::Mat4& frameA, const cocos2d::Mat4& frameB);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DSliderConstraint()
     {
         _type = ConstraintType::SLIDER;
@@ -497,7 +497,7 @@ public:
     /**get B's frame offset*/
     cocos2d::Mat4 getFrameOffsetB() const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DConeTwistConstraint()
     {
         _type = ConstraintType::CONE_TWIST;
@@ -571,7 +571,7 @@ public:
     void setUseFrameOffset(bool frameOffsetOnOff) const;
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3D6DofConstraint()
     {
         _type = ConstraintType::SIX_DOF;

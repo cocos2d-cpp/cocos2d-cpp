@@ -283,7 +283,7 @@ public:
 
     bool isBrushValid();
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Camera();
     ~Camera();
 

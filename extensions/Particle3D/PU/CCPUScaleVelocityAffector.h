@@ -61,7 +61,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:	
+protected:	
     PUScaleVelocityAffector(void);
     virtual ~PUScaleVelocityAffector(void);
 

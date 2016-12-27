@@ -155,7 +155,7 @@ public:
      */
     void setFlags(unsigned int flags) { _flags = flags; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Action();
     virtual ~Action();
 
@@ -213,7 +213,7 @@ public:
         return nullptr;
     }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FiniteTimeAction()
     : _duration(0)
     {}
@@ -283,7 +283,7 @@ public:
      */
     virtual bool isDone() const  override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Speed();
     virtual ~Speed(void);
     /** Initializes the action. */
@@ -359,7 +359,7 @@ public:
     virtual bool isDone() const override;
     virtual void stop() override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
 
     Follow()
     : _followedNode(nullptr)

@@ -59,7 +59,7 @@ public:
     virtual CCPUBoxEmitter* clone() override;
     virtual void copyAttributesTo (PUEmitter* emitter) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     CCPUBoxEmitter(void);
     virtual ~CCPUBoxEmitter(void) {};
 

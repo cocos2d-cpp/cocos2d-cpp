@@ -96,7 +96,7 @@ public:
     */
     void findPath(const Vec3 &start, const Vec3 &end, std::vector<Vec3> &pathPoints);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     NavMesh();
     virtual ~NavMesh();
 

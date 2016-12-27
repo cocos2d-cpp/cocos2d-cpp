@@ -528,7 +528,7 @@ public:
      */
     virtual Widget* findNextFocusedWidget(FocusDirection direction, Widget* current) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
 
 protected:

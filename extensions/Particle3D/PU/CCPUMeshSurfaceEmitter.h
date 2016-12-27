@@ -241,7 +241,7 @@ public:
     virtual PUMeshSurfaceEmitter* clone() override;
     virtual void copyAttributesTo (PUEmitter* emitter) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUMeshSurfaceEmitter(void);
     virtual ~PUMeshSurfaceEmitter(void);
 

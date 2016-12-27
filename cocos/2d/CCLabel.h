@@ -598,7 +598,7 @@ public:
     virtual void removeChild(Node* child, bool cleanup = true) override;
     virtual void setGlobalZOrder(float globalZOrder) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * Constructor of Label.
      * @js NA

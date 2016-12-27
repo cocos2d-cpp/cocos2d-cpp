@@ -60,7 +60,7 @@ public:
     */
     virtual void postUpdateObserver(float timeElapsed) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUOnClearObserver(void) : PUObserver(),
         _continue(false)
     {

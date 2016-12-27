@@ -75,7 +75,7 @@ public:
     virtual PUScriptTranslator* getTranslator(PUAbstractNode *node);
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUTranslateManager();
     virtual ~PUTranslateManager();
 };

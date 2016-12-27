@@ -252,7 +252,7 @@ public:
      */
     bool hasPolygonInfo() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @lua NA
      */

@@ -68,7 +68,7 @@ public:
     virtual PUBehaviour* clone();
     virtual void copyAttributesTo (PUBehaviour* behaviour);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUBehaviour(void);
     virtual ~PUBehaviour(void);
 

@@ -123,7 +123,7 @@ public:
     // Overrides
     virtual AnimationFrame *clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -276,7 +276,7 @@ public:
     // overrides
     virtual Animation *clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Animation();
     virtual ~Animation(void);
     

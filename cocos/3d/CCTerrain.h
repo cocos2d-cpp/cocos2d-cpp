@@ -431,7 +431,7 @@ public:
      */
     std::vector<float> getHeightData() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Terrain();
     virtual ~Terrain();
     bool initWithTerrainData(TerrainData &parameter, CrackFixedType fixedType);

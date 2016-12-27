@@ -78,7 +78,7 @@ public:
     ccTouchCallback onTouchEnded;
     ccTouchCallback onTouchCancelled;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     EventListenerTouchOneByOne();
     bool init();
     
@@ -118,7 +118,7 @@ public:
     ccTouchesCallback onTouchesEnded;
     ccTouchesCallback onTouchesCancelled;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     EventListenerTouchAllAtOnce();
     bool init();
 private:

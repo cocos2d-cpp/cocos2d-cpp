@@ -145,7 +145,7 @@ public:
      */
     void onTouchEnded();
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
     
 private:

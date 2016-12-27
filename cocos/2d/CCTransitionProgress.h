@@ -59,7 +59,7 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     TransitionProgress();
     virtual ~TransitionProgress(){}
 
@@ -92,7 +92,7 @@ public:
      */
     static TransitionProgressRadialCCW* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -123,7 +123,7 @@ public:
      */
     static TransitionProgressRadialCW* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -153,7 +153,7 @@ public:
      */
     static TransitionProgressHorizontal* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -181,7 +181,7 @@ public:
      */
     static TransitionProgressVertical* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -209,7 +209,7 @@ public:
      */
     static TransitionProgressInOut* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -239,7 +239,7 @@ public:
      */
     static TransitionProgressOutIn* create(float t, Scene* scene);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

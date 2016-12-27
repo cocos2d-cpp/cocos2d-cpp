@@ -119,7 +119,7 @@ public:
      */
     void syncPhysicsToNode();
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DComponent();
     
 protected:

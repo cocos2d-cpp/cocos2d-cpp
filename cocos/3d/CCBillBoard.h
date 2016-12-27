@@ -104,7 +104,7 @@ public:
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     BillBoard();
     virtual ~BillBoard();
 

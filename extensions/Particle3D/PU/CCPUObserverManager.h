@@ -55,7 +55,7 @@ public:
     PUObserver* createObserver(const std::string &type);
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
 
     PUObserverManager();
     ~PUObserverManager();

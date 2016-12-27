@@ -70,7 +70,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUParticle3DInterParticleCollider(void);
     virtual ~PUParticle3DInterParticleCollider(void);
 

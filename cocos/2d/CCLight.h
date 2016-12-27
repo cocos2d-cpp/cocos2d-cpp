@@ -88,7 +88,7 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     BaseLight();
     virtual ~BaseLight();
     
@@ -136,7 +136,7 @@ public:
      */
     Vec3 getDirectionInWorld() const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     DirectionLight();
     virtual ~DirectionLight();
     
@@ -165,7 +165,7 @@ public:
     float getRange() const { return _range; }
     void setRange(float range) { _range = range; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PointLight();
     virtual ~PointLight();
     
@@ -255,7 +255,7 @@ public:
     /** get cos outAngle */
     float getCosOuterAngle() const { return _cosOuterAngle; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     SpotLight();
     virtual ~SpotLight();
     
@@ -284,7 +284,7 @@ public:
     //get light type
     virtual LightType getLightType() const override { return LightType::AMBIENT; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     AmbientLight();
     virtual ~AmbientLight();
 };

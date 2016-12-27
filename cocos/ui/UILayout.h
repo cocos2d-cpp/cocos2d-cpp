@@ -458,7 +458,7 @@ public:
      */
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     //override "init" method of widget.
     virtual bool init() override;
     

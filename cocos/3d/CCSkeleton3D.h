@@ -211,7 +211,7 @@ public:
     /**refresh bone world matrix*/
     void updateBoneMatrix();
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     Skeleton3D();
     

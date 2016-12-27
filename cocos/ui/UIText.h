@@ -313,7 +313,7 @@ public:
     */
     Color4B getEffectColor() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
     virtual bool init(const std::string& textContent,
                       const std::string& fontName,

@@ -125,7 +125,7 @@ public:
     /** override function */
     virtual void removeAllChildren() override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Scene();
     virtual ~Scene();
     
@@ -184,7 +184,7 @@ public:
      */
     static Scene *createWithPhysics();
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     bool initWithPhysics();
     
 protected:

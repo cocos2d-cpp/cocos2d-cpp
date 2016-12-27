@@ -779,7 +779,7 @@ public:
     /* UnPause the emissions*/
     virtual void resumeEmissions();
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

@@ -128,7 +128,7 @@ public:
     
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     Animate3D();
     virtual ~Animate3D();

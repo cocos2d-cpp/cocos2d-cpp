@@ -175,7 +175,7 @@ public:
     virtual bool isOpacityModifyRGB() const override;
     virtual void setOpacityModifyRGB(bool bOpacityModifyRGB) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

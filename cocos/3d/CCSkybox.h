@@ -69,7 +69,7 @@ public:
     /** reload sky box after GLESContext reconstructed.*/
     void reload();
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
     * Constructor.
     */

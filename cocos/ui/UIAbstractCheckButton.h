@@ -161,7 +161,7 @@ public:
      */
     Sprite* getRendererFrontCrossDisabled() const { return _frontCrossDisabledRenderer; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
     virtual bool init(const std::string& backGround,
                       const std::string& backGroundSeleted,

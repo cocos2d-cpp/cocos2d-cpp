@@ -92,7 +92,7 @@ public:
     /** synchronize parameter to node. */
     void syncToNode();
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     NavMeshObstacle();
     virtual ~NavMeshObstacle();
 

@@ -99,7 +99,7 @@ public:
     virtual void setOpacityModifyRGB (bool value) override;
     virtual bool isOpacityModifyRGB () const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
 	SkeletonRenderer ();
 	SkeletonRenderer (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
 	SkeletonRenderer (const std::string& skeletonDataFile, spAtlas* atlas, float scale = 1);

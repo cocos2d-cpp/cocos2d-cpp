@@ -65,7 +65,7 @@ public:
 
     /** reload texture cube after GLESContext reconstructed.*/
     bool reloadTexture();
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
     * Constructor.
     */

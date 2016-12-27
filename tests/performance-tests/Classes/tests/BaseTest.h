@@ -92,7 +92,7 @@ public:
     std::string getTestCaseName() const { return _testCaseName; }
 
     virtual void onEnter() override;
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
 
 protected:

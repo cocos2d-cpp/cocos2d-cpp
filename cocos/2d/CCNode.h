@@ -1769,7 +1769,7 @@ public:
      */
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     // Nodes should be created using create();
     Node();
     virtual ~Node();

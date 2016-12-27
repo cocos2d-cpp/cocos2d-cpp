@@ -92,7 +92,7 @@ public:
     template<class F>
     inline void enqueue(TaskType type, const TaskCallBack& callback, void* callbackParam, F&& f);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     AsyncTaskPool();
     ~AsyncTaskPool();
     

@@ -93,7 +93,7 @@ public:
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 #endif
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     LabelAtlas()
     :_string("")
     {

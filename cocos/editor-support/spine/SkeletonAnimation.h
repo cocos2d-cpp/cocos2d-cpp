@@ -81,7 +81,7 @@ public:
 
 	spAnimationState* getState() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
 	SkeletonAnimation ();
 	virtual ~SkeletonAnimation ();
 	virtual void initialize () override;

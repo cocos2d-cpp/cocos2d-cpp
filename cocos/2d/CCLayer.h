@@ -153,7 +153,7 @@ public:
     // Overrides
     virtual std::string getDescription() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Layer();
     virtual ~Layer();
 
@@ -211,7 +211,7 @@ public:
     virtual void setOpacityModifyRGB(bool bValue) override { Layer::setOpacityModifyRGB(bValue); }
     virtual bool isOpacityModifyRGB() const override { return Layer::isOpacityModifyRGB(); }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     __LayerRGBA();
     virtual ~__LayerRGBA() {}
 
@@ -292,7 +292,7 @@ public:
 
     virtual std::string getDescription() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     LayerColor();
     virtual ~LayerColor();
     
@@ -434,7 +434,7 @@ public:
 
     virtual std::string getDescription() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     LayerGradient();
     virtual ~LayerGradient();
     
@@ -548,7 +548,7 @@ public:
 
     virtual std::string getDescription() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

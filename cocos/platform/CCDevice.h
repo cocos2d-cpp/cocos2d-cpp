@@ -98,7 +98,8 @@ public:
     static Data getTextureDataForText(const char * text, const FontDefinition& textDefinition, TextAlign align, int &width, int &height, bool& hasPremultipliedAlpha);
 
 private:
-    CC_DISALLOW_IMPLICIT_CONSTRUCTORS(Device);
+    Device(const Device &) = delete;
+    const Device & operator=(const Device &) = delete;
 };
 
 // end group

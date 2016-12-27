@@ -150,7 +150,7 @@ public:
      */
     const Vec3& getSweepAxis() const { return _sweepAxis; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     MotionStreak3D();
     virtual ~MotionStreak3D();
     

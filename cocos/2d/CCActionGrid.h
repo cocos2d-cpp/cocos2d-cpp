@@ -63,7 +63,7 @@ public:
     virtual GridAction* reverse() const override;
     virtual void startWithTarget(Node *target) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     GridAction() {}
     virtual ~GridAction() {}
     /** 
@@ -207,7 +207,7 @@ public:
     virtual AccelDeccelAmplitude* clone() const override;
     virtual AccelDeccelAmplitude* reverse() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     AccelDeccelAmplitude() {}
     virtual ~AccelDeccelAmplitude();
     
@@ -258,7 +258,7 @@ public:
     virtual AccelAmplitude* clone() const override;
     virtual AccelAmplitude* reverse() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     AccelAmplitude() {}
     virtual ~AccelAmplitude();
 
@@ -303,7 +303,7 @@ public:
     virtual DeccelAmplitude* clone() const override;
     virtual DeccelAmplitude* reverse() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     DeccelAmplitude() {}
     virtual ~DeccelAmplitude();
 
@@ -345,7 +345,7 @@ public:
     virtual StopGrid* clone() const override;
     virtual StopGrid* reverse() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     StopGrid() {}
     virtual ~StopGrid() {}
     
@@ -376,7 +376,7 @@ public:
     virtual ReuseGrid* clone() const override;
     virtual ReuseGrid* reverse() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ReuseGrid() {}
     virtual ~ReuseGrid() {}
     

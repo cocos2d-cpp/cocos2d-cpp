@@ -105,7 +105,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUAffector();
     virtual ~PUAffector();
 

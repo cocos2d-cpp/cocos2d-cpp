@@ -39,7 +39,7 @@ public:
      virtual PUPointEmitter* clone() override;
      virtual void copyAttributesTo (PUEmitter* emitter) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUPointEmitter(void);
     virtual ~PUPointEmitter(void);
 

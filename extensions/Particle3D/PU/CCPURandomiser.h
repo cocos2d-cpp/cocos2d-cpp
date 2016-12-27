@@ -72,7 +72,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:	
+protected:	
     PURandomiser(void);
     virtual ~PURandomiser(void);
 

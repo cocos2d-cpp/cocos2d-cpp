@@ -80,7 +80,7 @@ public:
     GLenum getPrimitiveType() const { return _primitiveType; }
     void   setPrimitiveType(GLenum primitive) { _primitiveType = primitive; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     MeshIndexData();
     virtual ~MeshIndexData();
     
@@ -126,7 +126,7 @@ public:
     /**has vertex attribute?*/
     bool hasVertexAttrib(int attrib) const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     MeshVertexData();
     virtual ~MeshVertexData();
 

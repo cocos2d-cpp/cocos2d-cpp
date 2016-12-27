@@ -141,7 +141,7 @@ public:
     /** Performs a swept shape cast on all objects in the Physics3DWorld. */
     bool sweepShape(Physics3DShape* shape, const cocos2d::Mat4& startTransform, const cocos2d::Mat4& endTransform, HitResult* result);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     Physics3DWorld();
     virtual ~Physics3DWorld();

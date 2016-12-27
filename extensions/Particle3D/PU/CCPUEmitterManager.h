@@ -53,7 +53,7 @@ public:
     PUEmitter* createEmitter(const std::string &type);
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUEmitterManager();
     ~PUEmitterManager();
 

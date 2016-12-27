@@ -56,7 +56,7 @@ public:
         CUSTOM
     };
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /** Constructor */
     Event(Type type);
 public:

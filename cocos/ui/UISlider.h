@@ -260,7 +260,7 @@ public:
     Sprite* getSlidBallDisabledRenderer() const;
     Node* getSlidBallRenderer() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
 
 protected:

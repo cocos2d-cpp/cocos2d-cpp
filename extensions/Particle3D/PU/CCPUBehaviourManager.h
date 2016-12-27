@@ -46,7 +46,7 @@ public:
     PUBehaviour* createBehaviour(const std::string &type);
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUBehaviourManager();
     ~PUBehaviourManager();
 

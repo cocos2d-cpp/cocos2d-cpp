@@ -71,7 +71,7 @@ public:
     PUAffector* createAffector(const std::string &type);
 
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUAffectorManager();
     ~PUAffectorManager();
 

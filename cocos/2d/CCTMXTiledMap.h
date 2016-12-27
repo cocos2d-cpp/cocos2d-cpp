@@ -259,7 +259,7 @@ public:
     int  getLayerNum();
     const std::string& getResourceFile() const { return _tmxFile; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

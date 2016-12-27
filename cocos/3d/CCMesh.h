@@ -212,7 +212,7 @@ public:
 
     std::string getTextureFileName(){ return _texFile; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
 
     Mesh();
     virtual ~Mesh();

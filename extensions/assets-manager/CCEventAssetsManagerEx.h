@@ -72,7 +72,7 @@ public:
     
     float getPercentByFile() const { return _percentByFile; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /** Constructor */
     EventAssetsManagerEx(const std::string& eventName, cocos2d::extension::AssetsManagerEx *manager, const EventCode &code, float percent = 0, float percentByFile = 0, const std::string& assetId = "", const std::string& message = "", int curle_code = 0, int curlm_code = 0);
     

@@ -197,7 +197,7 @@ public:
     /** get current velocity */
     Vec3 getVelocity() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     NavMeshAgent();
     virtual ~NavMeshAgent();
 

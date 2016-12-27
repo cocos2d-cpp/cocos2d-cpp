@@ -106,7 +106,7 @@ public:
 
     virtual bool isValid() { return true; }
 
-CC_CONSTRUCTOR_ACCESS :
+protected :
     CameraBackgroundBrush();
     virtual ~CameraBackgroundBrush();
 
@@ -146,7 +146,7 @@ public:
      */
     void setDepth(float depth) { _depth = depth; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     CameraBackgroundDepthBrush();
     virtual ~CameraBackgroundDepthBrush();
 
@@ -186,7 +186,7 @@ public:
      */
     void setColor(const Color4F& color);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     CameraBackgroundColorBrush();
     virtual ~CameraBackgroundColorBrush();
 
@@ -244,7 +244,7 @@ public:
     virtual void setTextureValid(bool valid);
     virtual bool isValid()override;
 
-CC_CONSTRUCTOR_ACCESS :
+protected :
     CameraBackgroundSkyBoxBrush();
     virtual ~CameraBackgroundSkyBoxBrush();
     

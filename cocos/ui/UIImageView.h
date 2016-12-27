@@ -124,7 +124,7 @@ public:
 
     virtual void setGLProgram(GLProgram* glProgram) override;
     virtual void setGLProgramState(cocos2d::GLProgramState* glProgramState) override;
-CC_CONSTRUCTOR_ACCESS:
+protected:
     //initializes state of widget.
     virtual bool init() override;
     virtual bool init(const std::string& imageFileName, TextureResType texType = TextureResType::LOCAL);

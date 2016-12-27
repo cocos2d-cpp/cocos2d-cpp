@@ -226,11 +226,6 @@ THE SOFTWARE.
 #define CC_ENABLE_PROFILERS 0
 #endif
 
-/** Enable Lua engine debug log. */
-#ifndef CC_LUA_ENGINE_DEBUG
-#define CC_LUA_ENGINE_DEBUG 0
-#endif
-
 /** Use physics integration API. */
 #ifndef CC_USE_PHYSICS
 #define CC_USE_PHYSICS 1
@@ -296,15 +291,6 @@ THE SOFTWARE.
 #undef CC_USE_PNG
 #endif
 #endif // CC_USE_WIC
-
-/** @def CC_CONSTRUCTOR_ACCESS
- * Indicate the init functions access modifier. If value equals to protected, then these functions are protected.
- * If value equals to public, these functions are public,
- * protected by default.
- */
-#ifndef CC_CONSTRUCTOR_ACCESS
-#   define CC_CONSTRUCTOR_ACCESS protected
-#endif
 
 /** @def CC_ENABLE_ALLOCATOR
  * Turn on creation of global allocator and pool allocators

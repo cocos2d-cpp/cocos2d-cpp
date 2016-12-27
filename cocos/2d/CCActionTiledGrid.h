@@ -58,7 +58,7 @@ public:
     virtual ShakyTiles3D* clone() const override;
     virtual void update(float time) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ShakyTiles3D() {}
     virtual ~ShakyTiles3D() {}
 
@@ -103,7 +103,7 @@ public:
     virtual ShatteredTiles3D* clone() const override;
     virtual void update(float time) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ShatteredTiles3D() {}
     virtual ~ShatteredTiles3D() {}
 
@@ -154,7 +154,7 @@ public:
     virtual void update(float time) override;
     virtual ShuffleTiles* clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ShuffleTiles() {}
     virtual ~ShuffleTiles();
 
@@ -223,7 +223,7 @@ public:
     virtual void update(float time) override;
     virtual FadeOutTRTiles* clone() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FadeOutTRTiles() {}
     virtual ~FadeOutTRTiles() {}
 
@@ -250,7 +250,7 @@ public:
     virtual float testFunc(const Size& pos, float time) override;
     virtual FadeOutBLTiles* clone() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FadeOutBLTiles() {}
     virtual ~FadeOutBLTiles() {}
 
@@ -279,7 +279,7 @@ public:
     virtual FadeOutUpTiles* clone() const override;
     virtual float testFunc(const Size& pos, float time) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FadeOutUpTiles() {}
     virtual ~FadeOutUpTiles() {}
 
@@ -306,7 +306,7 @@ public:
     virtual FadeOutDownTiles* clone() const override;
     virtual float testFunc(const Size& pos, float time) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FadeOutDownTiles() {}
     virtual ~FadeOutDownTiles() {}
 
@@ -361,7 +361,7 @@ public:
     virtual void startWithTarget(Node *target) override;
     virtual void update(float time) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     TurnOffTiles() {}
     virtual ~TurnOffTiles();
 
@@ -426,7 +426,7 @@ public:
     virtual WavesTiles3D* clone() const override;
     virtual void update(float time) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     WavesTiles3D() {}
     virtual ~WavesTiles3D() {}
 
@@ -492,7 +492,7 @@ public:
     virtual JumpTiles3D* clone() const override;
     virtual void update(float time) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     JumpTiles3D() {}
     virtual ~JumpTiles3D() {}
 
@@ -536,7 +536,7 @@ public :
     virtual void update(float time) override;
     virtual void startWithTarget(Node *target) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     SplitRows() {}
     virtual ~SplitRows() {}
 
@@ -581,7 +581,7 @@ public:
     virtual void update(float time) override;
     virtual void startWithTarget(Node *target) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     SplitCols() {}
     virtual ~SplitCols() {}
 

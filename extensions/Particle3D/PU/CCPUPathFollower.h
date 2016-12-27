@@ -58,7 +58,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUPathFollower(void);
     virtual ~PUPathFollower(void);
 

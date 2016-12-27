@@ -294,7 +294,7 @@ public:
     
     void setAutoScrollStopEpsilon(float epsilon);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
 
     //override methods

@@ -50,7 +50,7 @@ public:
     
     bool isEnabled(void) const { return _isEnabled; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Particle3DEmitter();
     virtual ~Particle3DEmitter();
     

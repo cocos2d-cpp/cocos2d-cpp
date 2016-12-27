@@ -192,7 +192,7 @@ public:
     const std::string& getCurrentTitle() const { return _currentTitle; };
     std::string getCurrentTitle() { return _currentTitle; };
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

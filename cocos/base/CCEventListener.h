@@ -66,7 +66,7 @@ public:
 
     typedef std::string ListenerID;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * Constructor
      * @js ctor

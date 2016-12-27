@@ -46,7 +46,7 @@ public:
     
     bool isEnabled(void) const { return _isEnabled; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Particle3DAffector();
     virtual ~Particle3DAffector();
     

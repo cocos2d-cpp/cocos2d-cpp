@@ -55,7 +55,7 @@ public:
      */
     static ParticleFire* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -92,7 +92,7 @@ public:
      */
     static ParticleFireworks* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -130,7 +130,7 @@ public:
      */
     static ParticleSun* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -168,7 +168,7 @@ public:
      */
     static ParticleGalaxy* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -206,7 +206,7 @@ public:
      */
     static ParticleFlower* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -243,7 +243,7 @@ public:
      */
     static ParticleMeteor* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -280,7 +280,7 @@ public:
      */
     static ParticleSpiral* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -318,7 +318,7 @@ public:
      */
     static ParticleExplosion* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -355,7 +355,7 @@ public:
      */
     static ParticleSmoke* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -392,7 +392,7 @@ public:
      */
     static ParticleSnow* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -429,7 +429,7 @@ public:
      */
     static ParticleRain* createWithTotalParticles(int numberOfParticles);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

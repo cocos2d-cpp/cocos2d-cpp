@@ -147,7 +147,7 @@ public:
     virtual void setOpacityModifyRGB(bool value) override;
     virtual bool isOpacityModifyRGB() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     MotionStreak();
     virtual ~MotionStreak();
     

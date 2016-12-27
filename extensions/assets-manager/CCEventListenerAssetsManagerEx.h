@@ -64,7 +64,7 @@ public:
     virtual bool checkAvailable() override;
     virtual EventListenerAssetsManagerEx* clone() override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /** Constructor */
     EventListenerAssetsManagerEx();
     

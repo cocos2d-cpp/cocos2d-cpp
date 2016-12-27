@@ -108,7 +108,7 @@ public:
      */
     const Manifest* getRemoteManifest() const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     AssetsManagerEx(const std::string& manifestUrl, const std::string& storagePath);
     

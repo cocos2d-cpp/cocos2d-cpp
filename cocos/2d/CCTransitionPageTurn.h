@@ -96,7 +96,7 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

@@ -83,7 +83,7 @@ public:
     /**get end time*/
     float getEndTime() const;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     AnimationCurve();
     virtual ~AnimationCurve();

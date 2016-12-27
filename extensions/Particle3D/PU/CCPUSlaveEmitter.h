@@ -85,7 +85,7 @@ public:
     virtual PUSlaveEmitter* clone() override;
     virtual void copyAttributesTo (PUEmitter* emitter) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUSlaveEmitter(void);
     virtual ~PUSlaveEmitter(void){};
 

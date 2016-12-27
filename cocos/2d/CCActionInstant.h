@@ -92,7 +92,7 @@ public:
     virtual ActionInstant* reverse() const override;
     virtual Show* clone() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Show(){}
     virtual ~Show(){}
 
@@ -122,7 +122,7 @@ public:
     virtual ActionInstant* reverse() const override;
     virtual Hide* clone() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Hide(){}
     virtual ~Hide(){}
 
@@ -152,7 +152,7 @@ public:
     virtual ToggleVisibility* reverse() const override;
     virtual ToggleVisibility* clone() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ToggleVisibility(){}
     virtual ~ToggleVisibility(){}
 
@@ -183,7 +183,7 @@ public:
     virtual RemoveSelf* clone() const override;
     virtual RemoveSelf* reverse() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     RemoveSelf() : _isNeedCleanUp(true){}
     virtual ~RemoveSelf(){}
 
@@ -221,7 +221,7 @@ public:
     virtual FlipX* reverse() const override;
     virtual FlipX* clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FlipX() :_flipX(false) {}
     virtual ~FlipX() {}
 
@@ -259,7 +259,7 @@ public:
     virtual FlipY* reverse() const override;
     virtual FlipY* clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FlipY() :_flipY(false) {}
     virtual ~FlipY() {}
 
@@ -297,7 +297,7 @@ public:
     virtual Place* reverse() const override;
     virtual Place* clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Place(){}
     virtual ~Place(){}
 
@@ -344,7 +344,7 @@ public:
     virtual CallFunc* reverse() const override;
     virtual CallFunc* clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     CallFunc()
     : _function(nullptr)
     {
@@ -386,7 +386,7 @@ public:
     virtual CallFuncN* clone() const override;
     virtual void execute() override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     CallFuncN():_functionN(nullptr){}
     virtual ~CallFuncN(){}
 

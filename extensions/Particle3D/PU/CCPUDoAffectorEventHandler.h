@@ -72,7 +72,7 @@ public:
 
     virtual void copyAttributesTo (PUEventHandler* eventHandler) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUDoAffectorEventHandler(void);
     virtual ~PUDoAffectorEventHandler(void) {};
 

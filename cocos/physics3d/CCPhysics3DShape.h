@@ -130,7 +130,7 @@ public:
     btCollisionShape* getbtShape() const { return _btShape; }
 #endif
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     Physics3DShape();
     ~Physics3DShape();
     

@@ -62,7 +62,7 @@ public:
 
     virtual void copyAttributesTo (PUAffector* affector) override;
 
-CC_CONSTRUCTOR_ACCESS:	      
+protected:	      
     PUVortexAffector(void);
     virtual ~PUVortexAffector(void);
 

@@ -355,7 +355,7 @@ public:
 
     bool initSystem(const std::string &filePath);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUParticleSystem3D();
     virtual ~PUParticleSystem3D();
 

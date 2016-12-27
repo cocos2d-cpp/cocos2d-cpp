@@ -100,7 +100,7 @@ public:
     ActionTween* reverse() const override;
     ActionTween *clone() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /** 
      * @brief Initializes the action with the property name (key), and the from and to parameters.
      * @param duration The duration of the ActionTween. It's a value in seconds.

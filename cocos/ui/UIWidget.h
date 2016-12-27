@@ -724,7 +724,7 @@ public:
      */
     bool isLayoutComponentEnabled()const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
 
     //initializes state of widget.
     virtual bool init() override;

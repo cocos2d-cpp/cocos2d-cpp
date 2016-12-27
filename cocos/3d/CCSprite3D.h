@@ -208,7 +208,7 @@ public:
     */
     const Vector<Mesh*>& getMeshes() const { return _meshes; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     
     Sprite3D();
     virtual ~Sprite3D();
@@ -326,7 +326,7 @@ public:
     /**remove all the SpriteData from Sprite3D*/
     void removeAllSprite3DData();
     
-    CC_CONSTRUCTOR_ACCESS:
+    protected:
     Sprite3DCache();
     ~Sprite3DCache();
     

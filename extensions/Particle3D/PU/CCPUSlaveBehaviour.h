@@ -53,7 +53,7 @@ public:
     virtual PUSlaveBehaviour* clone() override;
     virtual void copyAttributesTo (PUBehaviour* behaviour) override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUSlaveBehaviour();
     virtual ~PUSlaveBehaviour();
 };

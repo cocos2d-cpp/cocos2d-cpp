@@ -128,7 +128,7 @@ public:
     virtual PURibbonTrailRender* clone() override;
     void copyAttributesTo(PURibbonTrailRender *render);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PURibbonTrailRender();
     virtual ~PURibbonTrailRender();
 

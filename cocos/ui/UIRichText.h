@@ -538,7 +538,7 @@ public:
      */
     void setOpenUrlHandler(const OpenUrlHandler& handleOpenUrl);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
 
     bool initWithXML(const std::string& xml, const ValueMap& defaults = ValueMap(), const OpenUrlHandler& handleOpenUrl = nullptr);

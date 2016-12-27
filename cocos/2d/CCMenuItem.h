@@ -90,7 +90,7 @@ public:
      */
     virtual std::string getDescription() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -160,7 +160,7 @@ public:
     virtual void unselected() override;
     virtual void setEnabled(bool enabled) override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -202,7 +202,7 @@ public:
     /** Creates a menu item from a string and atlas. Use it with MenuItemToggle. */
     static MenuItemAtlasFont* create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -270,7 +270,7 @@ public:
      */
     const std::string& getFontNameObj() const;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -341,7 +341,7 @@ public:
     /** Enables or disables the item. */
     virtual void setEnabled(bool bEnabled);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     MenuItemSprite()
     :_normalImage(nullptr)
     ,_selectedImage(nullptr)
@@ -396,7 +396,7 @@ public:
     /** Sets the sprite frame for the disabled image. */
     void setDisabledSpriteFrame(SpriteFrame* frame);
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */
@@ -487,7 +487,7 @@ public:
     virtual void setEnabled(bool var) override;
     virtual void cleanup() override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

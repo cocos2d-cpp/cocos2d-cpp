@@ -307,7 +307,7 @@ public:
     void resetPressedRender();
     void resetDisabledRender();
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     virtual bool init() override;
     virtual bool init(const std::string& normalImage,
                       const std::string& selectedImage = "",

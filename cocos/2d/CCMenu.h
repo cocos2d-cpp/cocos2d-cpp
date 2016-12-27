@@ -176,7 +176,7 @@ public:
 
     virtual std::string getDescription() const override;
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     /**
      * @js ctor
      */

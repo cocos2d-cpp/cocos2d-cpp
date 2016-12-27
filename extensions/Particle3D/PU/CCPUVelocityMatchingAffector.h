@@ -57,7 +57,7 @@ public:
     /** @copydoc ParticleAffector::_unprepare */
     //virtual void _unprepare(ParticleTechnique* particleTechnique);
 
-CC_CONSTRUCTOR_ACCESS:	
+protected:	
     PUVelocityMatchingAffector(void);
     virtual ~PUVelocityMatchingAffector(void);
         

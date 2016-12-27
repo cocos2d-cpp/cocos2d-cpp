@@ -204,13 +204,6 @@ public: virtual void set##funName(varType var)   \
 #define CCLOGWARN(...) __CCLOGWITHFUNCTION(__VA_ARGS__)
 #endif // COCOS2D_DEBUG
 
-/** Lua engine debug */
-#if !defined(COCOS2D_DEBUG) || COCOS2D_DEBUG == 0 || CC_LUA_ENGINE_DEBUG == 0
-#define LUALOG(...)
-#else
-#define LUALOG(format, ...)     cocos2d::log(format, ##__VA_ARGS__)
-#endif // Lua engine debug
-
 //  end of debug group
 /// @}
 
@@ -218,28 +211,9 @@ public: virtual void set##funName(varType var)   \
  * A macro to disallow the copy constructor and operator= functions.
  * This should be used in the private: declarations for a class
  */
-#if defined(__GNUC__) && ((__GNUC__ >= 5) || ((__GNUG__ == 4) && (__GNUC_MINOR__ >= 4))) \
-    || (defined(__clang__) && (__clang_major__ >= 3)) || (_MSC_VER >= 1800)
 #define CC_DISALLOW_COPY_AND_ASSIGN(TypeName) \
     TypeName(const TypeName &) = delete; \
     TypeName &operator =(const TypeName &) = delete;
-#else
-#define CC_DISALLOW_COPY_AND_ASSIGN(TypeName) \
-    TypeName(const TypeName &); \
-    TypeName &operator =(const TypeName &);
-#endif
-
-/** @def CC_DISALLOW_IMPLICIT_CONSTRUCTORS(TypeName)
- * A macro to disallow all the implicit constructors, namely the
- * default constructor, copy constructor and operator= functions.
- *
- * This should be used in the private: declarations for a class
- * that wants to prevent anyone from instantiating it. This is
- * especially useful for classes containing only static methods. 
- */
-#define CC_DISALLOW_IMPLICIT_CONSTRUCTORS(TypeName)    \
-    TypeName();                                        \
-    CC_DISALLOW_COPY_AND_ASSIGN(TypeName)
 
 /** @def CC_DEPRECATED_ATTRIBUTE
  * Only certain compilers support __attribute__((deprecated)).
@@ -251,13 +225,6 @@ public: virtual void set##funName(varType var)   \
 #else
     #define CC_DEPRECATED_ATTRIBUTE
 #endif 
-
-/** @def CC_DEPRECATED(...)
- * Macro to mark things deprecated as of a particular version
- * can be used with arbitrary parameters which are thrown away.
- * e.g. CC_DEPRECATED(4.0) or CC_DEPRECATED(4.0, "not going to need this anymore") etc.
- */
-#define CC_DEPRECATED(...) CC_DEPRECATED_ATTRIBUTE
 
 /** @def CC_FORMAT_PRINTF(formatPos, argPos)
  * Only certain compiler support __attribute__((format))

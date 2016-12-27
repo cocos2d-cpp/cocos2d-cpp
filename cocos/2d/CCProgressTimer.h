@@ -153,7 +153,7 @@ public:
     virtual void setOpacity(GLubyte opacity) override;
     virtual GLubyte getOpacity() const override;
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     ProgressTimer();
     virtual ~ProgressTimer();
     

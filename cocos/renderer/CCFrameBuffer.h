@@ -89,7 +89,7 @@ public:
     bool init(unsigned int width, unsigned int height, Texture2D::PixelFormat format);
     
     virtual Texture2D* getTexture() const { return _texture; }
-CC_CONSTRUCTOR_ACCESS:
+protected:
     RenderTarget();
     virtual ~RenderTarget();
     
@@ -110,7 +110,7 @@ public:
     
     virtual GLuint getBuffer() const { return _colorBuffer; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     RenderTargetRenderBuffer();
     virtual ~RenderTargetRenderBuffer();
     
@@ -132,7 +132,7 @@ public:
     
     virtual GLuint getBuffer() const { return _depthStencilBuffer; }
     
-CC_CONSTRUCTOR_ACCESS:
+protected:
     RenderTargetDepthStencil();
     virtual ~RenderTargetDepthStencil();
     
@@ -173,7 +173,7 @@ public:
     unsigned int getWidth() const { return _width; }
     unsigned int getHeight() const { return _height; }
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     FrameBuffer();
     virtual ~FrameBuffer();
     bool initWithGLView(GLView* view);

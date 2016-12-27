@@ -129,7 +129,7 @@ public:
     virtual PUBeamRender* clone() override;
     void copyAttributesTo(PUBeamRender *render);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUBeamRender();
     virtual ~PUBeamRender();
 

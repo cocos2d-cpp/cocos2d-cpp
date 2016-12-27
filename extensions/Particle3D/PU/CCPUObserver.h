@@ -169,7 +169,7 @@ public:
 
     virtual void copyAttributesTo (PUObserver* observer);
 
-CC_CONSTRUCTOR_ACCESS:
+protected:
     PUObserver(void);
     virtual ~PUObserver(void);
 
