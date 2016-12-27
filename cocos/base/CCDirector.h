@@ -144,7 +144,7 @@ public:
     // attribute
 
     /** Gets current running Scene. Director can only run one Scene at a time. */
-    Scene* getRunningScene() { return _runningScene; }
+    Scene* getRunningScene() { return _runningScene.get(); }
 
     /** Gets the FPS value. */
     float getAnimationInterval() { return _animationInterval; }
@@ -634,11 +634,7 @@ protected:
     float _secondsPerFrame;
     
     /* The running scene */
-    Scene *_runningScene;
-    
-    /* will be the next 'runningScene' in the next frame
-     nextScene is a weak reference. */
-    Scene *_nextScene;
+    retaining_ptr<Scene> _runningScene;
     
     /* If true, then "old" scene will receive the cleanup message */
     bool _sendCleanupToScene;

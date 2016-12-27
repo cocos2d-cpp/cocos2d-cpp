@@ -155,7 +155,7 @@ retaining_ptr<T> to_retaining_ptr(T * ptr)
 {
     static_assert(std::is_base_of<Ref, T>::value,
                   "retaining_ptr is for Ref-derived types only");
-    ptr->retain();
+    if (ptr) ptr->retain();
     return retaining_ptr<T>(ptr, [](T * p){ p->release(); });
 }
 

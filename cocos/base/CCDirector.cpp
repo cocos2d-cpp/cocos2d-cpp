@@ -101,7 +101,8 @@ Director* Director::getInstance()
 }
 
 Director::Director()
-: _isStatusLabelUpdated(true)
+: _runningScene( to_retaining_ptr(static_cast<Scene*>(nullptr)) )
+, _isStatusLabelUpdated(true)
 , _invalid(true)
 {
 }
@@ -110,9 +111,7 @@ bool Director::init()
 {
     setDefaultValues();
 
-    // scenes
-    _runningScene = nullptr;
-    _nextScene = nullptr;
+    _runningScene.reset();
 
     _notificationNode = nullptr;
 
@@ -183,7 +182,7 @@ Director::~Director(void)
     CC_SAFE_RELEASE(_drawnVerticesLabel);
     CC_SAFE_RELEASE(_drawnBatchesLabel);
 
-    CC_SAFE_RELEASE(_runningScene);
+    _runningScene.reset();
     CC_SAFE_RELEASE(_notificationNode);
     CC_SAFE_RELEASE(_scheduler);
     CC_SAFE_RELEASE(_actionManager);
@@ -275,10 +274,8 @@ void Director::drawScene()
 
     _renderer->clear();
     experimental::FrameBuffer::clearAllFBOs();
-    /* to avoid flickr, nextScene MUST be here: after tick and before draw.
-     * FIXME: Which bug is this one. It seems that it can't be reproduced with v0.9
-     */
-    if (_nextScene)
+
+    if (_runningScene != _scenesStack.back())
     {
         setNextScene();
     }
@@ -294,7 +291,7 @@ void Director::drawScene()
         _renderer->clearDrawStats();
         
         //render the scene
-        _openGLView->renderScene(_runningScene, _renderer);
+        _openGLView->renderScene(_runningScene.get(), _renderer);
         
         _eventDispatcher->dispatchEvent(_eventAfterVisit);
     }
@@ -830,7 +827,7 @@ Vec2 Director::getVisibleOrigin() const
 void Director::runWithScene(Scene *scene)
 {
     CCASSERT(scene != nullptr, "This command can only be used to start the Director. There is already a scene present.");
-    CCASSERT(_runningScene == nullptr, "_runningScene should be null");
+    CCASSERT(!_runningScene, "_runningScene should be null");
 
     pushScene(scene);
     startAnimation();
@@ -840,29 +837,26 @@ void Director::replaceScene(Scene *scene)
 {
     CCASSERT(scene != nullptr, "the scene should not be null");
     
-    if (_runningScene == nullptr) {
+    if (!_runningScene) {
         runWithScene(scene);
         return;
     }
     
     if (scene == _scenesStack.back().get())
-    {
         return;
-    }
     
-    if (_nextScene)
+    if (_runningScene != _scenesStack.back())
     {
-        if (_nextScene->isRunning())
+        if (_scenesStack.back()->isRunning())
         {
-            _nextScene->onExit();
+            _scenesStack.back()->onExit();
         }
-        _nextScene->cleanup();
+        _scenesStack.back()->cleanup();
     }
 
     _sendCleanupToScene = true;
     
     _scenesStack.back() = to_retaining_ptr(scene);
-    _nextScene = _scenesStack.back().get();
 }
 
 void Director::pushScene(Scene *scene)
@@ -872,12 +866,11 @@ void Director::pushScene(Scene *scene)
     _sendCleanupToScene = false;
 
     _scenesStack.push_back(to_retaining_ptr(scene));
-    _nextScene = _scenesStack.back().get();
 }
 
-void Director::popScene(void)
+void Director::popScene()
 {
-    CCASSERT(_runningScene != nullptr, "running scene should not null");
+    CCASSERT(_runningScene, "running scene should not be null");
     
     _scenesStack.pop_back();
 
@@ -888,18 +881,17 @@ void Director::popScene(void)
     else
     {
         _sendCleanupToScene = true;
-        _nextScene = _scenesStack.back().get();
     }
 }
 
-void Director::popToRootScene(void)
+void Director::popToRootScene()
 {
     popToSceneStackLevel(1);
 }
 
 void Director::popToSceneStackLevel(size_t level)
 {
-    CCASSERT(_runningScene != nullptr, "A running Scene is needed");
+    CCASSERT(_runningScene, "A running Scene is needed");
 
     // level 0? -> end
     if (level == 0)
@@ -914,7 +906,7 @@ void Director::popToSceneStackLevel(size_t level)
         return;
     }
 
-    if (_scenesStack.back().get() == _runningScene)
+    if (_scenesStack.back() == _runningScene)
     {
         _scenesStack.pop_back();
     }
@@ -931,8 +923,6 @@ void Director::popToSceneStackLevel(size_t level)
 
         current->cleanup();
     }
-
-    _nextScene = _scenesStack.back().get();
 
     // cleanup running scene
     _sendCleanupToScene = true;
@@ -954,12 +944,9 @@ void Director::reset()
     {
         _runningScene->onExit();
         _runningScene->cleanup();
-        _runningScene->release();
-        _runningScene = nullptr;
+        _runningScene.reset();
     }
     
-    _nextScene = nullptr;
-
     _eventDispatcher->dispatchEvent(_eventResetDirector);
     
     // cleanup scheduler
@@ -1053,8 +1040,8 @@ void Director::restartDirector()
 
 void Director::setNextScene()
 {
-    bool runningIsTransition = dynamic_cast<TransitionScene*>(_runningScene) != nullptr;
-    bool newIsTransition = dynamic_cast<TransitionScene*>(_nextScene) != nullptr;
+    bool runningIsTransition = dynamic_cast<TransitionScene*>(_runningScene.get()) != nullptr;
+    bool newIsTransition = dynamic_cast<TransitionScene*>(_scenesStack.back().get()) != nullptr;
 
     // If it is not a transition, call onExit/cleanup
     if (! newIsTransition)
@@ -1063,25 +1050,17 @@ void Director::setNextScene()
         {
             _runningScene->onExitTransitionDidStart();
             _runningScene->onExit();
-        }
 
-        // issue #709. the root node (scene) should receive the cleanup message too
-        // otherwise it might be leaked.
-        if (_sendCleanupToScene && _runningScene)
-        {
-            _runningScene->cleanup();
+            if (_sendCleanupToScene)
+            {
+                _runningScene->cleanup();
+            }
         }
     }
 
-    if (_runningScene)
-    {
-        _runningScene->release();
-    }
-    _runningScene = _nextScene;
-    _runningScene->retain();
-    _nextScene = nullptr;
+    _runningScene = to_retaining_ptr(_scenesStack.back().get());
 
-    if ((! runningIsTransition) && _runningScene)
+    if ( ! runningIsTransition)
     {
         _runningScene->onEnter();
         _runningScene->onEnterTransitionDidFinish();
