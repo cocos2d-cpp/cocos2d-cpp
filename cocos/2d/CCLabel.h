@@ -31,6 +31,9 @@
 #include "renderer/CCQuadCommand.h"
 #include "2d/CCFontAtlas.h"
 #include "base/ccTypes.h"
+#include "base/CCRef.h"
+
+#include <vector>
 
 namespace cocos2d {
 
@@ -702,7 +705,7 @@ protected:
     Sprite* _shadowNode;
 
     FontAtlas* _fontAtlas;
-    Vector<SpriteBatchNode*> _batchNodes;
+    std::vector<retaining_ptr<SpriteBatchNode>> _batchNodes;
     std::vector<LetterInfo> _lettersInfo;
 
     //! used for optimization

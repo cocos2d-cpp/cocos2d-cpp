@@ -394,6 +394,7 @@ Label::Label(TextHAlignment hAlignment /* = TextHAlignment::LEFT */,
             {
                 it.second->setTexture(nullptr);
             }
+
             _batchNodes.clear();
 
             if (_fontAtlas)
@@ -750,7 +751,7 @@ void Label::updateLabelLetters()
                 uvRect.origin.x = letterDef.U;
                 uvRect.origin.y = letterDef.V;
 
-                auto batchNode = _batchNodes.at(letterDef.textureID);
+                auto & batchNode = _batchNodes.at(letterDef.textureID);
                 letterSprite->setTextureAtlas(batchNode->getTextureAtlas());
                 letterSprite->setTexture(_fontAtlas->getTexture(letterDef.textureID));
                 if (letterDef.width <= 0.f || letterDef.height <= 0.f)
@@ -786,34 +787,38 @@ bool Label::alignText()
     bool ret = true;
     do {
         _fontAtlas->prepareLetterDefinitions(_utf16Text);
+
         auto& textures = _fontAtlas->getTextures();
         auto size = textures.size();
-        if (size > static_cast<size_t>(_batchNodes.size()))
+
+        for (auto index = _batchNodes.size(); index < size; ++index)
         {
-            for (auto index = static_cast<size_t>(_batchNodes.size()); index < size; ++index)
+            auto batchNode = to_retaining_ptr<SpriteBatchNode>(
+                SpriteBatchNode::createWithTexture(textures.at(index))
+            );
+
+            if (batchNode)
             {
-                auto batchNode = SpriteBatchNode::createWithTexture(textures.at(index));
-                if (batchNode)
-                {
-                    _isOpacityModifyRGB = batchNode->getTexture()->hasPremultipliedAlpha();
-                    _blendFunc = batchNode->getBlendFunc();
-                    batchNode->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
-                    batchNode->setPosition(Vec2::ZERO);
-                    _batchNodes.pushBack(batchNode);
-                }
+                _isOpacityModifyRGB = batchNode->getTexture()->hasPremultipliedAlpha();
+                _blendFunc = batchNode->getBlendFunc();
+                batchNode->setAnchorPoint(Vec2::ANCHOR_TOP_LEFT);
+                batchNode->setPosition(Vec2::ZERO);
+                _batchNodes.push_back(std::move(batchNode));
             }
         }
+
         if (_batchNodes.empty())
         {
             return true;
         }
+
         // optimize for one-texture-only sceneario
         // if multiple textures, then we should count how many chars
         // are per texture
-        if (_batchNodes.size()==1)
-            _batchNodes.at(0)->reserveCapacity(_utf16Text.size());
+        if (_batchNodes.size() == 1)
+            _batchNodes.front()->reserveCapacity(_utf16Text.size());
 
-        _reusedLetter->setBatchNode(_batchNodes.at(0));
+        _reusedLetter->setBatchNode(_batchNodes.front().get());
         
         _lengthOfString = 0;
         _textDesiredHeight = 0.f;
@@ -883,7 +888,8 @@ bool Label::isHorizontalClamped(float letterPositionX, int lineIndex)
 bool Label::updateQuads()
 {
     bool ret = true;
-    for (auto&& batchNode : _batchNodes)
+
+    for (auto & batchNode : _batchNodes)
     {
         batchNode->getTextureAtlas()->removeAllQuads();
     }
@@ -939,8 +945,8 @@ bool Label::updateQuads()
                 _reusedLetter->setTextureRect(_reusedRect, false, _reusedRect.size);
                 float letterPositionX = _lettersInfo[ctr].positionX + _linesOffsetX[_lettersInfo[ctr].lineIndex];
                 _reusedLetter->setPosition(letterPositionX, py);
-                auto index = static_cast<int>(_batchNodes.at(letterDef.textureID)->getTextureAtlas()->getTotalQuads());
-                _lettersInfo[ctr].atlasIndex = index;
+                auto index = _batchNodes.at(letterDef.textureID)->getTextureAtlas()->getTotalQuads();
+                _lettersInfo[ctr].atlasIndex = static_cast<int>(index);
 
                 this->updateLetterSpriteScale(_reusedLetter);
 
@@ -1439,7 +1445,7 @@ void Label::onDrawShadow(GLProgram* glProgram, const Color4F& shadowColor)
         {
             it.second->updateTransform();
         }
-        for (auto&& batchNode : _batchNodes)
+        for (auto & batchNode : _batchNodes)
         {
             batchNode->getTextureAtlas()->drawQuads();
         }
@@ -1456,7 +1462,7 @@ void Label::onDrawShadow(GLProgram* glProgram, const Color4F& shadowColor)
         {
             it.second->updateTransform();
         }
-        for (auto&& batchNode : _batchNodes)
+        for (auto & batchNode : _batchNodes)
         {
             batchNode->getTextureAtlas()->drawQuads();
         }
@@ -1495,7 +1501,7 @@ void Label::onDraw(const Mat4& transform, bool /*transformUpdated*/)
                 _textColorF.r, _textColorF.g, _textColorF.b, _textColorF.a);
             glprogram->setUniformLocationWith4f(_uniformEffectColor,
                 _effectColorF.r, _effectColorF.g, _effectColorF.b, _effectColorF.a);
-            for (auto&& batchNode : _batchNodes)
+            for (auto & batchNode : _batchNodes)
             {
                 batchNode->getTextureAtlas()->drawQuads();
             }
@@ -1516,7 +1522,7 @@ void Label::onDraw(const Mat4& transform, bool /*transformUpdated*/)
         }
     }
 
-    for (auto&& batchNode : _batchNodes)
+    for (auto & batchNode : _batchNodes)
     {
         batchNode->getTextureAtlas()->drawQuads();
     }
@@ -1935,7 +1941,7 @@ void Label::updateColor()
 
     cocos2d::TextureAtlas* textureAtlas;
     V3F_C4B_T2F_Quad *quads;
-    for (auto&& batchNode:_batchNodes)
+    for (auto & batchNode : _batchNodes)
     {
         textureAtlas = batchNode->getTextureAtlas();
         quads = textureAtlas->getQuads();
