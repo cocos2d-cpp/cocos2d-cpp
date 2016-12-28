@@ -21,20 +21,19 @@ More Examples
 
 mac build Instructions
 
-cd cocos2d-x
-mkdir macbuild && cd macbuild
-cmake -G "Unix Makefiles" -DBUILD_CPP_TESTS=OFF -DBUILD_LUA_LIBS=OFF ..
+mkdir $BUILD_DIR
+cd $BUILD_DIR
+cmake -G "Unix Makefiles" -DBUILD_CPP_TESTS=OFF -DBUILD_LUA_LIBS=OFF $OLDPWD
 
 Android Build Instructions
 
-cd cocos2d-x
-mkdir androidbuild && cd androidbuild
-cmake -G"MSYS Makefiles" -DANDROID_NDK=/path/to/android-ndk-r9d -DANDROID_NATIVE_API_LEVEL=android-9 -DCMAKE_TOOLCHAIN_FILE=../cmake/android.toolchain.cmake ..
+mkdir $BUILD_DIR && cd $BUILD_DIR
+cmake -G"MSYS Makefiles" -DANDROID_NDK=/path/to/android-ndk-r9d -DANDROID_NATIVE_API_LEVEL=android-9 -DCMAKE_TOOLCHAIN_FILE=../cmake/android.toolchain.cmake $OLDPWD
 
 mingw64 with msys2 build Instructions
 
 cd cocos2d-x
-mkdir mingwbuild && cd mingwbuild
-cmake -G "MSYS Makefiles" -DBUILD_CPP_TESTS=OFF -DBUILD_LUA_LIBS=OFF ..
+mkdir $BUILD_DIR && cd $BUILD_DIR
+cmake -G "MSYS Makefiles" -DBUILD_CPP_TESTS=OFF -DBUILD_LUA_LIBS=OFF $OLDPWD
 
-todo: structure this document in markdown with better examples and more details
+TODO: structure this document in markdown with better examples and more details
