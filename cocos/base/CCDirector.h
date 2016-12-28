@@ -135,12 +135,12 @@ public:
      */
     static Director* getInstance();
 
+private:
     Director();
-
     ~Director();
-
     bool init();
 
+public:
     // attribute
 
     /** Gets current running Scene. Director can only run one Scene at a time. */
@@ -680,12 +680,6 @@ protected:
     // GLView will recreate stats labels to fit visible rect
     friend class GLView;
 };
-
-// FIXME: Added for backward compatibility in case
-// someone is subclassing it.
-// Should be removed in v4.0
-class DisplayLinkDirector : public Director
-{};
 
 // end of base group
 /** @} */
