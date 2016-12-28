@@ -249,7 +249,7 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     renderer->addCommand(&_afterDrawStencilCmd);
     
     int i = 0;      // used by _children
-    int j = 0;      // used by _protectedChildren
+    size_t j = 0;      // used by _protectedChildren
     
     sortAllChildren();
     sortAllProtectedChildren();
@@ -269,7 +269,7 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     
     for(auto size = _protectedChildren.size(); j < size; j++)
     {
-        auto node = _protectedChildren.at(j);
+        const auto & node = _protectedChildren.at(j);
         
         if (node && node->getLocalZOrder() < 0)
             node->visit(renderer, _modelViewTransform, flags);

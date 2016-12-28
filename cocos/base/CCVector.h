@@ -52,6 +52,8 @@ public:
     // Iterators
     // ------------------------------------------
     
+    using value_type = typename std::vector<T>::value_type;
+
     /** Iterator, can be used to loop the Vector. */
     using iterator = typename std::vector<T>::iterator;
     /** Const iterator, can be used to loop the Vector. */

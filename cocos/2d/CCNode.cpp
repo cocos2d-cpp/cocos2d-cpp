@@ -1378,13 +1378,6 @@ void Node::scheduleUpdateWithPriority(int priority)
     _scheduler->scheduleUpdate(this, priority, !_running);
 }
 
-void Node::scheduleUpdateWithPriorityLua(int nHandler, int priority)
-{
-    unscheduleUpdate();
-    
-    _scheduler->scheduleUpdate(this, priority, !_running);
-}
-
 void Node::unscheduleUpdate()
 {
     _scheduler->unscheduleUpdate(this);

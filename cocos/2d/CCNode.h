@@ -129,8 +129,6 @@ public:
     /**
      * Gets the description string. It makes debugging easier.
      * @return A string
-     * @js NA
-     * @lua NA
      */
     virtual std::string getDescription() const;
 
@@ -330,9 +328,6 @@ public:
      * @see setPosition(const Vec2&)
      *
      * @return The position (x,y) of the node in OpenGL coordinates.
-     * @code
-     * In js and lua return value is table which contains x,y.
-     * @endcode
      */
     virtual const Vec2& getPosition() const;
 
@@ -892,12 +887,17 @@ public:
     * Sorts helper function
     *
     */
-    template<typename _T> inline
-    static void sortNodes(cocos2d::Vector<_T*>& nodes)
+    template<typename T> inline
+    static void sortNodes(T & nodes)
     {
-        static_assert(std::is_base_of<Node, _T>::value, "Node::sortNodes: Only accept derived of Node!");
+        using pointer = typename T::value_type;
+        using value_type =
+            typename std::remove_reference<decltype(**std::begin(nodes))>::type;
+        static_assert(std::is_base_of<Node, value_type>::value,
+                      "Node::sortNodes: Only accept derived of Node!");
+
         std::stable_sort(std::begin(nodes), std::end(nodes),
-                         [](_T* n1, _T* n2) {
+                         [](const pointer & n1, const pointer & n2) {
                              return n1->_localZOrder < n2->_localZOrder;
                          });
     }
@@ -1042,15 +1042,6 @@ public:
      */
     virtual bool isRunning() const;
 
-    /**
-     * Schedules for lua script.
-     * @js NA
-     *
-     * @param handler The key to search lua function.
-     * @param priority A given priority value.
-     */
-    void scheduleUpdateWithPriorityLua(int handler, int priority);
-
     /// @}  end Script Bindings
 
 
@@ -1062,14 +1053,12 @@ public:
      * If the Node enters the 'stage' with a transition, this event is called when the transition starts.
      * During onEnter you can't access a "sister/brother" node.
      * If you override onEnter, you shall call its parent's one, e.g., Node::onEnter().
-     * @lua NA
      */
     virtual void onEnter();
 
     /** Event callback that is invoked when the Node enters in the 'stage'.
      * If the Node enters the 'stage' with a transition, this event is called when the transition finishes.
      * If you override onEnterTransitionDidFinish, you shall call its parent's one, e.g. Node::onEnterTransitionDidFinish()
-     * @lua NA
      */
     virtual void onEnterTransitionDidFinish();
 
@@ -1078,14 +1067,12 @@ public:
      * If the Node leaves the 'stage' with a transition, this event is called when the transition finishes.
      * During onExit you can't access a sibling node.
      * If you override onExit, you shall call its parent's one, e.g., Node::onExit().
-     * @lua NA
      */
     virtual void onExit();
 
     /**
      * Event callback that is called every time the Node leaves the 'stage'.
      * If the Node leaves the 'stage' with a transition, this callback is called when the transition starts.
-     * @lua NA
      */
     virtual void onExitTransitionDidStart();
 
@@ -1277,8 +1264,6 @@ public:
      *
      * @param selector      A function selector
      * @return Whether the function selector is scheduled.
-     * @js NA
-     * @lua NA
      */
     bool isScheduled(SEL_SCHEDULE selector);
 
@@ -1287,8 +1272,6 @@ public:
      *
      * @param key      key of the callback
      * @return Whether the lambda function selector is scheduled.
-     * @js NA
-     * @lua NA
      */
     bool isScheduled(const std::string &key);
 
@@ -1298,7 +1281,6 @@ public:
      * It will use the order number 0. This method will be called every frame.
      * Scheduled methods with a lower order value will be called before the ones that have a higher order value.
      * Only one "update" method could be scheduled per node.
-     * @lua NA
      */
     void scheduleUpdate(void);
 
@@ -1308,7 +1290,6 @@ public:
      * This selector will be called every frame.
      * Scheduled methods with a lower priority will be called before the ones that have a higher value.
      * Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
-     * @lua NA
      *
      * @param priority A given priority value.
      */
@@ -1335,7 +1316,6 @@ public:
      * @param interval  Tick interval in seconds. 0 means tick every frame. If interval = 0, it's recommended to use scheduleUpdate() instead.
      * @param repeat    The selector will be executed (repeat + 1) times, you can use CC_REPEAT_FOREVER for tick infinitely.
      * @param delay     The amount of time that the first tick will wait before execution.
-     * @lua NA
      */
     void schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay);
 
@@ -1345,7 +1325,6 @@ public:
      *
      * @param selector      The SEL_SCHEDULE selector to be scheduled.
      * @param interval      Callback interval time in seconds. 0 means tick every frame,
-     * @lua NA
      */
     void schedule(SEL_SCHEDULE selector, float interval);
 
@@ -1355,7 +1334,6 @@ public:
      *
      * @param selector      The SEL_SCHEDULE selector to be scheduled.
      * @param delay         The amount of time that the first tick will wait before execution.
-     * @lua NA
      */
     void scheduleOnce(SEL_SCHEDULE selector, float delay);
 
@@ -1365,7 +1343,6 @@ public:
      * @param callback      The lambda function to be scheduled.
      * @param delay         The amount of time that the first tick will wait before execution.
      * @param key           The key of the lambda function. To be used if you want to unschedule it.
-     * @lua NA
      */
     void scheduleOnce(const std::function<void(float)>& callback, float delay, const std::string &key);
 
@@ -1374,7 +1351,6 @@ public:
      * @see schedule(SEL_SCHEDULE, float, unsigned int, float)
      *
      * @param selector      A function wrapped as a selector
-     * @lua NA
      */
     void schedule(SEL_SCHEDULE selector);
 
@@ -1383,7 +1359,6 @@ public:
      *
      * @param callback      The lambda function to be scheduled.
      * @param key           The key of the lambda function. To be used if you want to unschedule it.
-     * @lua NA
      */
     void schedule(const std::function<void(float)>& callback, const std::string &key);
 
@@ -1393,7 +1368,6 @@ public:
      * @param callback      The lambda function to be scheduled
      * @param interval      Callback interval time in seconds. 0 means every frame,
      * @param key           The key of the lambda function. To be used if you want to unschedule it
-     * @lua NA
      */
     void schedule(const std::function<void(float)>& callback, float interval, const std::string &key);
 
@@ -1405,7 +1379,6 @@ public:
      * @param repeat    The selector will be executed (repeat + 1) times, you can use CC_REPEAT_FOREVER for tick infinitely.
      * @param delay     The amount of time that the first tick will wait before execution.
      * @param key       The key of the lambda function. To be used if you want to unschedule it.
-     * @lua NA
      */
     void schedule(const std::function<void(float)>& callback, float interval, unsigned int repeat, float delay, const std::string &key);
 
@@ -1414,7 +1387,6 @@ public:
      * @see `schedule(SEL_SCHEDULE, float, unsigned int, float)`
      *
      * @param selector      A function wrapped as a selector.
-     * @lua NA
      */
     void unschedule(SEL_SCHEDULE selector);
 
@@ -1422,14 +1394,12 @@ public:
      * Unschedules a lambda function.
      *
      * @param key      The key of the lambda function to be unscheduled.
-     * @lua NA
      */
     void unschedule(const std::string &key);
 
     /**
      * Unschedule all scheduled selectors and lambda functions: custom selectors, and the 'update' selector and lambda functions.
      * Actions are not affected by this method.
-     * @lua NA
      */
     void unscheduleAllCallbacks();
 

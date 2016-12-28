@@ -31,6 +31,8 @@
 #include "base/CCDirector.h"
 #include "2d/CCScene.h"
 
+#include <algorithm> // find_if, for_each
+
 namespace cocos2d {
 
 ProtectedNode::ProtectedNode() : _reorderProtectedChildDirty(false)
@@ -61,7 +63,7 @@ void ProtectedNode::cleanup()
 {
     Node::cleanup();
     // timers
-    for( const auto &child: _protectedChildren)
+    for (const auto & child: _protectedChildren)
         child->cleanup();
 }
 
@@ -83,11 +85,6 @@ void ProtectedNode::addProtectedChild(Node *child, int zOrder, int tag)
 {
     CCASSERT( child != nullptr, "Argument must be non-nil");
     CCASSERT( child->getParent() == nullptr, "child already added. It can't be added again");
-    
-    if (_protectedChildren.empty())
-    {
-        _protectedChildren.reserve(4);
-    }
     
     this->insertProtectedChild(child, zOrder);
     
@@ -119,12 +116,13 @@ Node* ProtectedNode::getProtectedChildByTag(int tag)
 {
     CCASSERT( tag != Node::INVALID_TAG, "Invalid tag");
     
-    for (auto& child : _protectedChildren)
-    {
-        if(child && child->getTag() == tag)
-            return child;
-    }
-    return nullptr;
+    auto iter = std::find_if(_protectedChildren.begin(),
+                             _protectedChildren.end(),
+                             [tag] (const retaining_ptr<Node> & p) {
+                                 return p->getTag() == tag;
+                             });
+
+    return (_protectedChildren.end() == iter ? nullptr : iter->get());
 }
 
 /* "remove" logic MUST only be on this method
@@ -133,14 +131,13 @@ Node* ProtectedNode::getProtectedChildByTag(int tag)
  */
 void ProtectedNode::removeProtectedChild(cocos2d::Node *child, bool cleanup)
 {
-    // explicit nil handling
-    if (_protectedChildren.empty())
-    {
-        return;
-    }
-    
-    ssize_t index = _protectedChildren.getIndex(child);
-    if( index != CC_INVALID_INDEX )
+    auto iter = std::find_if(_protectedChildren.begin(),
+                             _protectedChildren.end(),
+                             [child] (const retaining_ptr<Node> & p) {
+                                 return p.get() == child;
+                             });
+
+    if (_protectedChildren.end() != iter)
     {
         
         // IMPORTANT:
@@ -162,7 +159,7 @@ void ProtectedNode::removeProtectedChild(cocos2d::Node *child, bool cleanup)
         // set parent nil at the end
         child->setParent(nullptr);
         
-        _protectedChildren.erase(index);
+        _protectedChildren.erase(iter);
     }
 }
 
@@ -174,27 +171,33 @@ void ProtectedNode::removeAllProtectedChildren()
 void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
 {
     // not using detachChild improves speed here
-    for (auto& child : _protectedChildren)
+
+    auto       it  = _protectedChildren.rbegin();
+    const auto end = _protectedChildren.rend();
+
+    while (it != end)
     {
+        auto & p = *it;
+
         // IMPORTANT:
         //  -1st do onExit
         //  -2nd cleanup
         if(_running)
         {
-            child->onExitTransitionDidStart();
-            child->onExit();
+            p->onExitTransitionDidStart();
+            p->onExit();
         }
-        
+
         if (cleanup)
         {
-            child->cleanup();
+            p->cleanup();
         }
 
         // set parent nil at the end
-        child->setParent(nullptr);
+        p->setParent(nullptr);
+
+        _protectedChildren.erase((++it).base());
     }
-    
-    _protectedChildren.clear();
 }
 
 void ProtectedNode::removeProtectedChildByTag(int tag, bool cleanup)
@@ -216,14 +219,16 @@ void ProtectedNode::removeProtectedChildByTag(int tag, bool cleanup)
 // helper used by reorderChild & add
 void ProtectedNode::insertProtectedChild(cocos2d::Node *child, int z)
 {
-    _reorderProtectedChildDirty = true;
-    _protectedChildren.pushBack(child);
+    _protectedChildren.reserve(_protectedChildren.size() + 1);
+    _protectedChildren.push_back(to_retaining_ptr(child));
     child->setLocalZOrder(z);
+    _reorderProtectedChildDirty = true;
 }
 
 void ProtectedNode::sortAllProtectedChildren()
 {
-    if( _reorderProtectedChildDirty ) {
+    if( _reorderProtectedChildDirty )
+    {
         sortNodes(_protectedChildren);
         _reorderProtectedChildDirty = false;
     }
@@ -254,33 +259,29 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4 &parentTransform, uint3
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
     
-    int i = 0;      // used by _children
-    int j = 0;      // used by _protectedChildren
-    
+   
     sortAllChildren();
     sortAllProtectedChildren();
-    
+
+    auto child    = _children.cbegin();
+    auto childEnd = _children.cend();
+
+    auto protChild    = _protectedChildren.cbegin();
+    auto protChildEnd = _protectedChildren.cend();
+
     //
     // draw children and protectedChildren zOrder < 0
     //
-    for(auto size = _children.size(); i < size; ++i)
+    for (; child != childEnd && (*child)->getLocalZOrder() < 0;
+         ++child)
     {
-        auto node = _children.at(i);
-        
-        if ( node && node->getLocalZOrder() < 0 )
-            node->visit(renderer, _modelViewTransform, flags);
-        else
-            break;
+        (*child)->visit(renderer, _modelViewTransform, flags);
     }
 
-    for(auto size = _protectedChildren.size(); j < size; ++j)
+    for (; protChild != protChildEnd && (*protChild)->getLocalZOrder() < 0;
+         ++protChild)
     {
-        auto node = _protectedChildren.at(j);
-        
-        if ( node && node->getLocalZOrder() < 0 )
-            node->visit(renderer, _modelViewTransform, flags);
-        else
-            break;
+        (*protChild)->visit(renderer, _modelViewTransform, flags);
     }
     
     //
@@ -292,12 +293,16 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4 &parentTransform, uint3
     //
     // draw children and protectedChildren zOrder >= 0
     //
-    for(auto it=_protectedChildren.cbegin()+j, itCend = _protectedChildren.cend(); it != itCend; ++it)
-        (*it)->visit(renderer, _modelViewTransform, flags);
+    for (; child != childEnd; ++child)
+    {
+        (*child)->visit(renderer, _modelViewTransform, flags);
+    }
 
-    for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
-        (*it)->visit(renderer, _modelViewTransform, flags);
-    
+    for (; protChild != protChildEnd; ++protChild)
+    {
+        (*protChild)->visit(renderer, _modelViewTransform, flags);
+    }
+
     // FIX ME: Why need to set _orderOfArrival to 0??
     // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
     // setOrderOfArrival(0);
@@ -309,7 +314,7 @@ void ProtectedNode::onEnter()
 {
     Node::onEnter();
 
-    for( const auto &child: _protectedChildren)
+    for (const auto & child: _protectedChildren)
         child->onEnter();
 }
 
@@ -317,7 +322,7 @@ void ProtectedNode::onEnterTransitionDidFinish()
 {
     Node::onEnterTransitionDidFinish();
 
-    for( const auto &child: _protectedChildren)
+    for( const auto & child: _protectedChildren)
         child->onEnterTransitionDidFinish();
 }
 
@@ -325,7 +330,7 @@ void ProtectedNode::onExitTransitionDidStart()
 {
     Node::onExitTransitionDidStart();
 
-    for( const auto &child: _protectedChildren)
+    for (const auto & child: _protectedChildren)
         child->onExitTransitionDidStart();
 }
 
@@ -333,7 +338,7 @@ void ProtectedNode::onExit()
 {
     Node::onExit();
 
-    for( const auto &child: _protectedChildren)
+    for (const auto & child: _protectedChildren)
         child->onExit();
 }
 
@@ -349,7 +354,7 @@ void ProtectedNode::updateDisplayedOpacity(GLubyte parentOpacity)
         }
     }
     
-    for(auto child : _protectedChildren){
+    for (auto & child : _protectedChildren){
         child->updateDisplayedOpacity(_displayedOpacity);
     }
 }
@@ -363,11 +368,11 @@ void ProtectedNode::updateDisplayedColor(const Color3B& parentColor)
     
     if (_cascadeColorEnabled)
     {
-        for(const auto &child : _children){
+        for(const auto child : _children){
             child->updateDisplayedColor(_displayedColor);
         }
     }
-    for(const auto &child : _protectedChildren){
+    for (const auto & child : _protectedChildren) {
         child->updateDisplayedColor(_displayedColor);
     }
 }
@@ -377,7 +382,7 @@ void ProtectedNode::disableCascadeColor()
     for(auto child : _children){
         child->updateDisplayedColor(Color3B::WHITE);
     }
-    for(auto child : _protectedChildren){
+    for (auto & child : _protectedChildren) {
         child->updateDisplayedColor(Color3B::WHITE);
     }
 }
@@ -386,11 +391,11 @@ void ProtectedNode::disableCascadeOpacity()
 {
     _displayedOpacity = _realOpacity;
     
-    for(auto child : _children){
+    for (auto child : _children) {
         child->updateDisplayedOpacity(255);
     }
     
-    for(auto child : _protectedChildren){
+    for (auto & child : _protectedChildren) {
         child->updateDisplayedOpacity(255);
     }
 }
@@ -398,11 +403,12 @@ void ProtectedNode::disableCascadeOpacity()
 void ProtectedNode::setCameraMask(unsigned short mask, bool applyChildren)
 {
     Node::setCameraMask(mask, applyChildren);
+
     if (applyChildren)
     {
-        for (auto& iter: _protectedChildren)
+        for (auto & child : _protectedChildren)
         {
-            iter->setCameraMask(mask);
+            child->setCameraMask(mask);
         }
     }
     

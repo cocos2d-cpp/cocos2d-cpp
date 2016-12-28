@@ -29,8 +29,10 @@
 #ifndef __CPROTECTEDCNODE_H__
 #define __CPROTECTEDCNODE_H__
 
-
 #include "2d/CCNode.h"
+#include "base/CCRef.h" // retaining_ptr
+
+#include <vector>
 
 namespace cocos2d {
 	
@@ -190,7 +192,8 @@ protected:
     /// helper that reorder a child
     void insertProtectedChild(Node* child, int z);
     
-    Vector<Node*> _protectedChildren;        ///< array of children nodes
+    std::vector<retaining_ptr<Node>> _protectedChildren;
+
     bool _reorderProtectedChildDirty;
     
 private:
