@@ -45,7 +45,7 @@ bool BugChild::init()
 
 void BugChild::switchChild(Ref *sender)
 {
-    if(parent1->getChildrenCount() > 0)
+    if(parent1->getChildren().size() > 0)
     {
         parent1->removeChild(child, false);
         parent2->addChild(child);

@@ -544,11 +544,6 @@ void Node::setPositionNormalized(const Vec2& position)
     _transformUpdated = _transformDirty = _inverseDirty = true;
 }
 
-ssize_t Node::getChildrenCount() const
-{
-    return _children.size();
-}
-
 /// isVisible getter
 bool Node::isVisible() const
 {

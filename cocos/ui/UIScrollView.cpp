@@ -281,11 +281,6 @@ const Vector<Node*>& ScrollView::getChildren() const
     return _innerContainer->getChildren();
 }
 
-ssize_t ScrollView::getChildrenCount() const
-{
-    return _innerContainer->getChildrenCount();
-}
-
 Node* ScrollView::getChildByTag(int tag) const
 {
     return _innerContainer->getChildByTag(tag);

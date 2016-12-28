@@ -385,39 +385,27 @@ TMXReadWriteTestNew::TMXReadWriteTestNew()
     
     
     _gid = layer->getTileGIDAt(Vec2(0,63));
-    ////----CCLOG("Tile GID at:(0,63) is: %d", _gid);
 
     schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::updateCol), 2.0f); 
     schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::repaintWithGID), 2.05f);
     schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles), 1.0f); 
-
-    ////----CCLOG("++++atlas quantity: %d", layer->textureAtlas()->getTotalQuads());
-    ////----CCLOG("++++children: %d", layer->getChildren()->count() );
-    
     _gid2 = 0;
 }
 
 void TMXReadWriteTestNew::removeSprite(Node* sender)
 {
-    ////----CCLOG("removing tile: %x", sender);
     auto p = ((Node*)sender)->getParent();
 
     if (p)
     {
         p->removeChild((Node*)sender, true);
     }    
-    
-    //////----CCLOG("atlas quantity: %d", p->textureAtlas()->totalQuads());
 }
 
 void TMXReadWriteTestNew::updateCol(float dt)
 {    
     auto map = (cocos2d::experimental::TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (cocos2d::experimental::TMXLayer*)map->getChildByTag(0);
-
-    ////----CCLOG("++++atlas quantity: %d", layer->textureAtlas()->getTotalQuads());
-    ////----CCLOG("++++children: %d", layer->getChildren()->count() );
- 
 
     auto s = layer->getLayerSize();
 

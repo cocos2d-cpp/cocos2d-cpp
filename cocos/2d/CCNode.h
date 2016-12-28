@@ -788,13 +788,6 @@ public:
     virtual Vector<Node*>& getChildren() { return _children; }
     virtual const Vector<Node*>& getChildren() const { return _children; }
     
-    /** 
-     * Returns the amount of children.
-     *
-     * @return The amount of children.
-     */
-    virtual ssize_t getChildrenCount() const;
-
     /**
      * Sets the parent node.
      *
