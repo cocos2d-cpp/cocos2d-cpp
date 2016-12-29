@@ -170,8 +170,6 @@ void ProtectedNode::removeAllProtectedChildren()
 
 void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
 {
-    // not using detachChild improves speed here
-
     auto       it  = _protectedChildren.rbegin();
     const auto end = _protectedChildren.rend();
 

@@ -1007,28 +1007,8 @@ void Node::removeAllChildren()
 
 void Node::removeAllChildrenWithCleanup(bool cleanup)
 {
-    // not using detachChild improves speed here
-    for (const auto& child : _children)
-    {
-        // IMPORTANT:
-        //  -1st do onExit
-        //  -2nd cleanup
-        if(_running)
-        {
-            child->onExitTransitionDidStart();
-            child->onExit();
-        }
-
-        if (cleanup)
-        {
-            child->cleanup();
-        }
-
-        // set parent nil at the end
-        child->setParent(nullptr);
-    }
-    
-    _children.clear();
+    for (int i = _children.size() - 1; 0 <= i; --i)
+        detachChild(_children.at(i), i, cleanup);
 }
 
 void Node::detachChild(Node *child, ssize_t childIndex, bool doCleanup)
