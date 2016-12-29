@@ -56,9 +56,6 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-// FIXME:: Yes, nodes might have a sort problem once every 30 days if the game runs at 60 FPS and each frame sprites are reordered.
-unsigned int Node::s_globalOrderOfArrival = 0;
-
 // MARK: Constructor, Destructor, Init
 
 Node::Node()
