@@ -301,11 +301,11 @@ void SpritePolygonTestSlider::changeEpsilon(cocos2d::Ref *pSender, cocos2d::ui::
     {
         cocos2d::ui::Slider* slider = dynamic_cast<cocos2d::ui::Slider*>(pSender);
         float epsilon = powf(slider->getPercent()/100.0,2)*19.0f + 1.0f;
-        for(auto child : _children)
+        for(auto & child : getChildren())
         {
             if(child->getName().size())
             {
-                Sprite *sp = (Sprite*)child;
+                Sprite *sp = dynamic_cast<Sprite*>(child.get());
                 auto file = sp->getName();
                 auto pinfo = AutoPolygon::generatePolygon(file, Rect::ZERO, epsilon);
                 sp->setPolygonInfo(pinfo);

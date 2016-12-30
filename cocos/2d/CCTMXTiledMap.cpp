@@ -204,9 +204,9 @@ TMXLayer * TMXTiledMap::getLayer(const std::string& layerName) const
 {
     CCASSERT(layerName.size() > 0, "Invalid layer name!");
     
-    for (auto& child : _children)
+    for (auto & child : getChildren())
     {
-        TMXLayer* layer = dynamic_cast<TMXLayer*>(child);
+        TMXLayer* layer = dynamic_cast<TMXLayer*>(child.get());
         if(layer)
         {
             if(layerName.compare( layer->getLayerName()) == 0)
@@ -264,7 +264,9 @@ bool TMXTiledMap::getPropertiesForGID(int GID, Value** value)
 
 std::string TMXTiledMap::getDescription() const
 {
-    return StringUtils::format("<TMXTiledMap | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
+    return StringUtils::format("<TMXTiledMap | Tag = %d, Layers = %d",
+                               _tag,
+                               static_cast<int>(getChildren().size()));
 }
 
 int TMXTiledMap::getLayerNum()

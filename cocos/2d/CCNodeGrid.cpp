@@ -131,33 +131,26 @@ void NodeGrid::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
         _gridTarget->visit(renderer, _modelViewTransform, dirty);
     }
     
-    int i = 0;
+    size_t i = 0;
     bool visibleByCamera = isVisitableByVisitingCamera();
 
-    if(!_children.empty())
+    sortAllChildren();
+    // draw children zOrder < 0
+    for(auto size = getChildren().size(); i < size; ++i)
     {
-        sortAllChildren();
-        // draw children zOrder < 0
-        for(auto size = _children.size(); i < size; ++i)
-        {
-            auto node = _children.at(i);
+        auto & node = getChildren().at(i);
 
-            if ( node && node->getLocalZOrder() < 0 )
-                node->visit(renderer, _modelViewTransform, dirty);
-            else
-                break;
-        }
-        // self draw,currently we have nothing to draw on NodeGrid, so there is no need to add render command
-        if (visibleByCamera)
-            this->draw(renderer, _modelViewTransform, dirty);
-
-        for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it) {
-            (*it)->visit(renderer, _modelViewTransform, dirty);
-        }
+        if ( node && node->getLocalZOrder() < 0 )
+            node->visit(renderer, _modelViewTransform, dirty);
+        else
+            break;
     }
-    else if (visibleByCamera)
-    {
+    // self draw,currently we have nothing to draw on NodeGrid, so there is no need to add render command
+    if (visibleByCamera)
         this->draw(renderer, _modelViewTransform, dirty);
+
+    for(auto it=getChildren().cbegin()+i, itCend = getChildren().cend(); it != itCend; ++it) {
+        (*it)->visit(renderer, _modelViewTransform, dirty);
     }
     
     // FIX ME: Why need to set _orderOfArrival to 0??

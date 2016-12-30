@@ -423,8 +423,9 @@ Sprite * TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
         
         // update possible children
         
-        for(const auto &child : _children) {
-            Sprite* sp = static_cast<Sprite*>(child);
+        for(const auto & child : getChildren())
+        {
+            Sprite* sp = static_cast<Sprite*>(child.get());
             ssize_t ai = sp->getAtlasIndex();
             if ( ai >= indexForZ )
             {
@@ -632,7 +633,12 @@ void TMXLayer::removeChild(Node* node, bool cleanup)
         return;
     }
 
-    CCASSERT(_children.contains(sprite), "Tile does not belong to TMXLayer");
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [sprite](const Node::children_container::value_type & c) {
+                                 return c.get() == static_cast<Node*>(sprite);
+                             }),
+             "Tile does not belong to TMXLayer");
 
     ssize_t atlasIndex = sprite->getAtlasIndex();
     ssize_t zz = (ssize_t)_atlasIndexArray->arr[atlasIndex];
@@ -670,8 +676,9 @@ void TMXLayer::removeTileAt(const Vec2& pos)
             _textureAtlas->removeQuadAtIndex(atlasIndex);
 
             // update possible children
-            for(const auto &obj : _children) {
-                Sprite* child = static_cast<Sprite*>(obj);
+            for(const auto & obj : getChildren())
+            {
+                Sprite* child = static_cast<Sprite*>(obj.get());
                 ssize_t ai = child->getAtlasIndex();
                 if ( ai >= atlasIndex )
                 {

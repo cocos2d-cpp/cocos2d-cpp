@@ -339,9 +339,9 @@ void PUParticleSystem3D::startParticleSystem()
         _state = State::RUNNING;
     }
 
-    for (auto iter : _children)
+    for (auto & iter : getChildren())
     {
-        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter);
+        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter.get());
         if (system){
             system->_parentParticleSystem = this;
             system->startParticleSystem();
@@ -356,9 +356,9 @@ void PUParticleSystem3D::stopParticleSystem()
         _state = State::STOP;
     }
 
-    for (auto iter : _children)
+    for (auto & iter : getChildren())
     {
-        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter);
+        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter.get());
         if (system)
             system->stopParticleSystem();
     }
@@ -387,9 +387,9 @@ void PUParticleSystem3D::pauseParticleSystem()
         _state = State::PAUSE;
     }
 
-    for (auto iter : _children)
+    for (auto & iter : getChildren())
     {
-        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter);
+        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter.get());
         if (system)
             system->pauseParticleSystem();
     }
@@ -418,9 +418,9 @@ void PUParticleSystem3D::resumeParticleSystem()
         _state = State::RUNNING;
     }
 
-    for (auto iter : _children)
+    for (auto & iter : getChildren())
     {
-        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter);
+        PUParticleSystem3D *system = dynamic_cast<PUParticleSystem3D *>(iter.get());
         if (system)
             system->resumeParticleSystem();
     }
@@ -1135,8 +1135,8 @@ PUParticleSystem3D* PUParticleSystem3D::clone()
 {
     auto ps = PUParticleSystem3D::create();
     copyAttributesTo(ps);
-    for (auto &iter : _children){
-        PUParticleSystem3D *child = dynamic_cast<PUParticleSystem3D *>(iter);
+    for (auto & iter : getChildren()){
+        PUParticleSystem3D *child = dynamic_cast<PUParticleSystem3D *>(iter.get());
         if (child)
             ps->addChild(child->clone());
     }

@@ -2503,10 +2503,10 @@ Animate::Animate()
 : _splitTimes(new std::vector<float>)
 , _nextFrame(0)
 , _origFrame(nullptr)
+, _currFrameIndex(0)
 , _executedLoops(0)
 , _animation(nullptr)
 , _frameDisplayedEvent(nullptr)
-, _currFrameIndex(0)
 {
 
 }

@@ -1506,8 +1506,10 @@ void MultipleParticleSystems::update(float dt)
 
     unsigned int count = 0; 
     
-    for(const auto &child : _children) {
-        auto item = dynamic_cast<ParticleSystem*>(child);
+    for(const auto &child : getChildren())
+    {
+        auto item = dynamic_cast<ParticleSystem*>(child.get());
+
         if (item != nullptr)
         {
             count += item->getParticleCount();
@@ -1555,7 +1557,7 @@ void MultipleParticleSystemsBatched::update(float dt)
 
     auto batchNode = getChildByTag(2);
     for(const auto &child : batchNode->getChildren()) {
-        auto item = dynamic_cast<ParticleSystem*>(child);
+        auto item = dynamic_cast<ParticleSystem*>(child.get());
         if (item != nullptr)
         {
             count += item->getParticleCount();
@@ -1619,7 +1621,7 @@ void AddAndDeleteParticleSystems::removeSystem(float dt)
     {
         CCLOG("remove random system");
         unsigned int uRand = rand() % (nChildrenCount - 1);
-        _batchNode->removeChild(_batchNode->getChildren().at(uRand), true);
+        _batchNode->removeChild(_batchNode->getChildren().at(uRand).get(), true);
 
         auto particleSystem = ParticleSystemQuad::create("Particles/Spiral.plist");
         //add new
@@ -1643,7 +1645,7 @@ void AddAndDeleteParticleSystems::update(float dt)
 
     auto batchNode = getChildByTag(2);
     for(const auto &child : batchNode->getChildren()) {
-        auto item = dynamic_cast<ParticleSystem*>(child);
+        auto item = dynamic_cast<ParticleSystem*>(child.get());
         if (item != nullptr)
         {
             count += item->getParticleCount();
@@ -1765,7 +1767,7 @@ void ReorderParticleSystems::onEnter()
 
 void ReorderParticleSystems::reorderSystem(float time)
 {
-    auto system = static_cast<ParticleSystem*>(_batchNode->getChildren().at(1));
+    auto system = static_cast<ParticleSystem*>(_batchNode->getChildren().at(1).get());
     _batchNode->reorderChild(system, system->getLocalZOrder() - 1);     
 }
 
@@ -1777,8 +1779,8 @@ void ReorderParticleSystems::update(float dt)
     int count = 0;
 
     auto batchNode = getChildByTag(2);
-    for(const auto &child : batchNode->getChildren()) {
-        auto item = dynamic_cast<ParticleSystem*>(child);
+    for(const auto & child : batchNode->getChildren()) {
+        auto item = dynamic_cast<ParticleSystem*>(child.get());
         if (item != nullptr)
         {
             count += item->getParticleCount();

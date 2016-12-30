@@ -1329,11 +1329,11 @@ static char invalid_filename_char[] = {':', '/', '\\', '?', '%', '*', '<', '>', 
 
 void Console::commandUpload(int fd)
 {
-    ssize_t n, rc;
+    ssize_t rc;
     char buf[512], c;
     char *ptr = buf;
     //read file name
-    for( n = 0; n < sizeof(buf) - 1; n++ )
+    for (size_t n = 0; n < sizeof(buf) - 1; n++)
     {
         if( (rc = recv(fd, &c, 1, 0)) ==1 ) 
         {
@@ -1418,8 +1418,8 @@ int Console::printSceneGraph(int fd, Node* node, int level)
     
     Console::Utility::mydprintf(fd, " %s\n", node->getDescription().c_str());
     
-    for(const auto& child: node->getChildren())
-        total += printSceneGraph(fd, child, level+1);
+    for(const auto & child: node->getChildren())
+        total += printSceneGraph(fd, child.get(), level+1);
     
     return total;
 }

@@ -271,12 +271,12 @@ void ScrollView::removeChild(Node* child, bool cleanup)
     return _innerContainer->removeChild(child, cleanup);
 }
 
-Vector<Node*>& ScrollView::getChildren()
+Node::children_container & ScrollView::getChildren()
 {
     return _innerContainer->getChildren();
 }
 
-const Vector<Node*>& ScrollView::getChildren() const
+const Node::children_container & ScrollView::getChildren() const
 {
     return _innerContainer->getChildren();
 }

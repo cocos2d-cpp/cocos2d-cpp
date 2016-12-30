@@ -375,12 +375,11 @@ void PUEmitter::prepare()
         else if (_emitsType == PUParticle3D::PT_TECHNIQUE){
             PUParticleSystem3D *system = static_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
             if (system){
-                auto children = system->getChildren();
-                for (auto it : children){
-                    if (it->getName() == _emitsName)
+                for (auto & p : system->getChildren()){
+                    if (p->getName() == _emitsName)
                     {
-                        static_cast<PUParticleSystem3D *>(it)->setMarkedForEmission(true);
-                        _emitsEntity = it;
+                        static_cast<PUParticleSystem3D *>(p.get())->setMarkedForEmission(true);
+                        _emitsEntity = p.get();
                         break;
                     }
                 }

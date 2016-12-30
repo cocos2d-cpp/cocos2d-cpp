@@ -48,7 +48,7 @@ Widget* Helper::seekWidgetByTag(Widget* root, int tag)
     ssize_t length = arrayRootChildren.size();
     for (ssize_t i=0;i<length;i++)
     {
-        Widget* child = dynamic_cast<Widget*>(arrayRootChildren.at(i));
+        Widget* child = dynamic_cast<Widget*>(arrayRootChildren.at(i).get());
         if (child)
         {
             Widget* res = seekWidgetByTag(child,tag);
@@ -74,7 +74,7 @@ Widget* Helper::seekWidgetByName(Widget* root, const std::string& name)
     const auto& arrayRootChildren = root->getChildren();
     for (auto& subWidget : arrayRootChildren)
     {
-        Widget* child = dynamic_cast<Widget*>(subWidget);
+        Widget* child = dynamic_cast<Widget*>(subWidget.get());
         if (child)
         {
             Widget* res = seekWidgetByName(child,name);
@@ -101,7 +101,7 @@ Widget* Helper::seekActionWidgetByActionTag(Widget* root, int tag)
     const auto& arrayRootChildren = root->getChildren();
     for (auto& subWidget : arrayRootChildren)
 	{
-		Widget* child = dynamic_cast<Widget*>(subWidget);
+		Widget* child = dynamic_cast<Widget*>(subWidget.get());
         if (child)
         {
             Widget* res = seekActionWidgetByActionTag(child,tag);

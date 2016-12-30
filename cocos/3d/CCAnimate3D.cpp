@@ -133,10 +133,9 @@ Node* findChildByNameRecursively(Node* node, const std::string &childName)
     if (name == childName)
         return node;
     
-    const Vector<Node*>& children = node->getChildren();
-    for (const auto& child : children)
+    for (const auto& child : node->getChildren())
     {
-        Node* findNode = findChildByNameRecursively(child, childName);
+        Node* findNode = findChildByNameRecursively(child.get(), childName);
         if (findNode)
             return findNode;
     }

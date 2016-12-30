@@ -643,38 +643,32 @@ void ScrollView::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t
     this->beforeDraw();
     bool visibleByCamera = isVisitableByVisitingCamera();
 
-    if (!_children.empty())
+    size_t i=0;
+
+    // draw children zOrder < 0
+    for( ; i < getChildren().size(); i++ )
     {
-        int i=0;
-		
-		// draw children zOrder < 0
-        for( ; i < _children.size(); i++ )
+        Node *child = getChildren().at(i).get();
+
+        if ( child->getLocalZOrder() < 0 )
         {
-            Node *child = _children.at(i);
-            if ( child->getLocalZOrder() < 0 )
-            {
-                child->visit(renderer, _modelViewTransform, flags);
-            }
-            else
-            {
-                break;
-            }
+            child->visit(renderer, _modelViewTransform, flags);
         }
-		
-		// this draw
-        if (visibleByCamera)
-            this->draw(renderer, _modelViewTransform, flags);
-        
-        // draw children zOrder >= 0
-        for( ; i < _children.size(); i++ )
+        else
         {
-			Node *child = _children.at(i);
-			child->visit(renderer, _modelViewTransform, flags);
+            break;
         }
     }
-    else if (visibleByCamera)
-    {
+
+    // this draw
+    if (visibleByCamera)
         this->draw(renderer, _modelViewTransform, flags);
+
+    // draw children zOrder >= 0
+    for( ; i < getChildren().size(); i++ )
+    {
+        Node *child = getChildren().at(i).get();
+        child->visit(renderer, _modelViewTransform, flags);
     }
 
     this->afterDraw();

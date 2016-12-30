@@ -120,33 +120,26 @@ void BillBoard::visit(Renderer *renderer, const Mat4& parentTransform, uint32_t 
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
     
-    int i = 0;
+    size_t i = 0;
     
-    if(!_children.empty())
+    sortAllChildren();
+    // draw children zOrder < 0
+    for(auto size = getChildren().size(); i < size; ++i)
     {
-        sortAllChildren();
-        // draw children zOrder < 0
-        for(auto size = _children.size(); i < size; ++i)
-        {
-            auto node = _children.at(i);
-            
-            if (node && node->getLocalZOrder() < 0)
-                node->visit(renderer, _modelViewTransform, flags);
-            else
-                break;
-        }
-        // self draw
-        if (visibleByCamera)
-            this->draw(renderer, _modelViewTransform, flags);
+        auto & node = getChildren().at(i);
 
-        for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
-            (*it)->visit(renderer, _modelViewTransform, flags);
+        if (node && node->getLocalZOrder() < 0)
+            node->visit(renderer, _modelViewTransform, flags);
+        else
+            break;
     }
-    else if (visibleByCamera)
-    {
+    // self draw
+    if (visibleByCamera)
         this->draw(renderer, _modelViewTransform, flags);
-    }
-    
+
+    for(auto it=getChildren().cbegin()+i, itCend = getChildren().cend(); it != itCend; ++it)
+        (*it)->visit(renderer, _modelViewTransform, flags);
+
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 

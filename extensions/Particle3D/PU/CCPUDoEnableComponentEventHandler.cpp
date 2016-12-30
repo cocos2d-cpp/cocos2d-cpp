@@ -52,10 +52,10 @@ void PUDoEnableComponentEventHandler::handle (PUParticleSystem3D* particleSystem
                 // Search all techniques in this ParticleSystem for an emitter with the correct name
                 PUParticleSystem3D* system = particleSystem->getParentParticleSystem();
                 if (system){
-                    auto children = system->getChildren();
-                    for(auto iter : children)		
+                    auto & children = system->getChildren();
+                    for(auto & p : children)		
                     {
-                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(iter);
+                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(p.get());
                         if (child){
                             emitter = child->getEmitter(_componentName);
                             if (emitter)
@@ -81,10 +81,10 @@ void PUDoEnableComponentEventHandler::handle (PUParticleSystem3D* particleSystem
                 // Search all techniques in this ParticleSystem for an emitter with the correct name
                 PUParticleSystem3D* system = particleSystem->getParentParticleSystem();
                 if (system){
-                    auto children = system->getChildren();
-                    for(auto iter : children)		
+                    auto & children = system->getChildren();
+                    for(auto & p : children)		
                     {
-                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(iter);
+                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(p.get());
                         if (child){
                             affector = child->getAffector(_componentName);
                             if (affector)
@@ -110,10 +110,10 @@ void PUDoEnableComponentEventHandler::handle (PUParticleSystem3D* particleSystem
                 // Search all techniques in this ParticleSystem for an emitter with the correct name
                 PUParticleSystem3D* system = particleSystem->getParentParticleSystem();
                 if (system){
-                    auto children = system->getChildren();
-                    for(auto iter : children)		
+                    auto & children = system->getChildren();
+                    for(auto & p : children)		
                     {
-                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(iter);
+                        PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(p.get());
                         if (child){
                             observer = child->getObserver(_componentName);
                             if (observer)
@@ -136,9 +136,9 @@ void PUDoEnableComponentEventHandler::handle (PUParticleSystem3D* particleSystem
             // Search in this ParticleSystem for a technique with the correct name
             PUParticleSystem3D* system = particleSystem->getParentParticleSystem();
             if (system){
-                auto children = system->getChildren();
-                for (auto iter : children){
-                    PUParticleSystem3D *child = dynamic_cast<PUParticleSystem3D *>(iter);
+                auto & children = system->getChildren();
+                for (auto & p : children){
+                    PUParticleSystem3D *child = dynamic_cast<PUParticleSystem3D *>(p.get());
                     if (child && child->getName() == _componentName){
                         child->setEnabled(_componentEnabled);
                         break;

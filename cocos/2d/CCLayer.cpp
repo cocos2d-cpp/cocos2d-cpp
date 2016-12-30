@@ -105,31 +105,31 @@ bool Layer::onTouchBegan(Touch * /*touch*/, Event * /*event*/)
     return true;
 }
 
-void Layer::onTouchMoved(Touch * /*touch*/, Event * /*event*/)
+void Layer::onTouchMoved(Touch *, Event *)
 {
 }
 
-void Layer::onTouchEnded(Touch * /*touch*/, Event * /*event*/)
+void Layer::onTouchEnded(Touch *, Event *)
 {
 }
 
-void Layer::onTouchCancelled(Touch *touch, Event *event)
+void Layer::onTouchCancelled(Touch *, Event *)
 {
 }    
 
-void Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesBegan(const std::vector<Touch*> &, Event *)
 {
 }
 
-void Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesMoved(const std::vector<Touch*> &, Event *)
 {
 }
 
-void Layer::onTouchesEnded(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesEnded(const std::vector<Touch*> &, Event *)
 {
 }
 
-void Layer::onTouchesCancelled(const std::vector<Touch*>& touches, Event *event)
+void Layer::onTouchesCancelled(const std::vector<Touch*> &, Event *)
 {
 }
 
@@ -689,7 +689,9 @@ void LayerMultiplex::switchToAndReleaseMe(int n)
 
 std::string LayerMultiplex::getDescription() const
 {
-    return StringUtils::format("<LayerMultiplex | Tag = %d, Layers = %d", _tag, static_cast<int>(_children.size()));
+    return StringUtils::format("<LayerMultiplex | Tag = %d, Layers = %d",
+                               _tag,
+                               static_cast<int>(getChildren().size()));
 }
 
 } // namespace cocos2d

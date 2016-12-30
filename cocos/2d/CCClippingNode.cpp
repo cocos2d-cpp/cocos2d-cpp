@@ -55,8 +55,8 @@ static void setProgram(Node *n, GLProgram *p)
 
 ClippingNode::ClippingNode()
 : _stencil(nullptr)
-, _stencilStateManager(new StencilStateManager())
 , _originStencilProgram(nullptr)
+, _stencilStateManager(new StencilStateManager())
 {
 }
 
@@ -205,16 +205,16 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencilStateManager);
     renderer->addCommand(&_afterDrawStencilCmd);
 
-    int i = 0;
+    size_t i = 0;
     bool visibleByCamera = isVisitableByVisitingCamera();
     
-    if(!_children.empty())
+    if(!getChildren().empty())
     {
         sortAllChildren();
         // draw children zOrder < 0
-        for(auto size = _children.size(); i < size; ++i)
+        for(auto size = getChildren().size(); i < size; ++i)
         {
-            auto node = _children.at(i);
+            auto & node = getChildren().at(i);
             
             if ( node && node->getLocalZOrder() < 0 )
                 node->visit(renderer, _modelViewTransform, flags);
@@ -225,7 +225,7 @@ void ClippingNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
         if (visibleByCamera)
             this->draw(renderer, _modelViewTransform, flags);
 
-        for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
+        for(auto it=getChildren().cbegin()+i, itCend = getChildren().cend(); it != itCend; ++it)
             (*it)->visit(renderer, _modelViewTransform, flags);
     }
     else if (visibleByCamera)
@@ -287,7 +287,7 @@ void ClippingNode::setStencil(Node *stencil)
 
 bool ClippingNode::hasContent() const
 {
-    return _children.size() > 0;
+    return getChildren().size() > 0;
 }
 
 GLfloat ClippingNode::getAlphaThreshold() const

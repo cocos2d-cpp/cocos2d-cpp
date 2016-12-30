@@ -122,7 +122,7 @@ public:
      * @param doCleanup Whether or not to cleanup the running actions.
      * @warning Removing a child from a SpriteBatchNode is very slow.
      */
-    void removeChildAtIndex(ssize_t index, bool doCleanup);
+    void removeChildAtIndex(size_t index, bool doCleanup);
     
     /** Append the child. 
      *
@@ -142,7 +142,7 @@ public:
      * @param index The child index.
      * @return Index.
      */
-    ssize_t rebuildIndexInOrder(Sprite *parent, ssize_t index);
+    size_t rebuildIndexInOrder(Sprite *parent, size_t index);
     
     /** Get the Max image block index,in all child.
      *

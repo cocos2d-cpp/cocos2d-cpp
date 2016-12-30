@@ -112,10 +112,10 @@ void PUSlaveEmitter::prepare()
     PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
     if (system)
     {
-        auto children = system->getChildren();
-        for (auto it : children){
-            if (it->getName() == _masterTechniqueName){
-                static_cast<PUParticleSystem3D *>(it)->addListener(this);
+        auto & children = system->getChildren();
+        for (auto & p : children){
+            if (p->getName() == _masterTechniqueName){
+                static_cast<PUParticleSystem3D *>(p.get())->addListener(this);
                 break;
             }
         }
@@ -130,10 +130,10 @@ void PUSlaveEmitter::unPrepare()
     PUParticleSystem3D* system = dynamic_cast<PUParticleSystem3D *>(_particleSystem)->getParentParticleSystem();
     if (system)
     {
-        auto children = system->getChildren();
-        for (auto it : children){
-            if (it->getName() == _masterTechniqueName){
-                static_cast<PUParticleSystem3D *>(it)->removeListener(this);
+        auto & children = system->getChildren();
+        for (auto & p : children){
+            if (p->getName() == _masterTechniqueName){
+                static_cast<PUParticleSystem3D *>(p.get())->removeListener(this);
                 break;
             }
         }

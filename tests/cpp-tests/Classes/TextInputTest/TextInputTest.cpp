@@ -72,7 +72,7 @@ void KeyboardNotificationLayer::keyboardWillShow(IMEKeyboardNotificationInfo& in
     Vec2 pos;
     for (int i = 0; i < count; ++i)
     {
-        node = children.at(i);
+        node = children.at(i).get();
         pos = node->getPosition();
         pos.y += adjustVert;
         node->setPosition(pos);

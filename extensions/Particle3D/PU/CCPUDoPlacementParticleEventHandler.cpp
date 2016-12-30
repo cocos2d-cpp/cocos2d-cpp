@@ -77,10 +77,10 @@ void PUDoPlacementParticleEventHandler::handle (PUParticleSystem3D* particleSyst
             // Search all techniques in this ParticleSystem for an emitter with the correct name
             PUParticleSystem3D* parentSystem = particleSystem->getParentParticleSystem();
             if (parentSystem){
-                auto children = parentSystem->getChildren();
-                for(auto iter : children)		
+                auto & children = parentSystem->getChildren();
+                for(auto & p : children)		
                 {
-                    PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(iter);
+                    PUParticleSystem3D *child  = dynamic_cast<PUParticleSystem3D *>(p.get());
                     if (child){
                         system = child;
                         emitter = system->getEmitter(_forceEmitterName);

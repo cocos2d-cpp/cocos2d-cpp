@@ -38,6 +38,7 @@ THE SOFTWARE.
 #include "base/CCEventFocus.h"
 #include "base/CCStencilStateManager.hpp"
 
+#include <algorithm> // find_if
 
 namespace cocos2d {
 
@@ -248,7 +249,7 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     _afterDrawStencilCmd.func = CC_CALLBACK_0(StencilStateManager::onAfterDrawStencil, _stencileStateManager);
     renderer->addCommand(&_afterDrawStencilCmd);
     
-    int i = 0;      // used by _children
+    size_t i = 0;      // used by _children
     size_t j = 0;      // used by _protectedChildren
     
     sortAllChildren();
@@ -257,9 +258,9 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     //
     // draw children and protectedChildren zOrder < 0
     //
-    for(auto size = _children.size(); i < size; i++)
+    for(auto size = getChildren().size(); i < size; i++)
     {
-        auto node = _children.at(i);
+        auto & node = getChildren().at(i);
         
         if (node && node->getLocalZOrder() < 0)
             node->visit(renderer, _modelViewTransform, flags);
@@ -288,7 +289,7 @@ void Layout::stencilClippingVisit(Renderer *renderer, const Mat4& parentTransfor
     for(auto it=_protectedChildren.cbegin()+j, itCend = _protectedChildren.cend(); it != itCend; ++it)
         (*it)->visit(renderer, _modelViewTransform, flags);
     
-    for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
+    for(auto it = getChildren().cbegin() + i, end = getChildren().cend(); it != end; ++it)
         (*it)->visit(renderer, _modelViewTransform, flags);
 
     
@@ -871,12 +872,12 @@ void Layout::setLayoutType(Type type)
 {
     _layoutType = type;
    
-    for (auto& child : _children)
+    for (auto & child : getChildren())
     {
-        Widget* widgetChild = dynamic_cast<Widget*>(child);
+        Widget* widgetChild = dynamic_cast<Widget*>(child.get());
         if (widgetChild)
         {
-            supplyTheLayoutParameterLackToChild(static_cast<Widget*>(child));
+            supplyTheLayoutParameterLackToChild(widgetChild);
         }
     }
     _doLayoutDirty = true;
@@ -905,7 +906,7 @@ Size Layout::getLayoutContentSize()const
     return this->getContentSize();
 }
     
-const Vector<Node*>& Layout::getLayoutElements()const
+const Node::children_container & Layout::getLayoutElements() const
 {
     return this->getChildren();
 }
@@ -1011,24 +1012,27 @@ bool Layout::isPassFocusToChild()const
 
 Size Layout::getLayoutAccumulatedSize()const
 {
-    const auto& children = this->getChildren();
     Size layoutSize = Size::ZERO;
     int widgetCount =0;
-    for(const auto& widget : children)
+
+    for(const auto& node : this->getChildren())
     {
-        Layout *layout = dynamic_cast<Layout*>(widget);
+        Layout *layout = dynamic_cast<Layout*>(node.get());
+
         if (nullptr != layout)
         {
             layoutSize = layoutSize + layout->getLayoutAccumulatedSize();
         }
         else
         {
-            Widget *w = dynamic_cast<Widget*>(widget);
-            if (w)
+            Widget *widget = dynamic_cast<Widget*>(node.get());
+
+            if (widget)
             {
                 widgetCount++;
-                Margin m = w->getLayoutParameter()->getMargin();
-                layoutSize = layoutSize + w->getContentSize() + Size(m.right + m.left,  m.top + m.bottom) * 0.5;
+                Margin m = widget->getLayoutParameter()->getMargin();
+                layoutSize = layoutSize + widget->getContentSize()
+                    + Size(m.right + m.left,  m.top + m.bottom) * 0.5;
             }
         }
     }
@@ -1061,9 +1065,9 @@ float Layout::calculateNearestDistance(Widget* baseWidget)
     
     Vec2 widgetPosition =  this->getWorldCenterPoint(baseWidget);
     
-    for (Node* node : _children)
+    for (auto & node : getChildren())
     {
-        Layout *layout = dynamic_cast<Layout*>(node);
+        Layout *layout = dynamic_cast<Layout*>(node.get());
         int length;
         if (layout)
         {
@@ -1071,10 +1075,10 @@ float Layout::calculateNearestDistance(Widget* baseWidget)
         }
         else
         {
-            Widget* w = dynamic_cast<Widget*>(node);
-            if (w && w->isFocusEnabled())
+            Widget* widget = dynamic_cast<Widget*>(node.get());
+            if (widget && widget->isFocusEnabled())
             {
-                Vec2 wPosition = this->getWorldCenterPoint(w);
+                Vec2 wPosition = this->getWorldCenterPoint(widget);
                 length = (wPosition - widgetPosition).length();
             }
             else
@@ -1087,8 +1091,6 @@ float Layout::calculateNearestDistance(Widget* baseWidget)
         {
             distance = length;
         }
-        
-        
     }
     return distance;
 }
@@ -1099,9 +1101,9 @@ float Layout::calculateFarthestDistance(cocos2d::ui::Widget *baseWidget)
     
     Vec2 widgetPosition =  this->getWorldCenterPoint(baseWidget);
     
-    for (Node* node : _children)
+    for (auto & node : getChildren())
     {
-        Layout *layout = dynamic_cast<Layout*>(node);
+        Layout *layout = dynamic_cast<Layout*>(node.get());
         int length;
         if (layout)
         {
@@ -1109,7 +1111,7 @@ float Layout::calculateFarthestDistance(cocos2d::ui::Widget *baseWidget)
         }
         else
         {
-            Widget* w = dynamic_cast<Widget*>(node);
+            Widget* w = dynamic_cast<Widget*>(node.get());
             if (w && w->isFocusEnabled()) {
                 Vec2 wPosition = this->getWorldCenterPoint(w);
                 length = (wPosition - widgetPosition).length();
@@ -1130,11 +1132,12 @@ float Layout::calculateFarthestDistance(cocos2d::ui::Widget *baseWidget)
 
 int Layout::findFirstFocusEnabledWidgetIndex()
 {
-    ssize_t index = 0;
-    ssize_t count = this->getChildren().size();
+    size_t index = 0;
+    size_t count = this->getChildren().size();
+
     while (index < count)
     {
-        Widget* w =  dynamic_cast<Widget*>(_children.at(index));
+        Widget* w = dynamic_cast<Widget*>(getChildren().at(index).get());
         if (w && w->isFocusEnabled())
         {
             return (int)index;
@@ -1151,18 +1154,19 @@ int Layout::findNearestChildWidgetIndex(FocusDirection direction, Widget* baseWi
     {
         return this->findFirstFocusEnabledWidgetIndex();
     }
-    int index = 0;
-    ssize_t count = this->getChildren().size();
-    
+
+    size_t index = 0;
+    size_t count = this->getChildren().size();
     float distance = FLT_MAX;
     int found = 0;
+
     if (direction == FocusDirection::LEFT || direction == FocusDirection::RIGHT ||
         direction == FocusDirection::DOWN || direction == FocusDirection::UP)
     {
         Vec2 widgetPosition =  this->getWorldCenterPoint(baseWidget);
         while (index <  count)
         {
-            Widget *w = dynamic_cast<Widget*>(this->getChildren().at(index));
+            Widget *w = dynamic_cast<Widget*>(this->getChildren().at(index).get());
             if (w && w->isFocusEnabled())
             {
                 Vec2 wPosition = this->getWorldCenterPoint(w);
@@ -1199,8 +1203,9 @@ int Layout::findFarthestChildWidgetIndex(FocusDirection direction, cocos2d::ui::
     {
         return this->findFirstFocusEnabledWidgetIndex();
     }
-    int index = 0;
-    ssize_t count = this->getChildren().size();
+
+    size_t index = 0;
+    size_t count = this->getChildren().size();
     
     float distance = -FLT_MAX;
     int found = 0;
@@ -1210,7 +1215,7 @@ int Layout::findFarthestChildWidgetIndex(FocusDirection direction, cocos2d::ui::
         Vec2 widgetPosition =  this->getWorldCenterPoint(baseWidget);
         while (index <  count)
         {
-            Widget *w = dynamic_cast<Widget*>(this->getChildren().at(index));
+            Widget *w = dynamic_cast<Widget*>(this->getChildren().at(index).get());
             if (w && w->isFocusEnabled())
             {
                 Vec2 wPosition = this->getWorldCenterPoint(w);
@@ -1262,9 +1267,9 @@ Widget* Layout::findFocusEnabledChildWidgetByIndex(ssize_t index)
 Widget *Layout::findFirstNonLayoutWidget()
 {
     Widget* widget = nullptr;
-    for(Node *node : _children)
+    for(auto & node : getChildren())
     {
-        Layout* layout = dynamic_cast<Layout*>(node);
+        Layout* layout = dynamic_cast<Layout*>(node.get());
         if (layout)
         {
             widget = layout->findFirstNonLayoutWidget();
@@ -1275,7 +1280,7 @@ Widget *Layout::findFirstNonLayoutWidget()
         }
         else
         {
-            Widget *w = dynamic_cast<Widget*>(node);
+            Widget *w = dynamic_cast<Widget*>(node.get());
             if (w)
             {
                 widget = w;
@@ -1384,9 +1389,9 @@ Widget* Layout::passFocusToChild(FocusDirection dir, cocos2d::ui::Widget *curren
 bool Layout::checkFocusEnabledChild()const
 {
     bool ret = false;
-    for(Node* node : _children)
+    for(auto & node : getChildren())
     {
-        Widget* widget = dynamic_cast<Widget*>(node);
+        Widget* widget = dynamic_cast<Widget*>(node.get());
         if (widget && widget->isFocusEnabled())
         {
             ret = true;
@@ -1398,13 +1403,14 @@ bool Layout::checkFocusEnabledChild()const
 
 Widget* Layout::getChildWidgetByIndex(ssize_t index)const
 {
-    ssize_t size = _children.size();
+    ssize_t size = getChildren().size();
     int count = 0;
     ssize_t oldIndex = index;
     Widget *widget = nullptr;
     while (index < size)
     {
-        Widget* firstChild = dynamic_cast<Widget*>(_children.at(index));
+        Widget* firstChild = dynamic_cast<Widget*>(getChildren().at(index).get());
+
         if (firstChild)
         {
             widget = firstChild;
@@ -1419,7 +1425,7 @@ Widget* Layout::getChildWidgetByIndex(ssize_t index)const
         int begin = 0;
         while (begin < oldIndex)
         {
-            Widget* firstChild = dynamic_cast<Widget*>(_children.at(begin));
+            Widget* firstChild = dynamic_cast<Widget*>(getChildren().at(begin).get());
             if (firstChild)
             {
                 widget = firstChild;
@@ -1437,7 +1443,16 @@ Widget* Layout::getChildWidgetByIndex(ssize_t index)const
 Widget* Layout::getPreviousFocusedWidget(FocusDirection direction, Widget *current)
 {
     Widget *nextWidget = nullptr;
-    ssize_t previousWidgetPos = _children.getIndex(current);
+
+    Node* widgetNode = dynamic_cast<Node*>(current);
+    auto iter = std::find_if(getChildren().begin(), getChildren().end(),
+                             [widgetNode](const Node::children_container::value_type & child) {
+                                return widgetNode == child.get();
+                             });
+    ssize_t previousWidgetPos = (iter == getChildren().end()
+                                 ? -1
+                                 : std::distance(getChildren().begin(), iter));
+
     previousWidgetPos = previousWidgetPos - 1;
     if (previousWidgetPos >= 0)
     {
@@ -1465,7 +1480,7 @@ Widget* Layout::getPreviousFocusedWidget(FocusDirection direction, Widget *curre
         {
             if (checkFocusEnabledChild())
             {
-                previousWidgetPos = _children.size()-1;
+                previousWidgetPos = getChildren().size()-1;
                 nextWidget = this->getChildWidgetByIndex(previousWidgetPos);
                 if (nextWidget->isFocusEnabled())
                 {
@@ -1526,9 +1541,17 @@ Widget* Layout::getPreviousFocusedWidget(FocusDirection direction, Widget *curre
 Widget* Layout::getNextFocusedWidget(FocusDirection direction, Widget *current)
 {
     Widget *nextWidget = nullptr;
-    ssize_t previousWidgetPos = _children.getIndex(current);
+    Node* widgetNode = dynamic_cast<Node*>(current);
+    auto iter = std::find_if(getChildren().begin(), getChildren().end(),
+                             [widgetNode](const Node::children_container::value_type & child) {
+                                return widgetNode == child.get();
+                             });
+    size_t previousWidgetPos = (iter == getChildren().end()
+                                ? -1
+                                : std::distance(getChildren().begin(), iter));
+    
     previousWidgetPos = previousWidgetPos + 1;
-    if (previousWidgetPos < _children.size())
+    if (previousWidgetPos < getChildren().size())
     {
         nextWidget = this->getChildWidgetByIndex(previousWidgetPos);
         //handle widget
@@ -1629,7 +1652,13 @@ bool  Layout::isLastWidgetInContainer(Widget* widget, FocusDirection direction)c
     }
     
     auto& container = parent->getChildren();
-    ssize_t index = container.getIndex(widget);
+    Node* widgetNode = dynamic_cast<Node*>(widget);
+    auto iter = std::find_if(container.begin(), container.end(),
+                             [widgetNode](const Node::children_container::value_type & child) {
+                                return widgetNode == child.get();
+                             });
+    size_t index = (iter == container.end() ? -1  : std::distance(container.begin(), iter));
+
     if (parent->getLayoutType() == Type::HORIZONTAL)
     {
         if (direction == FocusDirection::LEFT)

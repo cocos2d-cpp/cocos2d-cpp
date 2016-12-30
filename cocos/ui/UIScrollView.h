@@ -320,10 +320,12 @@ public:
     virtual void removeAllChildren() override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void removeChild(Node* child, bool cleanup = true) override;
-    virtual Vector<Node*>& getChildren() override;
-    virtual const Vector<Node*>& getChildren() const override;
+private: // TODO  just trying
+    virtual Node::children_container & getChildren() override;
+    virtual const Node::children_container & getChildren() const override;
     virtual Node * getChildByTag(int tag) const override;
     virtual Node* getChildByName(const std::string& name)const override;
+public: // TODO just trying
     //touch event callback
     virtual bool onTouchBegan(Touch *touch, Event *unusedEvent) override;
     virtual void onTouchMoved(Touch *touch, Event *unusedEvent) override;

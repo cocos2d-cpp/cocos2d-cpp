@@ -28,10 +28,6 @@ THE SOFTWARE.
 
 #include "2d/CCNode.h"
 
-#include <algorithm>
-#include <string>
-#include <regex>
-
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 #include "base/CCEventDispatcher.h"
@@ -46,17 +42,11 @@ THE SOFTWARE.
 #include "renderer/CCMaterial.h"
 #include "math/TransformUtils.h"
 
-
-#if CC_NODE_RENDER_SUBPIXEL
-#define RENDER_IN_SUBPIXEL
-#else
-#define RENDER_IN_SUBPIXEL(__ARGS__) (ceil(__ARGS__))
-#endif
-
+#include <algorithm>
+#include <string>
+#include <regex>
 
 namespace cocos2d {
-
-// MARK: Constructor, Destructor, Init
 
 Node::Node()
 : _rotationX(0.0f)
@@ -145,7 +135,7 @@ Node::~Node()
     // attributes
     CC_SAFE_RELEASE_NULL(_glProgramState);
 
-    for (auto& child : _children)
+    for (auto & child : _children)
     {
         child->_parent = nullptr;
     }
@@ -183,7 +173,7 @@ void Node::cleanup()
     // timers
     this->unscheduleAllCallbacks();
     
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->cleanup();
 }
 
@@ -720,21 +710,16 @@ Rect Node::getBoundingBox() const
 
 // MARK: Children logic
 
-// lazy allocs
-void Node::childrenAlloc()
-{
-    _children.reserve(4);
-}
-
 Node* Node::getChildByTag(int tag) const
 {
     CCASSERT(tag != Node::INVALID_TAG, "Invalid tag");
 
-    for (const auto child : _children)
+    for (const auto & child : _children)
     {
         if(child && child->_tag == tag)
-            return child;
+            return child.get();
     }
+
     return nullptr;
 }
 
@@ -742,15 +727,17 @@ Node* Node::getChildByName(const std::string& name) const
 {
     CCASSERT(!name.empty(), "Invalid name");
     
-    std::hash<std::string> h;
-    size_t hash = h(name);
+    const size_t hash = std::hash<std::string>()(name);
     
-    for (const auto& child : _children)
+    for (const auto & child : _children)
     {
         // Different strings may have the same hash code, but can use it to compare first for speed
-        if(child->_hashOfName == hash && child->_name.compare(name) == 0)
-            return child;
+        if (child->_hashOfName == hash && child->_name == name)
+        {
+            return child.get();
+        }
     }
+
     return nullptr;
 }
 
@@ -817,9 +804,9 @@ bool Node::doEnumerateRecursive(const Node* node, const std::string &name, std::
     else
     {
         // search its children
-        for (const auto& child : node->getChildren())
+        for (const auto & child : node->getChildren())
         {
-            if (doEnumerateRecursive(child, name, callback))
+            if (doEnumerateRecursive(child.get(), name, callback))
             {
                 ret = true;
                 break;
@@ -844,14 +831,14 @@ bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) 
     }
     
     bool ret = false;
-    for (const auto& child : getChildren())
+    for (const auto & child : getChildren())
     {
         if (std::regex_match(child->_name, std::regex(searchName)))
         {
             if (!needRecursive)
             {
                 // terminate enumeration if callback return true
-                if (callback(child))
+                if (callback(child.get()))
                 {
                     ret = true;
                     break;
@@ -891,11 +878,6 @@ void Node::addChild(Node* child, int localZOrder, const std::string &name)
 
 void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::string &name, bool setTag)
 {
-    if (_children.empty())
-    {
-        this->childrenAlloc();
-    }
-    
     this->insertChild(child, localZOrder);
     
     if (setTag)
@@ -957,15 +939,12 @@ void Node::removeFromParentAndCleanup(bool cleanup)
 */
 void Node::removeChild(Node* child, bool cleanup /* = true */)
 {
-    // explicit nil handling
-    if (_children.empty())
-    {
-        return;
-    }
-
-    ssize_t index = _children.getIndex(child);
-    if( index != CC_INVALID_INDEX )
-        this->detachChild( child, index, cleanup );
+    auto iter = std::find_if(std::begin(_children), std::end(_children),
+                             [child](const children_container::value_type & p) {
+                                 return p.get() == child;
+                             });
+    if (std::end(_children) != iter)
+        this->detachChild(iter, cleanup);
 }
 
 void Node::removeChildByTag(int tag, bool cleanup/* = true */)
@@ -1007,32 +986,33 @@ void Node::removeAllChildren()
 
 void Node::removeAllChildrenWithCleanup(bool cleanup)
 {
-    for (int i = _children.size() - 1; 0 <= i; --i)
-        detachChild(_children.at(i), i, cleanup);
+    auto it = _children.rbegin();
+    while (!_children.empty())
+        detachChild((++it).base(), cleanup);
 }
 
-void Node::detachChild(Node *child, ssize_t childIndex, bool doCleanup)
+void Node::detachChild(children_iterator it, bool doCleanup)
 {
     // IMPORTANT:
     //  -1st do onExit
     //  -2nd cleanup
     if (_running)
     {
-        child->onExitTransitionDidStart();
-        child->onExit();
+        (*it)->onExitTransitionDidStart();
+        (*it)->onExit();
     }
 
     // If you don't do cleanup, the child's actions will not get removed and the
     // its scheduledSelectors_ dict will not get released!
     if (doCleanup)
     {
-        child->cleanup();
+        (*it)->cleanup();
     }
     
     // set parent nil at the end
-    child->setParent(nullptr);
+    (*it)->setParent(nullptr);
 
-    _children.erase(childIndex);
+    _children.erase(it);
 }
 
 
@@ -1041,7 +1021,7 @@ void Node::insertChild(Node* child, int z)
 {
     _transformUpdated = true;
     _reorderChildDirty = true;
-    _children.pushBack(child);
+    _children.push_back(to_retaining_ptr(child));
     child->_setLocalZOrder(z);
 }
 
@@ -1136,42 +1116,32 @@ void Node::visit(Renderer* renderer, const Mat4 &parentTransform, uint32_t paren
     // but it is deprecated and your code should not rely on it
     _director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
-    
-    bool visibleByCamera = isVisitableByVisitingCamera();
 
-    int i = 0;
+    const bool visibleByCamera = isVisitableByVisitingCamera();
 
-    if(!_children.empty())
+    sortAllChildren();
+
+    auto       it  = _children.cbegin();
+    const auto end = _children.cend();
+
+    // draw children zOrder < 0
+    for(; it != end; ++it)
     {
-        sortAllChildren();
-        // draw children zOrder < 0
-        for(auto size = _children.size(); i < size; ++i)
+        if (0 <= (*it)->_localZOrder)
         {
-            auto node = _children.at(i);
-
-            if (node && node->_localZOrder < 0)
-                node->visit(renderer, _modelViewTransform, flags);
-            else
-                break;
+            break;
         }
-        // self draw
-        if (visibleByCamera)
-            this->draw(renderer, _modelViewTransform, flags);
+        (*it)->visit(renderer, _modelViewTransform, flags);
+    }
 
-        for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
-            (*it)->visit(renderer, _modelViewTransform, flags);
-    }
-    else if (visibleByCamera)
-    {
+    // self draw
+    if (visibleByCamera)
         this->draw(renderer, _modelViewTransform, flags);
-    }
+
+    for(; it != end; ++it)
+        (*it)->visit(renderer, _modelViewTransform, flags);
 
     _director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-    
-    // FIX ME: Why need to set _orderOfArrival to 0??
-    // Please refer to https://github.com/cocos2d/cocos2d-x/pull/6920
-    // reset for next frame
-    // _orderOfArrival = 0;
 }
 
 Mat4 Node::transform(const Mat4& parentTransform)
@@ -1193,7 +1163,7 @@ void Node::onEnter()
     
     _isTransitionFinished = false;
     
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->onEnter();
     
     this->resume();
@@ -1208,7 +1178,7 @@ void Node::onEnterTransitionDidFinish()
 
     _isTransitionFinished = true;
 
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->onEnterTransitionDidFinish();
 }
 
@@ -1217,7 +1187,7 @@ void Node::onExitTransitionDidStart()
     if (_onExitTransitionDidStartCallback)
         _onExitTransitionDidStartCallback();
     
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->onExitTransitionDidStart();
 }
 
@@ -1235,7 +1205,7 @@ void Node::onExit()
     
     _running = false;
     
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->onExit();
 }
 
@@ -1710,7 +1680,7 @@ Vec2 Node::convertTouchToNodeSpaceAR(Touch *touch) const
 void Node::updateTransform()
 {
     // Recursively iterate over children
-    for( const auto &child: _children)
+    for (const auto & child : _children)
         child->updateTransform();
 }
 
@@ -1786,7 +1756,7 @@ void Node::updateDisplayedOpacity(GLubyte parentOpacity)
     
     if (_cascadeOpacityEnabled)
     {
-        for(const auto& child : _children)
+        for (const auto & child : _children)
         {
             child->updateDisplayedOpacity(_displayedOpacity);
         }
@@ -1833,7 +1803,7 @@ void Node::disableCascadeOpacity()
 {
     _displayedOpacity = _realOpacity;
     
-    for(const auto& child : _children)
+    for (const auto & child : _children)
     {
         child->updateDisplayedOpacity(255);
     }
@@ -1873,7 +1843,7 @@ void Node::updateDisplayedColor(const Color3B& parentColor)
     
     if (_cascadeColorEnabled)
     {
-        for(const auto &child : _children)
+        for (const auto & child : _children)
         {
             child->updateDisplayedColor(_displayedColor);
         }
@@ -1917,7 +1887,7 @@ void Node::updateCascadeColor()
 
 void Node::disableCascadeColor()
 {
-    for(const auto& child : _children)
+    for (const auto & child : _children)
     {
         child->updateDisplayedColor(Color3B::WHITE);
     }
@@ -1975,7 +1945,7 @@ void Node::setCameraMask(unsigned short mask, bool applyChildren)
     _cameraMask = mask;
     if (applyChildren)
     {
-        for (const auto& child : _children)
+        for (const auto & child : _children)
         {
             child->setCameraMask(mask, applyChildren);
         }

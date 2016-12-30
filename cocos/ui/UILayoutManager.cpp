@@ -45,11 +45,12 @@ LinearHorizontalLayoutManager* LinearHorizontalLayoutManager::create()
 void LinearHorizontalLayoutManager::doLayout(LayoutProtocol* layout)
 {
     Size layoutSize = layout->getLayoutContentSize();
-    Vector<Node*> container = layout->getLayoutElements();
+    auto & container = layout->getLayoutElements();
     float leftBoundary = 0.0f;
-    for (auto& subWidget : container)
+
+    for (auto & subWidget : container)
     {
-        Widget* child = dynamic_cast<Widget*>(subWidget);
+        Widget* child = dynamic_cast<Widget*>(subWidget.get());
         if (child)
         {
             LinearLayoutParameter* layoutParameter = dynamic_cast<LinearLayoutParameter*>(child->getLayoutParameter());
@@ -101,12 +102,13 @@ LinearVerticalLayoutManager* LinearVerticalLayoutManager::create()
 void LinearVerticalLayoutManager::doLayout(LayoutProtocol* layout)
 {
     Size layoutSize = layout->getLayoutContentSize();
-    Vector<Node*> container = layout->getLayoutElements();
+    auto & container = layout->getLayoutElements();
     float topBoundary = layoutSize.height;
     
     for (auto& subWidget : container)
     {
-        LayoutParameterProtocol* child = dynamic_cast<LayoutParameterProtocol*>(subWidget);
+        LayoutParameterProtocol* child = dynamic_cast<LayoutParameterProtocol*>(subWidget.get());
+
         if (child)
         {
             LinearLayoutParameter* layoutParameter = dynamic_cast<LinearLayoutParameter*>(child->getLayoutParameter());
@@ -161,11 +163,12 @@ RelativeLayoutManager* RelativeLayoutManager::create()
 
 Vector<Widget*> RelativeLayoutManager::getAllWidgets(cocos2d::ui::LayoutProtocol *layout)
 {
-    Vector<Node*> container = layout->getLayoutElements();
     Vector<Widget*> widgetChildren;
+    auto & container = layout->getLayoutElements();
+
     for (auto& subWidget : container)
     {
-        Widget* child = dynamic_cast<Widget*>(subWidget);
+        Widget* child = dynamic_cast<Widget*>(subWidget.get());
         if (child)
         {
             RelativeLayoutParameter* layoutParameter = dynamic_cast<RelativeLayoutParameter*>(child->getLayoutParameter());
@@ -174,6 +177,7 @@ Vector<Widget*> RelativeLayoutManager::getAllWidgets(cocos2d::ui::LayoutProtocol
             widgetChildren.pushBack(child);
         }
     }
+
     return widgetChildren;
 
 }

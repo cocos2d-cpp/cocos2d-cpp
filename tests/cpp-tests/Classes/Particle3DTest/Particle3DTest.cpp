@@ -123,9 +123,9 @@ void Particle3DTestDemo::update( float delta )
     ParticleSystem3D *ps = static_cast<ParticleSystem3D *>(this->getChildByTag(PARTICLE_SYSTEM_TAG));
     if (ps){
         unsigned int count = 0;
-        auto children = ps->getChildren();
-        for (auto iter : children){
-            ParticleSystem3D *child = dynamic_cast<ParticleSystem3D *>(iter);
+        auto & children = ps->getChildren();
+        for (auto & p : children){
+            ParticleSystem3D *child = dynamic_cast<ParticleSystem3D *>(p.get());
             if (child){
                 count += child->getAliveParticleCount();
             }

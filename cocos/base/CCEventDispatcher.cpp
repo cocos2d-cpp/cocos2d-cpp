@@ -226,43 +226,32 @@ void EventDispatcher::visitTarget(Node* node, bool isRootNode)
 {
     node->sortAllChildren();
     
-    int i = 0;
-    auto& children = node->getChildren();
+    size_t i = 0;
+    auto & children = node->getChildren();
     
     auto childrenCount = children.size();
     
-    if(childrenCount > 0)
+    // visit children zOrder < 0
+    for( ; i < childrenCount; i++ )
     {
-        Node* child = nullptr;
-        // visit children zOrder < 0
-        for( ; i < childrenCount; i++ )
-        {
-            child = children.at(i);
-            
-            if ( child && child->getLocalZOrder() < 0 )
-                visitTarget(child, false);
-            else
-                break;
-        }
-        
-        if (_nodeListenersMap.find(node) != _nodeListenersMap.end())
-        {
-            _globalZOrderNodeMap[node->getGlobalZOrder()].push_back(node);
-        }
-        
-        for( ; i < childrenCount; i++ )
-        {
-            child = children.at(i);
-            if (child)
-                visitTarget(child, false);
-        }
+        auto & child = children.at(i);
+
+        if ( child && child->getLocalZOrder() < 0 )
+            visitTarget(child.get(), false);
+        else
+            break;
     }
-    else
+
+    if (_nodeListenersMap.find(node) != _nodeListenersMap.end())
     {
-        if (_nodeListenersMap.find(node) != _nodeListenersMap.end())
-        {
-            _globalZOrderNodeMap[node->getGlobalZOrder()].push_back(node);
-        }
+        _globalZOrderNodeMap[node->getGlobalZOrder()].push_back(node);
+    }
+
+    for( ; i < childrenCount; i++ )
+    {
+        auto & child = children.at(i);
+        if (child)
+            visitTarget(child.get(), false);
     }
     
     if (isRootNode)
@@ -316,7 +305,7 @@ void EventDispatcher::pauseEventListenersForTarget(Node* target, bool recursive/
         const auto& children = target->getChildren();
         for (const auto& child : children)
         {
-            pauseEventListenersForTarget(child, true);
+            pauseEventListenersForTarget(child.get(), true);
         }
     }
 }
@@ -348,7 +337,7 @@ void EventDispatcher::resumeEventListenersForTarget(Node* target, bool recursive
         const auto& children = target->getChildren();
         for (const auto& child : children)
         {
-            resumeEventListenersForTarget(child, true);
+            resumeEventListenersForTarget(child.get(), true);
         }
     }
 }
@@ -398,7 +387,7 @@ void EventDispatcher::removeEventListenersForTarget(Node* target, bool recursive
         const auto& children = target->getChildren();
         for (const auto& child : children)
         {
-            removeEventListenersForTarget(child, true);
+            removeEventListenersForTarget(child.get(), true);
         }
     }
 }
@@ -1529,7 +1518,7 @@ void EventDispatcher::setDirtyForNode(Node* node)
     const auto& children = node->getChildren();
     for (const auto& child : children)
     {
-        setDirtyForNode(child);
+        setDirtyForNode(child.get());
     }
 }
 

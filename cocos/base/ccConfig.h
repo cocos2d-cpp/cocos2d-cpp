@@ -135,15 +135,6 @@ THE SOFTWARE.
 #define CC_DIRECTOR_MAC_USE_DISPLAY_LINK_THREAD 1
 #endif
 
-/** @def CC_NODE_RENDER_SUBPIXEL
- * If enabled, the Node objects (Sprite, Label,etc) will be able to render in subpixels.
- * If disabled, integer pixels will be used.
- * To enable set it to 1. Enabled by default.
- */
-#ifndef CC_NODE_RENDER_SUBPIXEL
-#define CC_NODE_RENDER_SUBPIXEL 1
-#endif
-
 /** @def CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
  * If enabled, the Sprite objects rendered with SpriteBatchNode will be able to render in subpixels.
  * If disabled, integer pixels will be used.

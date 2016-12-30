@@ -1012,8 +1012,8 @@ void PhysicsWorld::beforeSimulation(Node *node, const Mat4& parentToWorldTransfo
         physicsBody->beforeSimulation(parentToWorldTransform, nodeToWorldTransform, scaleX, scaleY, rotation);
     }
 
-    for (auto child : node->getChildren())
-        beforeSimulation(child, nodeToWorldTransform, scaleX, scaleY, rotation);
+    for (auto & child : node->getChildren())
+        beforeSimulation(child.get(), nodeToWorldTransform, scaleX, scaleY, rotation);
 }
 
 void PhysicsWorld::afterSimulation(Node *node, const Mat4& parentToWorldTransform, float parentRotation)
@@ -1027,8 +1027,8 @@ void PhysicsWorld::afterSimulation(Node *node, const Mat4& parentToWorldTransfor
         physicsBody->afterSimulation(parentToWorldTransform, parentRotation);
     }
 
-    for (auto child : node->getChildren())
-        afterSimulation(child, nodeToWorldTransform, nodeRotation);
+    for (auto & child : node->getChildren())
+        afterSimulation(child.get(), nodeToWorldTransform, nodeRotation);
 }
 
 } // namespace cocos2d

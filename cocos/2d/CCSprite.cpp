@@ -119,11 +119,7 @@ Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
 {
     SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
 
-#if COCOS2D_DEBUG > 0
-    char msg[256] = {0};
-    sprintf(msg, "Invalid spriteFrameName: %s", spriteFrameName.c_str());
-    CCASSERT(frame != nullptr, msg);
-#endif
+    CCASSERT(frame != nullptr, "Invalid spriteFrameName");
 
     return createWithSpriteFrame(frame);
 }
@@ -305,17 +301,19 @@ bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
 }
 
 Sprite::Sprite(void)
-: _batchNode(nullptr)
-, _textureAtlas(nullptr)
+: _textureAtlas(nullptr)
+, _batchNode(nullptr)
+, _dirty(true)
+, _recursiveDirty(false)
 , _shouldBeHidden(false)
 , _texture(nullptr)
 , _spriteFrame(nullptr)
-, _insideBounds(true)
 , _centerRectNormalized(0,0,1,1)
 , _numberOfSlices(1)
-, _quads(nullptr)
 , _strechFactor(Vec2::ONE)
 , _originalContentSize(Size::ZERO)
+, _quads(nullptr)
+, _insideBounds(true)
 , _strechEnabled(true)
 {
 #if CC_SPRITE_DEBUG_DRAW
@@ -1060,7 +1058,12 @@ void Sprite::addChild(Node *child, int zOrder, const std::string &name)
 void Sprite::reorderChild(Node *child, int zOrder)
 {
     CCASSERT(child != nullptr, "child must be non null");
-    CCASSERT(_children.contains(child), "child does not belong to this");
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [child](const Node::children_container::value_type & c) {
+                                 return c.get() == child;
+                             }),
+             "child does not belong to this");
 
     if( _batchNode && ! _reorderChildDirty)
     {
@@ -1085,8 +1088,9 @@ void Sprite::removeAllChildrenWithCleanup(bool cleanup)
 {
     if (_batchNode)
     {
-        for(const auto &child : _children) {
-            Sprite* sprite = dynamic_cast<Sprite*>(child);
+        for(const auto & child : getChildren())
+        {
+            Sprite* sprite = dynamic_cast<Sprite*>(child.get());
             if (sprite)
             {
                 _batchNode->removeSpriteFromAtlas(sprite);
@@ -1101,11 +1105,11 @@ void Sprite::sortAllChildren()
 {
     if (_reorderChildDirty)
     {
-        sortNodes(_children);
+        sortNodes(getChildren());
 
         if ( _batchNode)
         {
-            for(const auto &child : _children)
+            for(const auto & child : getChildren())
                 child->sortAllChildren();
         }
 
@@ -1138,8 +1142,9 @@ void Sprite::setDirtyRecursively(bool bValue)
     _recursiveDirty = bValue;
     setDirty(bValue);
 
-    for(const auto &child: _children) {
-        Sprite* sp = dynamic_cast<Sprite*>(child);
+    for (const auto & child : getChildren())
+    {
+        Sprite* sp = dynamic_cast<Sprite*>(child.get());
         if (sp)
         {
             sp->setDirtyRecursively(true);
@@ -1152,7 +1157,7 @@ void Sprite::setDirtyRecursively(bool bValue)
                     if (! _recursiveDirty) {            \
                         _recursiveDirty = true;         \
                         setDirty(true);                 \
-                        if (!_children.empty())         \
+                        if (!getChildren().empty())         \
                             setDirtyRecursively(true);  \
                         }                               \
                     }

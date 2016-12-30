@@ -1575,7 +1575,7 @@ void Label::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 void Label::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
-    if (! _visible || (_utf8Text.empty() && _children.empty()) )
+    if (! _visible || (_utf8Text.empty() && getChildren().empty()) )
     {
         return;
     }
@@ -1603,7 +1603,7 @@ void Label::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t pare
     }
 
     bool visibleByCamera = isVisitableByVisitingCamera();
-    if (_children.empty() && !_textSprite && !visibleByCamera)
+    if (getChildren().empty() && !_textSprite && !visibleByCamera)
     {
         return;
     }
@@ -1614,15 +1614,15 @@ void Label::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t pare
     _director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     _director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
     
-    if (!_children.empty())
+    if (!getChildren().empty())
     {
         sortAllChildren();
 
-        int i = 0;
+        size_t i = 0;
         // draw children zOrder < 0
-        for (auto size = _children.size(); i < size; ++i)
+        for (auto size = getChildren().size(); i < size; ++i)
         {
-            auto node = _children.at(i);
+            auto & node = getChildren().at(i);
 
             if (node && node->getLocalZOrder() < 0)
                 node->visit(renderer, _modelViewTransform, flags);
@@ -1632,7 +1632,7 @@ void Label::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t pare
         
         this->drawSelf(visibleByCamera, renderer, flags);
 
-        for (auto it = _children.cbegin() + i, itCend = _children.cend(); it != itCend; ++it)
+        for (auto it = getChildren().cbegin() + i, itCend = getChildren().cend(); it != itCend; ++it)
         {
             (*it)->visit(renderer, _modelViewTransform, flags);
         }

@@ -177,8 +177,9 @@ void Sprite3D::afterAsyncLoad(void* param)
 AABB Sprite3D::getAABBRecursivelyImp(Node *node)
 {
     AABB aabb;
-    for (auto iter : node->getChildren()){
-        aabb.merge(getAABBRecursivelyImp(iter));
+    for (auto & child : node->getChildren())
+    {
+        aabb.merge( getAABBRecursivelyImp(child.get()) );
     }
     
     Sprite3D *sprite3d = dynamic_cast<Sprite3D*>(node);
@@ -725,15 +726,15 @@ void Sprite3D::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTra
     
     bool visibleByCamera = isVisitableByVisitingCamera();
     
-    int i = 0;
+    size_t i = 0;
     
-    if(!_children.empty())
+    if(!getChildren().empty())
     {
         sortAllChildren();
         // draw children zOrder < 0
-        for(auto size = _children.size() ; i < size; i++ )
+        for(auto size = getChildren().size() ; i < size; i++ )
         {
-            auto node = _children.at(i);
+            auto & node = getChildren().at(i);
             
             if (node && node->getLocalZOrder() < 0)
                 node->visit(renderer, _modelViewTransform, flags);
@@ -744,7 +745,7 @@ void Sprite3D::visit(cocos2d::Renderer *renderer, const cocos2d::Mat4 &parentTra
         if (visibleByCamera)
             this->draw(renderer, _modelViewTransform, flags);
         
-        for(auto it=_children.cbegin()+i, itCend = _children.cend(); it != itCend; ++it)
+        for(auto it=getChildren().cbegin()+i, itCend = getChildren().cend(); it != itCend; ++it)
             (*it)->visit(renderer, _modelViewTransform, flags);
     }
     else if (visibleByCamera)
@@ -759,7 +760,7 @@ void Sprite3D::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
 #if CC_USE_CULLING
     // camera clipping
-    if(_children.size() == 0 && Camera::getVisitingCamera() && !Camera::getVisitingCamera()->isVisibleInFrustum(&getAABB()))
+    if(getChildren().size() == 0 && Camera::getVisitingCamera() && !Camera::getVisitingCamera()->isVisibleInFrustum(&getAABB()))
         return;
 #endif
     

@@ -99,7 +99,7 @@ bool SpriteBatchNode::initWithTexture(Texture2D *tex, ssize_t capacity/* = DEFAU
 
     updateBlendFunc();
 
-    _children.reserve(capacity);
+    getChildren().reserve(capacity);
 
     _descendants.reserve(capacity);
     
@@ -204,7 +204,12 @@ void SpriteBatchNode::addChild(Node * child, int zOrder, const std::string &name
 void SpriteBatchNode::reorderChild(Node *child, int zOrder)
 {
     CCASSERT(child != nullptr, "the child should not be null");
-    CCASSERT(_children.contains(child), "Child doesn't belong to Sprite");
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [child](const Node::children_container::value_type & c) {
+                                 return c.get() == child;
+                             }),
+             "Child doesn't belong to Sprite");
 
     if (zOrder == child->getLocalZOrder())
     {
@@ -226,7 +231,12 @@ void SpriteBatchNode::removeChild(Node *child, bool cleanup)
         return;
     }
 
-    CCASSERT(_children.contains(sprite), "sprite batch node should contain the child");
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [sprite](const Node::children_container::value_type & c) {
+                                 return c.get() == static_cast<Node*>(sprite);
+                             }),
+             "sprite batch node should contain the child");
 
     // cleanup before removing
     removeSpriteFromAtlas(sprite);
@@ -234,10 +244,10 @@ void SpriteBatchNode::removeChild(Node *child, bool cleanup)
     Node::removeChild(sprite, cleanup);
 }
 
-void SpriteBatchNode::removeChildAtIndex(ssize_t index, bool doCleanup)
+void SpriteBatchNode::removeChildAtIndex(size_t index, bool doCleanup)
 {
-    CCASSERT(index>=0 && index < _children.size(), "Invalid index");
-    removeChild(_children.at(index), doCleanup);
+    CCASSERT(index < getChildren().size(), "Invalid index");
+    removeChild(getChildren().at(index).get(), doCleanup);
 }
 
 void SpriteBatchNode::removeAllChildrenWithCleanup(bool doCleanup)
@@ -259,13 +269,13 @@ void SpriteBatchNode::sortAllChildren()
 {
     if (_reorderChildDirty)
     {
-        sortNodes(_children);
+        sortNodes(getChildren());
 
         //sorted now check all children
-        if (!_children.empty())
+        if (!getChildren().empty())
         {
             //first sort all children recursively based on zOrder
-            for(const auto &child: _children) {
+            for(const auto & child : getChildren()) {
                 child->sortAllChildren();
             }
 
@@ -273,8 +283,8 @@ void SpriteBatchNode::sortAllChildren()
 
             //fast dispatch, give every child a new atlasIndex based on their relative zOrder (keep parent -> child relations intact)
             // and at the same time reorder descendants and the quads to the right index
-            for(const auto &child: _children) {
-                Sprite* sp = static_cast<Sprite*>(child);
+            for(const auto & child : getChildren()) {
+                Sprite* sp = static_cast<Sprite*>(child.get());
                 updateAtlasIndex(sp, &index);
             }
         }
@@ -318,7 +328,7 @@ void SpriteBatchNode::updateAtlasIndex(Sprite* sprite, ssize_t* curIndex)
         }
 
         for(const auto &child: array) {
-            Sprite* sp = static_cast<Sprite*>(child);
+            Sprite* sp = static_cast<Sprite*>(child.get());
             if (needNewIndex && sp->getLocalZOrder() >= 0)
             {
                 oldIndex = sprite->getAtlasIndex();
@@ -376,7 +386,7 @@ void SpriteBatchNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t f
         return;
     }
 
-    for (const auto &child : _children)
+    for (const auto & child : getChildren())
     {
         child->updateTransform();
     }
@@ -417,13 +427,15 @@ void SpriteBatchNode::reserveCapacity(ssize_t newCapacity)
     }
 }
 
-ssize_t SpriteBatchNode::rebuildIndexInOrder(Sprite *parent, ssize_t index)
+size_t SpriteBatchNode::rebuildIndexInOrder(Sprite *parent, size_t index)
 {
-    CCASSERT(index>=0 && index < _children.size(), "Invalid index");
+    CCASSERT(index < getChildren().size(), "Invalid index");
 
     auto& children = parent->getChildren();
-    for(const auto &child: children) {
-        Sprite* sp = static_cast<Sprite*>(child);
+
+    for(const auto & child : children)
+    {
+        Sprite* sp = static_cast<Sprite*>(child.get());
         if (sp && (sp->getLocalZOrder() < 0))
         {
             index = rebuildIndexInOrder(sp, index);
@@ -437,8 +449,8 @@ ssize_t SpriteBatchNode::rebuildIndexInOrder(Sprite *parent, ssize_t index)
         index++;
     }
 
-    for(const auto &child: children) {
-        Sprite* sp = static_cast<Sprite*>(child);
+    for(const auto & child : children) {
+        Sprite* sp = static_cast<Sprite*>(child.get());
         if (sp && (sp->getLocalZOrder() >= 0))
         {
             index = rebuildIndexInOrder(sp, index);
@@ -450,7 +462,7 @@ ssize_t SpriteBatchNode::rebuildIndexInOrder(Sprite *parent, ssize_t index)
 
 ssize_t SpriteBatchNode::highestAtlasIndexInChild(Sprite *sprite)
 {
-    auto& children = sprite->getChildren();
+    auto & children = sprite->getChildren();
 
     if (children.size() == 0)
     {
@@ -458,7 +470,7 @@ ssize_t SpriteBatchNode::highestAtlasIndexInChild(Sprite *sprite)
     }
     else
     {
-        return highestAtlasIndexInChild( static_cast<Sprite*>(children.back()));
+        return highestAtlasIndexInChild( static_cast<Sprite*>(children.back().get()));
     }
 }
 
@@ -472,27 +484,32 @@ ssize_t SpriteBatchNode::lowestAtlasIndexInChild(Sprite *sprite)
     }
     else
     {
-        return lowestAtlasIndexInChild(static_cast<Sprite*>(children.at(0)));
+        return lowestAtlasIndexInChild(static_cast<Sprite*>(children.at(0).get()));
     }
 }
 
 ssize_t SpriteBatchNode::atlasIndexForChild(Sprite *sprite, int nZ)
 {
     auto& siblings = sprite->getParent()->getChildren();
-    auto childIndex = siblings.getIndex(sprite);
+
+    auto iter = std::find_if(std::begin(siblings), std::end(siblings),
+                             [sprite](const Node::children_container::value_type & p) {
+                                 return p.get() == static_cast<Node*>(sprite);
+                             });
 
     // ignore parent Z if parent is spriteSheet
     bool ignoreParent = (SpriteBatchNode*)(sprite->getParent()) == this;
     Sprite *prev = nullptr;
-    if (childIndex > 0 && childIndex != -1)
+
+    if (iter != siblings.begin() && iter != siblings.end())
     {
-        prev = static_cast<Sprite*>(siblings.at(childIndex - 1));
+        prev = static_cast<Sprite*>((iter - 1)->get());
     }
 
     // first child of the sprite sheet
     if (ignoreParent)
     {
-        if (childIndex == 0)
+        if (iter == siblings.begin())
         {
             return 0;
         }
@@ -503,9 +520,9 @@ ssize_t SpriteBatchNode::atlasIndexForChild(Sprite *sprite, int nZ)
     // parent is a Sprite, so, it must be taken into account
 
     // first child of an Sprite ?
-    if (childIndex == 0)
+    if (iter == siblings.begin())
     {
-        Sprite *p = static_cast<Sprite*>(sprite->getParent());
+        Sprite *p = static_cast<Sprite*>((*iter)->getParent());
 
         // less than parent and brothers
         if (nZ < 0)
@@ -556,20 +573,25 @@ void SpriteBatchNode::appendChild(Sprite* sprite)
 
     // add children recursively
     auto& children = sprite->getChildren();
-    for(const auto &child: children) {
+    for(const auto & child : children) {
 #if CC_SPRITE_DEBUG_DRAW
         // when using CC_SPRITE_DEBUG_DRAW, a DrawNode is appended to sprites. remove it since only Sprites can be used
         // as children in SpriteBatchNode
         // Github issue #14730
-        if (dynamic_cast<DrawNode*>(child)) {
+        if (dynamic_cast<DrawNode*>(child.get()))
+        {
             // to avoid calling Sprite::removeChild()
-            sprite->Node::removeChild(child, true);
+            sprite->Node::removeChild(child.get(), true);
         }
         else
+        {
+            appendChild(static_cast<Sprite*>(child.get()));
+        }
 #else
-        CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "You can only add Sprites (or subclass of Sprite) to SpriteBatchNode");
+        CCASSERT(dynamic_cast<Sprite*>(child.get()) != nullptr,
+                 "You can only add Sprites (or subclass of Sprite) to SpriteBatchNode");
+        appendChild(static_cast<Sprite*>(child.get()));
 #endif
-        appendChild(static_cast<Sprite*>(child));
     }
 }
 
@@ -596,9 +618,10 @@ void SpriteBatchNode::removeSpriteFromAtlas(Sprite *sprite)
     }
 
     // remove children recursively
-    auto& children = sprite->getChildren();
-    for(const auto &obj: children) {
-        Sprite* child = static_cast<Sprite*>(obj);
+    auto & children = sprite->getChildren();
+    for(const auto & obj : children)
+    {
+        Sprite* child = static_cast<Sprite*>(obj.get());
         if (child)
         {
             removeSpriteFromAtlas(child);

@@ -702,7 +702,7 @@ SpriteBatchNodeReorder::SpriteBatchNodeReorder()
 
     for(const auto &obj : children)
     {
-        auto child = static_cast<Sprite*>(obj);
+        auto child = static_cast<Sprite*>(obj.get());
 
         ssize_t currentIndex = child->getAtlasIndex();
         CCASSERT( prev == currentIndex-1, "Child order failed");
@@ -1617,7 +1617,7 @@ void SpriteNewTexture::onTouchesEnded(const std::vector<Touch*>& touches, Event*
     if( _usingTexture1 )                          //--> win32 : Let's it make just simple sentence
     {
         for(const auto &obj : children) {
-            sprite = static_cast<Sprite*>( obj );
+            sprite = static_cast<Sprite*>( obj.get() );
             sprite->setTexture(_texture2);
         }
 
@@ -1626,7 +1626,7 @@ void SpriteNewTexture::onTouchesEnded(const std::vector<Touch*>& touches, Event*
     else 
     {
         for(const auto &obj : children) {
-            sprite = static_cast<Sprite*>( obj );
+            sprite = static_cast<Sprite*>( obj.get() );
             sprite->setTexture(_texture1);
         }
 
@@ -2484,7 +2484,7 @@ void SpriteHybrid::reparentSprite(float dt)
     
     auto& p1Children = p1->getChildren();
     for(const auto &node : p1Children) {
-        retArray.pushBack(node);
+        retArray.pushBack(node.get());
     }
 
     int i=0;
@@ -4454,7 +4454,7 @@ void NodeSort::reorderSprite(float dt)
         log("tag %i z %i",(int)child->getTag(),(int)child->getLocalZOrder());
     }
     //z-4
-    _node->reorderChild( _node->getChildren().at(0), -6);
+    _node->reorderChild( _node->getChildren().at(0).get(), -6);
 
     _node->sortAllChildren();
     

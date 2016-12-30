@@ -82,7 +82,7 @@ public:
      *
      * @return A vector of Node pointers.
      */
-    virtual const Vector<Node*>& getLayoutElements()const = 0;
+    virtual const Node::children_container & getLayoutElements()const = 0;
     
     /**
      * @brief The main function to do the layout job.
@@ -483,7 +483,7 @@ protected:
     virtual void doLayout()override;
     virtual LayoutManager* createLayoutManager()override;
     virtual Size getLayoutContentSize()const override;
-    virtual const Vector<Node*>& getLayoutElements()const override;
+    virtual const Node::children_container & getLayoutElements()const override;
     
     //clipping
     

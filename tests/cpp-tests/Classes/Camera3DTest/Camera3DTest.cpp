@@ -798,12 +798,12 @@ void CameraCullingDemo::update(float dt)
     if(_cameraType == CameraType::ThirdPerson)
         drawCameraFrustum();
     
-    Vector<Node*>& children = _layer3D->getChildren();
+    auto & children = _layer3D->getChildren();
     Vec3 corners[8];
     
-    for (const auto& iter: children)
+    for (const auto & p: children)
     {
-        const AABB& aabb = static_cast<Sprite3D*>(iter)->getAABB();
+        const AABB& aabb = static_cast<Sprite3D*>(p.get())->getAABB();
         if (_cameraFirst->isVisibleInFrustum(&aabb))
         {
             aabb.getCorners(corners);

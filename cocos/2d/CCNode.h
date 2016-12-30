@@ -31,8 +31,8 @@
 
 #include <cstdint>
 #include "base/ccMacros.h"
-#include "base/CCVector.h"
 #include "base/CCProtocols.h"
+#include "base/CCRef.h"
 #include "math/CCAffineTransform.h"
 #include "math/CCMath.h"
 #include "2d/CCComponentContainer.h"
@@ -41,6 +41,9 @@
 #if CC_USE_PHYSICS
 #include "physics/CCPhysicsBody.h"
 #endif
+
+#include <vector>
+#include <algorithm> // stable_sort
 
 namespace cocos2d {
 
@@ -106,6 +109,11 @@ class EventListener;
 
 class CC_DLL Node : public Ref
 {
+public:
+    
+    using children_container = std::vector<retaining_ptr<Node>>;
+    using children_iterator  = children_container::iterator;
+
 public:
     /** Default tag used for all the nodes */
     static const int INVALID_TAG = -1;
@@ -785,8 +793,15 @@ public:
      *
      * @return the array the node's children.
      */
-    virtual Vector<Node*>& getChildren() { return _children; }
-    virtual const Vector<Node*>& getChildren() const { return _children; }
+    virtual children_container & getChildren()
+    {
+        return _children;
+    }
+    virtual const children_container & getChildren() const
+    {
+        
+        return _children;
+    }
     
     /**
      * Sets the parent node.
@@ -1740,14 +1755,8 @@ protected:
     virtual bool init();
 
 protected:
-    /// lazy allocs
-    void childrenAlloc(void);
-    
     /// helper that reorder a child
     void insertChild(Node* child, int z);
-
-    /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
-    void detachChild(Node *child, ssize_t index, bool doCleanup);
 
     /// Convert cocos2d coordinates to UI windows coordinate.
     Vec2 convertToWindowSpace(const Vec2& nodePoint) const;
@@ -1775,6 +1784,9 @@ protected:
 private:
     void addChildHelper(Node* child, int localZOrder, int tag, const std::string &name, bool setTag);
     
+    /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
+    void detachChild(children_iterator, bool doCleanup);
+
 protected:
 
     float _rotationX;               ///< rotation on the X-axis
@@ -1820,7 +1832,10 @@ protected:
 
     float _globalZOrder;            ///< Global order used to sort the node
 
-    Vector<Node*> _children;        ///< array of children nodes
+private:
+    children_container _children;    ///< array of children nodes
+
+protected:
     Node *_parent;                  ///< weak reference to parent node
     Director* _director;            //cached director pointer to improve rendering performance
     int _tag;                       ///< a tag. Can be any number you assigned just to identify this node

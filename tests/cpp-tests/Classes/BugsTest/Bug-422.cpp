@@ -50,9 +50,9 @@ void Bug422Layer::reset()
 void Bug422Layer::check(Node* t)
 {
     auto& children = t->getChildren();
-    for(const auto &child : children) {
-        log("%p, rc: %d", child, child->getReferenceCount());
-        check(child);
+    for(const auto & child : children) {
+        log("%p, rc: %d", child.get(), child->getReferenceCount());
+        check(child.get());
     }
 }
 

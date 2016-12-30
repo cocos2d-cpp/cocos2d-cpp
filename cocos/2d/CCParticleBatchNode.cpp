@@ -90,7 +90,7 @@ bool ParticleBatchNode::initWithTexture(Texture2D *tex, int capacity)
     _textureAtlas = new (std::nothrow) TextureAtlas();
     _textureAtlas->initWithTexture(tex, capacity);
 
-    _children.reserve(capacity);
+    getChildren().reserve(capacity);
     
     _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 
@@ -167,7 +167,7 @@ void ParticleBatchNode::addChild(Node * aChild, int zOrder, const std::string &n
 void ParticleBatchNode::addChildByTagOrName(ParticleSystem* child, int zOrder, int tag, const std::string &name, bool setTag)
 {
     // If this is the 1st children, then copy blending function
-    if (_children.empty())
+    if (getChildren().empty())
     {
         setBlendFunc(child->getBlendFunc());
     }
@@ -186,7 +186,7 @@ void ParticleBatchNode::addChildByTagOrName(ParticleSystem* child, int zOrder, i
     
     if (pos != 0)
     {
-        ParticleSystem* p = static_cast<ParticleSystem*>(_children.at(pos-1));
+        ParticleSystem* p = static_cast<ParticleSystem*>(getChildren().at(pos-1).get());
         atlasIndex = p->getAtlasIndex() + p->getTotalParticles();
     }
     else
@@ -209,12 +209,13 @@ int ParticleBatchNode::addChildHelper(ParticleSystem* child, int z, int aTag, co
     CCASSERT( child != nullptr, "Argument must be non-nil");
     CCASSERT( child->getParent() == nullptr, "child already added. It can't be added again");
 
-    _children.reserve(4);
+    getChildren().reserve(4);
 
     //don't use a lazy insert
     auto pos = searchNewPositionInChildrenForZ(z);
 
-    _children.insert(pos, child);
+    getChildren().insert((std::begin(getChildren()) + pos),
+                         to_retaining_ptr(static_cast<Node*>(child)));
 
     if (setTag)
         child->setTag(aTag);
@@ -238,7 +239,12 @@ void ParticleBatchNode::reorderChild(Node * aChild, int zOrder)
 {
     CCASSERT( aChild != nullptr, "Child must be non-nullptr");
     CCASSERT( dynamic_cast<ParticleSystem*>(aChild) != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
-    CCASSERT( _children.contains(aChild), "Child doesn't belong to batch" );
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [aChild](const Node::children_container::value_type & c) {
+                                 return c.get() == aChild;
+                             }),
+             "Child doesn't belong to batch" );
 
     ParticleSystem* child = static_cast<ParticleSystem*>(aChild);
 
@@ -248,7 +254,7 @@ void ParticleBatchNode::reorderChild(Node * aChild, int zOrder)
     }
 
     // no reordering if only 1 child
-    if (!_children.empty())
+    if (!getChildren().empty())
     {
         int newIndex = 0, oldIndex = 0;
 
@@ -257,11 +263,10 @@ void ParticleBatchNode::reorderChild(Node * aChild, int zOrder)
         if( oldIndex != newIndex )
         {
 
-            // reorder _children->array
-            child->retain();
-            _children.erase(oldIndex);
-            _children.insert(newIndex, child);
-            child->release();
+            // reorder getChildren()->array
+            auto tmp = std::move(getChildren().at(oldIndex));
+            getChildren().erase(getChildren().cbegin() + oldIndex);
+            getChildren().insert(getChildren().cbegin() + newIndex, std::move(tmp));
 
             // save old altasIndex
             int oldAtlasIndex = child->getAtlasIndex();
@@ -271,9 +276,9 @@ void ParticleBatchNode::reorderChild(Node * aChild, int zOrder)
 
             // Find new AtlasIndex
             int newAtlasIndex = 0;
-            for(int i=0, size = _children.size(); i < size; ++i)
+            for (int i=0, size = getChildren().size(); i < size; ++i)
             {
-                ParticleSystem* node = static_cast<ParticleSystem*>(_children.at(i));
+                ParticleSystem* node = static_cast<ParticleSystem*>(getChildren().at(i).get());
                 if( node == child )
                 {
                     newAtlasIndex = child->getAtlasIndex();
@@ -297,11 +302,11 @@ void ParticleBatchNode::getCurrentIndex(int* oldIndex, int* newIndex, Node* chil
     bool foundNewIdx = false;
 
     int  minusOne = 0;
-    auto count = _children.size();
+    auto count = getChildren().size();
 
-    for( int i=0; i < count; i++ )
+    for (size_t i=0; i < count; i++)
     {
-        Node* pNode = _children.at(i);
+        Node* pNode = getChildren().at(i).get();
 
         // new index
         if( pNode->getLocalZOrder() > z &&  ! foundNewIdx )
@@ -344,11 +349,11 @@ void ParticleBatchNode::getCurrentIndex(int* oldIndex, int* newIndex, Node* chil
 
 int ParticleBatchNode::searchNewPositionInChildrenForZ(int z)
 {
-    auto count = _children.size();
+    auto count = getChildren().size();
 
-    for( int i=0; i < count; i++ )
+    for (size_t i=0; i < count; i++)
     {
-        Node *child = _children.at(i);
+        Node *child = getChildren().at(i).get();
         if (child->getLocalZOrder() > z)
         {
             return i;
@@ -365,7 +370,12 @@ void  ParticleBatchNode::removeChild(Node* aChild, bool cleanup)
         return;
 
     CCASSERT( dynamic_cast<ParticleSystem*>(aChild) != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
-    CCASSERT(_children.contains(aChild), "CCParticleBatchNode doesn't contain the sprite. Can't remove it");
+    CCASSERT(getChildren().end()
+             != std::find_if(getChildren().begin(), getChildren().end(),
+                             [aChild](const Node::children_container::value_type & c) {
+                                 return c.get() == aChild;
+                             }),
+             "CCParticleBatchNode doesn't contain the sprite. Can't remove it");
 
     ParticleSystem* child = static_cast<ParticleSystem*>(aChild);
 
@@ -384,13 +394,13 @@ void  ParticleBatchNode::removeChild(Node* aChild, bool cleanup)
 
 void ParticleBatchNode::removeChildAtIndex(int index, bool doCleanup)
 {
-    removeChild(_children.at(index), doCleanup);
+    removeChild(getChildren().at(index).get(), doCleanup);
 }
 
 void ParticleBatchNode::removeAllChildrenWithCleanup(bool doCleanup)
 {
-    for(const auto &child : _children)
-        static_cast<ParticleSystem*>(child)->setBatchNode(nullptr);
+    for(const auto &child : getChildren())
+        static_cast<ParticleSystem*>(child.get())->setBatchNode(nullptr);
 
     Node::removeAllChildrenWithCleanup(doCleanup);
 
@@ -464,8 +474,9 @@ void ParticleBatchNode::updateAllAtlasIndexes()
 {
     int index = 0;
     
-    for(const auto &child : _children) {
-        ParticleSystem* partiSys = static_cast<ParticleSystem*>(child);
+    for(const auto & child : getChildren())
+    {
+        ParticleSystem* partiSys = static_cast<ParticleSystem*>(child.get());
         partiSys->setAtlasIndex(index);
         index += partiSys->getTotalParticles();
     }

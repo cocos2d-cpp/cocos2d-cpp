@@ -38,8 +38,8 @@ static void setEnableRecursiveCascading(Node* node, bool enable)
     node->setCascadeOpacityEnabled(enable);
     
     auto& children = node->getChildren();
-    for(const auto &child : children) {
-        setEnableRecursiveCascading(child, enable);
+    for(const auto & child : children) {
+        setEnableRecursiveCascading(child.get(), enable);
     }
 }
 

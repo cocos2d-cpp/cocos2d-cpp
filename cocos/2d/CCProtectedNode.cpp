@@ -170,10 +170,9 @@ void ProtectedNode::removeAllProtectedChildren()
 
 void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
 {
-    auto       it  = _protectedChildren.rbegin();
-    const auto end = _protectedChildren.rend();
+    auto it = _protectedChildren.rbegin();
 
-    while (it != end)
+    while (!_protectedChildren.empty())
     {
         auto & p = *it;
 
@@ -261,8 +260,8 @@ void ProtectedNode::visit(Renderer* renderer, const Mat4 &parentTransform, uint3
     sortAllChildren();
     sortAllProtectedChildren();
 
-    auto child    = _children.cbegin();
-    auto childEnd = _children.cend();
+    auto child    = getChildren().cbegin();
+    auto childEnd = getChildren().cend();
 
     auto protChild    = _protectedChildren.cbegin();
     auto protChildEnd = _protectedChildren.cend();
@@ -347,7 +346,7 @@ void ProtectedNode::updateDisplayedOpacity(GLubyte parentOpacity)
     
     if (_cascadeOpacityEnabled)
     {
-        for(auto child : _children){
+        for(auto & child : getChildren()){
             child->updateDisplayedOpacity(_displayedOpacity);
         }
     }
@@ -366,7 +365,8 @@ void ProtectedNode::updateDisplayedColor(const Color3B& parentColor)
     
     if (_cascadeColorEnabled)
     {
-        for(const auto child : _children){
+        for(const auto & child : getChildren())
+        {
             child->updateDisplayedColor(_displayedColor);
         }
     }
@@ -377,7 +377,7 @@ void ProtectedNode::updateDisplayedColor(const Color3B& parentColor)
 
 void ProtectedNode::disableCascadeColor()
 {
-    for(auto child : _children){
+    for(auto & child : getChildren()){
         child->updateDisplayedColor(Color3B::WHITE);
     }
     for (auto & child : _protectedChildren) {
@@ -389,7 +389,7 @@ void ProtectedNode::disableCascadeOpacity()
 {
     _displayedOpacity = _realOpacity;
     
-    for (auto child : _children) {
+    for (auto & child : getChildren()) {
         child->updateDisplayedOpacity(255);
     }
     
