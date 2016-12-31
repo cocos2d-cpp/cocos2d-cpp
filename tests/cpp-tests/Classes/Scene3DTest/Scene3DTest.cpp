@@ -814,8 +814,9 @@ void Scene3DTestScene::createDescDlg()
     
     auto applyCurSkin = [this]()
     {
-        for (ssize_t i = 0; i < this->_reskinGirl->getMeshCount(); i++) {
-            auto mesh = this->_reskinGirl->getMeshByIndex(static_cast<int>(i));
+        for (size_t i = 0; i < this->_reskinGirl->getMeshes().size(); i++)
+        {
+            auto mesh = this->_reskinGirl->getMeshes().at(i).get();
             bool isVisible = false;
             for (int j = 0; j < (int)SkinType::MAX_TYPE; j++) {
                 if (mesh->getName() == _skins[j].at(_curSkin[j]))
@@ -824,7 +825,7 @@ void Scene3DTestScene::createDescDlg()
                     break;
                 }
             }
-            this->_reskinGirl->getMeshByIndex(static_cast<int>(i))->setVisible(isVisible);
+            this->_reskinGirl->getMeshes().at(i)->setVisible(isVisible);
         }
     };
     applyCurSkin();

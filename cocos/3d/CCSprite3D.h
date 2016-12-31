@@ -84,9 +84,6 @@ public:
     void setTexture(const std::string& texFile);
     void setTexture(Texture2D* texture);
     
-    /**get Mesh by index*/
-    Mesh* getMeshByIndex(int index) const;
-    
     /**get Mesh by Name, it returns the first one if there are more than one mesh with the same name */
     Mesh* getMeshByName(const std::string& name) const;
     
@@ -99,9 +96,6 @@ public:
 
     /**get mesh*/
     Mesh* getMesh() const;
-    
-    /** get mesh count */
-    ssize_t getMeshCount() const { return _meshes.size(); }
     
     Skeleton3D* getSkeleton() const { return _skeleton; }
     
@@ -196,7 +190,7 @@ public:
      meshIndex is the mesh that will be applied to.
      if meshIndex == -1, then it will be applied to all the meshes that belong to the sprite.
      */
-    Material* getMaterial(int meshIndex) const;
+    Material* getMaterial(size_t meshIndex) const;
     
     /**
     * force set this Sprite3D to 2D render queue
@@ -206,7 +200,10 @@ public:
     /**
     * Get meshes used in sprite 3d
     */
-    const Vector<Mesh*>& getMeshes() const { return _meshes; }
+    const std::vector<retaining_ptr<Mesh>> & getMeshes() const
+    {
+        return _meshes;
+    }
 
 protected:
     
@@ -252,8 +249,6 @@ protected:
     std::unordered_map<std::string, AttachNode*> _attachments;
 
     BlendFunc                    _blend;
-    
-    Vector<Mesh*>              _meshes;
 
     mutable AABB                 _aabb;                 // cache current aabb
     mutable Mat4                 _nodeToWorldTransform; // cache the matrix
@@ -275,6 +270,10 @@ protected:
         NodeDatas*   nodeDatas;
     };
     AsyncLoadParam             _asyncLoadParam;
+    
+private:
+
+    std::vector<retaining_ptr<Mesh>> _meshes;
 };
 
 ///////////////////////////////////////////////////////

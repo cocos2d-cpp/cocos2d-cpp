@@ -1382,8 +1382,8 @@ void Sprite3DReskinTest::onTouchesEnded(const std::vector<Touch*>& touches, Even
 
 void Sprite3DReskinTest::applyCurSkin()
 {
-    for (ssize_t i = 0; i < _sprite->getMeshCount(); i++) {
-        auto mesh = _sprite->getMeshByIndex(static_cast<int>(i));
+    for (auto & mesh : _sprite->getMeshes())
+    {
         bool isVisible = false;
         for (int j = 0; j < (int)SkinType::MAX_TYPE; j++) {
             if (mesh->getName() == _skins[j].at(_curSkin[j]))
@@ -1392,7 +1392,7 @@ void Sprite3DReskinTest::applyCurSkin()
                 break;
             }
         }
-        _sprite->getMeshByIndex(static_cast<int>(i))->setVisible(isVisible);
+        mesh->setVisible(isVisible);
     }
 }
 
@@ -2650,8 +2650,7 @@ void Sprite3DPropertyTest::update(float delta)
 void Sprite3DPropertyTest::printMeshName(cocos2d::Ref* sender)
 {
     CCLOG("MeshName Begin");
-    Vector<Mesh*> meshes =_sprite->getMeshes();
-    for(Mesh* mesh : meshes)
+    for(auto & mesh : _sprite->getMeshes())
     {
         log("MeshName: %s ", mesh->getName().c_str());
     }
@@ -2677,8 +2676,7 @@ void Sprite3DPropertyTest::resetTexture(cocos2d::Ref* sender)
 
 void Sprite3DPropertyTest::refreshSpriteRender()
 {
-    Vector<Mesh*> meshes = _sprite->getMeshes();
-    for (Mesh* mesh : meshes)
+    for (auto & mesh : _sprite->getMeshes())
     {
         std::string file = mesh->getTextureFileName();
         Texture2D* cacheTex = Director::getInstance()->getTextureCache()->getTextureForKey(file);
@@ -2703,7 +2701,7 @@ Issue16155Test::Issue16155Test()
 
     auto sprite = Sprite3D::create("Sprite3DTest/orc.c3b");
 
-    int rcBefore = sprite->getMeshByIndex(0)->getTexture()->getReferenceCount();
+    int rcBefore = sprite->getMeshes().at(0)->getTexture()->getReferenceCount();
     addChild(sprite);
     removeChild(sprite);
 
