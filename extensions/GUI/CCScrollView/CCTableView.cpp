@@ -120,17 +120,18 @@ void TableView::reloadData()
 {
     _oldDirection = Direction::NONE;
 
-    for(const auto &cell : _cellsUsed) {
+    for(const auto & cell : _cellsUsed)
+    {
         if(_tableViewDelegate != nullptr) {
-            _tableViewDelegate->tableCellWillRecycle(this, cell);
+            _tableViewDelegate->tableCellWillRecycle(this, cell.get());
         }
 
-        _cellsFreed.pushBack(cell);
+        _cellsFreed.push_back(to_retaining_ptr(cell.get()));
         
         cell->reset();
         if (cell->getParent() == this->getContainer())
         {
-            this->getContainer()->removeChild(cell, true);
+            this->getContainer()->removeChild(cell.get(), true);
         }
     }
 
@@ -149,11 +150,11 @@ TableViewCell *TableView::cellAtIndex(ssize_t idx)
 {
     if (_indices->find(idx) != _indices->end())
     {
-        for (const auto& cell : _cellsUsed)
+        for (const auto & cell : _cellsUsed)
         {
             if (cell->getIdx() == idx)
             {
-                return cell;
+                return cell.get();
             }
         }
     }
@@ -199,14 +200,18 @@ void TableView::insertCellAtIndex(ssize_t idx)
     long newIdx = 0;
 
     auto cell = cellAtIndex(idx);
+
     if (cell)
     {
-        newIdx = _cellsUsed.getIndex(cell);
+        auto iter = std::find_if(std::begin(_cellsUsed), std::end(_cellsUsed),
+                                 [cell](const cell_container::value_type & p) {
+                                     return p.get() == cell;
+                                 });
+
         // Move all cells behind the inserted position
-        for (long i = newIdx; i < _cellsUsed.size(); i++)
+        for (auto end = std::end(_cellsUsed); iter != end; iter++)
         {
-            cell = _cellsUsed.at(i);
-            this->_setIndexForCell(cell->getIdx()+1, cell);
+            this->_setIndexForCell((*iter)->getIdx()+1, iter->get());
         }
     }
 
@@ -232,15 +237,11 @@ void TableView::removeCellAtIndex(ssize_t idx)
         return;
     }
 
-    ssize_t newIdx = 0;
-
     TableViewCell* cell = this->cellAtIndex(idx);
     if (!cell)
     {
         return;
     }
-
-    newIdx = _cellsUsed.getIndex(cell);
 
     //remove first
     this->_moveCellOutOfSight(cell);
@@ -248,10 +249,14 @@ void TableView::removeCellAtIndex(ssize_t idx)
     _indices->erase(idx);
     this->_updateCellPositions();
 
-    for (ssize_t i = _cellsUsed.size()-1; i > newIdx; i--)
+    auto rend = std::find_if(_cellsUsed.rbegin(), _cellsUsed.rend(),
+                             [cell](const cell_container::value_type & p) {
+                                 return p.get() == cell;
+                             });
+
+    for (auto it = _cellsUsed.rbegin(); it != rend; ++it)
     {
-        cell = _cellsUsed.at(i);
-        this->_setIndexForCell(cell->getIdx()-1, cell);
+        this->_setIndexForCell((*it)->getIdx()-1, it->get());
     }
 }
 
@@ -262,9 +267,9 @@ TableViewCell *TableView::dequeueCell()
     if (_cellsFreed.empty()) {
         cell = nullptr;
     } else {
-        cell = _cellsFreed.at(0);
+        cell = _cellsFreed.at(0).get();
         cell->retain();
-        _cellsFreed.erase(0);
+        _cellsFreed.erase(_cellsFreed.begin());
         cell->autorelease();
     }
     return cell;
@@ -276,7 +281,7 @@ void TableView::_addCellIfNecessary(TableViewCell * cell)
     {
         this->getContainer()->addChild(cell);
     }
-    _cellsUsed.pushBack(cell);
+    _cellsUsed.push_back(to_retaining_ptr(cell));
     _indices->insert(cell->getIdx());
     _isUsedCellsDirty = true;
 }
@@ -418,8 +423,15 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
         _tableViewDelegate->tableCellWillRecycle(this, cell);
     }
 
-    _cellsFreed.pushBack(cell);
-    _cellsUsed.eraseObject(cell);
+    _cellsFreed.push_back(to_retaining_ptr(cell));
+
+    auto it = std::find_if(_cellsUsed.begin(), _cellsUsed.end(),
+                           [cell](const cell_container::value_type & p) {
+                               return p.get() == cell;
+                           });
+    if (it != _cellsUsed.end())
+        _cellsUsed.erase(it);
+
     _isUsedCellsDirty = true;
     
     _indices->erase(cell->getIdx());
@@ -477,9 +489,10 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
     if (_isUsedCellsDirty)
     {
         _isUsedCellsDirty = false;
-        std::sort(_cellsUsed.begin(), _cellsUsed.end(), [](TableViewCell *a, TableViewCell *b) -> bool{
-            return a->getIdx() < b->getIdx();
-        });
+        std::sort(_cellsUsed.begin(), _cellsUsed.end(),
+                  [](const cell_container::value_type & a, const cell_container::value_type & b) {
+                      return a->getIdx() < b->getIdx();
+                  });
     }
     
     if(_tableViewDelegate != nullptr) {
@@ -516,29 +529,9 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
 		endIdx = countOfItems - 1;
 	}
 
-#if 0 // For Testing.
-    Ref* pObj;
-    int i = 0;
-    CCARRAY_FOREACH(_cellsUsed, pObj)
-    {
-        TableViewCell* pCell = static_cast<TableViewCell*>(pObj);
-        log("cells Used index %d, value = %d", i, pCell->getIdx());
-        i++;
-    }
-    log("---------------------------------------");
-    i = 0;
-    CCARRAY_FOREACH(_cellsFreed, pObj)
-    {
-        TableViewCell* pCell = static_cast<TableViewCell*>(pObj);
-        log("cells freed index %d, value = %d", i, pCell->getIdx());
-        i++;
-    }
-    log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-#endif
-
     if (!_cellsUsed.empty())
     {
-        auto cell = _cellsUsed.at(0);
+        auto cell = _cellsUsed.at(0).get();
         idx = cell->getIdx();
         
         while(idx < startIdx)
@@ -546,7 +539,7 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
             this->_moveCellOutOfSight(cell);
             if (!_cellsUsed.empty())
             {
-                cell = _cellsUsed.at(0);
+                cell = _cellsUsed.at(0).get();
                 idx = cell->getIdx();
             }
             else
@@ -557,7 +550,7 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
     }
     if (!_cellsUsed.empty())
     {
-        auto cell = _cellsUsed.back();
+        auto cell = _cellsUsed.back().get();
         idx = cell->getIdx();
 
         while(idx <= maxIdx && idx > endIdx)
@@ -565,7 +558,7 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
             this->_moveCellOutOfSight(cell);
             if (!_cellsUsed.empty())
             {
-                cell = _cellsUsed.back();
+                cell = _cellsUsed.back().get();
                 idx = cell->getIdx();
             }
             else

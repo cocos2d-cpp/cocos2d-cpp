@@ -303,15 +303,20 @@ protected:
      * vector with all cell positions
      */
     std::vector<float> _vCellsPositions;
+
+    using cell_container = std::vector<retaining_ptr<TableViewCell>>;
+
     //NSMutableIndexSet *indices_;
     /**
      * cells that are currently in the table
      */
-    Vector<TableViewCell*> _cellsUsed;
+    cell_container _cellsUsed;
+
     /**
      * free list of cells
      */
-    Vector<TableViewCell*> _cellsFreed;
+    cell_container _cellsFreed;
+
     /**
      * weak link to the data source object
      */
