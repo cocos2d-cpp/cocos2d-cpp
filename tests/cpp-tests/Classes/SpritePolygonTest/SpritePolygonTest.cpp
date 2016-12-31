@@ -772,11 +772,16 @@ void SpritePolygonTestFrameAnim::initSprites()
     updateDrawNode();
 
 
-    Vector<SpriteFrame*> animFrames(5);
+    std::vector<retaining_ptr<SpriteFrame>> animFrames;
+    animFrames.reserve(5);
     for(int i = 9; i < 14; i++)
     {
         sprintf(str, "grossini_dance_%02d.png", i+1);
-        animFrames.pushBack(cache->getSpriteFrameByName(str));
+        animFrames.push_back(
+            to_retaining_ptr(
+                cache->getSpriteFrameByName(str)
+            )
+        );
     }
     auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
     sprite->runAction(RepeatForever::create(Animate::create(animation)));

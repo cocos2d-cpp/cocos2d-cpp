@@ -178,7 +178,7 @@ public:
      * @param delay A delay between frames in seconds.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* createWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
+    static Animation* createWithSpriteFrames(const std::vector<retaining_ptr<SpriteFrame>>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
 
     /* Creates an animation with an array of AnimationFrame, the delay per units in seconds and how many times it should be executed.
      * @since v2.0
@@ -286,7 +286,9 @@ protected:
     /** Initializes a Animation with frames and a delay between frames.
      * @since v0.99.5
      */
-    bool initWithSpriteFrames(const Vector<SpriteFrame*>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
+    bool initWithSpriteFrames(const std::vector<retaining_ptr<SpriteFrame>> &,
+                              float delay = 0.0f,
+                              unsigned int loops = 1);
     
     /** Initializes a Animation with AnimationFrame.
      * @since v2.0
