@@ -204,7 +204,7 @@ void TableView::insertCellAtIndex(ssize_t idx)
     if (cell)
     {
         auto iter = std::find_if(std::begin(_cellsUsed), std::end(_cellsUsed),
-                                 [cell](const cell_container::value_type & p) {
+                                 [cell](const cells_container::value_type & p) {
                                      return p.get() == cell;
                                  });
 
@@ -250,7 +250,7 @@ void TableView::removeCellAtIndex(ssize_t idx)
     this->_updateCellPositions();
 
     auto rend = std::find_if(_cellsUsed.rbegin(), _cellsUsed.rend(),
-                             [cell](const cell_container::value_type & p) {
+                             [cell](const cells_container::value_type & p) {
                                  return p.get() == cell;
                              });
 
@@ -426,7 +426,7 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
     _cellsFreed.push_back(to_retaining_ptr(cell));
 
     auto it = std::find_if(_cellsUsed.begin(), _cellsUsed.end(),
-                           [cell](const cell_container::value_type & p) {
+                           [cell](const cells_container::value_type & p) {
                                return p.get() == cell;
                            });
     if (it != _cellsUsed.end())
@@ -490,7 +490,7 @@ void TableView::scrollViewDidScroll(ScrollView* /*view*/)
     {
         _isUsedCellsDirty = false;
         std::sort(_cellsUsed.begin(), _cellsUsed.end(),
-                  [](const cell_container::value_type & a, const cell_container::value_type & b) {
+                  [](const cells_container::value_type & a, const cells_container::value_type & b) {
                       return a->getIdx() < b->getIdx();
                   });
     }

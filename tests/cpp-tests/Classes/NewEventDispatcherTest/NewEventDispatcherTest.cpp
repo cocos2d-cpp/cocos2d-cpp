@@ -306,23 +306,42 @@ void RemoveListenerWhenDispatching::onEnter()
     statusLabel->setPosition(origin + Vec2(size.width/2, size.height-90));
     addChild(statusLabel);
     std::shared_ptr<bool> enable(new bool(true));
-    // Enable/Disable item
-    auto toggleItem = MenuItemToggle::createWithCallback([=](Ref* sender){
-        if (*enable)
-        {
-            _eventDispatcher->removeEventListener(listener1);
-            statusLabel->setString("The sprite could not be touched!");
-            
-            (*enable) = false;
-        }
-        else
-        {
-            _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, sprite1);
-            statusLabel->setString("The sprite could be touched!");
 
-            (*enable) = true;
-        }
-    }, MenuItemFont::create("Enabled"), MenuItemFont::create("Disabled"), nullptr);
+    // Enable/Disable item
+    MenuItemToggle::items_container menuItems;
+    menuItems.reserve(2);
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create("Enabled"))
+        )
+    );
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create("Disable"))
+        )
+    );
+
+    auto toggleItem = MenuItemToggle::createWithCallback(
+        [=](Ref* sender){
+            if (*enable)
+            {
+                _eventDispatcher->removeEventListener(listener1);
+                statusLabel->setString("The sprite could not be touched!");
+
+                (*enable) = false;
+            }
+            else
+            {
+                _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, sprite1);
+                statusLabel->setString("The sprite could be touched!");
+
+                (*enable) = true;
+            }
+        },
+        std::move(menuItems)
+    );
     
     toggleItem->setPosition(origin + Vec2(size.width/2, 80));
     auto menu = Menu::create(toggleItem, nullptr);

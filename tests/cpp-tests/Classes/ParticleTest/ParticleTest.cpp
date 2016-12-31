@@ -1071,11 +1071,31 @@ void ParticleDemo::onEnter(void)
 
     auto s = Director::getInstance()->getWinSize();
 
-    auto item4 = MenuItemToggle::createWithCallback( CC_CALLBACK_1(ParticleDemo::toggleCallback, this),
-                                                               MenuItemFont::create( "Free Movement" ),
-                                                               MenuItemFont::create( "Relative Movement" ),
-                                                               MenuItemFont::create( "Grouped Movement" ),
-                                                               nullptr );
+    MenuItemToggle::items_container menuItems;
+    menuItems.reserve(3);
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create("Free Movement"))
+        )
+    );
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create("Relative Movement"))
+        )
+    );
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create("Grouped Movement"))
+        )
+    );
+
+    auto item4 = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(ParticleDemo::toggleCallback, this),
+        std::move(menuItems)
+    );
 
     auto menu = Menu::create(item4, nullptr);
 

@@ -424,30 +424,12 @@ private:
 class CC_DLL MenuItemToggle : public MenuItem
 {
 public:
+    using items_container = std::vector<retaining_ptr<MenuItem>>;
     /**
      *@brief Creates a menu item from a Array with a callable object.
      */
-    static MenuItemToggle * createWithCallback(const ccMenuCallback& callback, const Vector<MenuItem*>& menuItems);
-    /** Creates a menu item from a list of items with a callable object. */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported.
-    typedef MenuItem* M;
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, m6, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return createWithCallbackVA(callback, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
+    static MenuItemToggle * createWithCallback(const ccMenuCallback& callback, items_container && menuItems);
 
-    // On WP8 for lists longer than 10 items, use createWithArray or variadicCreate with NULL as the last argument.
-    static MenuItemToggle* createWithCallbackVA(const ccMenuCallback& callback, M item, ...);
-#else
-    static MenuItemToggle* createWithCallback(const ccMenuCallback& callback, MenuItem* item, ...) CC_REQUIRES_NULL_TERMINATION;
-#endif
     /** Creates a menu item with no target/selector and no items. */
     static MenuItemToggle* create();
     
@@ -466,20 +448,6 @@ public:
     /** Sets the index of the selected item. */
     void setSelectedIndex(unsigned int index);
     
-    /** Gets the array that contains the subitems.
-     *You can add/remove items in runtime, and you can replace the array with a new one.
-     * @since v0.7.2
-     * @js NA
-     * @lua NA
-     */
-    const Vector<MenuItem*>& getSubItems() const { return _subItems; }
-    Vector<MenuItem*>& getSubItems() { return _subItems; }
-
-    /** Sets the array that contains the subitems. */
-    void setSubItems(const Vector<MenuItem*>& items) {
-        _subItems = items;
-    }
-    
     // Overrides
     virtual void activate() override;
     virtual void selected() override;
@@ -496,9 +464,6 @@ protected:
     , _selectedItem(nullptr)
     {}
     
-    /** Initializes a menu item from a list of items with a callable object. */
-    bool initWithCallback(const ccMenuCallback& callback, MenuItem* item, va_list args);
-    
     /** Initializes a menu item with a item. */
     bool initWithItem(MenuItem *item);
 
@@ -507,14 +472,13 @@ protected:
     unsigned int _selectedIndex;
     MenuItem* _selectedItem;
 
+private:
     /** Array that contains the subitems. You can add/remove items in runtime, and you can replace the array with a new one.
      @since v0.7.2
      */
-    Vector<MenuItem*> _subItems;
+    items_container _subItems;
 
-private:
     CC_DISALLOW_COPY_AND_ASSIGN(MenuItemToggle);
-
 };
 
 

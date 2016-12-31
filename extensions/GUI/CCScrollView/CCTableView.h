@@ -304,18 +304,18 @@ protected:
      */
     std::vector<float> _vCellsPositions;
 
-    using cell_container = std::vector<retaining_ptr<TableViewCell>>;
+    using cells_container = std::vector<retaining_ptr<TableViewCell>>;
 
     //NSMutableIndexSet *indices_;
     /**
      * cells that are currently in the table
      */
-    cell_container _cellsUsed;
+    cells_container _cellsUsed;
 
     /**
      * free list of cells
      */
-    cell_container _cellsFreed;
+    cells_container _cellsFreed;
 
     /**
      * weak link to the data source object

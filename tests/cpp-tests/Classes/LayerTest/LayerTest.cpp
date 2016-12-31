@@ -514,9 +514,26 @@ LayerGradientTest::LayerGradientTest()
 
     auto label1 = Label::createWithTTF("Compressed Interpolation: Enabled", "fonts/Marker Felt.ttf", 26);
     auto label2 = Label::createWithTTF("Compressed Interpolation: Disabled", "fonts/Marker Felt.ttf", 26);
-    auto item1 = MenuItemLabel::create(label1);
-    auto item2 = MenuItemLabel::create(label2);
-    auto item = MenuItemToggle::createWithCallback( CC_CALLBACK_1(LayerGradientTest::toggleItem, this), item1, item2, nullptr);
+
+    MenuItemToggle::items_container menuItems;
+    menuItems.reserve(2);
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemLabel::create(label1))
+        )
+    );
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemLabel::create(label2))
+        )
+    );
+
+    auto item = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(LayerGradientTest::toggleItem, this),
+        std::move(menuItems)
+    );
 
     auto menu = Menu::create(item, nullptr);
     addChild(menu);

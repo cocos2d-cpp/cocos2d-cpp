@@ -646,40 +646,16 @@ void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 // MenuItemToggle
 //
 
-MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, const Vector<MenuItem*>& menuItems)
+MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, items_container && menuItems)
 {
     MenuItemToggle *ret = new (std::nothrow) MenuItemToggle();
     ret->MenuItem::initWithCallback(callback);
     ret->autorelease();
-    ret->_subItems = menuItems;
+    ret->_subItems = std::move(menuItems);
     ret->_selectedIndex = UINT_MAX;
     ret->setSelectedIndex(0);
     return ret;
 }
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-MenuItemToggle * MenuItemToggle::createWithCallbackVA(const ccMenuCallback &callback, MenuItem* item, ...)
-{
-    va_list args;
-    va_start(args, item);
-    MenuItemToggle *ret = new (std::nothrow) MenuItemToggle();
-    ret->initWithCallback(callback, item, args);
-    ret->autorelease();
-    va_end(args);
-    return ret;
-}
-#else
-MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, MenuItem* item, ...)
-{
-    va_list args;
-    va_start(args, item);
-    MenuItemToggle *ret = new (std::nothrow) MenuItemToggle();
-    ret->initWithCallback(callback, item, args);
-    ret->autorelease();
-    va_end(args);
-    return ret;
-}
-#endif
 
 MenuItemToggle * MenuItemToggle::create()
 {
@@ -687,24 +663,6 @@ MenuItemToggle * MenuItemToggle::create()
     ret->initWithItem(nullptr);
     ret->autorelease();
     return ret;
-}
-
-bool MenuItemToggle::initWithCallback(const ccMenuCallback &callback, MenuItem *item, va_list args)
-{
-    MenuItem::initWithCallback(callback);
-
-    int z = 0;
-    MenuItem *i = item;
-    
-    while(i)
-    {
-        z++;
-        _subItems.pushBack(i);
-        i = va_arg(args, MenuItem*);
-    }
-    _selectedIndex = UINT_MAX;
-    this->setSelectedIndex(0);
-    return true;
 }
 
 MenuItemToggle* MenuItemToggle::create(MenuItem *item)
@@ -734,12 +692,12 @@ bool MenuItemToggle::initWithItem(MenuItem *item)
 
 void MenuItemToggle::addSubItem(MenuItem *item)
 {
-    _subItems.pushBack(item);
+    _subItems.push_back(to_retaining_ptr(item));
 }
 
 void MenuItemToggle::cleanup()
 {
-    for(const auto &item : _subItems) {
+    for(const auto & item : _subItems) {
 #if defined(CC_NATIVE_CONTROL_SCRIPT) && !CC_NATIVE_CONTROL_SCRIPT
         ScriptEngineManager::getInstance()->getScriptEngine()->releaseScriptObject(this, item);
 #endif
@@ -758,7 +716,7 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
             _selectedItem->removeFromParentAndCleanup(false);
         }
 
-        _selectedItem = _subItems.at(_selectedIndex);
+        _selectedItem = _subItems.at(_selectedIndex).get();
         this->addChild(_selectedItem);
         Size s = _selectedItem->getContentSize();
         this->setContentSize(s);
@@ -794,7 +752,7 @@ void MenuItemToggle::setEnabled(bool enabled)
     {
         MenuItem::setEnabled(enabled);
 
-        for(const auto &item : _subItems) {
+        for(const auto & item : _subItems) {
             item->setEnabled(enabled);
         }
     }
@@ -802,7 +760,7 @@ void MenuItemToggle::setEnabled(bool enabled)
 
 MenuItem* MenuItemToggle::getSelectedItem()
 {
-    return _subItems.at(_selectedIndex);
+    return _subItems.at(_selectedIndex).get();
 }
 
 } // namespace cocos2d

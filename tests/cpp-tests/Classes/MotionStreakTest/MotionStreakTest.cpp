@@ -237,10 +237,29 @@ void MotionStreakTest::onEnter()
 
     auto s = Director::getInstance()->getWinSize();
 
-    auto itemMode = MenuItemToggle::createWithCallback( CC_CALLBACK_1(MotionStreakTest::modeCallback, this),
-        MenuItemFont::create("Use High Quality Mode"),
-        MenuItemFont::create("Use Fast Mode"),
-        nullptr);
+    MenuItemToggle::items_container menuItems;
+    menuItems.reserve(2);
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create(
+                    "Use High Quality Mode"
+            ))
+        )
+    );
+
+    menuItems.push_back(
+        to_retaining_ptr(
+            static_cast<MenuItem*>(MenuItemFont::create(
+                    "Use Fast Mode"
+            ))
+        )
+    );
+
+    auto itemMode = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(MotionStreakTest::modeCallback, this),
+        std::move(menuItems)
+    );
 
     auto menuMode = Menu::create(itemMode, nullptr);
     addChild(menuMode);
