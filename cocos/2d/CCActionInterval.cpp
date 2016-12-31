@@ -2622,7 +2622,7 @@ void Animate::update(float t)
     auto numberOfFrames = frames.size();
     SpriteFrame *frameToDisplay = nullptr;
 
-    for( int i=_nextFrame; i < numberOfFrames; i++ )
+    for (size_t i = _nextFrame; i < numberOfFrames; i++)
     {
         float splitTime = _splitTimes->at(i);
 
@@ -2630,7 +2630,7 @@ void Animate::update(float t)
         {
             auto blend = static_cast<Sprite*>(_target)->getBlendFunc();
             _currFrameIndex = i;
-            AnimationFrame* frame = frames.at(_currFrameIndex);
+            AnimationFrame* frame = frames.at(_currFrameIndex).get();
             frameToDisplay = frame->getSpriteFrame();
             static_cast<Sprite*>(_target)->setSpriteFrame(frameToDisplay);
             static_cast<Sprite*>(_target)->setBlendFunc(blend);
@@ -2658,23 +2658,23 @@ void Animate::update(float t)
 Animate* Animate::reverse() const
 {
     auto& oldArray = _animation->getFrames();
-    Vector<AnimationFrame*> newArray(oldArray.size());
-   
-    if (!oldArray.empty())
-    {
-        for (auto iter = oldArray.crbegin(), iterCrend = oldArray.crend(); iter != iterCrend; ++iter)
-        {
-            AnimationFrame* animFrame = *iter;
-            if (!animFrame)
-            {
-                break;
-            }
+    std::vector<retaining_ptr<AnimationFrame>> newArray;
 
-            newArray.pushBack(animFrame->clone());
+    newArray.reserve(oldArray.size());
+
+    for (auto it = oldArray.crbegin(), end = oldArray.crend(); it != end; ++it)
+    {
+        if (!*it)
+        {
+            break;
         }
+
+        newArray.push_back( to_retaining_ptr((*it)->clone()) );
     }
 
-    Animation *newAnim = Animation::create(newArray, _animation->getDelayPerUnit(), _animation->getLoops());
+    Animation *newAnim = Animation::create(std::move(newArray),
+                                           _animation->getDelayPerUnit(),
+                                           _animation->getLoops());
     newAnim->setRestoreOriginalFrame(_animation->getRestoreOriginalFrame());
     return Animate::create(newAnim);
 }

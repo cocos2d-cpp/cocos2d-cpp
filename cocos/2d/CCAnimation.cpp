@@ -100,10 +100,10 @@ Animation* Animation::createWithSpriteFrames(const std::vector<retaining_ptr<Spr
     return animation;
 }
 
-Animation* Animation::create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops /* = 1 */)
+Animation* Animation::create(std::vector<retaining_ptr<AnimationFrame>> && frames, float delayPerUnit, unsigned int loops /* = 1 */)
 {
     Animation *animation = new (std::nothrow) Animation();
-    animation->initWithAnimationFrames(arrayOfAnimationFrameNames, delayPerUnit, loops);
+    animation->initWithAnimationFrames(std::move(frames), delayPerUnit, loops);
     animation->autorelease();
     return animation;
 }
@@ -124,19 +124,19 @@ bool Animation::initWithSpriteFrames(const std::vector<retaining_ptr<SpriteFrame
     for (auto & spriteFrame : frames)
     {
         auto animFrame = AnimationFrame::create(spriteFrame.get(), 1, ValueMap());
-        _frames.pushBack(animFrame);
+        _frames.push_back(to_retaining_ptr(animFrame));
         _totalDelayUnits++;
     }
 
     return true;
 }
 
-bool Animation::initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrames, float delayPerUnit, unsigned int loops)
+bool Animation::initWithAnimationFrames(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrames, float delayPerUnit, unsigned int loops)
 {
     _delayPerUnit = delayPerUnit;
     _loops = loops;
 
-    setFrames(arrayOfAnimationFrames);
+    _frames = std::move(arrayOfAnimationFrames);
 
     for (auto& animFrame : _frames)
     {
@@ -163,7 +163,7 @@ Animation::~Animation(void)
 void Animation::addSpriteFrame(SpriteFrame* spriteFrame)
 {
     AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, 1.0f, ValueMap());
-    _frames.pushBack(animFrame);
+    _frames.push_back(to_retaining_ptr(animFrame));
 
     // update duration
     _totalDelayUnits++;
@@ -193,7 +193,13 @@ Animation* Animation::clone() const
 {
     // no copy constructor    
     auto a = new (std::nothrow) Animation();
-    a->initWithAnimationFrames(_frames, _delayPerUnit, _loops);
+
+    std::vector<retaining_ptr<AnimationFrame>> frames;
+    frames.reserve(_frames.size());
+    for (auto & f : _frames)
+        frames.push_back(to_retaining_ptr(f.get()));
+
+    a->initWithAnimationFrames(std::move(frames), _delayPerUnit, _loops);
     a->setRestoreOriginalFrame(_restoreOriginalFrame);
     a->autorelease();
     return a;

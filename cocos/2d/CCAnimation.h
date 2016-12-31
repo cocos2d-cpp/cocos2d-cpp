@@ -186,7 +186,7 @@ public:
      * @param delayPerUnit The delay per units in seconds and how many times it should be executed.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* create(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops = 1);
+    static Animation* create(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops = 1);
 
     /** Adds a SpriteFrame to a Animation.
      *
@@ -238,16 +238,7 @@ public:
      * 
      * @return The array of AnimationFrames.
      */
-    const Vector<AnimationFrame*>& getFrames() const { return _frames; };
-    
-    /** Sets the array of AnimationFrames. 
-     *
-     * @param frames The array of AnimationFrames.
-     */
-    void setFrames(const Vector<AnimationFrame*>& frames)
-    {
-        _frames = frames;
-    }
+    const std::vector<retaining_ptr<AnimationFrame>> & getFrames() const { return _frames; };
     
     /** Checks whether to restore the original frame when animation finishes. 
      *
@@ -293,7 +284,7 @@ protected:
     /** Initializes a Animation with AnimationFrame.
      * @since v2.0
      */
-    bool initWithAnimationFrames(const Vector<AnimationFrame*>& arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops);
+    bool initWithAnimationFrames(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops);
 
 protected:
     /** total Delay units of the Animation. */
@@ -305,9 +296,6 @@ protected:
     /** duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit. */
     float _duration;
 
-    /** array of AnimationFrames. */
-    Vector<AnimationFrame*> _frames;
-
     /** whether or not it shall restore the original frame when the animation finishes. */
     bool _restoreOriginalFrame;
 
@@ -315,6 +303,10 @@ protected:
     unsigned int _loops;
     
 private:
+
+    /** array of AnimationFrames. */
+    std::vector<retaining_ptr<AnimationFrame>> _frames;
+
     CC_DISALLOW_COPY_AND_ASSIGN(Animation);
 };
 

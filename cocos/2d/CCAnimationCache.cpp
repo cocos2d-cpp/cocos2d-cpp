@@ -99,8 +99,9 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             continue;
         }
 
-        ssize_t frameNameSize = frameNames.size();
-        Vector<AnimationFrame*> frames(frameNameSize);
+        size_t frameNameSize = frameNames.size();
+        std::vector<retaining_ptr<AnimationFrame>> frames;
+        frames.reserve(frameNameSize);
 
         for (auto& frameName : frameNames)
         {
@@ -113,7 +114,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             }
 
             AnimationFrame* animFrame = AnimationFrame::create(spriteFrame, 1, ValueMap());
-            frames.pushBack(animFrame);
+            frames.push_back(to_retaining_ptr(animFrame));
         }
 
         if ( frames.empty() )
@@ -126,7 +127,7 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             CCLOG("cocos2d: AnimationCache: An animation in your dictionary refers to a frame which is not in the SpriteFrameCache. Some or all of the frames for the animation '%s' may be missing.", anim.first.c_str());
         }
 
-        animation = Animation::create(frames, delay, 1);
+        animation = Animation::create(std::move(frames), delay, 1);
 
         AnimationCache::getInstance()->addAnimation(animation, anim.first);
     }
@@ -153,7 +154,8 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
         }
 
         // Array of AnimationFrames
-        Vector<AnimationFrame*> array(static_cast<int>(frameArray.size()));
+        std::vector<retaining_ptr<AnimationFrame>> array;
+        array.reserve(frameArray.size());
 
         for (auto& obj : frameArray)
         {
@@ -172,11 +174,11 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
 
             AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, delayUnits, userInfo.getType() == Value::Type::MAP ? userInfo.asValueMap() : ValueMapNull);
 
-            array.pushBack(animFrame);
+            array.push_back(to_retaining_ptr(animFrame));
         }
 
         float delayPerUnit = animationDict["delayPerUnit"].asFloat();
-        Animation *animation = Animation::create(array, delayPerUnit, loops.getType() != Value::Type::NONE ? loops.asInt() : 1);
+        Animation *animation = Animation::create(std::move(array), delayPerUnit, loops.getType() != Value::Type::NONE ? loops.asInt() : 1);
 
         animation->setRestoreOriginalFrame(restoreOriginalFrame);
 
