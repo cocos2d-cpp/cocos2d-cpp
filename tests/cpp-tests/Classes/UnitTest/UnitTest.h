@@ -3,6 +3,8 @@
 
 #include "../BaseTest.h"
 
+#include <vector>
+
 DEFINE_TEST_SUITE(UnitTests);
 
 class UnitTestDemo : public TestCase
@@ -12,15 +14,6 @@ public:
 };
 
 //-------------------------------------
-
-class TemplateVectorTest : public UnitTestDemo
-{
-public:
-    CREATE_FUNC(TemplateVectorTest);
-    virtual void onEnter() override;
-    virtual std::string subtitle() const override;
-    void constFunc(const cocos2d::Vector<Node*>& vec) const;
-};
 
 class TemplateMapTest : public UnitTestDemo
 {
