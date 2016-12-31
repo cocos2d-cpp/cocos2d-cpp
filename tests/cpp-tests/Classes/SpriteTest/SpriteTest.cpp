@@ -2500,23 +2500,25 @@ void SpriteHybrid::reparentSprite(float dt)
     auto p1 = getChildByTag(kTagNode);
     auto p2 = getChildByTag( kTagSpriteBatchNode );
     
-    Vector<Node*> retArray(250);
-
     if( _usingSpriteBatchNode )
         std::swap(p1, p2);
 
-    ////----CCLOG("New parent is: %x", p2);
-    
-    auto& p1Children = p1->getChildren();
-    for(const auto &node : p1Children) {
-        retArray.pushBack(node.get());
+    auto & p1Children = p1->getChildren();
+
+    std::vector<retaining_ptr<Node>> retArray;
+    retArray.reserve(p1Children.size());
+
+    for (const auto & node : p1Children)
+    {
+        retArray.push_back(to_retaining_ptr(node.get()));
     }
 
     int i=0;
     p1->removeAllChildrenWithCleanup(false);
 
-    for(const auto &node : retArray) {
-        p2->addChild(node, i, i);
+    for (const auto & node : retArray)
+    {
+        p2->addChild(node.get(), i, i);
         i++;
     }
 
