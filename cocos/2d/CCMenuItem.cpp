@@ -646,7 +646,8 @@ void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 // MenuItemToggle
 //
 
-MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback &callback, items_container && menuItems)
+MenuItemToggle * MenuItemToggle::createWithCallback(const ccMenuCallback & callback,
+                                                    items_container && menuItems)
 {
     MenuItemToggle *ret = new (std::nothrow) MenuItemToggle();
     ret->MenuItem::initWithCallback(callback);

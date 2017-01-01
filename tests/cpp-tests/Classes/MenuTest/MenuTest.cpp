@@ -392,26 +392,16 @@ MenuLayer4::MenuLayer4()
     MenuItemFont::setFontName( "fonts/Marker Felt.ttf" );
     MenuItemFont::setFontSize(34);
 
-    MenuItemToggle::items_container menuItems1;
-    menuItems1.reserve(2);
-
-    menuItems1.push_back(
+    auto item1 = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
         to_retaining_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("On"))
-        )
-    );
-
-    menuItems1.push_back(
+        ),
         to_retaining_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );
 
-    auto item1 = MenuItemToggle::createWithCallback(
-        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        std::move(menuItems1)
-    );
-    
     MenuItemFont::setFontName( "American Typewriter" );
     MenuItemFont::setFontSize(18);
     auto title2 = MenuItemFont::create( "Music" );
@@ -420,26 +410,16 @@ MenuLayer4::MenuLayer4()
     MenuItemFont::setFontName( "fonts/Marker Felt.ttf" );
     MenuItemFont::setFontSize(34);
 
-    MenuItemToggle::items_container menuItems2;
-    menuItems2.reserve(2);
-
-    menuItems2.push_back(
+    auto item2 = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
         to_retaining_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("On"))
-        )
-    );
-
-    menuItems2.push_back(
+        ),
         to_retaining_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );
 
-    auto item2 = MenuItemToggle::createWithCallback(
-        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        std::move(menuItems2)
-    );
-    
     MenuItemFont::setFontName( "American Typewriter" );
     MenuItemFont::setFontSize(18);
     auto title3 = MenuItemFont::create( "Quality" );
@@ -467,7 +447,7 @@ MenuLayer4::MenuLayer4()
         CC_CALLBACK_1(MenuLayer4::menuCallback, this),
         std::move(menuItems3)
     );
-    
+
     MenuItemFont::setFontName( "American Typewriter" );
     MenuItemFont::setFontSize(18);
     auto title4 = MenuItemFont::create( "Orientation" );
@@ -475,44 +455,37 @@ MenuLayer4::MenuLayer4()
 
     MenuItemFont::setFontName( "fonts/Marker Felt.ttf" );
     MenuItemFont::setFontSize(34);
-    
-    MenuItemToggle::items_container menuItems4;
-    menuItems4.reserve(1);
 
-    menuItems4.push_back(
+    auto item4 = MenuItemToggle::createWithCallback(
+        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
         to_retaining_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );
 
-    auto item4 = MenuItemToggle::createWithCallback(
-        CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        std::move(menuItems4)
-    );
-    
     // TIP: you can manipulate the items like any other MutableArray
     item4->addSubItem(MenuItemFont::create( "33%" ));
     item4->addSubItem(MenuItemFont::create( "66%" ));
     item4->addSubItem(MenuItemFont::create( "100%" ));
-    
+
     // you can change the one of the items by doing this
     item4->setSelectedIndex( 2 );
-    
+
     MenuItemFont::setFontName( "fonts/Marker Felt.ttf" );
     MenuItemFont::setFontSize( 34 );
-    
+
     auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt",  "go back");
     auto back = MenuItemLabel::create(label, CC_CALLBACK_1(MenuLayer4::backCallback, this) );
-    
+
     auto menu = Menu::create(
-                  title1, title2,
-                  item1, item2,
-                  title3, title4,
-                  item3, item4,
-                  back, nullptr ); // 9 items.
-    
+        title1, title2,
+        item1, item2,
+        title3, title4,
+        item3, item4,
+        back, nullptr ); // 9 items.
+
     menu->alignItemsInColumns(2, 2, 2, 2, 1, NULL);
-    
+
     addChild( menu );
 
     auto s = Director::getInstance()->getWinSize();

@@ -428,7 +428,27 @@ public:
     /**
      *@brief Creates a menu item from a Array with a callable object.
      */
-    static MenuItemToggle * createWithCallback(const ccMenuCallback& callback, items_container && menuItems);
+    static MenuItemToggle * createWithCallback(const ccMenuCallback & callback,
+                                               items_container && menuItems);
+
+    template<typename ...Items>
+    static MenuItemToggle * createWithCallback(const ccMenuCallback & callback,
+                                               items_container && menuItems,
+                                               items_container::value_type && item,
+                                               Items && ...items)
+    {
+        menuItems.push_back(std::move(item));
+        return createWithCallback(callback, std::move(menuItems), std::forward<Items>(items)...);
+    }
+    template<typename ...Items>
+    static MenuItemToggle * createWithCallback(const ccMenuCallback & callback,
+                                               items_container::value_type && item,
+                                               Items && ...items)
+    {
+        items_container menuItems;
+        menuItems.push_back(std::move(item));
+        return createWithCallback(callback, std::move(menuItems), std::forward<Items>(items)...);
+    }
 
     /** Creates a menu item with no target/selector and no items. */
     static MenuItemToggle* create();
