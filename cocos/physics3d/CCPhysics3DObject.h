@@ -118,9 +118,9 @@ public:
     
 protected:
     Physics3DObject()
-    : _type(PhysicsObjType::UNKNOWN)
+    : _isEnabled(true)
+    , _type(PhysicsObjType::UNKNOWN)
     , _userData(nullptr)
-    , _isEnabled(true)
     , _physicsWorld(nullptr)
     , _mask(-1)
     {

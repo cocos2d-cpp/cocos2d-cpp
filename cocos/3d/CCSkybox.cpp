@@ -231,7 +231,8 @@ void Skybox::onDraw(const Mat4& transform, uint32_t /*flags*/)
 
 void Skybox::setTexture(TextureCube* texture)
 {
-    CCASSERT(texture != nullptr, __FUNCTION__);
+    CCASSERT(texture != nullptr,
+             "Skybox::setTexture: texture must not be nullptr");
 
     texture->retain();
 

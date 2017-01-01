@@ -104,14 +104,12 @@ int Device::getDPI()
     return dpi;
 }
 
-void Device::setAccelerometerEnabled(bool isEnabled)
+void Device::setAccelerometerEnabled(bool)
 {
-
 }
 
-void Device::setAccelerometerInterval(float interval)
+void Device::setAccelerometerInterval(float)
 {
-
 }
 
 class BitmapDC
@@ -172,15 +170,20 @@ public:
         return 0;
     }
 
-    bool isBreakPoint(FT_UInt currentCharacter, FT_UInt previousCharacter) {
-        if ( previousCharacter == '-' || previousCharacter == '/' || previousCharacter == '\\' ) {
+    bool isBreakPoint(FT_UInt /*currentCharacter*/, FT_UInt previousCharacter)
+    {
+        if ( previousCharacter == '-'
+             || previousCharacter == '/'
+             || previousCharacter == '\\' )
+        {
             // we can insert a line break after one of these characters
             return true;
         }
         return false;
     }
 
-    bool divideString(FT_Face face, const char* sText, int iMaxWidth, int iMaxHeight) {
+    bool divideString(FT_Face face, const char* sText, int iMaxWidth, int /*iMaxHeight*/)
+    {
         const char* pText = sText;
         textLines.clear();
         iMaxLineWidth = 0;
@@ -310,7 +313,8 @@ public:
     /**
      * compute the start pos of every line
      */
-    int computeLineStart(FT_Face face, Device::TextAlign eAlignMask, int line) {
+    int computeLineStart(FT_Face, Device::TextAlign eAlignMask, int line)
+    {
                 int lineWidth = textLines.at(line).lineWidth;
         if (eAlignMask == Device::TextAlign::CENTER || eAlignMask == Device::TextAlign::TOP || eAlignMask == Device::TextAlign::BOTTOM) {
             return (iMaxLineWidth - lineWidth) / 2;
@@ -442,7 +446,8 @@ public:
                 int yoffset = iCurYCursor - (face->glyph->metrics.horiBearingY >> 6);
                 int xoffset = iCurXCursor + glyph.paintPosition;
 
-                for (int y = 0; y < bitmap.rows; ++y) {
+                for (size_t y = 0; y < bitmap.rows; ++y)
+                {
                     int iY = yoffset + y;
                     if (iY>=iMaxLineHeight) {
                         //exceed the height truncate
@@ -452,7 +457,7 @@ public:
 
                     int bitmap_y = y * bitmap.width;
 
-                    for (int x = 0; x < bitmap.width; ++x) {
+                    for (size_t x = 0; x < bitmap.width; ++x) {
                         unsigned char cTemp = bitmap.buffer[bitmap_y + x];
                         if (cTemp == 0) {
                             continue;

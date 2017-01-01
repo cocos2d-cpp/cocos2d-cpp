@@ -50,9 +50,9 @@ static unsigned short quadIndices9[]={
 const static float PRECISION = 10.0f;
 
 PolygonInfo::PolygonInfo()
-: _rect(Rect::ZERO)
+: _isVertsOwner(true)
+, _rect(Rect::ZERO)
 , _filename("")
-, _isVertsOwner(true)
 {
     triangles.verts = nullptr;
     triangles.indices = nullptr;
@@ -62,12 +62,10 @@ PolygonInfo::PolygonInfo()
 
 PolygonInfo::PolygonInfo(const PolygonInfo& other)
 : triangles()
-, _rect()
 , _isVertsOwner(true)
+, _rect(other._rect)
+, _filename(other._filename)
 {
-    _filename = other._filename;
-    _isVertsOwner = true;
-    _rect = other._rect;
     triangles.verts = new (std::nothrow) V3F_C4B_T2F[other.triangles.vertCount];
     triangles.indices = new (std::nothrow) unsigned short[other.triangles.indexCount];
     CCASSERT(triangles.verts && triangles.indices, "not enough memory");

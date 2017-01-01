@@ -146,6 +146,7 @@ void PhysicsWorldCallback::rayCastCallbackFunc(cpShape *shape, cpVect point, cpV
         PhysicsHelper::cpv2point(point),
         PhysicsHelper::cpv2point(normal),
         static_cast<float>(alpha),
+        nullptr
     };
     
     PhysicsWorldCallback::continues = info->func(*info->world, callbackInfo, info->data);

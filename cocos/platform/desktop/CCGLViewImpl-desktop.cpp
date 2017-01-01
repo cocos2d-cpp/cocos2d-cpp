@@ -513,7 +513,7 @@ void GLViewImpl::pollEvents()
     glfwPollEvents();
 }
 
-void GLViewImpl::enableRetina(bool enabled)
+void GLViewImpl::enableRetina(bool)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
     _isRetinaEnabled = enabled;

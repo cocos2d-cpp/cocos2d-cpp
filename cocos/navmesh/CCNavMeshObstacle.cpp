@@ -53,9 +53,9 @@ const std::string& NavMeshObstacle::getNavMeshObstacleComponentName()
 NavMeshObstacle::NavMeshObstacle()
 : _radius(0.0f)
 , _height(0.0f)
-, _tileCache(nullptr)
-, _obstacleID(-1)
 , _syncFlag(NODE_AND_NODE)
+, _obstacleID(-1)
+, _tileCache(nullptr)
 {
 
 }
@@ -89,7 +89,7 @@ void cocos2d::NavMeshObstacle::addTo(dtTileCache *tileCache)
 
 void cocos2d::NavMeshObstacle::onExit()
 {
-    if (_obstacleID == -1) return;
+    if (_obstacleID == static_cast<dtObstacleRef>(-1)) return;
     Component::onExit();
     auto scene = _owner->getScene();
     if (scene && scene->getNavMesh()){
@@ -99,7 +99,7 @@ void cocos2d::NavMeshObstacle::onExit()
 
 void cocos2d::NavMeshObstacle::onEnter()
 {
-    if (_obstacleID != -1) return;
+    if (_obstacleID != static_cast<dtObstacleRef>(-1)) return;
     Component::onEnter();
     auto scene = _owner->getScene();
     if (scene && scene->getNavMesh()){
