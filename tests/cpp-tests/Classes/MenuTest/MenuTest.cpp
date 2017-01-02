@@ -82,7 +82,7 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     item3->setColor( Color3B(200,200,255) );
     CCLOG("test MenuItem Label getString: %s", item3->getString().c_str());
     // Font Item
-    auto item4 = MenuItemFont::create("I toggle enable items", [&](Ref *sender) {
+    auto item4 = MenuItemFont::create("I toggle enable items", [&](Ref *) {
 		_disabledItem->setEnabled(! _disabledItem->isEnabled() );
 	});
 
@@ -143,20 +143,20 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     menu->runAction(ScaleTo::create(1,1));
 }
 
-bool MenuLayerMainMenu::onTouchBegan(Touch *touch, Event * event)
+bool MenuLayerMainMenu::onTouchBegan(Touch *, Event * )
 {
     return true;
 }
 
-void MenuLayerMainMenu::onTouchEnded(Touch *touch, Event * event)
+void MenuLayerMainMenu::onTouchEnded(Touch *, Event * )
 {
 }
 
-void MenuLayerMainMenu::onTouchCancelled(Touch *touch, Event * event)
+void MenuLayerMainMenu::onTouchCancelled(Touch *, Event * )
 {
 }
 
-void MenuLayerMainMenu::onTouchMoved(Touch *touch, Event * event)
+void MenuLayerMainMenu::onTouchMoved(Touch *, Event * )
 {
 }
 
@@ -166,24 +166,24 @@ MenuLayerMainMenu::~MenuLayerMainMenu()
     _disabledItem->release();
 }
 
-void MenuLayerMainMenu::menuCallback(Ref* sender)
+void MenuLayerMainMenu::menuCallback(Ref* )
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(1);
 }
 
-void MenuLayerMainMenu::menuCallbackConfig(Ref* sender)
+void MenuLayerMainMenu::menuCallbackConfig(Ref* )
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(3);
 }
 
-void MenuLayerMainMenu::allowTouches(float dt)
+void MenuLayerMainMenu::allowTouches(float )
 {
     _eventDispatcher->setPriority(_touchListener, 1);
     unscheduleAllCallbacks();
     log("TOUCHES ALLOWED AGAIN");
 }
 
-void MenuLayerMainMenu::menuCallbackDisabled(Ref* sender) 
+void MenuLayerMainMenu::menuCallbackDisabled(Ref* ) 
 {
     // hijack all touch events for 5 seconds
     _eventDispatcher->setPriority(_touchListener, -1);
@@ -191,21 +191,21 @@ void MenuLayerMainMenu::menuCallbackDisabled(Ref* sender)
     log("TOUCHES DISABLED FOR 5 SECONDS");
 }
 
-void MenuLayerMainMenu::menuCallback2(Ref* sender)
+void MenuLayerMainMenu::menuCallback2(Ref* )
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(2);
 }
 
-void MenuLayerMainMenu::menuCallbackBugsTest(Ref *pSender)
+void MenuLayerMainMenu::menuCallbackBugsTest(Ref *)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(4);
 }
 
-void MenuLayerMainMenu::onQuit(Ref* sender)
+void MenuLayerMainMenu::onQuit(Ref* )
 {
 }
 
-void MenuLayerMainMenu::menuMovingCallback(Ref *pSender)
+void MenuLayerMainMenu::menuMovingCallback(Ref *)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(5);
 }
@@ -294,7 +294,7 @@ void MenuLayer2::alignMenusV()
     }
 }
 
-void MenuLayer2::menuCallback(Ref* sender)
+void MenuLayer2::menuCallback(Ref* )
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 }
@@ -309,7 +309,7 @@ void MenuLayer2::menuCallbackOpacity(Ref* sender)
         menu->setOpacity(128);     
 }
 
-void MenuLayer2::menuCallbackAlign(Ref* sender)
+void MenuLayer2::menuCallbackAlign(Ref* )
 {
     _alignedH = ! _alignedH;
     
@@ -330,12 +330,12 @@ MenuLayer3::MenuLayer3()
     MenuItemFont::setFontSize(28);
 
     auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "Enable AtlasItem");
-    auto item1 = MenuItemLabel::create(label, [&](Ref *sender) {
+    auto item1 = MenuItemLabel::create(label, [&](Ref *) {
 		//CCLOG("Label clicked. Toogling AtlasSprite");
 		_disabledItem->setEnabled( ! _disabledItem->isEnabled() );
 		_disabledItem->stopAllActions();
 	});
-    auto item2 = MenuItemFont::create("--- Go Back ---", [&](Ref *sender) {
+    auto item2 = MenuItemFont::create("--- Go Back ---", [&](Ref *) {
 		    static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 	});
 
@@ -344,7 +344,7 @@ MenuLayer3::MenuLayer3()
     auto spriteDisabled = Sprite::create(s_MenuItem,  Rect(0,23*0,115,23));
     
     
-    auto item3 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, [](Ref *sender) {
+    auto item3 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, [](Ref *) {
 		log("sprite clicked!");
 	});
     _disabledItem = item3;  item3->retain();
@@ -506,12 +506,12 @@ MenuLayer4::~MenuLayer4()
 {
 }
 
-void MenuLayer4::menuCallback(Ref* sender)
+void MenuLayer4::menuCallback(Ref* )
 {
     //CCLOG("selected item: %x index:%d", dynamic_cast<MenuItemToggle*>(sender)->selectedItem(), dynamic_cast<MenuItemToggle*>(sender)->selectedIndex() ); 
 }
 
-void MenuLayer4::backCallback(Ref* sender)
+void MenuLayer4::backCallback(Ref* )
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 }
@@ -549,7 +549,7 @@ void BugsTest::issue1410v2MenuCallback(cocos2d::Ref *pSender)
     log("NO CRASHES. AND MENU SHOULD STOP WORKING");
 }
 
-void BugsTest::backMenuCallback(cocos2d::Ref *pSender)
+void BugsTest::backMenuCallback(cocos2d::Ref *)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 }
@@ -584,7 +584,7 @@ RemoveMenuItemWhenMove::RemoveMenuItemWhenMove()
     
 }
 
-void RemoveMenuItemWhenMove::goBack(Ref *pSender)
+void RemoveMenuItemWhenMove::goBack(Ref *)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 }
@@ -595,12 +595,12 @@ RemoveMenuItemWhenMove::~RemoveMenuItemWhenMove()
     CC_SAFE_RELEASE(item);
 }
 
-bool RemoveMenuItemWhenMove::onTouchBegan(Touch  *touch, Event  *event)
+bool RemoveMenuItemWhenMove::onTouchBegan(Touch  *, Event  *)
 {
     return true;
 }
 
-void RemoveMenuItemWhenMove::onTouchMoved(Touch  *touch, Event  *event)
+void RemoveMenuItemWhenMove::onTouchMoved(Touch  *, Event  *)
 {
     if (item)
     {
@@ -616,14 +616,24 @@ bool MenuTest::init()
     {
         MenuItemFont::setFontSize(20);
 
-        auto layer1 = new (std::nothrow) MenuLayerMainMenu();
-        auto layer2 = new (std::nothrow) MenuLayer2();
-        auto layer3 = new (std::nothrow) MenuLayer3();
-        auto layer4 = new (std::nothrow) MenuLayer4();
-        auto layer5 = new (std::nothrow) BugsTest();
-        auto layer6 = new (std::nothrow) RemoveMenuItemWhenMove();
+        Layer* layer1 = new (std::nothrow) MenuLayerMainMenu();
+        Layer* layer2 = new (std::nothrow) MenuLayer2();
+        Layer* layer3 = new (std::nothrow) MenuLayer3();
+        Layer* layer4 = new (std::nothrow) MenuLayer4();
+        Layer* layer5 = new (std::nothrow) BugsTest();
+        Layer* layer6 = new (std::nothrow) RemoveMenuItemWhenMove();
 
-        auto layer = LayerMultiplex::create(layer1, layer2, layer3, layer4, layer5, layer6, nullptr);
+        std::vector<node_ptr<Layer>> layers;
+
+        layers.push_back(to_node_ptr(layer1));
+        layers.push_back(to_node_ptr(layer2));
+        layers.push_back(to_node_ptr(layer3));
+        layers.push_back(to_node_ptr(layer4));
+        layers.push_back(to_node_ptr(layer5));
+        layers.push_back(to_node_ptr(layer6));
+
+        auto layer = LayerMultiplex::createWithArray( std::move(layers) );
+
         addChild(layer, 0);
 
         layer1->release();

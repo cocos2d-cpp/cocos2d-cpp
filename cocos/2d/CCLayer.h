@@ -472,13 +472,6 @@ Features:
 class CC_DLL LayerMultiplex : public Layer
 {
 public:
-    /** Creates and initializes a LayerMultiplex object.
-     * @lua NA
-     * 
-     * @return An autoreleased LayerMultiplex object.
-     */
-    static LayerMultiplex* create();
-
     /** Creates a LayerMultiplex with an array of layers.
      @since v2.1
      * @js NA
@@ -486,46 +479,7 @@ public:
      * @param arrayOfLayers An array of layers.
      * @return An autoreleased LayerMultiplex object.
      */
-    static LayerMultiplex* createWithArray(const Vector<Layer*>& arrayOfLayers);
-
-    /** Creates a LayerMultiplex with one or more layers using a variable argument list.
-     * @code
-     * When this function bound to lua or js,the input params are changed.
-     * In js:var create(...)
-     * In lua:local create(...)
-     * @endcode
-     */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported
-    typedef Layer* M;
-    static LayerMultiplex* create(M m1, std::nullptr_t listEnd) { return createVariadic(m1, NULL); }
-    static LayerMultiplex* create(M m1, M m2, std::nullptr_t listEnd) { return createVariadic(m1, m2, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, m6, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static LayerMultiplex* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return createVariadic(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
-
-    // On WP8 for variable argument lists longer than 10 items, use createWithArray or createVariadic with NULL as the last argument
-    static LayerMultiplex* createVariadic(Layer* item, ...) CC_REQUIRES_NULL_TERMINATION;
-#else
-    static LayerMultiplex * create(Layer* layer, ... );
-#endif
-
-    /** Creates a LayerMultiplex with one layer.
-     * Lua script can not init with undetermined number of variables
-     * so add these functions to be used with lua.
-     * @js NA
-     * @lua NA
-     *
-     * @param layer A certain layer.
-     * @return An autoreleased LayerMultiplex object.
-     */
-    static LayerMultiplex * createWithLayer(Layer* layer);
-
+    static LayerMultiplex* createWithArray(std::vector<node_ptr<Layer>> &&);
 
     /** Add a certain layer to LayerMultiplex.
      *
@@ -538,13 +492,14 @@ public:
      *
      * @param n The layer indexed by n will display.
      */
-    void switchTo(int n);
+    void switchTo(size_t n);
+
     /** release the current layer and switches to another layer indexed by n.
     The current (old) layer will be removed from it's parent with 'cleanup=true'.
      *
      * @param n The layer indexed by n will display.
      */
-    void switchToAndReleaseMe(int n);
+    void switchToAndReleaseMe(size_t n);
 
     virtual std::string getDescription() const override;
     
@@ -560,20 +515,15 @@ protected:
     virtual ~LayerMultiplex();
     
     virtual bool init() override;
-    /** initializes a MultiplexLayer with one or more layers using a variable argument list.
-     * @js NA
-     * @lua NA
-     */
-    bool initWithLayers(Layer* layer, va_list params);
     
     /** initializes a MultiplexLayer with an array of layers
      @since v2.1
      */
-    bool initWithArray(const Vector<Layer*>& arrayOfLayers);
+    bool initWithArray(std::vector<node_ptr<Layer>> &&);
 
 protected:
-    unsigned int _enabledLayer;
-    Vector<Layer*>    _layers;
+    unsigned int                 _enabledLayer;
+    std::vector<node_ptr<Layer>> _layers;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex);

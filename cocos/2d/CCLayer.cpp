@@ -544,51 +544,11 @@ LayerMultiplex::~LayerMultiplex()
     }
 }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-LayerMultiplex * LayerMultiplex::createVariadic(Layer * layer, ...)
-{
-    va_list args;
-    va_start(args,layer);
-
-    LayerMultiplex * multiplexLayer = new (std::nothrow) LayerMultiplex();
-    if(multiplexLayer && multiplexLayer->initWithLayers(layer, args))
-    {
-        multiplexLayer->autorelease();
-        va_end(args);
-        return multiplexLayer;
-    }
-    va_end(args);
-    CC_SAFE_DELETE(multiplexLayer);
-    return nullptr;
-}
-#else
-LayerMultiplex * LayerMultiplex::create(Layer * layer, ...)
-{
-    va_list args;
-    va_start(args,layer);
-
-    LayerMultiplex * multiplexLayer = new (std::nothrow) LayerMultiplex();
-    if(multiplexLayer && multiplexLayer->initWithLayers(layer, args))
-    {
-        multiplexLayer->autorelease();
-        va_end(args);
-        return multiplexLayer;
-    }
-    va_end(args);
-    CC_SAFE_DELETE(multiplexLayer);
-    return nullptr;
-}
-#endif
-
-LayerMultiplex * LayerMultiplex::createWithLayer(Layer* layer)
-{
-    return LayerMultiplex::create(layer, nullptr);
-}
-
-LayerMultiplex* LayerMultiplex::create()
+LayerMultiplex* LayerMultiplex::createWithArray(std::vector<node_ptr<Layer>> && arrayOfLayers)
 {
     LayerMultiplex* ret = new (std::nothrow) LayerMultiplex();
-    if (ret && ret->init())
+
+    if (ret && ret->initWithArray( std::move(arrayOfLayers) ))
     {
         ret->autorelease();
     }
@@ -596,26 +556,13 @@ LayerMultiplex* LayerMultiplex::create()
     {
         CC_SAFE_DELETE(ret);
     }
-    return ret;
-}
 
-LayerMultiplex* LayerMultiplex::createWithArray(const Vector<Layer*>& arrayOfLayers)
-{
-    LayerMultiplex* ret = new (std::nothrow) LayerMultiplex();
-    if (ret && ret->initWithArray(arrayOfLayers))
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
     return ret;
 }
 
 void LayerMultiplex::addLayer(Layer* layer)
 {
-    _layers.pushBack(layer);
+    _layers.push_back(to_node_ptr(layer));
 }
 
 bool LayerMultiplex::init()
@@ -628,63 +575,41 @@ bool LayerMultiplex::init()
     return false;
 }
 
-bool LayerMultiplex::initWithLayers(Layer *layer, va_list params)
+bool LayerMultiplex::initWithArray(std::vector<node_ptr<Layer>> && arrayOfLayers)
 {
     if (Layer::init())
     {
-        _layers.reserve(5);
-        _layers.pushBack(layer);
-
-        Layer *l = va_arg(params,Layer*);
-        while( l ) {
-            _layers.pushBack(l);
-            l = va_arg(params,Layer*);
-        }
-
+        _layers = std::move( arrayOfLayers );
         _enabledLayer = 0;
-        this->addChild(_layers.at(_enabledLayer));
-        return true;
-    }
-
-    return false;
-}
-
-bool LayerMultiplex::initWithArray(const Vector<Layer*>& arrayOfLayers)
-{
-    if (Layer::init())
-    {
-        _layers.reserve(arrayOfLayers.size());
-        _layers.pushBack(arrayOfLayers);
-
-        _enabledLayer = 0;
-        this->addChild(_layers.at(_enabledLayer));
+        this->addChild(_layers.at(_enabledLayer).get());
         return true;
     }
     return false;
 }
 
-void LayerMultiplex::switchTo(int n)
+void LayerMultiplex::switchTo(size_t n)
 {
     CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
 
-    this->removeChild(_layers.at(_enabledLayer), true);
+    this->removeChild(_layers.at(_enabledLayer).get(), true);
 
     _enabledLayer = n;
 
-    this->addChild(_layers.at(n));
+    this->addChild(_layers.at(n).get());
 }
 
-void LayerMultiplex::switchToAndReleaseMe(int n)
+void LayerMultiplex::switchToAndReleaseMe(size_t n)
 {
     CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT( n != _enabledLayer, "n != _enabledLayer" );
 
-    this->removeChild(_layers.at(_enabledLayer), true);
+    auto curr = std::move(_layers.at(_enabledLayer));
+
+    this->removeChild(curr.get(), true);
     
-    _layers.replace(_enabledLayer, nullptr);
-
     _enabledLayer = n;
 
-    this->addChild(_layers.at(n));
+    this->addChild(_layers.at(_enabledLayer).get());
 }
 
 std::string LayerMultiplex::getDescription() const
