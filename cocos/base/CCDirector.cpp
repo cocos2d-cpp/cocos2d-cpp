@@ -101,7 +101,7 @@ Director* Director::getInstance()
 }
 
 Director::Director()
-: _runningScene( to_retaining_ptr(static_cast<Scene*>(nullptr)) )
+: _runningScene()
 , _isStatusLabelUpdated(true)
 , _invalid(true)
 {

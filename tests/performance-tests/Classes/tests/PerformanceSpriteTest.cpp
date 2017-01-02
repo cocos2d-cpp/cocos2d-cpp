@@ -663,12 +663,22 @@ void performanceActions(Sprite* sprite)
     float period = 0.5f + (rand() % 1000) / 500.0f;
     auto rot = RotateBy::create(period, 360.0f * CCRANDOM_0_1());
     auto rot_back = rot->reverse();
-    auto permanentRotation = RepeatForever::create(Sequence::create(rot, rot_back, nullptr));
+    auto permanentRotation = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(rot),
+            to_action_ptr(rot_back)
+        )
+    );
     sprite->runAction(permanentRotation);
 
     float growDuration = 0.5f + (rand() % 1000) / 500.0f;
     auto grow = ScaleBy::create(growDuration, 0.5f, 0.5f);
-    auto permanentScaleLoop = RepeatForever::create(Sequence::create(grow, grow->reverse(), nullptr));
+    auto permanentScaleLoop = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(grow),
+            to_action_ptr(grow->reverse()),
+        )
+    );
     sprite->runAction(permanentScaleLoop);
 }
 
@@ -683,7 +693,12 @@ void performanceActions20(Sprite* sprite)
     float period = 0.5f + (rand() % 1000) / 500.0f;
     auto rot = RotateBy::create(period, 360.0f * CCRANDOM_0_1());
     auto rot_back = rot->reverse();
-    auto permanentRotation = RepeatForever::create(Sequence::create(rot, rot_back, nullptr));
+    auto permanentRotation = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(rot),
+            to_action_ptr(rot_back)
+        )
+    );
     sprite->runAction(permanentRotation);
 
     float growDuration = 0.5f + (rand() % 1000) / 500.0f;

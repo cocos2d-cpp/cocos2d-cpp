@@ -658,9 +658,9 @@ void PhysicsDemoActions::onEnter()
     auto rotateByBack = RotateBy::create(2, -180);
     
     sp1->runAction(RepeatForever::create(actionUp));
-    sp2->runAction(RepeatForever::create(Sequence::create(actionBy, actionByBack, nullptr)));
+    sp2->runAction(RepeatForever::create(Sequence::create( to_action_ptr(actionBy), to_action_ptr( actionByBack) )));
     sp3->runAction(actionTo);
-    sp4->runAction(RepeatForever::create(Sequence::create(rotateBy, rotateByBack, nullptr)));
+    sp4->runAction(RepeatForever::create(Sequence::create( to_action_ptr(rotateBy), to_action_ptr( rotateByBack) )));
 }
 
 std::string PhysicsDemoActions::title() const
@@ -1800,7 +1800,7 @@ void PhysicsTransformTest::onEnter()
     
     ScaleTo* scaleTo = ScaleTo::create(2.0, 0.5);
     ScaleTo* scaleBack = ScaleTo::create(2.0, 1.0);
-    _parentSprite->runAction(RepeatForever::create(Sequence::create(scaleTo, scaleBack, nullptr)));
+    _parentSprite->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scaleTo), to_action_ptr( scaleBack) )));
     
     auto normal = Sprite::create("Images/YellowSquare.png");
     normal->setPosition(300, 100);
@@ -1823,8 +1823,8 @@ void PhysicsTransformTest::onEnter()
     
     RotateBy* rotate = RotateBy::create(6.0f, 360);
     
-    _rootLayer->runAction(RepeatForever::create(Sequence::create(move, move2, move3, nullptr)));
-    _rootLayer->runAction(RepeatForever::create(Sequence::create(scale, scale2, nullptr)));
+    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(move), to_action_ptr( move2), to_action_ptr( move3) )));
+    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr( scale2) )));
     _rootLayer->runAction(RepeatForever::create(rotate));
 }
 
@@ -1843,12 +1843,22 @@ void PhysicsIssue9959::onEnter()
     auto scale9Sprite1 = ui::Scale9Sprite::create("Images/ball.png");
     scale9Sprite1->setPosition(origin + visibleSize/2);
     addChild(scale9Sprite1);
-    scale9Sprite1->runAction(RepeatForever::create(Sequence::create(MoveBy::create(2.0f, Vec2(100.0f,0.0f)), MoveBy::create(2.0f, Vec2(-100.0f, 0.0f)), NULL)));
+    scale9Sprite1->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(MoveBy::create(2.0f, Vec2(100.0f,0.0f))),
+                to_action_ptr(MoveBy::create(2.0f, Vec2(-100.0f, 0.0f)))
+            )));
     
     auto scale9Sprite2 = ui::Scale9Sprite::create("Images/ball.png");
     scale9Sprite2->setPosition(origin + visibleSize/2 + Vec2(0.0f, 50.0f));
     addChild(scale9Sprite2);
-    scale9Sprite2->runAction(RepeatForever::create(Sequence::create(ScaleTo::create(2.0f, 1.5f), ScaleTo::create(2.0f, 1.0f), NULL)));
+    scale9Sprite2->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(ScaleTo::create(2.0f, 1.5f)),
+                to_action_ptr(ScaleTo::create(2.0f, 1.0f))
+            )));
     
     auto scale9Sprite3 = ui::Scale9Sprite::create("Images/ball.png");
     scale9Sprite3->setPosition(origin + visibleSize/2 + Vec2(0.0f, -50.0f));

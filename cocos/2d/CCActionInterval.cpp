@@ -165,65 +165,11 @@ Sequence* Sequence::createWithTwoActions(FiniteTimeAction *actionOne, FiniteTime
     return nullptr;
 }
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-Sequence* Sequence::variadicCreate(FiniteTimeAction *action1, ...)
-{
-    va_list params;
-    va_start(params, action1);
-
-    Sequence *ret = Sequence::createWithVariableList(action1, params);
-
-    va_end(params);
-    
-    return ret;
-}
-#else
-Sequence* Sequence::create(FiniteTimeAction *action1, ...)
-{
-    va_list params;
-    va_start(params, action1);
-
-    Sequence *ret = Sequence::createWithVariableList(action1, params);
-
-    va_end(params);
-    
-    return ret;
-}
-#endif
-
-Sequence* Sequence::createWithVariableList(FiniteTimeAction *action1, va_list args)
-{
-    FiniteTimeAction *now;
-    FiniteTimeAction *prev = action1;
-    bool bOneAction = true;
-
-    while (action1)
-    {
-        now = va_arg(args, FiniteTimeAction*);
-        if (now)
-        {
-            prev = createWithTwoActions(prev, now);
-            bOneAction = false;
-        }
-        else
-        {
-            // If only one action is added to Sequence, make up a Sequence by adding a simplest finite time action.
-            if (bOneAction)
-            {
-                prev = createWithTwoActions(prev, ExtraAction::create());
-            }
-            break;
-        }
-    }
-    
-    return ((Sequence*)prev);
-}
-
-Sequence* Sequence::create(const Vector<FiniteTimeAction*>& arrayOfActions)
+Sequence* Sequence::create(actions_container && arrayOfActions)
 {
     Sequence* seq = new (std::nothrow) Sequence;
     
-    if (seq && seq->init(arrayOfActions))
+    if (seq && seq->init(std::move(arrayOfActions)))
     {
         seq->autorelease();
         return seq;
@@ -233,23 +179,22 @@ Sequence* Sequence::create(const Vector<FiniteTimeAction*>& arrayOfActions)
     return nullptr;
 }
 
-bool Sequence::init(const Vector<FiniteTimeAction*>& arrayOfActions)
+bool Sequence::init(actions_container && arrayOfActions)
 {
     auto count = arrayOfActions.size();
+
     if (count == 0)
         return false;
 
     if (count == 1)
-        return initWithTwoActions(arrayOfActions.at(0), ExtraAction::create());
+        return initWithTwoActions(arrayOfActions.at(0).get(), ExtraAction::create());
 
-    // else size > 1
-    auto prev = arrayOfActions.at(0);
-    for (int i = 1; i < count-1; ++i)
+    auto prev = arrayOfActions.at(0).get();
+    for (size_t i = 1; i < count-1; ++i)
     {
-        prev = createWithTwoActions(prev, arrayOfActions.at(i));
+        prev = createWithTwoActions(prev, arrayOfActions.at(i).get());
     }
-
-    return initWithTwoActions(prev, arrayOfActions.at(count-1));
+    return initWithTwoActions(prev, arrayOfActions.at(count-1).get());
 }
 
 bool Sequence::initWithTwoActions(FiniteTimeAction *actionOne, FiniteTimeAction *actionTwo)
@@ -279,7 +224,8 @@ Sequence* Sequence::clone() const
     // no copy constructor
     if (_actions[0] && _actions[1])
     {
-        return Sequence::create(_actions[0]->clone(), _actions[1]->clone(), nullptr);
+        return Sequence::createWithTwoActions(_actions[0]->clone(),
+                                              _actions[1]->clone());
     } else {
         return nullptr;
     }
@@ -341,7 +287,6 @@ void Sequence::update(float t)
             new_t = t / _split;
         else
             new_t = 1;
-
     }
     else
     {

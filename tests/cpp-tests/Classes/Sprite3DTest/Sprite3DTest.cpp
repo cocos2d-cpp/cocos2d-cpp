@@ -201,7 +201,7 @@ void Sprite3DBasicTest::addNewSpriteWithCoords(Vec2 p)
     else
         action = FadeOut::create(2);
     auto action_back = action->reverse();
-    auto seq = Sequence::create( action, action_back, nullptr );
+    auto seq = Sequence::create( to_action_ptr( action), to_action_ptr( action_back) );
     
     sprite->runAction( RepeatForever::create(seq) );
 }
@@ -806,7 +806,7 @@ void Sprite3DEffectTest::addNewSpriteWithCoords(Vec2 p)
     else
         action = FadeOut::create(2);
     auto action_back = action->reverse();
-    auto seq = Sequence::create( action, action_back, nullptr );
+    auto seq = Sequence::create( to_action_ptr( action), to_action_ptr( action_back) );
     
     sprite->runAction( RepeatForever::create(seq) );
     _sprites.push_back(sprite);
@@ -1159,7 +1159,10 @@ void Animate3DTest::addSprite3D()
     
     _moveAction = MoveTo::create(4.f, Vec2(s.width / 5.f, s.height / 2.f));
     _moveAction->retain();
-    auto seq = Sequence::create(_moveAction, CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)), nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(_moveAction),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)))
+    );
     seq->setTag(100);
     sprite->runAction(seq);
 }
@@ -1173,7 +1176,11 @@ void Animate3DTest::reachEndCallBack()
     _moveAction->release();
     _moveAction = inverse;
     auto rot = RotateBy::create(1.f, Vec3(0.f, 180.f, 0.f));
-    auto seq = Sequence::create(rot, _moveAction, CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)), nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(rot),
+        to_action_ptr(_moveAction),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)))
+    );
     seq->setTag(100);
     _sprite->runAction(seq);
 }
@@ -1205,7 +1212,10 @@ void Animate3DTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* ev
                     _sprite->stopAction(_hurt);
                     _sprite->runAction(_hurt);
                     auto delay = DelayTime::create(_hurt->getDuration() - Animate3D::getTransitionTime());
-                    auto seq = Sequence::create(delay, CallFunc::create(CC_CALLBACK_0(Animate3DTest::renewCallBack, this)), nullptr);
+                    auto seq = Sequence::create(
+                        to_action_ptr(delay),
+                        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::renewCallBack, this)))
+                    );
                     seq->setTag(101);
                     _sprite->runAction(seq);
                 }
@@ -1548,7 +1558,10 @@ void Sprite3DWithOBBPerformanceTest::addNewSpriteWithCoords(Vec2 p)
     
     _moveAction = MoveTo::create(4.f, Vec2(s.width / 5.f, s.height / 2.f));
     _moveAction->retain();
-    auto seq = Sequence::create(_moveAction, CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)), nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(_moveAction),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)))
+    );
     seq->setTag(100);
     sprite->runAction(seq);
     
@@ -1567,7 +1580,11 @@ void Sprite3DWithOBBPerformanceTest::reachEndCallBack()
     _moveAction->release();
     _moveAction = inverse;
     auto rot = RotateBy::create(1.0f, Vec3(0.f, 180.f, 0.f));
-    auto seq = Sequence::create(rot, _moveAction, CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)), nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(rot),
+        to_action_ptr(_moveAction),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)))
+    );
     seq->setTag(100);
     _sprite->runAction(seq);
 }
@@ -2239,7 +2256,10 @@ Sprite3DClippingTest::Sprite3DClippingTest()
     
     clipSprite3D->setPosition(Vec2(size.width / 2, size.height / 2));
     
-    auto seq = Sequence::create(ScaleTo::create(2.f, 3), ScaleTo::create(2.f, 0.5f), NULL);
+    auto seq = Sequence::create(
+        to_action_ptr(ScaleTo::create(2.f, 3)),
+        to_action_ptr(ScaleTo::create(2.f, 0.5f))
+    );
     sprite3D->runAction(RepeatForever::create(seq));
     auto animation = Animation3D::create("Sprite3DTest/orc.c3b");
     auto animate = Animate3D::create(animation);
@@ -2549,21 +2569,27 @@ Sprite3DNormalMappingTest::Sprite3DNormalMappingTest()
     float radius = 100.0;
 
     PointLight* light = PointLight::create(Vec3(0.0, 0.0, 0.0), Color3B(255, 255, 255), 1000);
-    light->runAction(RepeatForever::create(Sequence::create(CallFuncN::create([radius](Node *node){
-        static float angle = 0.0;
-        static bool reverseDir = false;
-        node->setPosition3D(Vec3(radius * cos(angle), 0.0f, radius * sin(angle)));
-        if (reverseDir){
-            angle -= 0.01f;
-            if (angle < 0.0)
-                reverseDir = false;
-        }
-        else{
-            angle += 0.01f;
-            if (3.14159 < angle)
-                reverseDir = true;
-        }
-    }), nullptr)));
+    light->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(
+                    CallFuncN::create([radius](Node *node){
+                        static float angle = 0.0;
+                        static bool reverseDir = false;
+                        node->setPosition3D(Vec3(radius * cos(angle), 0.0f, radius * sin(angle)));
+                        if (reverseDir){
+                            angle -= 0.01f;
+                            if (angle < 0.0)
+                                reverseDir = false;
+                        }
+                        else{
+                            angle += 0.01f;
+                            if (3.14159 < angle)
+                                reverseDir = true;
+                        }
+                    })
+                )
+            )));
     //setup camera
     auto camera = Camera::createPerspective(60.0, s.width / s.height, 1.0f, 1000.f);
     camera->setCameraFlag(CameraFlag::USER1);

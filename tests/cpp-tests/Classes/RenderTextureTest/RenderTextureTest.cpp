@@ -342,9 +342,11 @@ void RenderTextureZbuffer::renderScreenShot()
     this->addChild(sprite, 999999);
     sprite->setColor(Color3B::GREEN);
 
-    sprite->runAction(Sequence::create(FadeTo::create(2, 0),
-                                          Hide::create(),
-                                          nullptr));
+    sprite->runAction(
+        Sequence::create(
+            to_action_ptr(FadeTo::create(2, 0)),
+            to_action_ptr(Hide::create())
+        ));
 }
 
 RenderTexturePartTest::RenderTexturePartTest()
@@ -383,8 +385,13 @@ RenderTexturePartTest::RenderTexturePartTest()
     FiniteTimeAction* baseAction = MoveBy::create(1, Vec2(size.width,0));
     _spriteDraw->setPosition(0,size.height/2);
     _spriteDraw->setScaleY(-1);
-    _spriteDraw->runAction(RepeatForever::create(Sequence::create
-                                          (baseAction,baseAction->reverse(), nullptr)));
+    _spriteDraw->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(baseAction),
+                to_action_ptr(baseAction->reverse())
+            )
+        ));
     addChild(_spriteDraw);
 }
 
@@ -674,7 +681,7 @@ SpriteRenderTextureBug::SimpleSprite* SpriteRenderTextureBug::addNewSpriteWithCo
 		action = FadeOut::create(2);
     
     auto action_back = action->reverse();
-    auto seq = Sequence::create(action, action_back, nullptr);
+    auto seq = Sequence::create( to_action_ptr(action), to_action_ptr( action_back) );
     
     sprite->runAction(RepeatForever::create(seq));
     

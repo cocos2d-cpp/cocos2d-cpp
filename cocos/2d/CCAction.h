@@ -177,6 +177,33 @@ private:
     CC_DISALLOW_COPY_AND_ASSIGN(Action);
 };
 
+template<typename T>
+struct action_ptr_deleter {
+public:
+    void operator()(T * p) const
+    {
+        static_assert(std::is_base_of<Action, T>::value,
+                      "action_ptr is for Action-derived types only");
+        p->release();
+    }
+};
+
+template<typename T>
+using action_ptr = std::unique_ptr<T, action_ptr_deleter<T>>;
+
+template<typename T>
+action_ptr<T> to_action_ptr(T * ptr)
+{
+    static_assert(std::is_base_of<Action, T>::value,
+                  "action_ptr is for Action-derived types only");
+    
+    if (ptr)
+    {
+        ptr->retain();
+    }
+    return action_ptr<T>(ptr);
+}
+
 /** @class FiniteTimeAction
  * @brief
  * Base class actions that do have a finite time duration.

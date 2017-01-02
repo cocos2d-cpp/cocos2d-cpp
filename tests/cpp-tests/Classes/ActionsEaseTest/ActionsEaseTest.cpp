@@ -92,9 +92,24 @@ void SpriteEase::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     
     auto a2 = _grossini->runAction(RepeatForever::create(seq1));
@@ -148,9 +163,24 @@ void SpriteEaseInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
 
-    auto seq1 = Sequence::create( move_ease_inout1, delay, move_ease_inout_back1, delay->clone(), nullptr);
-    auto seq2 = Sequence::create( move_ease_inout2, delay->clone(), move_ease_inout_back2, delay->clone(), nullptr);
-    auto seq3 = Sequence::create( move_ease_inout3, delay->clone(), move_ease_inout_back3, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move_ease_inout1),
+        to_action_ptr(delay),
+        to_action_ptr(move_ease_inout_back1),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_inout2),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_inout_back2),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_inout3),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_inout_back3),
+        to_action_ptr(delay->clone())
+    );
         
     _tamara->runAction(RepeatForever::create(seq1));
     _kathia->runAction(RepeatForever::create(seq2));
@@ -184,9 +214,24 @@ void SpriteEaseExponential::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
 
     _grossini->runAction( RepeatForever::create(seq1));
@@ -217,8 +262,18 @@ void SpriteEaseExponentialInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create( move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create( move_ease, delay, move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -253,10 +308,24 @@ void SpriteEaseSine::onEnter()
     
     auto delay = DelayTime::create(0.25f);
         
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
-    
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -287,8 +356,18 @@ void SpriteEaseSineInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
 
     this->positionForTwo();
 
@@ -322,9 +401,24 @@ void SpriteEaseElastic::onEnter()
     
     auto delay = DelayTime::create(0.25f);
 
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -360,9 +454,24 @@ void SpriteEaseElasticInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
         
-    auto seq1 = Sequence::create(move_ease_inout1, delay, move_ease_inout_back1, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_inout2, delay->clone(), move_ease_inout_back2, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_inout3, delay->clone(), move_ease_inout_back3, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move_ease_inout1),
+        to_action_ptr(delay),
+        to_action_ptr(move_ease_inout_back1),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_inout2),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_inout_back2),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_inout3),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_inout_back3),
+        to_action_ptr(delay->clone())
+    );
     
     _tamara->runAction( RepeatForever::create(seq1));
     _kathia->runAction( RepeatForever::create(seq2));
@@ -397,9 +506,24 @@ void SpriteEaseBounce::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -431,8 +555,18 @@ void SpriteEaseBounceInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -467,9 +601,24 @@ void SpriteEaseBack::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction(RepeatForever::create(seq1));
     _tamara->runAction(RepeatForever::create(seq2));
@@ -500,8 +649,18 @@ void SpriteEaseBackInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -545,7 +704,12 @@ void SpriteEaseBezier::onEnter()
     bezierEaseForward->setBezierParamer(0.5, 0.5, 1.0, 1.0);
     
     auto bezierEaseBack = bezierEaseForward->reverse();
-    auto rep = RepeatForever::create(Sequence::create( bezierEaseForward, bezierEaseBack, nullptr));
+    auto rep = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(bezierEaseForward),
+            to_action_ptr(bezierEaseBack)
+        )
+    );
     
     
     // sprite 2
@@ -598,9 +762,24 @@ void SpriteEaseQuadratic::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -630,8 +809,18 @@ void SpriteEaseQuadraticInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -666,9 +855,24 @@ void SpriteEaseQuartic::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -698,8 +902,18 @@ void SpriteEaseQuarticInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -733,9 +947,24 @@ void SpriteEaseQuintic::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -766,8 +995,18 @@ void SpriteEaseQuinticInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -801,9 +1040,24 @@ void SpriteEaseCircle::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -834,8 +1088,18 @@ void SpriteEaseCircleInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -869,9 +1133,24 @@ void SpriteEaseCubic::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease_in, delay->clone(), move_ease_in_back, delay->clone(), nullptr);
-    auto seq3 = Sequence::create(move_ease_out, delay->clone(), move_ease_out_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease_in),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_in_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq3 = Sequence::create(
+        to_action_ptr(move_ease_out),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_out_back),
+        to_action_ptr(delay->clone())
+    );
     
     _grossini->runAction( RepeatForever::create(seq1));
     _tamara->runAction( RepeatForever::create(seq2));
@@ -902,8 +1181,18 @@ void SpriteEaseCubicInOut::onEnter()
     
     auto delay = DelayTime::create(0.25f);
     
-    auto seq1 = Sequence::create(move, delay, move_back, delay->clone(), nullptr);
-    auto seq2 = Sequence::create(move_ease, delay->clone(), move_ease_back, delay->clone(), nullptr);
+    auto seq1 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(delay),
+        to_action_ptr(move_back),
+        to_action_ptr(delay->clone())
+    );
+    auto seq2 = Sequence::create(
+        to_action_ptr(move_ease),
+        to_action_ptr(delay->clone()),
+        to_action_ptr(move_ease_back),
+        to_action_ptr(delay->clone())
+    );
     
     this->positionForTwo();
     
@@ -933,8 +1222,14 @@ void SpeedTest::onEnter()
     auto rot1 = RotateBy::create(4, 360*2);
     auto rot2 = rot1->reverse();
     
-    auto seq3_1 = Sequence::create(jump2, jump1, nullptr);
-    auto seq3_2 = Sequence::create( rot1, rot2, nullptr);
+    auto seq3_1 = Sequence::create(
+        to_action_ptr(jump2),
+        to_action_ptr(jump1)
+    );
+    auto seq3_2 = Sequence::create(
+        to_action_ptr(rot1),
+        to_action_ptr(rot2)
+    );
     auto spawn = Spawn::create(seq3_1, seq3_2, nullptr);
     auto action = Speed::create(RepeatForever::create(spawn), 1.0f);
     action->setTag(kTagAction1);

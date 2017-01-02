@@ -72,20 +72,20 @@ void LayerTestCascadingOpacityA::onEnter()
     layer1->runAction(
         RepeatForever::create(
             Sequence::create(
-                FadeTo::create(4, 0),
-                FadeTo::create(4, 255),
-                DelayTime::create(1),
-                nullptr)));
+                to_action_ptr(FadeTo::create(4, 0)),
+                to_action_ptr(FadeTo::create(4, 255)),
+                to_action_ptr(DelayTime::create(1))
+            )));
 
     sister1->runAction(
         RepeatForever::create(
             Sequence::create(
-                FadeTo::create(2, 0),
-                FadeTo::create(2, 255),
-                FadeTo::create(2, 0),
-                FadeTo::create(2, 255),
-                DelayTime::create(1),
-                nullptr)));
+                to_action_ptr(FadeTo::create(2, 0)),
+                to_action_ptr(FadeTo::create(2, 255)),
+                to_action_ptr(FadeTo::create(2, 0)),
+                to_action_ptr(FadeTo::create(2, 255)),
+                to_action_ptr(DelayTime::create(1))
+            )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -122,22 +122,22 @@ void LayerTestCascadingOpacityB::onEnter()
     label->setPosition( Vec2( s.width/2, 0));
     
     layer1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       FadeTo::create(4, 0),
-       FadeTo::create(4, 255),
-       DelayTime::create(1),
-       nullptr)));
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(FadeTo::create(4, 0)),
+                to_action_ptr(FadeTo::create(4, 255)),
+                to_action_ptr(DelayTime::create(1))
+            )));
     
     sister1->runAction(
      RepeatForever::create(
       Sequence::create(
-       FadeTo::create(2, 0),
-       FadeTo::create(2, 255),
-       FadeTo::create(2, 0),
-       FadeTo::create(2, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(FadeTo::create(2, 0)),
+       to_action_ptr(FadeTo::create(2, 255)),
+       to_action_ptr(FadeTo::create(2, 0)),
+       to_action_ptr(FadeTo::create(2, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -177,20 +177,20 @@ void LayerTestCascadingOpacityC::onEnter()
     layer1->runAction(
      RepeatForever::create(
       Sequence::create(
-       FadeTo::create(4, 0),
-       FadeTo::create(4, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(FadeTo::create(4, 0)),
+       to_action_ptr(FadeTo::create(4, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     sister1->runAction(
      RepeatForever::create(
       Sequence::create(
-       FadeTo::create(2, 0),
-       FadeTo::create(2, 255),
-       FadeTo::create(2, 0),
-       FadeTo::create(2, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(FadeTo::create(2, 0)),
+       to_action_ptr(FadeTo::create(2, 255)),
+       to_action_ptr(FadeTo::create(2, 0)),
+       to_action_ptr(FadeTo::create(2, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
 }
 
 std::string LayerTestCascadingOpacityC::subtitle() const
@@ -225,22 +225,22 @@ void LayerTestCascadingColorA::onEnter()
     layer1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(6, 255, 0, 255),
-       TintTo::create(6, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(6, 255, 0, 255)),
+       to_action_ptr(TintTo::create(6, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     sister1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(2, 255, 255, 0),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 0, 255, 255),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 255, 0, 255),
-       TintTo::create(2, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(2, 255, 255, 0)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 0, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 0, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -278,22 +278,22 @@ void LayerTestCascadingColorB::onEnter()
     layer1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(6, 255, 0, 255),
-       TintTo::create(6, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(6, 255, 0, 255)),
+       to_action_ptr(TintTo::create(6, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     sister1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(2, 255, 255, 0),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 0, 255, 255),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 255, 0, 255),
-       TintTo::create(2, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(2, 255, 255, 0)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 0, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 0, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -330,22 +330,22 @@ void LayerTestCascadingColorC::onEnter()
     layer1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(6, 255, 0, 255),
-       TintTo::create(6, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(6, 255, 0, 255)),
+       to_action_ptr(TintTo::create(6, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
     
     sister1->runAction(
      RepeatForever::create(
       Sequence::create(
-       TintTo::create(2, 255, 255, 0),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 0, 255, 255),
-       TintTo::create(2, 255, 255, 255),
-       TintTo::create(2, 255, 0, 255),
-       TintTo::create(2, 255, 255, 255),
-       DelayTime::create(1),
-       nullptr)));
+       to_action_ptr(TintTo::create(2, 255, 255, 0)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 0, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(TintTo::create(2, 255, 0, 255)),
+       to_action_ptr(TintTo::create(2, 255, 255, 255)),
+       to_action_ptr(DelayTime::create(1))
+      )));
 }
 
 std::string LayerTestCascadingColorC::subtitle() const
@@ -432,12 +432,12 @@ void LayerTest2::onEnter()
     
     auto actionTint = TintBy::create(2, -255, -127, 0);
     auto actionTintBack = actionTint->reverse();
-    auto seq1 = Sequence::create( actionTint, actionTintBack, nullptr);
+    auto seq1 = Sequence::create( to_action_ptr( actionTint), to_action_ptr( actionTintBack) );
     layer1->runAction(seq1);
 
     auto actionFade = FadeOut::create(2.0f);
     auto actionFadeBack = actionFade->reverse();
-    auto seq2 = Sequence::create(actionFade, actionFadeBack, nullptr);        
+    auto seq2 = Sequence::create( to_action_ptr(actionFade), to_action_ptr( actionFadeBack) );        
     layer2->runAction(seq2);
 }
 
@@ -609,7 +609,7 @@ void LayerIgnoreAnchorPointPos::onEnter()
 
     auto move = MoveBy::create(2, Vec2(100,2));
     auto back = (MoveBy *)move->reverse();
-    auto seq = Sequence::create(move, back, nullptr);
+    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     l->runAction(RepeatForever::create(seq));
     this->addChild(l, 0, kLayerIgnoreAnchorPoint);
 
@@ -706,7 +706,7 @@ void LayerIgnoreAnchorPointScale::onEnter()
 
     auto scale = ScaleBy::create(2, 2);
     auto back = (ScaleBy*)scale->reverse();
-    auto seq = Sequence::create(scale, back, nullptr);
+    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( back) );
 
     l->runAction(RepeatForever::create(seq));
 

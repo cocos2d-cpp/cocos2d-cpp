@@ -287,13 +287,15 @@ void SpriteProgressBarTintAndFade::onEnter()
     auto s = Director::getInstance()->getWinSize();
 
     auto to = Sequence::createWithTwoActions(ProgressTo::create(6, 100), ProgressTo::create(0, 0));
-	auto tint = Sequence::create(TintTo::create(1, 255, 0, 0),
-								   TintTo::create(1, 0, 255, 0),
-								   TintTo::create(1, 0, 0, 255),
-								   nullptr);
-	auto fade = Sequence::create(FadeTo::create(1.0f, 0),
-								   FadeTo::create(1.0f, 255),
-								   nullptr);
+	auto tint = Sequence::create(
+        to_action_ptr(TintTo::create(1, 255, 0, 0)),
+        to_action_ptr(TintTo::create(1, 0, 255, 0)),
+        to_action_ptr(TintTo::create(1, 0, 0, 255))
+    );
+	auto fade = Sequence::create(
+        to_action_ptr(FadeTo::create(1.0f, 0)),
+        to_action_ptr(FadeTo::create(1.0f, 255))
+    );
 
     auto left = ProgressTimer::create(Sprite::create(s_pathSister1));
     left->setType(ProgressTimer::Type::BAR);

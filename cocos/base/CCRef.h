@@ -148,15 +148,30 @@ public:
 };
 
 template<typename T>
-using retaining_ptr = std::unique_ptr<T,void(*)(T*)>;
+struct retaining_ptr_deleter {
+public:
+    void operator()(T * p) const
+    {
+        static_assert(std::is_base_of<Ref, T>::value,
+                      "retaining_ptr is for Ref-derived types only");
+        p->release();
+    }
+};
+
+template<typename T>
+using retaining_ptr = std::unique_ptr<T, retaining_ptr_deleter<T>>;
 
 template<typename T>
 retaining_ptr<T> to_retaining_ptr(T * ptr)
 {
     static_assert(std::is_base_of<Ref, T>::value,
                   "retaining_ptr is for Ref-derived types only");
-    if (ptr) ptr->retain();
-    return retaining_ptr<T>(ptr, [](T * p){ p->release(); });
+    
+    if (ptr)
+    {
+        ptr->retain();
+    }
+    return retaining_ptr<T>(ptr);
 }
 
 typedef void (Ref::*SEL_SCHEDULE)(float);

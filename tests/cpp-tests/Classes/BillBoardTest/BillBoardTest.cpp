@@ -75,7 +75,7 @@ BillBoardRotationTest::BillBoardRotationTest()
     
     auto jump = JumpBy::create(1, Vec2(0, 0), 30, 1);
     auto scale = ScaleBy::create(2.f, 2.f, 2.f, 0.1f);
-    auto seq = Sequence::create(jump,scale, NULL);
+    auto seq = Sequence::create( to_action_ptr(jump), to_action_ptr(scale) );
     
     auto rot = RotateBy::create(2, Vec3(-90, 0, 0));
     auto act = Spawn::create(seq, rot,NULL);
@@ -84,7 +84,7 @@ BillBoardRotationTest::BillBoardRotationTest()
     auto rot2 = rot->reverse();
     auto act2 = Spawn::create(scale2, rot2, NULL);
     
-    auto seq2 = Sequence::create(act, act2, NULL);
+    auto seq2 = Sequence::create( to_action_ptr(act), to_action_ptr( act2) );
     auto repeat = RepeatForever::create(seq2);
     model->runAction(repeat);
 }

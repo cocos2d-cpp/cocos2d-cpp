@@ -123,29 +123,7 @@ protected:
 class CC_DLL Sequence : public ActionInterval
 {
 public:
-    /** Helper constructor to create an array of sequenceable actions.
-     *
-     * @return An autoreleased Sequence object.
-     */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported
-    typedef FiniteTimeAction* M;
-    static Sequence* create(M m1, std::nullptr_t listEnd) { return variadicCreate(m1, NULL); }
-    static Sequence* create(M m1, M m2, std::nullptr_t listEnd) { return variadicCreate(m1, m2, NULL); }
-    static Sequence* create(M m1, M m2, M m3, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static Sequence* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
-
-    // On WP8 for variable argument lists longer than 10 items, use the other create functions or variadicCreate with NULL as the last argument
-    static Sequence* variadicCreate(FiniteTimeAction* item, ...);
-#else
-    static Sequence* create(FiniteTimeAction *action1, ...) CC_REQUIRES_NULL_TERMINATION;
-#endif
+    using actions_container = std::vector<action_ptr<FiniteTimeAction>>;
 
     /** Helper constructor to create an array of sequenceable actions given an array.
      * @code
@@ -157,20 +135,54 @@ public:
      * @param arrayOfActions An array of sequenceable actions.
      * @return An autoreleased Sequence object.
      */
-    static Sequence* create(const Vector<FiniteTimeAction*>& arrayOfActions);
-    /** Helper constructor to create an array of sequence-able actions.
-     *
-     * @param action1 The first sequenceable action.
-     * @param args The va_list variable.
-     * @return An autoreleased Sequence object.
-     * @js NA
-     */
-    static Sequence* createWithVariableList(FiniteTimeAction *action1, va_list args);
+    static Sequence* create(actions_container && arrayOfActions);
+
+    template<typename ...Actions>
+    static Sequence* create(actions_container && arrayOfActions,
+                            actions_container::value_type && action,
+                            Actions && ...actions)
+    {
+        arrayOfActions.push_back(std::move(action));
+        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
+    }
+    template<typename A, typename ...Actions>
+    static Sequence* create(actions_container && arrayOfActions,
+                            A && action,
+                            Actions && ...actions)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+        return create(std::move(arrayOfActions),
+                      action_ptr<FiniteTimeAction>(action.release()),
+                      std::forward<Actions>(actions)...);
+    }
+
+    template<typename ...Actions>
+    static Sequence* create(actions_container::value_type && action,
+                            Actions && ...actions)
+    {
+        actions_container arrayOfActions;
+        arrayOfActions.push_back(std::move(action));
+        return create(std::move(arrayOfActions),
+                      std::forward<Actions>(actions)...);
+    }
+    template<typename A, typename ...Actions>
+    static Sequence* create(A && action, Actions && ...actions)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+        return create(action_ptr<FiniteTimeAction>(action.release()),
+                      std::forward<Actions>(actions)...);
+    }
+
     /** Creates the action.
      * @param actionOne The first sequenceable action.
      * @param actionTwo The second sequenceable action.
      * @return An autoreleased Sequence object.
-     * @js NA
      */
     static Sequence* createWithTwoActions(FiniteTimeAction *actionOne, FiniteTimeAction *actionTwo);
 
@@ -192,7 +204,7 @@ protected:
 
     /** initializes the action */
     bool initWithTwoActions(FiniteTimeAction *pActionOne, FiniteTimeAction *pActionTwo);
-    bool init(const Vector<FiniteTimeAction*>& arrayOfActions);
+    bool init(actions_container && arrayOfActions);
 
 protected:
     FiniteTimeAction *_actions[2];

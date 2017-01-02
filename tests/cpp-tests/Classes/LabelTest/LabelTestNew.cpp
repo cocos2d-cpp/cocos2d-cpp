@@ -125,17 +125,21 @@ LabelFNTColorAndOpacity::LabelFNTColorAndOpacity()
     addChild(label1, 0, kTagBitmapAtlas1);
     auto fade = FadeOut::create(1.0f);
     auto fade_in = fade->reverse();
-    auto seq = Sequence::create(fade, fade_in, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade),
+        to_action_ptr(fade_in)
+    );
     auto repeat = RepeatForever::create(seq);
     label1->runAction(repeat);
     
     auto label2 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "Test");
     label2->setColor( Color3B::RED );
     addChild(label2, 0, kTagBitmapAtlas2);
-    auto tint = Sequence::create(TintTo::create(1, 255, 0, 0),
-        TintTo::create(1, 0, 255, 0),
-        TintTo::create(1, 0, 0, 255),
-        nullptr);
+    auto tint = Sequence::create(
+        to_action_ptr(TintTo::create(1, 255, 0, 0)),
+        to_action_ptr(TintTo::create(1, 0, 255, 0)),
+        to_action_ptr(TintTo::create(1, 0, 0, 255))
+    );
     label2->runAction( RepeatForever::create(tint) );
     
     auto label3 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "Test");
@@ -203,7 +207,10 @@ LabelFNTSpriteActions::LabelFNTSpriteActions()
     
     auto scale = ScaleBy::create(2, 1.5f);
     auto scale_back = scale->reverse();
-    auto scale_seq = Sequence::create(scale, scale_back,nullptr);
+    auto scale_seq = Sequence::create(
+        to_action_ptr(scale),
+        to_action_ptr(scale_back)
+    );
     auto scale_4ever = RepeatForever::create(scale_seq);
     
     auto jump = JumpBy::create(0.5f, Vec2::ZERO, 60, 1);
@@ -211,7 +218,10 @@ LabelFNTSpriteActions::LabelFNTSpriteActions()
     
     auto fade_out = FadeOut::create(1);
     auto fade_in = FadeIn::create(1);
-    auto seq = Sequence::create(fade_out, fade_in, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade_out),
+        to_action_ptr(fade_in)
+    );
     auto fade_4ever = RepeatForever::create(seq);
     
     BChar->runAction(rot_4ever);
@@ -1067,10 +1077,10 @@ LabelTTFDistanceField::LabelTTFDistanceField()
     addChild(label1);
 
     auto action = Sequence::create(
-        DelayTime::create(1.0f),
-        ScaleTo::create(6.0f,5.0f,5.0f),
-        ScaleTo::create(6.0f,1.0f,1.0f),
-        nullptr);
+        to_action_ptr(DelayTime::create(1.0f)),
+        to_action_ptr(ScaleTo::create(6.0f,5.0f,5.0f)),
+        to_action_ptr(ScaleTo::create(6.0f,1.0f,1.0f))
+    );
     label1->runAction(RepeatForever::create(action));
 
     // Draw the label border
@@ -1307,7 +1317,11 @@ LabelCharMapColorTest::LabelCharMapColorTest()
     auto fade = FadeOut::create(1.0f);
     auto fade_in = fade->reverse();
     auto cb = CallFunc::create(CC_CALLBACK_0(LabelCharMapColorTest::actionFinishCallback, this));
-    auto seq = Sequence::create(fade, fade_in, cb, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade),
+        to_action_ptr(fade_in),
+        to_action_ptr(cb)
+    );
     auto repeat = RepeatForever::create( seq );
     label2->runAction( repeat );    
 
@@ -1833,9 +1847,18 @@ LabelIssue11576Test::LabelIssue11576Test()
         label->getLetter(index);
     }
 
-    this->runAction(Sequence::create(DelayTime::create(2.0f), CallFunc::create([label](){
-        label->setString("Hello World!");
-    }), nullptr));
+    this->runAction(
+        Sequence::create(
+            to_action_ptr(DelayTime::create(2.0f)),
+            to_action_ptr(
+                CallFunc::create(
+                    [label](){
+                        label->setString("Hello World!");
+                    }
+                )
+            )
+        )
+    );
 
     label->setPosition(center.x, center.y);
     addChild(label);
@@ -1962,8 +1985,12 @@ LabelIssue11585Test::LabelIssue11585Test()
     label->getLetter(0)->setColor(Color3B::RED);
     label->getLetter(1)->setColor(Color3B::GREEN);
     label->getLetter(2)->setColor(Color3B::BLUE);
-    auto action = RepeatForever::create(Sequence::create( 
-        FadeOut::create(2), FadeIn::create(2),nullptr));
+    auto action = RepeatForever::create(
+        Sequence::create( 
+            to_action_ptr(FadeOut::create(2)),
+            to_action_ptr(FadeIn::create(2))
+        )
+    );
     label->runAction(action);
 }
 
@@ -2300,14 +2327,6 @@ void LabelLayoutBaseTest::valueChanged(cocos2d::Ref *sender, cocos2d::extension:
         _label->setSystemFontSize(fontSize);
     }
     this->updateDrawNodeSize(_label->getContentSize());
-    
-    //FIXME::When calling getLetter, the label Overflow feature will be invalid.
-//    auto letterSprite = _label->getLetter(1);
-//    auto moveBy = ScaleBy::create(1.0,2.0);
-//    letterSprite->stopAllActions();
-//    letterSprite->runAction(Sequence::create(moveBy, moveBy->clone()->reverse(), nullptr ));
-//    
-//    CCLOG("label line height = %f", _label->getLineHeight());
 }
 
 void LabelLayoutBaseTest::updateDrawNodeSize(const cocos2d::Size &drawNodeSize)

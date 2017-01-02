@@ -202,7 +202,11 @@ LabelAtlasColorTest::LabelAtlasColorTest()
     auto fade = FadeOut::create(1.0f);
     auto fade_in = fade->reverse();
     auto cb = CallFunc::create(CC_CALLBACK_0(LabelAtlasColorTest::actionFinishCallback, this));
-    auto seq = Sequence::create(fade, fade_in, cb, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade),
+        to_action_ptr(fade_in),
+        to_action_ptr(cb)
+    );
     auto repeat = RepeatForever::create( seq );
     label2->runAction( repeat );    
 
@@ -311,7 +315,10 @@ Atlas3::Atlas3()
     addChild(label1, 0, kTagBitmapAtlas1);
     auto fade = FadeOut::create(1.0f);
     auto fade_in = fade->reverse();
-    auto seq = Sequence::create(fade, fade_in, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade),
+        to_action_ptr(fade_in)
+    );
     auto repeat = RepeatForever::create(seq);
     label1->runAction(repeat);
     
@@ -326,10 +333,11 @@ Atlas3::Atlas3()
     label2->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
     label2->setColor( Color3B::RED );
     addChild(label2, 0, kTagBitmapAtlas2);
-    auto tint = Sequence::create(TintTo::create(1, 255, 0, 0),
-        TintTo::create(1, 0, 255, 0),
-        TintTo::create(1, 0, 0, 255),
-        nullptr);
+    auto tint = Sequence::create(
+        to_action_ptr(TintTo::create(1, 255, 0, 0)),
+        to_action_ptr(TintTo::create(1, 0, 255, 0)),
+        to_action_ptr(TintTo::create(1, 0, 0, 255))
+    );
     label2->runAction( RepeatForever::create(tint) );
     
     auto label3 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt",
@@ -413,7 +421,10 @@ Atlas4::Atlas4()
     
     auto scale = ScaleBy::create(2, 1.5f);
     auto scale_back = scale->reverse();
-    auto scale_seq = Sequence::create(scale, scale_back,nullptr);
+    auto scale_seq = Sequence::create(
+        to_action_ptr(scale),
+        to_action_ptr(scale_back)
+    );
     auto scale_4ever = RepeatForever::create(scale_seq);
     
     auto jump = JumpBy::create(0.5f, Vec2::ZERO, 60, 1);
@@ -421,7 +432,10 @@ Atlas4::Atlas4()
     
     auto fade_out = FadeOut::create(1);
     auto fade_in = FadeIn::create(1);
-    auto seq = Sequence::create(fade_out, fade_in, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fade_out),
+        to_action_ptr(fade_in)
+    );
     auto fade_4ever = RepeatForever::create(seq);
     
     BChar->runAction(rot_4ever);
@@ -1267,7 +1281,10 @@ LabelTTFOpacityTest::LabelTTFOpacityTest()
 
     auto fadeOut = FadeOut::create(2);
     auto fadeIn = FadeIn::create(2);
-    auto seq = Sequence::create(fadeOut, fadeIn, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(fadeOut),
+        to_action_ptr(fadeIn)
+    );
     auto forever = RepeatForever::create(seq);
     label1->runAction(forever);
 }

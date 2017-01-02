@@ -44,21 +44,9 @@ class ScrollView;
 class CC_EX_DLL ScrollViewDelegate
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~ScrollViewDelegate() {}
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void scrollViewDidScroll(ScrollView* view) {};
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual void scrollViewDidZoom(ScrollView* view) {};
+    virtual void scrollViewDidScroll(ScrollView*) {}
+    virtual void scrollViewDidZoom(ScrollView*) {}
 };
 
 

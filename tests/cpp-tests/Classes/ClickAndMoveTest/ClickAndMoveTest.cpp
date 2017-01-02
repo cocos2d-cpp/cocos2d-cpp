@@ -30,12 +30,14 @@ ClickAndMoveTestCase::ClickAndMoveTestCase()
     
     sprite->runAction( JumpTo::create(4, Vec2(300,48), 100, 4) );
     
-    layer->runAction( RepeatForever::create(
-                                Sequence::create(
-                                        FadeIn::create(1),
-                                        FadeOut::create(1),
-                                        nullptr)
-                      )); 
+    layer->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(FadeIn::create(1)),
+                to_action_ptr(FadeOut::create(1))
+            )
+        )
+    ); 
 }
 
 bool ClickAndMoveTestCase::onTouchBegan(Touch* touch, Event  *event)

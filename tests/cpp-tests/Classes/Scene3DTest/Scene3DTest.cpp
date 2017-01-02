@@ -420,7 +420,14 @@ void Scene3DTestScene::createWorld3D()
     rootps->setPosition3D(Vec3(0, 150, 0));
     auto moveby = MoveBy::create(2.0f, Vec2(50.0f, 0.0f));
     auto moveby1 = MoveBy::create(2.0f, Vec2(-50.0f, 0.0f));
-    rootps->runAction(RepeatForever::create(Sequence::create(moveby, moveby1, nullptr)));
+    rootps->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(moveby),
+                to_action_ptr(moveby1)
+            )
+        )
+    );
     rootps->startParticleSystem();
     
     _player->addChild(rootps, 0);

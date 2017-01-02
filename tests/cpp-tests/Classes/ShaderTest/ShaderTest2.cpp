@@ -493,7 +493,10 @@ bool EffectSpriteTest::init()
         auto rot = RotateBy::create(4, 720);
         auto spawn = Spawn::create(jump, rot, nullptr);
         auto rev = spawn->reverse();
-        auto seq = Sequence::create(spawn, rev, nullptr);
+        auto seq = Sequence::create(
+            to_action_ptr(spawn),
+            to_action_ptr(rev)
+        );
         auto repeat = RepeatForever::create(seq);
         _sprite->runAction(repeat);
 

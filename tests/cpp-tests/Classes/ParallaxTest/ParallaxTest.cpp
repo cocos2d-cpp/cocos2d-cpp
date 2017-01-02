@@ -73,7 +73,7 @@ Parallax1::Parallax1()
     auto goDown = goUp->reverse();
     auto go = MoveBy::create(8, Vec2(-1000,0) );
     auto goBack = go->reverse();
-    auto seq = Sequence::create(goUp, go, goDown, goBack, nullptr);
+    auto seq = Sequence::create( to_action_ptr(goUp), to_action_ptr( go), to_action_ptr( goDown), to_action_ptr( goBack) );
     voidNode->runAction( (RepeatForever::create(seq) ));
     
     addChild( voidNode );

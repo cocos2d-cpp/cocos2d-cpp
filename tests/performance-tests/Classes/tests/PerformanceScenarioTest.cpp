@@ -223,7 +223,10 @@ void ScenarioTest::addNewSprites(int num)
         else
             action = FadeOut::create(2);
         auto action_back = action->reverse();
-        auto seq = Sequence::create( action, action_back, nullptr );
+        auto seq = Sequence::create(
+            to_action_ptr(action),
+            to_action_ptr(action_back)
+        );
         
         sprite->runAction( RepeatForever::create(seq) );
 

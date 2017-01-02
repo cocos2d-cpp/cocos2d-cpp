@@ -49,18 +49,27 @@ void MotionStreakTest1::onEnter()
 
     auto action1 = RepeatForever::create(a1);
     auto motion = MoveBy::create(2, Vec2(100,0) );
-    _root->runAction( RepeatForever::create(Sequence::create(motion, motion->reverse(), nullptr) ) );
+    _root->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(motion),
+                to_action_ptr(motion->reverse())
+            )
+        )
+    );
     _root->runAction( action1 );
 
-    auto colorAction = RepeatForever::create(Sequence::create(
-        TintTo::create(0.2f, 255, 0, 0),
-        TintTo::create(0.2f, 0, 255, 0),
-        TintTo::create(0.2f, 0, 0, 255),
-        TintTo::create(0.2f, 0, 255, 255),
-        TintTo::create(0.2f, 255, 255, 0),
-        TintTo::create(0.2f, 255, 0, 255),
-        TintTo::create(0.2f, 255, 255, 255),
-        nullptr));
+    auto colorAction = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(TintTo::create(0.2f, 255, 0, 0)),
+            to_action_ptr(TintTo::create(0.2f, 0, 255, 0)),
+            to_action_ptr(TintTo::create(0.2f, 0, 0, 255)),
+            to_action_ptr(TintTo::create(0.2f, 0, 255, 255)),
+            to_action_ptr(TintTo::create(0.2f, 255, 255, 0)),
+            to_action_ptr(TintTo::create(0.2f, 255, 0, 255)),
+            to_action_ptr(TintTo::create(0.2f, 255, 255, 255))
+        )
+    );
 
     _streak->runAction(colorAction);
 }

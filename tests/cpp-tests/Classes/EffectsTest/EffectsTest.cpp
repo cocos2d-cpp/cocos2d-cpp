@@ -57,7 +57,7 @@ cocos2d::ActionInterval* FlipX3DDemo::createEffect(float t)
     auto flipx  = FlipX3D::create(t);
     auto flipx_back = flipx->reverse();
     auto delay = DelayTime::create(2);
-    return Sequence::create(flipx, delay, flipx_back, nullptr);
+    return Sequence::create( to_action_ptr(flipx), to_action_ptr( delay), to_action_ptr( flipx_back) );
 }
 
 FlipX3DDemo::FlipX3DDemo()
@@ -72,7 +72,7 @@ cocos2d::ActionInterval* FlipY3DDemo::createEffect(float t)
     auto flipy_back = flipy->reverse();
     auto delay = DelayTime::create(2);
     
-    return Sequence::create(flipy, delay, flipy_back, nullptr);
+    return Sequence::create( to_action_ptr(flipy), to_action_ptr( delay), to_action_ptr( flipy_back) );
 }
 
 FlipY3DDemo::FlipY3DDemo()
@@ -167,7 +167,7 @@ cocos2d::ActionInterval* ShuffleTilesDemo::createEffect(float t)
     auto shuffle_back = shuffle->reverse();
     auto delay = DelayTime::create(2);
     
-    return Sequence::create(shuffle, delay, shuffle_back, nullptr);
+    return Sequence::create( to_action_ptr(shuffle), to_action_ptr( delay), to_action_ptr( shuffle_back) );
 }
 
 ShuffleTilesDemo::ShuffleTilesDemo()
@@ -182,7 +182,7 @@ cocos2d::ActionInterval* FadeOutTRTilesDemo::createEffect(float t)
     auto back = fadeout->reverse();
     auto delay = DelayTime::create(0.5f);
     
-    return Sequence::create(fadeout, delay, back, nullptr);
+    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
 }
 
 FadeOutTRTilesDemo::FadeOutTRTilesDemo()
@@ -197,7 +197,7 @@ cocos2d::ActionInterval* FadeOutBLTilesDemo::createEffect(float t)
     auto back = fadeout->reverse();
     auto delay = DelayTime::create(0.5f);
     
-    return Sequence::create(fadeout, delay, back, nullptr);
+    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
 }
 
 FadeOutBLTilesDemo::FadeOutBLTilesDemo()
@@ -212,7 +212,7 @@ cocos2d::ActionInterval* FadeOutUpTilesDemo::createEffect(float t)
     auto back = fadeout->reverse();
     auto delay = DelayTime::create(0.5f);
     
-    return Sequence::create(fadeout, delay, back, nullptr);
+    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
 }
 
 FadeOutUpTilesDemo::FadeOutUpTilesDemo()
@@ -227,7 +227,7 @@ cocos2d::ActionInterval* FadeOutDownTilesDemo::createEffect(float t)
     auto back = fadeout->reverse();
     auto delay = DelayTime::create(0.5f);
     
-    return Sequence::create(fadeout, delay, back, nullptr);
+    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
 }
 
 FadeOutDownTilesDemo::FadeOutDownTilesDemo()
@@ -242,7 +242,7 @@ cocos2d::ActionInterval* TurnOffTilesDemo::createEffect(float t)
     auto back = fadeout->reverse();
     auto delay = DelayTime::create(0.5f);
     
-    return Sequence::create(fadeout, delay, back, nullptr);
+    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
 }
 
 TurnOffTilesDemo::TurnOffTilesDemo()
@@ -356,14 +356,14 @@ bool EffectBaseTest::init()
         grossini->setPosition(VisibleRect::left().x+VisibleRect::getVisibleRect().size.width/3,VisibleRect::center().y);
         auto sc = ScaleBy::create(2, 5);
         auto sc_back = sc->reverse();
-        grossini->runAction( RepeatForever::create(Sequence::create(sc, sc_back, nullptr) ) );
+        grossini->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc), to_action_ptr( sc_back) ) ) );
         
         auto tamara = Sprite::create(s_pathSister1);
         _gridNodeTarget->addChild(tamara, 1);
         tamara->setPosition(VisibleRect::left().x+2*VisibleRect::getVisibleRect().size.width/3,VisibleRect::center().y);
         auto sc2 = ScaleBy::create(2, 5);
         auto sc2_back = sc2->reverse();
-        tamara->runAction( RepeatForever::create(Sequence::create(sc2, sc2_back, nullptr)) );
+        tamara->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc2), to_action_ptr( sc2_back) )) );
         
         schedule( CC_SCHEDULE_SELECTOR(EffectBaseTest::checkAnim) );
         

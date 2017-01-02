@@ -197,9 +197,8 @@ void TextFieldTTFActionTest::onEnter()
 
     _textFieldAction = RepeatForever::create(
         Sequence::create(
-            FadeOut::create(0.25),
-            FadeIn::create(0.25),
-            nullptr
+            to_action_ptr(FadeOut::create(0.25)),
+            to_action_ptr(FadeIn::create(0.25))
         ));
     _textFieldAction->retain();
     _action = false;
@@ -287,13 +286,18 @@ bool TextFieldTTFActionTest::onTextFieldInsertText(TextFieldTTF * sender, const 
     label->setScale(8);
 
     auto seq = Sequence::create(
-        Spawn::create(
-            MoveTo::create(duration, endPos),
-            ScaleTo::create(duration, 1),
-            FadeOut::create(duration),
-            nullptr),
-        CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this)),
-        nullptr);
+        to_action_ptr(
+            Spawn::create(
+                MoveTo::create(duration, endPos),
+                ScaleTo::create(duration, 1),
+                FadeOut::create(duration),
+                nullptr
+            )
+        ),
+        to_action_ptr(
+            CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
+        )
+    );
     label->runAction(seq);
     return false;
 }
@@ -319,15 +323,20 @@ bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, co
     label->setPosition(beginPos);
 
     auto seq = Sequence::create(
-        Spawn::create(
-            MoveTo::create(duration, endPos),
-            Repeat::create(
-                RotateBy::create(rotateDuration, (rand()%2) ? 360 : -360),
-                repeatTime),
-            FadeOut::create(duration),
-        nullptr),
-        CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this)),
-        nullptr);
+        to_action_ptr(
+            Spawn::create(
+                MoveTo::create(duration, endPos),
+                Repeat::create(
+                    RotateBy::create(rotateDuration, (rand()%2) ? 360 : -360),
+                    repeatTime
+                ),
+                FadeOut::create(duration)
+            )
+        ),
+        to_action_ptr(
+            CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
+        )
+    );
     label->runAction(seq);
     return false;
 }

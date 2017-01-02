@@ -26,10 +26,12 @@ bool Bug1159Layer::init()
         sprite_a->setPosition(0.0f, s.height/2);
         addChild(sprite_a);
 
-        sprite_a->runAction(RepeatForever::create(Sequence::create(
-                                                        MoveTo::create(1.0f, Vec2(1024.0f, 384.0f)),
-                                                        MoveTo::create(1.0f, Vec2(0.0f, 384.0f)),
-                                                        nullptr)));
+        sprite_a->runAction(
+            RepeatForever::create(
+                Sequence::create(
+                    to_action_ptr(MoveTo::create(1.0f, Vec2(1024.0f, 384.0f))),
+                    to_action_ptr(MoveTo::create(1.0f, Vec2(0.0f, 384.0f)))
+                )));
 
         auto sprite_b = LayerColor::create(Color4B(0, 0, 255, 255), 400, 400);
         sprite_b->setAnchorPoint(Vec2(0.5f, 0.5f));

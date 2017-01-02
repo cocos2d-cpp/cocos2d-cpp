@@ -422,13 +422,23 @@ CaptureScreenTest::CaptureScreenTest()
     auto sp1 = Sprite::create("Images/grossini.png");
     sp1->setPosition(left);
     auto move1 = MoveBy::create(1, Vec2(s.width/2, 0));
-    auto seq1 = RepeatForever::create(Sequence::create(move1, move1->reverse(), nullptr));
+    auto seq1 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(move1),
+            to_action_ptr(move1->reverse())
+        )
+    );
     addChild(sp1);
     sp1->runAction(seq1);
     auto sp2 = Sprite::create("Images/grossinis_sister1.png");
     sp2->setPosition(right);
     auto move2 = MoveBy::create(1, Vec2(-s.width/2, 0));
-    auto seq2 = RepeatForever::create(Sequence::create(move2, move2->reverse(), nullptr));
+    auto seq2 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(move2),
+            to_action_ptr(move2->reverse())
+        )
+    );
     addChild(sp2);
     sp2->runAction(seq2);
 
@@ -490,13 +500,23 @@ CaptureNodeTest::CaptureNodeTest()
     auto sp1 = Sprite::create("Images/grossini.png");
     sp1->setPosition(left);
     auto move1 = MoveBy::create(1, Vec2(s.width / 2, 0));
-    auto seq1 = RepeatForever::create(Sequence::create(move1, move1->reverse(), nullptr));
+    auto seq1 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(move1),
+            to_action_ptr(move1->reverse())
+        )
+    );
     addChild(sp1);
     sp1->runAction(seq1);
     auto sp2 = Sprite::create("Images/grossinis_sister1.png");
     sp2->setPosition(right);
     auto move2 = MoveBy::create(1, Vec2(-s.width / 2, 0));
-    auto seq2 = RepeatForever::create(Sequence::create(move2, move2->reverse(), nullptr));
+    auto seq2 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(move2),
+            to_action_ptr(move2->reverse())
+        )
+    );
     addChild(sp2);
     sp2->runAction(seq2);
 
@@ -563,7 +583,12 @@ BugAutoCulling::BugAutoCulling()
     this->scheduleOnce([=](float){
         auto camera = Director::getInstance()->getRunningScene()->getCameras().front();
         auto move  = MoveBy::create(2.0, Vec2(2 * s.width, 0));
-        camera->runAction(Sequence::create(move, move->reverse(),nullptr));
+        camera->runAction(
+            Sequence::create(
+                to_action_ptr(move),
+                to_action_ptr(move->reverse())
+            )
+        );
     }, 1.0f, "lambda-autoculling-bug");
 }
 

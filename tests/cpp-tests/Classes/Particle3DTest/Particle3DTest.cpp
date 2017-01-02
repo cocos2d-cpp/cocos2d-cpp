@@ -157,8 +157,8 @@ bool Particle3DAdvancedLodSystemDemo::init()
 
     auto scale = ScaleBy::create(1.0f, 2.0f, 2.0f, 2.0f);
     auto rotate = RotateBy::create(1.0f, Vec3(0.0f, 0.0f, 100.0f));
-    rootps->runAction(RepeatForever::create(Sequence::create(rotate, nullptr)));
-    rootps->runAction(RepeatForever::create(Sequence::create(scale, scale->reverse(), nullptr)));
+    rootps->runAction(RepeatForever::create(rotate));
+    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr( scale->reverse()) )));
     rootps->startParticleSystem();
 
 
@@ -182,11 +182,7 @@ bool Particle3DBlackHoleDemo::init()
     rootps->setPosition(-25.0f, 0.0f);
     auto moveby = MoveBy::create(2.0f, Vec2(50.0f, 0.0f));
     auto moveby1 = MoveBy::create(2.0f, Vec2(-50.0f, 0.0f));
-//    auto scale = ScaleBy::create(1.0f, 2.0f, 2.0f, 2.0f);
-//    auto rotate = RotateBy::create(1.0f, Vec3(100.0f, 100.0f, 100.0f));
-    rootps->runAction(RepeatForever::create(Sequence::create(moveby, moveby1, nullptr)));
-    //rootps->runAction(RepeatForever::create(Sequence::create(scale, scale->reverse(), nullptr)));
-    //rootps->runAction(RepeatForever::create(Sequence::create(rotate, nullptr)));
+    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(moveby), to_action_ptr( moveby1) )));
     rootps->startParticleSystem();
 
     this->addChild(rootps, 0, PARTICLE_SYSTEM_TAG);
@@ -206,10 +202,6 @@ bool Particle3DHypnoDemo::init()
 
     auto rootps = PUParticleSystem3D::create("hypno.pu", "pu_mediapack_01.material");
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
-//    auto scale = ScaleBy::create(1.0f, 2.0f, 2.0f, 2.0f);
-//    auto rotate = RotateBy::create(1.0f, Vec3(0.0, 100.0f, 0.0f));
-    //rootps->runAction(RepeatForever::create(Sequence::create(scale, scale->reverse(), nullptr)));
-    //rootps->runAction(RepeatForever::create(Sequence::create(rotate, nullptr)));
     rootps->startParticleSystem();
 
     this->addChild(rootps, 0, PARTICLE_SYSTEM_TAG);
@@ -289,15 +281,8 @@ bool Particle3DLineStreakDemo::init()
     auto rootps = PUParticleSystem3D::create("lineStreak.pu", "pu_mediapack_01.material");
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
     rootps->setScale(5.0f);
-    //rootps->runAction(RepeatForever::create(Sequence::create(rotate, nullptr)));
     rootps->startParticleSystem();
     this->addChild(rootps, 0, PARTICLE_SYSTEM_TAG);
-
-
-    //auto sprite = Sprite::create("pump_streak_04.png");
-    //sprite->setCameraMask((unsigned short)CameraFlag::USER1);
-    //sprite->setScale(0.5f);
-    //this->addChild(sprite);
 
     return true;
 }
@@ -374,11 +359,6 @@ bool Particle3DExplosionSystemDemo::init()
 
     auto rootps = PUParticleSystem3D::create("explosionSystem.pu");
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
-    //rootps->setScale(5.0f);
-    //rootps->setPosition(-25.0f, 0.0f);
-    //auto moveby = MoveBy::create(2.0f, Vec2(50.0f, 0.0f));
-    //auto moveby1 = MoveBy::create(2.0f, Vec2(-50.0f, 0.0f));
-    //rootps->runAction(RepeatForever::create(Sequence::create(moveby, moveby1, nullptr)));
     rootps->startParticleSystem();
     this->addChild(rootps, 0, PARTICLE_SYSTEM_TAG);
 

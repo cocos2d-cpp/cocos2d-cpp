@@ -63,13 +63,13 @@ namespace ui {
             RETURN
         };
 
-        virtual ~EditBoxDelegate() {};
+        virtual ~EditBoxDelegate() {}
             
         /**
          * This method is called when an edit box gains focus after keyboard is shown.
          * @param editBox The edit box object that generated the event.
          */
-        virtual void editBoxEditingDidBegin(EditBox* editBox) {};
+        virtual void editBoxEditingDidBegin(EditBox*) {}
             
             
         /**
@@ -77,7 +77,7 @@ namespace ui {
          * @param editBox The edit box object that generated the event.
          * @param text The new text.
          */
-        virtual void editBoxTextChanged(EditBox* editBox, const std::string& text) {};
+        virtual void editBoxTextChanged(EditBox*, const std::string &) {}
             
         /**
          * This method is called when the return button was pressed or the outside area of keyboard was touched.
@@ -90,7 +90,7 @@ namespace ui {
          * @param editBox The edit box object that generated the event.
          * @param type The reason why editing ended.
          */
-        virtual void editBoxEditingDidEndWithAction(EditBox* editBox, EditBoxEndAction action) {};
+        virtual void editBoxEditingDidEndWithAction(EditBox*, EditBoxEndAction) {}
     };
         
     /**
@@ -222,9 +222,9 @@ namespace ui {
                                const std::string& normal9SpriteBg,
                                TextureResType texType = TextureResType::LOCAL);
             
-        EditBox(void);
+        EditBox();
             
-        virtual ~EditBox(void);
+        virtual ~EditBox();
             
         /**
          * Init edit box with specified size. This method should be invoked right after constructor.

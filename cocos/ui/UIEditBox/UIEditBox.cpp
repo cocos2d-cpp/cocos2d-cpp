@@ -38,6 +38,7 @@ EditBox::EditBox(void)
 , _editBoxInputMode(EditBox::InputMode::SINGLE_LINE)
 , _editBoxInputFlag(EditBox::InputFlag::LOWERCASE_ALL_CHARACTERS)
 , _keyboardReturnType(KeyboardReturnType::DEFAULT)
+, _alignment(cocos2d::TextHAlignment::LEFT)
 , _backgroundSprite(nullptr)
 , _fontSize(-1)
 , _placeholderFontSize(-1)
@@ -45,7 +46,6 @@ EditBox::EditBox(void)
 , _colPlaceHolder(Color3B::GRAY)
 , _maxLength(0)
 , _adjustHeight(0.0f)
-, _alignment(cocos2d::TextHAlignment::LEFT)
 {
 }
 

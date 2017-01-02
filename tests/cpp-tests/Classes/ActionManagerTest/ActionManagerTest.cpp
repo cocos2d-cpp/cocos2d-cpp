@@ -62,18 +62,20 @@ void CrashTest::onEnter()
 
     //Sum of all action's duration is 1.5 second.
     child->runAction(RotateBy::create(1.5f, 90));
-    child->runAction(Sequence::create(
-                                            DelayTime::create(1.4f),
-                                            FadeOut::create(1.1f),
-                                            nullptr)
-                    );
-    
+    child->runAction(
+        Sequence::create(
+            to_action_ptr(DelayTime::create(1.4f)),
+            to_action_ptr(FadeOut::create(1.1f))
+        )
+    );
+
     //After 1.5 second, self will be removed.
-    child->runAction(Sequence::create(
-                                    DelayTime::create(1.4f),
-                                    CallFunc::create( CC_CALLBACK_0(CrashTest::removeThis,this)),
-                                    nullptr)
-             );
+    child->runAction(
+        Sequence::create(
+            to_action_ptr(DelayTime::create(1.4f)),
+            to_action_ptr(CallFunc::create( CC_CALLBACK_0(CrashTest::removeThis,this)))
+        )
+    );
 }
 
 void CrashTest::removeThis()
@@ -102,11 +104,12 @@ void LogicTest::onEnter()
     addChild(grossini, 0, 2);
     grossini->setPosition(VisibleRect::center());
 
-    grossini->runAction( Sequence::create( 
-                                                MoveBy::create(1, Vec2(150,0)),
-                                                CallFuncN::create(CC_CALLBACK_1(LogicTest::bugMe,this)),
-                                                nullptr) 
-                        );
+    grossini->runAction(
+        Sequence::create( 
+            to_action_ptr(MoveBy::create(1, Vec2(150,0))),
+            to_action_ptr(CallFuncN::create(CC_CALLBACK_1(LogicTest::bugMe,this)))
+        ) 
+    );
 }
 
 void LogicTest::bugMe(Node* node)
@@ -183,7 +186,7 @@ void StopActionTest::onEnter()
 
     auto pMove = MoveBy::create(2, Vec2(200, 0));
     auto pCallback = CallFunc::create(CC_CALLBACK_0(StopActionTest::stopAction,this));
-    auto pSequence = Sequence::create(pMove, pCallback, nullptr);
+    auto pSequence = Sequence::create(to_action_ptr(pMove), to_action_ptr(pCallback));
     pSequence->setTag(kTagSequence);
 
     auto pChild = Sprite::create(s_pathGrossini);

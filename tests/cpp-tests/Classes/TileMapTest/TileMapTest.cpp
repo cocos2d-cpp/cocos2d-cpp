@@ -125,7 +125,7 @@ TileMapTest::TileMapTest()
     auto scale = ScaleBy::create(4, 0.8f);
     auto scaleBack = scale->reverse();
 
-    auto seq = Sequence::create(scale, scaleBack, nullptr);
+    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( scaleBack) );
 
     map->runAction(RepeatForever::create(seq));
 }
@@ -221,7 +221,7 @@ TMXOrthoTest::TMXOrthoTest()
 
     auto scale = ScaleBy::create(10, 0.1f);
     auto back = scale->reverse();
-    auto seq = Sequence::create(scale, back, nullptr);
+    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( back) );
     auto repeat = RepeatForever::create(seq);
     map->runAction(repeat);
 
@@ -442,7 +442,15 @@ TMXReadWriteTest::TMXReadWriteTest()
     auto fadein = FadeIn::create(2);
     auto scaleback = ScaleTo::create(1, 1);
     auto finish = CallFuncN::create(CC_CALLBACK_1(TMXReadWriteTest::removeSprite, this));
-    auto seq0 = Sequence::create(move, rotate, scale, opacity, fadein, scaleback, finish, nullptr);
+    auto seq0 = Sequence::create(
+        to_action_ptr(move),
+        to_action_ptr(rotate),
+        to_action_ptr(scale),
+        to_action_ptr(opacity),
+        to_action_ptr(fadein),
+        to_action_ptr(scaleback),
+        to_action_ptr(finish)
+    );
     auto seq1 = seq0->clone();
     auto seq2 = seq0->clone();
     auto seq3 = seq0->clone();
@@ -884,7 +892,7 @@ TMXIsoZorder::TMXIsoZorder()
     
     auto move = MoveBy::create(10, Vec2(300,250));
     auto back = move->reverse();
-    auto seq = Sequence::create(move, back,nullptr);
+    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq) );
     
     schedule( CC_SCHEDULE_SELECTOR(TMXIsoZorder::repositionSprite) );
@@ -950,7 +958,7 @@ TMXOrthoZorder::TMXOrthoZorder()
     
     auto move = MoveBy::create(10, Vec2(400,450));
     auto back = move->reverse();
-    auto seq = Sequence::create(move, back,nullptr);
+    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq));
     
     schedule( CC_SCHEDULE_SELECTOR(TMXOrthoZorder::repositionSprite));
@@ -1012,7 +1020,7 @@ TMXIsoVertexZ::TMXIsoVertexZ()
     
     auto move = MoveBy::create(10, Vec2(300,250) * (1/CC_CONTENT_SCALE_FACTOR()));
     auto back = move->reverse();
-    auto seq = Sequence::create(move, back,nullptr);
+    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq) );
     
     schedule( CC_SCHEDULE_SELECTOR(TMXIsoVertexZ::repositionSprite));
@@ -1084,7 +1092,7 @@ TMXOrthoVertexZ::TMXOrthoVertexZ()
 
     auto move = MoveBy::create(10, Vec2(400,450) * (1/CC_CONTENT_SCALE_FACTOR()));
     auto back = move->reverse();
-    auto seq = Sequence::create(move, back,nullptr);
+    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq));
     
     schedule(CC_SCHEDULE_SELECTOR(TMXOrthoVertexZ::repositionSprite));

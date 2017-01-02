@@ -107,7 +107,10 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     
     auto color_action = TintBy::create(0.5f, 0, -255, -255);
     auto color_back = color_action->reverse();
-    auto seq = Sequence::create(color_action, color_back, nullptr);
+    auto seq = Sequence::create(
+        to_action_ptr(color_action),
+        to_action_ptr(color_back)
+    );
     item7->runAction(RepeatForever::create(seq));
 
     auto menu = Menu::create( item1, item2, item3, item4, item5, item6, item7, item8,  nullptr);
@@ -357,7 +360,14 @@ MenuLayer3::MenuLayer3()
     item3->setPosition( Vec2(s.width/2, s.height/2 - 100) );
     
     auto jump = JumpBy::create(3, Vec2(400,0), 50, 4);
-    item2->runAction( RepeatForever::create(Sequence::create( jump, jump->reverse(), nullptr)));
+    item2->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                to_action_ptr(jump),
+                to_action_ptr(jump->reverse())
+            )
+        )
+    );
 
     auto spin1 = RotateBy::create(3, 360);
     auto spin2 = spin1->clone();

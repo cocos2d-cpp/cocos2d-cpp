@@ -259,14 +259,15 @@ void TransitionRotoZoom:: onEnter()
 
     auto rotozoom = Sequence::create
     (
-        Spawn::create
-        (
-            ScaleBy::create(_duration/2, 0.001f),
-            RotateBy::create(_duration/2, 360 * 2),
-            nullptr
+        to_action_ptr(
+            Spawn::create
+            (
+                ScaleBy::create(_duration/2, 0.001f),
+                RotateBy::create(_duration/2, 360 * 2),
+                nullptr
+            )
         ),
-        DelayTime::create(_duration/2),
-        nullptr
+        to_action_ptr( DelayTime::create(_duration/2) )
     );
 
     _outScene->runAction(rotozoom);
@@ -274,9 +275,8 @@ void TransitionRotoZoom:: onEnter()
     (
         Sequence::create
         (
-            rotozoom->reverse(),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(rotozoom->reverse()),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         )
     );
 }
@@ -317,8 +317,8 @@ void TransitionJumpZoom::onEnter()
     ActionInterval *scaleIn = ScaleTo::create(_duration/4, 1.0f);
     ActionInterval *scaleOut = ScaleTo::create(_duration/4, 0.5f);
 
-    auto jumpZoomOut = Sequence::create(scaleOut, jump, nullptr);
-    auto jumpZoomIn = Sequence::create(jump, scaleIn, nullptr);
+    auto jumpZoomOut = Sequence::create(to_action_ptr(scaleOut), to_action_ptr(jump));
+    auto jumpZoomIn = Sequence::create(to_action_ptr(jump), to_action_ptr(scaleIn));
 
     ActionInterval *delay = DelayTime::create(_duration/2);
 
@@ -327,10 +327,9 @@ void TransitionJumpZoom::onEnter()
     (
         Sequence::create
         (
-            delay,
-            jumpZoomIn,
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(delay),
+            to_action_ptr(jumpZoomIn),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         )
     );
 }
@@ -369,9 +368,8 @@ void TransitionMoveInL::onEnter()
     (
         Sequence::create
         (
-            this->easeActionWithAction(a),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(this->easeActionWithAction(a)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         )
     );
 }
@@ -506,9 +504,8 @@ void TransitionSlideInL::onEnter()
     ActionInterval* inAction = easeActionWithAction(in);
     ActionInterval* outAction = Sequence::create
     (
-        easeActionWithAction(out),
-        CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-        nullptr
+        to_action_ptr(easeActionWithAction(out)),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
     );
     _inScene->runAction(inAction);
     _outScene->runAction(outAction);
@@ -709,9 +706,8 @@ void TransitionShrinkGrow::onEnter()
     (
         Sequence::create
         (
-            this->easeActionWithAction(scaleOut),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(this->easeActionWithAction(scaleOut)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         )
     );
 }
@@ -757,19 +753,17 @@ void TransitionFlipX::onEnter()
 
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Show::create(),
-            OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 0, 0),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(Show::create()),
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 0, 0)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         );
 
     auto outA = Sequence::create
         (
-            OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 0, 0),
-            Hide::create(),
-            DelayTime::create(_duration/2),                            
-            nullptr 
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 0, 0)),
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->runAction(inA);
@@ -826,18 +820,16 @@ void TransitionFlipY::onEnter()
 
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Show::create(),
-            OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 90, 0),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(Show::create()),
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 90, 0)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         );
     auto outA = Sequence::create
         (
-            OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 90, 0),
-            Hide::create(),
-            DelayTime::create(_duration/2),                            
-            nullptr
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 90, 0)),
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->runAction(inA);
@@ -896,18 +888,16 @@ void TransitionFlipAngular::onEnter()
 
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Show::create(),
-            OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, -45, 0),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(Show::create()),
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, -45, 0)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         );
     auto outA = Sequence::create
         (
-            OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 45, 0),
-            Hide::create(),
-            DelayTime::create(_duration/2),                            
-            nullptr
+            to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 45, 0)),
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->runAction(inA);
@@ -962,28 +952,32 @@ void TransitionZoomFlipX::onEnter()
     }
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 0, 0),
-                ScaleTo::create(_duration/2, 1),
-                Show::create(),
-                nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 0, 0),
+                    ScaleTo::create(_duration/2, 1),
+                    Show::create(),
+                    nullptr
+                )
             ),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(
+                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
+            )
         );
     auto outA = Sequence::create
         (
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 0, 0),
-                ScaleTo::create(_duration/2, 0.5f),
-                nullptr
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 0, 0),
+                    ScaleTo::create(_duration/2, 0.5f),
+                    nullptr
+                )
             ),
-            Hide::create(),
-            DelayTime::create(_duration/2),                            
-            nullptr
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->setScale(0.5f);
@@ -1039,29 +1033,33 @@ void TransitionZoomFlipY::onEnter()
 
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 90, 0),
-                ScaleTo::create(_duration/2, 1),
-                Show::create(),
-                nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 90, 0),
+                    ScaleTo::create(_duration/2, 1),
+                    Show::create(),
+                    nullptr
+                )
             ),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(
+                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
+            )
         );
 
     auto outA = Sequence::create
         (
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 90, 0),
-                ScaleTo::create(_duration/2, 0.5f),
-                nullptr
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 90, 0),
+                    ScaleTo::create(_duration/2, 0.5f),
+                    nullptr
+                )
             ),                            
-            Hide::create(),
-            DelayTime::create(_duration/2),
-            nullptr
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->setScale(0.5f);
@@ -1119,29 +1117,31 @@ void TransitionZoomFlipAngular::onEnter()
 
     auto inA = Sequence::create
         (
-            DelayTime::create(_duration/2),
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, -45, 0),
-                ScaleTo::create(_duration/2, 1),
-                Show::create(),
-                nullptr
+            to_action_ptr(DelayTime::create(_duration/2)),
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, -45, 0),
+                    ScaleTo::create(_duration/2, 1),
+                    Show::create(),
+                    nullptr
+                )
             ),
-            Show::create(),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            nullptr
+            to_action_ptr(Show::create()),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         );
     auto outA = Sequence::create
         (
-            Spawn::create
-            (
-                OrbitCamera::create(_duration/2, 1, 0 , outAngleZ, outDeltaZ, 45, 0),
-                ScaleTo::create(_duration/2, 0.5f),
-                nullptr
-            ),                            
-            Hide::create(),
-            DelayTime::create(_duration/2),                            
-            nullptr
+            to_action_ptr(
+                Spawn::create
+                (
+                    OrbitCamera::create(_duration/2, 1, 0 , outAngleZ, outDeltaZ, 45, 0),
+                    ScaleTo::create(_duration/2, 0.5f),
+                    nullptr
+                )
+            ),
+            to_action_ptr(Hide::create()),
+            to_action_ptr(DelayTime::create(_duration/2))
         );
 
     _inScene->setScale(0.5f);
@@ -1216,12 +1216,10 @@ void TransitionFade :: onEnter()
 
     auto a = Sequence::create
         (
-            FadeIn::create(_duration/2),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this)),
-            FadeOut::create(_duration/2),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-
-         nullptr
+            to_action_ptr(FadeIn::create(_duration/2)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this))),
+            to_action_ptr(FadeOut::create(_duration/2)),
+            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         );
     f->runAction(a);
 }
@@ -1317,10 +1315,9 @@ void TransitionCrossFade::onEnter()
     // create the blend action
     Action* layerAction = Sequence::create
     (
-        FadeTo::create(_duration, 0),
-        CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this)),
-        CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-        nullptr
+        to_action_ptr(FadeTo::create(_duration, 0)),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this))),
+        to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
     );
 
 
@@ -1388,10 +1385,13 @@ void TransitionTurnOffTiles::onEnter()
     (
         Sequence::create
         (
-            action,
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            StopGrid::create(),
-            nullptr
+            to_action_ptr<FiniteTimeAction>(action),
+            to_action_ptr<FiniteTimeAction>(
+                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
+            ),
+            to_action_ptr<FiniteTimeAction>(
+                StopGrid::create()
+            )
         )
     );
 }
@@ -1460,20 +1460,25 @@ void TransitionSplitCols::onEnter()
     ActionInterval* split = action();
     auto seq = Sequence::create
     (
-        split,
-        CallFunc::create(CC_CALLBACK_0(TransitionSplitCols::switchTargetToInscene,this)),
-        split->reverse(),
-        nullptr
+        to_action_ptr<FiniteTimeAction>(split),
+        to_action_ptr<FiniteTimeAction>(
+                CallFunc::create(CC_CALLBACK_0(TransitionSplitCols::switchTargetToInscene,this))
+        ),
+        to_action_ptr<FiniteTimeAction>(split->reverse())
     );
 
     _gridProxy->runAction
     ( 
         Sequence::create
         (
-            easeActionWithAction(seq),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            StopGrid::create(),
-            nullptr
+            to_action_ptr<FiniteTimeAction>(
+                easeActionWithAction(seq)
+            ),
+            to_action_ptr<FiniteTimeAction>(
+                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,
+                                               this))
+            ),
+            to_action_ptr<FiniteTimeAction>(StopGrid::create())
         )
     );
 }
@@ -1584,10 +1589,16 @@ void TransitionFadeTR::onEnter()
     (
         Sequence::create
         (
-            easeActionWithAction(action),
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)),
-            StopGrid::create(),
-            nullptr
+            to_action_ptr<FiniteTimeAction>(
+                easeActionWithAction(action)
+            ),
+            to_action_ptr<FiniteTimeAction>(
+                CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,
+                                               this))
+            ),
+            to_action_ptr<FiniteTimeAction>(
+                StopGrid::create()
+            )
         )
     );
 }
