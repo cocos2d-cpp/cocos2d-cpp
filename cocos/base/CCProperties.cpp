@@ -43,15 +43,26 @@ void calculateNamespacePath(const std::string& urlString, std::string& fileStrin
 Properties* getPropertiesFromNamespacePath(Properties* properties, const std::vector<std::string>& namespacePath);
 
 Properties::Properties()
-: _variables(nullptr), _dirPath(nullptr), _parent(nullptr), _dataIdx(nullptr), _data(nullptr)
+: _dataIdx(nullptr)
+, _data(nullptr)
+, _variables(nullptr)
+, _dirPath(nullptr)
+, _parent(nullptr)
 {
     _properties.reserve(32);
 }
 
 Properties::Properties(const Properties& copy)
-    : _namespace(copy._namespace), _id(copy._id), _parentID(copy._parentID), _properties(copy._properties),
-      _variables(nullptr), _dirPath(nullptr), _parent(copy._parent),
-      _dataIdx(copy._dataIdx), _data(copy._data)
+: _dataIdx (copy._dataIdx)
+, _data (copy._data)
+, _namespace (copy._namespace)
+, _id (copy._id)
+, _parentID (copy._parentID)
+, _properties (copy._properties)
+, _propertiesItr ()
+, _variables (nullptr)
+, _dirPath (nullptr)
+, _parent (copy._parent)
 {
     setDirectoryPath(copy._dirPath);
 
@@ -63,23 +74,29 @@ Properties::Properties(const Properties& copy)
 }
 
 Properties::Properties(Data* data, ssize_t* dataIdx)
-    : _variables(NULL), _dirPath(NULL), _parent(NULL), _dataIdx(dataIdx), _data(data)
+: _dataIdx(dataIdx)
+, _data (data)
+, _namespace()
+, _id ()
+, _parentID ()
+, _variables (NULL)
+, _dirPath (NULL)
+, _parent (NULL)
 {
     readProperties();
     rewind();
 }
 
 Properties::Properties(Data* data, ssize_t* dataIdx, const std::string& name, const char* id, const char* parentID, Properties* parent)
-    : _namespace(name), _variables(NULL), _dirPath(NULL), _parent(parent), _dataIdx(dataIdx), _data(data)
+: _dataIdx(dataIdx)
+, _data (data)
+, _namespace (name)
+, _id (id ? id : std::string())
+, _parentID (parentID ? parentID : std::string())
+, _variables (NULL)
+, _dirPath (NULL)
+, _parent (parent)
 {
-    if (id)
-    {
-        _id = id;
-    }
-    if (parentID)
-    {
-        _parentID = parentID;
-    }
     readProperties();
     rewind();
 }
