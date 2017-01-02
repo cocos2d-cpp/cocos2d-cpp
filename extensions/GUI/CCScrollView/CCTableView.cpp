@@ -197,8 +197,6 @@ void TableView::insertCellAtIndex(ssize_t idx)
         return;
     }
 
-    long newIdx = 0;
-
     auto cell = cellAtIndex(idx);
 
     if (cell)

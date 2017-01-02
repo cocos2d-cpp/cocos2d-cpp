@@ -269,7 +269,7 @@ public:
 
     // Overrides
     virtual void scrollViewDidScroll(ScrollView* view) override;
-    virtual void scrollViewDidZoom(ScrollView* view)  override {}
+    virtual void scrollViewDidZoom( ScrollView* ) override {}
     virtual bool onTouchBegan(Touch *pTouch, Event *pEvent) override;
     virtual void onTouchMoved(Touch *pTouch, Event *pEvent) override;
     virtual void onTouchEnded(Touch *pTouch, Event *pEvent) override;
