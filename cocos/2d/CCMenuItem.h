@@ -424,7 +424,7 @@ private:
 class CC_DLL MenuItemToggle : public MenuItem
 {
 public:
-    using items_container = std::vector<retaining_ptr<MenuItem>>;
+    using items_container = std::vector<node_ptr<MenuItem>>;
     /**
      *@brief Creates a menu item from a Array with a callable object.
      */

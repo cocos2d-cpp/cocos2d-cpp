@@ -519,13 +519,13 @@ LayerGradientTest::LayerGradientTest()
     menuItems.reserve(2);
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemLabel::create(label1))
         )
     );
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemLabel::create(label2))
         )
     );

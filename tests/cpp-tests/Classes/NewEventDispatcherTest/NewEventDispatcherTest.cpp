@@ -312,13 +312,13 @@ void RemoveListenerWhenDispatching::onEnter()
     menuItems.reserve(2);
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Enabled"))
         )
     );
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Disable"))
         )
     );

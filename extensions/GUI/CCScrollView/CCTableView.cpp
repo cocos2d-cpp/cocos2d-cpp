@@ -126,7 +126,7 @@ void TableView::reloadData()
             _tableViewDelegate->tableCellWillRecycle(this, cell.get());
         }
 
-        _cellsFreed.push_back(to_retaining_ptr(cell.get()));
+        _cellsFreed.push_back(to_node_ptr(cell.get()));
         
         cell->reset();
         if (cell->getParent() == this->getContainer())
@@ -281,7 +281,7 @@ void TableView::_addCellIfNecessary(TableViewCell * cell)
     {
         this->getContainer()->addChild(cell);
     }
-    _cellsUsed.push_back(to_retaining_ptr(cell));
+    _cellsUsed.push_back(to_node_ptr(cell));
     _indices->insert(cell->getIdx());
     _isUsedCellsDirty = true;
 }
@@ -423,7 +423,7 @@ void TableView::_moveCellOutOfSight(TableViewCell *cell)
         _tableViewDelegate->tableCellWillRecycle(this, cell);
     }
 
-    _cellsFreed.push_back(to_retaining_ptr(cell));
+    _cellsFreed.push_back(to_node_ptr(cell));
 
     auto it = std::find_if(_cellsUsed.begin(), _cellsUsed.end(),
                            [cell](const cells_container::value_type & p) {

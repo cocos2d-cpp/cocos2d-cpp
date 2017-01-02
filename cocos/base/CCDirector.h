@@ -634,13 +634,13 @@ protected:
     float _secondsPerFrame;
     
     /* The running scene */
-    retaining_ptr<Scene> _runningScene;
+    node_ptr<Scene> _runningScene;
     
     /* If true, then "old" scene will receive the cleanup message */
     bool _sendCleanupToScene;
 
     /* scheduled scenes */
-    std::vector<retaining_ptr<Scene>> _scenesStack;
+    std::vector<node_ptr<Scene>> _scenesStack;
     
     /* last time the main loop was updated */
     std::chrono::steady_clock::time_point _lastUpdate;

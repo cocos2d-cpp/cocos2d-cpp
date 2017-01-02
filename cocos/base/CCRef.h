@@ -147,13 +147,20 @@ public:
 #endif
 };
 
+class Node;
+class Action;
+
 template<typename T>
 struct retaining_ptr_deleter {
 public:
     void operator()(T * p) const
     {
         static_assert(std::is_base_of<Ref, T>::value,
-                      "retaining_ptr is for Ref-derived types only");
+                      "retaining_ptr is for Ref-based types only");
+        static_assert(! std::is_base_of<Node, T>::value,
+                      "retaining_ptr is not for Node-based types. Use node_ptr");
+        static_assert(! std::is_base_of<Action, T>::value,
+                      "retaining_ptr is not for Action-based types. Use action_ptr");
         p->release();
     }
 };
@@ -165,7 +172,11 @@ template<typename T>
 retaining_ptr<T> to_retaining_ptr(T * ptr)
 {
     static_assert(std::is_base_of<Ref, T>::value,
-                  "retaining_ptr is for Ref-derived types only");
+                  "retaining_ptr is for Ref-based types only");
+    static_assert(! std::is_base_of<Node, T>::value,
+                  "retaining_ptr is not for Node-based types. Use node_ptr");
+    static_assert(! std::is_base_of<Action, T>::value,
+                  "retaining_ptr is not for Action-based types. Use action_ptr");
     
     if (ptr)
     {

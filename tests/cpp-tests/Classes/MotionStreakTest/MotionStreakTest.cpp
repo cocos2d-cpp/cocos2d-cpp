@@ -250,7 +250,7 @@ void MotionStreakTest::onEnter()
     menuItems.reserve(2);
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create(
                     "Use High Quality Mode"
             ))
@@ -258,7 +258,7 @@ void MotionStreakTest::onEnter()
     );
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create(
                     "Use Fast Mode"
             ))

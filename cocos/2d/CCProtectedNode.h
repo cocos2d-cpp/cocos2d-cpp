@@ -30,7 +30,7 @@
 #define __CPROTECTEDCNODE_H__
 
 #include "2d/CCNode.h"
-#include "base/CCRef.h" // retaining_ptr
+#include "base/CCRef.h" // node_ptr
 
 #include <vector>
 
@@ -192,7 +192,7 @@ protected:
     /// helper that reorder a child
     void insertProtectedChild(Node* child, int z);
     
-    std::vector<retaining_ptr<Node>> _protectedChildren;
+    std::vector<node_ptr<Node>> _protectedChildren;
 
     bool _reorderProtectedChildDirty;
     

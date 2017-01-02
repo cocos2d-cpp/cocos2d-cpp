@@ -693,7 +693,7 @@ bool MenuItemToggle::initWithItem(MenuItem *item)
 
 void MenuItemToggle::addSubItem(MenuItem *item)
 {
-    _subItems.push_back(to_retaining_ptr(item));
+    _subItems.push_back(to_node_ptr(item));
 }
 
 void MenuItemToggle::cleanup()

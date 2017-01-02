@@ -1021,7 +1021,7 @@ void Node::insertChild(Node* child, int z)
 {
     _transformUpdated = true;
     _reorderChildDirty = true;
-    _children.push_back(to_retaining_ptr(child));
+    _children.push_back(to_node_ptr(child));
     child->_setLocalZOrder(z);
 }
 

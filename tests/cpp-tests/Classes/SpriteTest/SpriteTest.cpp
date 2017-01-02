@@ -2506,12 +2506,12 @@ void SpriteHybrid::reparentSprite(float dt)
 
     auto & p1Children = p1->getChildren();
 
-    std::vector<retaining_ptr<Node>> retArray;
+    std::vector<node_ptr<Node>> retArray;
     retArray.reserve(p1Children.size());
 
     for (const auto & node : p1Children)
     {
-        retArray.push_back(to_retaining_ptr(node.get()));
+        retArray.push_back(to_node_ptr(node.get()));
     }
 
     int i=0;

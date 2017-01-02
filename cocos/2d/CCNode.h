@@ -80,6 +80,35 @@ enum {
 
 class EventListener;
 
+class Node;
+
+template<typename T>
+struct node_ptr_deleter {
+public:
+    void operator()(T * p) const
+    {
+        static_assert(std::is_base_of<Node, T>::value,
+                      "node_ptr is for Node-derived types only");
+        p->release();
+    }
+};
+
+template<typename T>
+using node_ptr = std::unique_ptr<T, node_ptr_deleter<T>>;
+
+template<typename T>
+node_ptr<T> to_node_ptr(T * ptr)
+{
+    static_assert(std::is_base_of<Node, T>::value,
+                  "node_ptr is for Node-derived types only");
+    
+    if (ptr)
+    {
+        ptr->retain();
+    }
+    return node_ptr<T>(ptr);
+}
+
 /** @class Node
 * @brief Node is the base element of the Scene Graph. Elements of the Scene Graph must be Node objects or subclasses of it.
  The most common Node objects are: Scene, Layer, Sprite, Menu, Label.
@@ -111,7 +140,7 @@ class CC_DLL Node : public Ref
 {
 public:
     
-    using children_container = std::vector<retaining_ptr<Node>>;
+    using children_container = std::vector<node_ptr<Node>>;
     using children_iterator  = children_container::iterator;
 
 public:

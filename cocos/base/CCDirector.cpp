@@ -856,7 +856,7 @@ void Director::replaceScene(Scene *scene)
 
     _sendCleanupToScene = true;
     
-    _scenesStack.back() = to_retaining_ptr(scene);
+    _scenesStack.back() = to_node_ptr(scene);
 }
 
 void Director::pushScene(Scene *scene)
@@ -865,7 +865,7 @@ void Director::pushScene(Scene *scene)
 
     _sendCleanupToScene = false;
 
-    _scenesStack.push_back(to_retaining_ptr(scene));
+    _scenesStack.push_back(to_node_ptr(scene));
 }
 
 void Director::popScene()
@@ -1058,7 +1058,7 @@ void Director::setNextScene()
         }
     }
 
-    _runningScene = to_retaining_ptr(_scenesStack.back().get());
+    _runningScene = to_node_ptr(_scenesStack.back().get());
 
     if ( ! runningIsTransition)
     {

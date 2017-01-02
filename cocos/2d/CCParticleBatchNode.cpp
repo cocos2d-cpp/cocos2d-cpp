@@ -215,7 +215,7 @@ int ParticleBatchNode::addChildHelper(ParticleSystem* child, int z, int aTag, co
     auto pos = searchNewPositionInChildrenForZ(z);
 
     getChildren().insert((std::begin(getChildren()) + pos),
-                         to_retaining_ptr(static_cast<Node*>(child)));
+                         to_node_ptr(static_cast<Node*>(child)));
 
     if (setTag)
         child->setTag(aTag);

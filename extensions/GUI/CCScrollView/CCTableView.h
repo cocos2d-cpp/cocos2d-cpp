@@ -304,7 +304,7 @@ protected:
      */
     std::vector<float> _vCellsPositions;
 
-    using cells_container = std::vector<retaining_ptr<TableViewCell>>;
+    using cells_container = std::vector<node_ptr<TableViewCell>>;
 
     //NSMutableIndexSet *indices_;
     /**

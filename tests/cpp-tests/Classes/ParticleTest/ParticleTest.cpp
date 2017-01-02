@@ -1078,19 +1078,19 @@ void ParticleDemo::onEnter(void)
     menuItems.reserve(3);
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Free Movement"))
         )
     );
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Relative Movement"))
         )
     );
 
     menuItems.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Grouped Movement"))
         )
     );

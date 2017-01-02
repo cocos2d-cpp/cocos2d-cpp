@@ -404,10 +404,10 @@ MenuLayer4::MenuLayer4()
 
     auto item1 = MenuItemToggle::createWithCallback(
         CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("On"))
         ),
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );
@@ -422,10 +422,10 @@ MenuLayer4::MenuLayer4()
 
     auto item2 = MenuItemToggle::createWithCallback(
         CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("On"))
         ),
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );
@@ -442,13 +442,13 @@ MenuLayer4::MenuLayer4()
     menuItems3.reserve(2);
 
     menuItems3.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("High"))
         )
     );
 
     menuItems3.push_back(
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Low"))
         )
     );
@@ -468,7 +468,7 @@ MenuLayer4::MenuLayer4()
 
     auto item4 = MenuItemToggle::createWithCallback(
         CC_CALLBACK_1(MenuLayer4::menuCallback, this),
-        to_retaining_ptr(
+        to_node_ptr(
             static_cast<MenuItem*>(MenuItemFont::create("Off"))
         )
     );

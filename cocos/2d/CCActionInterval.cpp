@@ -2602,7 +2602,7 @@ void Animate::update(float t)
 
 Animate* Animate::reverse() const
 {
-    auto& oldArray = _animation->getFrames();
+    auto & oldArray = _animation->getFrames();
     std::vector<retaining_ptr<AnimationFrame>> newArray;
 
     newArray.reserve(oldArray.size());

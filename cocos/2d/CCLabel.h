@@ -705,7 +705,7 @@ protected:
     Sprite* _shadowNode;
 
     FontAtlas* _fontAtlas;
-    std::vector<retaining_ptr<SpriteBatchNode>> _batchNodes;
+    std::vector<node_ptr<SpriteBatchNode>> _batchNodes;
     std::vector<LetterInfo> _lettersInfo;
 
     //! used for optimization

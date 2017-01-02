@@ -118,7 +118,7 @@ Node* ProtectedNode::getProtectedChildByTag(int tag)
     
     auto iter = std::find_if(_protectedChildren.begin(),
                              _protectedChildren.end(),
-                             [tag] (const retaining_ptr<Node> & p) {
+                             [tag] (const node_ptr<Node> & p) {
                                  return p->getTag() == tag;
                              });
 
@@ -133,7 +133,7 @@ void ProtectedNode::removeProtectedChild(cocos2d::Node *child, bool cleanup)
 {
     auto iter = std::find_if(_protectedChildren.begin(),
                              _protectedChildren.end(),
-                             [child] (const retaining_ptr<Node> & p) {
+                             [child] (const node_ptr<Node> & p) {
                                  return p.get() == child;
                              });
 
@@ -217,7 +217,7 @@ void ProtectedNode::removeProtectedChildByTag(int tag, bool cleanup)
 void ProtectedNode::insertProtectedChild(cocos2d::Node *child, int z)
 {
     _protectedChildren.reserve(_protectedChildren.size() + 1);
-    _protectedChildren.push_back(to_retaining_ptr(child));
+    _protectedChildren.push_back(to_node_ptr(child));
     child->setLocalZOrder(z);
     _reorderProtectedChildDirty = true;
 }

@@ -793,7 +793,7 @@ bool Label::alignText()
 
         for (auto index = _batchNodes.size(); index < size; ++index)
         {
-            auto batchNode = to_retaining_ptr<SpriteBatchNode>(
+            auto batchNode = to_node_ptr<SpriteBatchNode>(
                 SpriteBatchNode::createWithTexture(textures.at(index))
             );
 
