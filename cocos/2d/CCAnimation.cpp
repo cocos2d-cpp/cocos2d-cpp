@@ -197,7 +197,7 @@ Animation* Animation::clone() const
     std::vector<retaining_ptr<AnimationFrame>> frames;
     frames.reserve(_frames.size());
     for (auto & f : _frames)
-        frames.push_back(to_retaining_ptr(f.get()));
+        frames.push_back(to_retaining_ptr(f->clone()));
 
     a->initWithAnimationFrames(std::move(frames), _delayPerUnit, _loops);
     a->setRestoreOriginalFrame(_restoreOriginalFrame);
