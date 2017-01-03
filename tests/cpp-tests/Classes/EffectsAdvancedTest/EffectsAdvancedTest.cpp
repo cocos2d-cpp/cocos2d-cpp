@@ -85,6 +85,7 @@ void Effect2::onEnter()
     auto reuse = ReuseGrid::create(2);
 
     auto delay = DelayTime::create(1);
+    auto delay_clone = delay->clone();
     
 //    id orbit = [OrbitCamera::create:5 radius:1 deltaRadius:2 angleZ:0 deltaAngleZ:180 angleX:0 deltaAngleX:-90];
 //    id orbit_back = [orbit reverse];
@@ -96,7 +97,7 @@ void Effect2::onEnter()
             to_action_ptr(delay),
             to_action_ptr(reuse),
             to_action_ptr(shuffle),
-            to_action_ptr(delay->clone()),
+            to_action_ptr(delay_clone),
             to_action_ptr(turnoff),
             to_action_ptr(turnon)
         )
@@ -128,7 +129,8 @@ void Effect3::onEnter()
     
     // moving background. Testing issue #244
     auto move = MoveBy::create(3, Vec2(200,0) );
-    _bgNode->runAction(RepeatForever::create( Sequence::create( to_action_ptr(move), to_action_ptr( move->reverse()) ) ));    
+    auto move_reverse = move->reverse();
+    _bgNode->runAction(RepeatForever::create( Sequence::create( to_action_ptr(move), to_action_ptr( move_reverse) ) ));    
 }
 
 std::string Effect3::title() const

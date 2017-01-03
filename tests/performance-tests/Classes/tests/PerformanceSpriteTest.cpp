@@ -673,10 +673,11 @@ void performanceActions(Sprite* sprite)
 
     float growDuration = 0.5f + (rand() % 1000) / 500.0f;
     auto grow = ScaleBy::create(growDuration, 0.5f, 0.5f);
+    auto grow_reverse = grow->reverse();
     auto permanentScaleLoop = RepeatForever::create(
         Sequence::create(
             to_action_ptr(grow),
-            to_action_ptr(grow->reverse()),
+            to_action_ptr(grow_reverse),
         )
     );
     sprite->runAction(permanentScaleLoop);

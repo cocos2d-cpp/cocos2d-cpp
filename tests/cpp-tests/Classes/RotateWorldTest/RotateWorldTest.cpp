@@ -69,16 +69,20 @@ void SpriteLayer::onEnter()
     sprite->runAction(rot);
 
     auto jump1 = JumpBy::create(4, Vec2(-400,0), 100, 4);
+    auto jump1_clone = jump1->clone();
     auto jump2 = jump1->reverse();
+    auto jump2_clone = jump1->clone();
     
     auto rot1 = RotateBy::create(4, 360*2);
+    auto rot1_clone = rot1->clone();
     auto rot2 = rot1->reverse();
+    auto rot2_clone = rot2->clone();
     
     spriteSister1->runAction(Repeat::create( Sequence::create( to_action_ptr(jump2), to_action_ptr( jump1) ), 5 ));
-    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(jump1->clone()), to_action_ptr( jump2->clone()) ), 5 ));
+    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(jump1_clone), to_action_ptr( jump2_clone) ), 5 ));
     
     spriteSister1->runAction(Repeat::create( Sequence::create( to_action_ptr(rot1), to_action_ptr( rot2) ), 5 ));
-    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(rot2->clone()), to_action_ptr( rot1->clone()) ), 5 ));
+    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(rot2_clone), to_action_ptr( rot1_clone) ), 5 ));
 }
 
 //------------------------------------------------------------------
@@ -123,9 +127,9 @@ void RotateWorldMainLayer::onEnter()
     addChild(green);
     addChild(red);
 
-    auto rot = RotateBy::create(8, 720);
+    auto rot = to_action_ptr( RotateBy::create(8, 720) );
     
-    blue->runAction(rot);
+    blue->runAction(rot->clone());
     red->runAction(rot->clone());
     green->runAction(rot->clone());
     white->runAction(rot->clone());

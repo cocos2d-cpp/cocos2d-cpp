@@ -116,11 +116,21 @@ void NodeTest2::onEnter()
     sp1->addChild(sp3);
     sp2->addChild(sp4);
     
-    auto a1 = RotateBy::create(2, 360);
-    auto a2 = ScaleBy::create(2, 2);
+    auto a1 = to_action_ptr( RotateBy::create(2, 360) );
+    auto a2 = to_action_ptr( ScaleBy::create(2, 2) );
     
-    auto action1 = RepeatForever::create( Sequence::create( to_action_ptr(a1), to_action_ptr( a2), to_action_ptr( a2->reverse()) ) );
-    auto action2 = RepeatForever::create( Sequence::create( to_action_ptr( a1->clone()), to_action_ptr( a2->clone()), to_action_ptr( a2->reverse()) ));
+    auto action1 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(a1->clone()),
+            to_action_ptr(a2->clone()),
+            to_action_ptr(a2->reverse())
+        ));
+    auto action2 = RepeatForever::create(
+        Sequence::create(
+            to_action_ptr(a1->clone()),
+            to_action_ptr(a2->clone()),
+            to_action_ptr(a2->reverse())
+        ));
     
     sp2->setAnchorPoint(Vec2(0,0));
     

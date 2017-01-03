@@ -90,11 +90,11 @@ void SpriteEase::onEnter()
     auto move_ease_out = EaseOut::create(move->clone(), 2.5f);
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -161,11 +161,11 @@ void SpriteEaseInOut::onEnter()
     auto move_ease_inout3 = EaseInOut::create(move->clone(), 1.0f);
     auto move_ease_inout_back3 = move_ease_inout3->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
 
     auto seq1 = Sequence::create(
         to_action_ptr(move_ease_inout1),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_ease_inout_back1),
         to_action_ptr(delay->clone())
     );
@@ -212,11 +212,11 @@ void SpriteEaseExponential::onEnter()
     auto move_ease_out = EaseExponentialOut::create(move->clone());
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -260,17 +260,17 @@ void SpriteEaseExponentialInOut::onEnter()
     auto move_ease = EaseExponentialInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();    //--> reverse()
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
     auto seq2 = Sequence::create(
         to_action_ptr(move_ease),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_ease_back),
         to_action_ptr(delay->clone())
     );
@@ -306,11 +306,11 @@ void SpriteEaseSine::onEnter()
     auto move_ease_out = EaseSineOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
         
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -354,11 +354,11 @@ void SpriteEaseSineInOut::onEnter()
     auto move_ease = EaseSineInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -399,11 +399,11 @@ void SpriteEaseElastic::onEnter()
     auto move_ease_out = EaseElasticOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
 
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -452,11 +452,11 @@ void SpriteEaseElasticInOut::onEnter()
     auto move_ease_inout3 = EaseElasticInOut::create(move->clone(), 0.6f);
     auto move_ease_inout_back3 = move_ease_inout3->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
         
     auto seq1 = Sequence::create(
         to_action_ptr(move_ease_inout1),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_ease_inout_back1),
         to_action_ptr(delay->clone())
     );
@@ -504,11 +504,11 @@ void SpriteEaseBounce::onEnter()
     auto move_ease_out = EaseBounceOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -553,11 +553,11 @@ void SpriteEaseBounceInOut::onEnter()
     auto move_ease = EaseBounceInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -599,11 +599,11 @@ void SpriteEaseBack::onEnter()
     auto move_ease_out = EaseBackOut::create( move->clone());
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -647,11 +647,11 @@ void SpriteEaseBackInOut::onEnter()
     auto move_ease = EaseBackInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -760,11 +760,11 @@ void SpriteEaseQuadratic::onEnter()
     auto move_ease_out = EaseQuadraticActionOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -807,11 +807,11 @@ void SpriteEaseQuadraticInOut::onEnter()
     auto move_ease = EaseQuadraticActionInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -853,11 +853,11 @@ void SpriteEaseQuartic::onEnter()
     auto move_ease_out = EaseQuarticActionOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -900,11 +900,11 @@ void SpriteEaseQuarticInOut::onEnter()
     auto move_ease = EaseQuarticActionInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -945,11 +945,11 @@ void SpriteEaseQuintic::onEnter()
     auto move_ease_out = EaseQuinticActionOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -993,11 +993,11 @@ void SpriteEaseQuinticInOut::onEnter()
     auto move_ease = EaseQuinticActionInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -1038,11 +1038,11 @@ void SpriteEaseCircle::onEnter()
     auto move_ease_out = EaseCircleActionOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -1086,11 +1086,11 @@ void SpriteEaseCircleInOut::onEnter()
     auto move_ease = EaseCircleActionInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -1131,11 +1131,11 @@ void SpriteEaseCubic::onEnter()
     auto move_ease_out = EaseCubicActionOut::create(move->clone() );
     auto move_ease_out_back = move_ease_out->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );
@@ -1179,11 +1179,11 @@ void SpriteEaseCubicInOut::onEnter()
     auto move_ease = EaseCubicActionInOut::create(move->clone() );
     auto move_ease_back = move_ease->reverse();
     
-    auto delay = DelayTime::create(0.25f);
+    auto delay = to_action_ptr( DelayTime::create(0.25f) );
     
     auto seq1 = Sequence::create(
         to_action_ptr(move),
-        to_action_ptr(delay),
+        to_action_ptr(delay->clone()),
         to_action_ptr(move_back),
         to_action_ptr(delay->clone())
     );

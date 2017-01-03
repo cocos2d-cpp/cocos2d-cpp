@@ -114,10 +114,12 @@ Action* BasicTest::actionRotate()
 Action* BasicTest::actionScale()
 {
     auto scale = ScaleBy::create(1.33f, 1.5f);
+    auto scale_reverse = scale->reverse();
+
     return RepeatForever::create(
         Sequence::create(
             to_action_ptr(scale),
-            to_action_ptr(scale->reverse())
+            to_action_ptr(scale_reverse)
         )
     );
 }

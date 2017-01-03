@@ -1823,8 +1823,8 @@ void PhysicsTransformTest::onEnter()
     
     RotateBy* rotate = RotateBy::create(6.0f, 360);
     
-    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(move), to_action_ptr( move2), to_action_ptr( move3) )));
-    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr( scale2) )));
+    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(move), to_action_ptr(move2), to_action_ptr(move3) )));
+    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr(scale2) )));
     _rootLayer->runAction(RepeatForever::create(rotate));
 }
 

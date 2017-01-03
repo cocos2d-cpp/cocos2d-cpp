@@ -820,12 +820,13 @@ void CameraCullingDemo::reachEndCallBack()
     
     _moveAction->release();
     _moveAction = inverse;
+
     auto rot = RotateBy::create(1.f, Vec3(0.f, 180.f, 0.f));
     auto seq = Sequence::create(
-        to_action_ptr(rot),
-        to_action_ptr(_moveAction),
-        to_action_ptr(rot),
-        to_action_ptr(_moveAction),
+        to_action_ptr(rot->clone()),
+        to_action_ptr(_moveAction->clone()),
+        to_action_ptr(rot->clone()),
+        to_action_ptr(_moveAction->clone()),
         to_action_ptr(CallFunc::create(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this)))
     );
     seq->setTag(100);
@@ -845,7 +846,7 @@ void CameraCullingDemo::switchViewCallback(Ref* sender)
         _moveAction = MoveTo::create(4.f, Vec2(-_cameraFirst->getPositionX(), 0));
         _moveAction->retain();
         auto seq = Sequence::create(
-            to_action_ptr(_moveAction),
+            to_action_ptr(_moveAction->clone()),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this)))
         );
         seq->setTag(100);

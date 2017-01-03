@@ -2423,10 +2423,11 @@ SpriteAnimationSplit::SpriteAnimationSplit()
             
     auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
     auto animate = Animate::create(animation);
+    auto animate_clone = animate->clone();
     auto seq = Sequence::create(
         to_action_ptr(animate),
         to_action_ptr(FlipX::create(true)),
-        to_action_ptr(animate->clone()),
+        to_action_ptr(animate_clone),
         to_action_ptr(FlipX::create(false))
     );
     
@@ -4376,10 +4377,11 @@ SpriteOffsetAnchorFlip::SpriteOffsetAnchorFlip()
         auto flip = FlipY::create(true);
         auto flip_back = FlipY::create(false);
         auto delay = DelayTime::create(1);
+        auto delay_clone = delay->clone();
         auto seq = Sequence::create(
             to_action_ptr(delay),
             to_action_ptr(flip),
-            to_action_ptr(delay->clone()),
+            to_action_ptr(delay_clone),
             to_action_ptr(flip_back)
         );
         sprite->runAction(RepeatForever::create(seq));
@@ -4465,10 +4467,11 @@ SpriteBatchNodeOffsetAnchorFlip::SpriteBatchNodeOffsetAnchorFlip()
         auto flip = FlipY::create(true);
         auto flip_back = FlipY::create(false);
         auto delay = DelayTime::create(1);
+        auto delay_clone = delay->clone();
         auto seq = Sequence::create(
             to_action_ptr(delay),
             to_action_ptr(flip),
-            to_action_ptr(delay->clone()),
+            to_action_ptr(delay_clone),
             to_action_ptr(flip_back)
         );
         sprite->runAction(RepeatForever::create(seq));

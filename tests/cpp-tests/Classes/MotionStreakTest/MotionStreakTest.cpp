@@ -49,11 +49,12 @@ void MotionStreakTest1::onEnter()
 
     auto action1 = RepeatForever::create(a1);
     auto motion = MoveBy::create(2, Vec2(100,0) );
+    auto motion_reverse = motion->reverse();
     _root->runAction(
         RepeatForever::create(
             Sequence::create(
                 to_action_ptr(motion),
-                to_action_ptr(motion->reverse())
+                to_action_ptr(motion_reverse)
             )
         )
     );

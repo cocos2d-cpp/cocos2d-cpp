@@ -383,13 +383,14 @@ RenderTexturePartTest::RenderTexturePartTest()
     
     _spriteDraw = Sprite::createWithTexture(_rend->getSprite()->getTexture());
     FiniteTimeAction* baseAction = MoveBy::create(1, Vec2(size.width,0));
+    auto baseAction_reverse = baseAction->reverse();
     _spriteDraw->setPosition(0,size.height/2);
     _spriteDraw->setScaleY(-1);
     _spriteDraw->runAction(
         RepeatForever::create(
             Sequence::create(
                 to_action_ptr(baseAction),
-                to_action_ptr(baseAction->reverse())
+                to_action_ptr(baseAction_reverse)
             )
         ));
     addChild(_spriteDraw);

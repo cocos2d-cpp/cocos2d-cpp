@@ -360,11 +360,13 @@ MenuLayer3::MenuLayer3()
     item3->setPosition( Vec2(s.width/2, s.height/2 - 100) );
     
     auto jump = JumpBy::create(3, Vec2(400,0), 50, 4);
+    auto jump_reverse = jump->reverse();
+
     item2->runAction(
         RepeatForever::create(
             Sequence::create(
                 to_action_ptr(jump),
-                to_action_ptr(jump->reverse())
+                to_action_ptr(jump_reverse)
             )
         )
     );

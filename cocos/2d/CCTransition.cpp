@@ -269,13 +269,14 @@ void TransitionRotoZoom:: onEnter()
         ),
         to_action_ptr( DelayTime::create(_duration/2) )
     );
+    auto rotozoom_reverse = rotozoom->reverse();
 
     _outScene->runAction(rotozoom);
     _inScene->runAction
     (
         Sequence::create
         (
-            to_action_ptr(rotozoom->reverse()),
+            to_action_ptr(rotozoom_reverse),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
         )
     );
@@ -1458,13 +1459,15 @@ void TransitionSplitCols::onEnter()
     _gridProxy->onEnter();
 
     ActionInterval* split = action();
+    ActionInterval* split_reverse = split->reverse();
+
     auto seq = Sequence::create
     (
         to_action_ptr<FiniteTimeAction>(split),
         to_action_ptr<FiniteTimeAction>(
                 CallFunc::create(CC_CALLBACK_0(TransitionSplitCols::switchTargetToInscene,this))
         ),
-        to_action_ptr<FiniteTimeAction>(split->reverse())
+        to_action_ptr<FiniteTimeAction>(split_reverse)
     );
 
     _gridProxy->runAction

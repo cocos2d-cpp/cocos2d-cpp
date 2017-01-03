@@ -156,9 +156,10 @@ bool Particle3DAdvancedLodSystemDemo::init()
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
 
     auto scale = ScaleBy::create(1.0f, 2.0f, 2.0f, 2.0f);
+    auto scale_back = scale->reverse();
     auto rotate = RotateBy::create(1.0f, Vec3(0.0f, 0.0f, 100.0f));
     rootps->runAction(RepeatForever::create(rotate));
-    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr( scale->reverse()) )));
+    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr(scale_back) )));
     rootps->startParticleSystem();
 
 
