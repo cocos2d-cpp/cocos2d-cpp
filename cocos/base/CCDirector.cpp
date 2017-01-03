@@ -115,8 +115,6 @@ bool Director::init()
 
     _notificationNode = nullptr;
 
-    _scenesStack.reserve(15);
-
     // FPS
     _accumDt = 0.0f;
     _frameRate = 0.0f;
@@ -275,7 +273,8 @@ void Director::drawScene()
     _renderer->clear();
     experimental::FrameBuffer::clearAllFBOs();
 
-    if (_runningScene != _scenesStack.back())
+    // if another Scene on the top of the stack is available
+    if (_scenesStack.back())
     {
         setNextScene();
     }
@@ -845,7 +844,7 @@ void Director::replaceScene(Scene *scene)
     if (scene == _scenesStack.back().get())
         return;
     
-    if (_runningScene != _scenesStack.back())
+    if (_scenesStack.back())
     {
         if (_scenesStack.back()->isRunning())
         {
@@ -906,22 +905,18 @@ void Director::popToSceneStackLevel(size_t level)
         return;
     }
 
-    if (_scenesStack.back() == _runningScene)
-    {
-        _scenesStack.pop_back();
-    }
-
     // pop stack until reaching desired level
     for ( ; _scenesStack.size() > level; _scenesStack.pop_back())
     {
-        auto current = _scenesStack.back().get();
-
-        if (current->isRunning())
+        if (_scenesStack.back())
         {
-            current->onExit();
-        }
+            if (_scenesStack.back()->isRunning())
+            {
+                _scenesStack.back()->onExit();
+            }
 
-        current->cleanup();
+            _scenesStack.back()->cleanup();
+        }
     }
 
     // cleanup running scene
@@ -1058,7 +1053,14 @@ void Director::setNextScene()
         }
     }
 
-    _runningScene = to_node_ptr(_scenesStack.back().get());
+    // return the running scene back to the stack unless it was rremoved
+    auto iter = std::find(_scenesStack.rbegin(), _scenesStack.rend(),
+                          node_ptr<Scene>());
+    if (iter != _scenesStack.rend())
+        *iter = std::move(_runningScene);
+
+    // keep running scene out of the stack
+    _runningScene = std::move(_scenesStack.back());
 
     if ( ! runningIsTransition)
     {
