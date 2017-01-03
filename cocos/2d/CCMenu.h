@@ -88,7 +88,7 @@ public:
      * Creates a Menu with a Array of MenuItem objects.
      * @js NA
      */
-    static Menu* createWithArray(const Vector<MenuItem*>& arrayOfItems);
+    static Menu* createWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems);
 
     /**
      * Creates a Menu with it's item, then use addChild() to add 
@@ -187,7 +187,7 @@ protected:
     bool init() override;
 
     /** initializes a Menu with a NSArray of MenuItem objects */
-    bool initWithArray(const Vector<MenuItem*>& arrayOfItems);
+    bool initWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems);
 
 protected:
 

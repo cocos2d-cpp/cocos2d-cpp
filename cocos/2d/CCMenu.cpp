@@ -34,8 +34,6 @@ THE SOFTWARE.
 
 #include <vector>
 
-using namespace std;
-
 namespace cocos2d {
 
 enum 
@@ -87,10 +85,11 @@ Menu * Menu::create(MenuItem* item, ...)
 #endif
 
 
-Menu* Menu::createWithArray(const Vector<MenuItem*>& arrayOfItems)
+Menu* Menu::createWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems)
 {
     auto ret = new (std::nothrow) Menu();
-    if (ret && ret->initWithArray(arrayOfItems))
+
+    if (ret && ret->initWithArray( std::move(arrayOfItems) ))
     {
         ret->autorelease();
     }
@@ -104,19 +103,22 @@ Menu* Menu::createWithArray(const Vector<MenuItem*>& arrayOfItems)
 
 Menu* Menu::createWithItems(MenuItem* item, va_list args)
 {
-    Vector<MenuItem*> items;
+    std::vector<node_ptr<MenuItem>> items;
+
     if( item )
     {
-        items.pushBack(item);
+        items.push_back(to_node_ptr(item));
+
         MenuItem *i = va_arg(args, MenuItem*);
+        
         while(i)
         {
-            items.pushBack(i);
+            items.push_back(to_node_ptr(i));
             i = va_arg(args, MenuItem*);
         }
     }
     
-    return Menu::createWithArray(items);
+    return Menu::createWithArray( std::move(items) );
 }
 
 Menu* Menu::createWithItem(MenuItem* item)
@@ -126,10 +128,10 @@ Menu* Menu::createWithItem(MenuItem* item)
 
 bool Menu::init()
 {
-    return initWithArray(Vector<MenuItem*>());
+    return initWithArray(std::vector<node_ptr<MenuItem>>());
 }
 
-bool Menu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
+bool Menu::initWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems)
 {
     if (Layer::init())
     {
@@ -145,9 +147,9 @@ bool Menu::initWithArray(const Vector<MenuItem*>& arrayOfItems)
         
         int z=0;
         
-        for (auto& item : arrayOfItems)
+        for (auto & item : arrayOfItems)
         {
-            this->addChild(item, z);
+            this->addChild(item.get(), z);
             z++;
         }
     
@@ -464,8 +466,8 @@ void Menu::alignItemsInRows(int rows, va_list args)
 
 void Menu::alignItemsInRowsWithArray(const ValueVector& columns)
 {
-    vector<int> columnWidths;
-    vector<int> columnHeights;
+    std::vector<int> columnWidths;
+    std::vector<int> columnHeights;
 
     int width = -10;
     int columnHeight = -5;
