@@ -87,7 +87,7 @@ bool ControlPotentiometerTest::init()
 	return false;
 }
 
-void ControlPotentiometerTest::valueChanged(Ref *sender, Control::EventType controlEvent)
+void ControlPotentiometerTest::valueChanged(Ref *sender, Control::EventType)
 {
     ControlPotentiometer* pControl = (ControlPotentiometer*)sender;
 	// Change value of label.

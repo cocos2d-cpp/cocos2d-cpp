@@ -1152,14 +1152,15 @@ void ActionSpawn2::onEnter()
 
     alignSpritesLeft(1);
 
-    auto action1 = JumpBy::create(2, Vec2(300,0), 50, 4);
-    auto action2 = RotateBy::create( 2,  720);
+    auto action1 = to_action_ptr<FiniteTimeAction>( JumpBy::create(2, Vec2(300,0), 50, 4) );
+    auto action2 = to_action_ptr<FiniteTimeAction>( RotateBy::create( 2,  720) );
 
-    Vector<FiniteTimeAction*> array;
-    array.pushBack(action1);
-    array.pushBack(action2);
+    std::vector<action_ptr<FiniteTimeAction>> array;
 
-    auto action = Spawn::create(array);
+    array.push_back( std::move(action1) );
+    array.push_back( std::move(action2) );
+
+    auto action = Spawn::create( std::move(array) );
     _grossini->runAction(action);
 }
 

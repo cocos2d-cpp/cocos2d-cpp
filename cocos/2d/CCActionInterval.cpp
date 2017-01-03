@@ -598,11 +598,11 @@ Spawn* Spawn::createWithVariableList(FiniteTimeAction *action1, va_list args)
     return ((Spawn*)prev);
 }
 
-Spawn* Spawn::create(const Vector<FiniteTimeAction*>& arrayOfActions)
+Spawn* Spawn::create(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions)
 {
     Spawn* ret = new (std::nothrow) Spawn;
     
-    if (ret && ret->init(arrayOfActions))
+    if (ret && ret->init( std::move(arrayOfActions) ))
     {
         ret->autorelease();
         return ret;
@@ -625,7 +625,7 @@ Spawn* Spawn::createWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *
     return nullptr;
 }
 
-bool Spawn::init(const Vector<FiniteTimeAction*>& arrayOfActions)
+bool Spawn::init(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions)
 {
     auto count = arrayOfActions.size();
     
@@ -633,16 +633,16 @@ bool Spawn::init(const Vector<FiniteTimeAction*>& arrayOfActions)
         return false;
     
     if (count == 1)
-        return initWithTwoActions(arrayOfActions.at(0), ExtraAction::create());
+        return initWithTwoActions(arrayOfActions.at(0).get(), ExtraAction::create());
     
     // else count > 1
-    auto prev = arrayOfActions.at(0);
-    for (int i = 1; i < count-1; ++i)
+    auto prev = arrayOfActions.at(0).get();
+    for (size_t i = 1; i < count-1; ++i)
     {
-        prev = createWithTwoActions(prev, arrayOfActions.at(i));
+        prev = createWithTwoActions(prev, arrayOfActions.at(i).get());
     }
     
-    return initWithTwoActions(prev, arrayOfActions.at(count-1));
+    return initWithTwoActions(prev, arrayOfActions.at(count-1).get());
 }
 
 bool Spawn::initWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2)

@@ -45,12 +45,12 @@ bool TableViewTest::init()
     return true;
 }
 
-void TableViewTest::tableCellTouched(TableView* table, TableViewCell* cell)
+void TableViewTest::tableCellTouched(TableView *, TableViewCell* cell)
 {
     CCLOG("cell touched at index: %ld", static_cast<long>(cell->getIdx()));
 }
 
-Size TableViewTest::tableCellSizeForIndex(TableView *table, ssize_t idx)
+Size TableViewTest::tableCellSizeForIndex(TableView *, ssize_t idx)
 {
     if (idx == 2) {
         return Size(100, 100);
@@ -86,7 +86,7 @@ TableViewCell* TableViewTest::tableCellAtIndex(TableView *table, ssize_t idx)
     return cell;
 }
 
-ssize_t TableViewTest::numberOfCellsInTableView(TableView *table)
+ssize_t TableViewTest::numberOfCellsInTableView(TableView *)
 {
     return 20;
 }

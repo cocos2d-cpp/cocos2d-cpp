@@ -409,7 +409,7 @@ void HoleDemo::pokeHoleAtPoint(Vec2 point)
 }
 
 
-void HoleDemo::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
+void HoleDemo::onTouchesBegan(const std::vector<Touch*>& touches, Event*)
 {
 	Touch *touch = (Touch *)touches[0];
 	Vec2 point = _outerClipper->convertToNodeSpace(Director::getInstance()->convertToGL(touch->getLocationInView()));
@@ -466,7 +466,7 @@ void ScrollViewDemo::setup()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void ScrollViewDemo::onTouchesBegan(const std::vector<Touch*>& touches, Event  *event)
+void ScrollViewDemo::onTouchesBegan(const std::vector<Touch*>& touches, Event *)
 {
 	Touch *touch = touches[0];
     auto clipper = this->getChildByTag(kTagClipperNode);
@@ -476,7 +476,7 @@ void ScrollViewDemo::onTouchesBegan(const std::vector<Touch*>& touches, Event  *
     _lastPoint = point;
 }
 
-void ScrollViewDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void ScrollViewDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event *)
 {
     if (!_scrolling) return;
 	Touch *touch = touches[0];
@@ -488,7 +488,7 @@ void ScrollViewDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event  *
     _lastPoint = point;
 }
 
-void ScrollViewDemo::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
+void ScrollViewDemo::onTouchesEnded(const std::vector<Touch*>&, Event *)
 {
     if (!_scrolling) return;
     _scrolling = false;
@@ -927,7 +927,7 @@ std::string ClippingToRenderTextureTest::subtitle() const
 
 void ClippingToRenderTextureTest::setup()
 {
-    auto button = MenuItemFont::create("Reproduce bug", [&](Ref *sender) {
+    auto button = MenuItemFont::create("Reproduce bug", [&](Ref *) {
         std::vector<Node*> nodes;
         enumerateChildren("remove me [0-9]", [&](Node *node) {
             nodes.push_back(node);

@@ -81,18 +81,6 @@ std::string LightTest::title() const
 
 void LightTest::addSprite()
 {
-    auto s = Director::getInstance()->getWinSize();
-
-    //{
-    //    std::string fileName = "Sprite3DTest/plane.c3b";
-    //    auto sprite = Sprite3D::create(fileName);
-    //    sprite->setRotation3D(Vec3(-90.0, 0.0, 0.0));
-    //    sprite->setScale(5.0f);
-    //    sprite->setPosition(Vec2(0.0, -50.0));
-    //    addChild(sprite);
-    //    sprite->setCameraMask(2);
-    //}
-
     {
         std::string fileName = "Sprite3DTest/orc.c3b";
         auto sprite = Sprite3D::create(fileName);
@@ -141,7 +129,6 @@ void LightTest::addSprite()
 
 void LightTest::addLights()
 {
-    auto s = Director::getInstance()->getWinSize();
     _ambientLight = AmbientLight::create(Color3B(200, 200, 200));
     _ambientLight->retain();
     _ambientLight->setEnabled(true);
@@ -252,7 +239,7 @@ void LightTest::update( float delta )
     TestCase::update(delta);
 }
 
-void LightTest::SwitchLight( Ref* sender, LightType lightType )
+void LightTest::SwitchLight( Ref* /*sender*/, LightType lightType )
 {
     switch (lightType)
     {

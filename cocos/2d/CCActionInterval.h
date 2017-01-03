@@ -401,7 +401,7 @@ public:
      * @param arrayOfActions    An array of spawned actions.
      * @return  An autoreleased Spawn object.
      */
-    static Spawn* create(const Vector<FiniteTimeAction*>& arrayOfActions);
+    static Spawn* create(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions);
 
     /** Creates the Spawn action.
      *
@@ -430,7 +430,7 @@ protected:
 
     /** initializes the Spawn action with the 2 actions to spawn */
     bool initWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
-    bool init(const Vector<FiniteTimeAction*>& arrayOfActions);
+    bool init(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions);
 
 protected:
     FiniteTimeAction *_one;

@@ -52,7 +52,7 @@ bool Bug12847Layer::init()
     return false;
 }
 
-void Bug12847Layer::update(float dt)
+void Bug12847Layer::update(float /*dt*/)
 {
     sprite1->setPositionY(sprite1->getPositionY() + 0.01f);
     sprite2->setPositionY(sprite2->getPositionY() + 0.01f);
