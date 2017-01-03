@@ -139,16 +139,16 @@ public:
 
     template<typename ...Actions>
     static Sequence* create(actions_container && arrayOfActions,
-                            actions_container::value_type && action,
-                            Actions && ...actions)
+                            actions_container::value_type action,
+                            Actions ...actions)
     {
         arrayOfActions.push_back(std::move(action));
         return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
     template<typename A, typename ...Actions>
     static Sequence* create(actions_container && arrayOfActions,
-                            A && action,
-                            Actions && ...actions)
+                            A action,
+                            Actions ...actions)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
@@ -160,8 +160,8 @@ public:
     }
 
     template<typename ...Actions>
-    static Sequence* create(actions_container::value_type && action,
-                            Actions && ...actions)
+    static Sequence* create(actions_container::value_type action,
+                            Actions ...actions)
     {
         actions_container arrayOfActions;
         arrayOfActions.push_back(std::move(action));
@@ -169,7 +169,7 @@ public:
                       std::forward<Actions>(actions)...);
     }
     template<typename A, typename ...Actions>
-    static Sequence* create(A && action, Actions && ...actions)
+    static Sequence* create(A action, Actions ...actions)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
