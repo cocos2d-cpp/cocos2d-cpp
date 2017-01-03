@@ -120,19 +120,20 @@ void TableView::reloadData()
 {
     _oldDirection = Direction::NONE;
 
-    for(const auto & cell : _cellsUsed)
+    for(auto & cell : _cellsUsed)
     {
         if(_tableViewDelegate != nullptr) {
             _tableViewDelegate->tableCellWillRecycle(this, cell.get());
         }
 
-        _cellsFreed.push_back(to_node_ptr(cell.get()));
-        
         cell->reset();
+
         if (cell->getParent() == this->getContainer())
         {
             this->getContainer()->removeChild(cell.get(), true);
         }
+        
+        _cellsFreed.push_back( std::move(cell) );
     }
 
     _indices->clear();

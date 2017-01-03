@@ -2509,8 +2509,9 @@ void SpriteHybrid::reparentSprite(float dt)
     std::vector<node_ptr<Node>> retArray;
     retArray.reserve(p1Children.size());
 
-    for (const auto & node : p1Children)
+    for (auto & node : p1Children)
     {
+        // FIXME
         retArray.push_back(to_node_ptr(node.get()));
     }
 
