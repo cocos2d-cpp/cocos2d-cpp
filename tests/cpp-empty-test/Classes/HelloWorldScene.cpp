@@ -76,7 +76,7 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::menuCloseCallback(Ref* sender)
+void HelloWorld::menuCloseCallback(Ref* /*sender*/)
 {
     Director::getInstance()->end();
 

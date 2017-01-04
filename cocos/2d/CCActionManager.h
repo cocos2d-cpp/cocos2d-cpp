@@ -58,16 +58,8 @@ struct _hashElement;
 class CC_DLL ActionManager : public Ref
 {
 public:
-    /**
-     * @js ctor
-     */
-    ActionManager(void);
-
-    /**
-     * @js NA
-     * @lua NA
-     */
-    ~ActionManager(void);
+    ActionManager();
+    ~ActionManager();
 
     // actions
     
@@ -174,13 +166,13 @@ public:
      *
      * @return  A list of targets whose actions were paused.
      */
-    Vector<Node*> pauseAllRunningActions();
+    std::vector<Node *> pauseAllRunningActions();
     
     /** Resume a set of targets (convenience function to reverse a pauseAllRunningActions call).
      *
      * @param targetsToResume   A set of targets need to be resumed.
      */
-    void resumeTargets(const Vector<Node*>& targetsToResume);
+    void resumeTargets(const std::vector<Node *> & targetsToResume);
     
     /** Main loop of ActionManager.
      * @param dt    In seconds.

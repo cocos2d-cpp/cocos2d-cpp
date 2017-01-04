@@ -8,7 +8,7 @@
 
 using namespace cocos2d;
 
-int main(int argc, char **argv)
+int main()
 {
     // create the application instance
     AppDelegate app;

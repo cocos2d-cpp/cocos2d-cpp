@@ -575,7 +575,7 @@ public:
     virtual std::string subtitle() const override;
     virtual std::string title() const override;    
 private:
-    cocos2d::Vector<Node*> _pausedTargets;
+    std::vector<Node *> _pausedTargets;
 };
 
 class ActionResize : public ActionsDemo 

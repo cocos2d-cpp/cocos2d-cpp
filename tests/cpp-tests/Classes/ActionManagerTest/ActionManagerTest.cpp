@@ -158,7 +158,7 @@ void PauseTest::onEnter()
     schedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause), 3); 
 }
 
-void PauseTest::unpause(float dt)
+void PauseTest::unpause(float /*dt*/)
 {
     unschedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause) );
     auto node = getChildByTag( kTagGrossini );
@@ -245,7 +245,7 @@ void StopAllActionsTest::onEnter()
     this->scheduleOnce((SEL_SCHEDULE)&StopAllActionsTest::stopAction, 4);
 }
 
-void StopAllActionsTest::stopAction(float time)
+void StopAllActionsTest::stopAction(float /*time*/)
 {
     auto sprite = getChildByTag(kTagGrossini);
     sprite->stopAllActionsByTag(kTagSequence);
@@ -288,7 +288,7 @@ void ResumeTest::onEnter()
     this->schedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), 3.0f);
 }
 
-void ResumeTest::resumeGrossini(float time)
+void ResumeTest::resumeGrossini(float /*time*/)
 {
     this->unschedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini));
 
@@ -336,7 +336,7 @@ void StopActionsByFlagsTest::onEnter()
     this->scheduleOnce((SEL_SCHEDULE)&StopActionsByFlagsTest::stopAction, 4);
 }
 
-void StopActionsByFlagsTest::stopAction(float time)
+void StopActionsByFlagsTest::stopAction(float /*time*/)
 {
     auto sprite = getChildByTag(kTagGrossini);
     sprite->stopActionsByFlags(kMoveFlag | kScaleFlag);

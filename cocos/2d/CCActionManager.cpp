@@ -131,7 +131,7 @@ void ActionManager::pauseTarget(Node *target)
     }
 }
 
-void ActionManager::resumeTarget(Node *target)
+void ActionManager::resumeTarget(Node * target)
 {
     tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
@@ -141,25 +141,27 @@ void ActionManager::resumeTarget(Node *target)
     }
 }
 
-Vector<Node*> ActionManager::pauseAllRunningActions()
+std::vector<Node *> ActionManager::pauseAllRunningActions()
 {
-    Vector<Node*> idsWithActions;
+    std::vector<Node *> idsWithActions;
     
-    for (tHashElement *element=_targets; element != nullptr; element = (tHashElement *)element->hh.next) 
+    for (tHashElement *element = _targets;
+         element != nullptr;
+         element = static_cast<tHashElement*>(element->hh.next)) 
     {
         if (! element->paused) 
         {
             element->paused = true;
-            idsWithActions.pushBack(element->target);
+            idsWithActions.push_back(element->target);
         }
     }    
     
     return idsWithActions;
 }
 
-void ActionManager::resumeTargets(const Vector<Node*>& targetsToResume)
+void ActionManager::resumeTargets(const std::vector<Node *> & targetsToResume)
 {
-    for(const auto &node : targetsToResume)
+    for(const auto & node : targetsToResume)
     {
         this->resumeTarget(node);
     }
