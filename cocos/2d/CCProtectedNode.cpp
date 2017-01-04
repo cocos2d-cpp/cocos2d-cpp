@@ -170,12 +170,8 @@ void ProtectedNode::removeAllProtectedChildren()
 
 void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
 {
-    auto it = _protectedChildren.rbegin();
-
-    while (!_protectedChildren.empty())
+    for (auto & p : _protectedChildren)
     {
-        auto & p = *it;
-
         // IMPORTANT:
         //  -1st do onExit
         //  -2nd cleanup
@@ -192,9 +188,9 @@ void ProtectedNode::removeAllProtectedChildrenWithCleanup(bool cleanup)
 
         // set parent nil at the end
         p->setParent(nullptr);
-
-        _protectedChildren.erase((++it).base());
     }
+
+    _protectedChildren.clear();
 }
 
 void ProtectedNode::removeProtectedChildByTag(int tag, bool cleanup)
