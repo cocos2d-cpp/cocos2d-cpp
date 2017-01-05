@@ -88,8 +88,8 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
     CC_SAFE_RETAIN(_tileSet);
 
     // mapInfo
-    _mapTileSize = mapInfo->getTileSize();
-    _layerOrientation = mapInfo->getOrientation();
+    _mapTileSize = mapInfo->_tileSize;
+    _layerOrientation = mapInfo->_orientation;
 
     // offset (after layer orientation is set);
     Vec2 offset = this->calculateLayerOffset(layerInfo->_offset);

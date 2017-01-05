@@ -69,7 +69,7 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
     {
         return false;
     }
-    CCASSERT( !mapInfo->getTilesets().empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT( !mapInfo->_tilesets.empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
@@ -81,7 +81,7 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 
     TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
 
-    CCASSERT( !mapInfo->getTilesets().empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
+    CCASSERT( !mapInfo->_tilesets.empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(mapInfo);
 
     return true;
@@ -116,11 +116,11 @@ TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
     Size size = layerInfo->_layerSize;
-    auto& tilesets = mapInfo->getTilesets();
+    auto & tilesets = mapInfo->_tilesets;
 
     for (auto iter = tilesets.crbegin(), iterCrend = tilesets.crend(); iter != iterCrend; ++iter)
     {
-        TMXTilesetInfo* tilesetInfo = *iter;
+        TMXTilesetInfo* tilesetInfo = iter->get();
         if (tilesetInfo)
         {
             for( int y=0; y < size.height; y++ )
@@ -159,23 +159,25 @@ TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInf
 
 void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
 {
-    _mapSize = mapInfo->getMapSize();
-    _tileSize = mapInfo->getTileSize();
-    _mapOrientation = mapInfo->getOrientation();
+    _mapSize = mapInfo->_mapSize;
+    _tileSize = mapInfo->_tileSize;
+    _mapOrientation = mapInfo->_orientation;
 
-    _objectGroups = mapInfo->getObjectGroups();
+    _objectGroups.clear();
+    for (auto & objectGroup : mapInfo->_objectGroups)
+        _objectGroups.pushBack(objectGroup.get());
 
-    _properties = mapInfo->getProperties();
+    _properties = mapInfo->_properties;
 
-    _tileProperties = mapInfo->getTileProperties();
+    _tileProperties = mapInfo->_tileProperties;
 
     int idx=0;
 
-    auto& layers = mapInfo->getLayers();
+    auto& layers = mapInfo->_layers;
     for(const auto &layerInfo : layers) {
         if (layerInfo->_visible)
         {
-            TMXLayer *child = parseLayer(layerInfo, mapInfo);
+            TMXLayer *child = parseLayer(layerInfo.get(), mapInfo);
             if (child == nullptr) {
                 idx++;
                 continue;

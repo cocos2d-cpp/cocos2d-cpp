@@ -222,21 +222,6 @@ public:
      */
     void setMapOrientation(int mapOrientation) { _mapOrientation = mapOrientation; }
 
-    /** Get the Object groups. 
-     *
-     * @return The object groups.
-     */
-    const Vector<TMXObjectGroup*>& getObjectGroups() const { return _objectGroups; }
-    Vector<TMXObjectGroup*>& getObjectGroups() { return _objectGroups; }
-    
-    /** Set the object groups. 
-     *
-     * @param groups The object groups.
-     */
-    void setObjectGroups(const Vector<TMXObjectGroup*>& groups) {
-        _objectGroups = groups;
-    }
-    
     /** Properties. 
      *
      * @return Properties.
@@ -277,9 +262,9 @@ protected:
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
 
 protected:
-    TMXLayer * parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    TMXTilesetInfo * tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    void buildWithMapInfo(TMXMapInfo* mapInfo);
+    TMXLayer * parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
+    retaining_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    void buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo);
 
     /** the map's size property measured in tiles */
     Size _mapSize;
@@ -288,7 +273,7 @@ protected:
     /** map orientation */
     int _mapOrientation;
     /** object groups */
-    Vector<TMXObjectGroup*> _objectGroups;
+    std::vector<retaining_ptr<TMXObjectGroup>> _objectGroups;
     /** properties */
     ValueMap _properties;
     

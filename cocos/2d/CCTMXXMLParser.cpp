@@ -217,9 +217,9 @@ bool TMXMapInfo::parseXMLFile(const std::string& xmlFilename)
 // the XML parser calls here with all the elements
 void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts)
 {    
-    TMXMapInfo *tmxMapInfo = this;
     std::string elementName = name;
     ValueMap attributeDict;
+
     if (atts && atts[0])
     {
         for (int i = 0; atts[i]; i += 2)
@@ -238,59 +238,56 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         }
         std::string orientationStr = attributeDict["orientation"].asString();
         if (orientationStr == "orthogonal") {
-            tmxMapInfo->setOrientation(TMXOrientationOrtho);
+            _orientation = TMXOrientationOrtho;
         }
         else if (orientationStr  == "isometric") {
-            tmxMapInfo->setOrientation(TMXOrientationIso);
+            _orientation = TMXOrientationIso;
         }
         else if (orientationStr == "hexagonal") {
-            tmxMapInfo->setOrientation(TMXOrientationHex);
+            _orientation = TMXOrientationHex;
         }
         else if (orientationStr == "staggered") {
-            tmxMapInfo->setOrientation(TMXOrientationStaggered);
+            _orientation = TMXOrientationStaggered;
         }
         else {
-            CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", tmxMapInfo->getOrientation());
+            CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", _orientation);
         }
         
         std::string staggerAxisStr = attributeDict["staggeraxis"].asString();
+
         if (staggerAxisStr == "x") {
-            tmxMapInfo->setStaggerAxis(TMXStaggerAxis_X);
+            _staggerAxis = TMXStaggerAxis_X;
         }
         else if (staggerAxisStr  == "y") {
-            tmxMapInfo->setStaggerAxis(TMXStaggerAxis_Y);
+            _staggerAxis = TMXStaggerAxis_Y;
         }
 
         std::string staggerIndex = attributeDict["staggerindex"].asString();
+
         if (staggerIndex == "odd") {
-            tmxMapInfo->setStaggerIndex(TMXStaggerIndex_Odd);
+            _staggerIndex = TMXStaggerIndex_Odd;
         }
         else if (staggerIndex == "even") {
-            tmxMapInfo->setStaggerIndex(TMXStaggerIndex_Even);
+            _staggerIndex = TMXStaggerIndex_Even;
         }
 
 
-        float hexSideLength = attributeDict["hexsidelength"].asFloat();
-        tmxMapInfo->setHexSideLength(hexSideLength);
+        _hexSideLength = attributeDict["hexsidelength"].asFloat();
 
-        Size s;
-        s.width = attributeDict["width"].asFloat();
-        s.height = attributeDict["height"].asFloat();
-        tmxMapInfo->setMapSize(s);
+        _mapSize.width = attributeDict["width"].asFloat();
+        _mapSize.height = attributeDict["height"].asFloat();
 
-        s.width = attributeDict["tilewidth"].asFloat();
-        s.height = attributeDict["tileheight"].asFloat();
-        tmxMapInfo->setTileSize(s);
-
-        
+        _tileSize.width = attributeDict["tilewidth"].asFloat();
+        _tileSize.height = attributeDict["tileheight"].asFloat();
 
         // The parent element is now "map"
-        tmxMapInfo->setParentElement(TMXPropertyMap);
+        _parentElement = TMXPropertyMap;
     } 
     else if (elementName == "tileset") 
     {
         // If this is an external tileset then start parsing that
         std::string externalTilesetFilename = attributeDict["source"].asString();
+
         if (externalTilesetFilename != "")
         {
             _externalTilesetFilename = externalTilesetFilename;
@@ -314,11 +311,12 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
             }
             _recordFirstGID = false;
             
-            tmxMapInfo->parseXMLFile(externalTilesetFilename);
+            this->parseXMLFile(externalTilesetFilename);
         }
         else
         {
-            TMXTilesetInfo *tileset = new (std::nothrow) TMXTilesetInfo();
+            auto tileset = to_retaining_ptr(new (std::nothrow) TMXTilesetInfo);
+
             tileset->_name = attributeDict["name"].asString();
             
             if (_recordFirstGID)
@@ -339,20 +337,18 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
             
             tileset->_spacing = attributeDict["spacing"].asInt();
             tileset->_margin = attributeDict["margin"].asInt();
-            Size s;
-            s.width = attributeDict["tilewidth"].asFloat();
-            s.height = attributeDict["tileheight"].asFloat();
-            tileset->_tileSize = s;
 
-            tmxMapInfo->getTilesets().pushBack(tileset);
-            tileset->release();
+            tileset->_tileSize.width = attributeDict["tilewidth"].asFloat();
+            tileset->_tileSize.height = attributeDict["tileheight"].asFloat();
+
+            _tilesets.push_back(std::move( tileset ));
         }
     }
     else if (elementName == "tile")
     {
-        if (tmxMapInfo->getParentElement() == TMXPropertyLayer)
+        if (_parentElement == TMXPropertyLayer)
         {
-            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            auto & layer = _layers.back();
             Size layerSize = layer->_layerSize;
             uint32_t gid = static_cast<uint32_t>(attributeDict["gid"].asUnsignedInt());
             int tilesAmount = layerSize.width*layerSize.height;
@@ -364,21 +360,20 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         }
         else
         {
-            TMXTilesetInfo* info = tmxMapInfo->getTilesets().back();
-            tmxMapInfo->setParentGID(info->_firstGid + attributeDict["id"].asInt());
-            tmxMapInfo->getTileProperties()[tmxMapInfo->getParentGID()] = Value(ValueMap());
-            tmxMapInfo->setParentElement(TMXPropertyTile);
+            auto & info = _tilesets.back();
+            _parentGID = info->_firstGid + attributeDict["id"].asInt();
+            _tileProperties[_parentGID] = Value(ValueMap());
+            _parentElement = TMXPropertyTile;
         }
     }
     else if (elementName == "layer")
     {
-        TMXLayerInfo *layer = new (std::nothrow) TMXLayerInfo();
+        auto layer = to_retaining_ptr(new (std::nothrow) TMXLayerInfo);
+
         layer->_name = attributeDict["name"].asString();
 
-        Size s;
-        s.width = attributeDict["width"].asFloat();
-        s.height = attributeDict["height"].asFloat();
-        layer->_layerSize = s;
+        layer->_layerSize.width = attributeDict["width"].asFloat();
+        layer->_layerSize.height = attributeDict["height"].asFloat();
 
         Value& visibleValue = attributeDict["visible"];
         layer->_visible = visibleValue.isNull() ? true : visibleValue.asBool();
@@ -390,30 +385,29 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         float y = attributeDict["y"].asFloat();
         layer->_offset.set(x, y);
 
-        tmxMapInfo->getLayers().pushBack(layer);
-        layer->release();
+        _layers.push_back(std::move( layer ));
 
         // The parent element is now "layer"
-        tmxMapInfo->setParentElement(TMXPropertyLayer);
+        _parentElement = TMXPropertyLayer;
     } 
     else if (elementName == "objectgroup")
     {
-        TMXObjectGroup *objectGroup = new (std::nothrow) TMXObjectGroup();
+        auto objectGroup = to_retaining_ptr(new (std::nothrow) TMXObjectGroup);
+
         objectGroup->setGroupName(attributeDict["name"].asString());
         Vec2 positionOffset;
-        positionOffset.x = attributeDict["x"].asFloat() * tmxMapInfo->getTileSize().width;
-        positionOffset.y = attributeDict["y"].asFloat() * tmxMapInfo->getTileSize().height;
+        positionOffset.x = attributeDict["x"].asFloat() * _tileSize.width;
+        positionOffset.y = attributeDict["y"].asFloat() * _tileSize.height;
         objectGroup->setPositionOffset(positionOffset);
 
-        tmxMapInfo->getObjectGroups().pushBack(objectGroup);
-        objectGroup->release();
+        _objectGroups.push_back(std::move( objectGroup ));
 
         // The parent element is now "objectgroup"
-        tmxMapInfo->setParentElement(TMXPropertyObjectGroup);
+        _parentElement = TMXPropertyObjectGroup;
     }
     else if (elementName == "tileoffset")
     {
-        TMXTilesetInfo* tileset = tmxMapInfo->getTilesets().back();
+        auto & tileset = _tilesets.back();
         
         double tileOffsetX = attributeDict["x"].asDouble();
         
@@ -424,10 +418,11 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
     }
     else if (elementName == "image")
     {
-        TMXTilesetInfo* tileset = tmxMapInfo->getTilesets().back();
+        auto & tileset = _tilesets.back();
 
         // build full path
         std::string imagename = attributeDict["source"].asString();
+
         tileset->_originSourceImage = imagename;
 
         if (_TMXFileName.find_last_of("/") != string::npos)
@@ -447,9 +442,10 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
 
         if (encoding == "")
         {
-            tmxMapInfo->setLayerAttribs(tmxMapInfo->getLayerAttribs() | TMXLayerAttribNone);
+            _layerAttribs |= TMXLayerAttribNone;
             
-            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            auto & layer = _layers.back();
+
             Size layerSize = layer->_layerSize;
             int tilesAmount = layerSize.width*layerSize.height;
 
@@ -461,32 +457,29 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         }
         else if (encoding == "base64")
         {
-            int layerAttribs = tmxMapInfo->getLayerAttribs();
-            tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribBase64);
-            tmxMapInfo->setStoringCharacters(true);
+            _layerAttribs |= TMXLayerAttribBase64;
+
+            _storingCharacters = true;
 
             if (compression == "gzip")
             {
-                layerAttribs = tmxMapInfo->getLayerAttribs();
-                tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribGzip);
-            } else
-            if (compression == "zlib")
+                _layerAttribs |= TMXLayerAttribGzip;
+            }
+            else if (compression == "zlib")
             {
-                layerAttribs = tmxMapInfo->getLayerAttribs();
-                tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribZlib);
+                _layerAttribs |= TMXLayerAttribZlib;
             }
             CCASSERT( compression == "" || compression == "gzip" || compression == "zlib", "TMX: unsupported compression method" );
         }
         else if (encoding == "csv")
         {
-            int layerAttribs = tmxMapInfo->getLayerAttribs();
-            tmxMapInfo->setLayerAttribs(layerAttribs | TMXLayerAttribCSV);
-            tmxMapInfo->setStoringCharacters(true);
+            _layerAttribs |= TMXLayerAttribCSV;
+            _storingCharacters = true;
         }
     }
     else if (elementName == "object")
     {
-        TMXObjectGroup* objectGroup = tmxMapInfo->getObjectGroups().back();
+        auto & objectGroup = _objectGroups.back();
 
         // The value for "type" was blank or not a valid class name
         // Create an instance of TMXObjectInfo to store the object and its properties
@@ -522,51 +515,51 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         objectGroup->getObjects().push_back(Value(dict));
 
         // The parent element is now "object"
-        tmxMapInfo->setParentElement(TMXPropertyObject);
+        _parentElement = TMXPropertyObject;
     } 
     else if (elementName == "property")
     {
-        if ( tmxMapInfo->getParentElement() == TMXPropertyNone ) 
+        if ( _parentElement == TMXPropertyNone ) 
         {
             CCLOG( "TMX tile map: Parent element is unsupported. Cannot add property named '%s' with value '%s'",
                   attributeDict["name"].asString().c_str(), attributeDict["value"].asString().c_str() );
         } 
-        else if ( tmxMapInfo->getParentElement() == TMXPropertyMap )
+        else if ( _parentElement == TMXPropertyMap )
         {
             // The parent element is the map
             Value value = attributeDict["value"];
             std::string key = attributeDict["name"].asString();
-            tmxMapInfo->getProperties().emplace(key, value);
+            _properties.emplace(key, value);
         }
-        else if ( tmxMapInfo->getParentElement() == TMXPropertyLayer )
+        else if ( _parentElement == TMXPropertyLayer )
         {
             // The parent element is the last layer
-            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            auto & layer = _layers.back();
             Value value = attributeDict["value"];
             std::string key = attributeDict["name"].asString();
             // Add the property to the layer
             layer->getProperties().emplace(key, value);
         }
-        else if ( tmxMapInfo->getParentElement() == TMXPropertyObjectGroup ) 
+        else if ( _parentElement == TMXPropertyObjectGroup ) 
         {
             // The parent element is the last object group
-            TMXObjectGroup* objectGroup = tmxMapInfo->getObjectGroups().back();
+            auto & objectGroup = _objectGroups.back();
             Value value = attributeDict["value"];
             std::string key = attributeDict["name"].asString();
             objectGroup->getProperties().emplace(key, value);
         }
-        else if ( tmxMapInfo->getParentElement() == TMXPropertyObject )
+        else if ( _parentElement == TMXPropertyObject )
         {
             // The parent element is the last object
-            TMXObjectGroup* objectGroup = tmxMapInfo->getObjectGroups().back();
+            auto & objectGroup = _objectGroups.back();
             ValueMap& dict = objectGroup->getObjects().rbegin()->asValueMap();
 
             std::string propertyName = attributeDict["name"].asString();
             dict[propertyName] = attributeDict["value"];
         }
-        else if ( tmxMapInfo->getParentElement() == TMXPropertyTile ) 
+        else if ( _parentElement == TMXPropertyTile ) 
         {
-            ValueMap& dict = tmxMapInfo->getTileProperties().at(tmxMapInfo->getParentGID()).asValueMap();
+            ValueMap& dict = _tileProperties.at(_parentGID).asValueMap();
 
             std::string propertyName = attributeDict["name"].asString();
             dict[propertyName] = attributeDict["value"];
@@ -575,7 +568,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
     else if (elementName == "polygon") 
     {
         // find parent object's dict and add polygon-points to it
-        TMXObjectGroup* objectGroup = _objectGroups.back();
+        auto & objectGroup = _objectGroups.back();
         ValueMap& dict = objectGroup->getObjects().rbegin()->asValueMap();
 
         // get points value string
@@ -620,7 +613,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
     else if (elementName == "polyline")
     {
         // find parent object's dict and add polyline-points to it
-        TMXObjectGroup* objectGroup = _objectGroups.back();
+        auto & objectGroup = _objectGroups.back();
         ValueMap& dict = objectGroup->getObjects().rbegin()->asValueMap();
         
         // get points value string
@@ -666,27 +659,26 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
 
 void TMXMapInfo::endElement(void* /*ctx*/, const char *name)
 {
-    TMXMapInfo *tmxMapInfo = this;
     std::string elementName = name;
 
     if (elementName == "data")
     {
-        if (tmxMapInfo->getLayerAttribs() & TMXLayerAttribBase64)
+        if (_layerAttribs & TMXLayerAttribBase64)
         {
-            tmxMapInfo->setStoringCharacters(false);
+            _storingCharacters = false;
             
-            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            auto & layer = _layers.back();
             
-            std::string currentString = tmxMapInfo->getCurrentString();
             unsigned char *buffer;
-            auto len = base64Decode((unsigned char*)currentString.c_str(), (unsigned int)currentString.length(), &buffer);
+            auto len = base64Decode((unsigned char*)_currentString.c_str(), (unsigned int)_currentString.length(), &buffer);
+
             if (!buffer)
             {
                 CCLOG("cocos2d: TiledMap: decode data error");
                 return;
             }
             
-            if (tmxMapInfo->getLayerAttribs() & (TMXLayerAttribGzip | TMXLayerAttribZlib))
+            if (_layerAttribs & (TMXLayerAttribGzip | TMXLayerAttribZlib))
             {
                 unsigned char *deflated = nullptr;
                 Size s = layer->_layerSize;
@@ -712,16 +704,16 @@ void TMXMapInfo::endElement(void* /*ctx*/, const char *name)
                 layer->_tiles = reinterpret_cast<uint32_t*>(buffer);
             }
             
-            tmxMapInfo->setCurrentString("");
+            _currentString = "";
         }
-        else if (tmxMapInfo->getLayerAttribs() & TMXLayerAttribCSV)
+        else if (_layerAttribs & TMXLayerAttribCSV)
         {
             unsigned char *buffer;
 
-            TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
+            auto & layer = _layers.back();
 
-            tmxMapInfo->setStoringCharacters(false);
-            std::string currentString = tmxMapInfo->getCurrentString();
+            _storingCharacters = false;
+            std::string currentString = _currentString;
 
             vector<string> gidTokens;
             istringstream filestr(currentString);
@@ -751,9 +743,9 @@ void TMXMapInfo::endElement(void* /*ctx*/, const char *name)
 
             layer->_tiles = reinterpret_cast<uint32_t*>(buffer);
 
-            tmxMapInfo->setCurrentString("");
+            _currentString = "";
         }
-        else if (tmxMapInfo->getLayerAttribs() & TMXLayerAttribNone)
+        else if (_layerAttribs & TMXLayerAttribNone)
         {
             _xmlTileIndex = 0;
         }
@@ -761,22 +753,22 @@ void TMXMapInfo::endElement(void* /*ctx*/, const char *name)
     else if (elementName == "map")
     {
         // The map element has ended
-        tmxMapInfo->setParentElement(TMXPropertyNone);
+        _parentElement = TMXPropertyNone;
     }    
     else if (elementName == "layer")
     {
         // The layer element has ended
-        tmxMapInfo->setParentElement(TMXPropertyNone);
+        _parentElement = TMXPropertyNone;
     }
     else if (elementName == "objectgroup")
     {
         // The objectgroup element has ended
-        tmxMapInfo->setParentElement(TMXPropertyNone);
+        _parentElement = TMXPropertyNone;
     } 
     else if (elementName == "object") 
     {
         // The object element has ended
-        tmxMapInfo->setParentElement(TMXPropertyNone);
+        _parentElement = TMXPropertyNone;
     }
     else if (elementName == "tileset")
     {
@@ -786,14 +778,11 @@ void TMXMapInfo::endElement(void* /*ctx*/, const char *name)
 
 void TMXMapInfo::textHandler(void* /*ctx*/, const char *ch, size_t len)
 {
-    TMXMapInfo *tmxMapInfo = this;
     std::string text(ch, 0, len);
 
-    if (tmxMapInfo->isStoringCharacters())
+    if (_storingCharacters)
     {
-        std::string currentString = tmxMapInfo->getCurrentString();
-        currentString += text;
-        tmxMapInfo->setCurrentString(currentString);
+        _currentString += text;
     }
 }
 

@@ -33,9 +33,8 @@ THE SOFTWARE.
 
 #include "math/CCGeometry.h"
 #include "platform/CCSAXParser.h"
-#include "base/CCVector.h"
 #include "base/CCValue.h"
-#include "2d/CCTMXObjectGroup.h" // needed for Vector<TMXObjectGroup*> for binding
+#include "2d/CCTMXObjectGroup.h" // needed for _objectGroups for binding
 
 #include <string>
 
@@ -164,6 +163,7 @@ public:
     /** creates a TMX Format with an XML string and a TMX resource path */
     static TMXMapInfo * createWithXML(const std::string& tmxString, const std::string& resourcePath);
     
+private:
     TMXMapInfo();
 
     virtual ~TMXMapInfo();
@@ -177,79 +177,6 @@ public:
     /* initializes parsing of an XML string, either a tmx (Map) string or tsx (Tileset) string */
     bool parseXMLString(const std::string& xmlString);
 
-    ValueMapIntKey& getTileProperties() { return _tileProperties; };
-    void setTileProperties(const ValueMapIntKey& tileProperties) {
-        _tileProperties = tileProperties;
-    }
-
-    /// map orientation
-    int getOrientation() const { return _orientation; }
-    void setOrientation(int orientation) { _orientation = orientation; }
-    
-    /// map staggeraxis
-    int getStaggerAxis() const { return _staggerAxis; }
-    void setStaggerAxis(int staggerAxis) { _staggerAxis = staggerAxis; }
-
-    /// map stagger index
-    int getStaggerIndex() const { return _staggerIndex; }
-    void setStaggerIndex(int staggerIndex) { _staggerIndex = staggerIndex; }
-
-    /// map hexsidelength
-    int getHexSideLength() const { return _hexSideLength; }
-    void setHexSideLength(int hexSideLength) { _hexSideLength = hexSideLength; }
-
-    /// map width & height
-    const Size& getMapSize() const { return _mapSize; }
-    void setMapSize(const Size& mapSize) { _mapSize = mapSize; }
-
-    /// tiles width & height
-    const Size& getTileSize() const { return _tileSize; }
-    void setTileSize(const Size& tileSize) { _tileSize = tileSize; }
-    
-    /// Layers
-    const Vector<TMXLayerInfo*>& getLayers() const { return _layers; }
-    Vector<TMXLayerInfo*>& getLayers() { return _layers; }
-    void setLayers(const Vector<TMXLayerInfo*>& layers) {
-        _layers = layers;
-    }
-
-    /// tilesets
-    const Vector<TMXTilesetInfo*>& getTilesets() const { return _tilesets; }
-    Vector<TMXTilesetInfo*>& getTilesets() { return _tilesets; }
-    void setTilesets(const Vector<TMXTilesetInfo*>& tilesets) {
-        _tilesets = tilesets;
-    }
-
-    /// ObjectGroups
-    const Vector<TMXObjectGroup*>& getObjectGroups() const { return _objectGroups; }
-    Vector<TMXObjectGroup*>& getObjectGroups() { return _objectGroups; }
-    void setObjectGroups(const Vector<TMXObjectGroup*>& groups) {
-        _objectGroups = groups;
-    }
-
-    /// parent element
-    int getParentElement() const { return _parentElement; }
-    void setParentElement(int element) { _parentElement = element; }
-
-    /// parent GID
-    int getParentGID() const { return _parentGID; }
-    void setParentGID(int gid) { _parentGID = gid; }
-
-    /// layer attribs
-    int getLayerAttribs() const { return _layerAttribs; }
-    void setLayerAttribs(int layerAttribs) { _layerAttribs = layerAttribs; }
-
-    /// is storing characters?
-    bool isStoringCharacters() const { return _storingCharacters; }
-    void setStoringCharacters(bool storingCharacters) { _storingCharacters = storingCharacters; }
-
-    /// properties
-    const ValueMap& getProperties() const { return _properties; }
-    ValueMap& getProperties() { return _properties; }
-    void setProperties(const ValueMap& properties) {
-        _properties = properties;
-    }
-    
     // implement pure virtual methods of SAXDelegator
     void startElement(void *ctx, const char *name, const char **atts) override;
 
@@ -257,15 +184,9 @@ public:
 
     void textHandler(void *ctx, const char *ch, size_t len) override;
     
-    const std::string& getCurrentString() const { return _currentString; }
-    void setCurrentString(const std::string& currentString){ _currentString = currentString; }
-    const std::string& getTMXFileName() const { return _TMXFileName; }
-    void setTMXFileName(const std::string& fileName){ _TMXFileName = fileName; }
-    const std::string& getExternalTilesetFileName() const { return _externalTilesetFilename; }
-
-protected:
     void internalInit(const std::string& tmxFileName, const std::string& resourcePath);
 
+public:
     /// map orientation
     int    _orientation;
     ///map staggerAxis
@@ -279,11 +200,11 @@ protected:
     /// tiles width & height
     Size _tileSize;
     /// Layers
-    Vector<TMXLayerInfo*> _layers;
+    std::vector<retaining_ptr<TMXLayerInfo>> _layers;
     /// tilesets
-    Vector<TMXTilesetInfo*> _tilesets;
+    std::vector<retaining_ptr<TMXTilesetInfo>> _tilesets;
     /// ObjectGroups
-    Vector<TMXObjectGroup*> _objectGroups;
+    std::vector<retaining_ptr<TMXObjectGroup>> _objectGroups;
     /// parent element
     int _parentElement;
     /// parent GID

@@ -38,18 +38,21 @@ namespace cocos2d {
 
 // TMXLayer - init & alloc & dealloc
 
-TMXLayer * TMXLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXLayer::create(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {
-    TMXLayer *ret = new (std::nothrow) TMXLayer();
-    if (ret->initWithTilesetInfo(tilesetInfo, layerInfo, mapInfo))
+    TMXLayer *ret = new (std::nothrow) TMXLayer;
+
+    if (ret->initWithTilesetInfo(std::move( tilesetInfo ), std::move( layerInfo ), mapInfo))
     {
         ret->autorelease();
         return ret;
     }
     CC_SAFE_DELETE(ret);
+
     return nullptr;
 }
-bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+
+bool TMXLayer::initWithTilesetInfo(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {    
     // FIXME:: is 35% a good estimate ?
     Size size = layerInfo->_layerSize;
@@ -71,20 +74,20 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
         _layerName = layerInfo->_name;
         _layerSize = size;
         _tiles = layerInfo->_tiles;
+        layerInfo->_ownTiles = false; // FIXME awful ugh
         _opacity = layerInfo->_opacity;
         setProperties(layerInfo->getProperties());
         _contentScaleFactor = Director::getInstance()->getContentScaleFactor(); 
 
         // tilesetInfo
-        _tileSet = tilesetInfo;
-        CC_SAFE_RETAIN(_tileSet);
+        _tileSet = std::move( tilesetInfo );
 
         // mapInfo
-        _mapTileSize = mapInfo->getTileSize();
-        _layerOrientation = mapInfo->getOrientation();
-        _staggerAxis = mapInfo->getStaggerAxis();
-        _staggerIndex = mapInfo->getStaggerIndex();
-        _hexSideLength = mapInfo->getHexSideLength();
+        _mapTileSize = mapInfo._tileSize;
+        _layerOrientation = mapInfo._orientation;
+        _staggerAxis = mapInfo._staggerAxis;
+        _staggerIndex = mapInfo._staggerIndex;
+        _hexSideLength = mapInfo._hexSideLength;
 
         // offset (after layer orientation is set);
         Vec2 offset = this->calculateLayerOffset(layerInfo->_offset);
@@ -127,7 +130,7 @@ TMXLayer::TMXLayer()
 ,_layerSize(Size::ZERO)
 ,_mapTileSize(Size::ZERO)
 ,_tiles(nullptr)
-,_tileSet(nullptr)
+,_tileSet()
 ,_layerOrientation(TMXOrientationOrtho)
 ,_staggerAxis(TMXStaggerAxis_Y)
 ,_staggerIndex(TMXStaggerIndex_Even)
@@ -136,7 +139,6 @@ TMXLayer::TMXLayer()
 
 TMXLayer::~TMXLayer()
 {
-    CC_SAFE_RELEASE(_tileSet);
     CC_SAFE_RELEASE(_reusedTile);
 
     if (_atlasIndexArray)

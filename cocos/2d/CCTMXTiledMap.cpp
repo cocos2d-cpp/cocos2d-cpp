@@ -66,14 +66,15 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
+    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::create(tmxFile) );
 
     if (! mapInfo)
     {
         return false;
     }
-    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+    CCASSERT( !mapInfo->_tilesets.empty(), "TMXTiledMap: Map not found. Please check the filename.");
+
+    buildWithMapInfo(std::move( mapInfo ));
 
     return true;
 }
@@ -84,10 +85,10 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
+    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::createWithXML(tmxString, resourcePath) );
 
-    CCASSERT( !mapInfo->getTilesets().empty(), "TMXTiledMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+    CCASSERT( !mapInfo->_tilesets.empty(), "TMXTiledMap: Map not found. Please check the filename.");
+    buildWithMapInfo(std::move( mapInfo ));
 
     return true;
 }
@@ -105,33 +106,32 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXTiledMap::parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo)
 {
-    TMXTilesetInfo *tileset = tilesetForLayer(layerInfo, mapInfo);
+    auto tileset = tilesetForLayer(layerInfo.get(), mapInfo);
+
     if (tileset == nullptr)
         return nullptr;
     
-    TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
+    TMXLayer *layer = TMXLayer::create(std::move( tileset ), std::move( layerInfo ), *mapInfo);
 
     if (nullptr != layer)
     {
-        // tell the layerinfo to release the ownership of the tiles map.
-        layerInfo->_ownTiles = false;
         layer->setupTiles();
     }
 
     return layer;
 }
 
-TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+retaining_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
     auto height = static_cast<uint32_t>(layerInfo->_layerSize.height);
     auto width  = static_cast<uint32_t>(layerInfo->_layerSize.width);
-    auto& tilesets = mapInfo->getTilesets();
+    auto & tilesets = mapInfo->_tilesets;
 
-    for (auto iter = tilesets.crbegin(), end = tilesets.crend(); iter != end; ++iter)
+    for (auto iter = tilesets.rbegin(), end = tilesets.rend(); iter != end; ++iter)
     {
-        TMXTilesetInfo* tileset = *iter;
+        auto & tileset = *iter;
 
         if (tileset)
         {
@@ -150,7 +150,9 @@ TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInf
                         // an CCASSERT will be thrown later
                         if (tileset->_firstGid < 0 ||
                             (gid & kTMXFlippedMask) >= static_cast<uint32_t>(tileset->_firstGid))
-                            return tileset;
+                            // TODO FIXME
+                            // must be shared
+                            return to_retaining_ptr( tileset.get() ); // shared_ptr
                     }
                 }
             }        
@@ -160,31 +162,34 @@ TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInf
     // If all the tiles are 0, return empty tileset
     CCLOG("cocos2d: Warning: TMX Layer '%s' has no tiles", layerInfo->_name.c_str());
 
-    return nullptr;
+    return retaining_ptr<TMXTilesetInfo>();
 }
 
-void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
+void TMXTiledMap::buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo)
 {
-    _mapSize = mapInfo->getMapSize();
-    _tileSize = mapInfo->getTileSize();
-    _mapOrientation = mapInfo->getOrientation();
+    _mapSize = mapInfo->_mapSize;
+    _tileSize = mapInfo->_tileSize;
+    _mapOrientation = mapInfo->_orientation;
 
-    _objectGroups = mapInfo->getObjectGroups();
+    _objectGroups = std::move(mapInfo->_objectGroups);
 
-    _properties = mapInfo->getProperties();
+    _properties = mapInfo->_properties;
 
-    _tileProperties = mapInfo->getTileProperties();
+    _tileProperties = mapInfo->_tileProperties;
 
     int idx = 0;
 
-    auto& layers = mapInfo->getLayers();
-    for (const auto &layerInfo : layers) {
-        if (layerInfo->_visible) {
-            TMXLayer *child = parseLayer(layerInfo, mapInfo);
+    for (auto & layerInfo : mapInfo->_layers)
+    {
+        if (layerInfo->_visible)
+        {
+            TMXLayer *child = parseLayer(std::move( layerInfo ), mapInfo.get());
+
             if (child == nullptr) {
                 idx++;
                 continue;
             }
+
             addChild(child, idx, idx);
             // update content size with the max size
             const Size& childSize = child->getContentSize();
@@ -224,11 +229,11 @@ TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
 {
     CCASSERT(groupName.size() > 0, "Invalid group name!");
 
-    for (const auto objectGroup : _objectGroups)
+    for (const auto & objectGroup : _objectGroups)
     {
         if (objectGroup && objectGroup->getGroupName() == groupName)
         {
-            return objectGroup;
+            return objectGroup.get();
         }
     }
 

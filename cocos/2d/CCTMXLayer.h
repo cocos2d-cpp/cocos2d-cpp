@@ -72,7 +72,7 @@ public:
      * @param mapInfo A map info.
      * @return An autorelease object.
      */
-    static TMXLayer * create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    static TMXLayer * create(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
 
     TMXLayer();
     virtual ~TMXLayer();
@@ -84,7 +84,7 @@ public:
      * @param mapInfo A map info.
      * @return If initializes successfully, it will return true.
      */
-    bool initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    bool initWithTilesetInfo(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
 
     /** Dealloc the map that contains the tile position from memory.
      * Unless you want to know at runtime the tiles positions, you can safely call this method.
@@ -204,22 +204,6 @@ public:
      */
     void setTiles(uint32_t* tiles) { _tiles = tiles; };
     
-    /** Tileset information for the layer. 
-     *
-     * @return Tileset information for the layer.
-     */
-    TMXTilesetInfo* getTileSet() const { return _tileSet; }
-    
-    /** Set tileset information for the layer.
-     *
-     * @param info The tileset information for the layer.
-     */
-    void setTileSet(TMXTilesetInfo* info) {
-        CC_SAFE_RETAIN(info);
-        CC_SAFE_RELEASE(_tileSet);
-        _tileSet = info;
-    }
-    
     /** Layer orientation, which is the same as the map orientation.
      *
      * @return Layer orientation, which is the same as the map orientation.
@@ -312,7 +296,7 @@ protected:
     /** pointer to the map of tiles */
     uint32_t* _tiles;
     /** Tileset information for the layer */
-    TMXTilesetInfo* _tileSet;
+    retaining_ptr<TMXTilesetInfo> _tileSet;
     /** Layer orientation, which is the same as the map orientation */
     int _layerOrientation;
     /** Stagger Axis */
