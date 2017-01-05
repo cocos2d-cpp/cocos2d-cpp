@@ -212,7 +212,8 @@ protected:
     int _last;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Sequence);
+    Sequence(const Sequence &) = delete;
+    const Sequence & operator=(const Sequence &) = delete;
 };
 
 /** @class Repeat
@@ -282,7 +283,8 @@ protected:
     FiniteTimeAction *_innerAction;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Repeat);
+    Repeat(const Repeat &) = delete;
+    const Repeat & operator=(const Repeat &) = delete;
 };
 
 /** @class RepeatForever
@@ -349,7 +351,8 @@ protected:
     ActionInterval *_innerAction;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RepeatForever);
+    RepeatForever(const RepeatForever &) = delete;
+    const RepeatForever & operator=(const RepeatForever &) = delete;
 };
 
 /** @class Spawn
@@ -437,7 +440,8 @@ protected:
     FiniteTimeAction *_two;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Spawn);
+    Spawn(const Spawn &) = delete;
+    const Spawn & operator=(const Spawn &) = delete;
 };
 
 /** @class RotateTo
@@ -515,7 +519,8 @@ protected:
     Vec3 _diffAngle;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RotateTo);
+    RotateTo(const RotateTo &) = delete;
+    const RotateTo & operator=(const RotateTo &) = delete;
 };
 
 /** @class RotateBy
@@ -581,7 +586,8 @@ protected:
     Vec3 _startAngle;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RotateBy);
+    RotateBy(const RotateBy &) = delete;
+    const RotateBy & operator=(const RotateBy &) = delete;
 };
 
 /** @class MoveBy
@@ -637,7 +643,8 @@ protected:
     Vec3 _previousPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MoveBy);
+    MoveBy(const MoveBy &) = delete;
+    const MoveBy & operator=(const MoveBy &) = delete;
 };
 
 /** @class MoveTo
@@ -690,7 +697,8 @@ protected:
     Vec3 _endPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MoveTo);
+    MoveTo(const MoveTo &) = delete;
+    const MoveTo & operator=(const MoveTo &) = delete;
 };
 
 /** @class SkewTo
@@ -739,7 +747,8 @@ protected:
     float _deltaY;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SkewTo);
+    SkewTo(const SkewTo &) = delete;
+    const SkewTo & operator=(const SkewTo &) = delete;
 };
 
 /** @class SkewBy
@@ -774,7 +783,8 @@ protected:
     bool initWithDuration(float t, float sx, float sy);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SkewBy);
+    SkewBy(const SkewBy &) = delete;
+    const SkewBy & operator=(const SkewBy &) = delete;
 };
 
 /** @class ResizeTo
@@ -816,7 +826,8 @@ protected:
     cocos2d::Size _sizeDelta;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ResizeTo);
+    ResizeTo(const ResizeTo &) = delete;
+    const ResizeTo & operator=(const ResizeTo &) = delete;
 };
 
 
@@ -859,7 +870,8 @@ protected:
     cocos2d::Size _previousSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ResizeBy);
+    ResizeBy(const ResizeBy &) = delete;
+    const ResizeBy & operator=(const ResizeBy &) = delete;
 };
 
 
@@ -908,7 +920,8 @@ protected:
     Vec2           _previousPos;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpBy);
+    JumpBy(const JumpBy &) = delete;
+    const JumpBy & operator=(const JumpBy &) = delete;
 };
 
 /** @class JumpTo
@@ -948,7 +961,8 @@ protected:
     Vec2 _endPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpTo);
+    JumpTo(const JumpTo &) = delete;
+    const JumpTo & operator=(const JumpTo &) = delete;
 };
 
 /** @struct Bezier configuration structure
@@ -1007,7 +1021,8 @@ protected:
     Vec2 _previousPosition;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BezierBy);
+    BezierBy(const BezierBy &) = delete;
+    const BezierBy & operator=(const BezierBy &) = delete;
 };
 
 /** @class BezierTo
@@ -1048,7 +1063,8 @@ protected:
     ccBezierConfig _toConfig;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BezierTo);
+    BezierTo(const BezierTo &) = delete;
+    const BezierTo & operator=(const BezierTo &) = delete;
 };
 
 /** @class ScaleTo
@@ -1132,7 +1148,8 @@ protected:
     float _deltaZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ScaleTo);
+    ScaleTo(const ScaleTo &) = delete;
+    const ScaleTo & operator=(const ScaleTo &) = delete;
 };
 
 /** @class ScaleBy
@@ -1181,7 +1198,8 @@ protected:
     virtual ~ScaleBy() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ScaleBy);
+    ScaleBy(const ScaleBy &) = delete;
+    const ScaleBy & operator=(const ScaleBy &) = delete;
 };
 
 /** @class Blink
@@ -1225,7 +1243,8 @@ protected:
     bool _originalState;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Blink);
+    Blink(const Blink &) = delete;
+    const Blink & operator=(const Blink &) = delete;
 };
 
 
@@ -1271,7 +1290,8 @@ protected:
     friend class FadeOut;
     friend class FadeIn;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeTo);
+    FadeTo(const FadeTo &) = delete;
+    const FadeTo & operator=(const FadeTo &) = delete;
 };
 
 /** @class FadeIn
@@ -1305,7 +1325,8 @@ protected:
     virtual ~FadeIn() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeIn);
+    FadeIn(const FadeIn &) = delete;
+    const FadeIn & operator=(const FadeIn &) = delete;
     FadeTo* _reverseAction;
 };
 
@@ -1338,7 +1359,8 @@ protected:
     FadeOut():_reverseAction(nullptr) {}
     virtual ~FadeOut() {}
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOut);
+    FadeOut(const FadeOut &) = delete;
+    const FadeOut & operator=(const FadeOut &) = delete;
     FadeTo* _reverseAction;
 };
 
@@ -1390,7 +1412,8 @@ protected:
     Color3B _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TintTo);
+    TintTo(const TintTo &) = delete;
+    const TintTo & operator=(const TintTo &) = delete;
 };
 
 /** @class TintBy
@@ -1438,7 +1461,8 @@ protected:
     GLshort _fromB;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TintBy);
+    TintBy(const TintBy &) = delete;
+    const TintBy & operator=(const TintBy &) = delete;
 };
 
 /** @class DelayTime
@@ -1469,7 +1493,8 @@ protected:
     virtual ~DelayTime() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DelayTime);
+    DelayTime(const DelayTime &) = delete;
+    const DelayTime & operator=(const DelayTime &) = delete;
 };
 
 /** @class ReverseTime
@@ -1513,7 +1538,8 @@ protected:
     FiniteTimeAction *_other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ReverseTime);
+    ReverseTime(const ReverseTime &) = delete;
+    const ReverseTime & operator=(const ReverseTime &) = delete;
 };
 
 class Texture2D;
@@ -1577,7 +1603,8 @@ protected:
     EventCustom*    _frameDisplayedEvent;
     AnimationFrame::DisplayedEventInfo _frameDisplayedEventInfo;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Animate);
+    Animate(const Animate &) = delete;
+    const Animate & operator=(const Animate &) = delete;
 };
 
 /** @class TargetedAction
@@ -1631,7 +1658,8 @@ protected:
     Node* _forcedTarget;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TargetedAction);
+    TargetedAction(const TargetedAction &) = delete;
+    const TargetedAction & operator=(const TargetedAction &) = delete;
 };
 
 /**
@@ -1683,7 +1711,8 @@ protected:
     /* Callback to report back results */
     ActionFloatCallback _callback;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ActionFloat);
+    ActionFloat(const ActionFloat &) = delete;
+    const ActionFloat & operator=(const ActionFloat &) = delete;
 };
 
 // end of actions group

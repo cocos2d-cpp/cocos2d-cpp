@@ -97,7 +97,8 @@ protected:
     virtual ~Show(){}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Show);
+    Show(const Show &) = delete;
+    const Show & operator=(const Show &) = delete;
 };
 
 /** @class Hide
@@ -127,7 +128,8 @@ protected:
     virtual ~Hide(){}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Hide);
+    Hide(const Hide &) = delete;
+    const Hide & operator=(const Hide &) = delete;
 };
 
 /** @class ToggleVisibility
@@ -157,7 +159,8 @@ protected:
     virtual ~ToggleVisibility(){}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ToggleVisibility);
+    ToggleVisibility(const ToggleVisibility &) = delete;
+    const ToggleVisibility & operator=(const ToggleVisibility &) = delete;
 };
 
 /** @class RemoveSelf
@@ -194,7 +197,8 @@ protected:
     bool _isNeedCleanUp;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(RemoveSelf);
+    RemoveSelf(const RemoveSelf &) = delete;
+    const RemoveSelf & operator=(const RemoveSelf &) = delete;
 };
 
 /** @class FlipX
@@ -232,7 +236,8 @@ protected:
     bool    _flipX;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipX);
+    FlipX(const FlipX &) = delete;
+    const FlipX & operator=(const FlipX &) = delete;
 };
 
 /** @class FlipY
@@ -270,7 +275,8 @@ protected:
     bool    _flipY;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipY);
+    FlipY(const FlipY &) = delete;
+    const FlipY & operator=(const FlipY &) = delete;
 };
 
 /** @class Place
@@ -308,7 +314,8 @@ protected:
     Vec2 _position;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Place);
+    Place(const Place &) = delete;
+    const Place & operator=(const Place &) = delete;
 };
 
 
@@ -362,7 +369,8 @@ protected:
     std::function<void()> _function;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(CallFunc);
+    CallFunc(const CallFunc &) = delete;
+    const CallFunc & operator=(const CallFunc &) = delete;
 };
 
 /** @class CallFuncN
@@ -398,7 +406,8 @@ protected:
     std::function<void(Node*)> _functionN;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(CallFuncN);
+    CallFuncN(const CallFuncN &) = delete;
+    const CallFuncN & operator=(const CallFuncN &) = delete;
 };
 
 // end of actions group

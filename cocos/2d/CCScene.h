@@ -152,7 +152,8 @@ protected:
     std::vector<BaseLight *> _lights;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Scene);
+    Scene(const Scene &) = delete;
+    const Scene & operator=(const Scene &) = delete;
     
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION))
 public:

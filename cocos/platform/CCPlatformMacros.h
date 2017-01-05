@@ -207,14 +207,6 @@ public: virtual void set##funName(varType var)   \
 //  end of debug group
 /// @}
 
-/** @def CC_DISALLOW_COPY_AND_ASSIGN(TypeName)
- * A macro to disallow the copy constructor and operator= functions.
- * This should be used in the private: declarations for a class
- */
-#define CC_DISALLOW_COPY_AND_ASSIGN(TypeName) \
-    TypeName(const TypeName &) = delete; \
-    TypeName &operator =(const TypeName &) = delete;
-
 /** @def CC_DEPRECATED_ATTRIBUTE
  * Only certain compilers support __attribute__((deprecated)).
  */

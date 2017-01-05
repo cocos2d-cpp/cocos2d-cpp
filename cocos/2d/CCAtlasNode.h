@@ -145,7 +145,8 @@ protected:
     QuadCommand _quadCommand;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AtlasNode);
+    AtlasNode(const AtlasNode &) = delete;
+    const AtlasNode & operator=(const AtlasNode &) = delete;
 
 };
 

@@ -784,7 +784,8 @@ protected:
     bool _strikethroughEnabled;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Label);
+    Label(const Label &) = delete;
+    const Label & operator=(const Label &) = delete;
 };
 
 // end group

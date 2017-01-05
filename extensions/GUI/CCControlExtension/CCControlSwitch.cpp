@@ -120,7 +120,8 @@ protected:
                             Label* onLabel, 
                             Label* offLabel);
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ControlSwitchSprite);
+    ControlSwitchSprite(const ControlSwitchSprite &) = delete;
+    const ControlSwitchSprite & operator=(const ControlSwitchSprite &) = delete;
 };
 
 ControlSwitchSprite* ControlSwitchSprite::create(Sprite *maskSprite,

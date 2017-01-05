@@ -257,7 +257,8 @@ protected:
 
     std::string _bindAddress;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Console);
+    Console(const Console &) = delete;
+    const Console & operator=(const Console &) = delete;
     
     // helper functions
     int printSceneGraph(int fd, Node* node, int level);

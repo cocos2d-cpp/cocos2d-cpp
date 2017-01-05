@@ -286,7 +286,8 @@ protected:
     static const int TMXLayerTag = 32768;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TMXTiledMap);
+    TMXTiledMap(const TMXTiledMap &) = delete;
+    const TMXTiledMap & operator=(const TMXTiledMap &) = delete;
 
 };
 

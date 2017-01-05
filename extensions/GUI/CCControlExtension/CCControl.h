@@ -265,7 +265,8 @@ protected:
     CC_SYNTHESIZE_READONLY(State, _state, State);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Control);
+    Control(const Control &) = delete;
+    const Control & operator=(const Control &) = delete;
 };
 
 CC_EX_DLL Control::EventType operator|(Control::EventType a, Control::EventType b);

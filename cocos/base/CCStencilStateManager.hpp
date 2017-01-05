@@ -46,7 +46,8 @@ public:
     bool isInverted()const;
     GLfloat getAlphaThreshold()const;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(StencilStateManager);
+    StencilStateManager(const StencilStateManager &) = delete;
+    const StencilStateManager & operator=(const StencilStateManager &) = delete;
     static GLint s_layer;
     /**draw fullscreen quad to clear stencil bits
      */

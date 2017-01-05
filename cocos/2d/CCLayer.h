@@ -171,7 +171,8 @@ protected:
     bool _swallowsTouches;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Layer);
+    Layer(const Layer &) = delete;
+    const Layer & operator=(const Layer &) = delete;
 
 };
 
@@ -216,7 +217,8 @@ protected:
     virtual ~__LayerRGBA() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(__LayerRGBA);
+    __LayerRGBA(const __LayerRGBA &) = delete;
+    const __LayerRGBA & operator=(const __LayerRGBA &) = delete;
 };
 
 //
@@ -311,7 +313,8 @@ protected:
     CustomCommand _customCommand;
     Vec3 _noMVPVertices[4];
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerColor);
+    LayerColor(const LayerColor &) = delete;
+    const LayerColor & operator=(const LayerColor &) = delete;
 
 };
 
@@ -526,7 +529,8 @@ protected:
     std::vector<node_ptr<Layer>> _layers;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(LayerMultiplex);
+    LayerMultiplex(const LayerMultiplex &) = delete;
+    const LayerMultiplex & operator=(const LayerMultiplex &) = delete;
 };
 
 

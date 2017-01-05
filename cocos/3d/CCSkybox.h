@@ -109,7 +109,8 @@ protected:
 
     TextureCube*  _texture;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Skybox);
+    Skybox(const Skybox &) = delete;
+    const Skybox & operator=(const Skybox &) = delete;
 };
 
 // end of 3d group

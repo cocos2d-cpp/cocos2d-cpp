@@ -77,7 +77,8 @@ protected:
     float _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTo);
+    ProgressTo(const ProgressTo &) = delete;
+    const ProgressTo & operator=(const ProgressTo &) = delete;
 };
 
 /**
@@ -122,7 +123,8 @@ protected:
     float _from;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressFromTo);
+    ProgressFromTo(const ProgressFromTo &) = delete;
+    const ProgressFromTo & operator=(const ProgressFromTo &) = delete;
 };
 
 // end of actions group

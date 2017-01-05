@@ -667,7 +667,8 @@ protected:
     bool _strechEnabled;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Sprite);
+    Sprite(const Sprite &) = delete;
+    const Sprite & operator=(const Sprite &) = delete;
 };
 
 

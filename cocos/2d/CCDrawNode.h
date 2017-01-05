@@ -322,7 +322,8 @@ protected:
 
     GLfloat  _defaultLineWidth;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode);
+    DrawNode(const DrawNode &) = delete;
+    const DrawNode & operator=(const DrawNode &) = delete;
 };
 /** @} */
 } // namespace cocos2d

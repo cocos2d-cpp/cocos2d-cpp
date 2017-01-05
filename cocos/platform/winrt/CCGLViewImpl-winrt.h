@@ -149,7 +149,8 @@ protected:
 
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
+    GLViewImpl(const GLViewImpl &) = delete;
+    const GLViewImpl & operator=(const GLViewImpl &) = delete;
 
 	void OnRendering();
 	void UpdateWindowSize();

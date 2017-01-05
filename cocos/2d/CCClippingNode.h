@@ -166,7 +166,8 @@ protected:
     CustomCommand _afterVisitCmd;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ClippingNode);
+    ClippingNode(const ClippingNode &) = delete;
+    const ClippingNode & operator=(const ClippingNode &) = delete;
 };
 /** @} */
 } // namespace cocos2d

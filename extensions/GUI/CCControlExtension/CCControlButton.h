@@ -247,7 +247,8 @@ protected:
     CC_SYNTHESIZE_READONLY(int, _marginH, HorizontalOrigin);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ControlButton);
+    ControlButton(const ControlButton &) = delete;
+    const ControlButton & operator=(const ControlButton &) = delete;
 };
 
 // end of GUI group

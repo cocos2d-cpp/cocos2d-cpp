@@ -117,7 +117,8 @@ protected:
     ccMenuCallback _callback;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItem);
+    MenuItem(const MenuItem &) = delete;
+    const MenuItem & operator=(const MenuItem &) = delete;
 };
 
 /** @brief An abstract class for "label" MenuItemLabel items.
@@ -187,7 +188,8 @@ protected:
     Node* _label;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemLabel);
+    MenuItemLabel(const MenuItemLabel &) = delete;
+    const MenuItemLabel & operator=(const MenuItemLabel &) = delete;
 };
 
 
@@ -217,7 +219,8 @@ protected:
     bool initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemAtlasFont);
+    MenuItemAtlasFont(const MenuItemAtlasFont &) = delete;
+    const MenuItemAtlasFont & operator=(const MenuItemAtlasFont &) = delete;
 };
 
 
@@ -289,7 +292,8 @@ protected:
     std::string _fontName;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemFont);
+    MenuItemFont(const MenuItemFont &) = delete;
+    const MenuItemFont & operator=(const MenuItemFont &) = delete;
 };
 
 
@@ -362,7 +366,8 @@ protected:
     Node* _disabledImage;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemSprite);
+    MenuItemSprite(const MenuItemSprite &) = delete;
+    const MenuItemSprite & operator=(const MenuItemSprite &) = delete;
 };
 
 
@@ -413,7 +418,8 @@ protected:
     bool initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemImage);
+    MenuItemImage(const MenuItemImage &) = delete;
+    const MenuItemImage & operator=(const MenuItemImage &) = delete;
 };
 
 
@@ -498,7 +504,8 @@ private:
      */
     items_container _subItems;
 
-    CC_DISALLOW_COPY_AND_ASSIGN(MenuItemToggle);
+    MenuItemToggle(const MenuItemToggle &) = delete;
+    const MenuItemToggle & operator=(const MenuItemToggle &) = delete;
 };
 
 

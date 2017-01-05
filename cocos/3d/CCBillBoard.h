@@ -122,7 +122,8 @@ protected:
     bool _modeDirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(BillBoard);
+    BillBoard(const BillBoard &) = delete;
+    const BillBoard & operator=(const BillBoard &) = delete;
 
 };
 

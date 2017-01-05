@@ -107,7 +107,8 @@ protected:
     struct _ccArray* _parallaxArray;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParallaxNode);
+    ParallaxNode(const ParallaxNode &) = delete;
+    const ParallaxNode & operator=(const ParallaxNode &) = delete;
 };
 
 // end of _2d group

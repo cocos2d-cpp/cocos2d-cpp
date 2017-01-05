@@ -100,7 +100,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Waves3D);
+    Waves3D(const Waves3D &) = delete;
+    const Waves3D & operator=(const Waves3D &) = delete;
 };
 
 /**
@@ -141,7 +142,8 @@ protected:
     virtual bool initWithSize(const Size& gridSize, float duration);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipX3D);
+    FlipX3D(const FlipX3D &) = delete;
+    const FlipX3D & operator=(const FlipX3D &) = delete;
 };
 
 /**
@@ -166,7 +168,8 @@ protected:
     FlipY3D() {}
     virtual ~FlipY3D() {}
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FlipY3D);
+    FlipY3D(const FlipY3D &) = delete;
+    const FlipY3D & operator=(const FlipY3D &) = delete;
 };
 
 /**
@@ -249,7 +252,8 @@ protected:
     bool _dirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Lens3D);
+    Lens3D(const Lens3D &) = delete;
+    const Lens3D & operator=(const Lens3D &) = delete;
 };
 
 /**
@@ -336,7 +340,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Ripple3D);
+    Ripple3D(const Ripple3D &) = delete;
+    const Ripple3D & operator=(const Ripple3D &) = delete;
 };
 
 /**
@@ -381,7 +386,8 @@ protected:
     bool _shakeZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Shaky3D);
+    Shaky3D(const Shaky3D &) = delete;
+    const Shaky3D & operator=(const Shaky3D &) = delete;
 };
 
 /**
@@ -449,7 +455,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Liquid);
+    Liquid(const Liquid &) = delete;
+    const Liquid & operator=(const Liquid &) = delete;
 };
 
 /**
@@ -524,7 +531,8 @@ protected:
     bool _horizontal;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Waves);
+    Waves(const Waves &) = delete;
+    const Waves & operator=(const Waves &) = delete;
 };
 
 /**
@@ -608,7 +616,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Twirl);
+    Twirl(const Twirl &) = delete;
+    const Twirl & operator=(const Twirl &) = delete;
 };
 
 // end of actions group

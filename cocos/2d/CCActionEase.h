@@ -76,7 +76,8 @@ protected:
     /** The inner action */
     ActionInterval *_inner;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ActionEase);
+    ActionEase(const ActionEase &) = delete;
+    const ActionEase & operator=(const ActionEase &) = delete;
 };
 
 /**
@@ -115,7 +116,8 @@ protected:
     float _rate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseRateAction);
+    EaseRateAction(const EaseRateAction &) = delete;
+    const EaseRateAction & operator=(const EaseRateAction &) = delete;
 };
 
 //
@@ -134,7 +136,8 @@ public: \
     virtual void update(float time) override; \
     virtual ActionEase* reverse() const override; \
 private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
+    CLASSNAME(const CLASSNAME &) = delete; \
+    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
 /**
@@ -383,7 +386,8 @@ public: \
     virtual void update(float time) override; \
     virtual EaseRateAction* reverse() const override; \
 private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
+    CLASSNAME(const CLASSNAME &) = delete; \
+    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
 /**
@@ -451,7 +455,8 @@ protected:
     float _period;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseElastic);
+    EaseElastic(const EaseElastic &) = delete;
+    const EaseElastic & operator=(const EaseElastic &) = delete;
 };
 
 //
@@ -470,7 +475,8 @@ public: \
     virtual void update(float time) override; \
     virtual EaseElastic* reverse() const override; \
 private: \
-    CC_DISALLOW_COPY_AND_ASSIGN(CLASSNAME); \
+    CLASSNAME(const CLASSNAME &) = delete; \
+    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
 /**
@@ -546,7 +552,8 @@ protected:
     float _p3;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(EaseBezierAction);
+    EaseBezierAction(const EaseBezierAction &) = delete;
+    const EaseBezierAction & operator=(const EaseBezierAction &) = delete;
 };
 
 // end of actions group

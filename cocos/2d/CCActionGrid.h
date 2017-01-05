@@ -82,7 +82,8 @@ protected:
     void cacheTargetAsGridNode();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(GridAction);
+    GridAction(const GridAction &) = delete;
+    const GridAction & operator=(const GridAction &) = delete;
 };
 
 /** 
@@ -224,7 +225,8 @@ protected:
     ActionInterval *_other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AccelDeccelAmplitude);
+    AccelDeccelAmplitude(const AccelDeccelAmplitude &) = delete;
+    const AccelDeccelAmplitude & operator=(const AccelDeccelAmplitude &) = delete;
 };
 
 /**
@@ -269,7 +271,8 @@ protected:
     ActionInterval *_other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AccelAmplitude);
+    AccelAmplitude(const AccelAmplitude &) = delete;
+    const AccelAmplitude & operator=(const AccelAmplitude &) = delete;
 };
 
 /**
@@ -320,7 +323,8 @@ protected:
     ActionInterval *_other;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DeccelAmplitude);
+    DeccelAmplitude(const DeccelAmplitude &) = delete;
+    const DeccelAmplitude & operator=(const DeccelAmplitude &) = delete;
 };
 
 /**
@@ -355,7 +359,8 @@ protected:
     void cacheTargetAsGridNode();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(StopGrid);
+    StopGrid(const StopGrid &) = delete;
+    const StopGrid & operator=(const StopGrid &) = delete;
 };
 
 /** 
@@ -395,7 +400,8 @@ protected:
     int _times;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ReuseGrid);
+    ReuseGrid(const ReuseGrid &) = delete;
+    const ReuseGrid & operator=(const ReuseGrid &) = delete;
 };
 
 // end of actions group

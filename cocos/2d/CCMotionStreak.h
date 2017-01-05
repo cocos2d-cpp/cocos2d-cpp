@@ -189,7 +189,8 @@ protected:
     CustomCommand _customCommand;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak);
+    MotionStreak(const MotionStreak &) = delete;
+    const MotionStreak & operator=(const MotionStreak &) = delete;
 };
 
 // end of _2d group

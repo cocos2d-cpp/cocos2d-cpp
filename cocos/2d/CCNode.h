@@ -1930,7 +1930,8 @@ public:
 #endif
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Node);
+    Node(const Node &) = delete;
+    const Node & operator=(const Node &) = delete;
 };
 
 /**

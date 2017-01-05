@@ -188,7 +188,8 @@ protected:
 
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystemQuad);
+    ParticleSystemQuad(const ParticleSystemQuad &) = delete;
+    const ParticleSystemQuad & operator=(const ParticleSystemQuad &) = delete;
 };
 
 // end of _2d group

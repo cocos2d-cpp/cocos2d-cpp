@@ -174,7 +174,8 @@ protected:
     unsigned int _flags;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Action);
+    Action(const Action &) = delete;
+    const Action & operator=(const Action &) = delete;
 };
 
 template<typename T>
@@ -250,7 +251,8 @@ protected:
     //! Duration in seconds.
     float _duration;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FiniteTimeAction);
+    FiniteTimeAction(const FiniteTimeAction &) = delete;
+    const FiniteTimeAction & operator=(const FiniteTimeAction &) = delete;
 };
 
 class ActionInterval;
@@ -321,7 +323,8 @@ protected:
     ActionInterval *_innerAction;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Speed);
+    Speed(const Speed &) = delete;
+    const Speed & operator=(const Speed &) = delete;
 };
 
 /** @class Follow
@@ -457,7 +460,8 @@ protected:
     Rect _worldRect;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Follow);
+    Follow(const Follow &) = delete;
+    const Follow & operator=(const Follow &) = delete;
 };
 
 // end of actions group

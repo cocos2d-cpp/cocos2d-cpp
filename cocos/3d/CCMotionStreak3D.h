@@ -194,7 +194,8 @@ protected:
     CustomCommand _customCommand;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(MotionStreak3D);
+    MotionStreak3D(const MotionStreak3D &) = delete;
+    const MotionStreak3D & operator=(const MotionStreak3D &) = delete;
 };
 
 // end of _3d group

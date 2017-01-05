@@ -55,7 +55,8 @@ protected:
     cocos2d::Console *_console;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ConsoleCustomCommand);
+    ConsoleCustomCommand(const ConsoleCustomCommand &) = delete;
+    const ConsoleCustomCommand & operator=(const ConsoleCustomCommand &) = delete;
 };
 
 class ConsoleUploadFile : public BaseTestConsole
@@ -75,7 +76,8 @@ protected:
     std::string _src_file_path;
     std::string _target_file_name;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ConsoleUploadFile);
+    ConsoleUploadFile(const ConsoleUploadFile &) = delete;
+    const ConsoleUploadFile & operator=(const ConsoleUploadFile &) = delete;
 };
 
 #endif // _CONSOLE_TEST_H_

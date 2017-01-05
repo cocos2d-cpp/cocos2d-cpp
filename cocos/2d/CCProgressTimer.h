@@ -184,7 +184,8 @@ protected:
     bool _reverseDirection;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProgressTimer);
+    ProgressTimer(const ProgressTimer &) = delete;
+    const ProgressTimer & operator=(const ProgressTimer &) = delete;
 };
 
 // end of misc_nodes group

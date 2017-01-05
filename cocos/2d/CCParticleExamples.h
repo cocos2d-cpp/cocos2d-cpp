@@ -70,7 +70,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles) override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFire);
+    ParticleFire(const ParticleFire &) = delete;
+    const ParticleFire & operator=(const ParticleFire &) = delete;
 };
 
 /** @class ParticleFireworks
@@ -107,7 +108,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFireworks);
+    ParticleFireworks(const ParticleFireworks &) = delete;
+    const ParticleFireworks & operator=(const ParticleFireworks &) = delete;
 
 };
 
@@ -145,7 +147,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSun);
+    ParticleSun(const ParticleSun &) = delete;
+    const ParticleSun & operator=(const ParticleSun &) = delete;
 
 };
 
@@ -183,7 +186,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleGalaxy);
+    ParticleGalaxy(const ParticleGalaxy &) = delete;
+    const ParticleGalaxy & operator=(const ParticleGalaxy &) = delete;
 
 };
 
@@ -221,7 +225,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleFlower);
+    ParticleFlower(const ParticleFlower &) = delete;
+    const ParticleFlower & operator=(const ParticleFlower &) = delete;
 };
 
 /** @class ParticleMeteor
@@ -258,7 +263,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleMeteor);
+    ParticleMeteor(const ParticleMeteor &) = delete;
+    const ParticleMeteor & operator=(const ParticleMeteor &) = delete;
 };
 
 /** @class ParticleSpiral
@@ -295,7 +301,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSpiral);
+    ParticleSpiral(const ParticleSpiral &) = delete;
+    const ParticleSpiral & operator=(const ParticleSpiral &) = delete;
 
 };
 
@@ -333,7 +340,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleExplosion);
+    ParticleExplosion(const ParticleExplosion &) = delete;
+    const ParticleExplosion & operator=(const ParticleExplosion &) = delete;
 };
 
 /** @class ParticleSmoke
@@ -370,7 +378,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSmoke);
+    ParticleSmoke(const ParticleSmoke &) = delete;
+    const ParticleSmoke & operator=(const ParticleSmoke &) = delete;
 };
 
 /** @class ParticleSnow
@@ -407,7 +416,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSnow);
+    ParticleSnow(const ParticleSnow &) = delete;
+    const ParticleSnow & operator=(const ParticleSnow &) = delete;
 };
 
 /** @class ParticleRain
@@ -444,7 +454,8 @@ protected:
     virtual bool initWithTotalParticles(int numberOfParticles);
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleRain);
+    ParticleRain(const ParticleRain &) = delete;
+    const ParticleRain & operator=(const ParticleRain &) = delete;
 };
 
 // end of _2d group

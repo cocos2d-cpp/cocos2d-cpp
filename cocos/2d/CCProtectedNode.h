@@ -197,7 +197,8 @@ protected:
     bool _reorderProtectedChildDirty;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ProtectedNode);
+    ProtectedNode(const ProtectedNode &) = delete;
+    const ProtectedNode & operator=(const ProtectedNode &) = delete;
 };
 
 // end of 2d group

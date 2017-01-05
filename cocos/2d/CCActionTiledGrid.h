@@ -77,7 +77,8 @@ protected:
     bool _shakeZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShakyTiles3D);
+    ShakyTiles3D(const ShakyTiles3D &) = delete;
+    const ShakyTiles3D & operator=(const ShakyTiles3D &) = delete;
 };
 
 /**
@@ -123,7 +124,8 @@ protected:
     bool _shatterZ;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShatteredTiles3D);
+    ShatteredTiles3D(const ShatteredTiles3D &) = delete;
+    const ShatteredTiles3D & operator=(const ShatteredTiles3D &) = delete;
 };
 
 struct Tile;
@@ -174,7 +176,8 @@ protected:
     Tile* _tiles;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ShuffleTiles);
+    ShuffleTiles(const ShuffleTiles &) = delete;
+    const ShuffleTiles & operator=(const ShuffleTiles &) = delete;
 };
 
 /**
@@ -228,7 +231,8 @@ protected:
     virtual ~FadeOutTRTiles() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutTRTiles);
+    FadeOutTRTiles(const FadeOutTRTiles &) = delete;
+    const FadeOutTRTiles & operator=(const FadeOutTRTiles &) = delete;
 };
 
 /**
@@ -255,7 +259,8 @@ protected:
     virtual ~FadeOutBLTiles() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutBLTiles);
+    FadeOutBLTiles(const FadeOutBLTiles &) = delete;
+    const FadeOutBLTiles & operator=(const FadeOutBLTiles &) = delete;
 };
 
 /**
@@ -284,7 +289,8 @@ protected:
     virtual ~FadeOutUpTiles() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutUpTiles);
+    FadeOutUpTiles(const FadeOutUpTiles &) = delete;
+    const FadeOutUpTiles & operator=(const FadeOutUpTiles &) = delete;
 };
 
 /**
@@ -311,7 +317,8 @@ protected:
     virtual ~FadeOutDownTiles() {}
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(FadeOutDownTiles);
+    FadeOutDownTiles(const FadeOutDownTiles &) = delete;
+    const FadeOutDownTiles & operator=(const FadeOutDownTiles &) = delete;
 };
 
 /**
@@ -380,7 +387,8 @@ protected:
     unsigned int*   _tilesOrder;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TurnOffTiles);
+    TurnOffTiles(const TurnOffTiles &) = delete;
+    const TurnOffTiles & operator=(const TurnOffTiles &) = delete;
 };
 
 /**
@@ -446,7 +454,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(WavesTiles3D);
+    WavesTiles3D(const WavesTiles3D &) = delete;
+    const WavesTiles3D & operator=(const WavesTiles3D &) = delete;
 };
 
 /**
@@ -512,7 +521,8 @@ protected:
     float _amplitudeRate;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(JumpTiles3D);
+    JumpTiles3D(const JumpTiles3D &) = delete;
+    const JumpTiles3D & operator=(const JumpTiles3D &) = delete;
 };
 
 /**
@@ -553,7 +563,8 @@ protected:
     Size _winSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SplitRows);
+    SplitRows(const SplitRows &) = delete;
+    const SplitRows & operator=(const SplitRows &) = delete;
 };
 
 /**
@@ -598,7 +609,8 @@ protected:
     Size _winSize;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(SplitCols);
+    SplitCols(const SplitCols &) = delete;
+    const SplitCols & operator=(const SplitCols &) = delete;
 };
 
 // end of actions group

@@ -971,7 +971,8 @@ protected:
     bool _paused;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(ParticleSystem);
+    ParticleSystem(const ParticleSystem &) = delete;
+    const ParticleSystem & operator=(const ParticleSystem &) = delete;
 };
 
 // end of _2d group

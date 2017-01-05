@@ -130,7 +130,8 @@ protected:
     bool _isSendCleanupToScene;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionScene);
+    TransitionScene(const TransitionScene &) = delete;
+    const TransitionScene & operator=(const TransitionScene &) = delete;
 };
 
 /** @class TransitionSceneOriented
@@ -160,7 +161,8 @@ protected:
     Orientation _orientation;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSceneOriented);
+    TransitionSceneOriented(const TransitionSceneOriented &) = delete;
+    const TransitionSceneOriented & operator=(const TransitionSceneOriented &) = delete;
 };
 
 /** @class TransitionRotoZoom
@@ -188,7 +190,8 @@ protected:
     virtual ~TransitionRotoZoom();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionRotoZoom);
+    TransitionRotoZoom(const TransitionRotoZoom &) = delete;
+    const TransitionRotoZoom & operator=(const TransitionRotoZoom &) = delete;
 
 };
 
@@ -217,7 +220,8 @@ protected:
     virtual ~TransitionJumpZoom();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionJumpZoom);
+    TransitionJumpZoom(const TransitionJumpZoom &) = delete;
+    const TransitionJumpZoom & operator=(const TransitionJumpZoom &) = delete;
 };
 
 /** @class TransitionMoveInL
@@ -257,7 +261,8 @@ protected:
     virtual void initScenes();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionMoveInL);
+    TransitionMoveInL(const TransitionMoveInL &) = delete;
+    const TransitionMoveInL & operator=(const TransitionMoveInL &) = delete;
 };
 
 /** @class TransitionMoveInR
@@ -283,7 +288,8 @@ protected:
     virtual void initScenes();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionMoveInR);
+    TransitionMoveInR(const TransitionMoveInR &) = delete;
+    const TransitionMoveInR & operator=(const TransitionMoveInR &) = delete;
 };
 
 /** @class TransitionMoveInT
@@ -309,7 +315,8 @@ protected:
     virtual void initScenes();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionMoveInT);
+    TransitionMoveInT(const TransitionMoveInT &) = delete;
+    const TransitionMoveInT & operator=(const TransitionMoveInT &) = delete;
 };
 
 /** @class TransitionMoveInB
@@ -335,7 +342,8 @@ protected:
     virtual void initScenes();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionMoveInB);
+    TransitionMoveInB(const TransitionMoveInB &) = delete;
+    const TransitionMoveInB & operator=(const TransitionMoveInB &) = delete;
 };
 
 /** @class TransitionSlideInL
@@ -377,7 +385,8 @@ protected:
     virtual void sceneOrder() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSlideInL);
+    TransitionSlideInL(const TransitionSlideInL &) = delete;
+    const TransitionSlideInL & operator=(const TransitionSlideInL &) = delete;
 };
 
 /** @class TransitionSlideInR
@@ -409,7 +418,8 @@ protected:
     virtual void sceneOrder() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSlideInR);
+    TransitionSlideInR(const TransitionSlideInR &) = delete;
+    const TransitionSlideInR & operator=(const TransitionSlideInR &) = delete;
 };
 
 /** @class TransitionSlideInB
@@ -441,7 +451,8 @@ protected:
     virtual void sceneOrder() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSlideInB);
+    TransitionSlideInB(const TransitionSlideInB &) = delete;
+    const TransitionSlideInB & operator=(const TransitionSlideInB &) = delete;
 };
 
 /** @class TransitionSlideInT
@@ -473,7 +484,8 @@ protected:
     virtual void sceneOrder() override;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSlideInT);
+    TransitionSlideInT(const TransitionSlideInT &) = delete;
+    const TransitionSlideInT & operator=(const TransitionSlideInT &) = delete;
 };
 
 /** @class TransitionShrinkGrow
@@ -504,7 +516,8 @@ protected:
     virtual ~TransitionShrinkGrow();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionShrinkGrow);
+    TransitionShrinkGrow(const TransitionShrinkGrow &) = delete;
+    const TransitionShrinkGrow & operator=(const TransitionShrinkGrow &) = delete;
 };
 
 /** @class TransitionFlipX
@@ -544,7 +557,8 @@ protected:
     virtual ~TransitionFlipX();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFlipX);
+    TransitionFlipX(const TransitionFlipX &) = delete;
+    const TransitionFlipX & operator=(const TransitionFlipX &) = delete;
 };
 
 /** @class TransitionFlipY
@@ -584,7 +598,8 @@ protected:
     virtual ~TransitionFlipY();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFlipY);
+    TransitionFlipY(const TransitionFlipY &) = delete;
+    const TransitionFlipY & operator=(const TransitionFlipY &) = delete;
 };
 
 /** @class TransitionFlipAngular
@@ -624,7 +639,8 @@ protected:
     virtual ~TransitionFlipAngular();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFlipAngular);
+    TransitionFlipAngular(const TransitionFlipAngular &) = delete;
+    const TransitionFlipAngular & operator=(const TransitionFlipAngular &) = delete;
 };
 
 /** @class TransitionZoomFlipX
@@ -664,7 +680,8 @@ protected:
     virtual ~TransitionZoomFlipX();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionZoomFlipX);
+    TransitionZoomFlipX(const TransitionZoomFlipX &) = delete;
+    const TransitionZoomFlipX & operator=(const TransitionZoomFlipX &) = delete;
 };
 
 /** @class TransitionZoomFlipY
@@ -704,7 +721,8 @@ protected:
     virtual ~TransitionZoomFlipY();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionZoomFlipY);
+    TransitionZoomFlipY(const TransitionZoomFlipY &) = delete;
+    const TransitionZoomFlipY & operator=(const TransitionZoomFlipY &) = delete;
 };
 
 /** @class TransitionZoomFlipAngular
@@ -744,7 +762,8 @@ protected:
     virtual ~TransitionZoomFlipAngular();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionZoomFlipAngular);
+    TransitionZoomFlipAngular(const TransitionZoomFlipAngular &) = delete;
+    const TransitionZoomFlipAngular & operator=(const TransitionZoomFlipAngular &) = delete;
 };
 
 /** @class TransitionFade
@@ -792,7 +811,8 @@ protected:
     Color4B _color;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFade);
+    TransitionFade(const TransitionFade &) = delete;
+    const TransitionFade & operator=(const TransitionFade &) = delete;
 
 };
 
@@ -833,7 +853,8 @@ protected:
     virtual ~TransitionCrossFade();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionCrossFade);
+    TransitionCrossFade(const TransitionCrossFade &) = delete;
+    const TransitionCrossFade & operator=(const TransitionCrossFade &) = delete;
 };
 
 /** @class TransitionTurnOffTiles
@@ -877,7 +898,8 @@ protected:
     NodeGrid* _outSceneProxy;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionTurnOffTiles);
+    TransitionTurnOffTiles(const TransitionTurnOffTiles &) = delete;
+    const TransitionTurnOffTiles & operator=(const TransitionTurnOffTiles &) = delete;
 };
 
 /** @class TransitionSplitCols
@@ -920,7 +942,8 @@ protected:
     void switchTargetToInscene();
     NodeGrid* _gridProxy;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSplitCols);
+    TransitionSplitCols(const TransitionSplitCols &) = delete;
+    const TransitionSplitCols & operator=(const TransitionSplitCols &) = delete;
 };
 
 /** @class TransitionSplitRows
@@ -948,7 +971,8 @@ protected:
     virtual ~TransitionSplitRows();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionSplitRows);
+    TransitionSplitRows(const TransitionSplitRows &) = delete;
+    const TransitionSplitRows & operator=(const TransitionSplitRows &) = delete;
 };
 
 /** @class TransitionFadeTR
@@ -995,7 +1019,8 @@ protected:
     NodeGrid* _outSceneProxy;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFadeTR);
+    TransitionFadeTR(const TransitionFadeTR &) = delete;
+    const TransitionFadeTR & operator=(const TransitionFadeTR &) = delete;
 };
 
 /** @class TransitionFadeBL
@@ -1023,7 +1048,8 @@ protected:
     virtual ~TransitionFadeBL();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFadeBL);
+    TransitionFadeBL(const TransitionFadeBL &) = delete;
+    const TransitionFadeBL & operator=(const TransitionFadeBL &) = delete;
 };
 
 /** @class TransitionFadeUp
@@ -1051,7 +1077,8 @@ protected:
     virtual ~TransitionFadeUp();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFadeUp);
+    TransitionFadeUp(const TransitionFadeUp &) = delete;
+    const TransitionFadeUp & operator=(const TransitionFadeUp &) = delete;
 };
 
 /** @class TransitionFadeDown
@@ -1079,7 +1106,8 @@ protected:
     virtual ~TransitionFadeDown();
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(TransitionFadeDown);
+    TransitionFadeDown(const TransitionFadeDown &) = delete;
+    const TransitionFadeDown & operator=(const TransitionFadeDown &) = delete;
 
 };
 

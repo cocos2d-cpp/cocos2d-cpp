@@ -106,7 +106,8 @@ protected:
     Rect _gridRect;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(NodeGrid);
+    NodeGrid(const NodeGrid &) = delete;
+    const NodeGrid & operator=(const NodeGrid &) = delete;
 };
 /** @} */
 } // namespace cocos2d

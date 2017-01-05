@@ -149,7 +149,8 @@ protected:
     ValueMap _userInfo;
     
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(AnimationFrame);
+    AnimationFrame(const AnimationFrame &) = delete;
+    const AnimationFrame & operator=(const AnimationFrame &) = delete;
 };
 
 
@@ -307,7 +308,8 @@ private:
     /** array of AnimationFrames. */
     std::vector<retaining_ptr<AnimationFrame>> _frames;
 
-    CC_DISALLOW_COPY_AND_ASSIGN(Animation);
+    Animation(const Animation &) = delete;
+    const Animation & operator=(const Animation &) = delete;
 };
 
 // end of sprite_nodes group

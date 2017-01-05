@@ -201,7 +201,8 @@ protected:
     MenuItem *_selectedItem;
     const Camera *_selectedWithCamera;
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(Menu);
+    Menu(const Menu &) = delete;
+    const Menu & operator=(const Menu &) = delete;
 };
 
 // end of _2d group

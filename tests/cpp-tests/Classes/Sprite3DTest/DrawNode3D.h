@@ -107,7 +107,8 @@ protected:
     bool        _dirty;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(DrawNode3D);
+    DrawNode3D(const DrawNode3D &) = delete;
+    const DrawNode3D & operator=(const DrawNode3D &) = delete;
 };
 
 } // namespace cocos2d

@@ -170,7 +170,8 @@ public:
     static const std::string EVENT_WINDOW_UNFOCUSED;
 
 private:
-    CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
+    GLViewImpl(const GLViewImpl &) = delete;
+    const GLViewImpl & operator=(const GLViewImpl &) = delete;
 };
 
 } // namespace cocos2d
