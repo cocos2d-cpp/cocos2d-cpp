@@ -110,10 +110,10 @@ TMXLayer * TMXTiledMap::parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMap
 {
     auto tileset = tilesetForLayer(layerInfo.get(), mapInfo);
 
-    if (tileset == nullptr)
+    if (! tileset)
         return nullptr;
     
-    TMXLayer *layer = TMXLayer::create(std::move( tileset ), std::move( layerInfo ), *mapInfo);
+    TMXLayer *layer = TMXLayer::create(tileset, std::move( layerInfo ), *mapInfo);
 
     if (nullptr != layer)
     {
@@ -123,7 +123,7 @@ TMXLayer * TMXTiledMap::parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMap
     return layer;
 }
 
-retaining_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+std::shared_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
     auto height = static_cast<uint32_t>(layerInfo->_layerSize.height);
     auto width  = static_cast<uint32_t>(layerInfo->_layerSize.width);
@@ -150,9 +150,9 @@ retaining_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerIn
                         // an CCASSERT will be thrown later
                         if (tileset->_firstGid < 0 ||
                             (gid & kTMXFlippedMask) >= static_cast<uint32_t>(tileset->_firstGid))
-                            // TODO FIXME
-                            // must be shared
-                            return to_retaining_ptr( tileset.get() ); // shared_ptr
+                        {
+                            return tileset;
+                        }
                     }
                 }
             }        
@@ -162,7 +162,7 @@ retaining_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerIn
     // If all the tiles are 0, return empty tileset
     CCLOG("cocos2d: Warning: TMX Layer '%s' has no tiles", layerInfo->_name.c_str());
 
-    return retaining_ptr<TMXTilesetInfo>();
+    return std::shared_ptr<TMXTilesetInfo>();
 }
 
 void TMXTiledMap::buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo)

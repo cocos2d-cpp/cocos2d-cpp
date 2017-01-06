@@ -207,7 +207,7 @@ protected:
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
     
     TMXLayer * parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    TMXTilesetInfo * tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    std::shared_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     void buildWithMapInfo(TMXMapInfo* mapInfo);
 
     /** the map's size property measured in tiles */

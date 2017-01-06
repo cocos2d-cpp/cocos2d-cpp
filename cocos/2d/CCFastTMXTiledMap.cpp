@@ -100,27 +100,27 @@ TMXTiledMap::~TMXTiledMap()
 // private
 TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
-    TMXTilesetInfo *tileset = tilesetForLayer(layerInfo, mapInfo);
-    if (tileset == nullptr)
+    auto tileset = tilesetForLayer(layerInfo, mapInfo);
+    if (! tileset)
         return nullptr;
     
     TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
 
     // tell the layerinfo to release the ownership of the tiles map.
-    layerInfo->_ownTiles = false;
     layer->setupTiles();
 
     return layer;
 }
 
-TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+std::shared_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
     Size size = layerInfo->_layerSize;
     auto & tilesets = mapInfo->_tilesets;
 
     for (auto iter = tilesets.crbegin(), iterCrend = tilesets.crend(); iter != iterCrend; ++iter)
     {
-        TMXTilesetInfo* tilesetInfo = iter->get();
+        auto & tilesetInfo = *iter;
+
         if (tilesetInfo)
         {
             for( int y=0; y < size.height; y++ )

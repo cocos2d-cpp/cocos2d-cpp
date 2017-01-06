@@ -36,7 +36,9 @@ THE SOFTWARE.
 #include "base/CCValue.h"
 #include "2d/CCTMXObjectGroup.h" // needed for _objectGroups for binding
 
+#include <memory>
 #include <string>
+#include <vector>
 
 namespace cocos2d {
 
@@ -121,7 +123,7 @@ public:
 
 This information is obtained from the TMX file. 
 */
-class CC_DLL TMXTilesetInfo : public Ref
+class CC_DLL TMXTilesetInfo
 {
 public:
     std::string     _name;
@@ -202,7 +204,7 @@ public:
     /// Layers
     std::vector<retaining_ptr<TMXLayerInfo>> _layers;
     /// tilesets
-    std::vector<retaining_ptr<TMXTilesetInfo>> _tilesets;
+    std::vector<std::shared_ptr<TMXTilesetInfo>> _tilesets;
     /// ObjectGroups
     std::vector<retaining_ptr<TMXObjectGroup>> _objectGroups;
     /// parent element

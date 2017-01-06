@@ -263,7 +263,7 @@ protected:
 
 protected:
     TMXLayer * parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
-    retaining_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    std::shared_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     void buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo);
 
     /** the map's size property measured in tiles */

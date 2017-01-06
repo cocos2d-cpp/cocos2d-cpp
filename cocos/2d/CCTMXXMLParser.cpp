@@ -315,7 +315,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         }
         else
         {
-            auto tileset = to_retaining_ptr(new (std::nothrow) TMXTilesetInfo);
+            auto tileset = std::make_shared<TMXTilesetInfo>();
 
             tileset->_name = attributeDict["name"].asString();
             
@@ -341,7 +341,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
             tileset->_tileSize.width = attributeDict["tilewidth"].asFloat();
             tileset->_tileSize.height = attributeDict["tileheight"].asFloat();
 
-            _tilesets.push_back(std::move( tileset ));
+            _tilesets.push_back( tileset );
         }
     }
     else if (elementName == "tile")
@@ -360,8 +360,8 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
         }
         else
         {
-            auto & info = _tilesets.back();
-            _parentGID = info->_firstGid + attributeDict["id"].asInt();
+            auto & tileset = _tilesets.back();
+            _parentGID = tileset->_firstGid + attributeDict["id"].asInt();
             _tileProperties[_parentGID] = Value(ValueMap());
             _parentElement = TMXPropertyTile;
         }

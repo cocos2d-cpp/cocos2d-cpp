@@ -27,12 +27,15 @@ THE SOFTWARE.
 #ifndef __CC_FAST_TMX_LAYER_H__
 #define __CC_FAST_TMX_LAYER_H__
 
-#include <map>
-#include <unordered_map>
 #include "2d/CCNode.h"
 #include "2d/CCTMXXMLParser.h"
 #include "renderer/CCPrimitiveCommand.h"
 #include "base/CCMap.h"
+
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <vector>
 
 namespace cocos2d {
 
@@ -86,7 +89,7 @@ public:
      * @param mapInfo A map info.
      * @return Return an autorelease object.
      */
-    static TMXLayer * create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    static TMXLayer * create(std::shared_ptr<TMXTilesetInfo>, TMXLayerInfo *, TMXMapInfo *);
     /**
      * @js ctor
      */
@@ -196,22 +199,6 @@ public:
      */
     void setTiles(uint32_t* tiles) { _tiles = tiles; _quadsDirty = true;};
     
-    /** Tileset information for the layer.
-     *
-     * @return Tileset information for the layer.
-     */
-    TMXTilesetInfo* getTileSet() const { return _tileSet; }
-    
-    /** Set the tileset information for the layer. 
-     *
-     * @param info The new tileset information for the layer.
-     */
-    void setTileSet(TMXTilesetInfo* info) {
-        CC_SAFE_RETAIN(info);
-        CC_SAFE_RELEASE(_tileSet);
-        _tileSet = info;
-    }
-    
     /** Layer orientation, which is the same as the map orientation.
      *
      * @return Layer orientation, which is the same as the map orientation.
@@ -272,7 +259,7 @@ public:
 
 protected:
 
-    bool initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
+    bool initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo>, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     void updateTiles(const Rect& culledRect);
     Vec2 calculateLayerOffset(const Vec2& offset);
 
@@ -308,7 +295,7 @@ protected:
     /** pointer to the map of tiles */
     uint32_t* _tiles;
     /** Tileset information for the layer */
-    TMXTilesetInfo* _tileSet;
+    std::shared_ptr<TMXTilesetInfo> _tileSet;
     /** Layer orientation, which is the same as the map orientation */
     int _layerOrientation;
     /** properties from the layer. They can be added using Tiled */

@@ -54,7 +54,7 @@ const int TMXLayer::FAST_TMX_ORIENTATION_HEX = 1;
 const int TMXLayer::FAST_TMX_ORIENTATION_ISO = 2;
 
 // FastTMXLayer - init & alloc & dealloc
-TMXLayer * TMXLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer();
     if (ret->initWithTilesetInfo(tilesetInfo, layerInfo, mapInfo))
@@ -66,7 +66,9 @@ TMXLayer * TMXLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo
     return nullptr;
 }
 
-bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
+                                   TMXLayerInfo *layerInfo,
+                                   TMXMapInfo *mapInfo)
 {    
 
     if( tilesetInfo )
@@ -79,13 +81,13 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
     _layerName = layerInfo->_name;
     _layerSize = layerInfo->_layerSize;
     _tiles = layerInfo->_tiles;
+    layerInfo->_ownTiles = false;
     _quadsDirty = true;
     setOpacity( layerInfo->_opacity );
     setProperties(layerInfo->getProperties());
 
     // tilesetInfo
     _tileSet = tilesetInfo;
-    CC_SAFE_RETAIN(_tileSet);
 
     // mapInfo
     _mapTileSize = mapInfo->_tileSize;
@@ -113,7 +115,7 @@ TMXLayer::TMXLayer()
 , _layerSize(Size::ZERO)
 , _mapTileSize(Size::ZERO)
 , _tiles(nullptr)
-, _tileSet(nullptr)
+, _tileSet()
 , _layerOrientation(FAST_TMX_ORIENTATION_ORTHO)
 , _texture(nullptr)
 , _vertexZvalue(0)
@@ -128,7 +130,6 @@ TMXLayer::TMXLayer()
 
 TMXLayer::~TMXLayer()
 {
-    CC_SAFE_RELEASE(_tileSet);
     CC_SAFE_RELEASE(_texture);
     CC_SAFE_FREE(_tiles);
     CC_SAFE_RELEASE(_vData);

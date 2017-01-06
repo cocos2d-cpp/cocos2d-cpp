@@ -38,7 +38,7 @@ namespace cocos2d {
 
 // TMXLayer - init & alloc & dealloc
 
-TMXLayer * TMXLayer::create(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
+TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer;
 
@@ -52,7 +52,7 @@ TMXLayer * TMXLayer::create(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining
     return nullptr;
 }
 
-bool TMXLayer::initWithTilesetInfo(retaining_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
+bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {    
     // FIXME:: is 35% a good estimate ?
     Size size = layerInfo->_layerSize;
@@ -80,7 +80,7 @@ bool TMXLayer::initWithTilesetInfo(retaining_ptr<TMXTilesetInfo> tilesetInfo, re
         _contentScaleFactor = Director::getInstance()->getContentScaleFactor(); 
 
         // tilesetInfo
-        _tileSet = std::move( tilesetInfo );
+        _tileSet = tilesetInfo;
 
         // mapInfo
         _mapTileSize = mapInfo._tileSize;
