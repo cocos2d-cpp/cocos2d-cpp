@@ -93,7 +93,7 @@ typedef enum TMXTileFlags_ {
 
 This information is obtained from the TMX file.
 */
-class CC_DLL TMXLayerInfo : public Ref
+class CC_DLL TMXLayerInfo
 {
 public:
     TMXLayerInfo();
@@ -157,7 +157,7 @@ And it also contains:
 This information is obtained from the TMX file.
 
 */
-class CC_DLL TMXMapInfo : public Ref, public SAXDelegator
+class CC_DLL TMXMapInfo : public SAXDelegator
 {    
 public:    
     /** creates a TMX Format with a tmx file */
@@ -165,11 +165,11 @@ public:
     /** creates a TMX Format with an XML string and a TMX resource path */
     static TMXMapInfo * createWithXML(const std::string& tmxString, const std::string& resourcePath);
     
+    virtual ~TMXMapInfo();
+    
 private:
     TMXMapInfo();
 
-    virtual ~TMXMapInfo();
-    
     /** initializes a TMX format with a  tmx file */
     bool initWithTMXFile(const std::string& tmxFile);
     /** initializes a TMX format with an XML string and a TMX resource path */
@@ -202,11 +202,11 @@ public:
     /// tiles width & height
     Size _tileSize;
     /// Layers
-    std::vector<retaining_ptr<TMXLayerInfo>> _layers;
+    std::vector<std::unique_ptr<TMXLayerInfo>> _layers;
     /// tilesets
     std::vector<std::shared_ptr<TMXTilesetInfo>> _tilesets;
     /// ObjectGroups
-    std::vector<retaining_ptr<TMXObjectGroup>> _objectGroups;
+    std::vector<std::unique_ptr<TMXObjectGroup>> _objectGroups;
     /// parent element
     int _parentElement;
     /// parent GID

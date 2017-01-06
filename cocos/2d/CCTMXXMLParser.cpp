@@ -107,10 +107,9 @@ TMXMapInfo * TMXMapInfo::create(const std::string& tmxFile)
     TMXMapInfo *ret = new (std::nothrow) TMXMapInfo();
     if (ret->initWithTMXFile(tmxFile))
     {
-        ret->autorelease();
         return ret;
     }
-    CC_SAFE_DELETE(ret);
+    delete ret;
     return nullptr;
 }
 
@@ -119,10 +118,9 @@ TMXMapInfo * TMXMapInfo::createWithXML(const std::string& tmxString, const std::
     TMXMapInfo *ret = new (std::nothrow) TMXMapInfo();
     if (ret->initWithXML(tmxString, resourcePath))
     {
-        ret->autorelease();
         return ret;
     }
-    CC_SAFE_DELETE(ret);
+    delete ret;
     return nullptr;
 }
 
@@ -138,8 +136,6 @@ void TMXMapInfo::internalInit(const std::string& tmxFileName, const std::string&
         _resources = resourcePath;
     }
     
-    _objectGroups.reserve(4);
-
     // tmp vars
     _currentString = "";
     _storingCharacters = false;
@@ -368,7 +364,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
     }
     else if (elementName == "layer")
     {
-        auto layer = to_retaining_ptr(new (std::nothrow) TMXLayerInfo);
+        std::unique_ptr<TMXLayerInfo> layer(new TMXLayerInfo);
 
         layer->_name = attributeDict["name"].asString();
 
@@ -392,7 +388,7 @@ void TMXMapInfo::startElement(void* /*ctx*/, const char *name, const char **atts
     } 
     else if (elementName == "objectgroup")
     {
-        auto objectGroup = to_retaining_ptr(new (std::nothrow) TMXObjectGroup);
+        std::unique_ptr<TMXObjectGroup> objectGroup(new TMXObjectGroup);
 
         objectGroup->setGroupName(attributeDict["name"].asString());
         Vec2 positionOffset;

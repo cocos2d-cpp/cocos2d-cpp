@@ -38,7 +38,7 @@ namespace cocos2d {
 
 // TMXLayer - init & alloc & dealloc
 
-TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
+TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, std::unique_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer;
 
@@ -53,7 +53,7 @@ TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaini
 }
 
 bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
-                                   retaining_ptr<TMXLayerInfo> layerInfo,
+                                   std::unique_ptr<TMXLayerInfo> layerInfo,
                                    const TMXMapInfo & mapInfo)
 {    
     // FIXME:: is 35% a good estimate ?

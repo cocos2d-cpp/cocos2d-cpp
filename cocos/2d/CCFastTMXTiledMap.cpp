@@ -63,7 +63,7 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
     
     setContentSize(Size::ZERO);
 
-    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::create(tmxFile) );
+    std::unique_ptr<TMXMapInfo> mapInfo( TMXMapInfo::create(tmxFile) );
 
     if (! mapInfo)
     {
@@ -79,7 +79,7 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 {
     setContentSize(Size::ZERO);
 
-    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::createWithXML(tmxString, resourcePath) );
+    std::unique_ptr<TMXMapInfo> mapInfo( TMXMapInfo::createWithXML(tmxString, resourcePath) );
 
     CCASSERT( !mapInfo->_tilesets.empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
     buildWithMapInfo(std::move( mapInfo ));
@@ -98,7 +98,7 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer * TMXTiledMap::parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXTiledMap::parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo)
 {
     auto tileset = tilesetForLayer(layerInfo.get(), mapInfo);
     if (! tileset)
@@ -157,7 +157,7 @@ std::shared_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layer
     return nullptr;
 }
 
-void TMXTiledMap::buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo)
+void TMXTiledMap::buildWithMapInfo(std::unique_ptr<TMXMapInfo> mapInfo)
 {
     _mapSize = mapInfo->_mapSize;
     _tileSize = mapInfo->_tileSize;

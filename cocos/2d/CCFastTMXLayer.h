@@ -89,7 +89,7 @@ public:
      * @param mapInfo A map info.
      * @return Return an autorelease object.
      */
-    static TMXLayer * create(std::shared_ptr<TMXTilesetInfo>, retaining_ptr<TMXLayerInfo>, const TMXMapInfo & mapInfo);
+    static TMXLayer * create(std::shared_ptr<TMXTilesetInfo>, std::unique_ptr<TMXLayerInfo>, const TMXMapInfo & mapInfo);
     /**
      * @js ctor
      */
@@ -259,7 +259,7 @@ public:
 
 protected:
 
-    bool initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo>, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
+    bool initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo>, std::unique_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
     void updateTiles(const Rect& culledRect);
     Vec2 calculateLayerOffset(const Vec2& offset);
 

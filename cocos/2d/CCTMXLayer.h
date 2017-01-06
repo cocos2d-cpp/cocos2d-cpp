@@ -72,7 +72,7 @@ public:
      * @param mapInfo A map info.
      * @return An autorelease object.
      */
-    static TMXLayer * create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
+    static TMXLayer * create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, std::unique_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
 
     TMXLayer();
     virtual ~TMXLayer();
@@ -84,7 +84,7 @@ public:
      * @param mapInfo A map info.
      * @return If initializes successfully, it will return true.
      */
-    bool initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
+    bool initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo, std::unique_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo);
 
     /** Dealloc the map that contains the tile position from memory.
      * Unless you want to know at runtime the tiles positions, you can safely call this method.

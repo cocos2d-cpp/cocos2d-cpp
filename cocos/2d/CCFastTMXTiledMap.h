@@ -206,9 +206,9 @@ protected:
     /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
     
-    TMXLayer * parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
+    TMXLayer * parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
     std::shared_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
-    void buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo);
+    void buildWithMapInfo(std::unique_ptr<TMXMapInfo> mapInfo);
 
     /** the map's size property measured in tiles */
     Size _mapSize;
@@ -217,7 +217,7 @@ protected:
     /** map orientation */
     int _mapOrientation;
     /** object groups */
-    std::vector<retaining_ptr<TMXObjectGroup>> _objectGroups;
+    std::vector<std::unique_ptr<TMXObjectGroup>> _objectGroups;
     /** properties */
     ValueMap _properties;
     

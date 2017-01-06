@@ -54,7 +54,7 @@ const int TMXLayer::FAST_TMX_ORIENTATION_HEX = 1;
 const int TMXLayer::FAST_TMX_ORIENTATION_ISO = 2;
 
 // FastTMXLayer - init & alloc & dealloc
-TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
+TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, std::unique_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer();
     if (ret->initWithTilesetInfo(tilesetInfo, std::move( layerInfo ), mapInfo))
@@ -67,7 +67,7 @@ TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaini
 }
 
 bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
-                                   retaining_ptr<TMXLayerInfo> layerInfo,
+                                   std::unique_ptr<TMXLayerInfo> layerInfo,
                                    const TMXMapInfo & mapInfo)
 {    
 
