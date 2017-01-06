@@ -163,9 +163,7 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
     _tileSize = mapInfo->_tileSize;
     _mapOrientation = mapInfo->_orientation;
 
-    _objectGroups.clear();
-    for (auto & objectGroup : mapInfo->_objectGroups)
-        _objectGroups.pushBack(objectGroup.get());
+    _objectGroups = std::move( mapInfo->_objectGroups );
 
     _properties = mapInfo->_properties;
 
@@ -221,14 +219,11 @@ TMXObjectGroup * TMXTiledMap::getObjectGroup(const std::string& groupName) const
 {
     CCASSERT(groupName.size() > 0, "Invalid group name!");
 
-    if (_objectGroups.size()>0)
+    for (const auto & objectGroup : _objectGroups)
     {
-        for (const auto& objectGroup : _objectGroups)
+        if (objectGroup && objectGroup->getGroupName() == groupName)
         {
-            if (objectGroup && objectGroup->getGroupName() == groupName)
-            {
-                return objectGroup;
-            }
+            return objectGroup.get();
         }
     }
 
