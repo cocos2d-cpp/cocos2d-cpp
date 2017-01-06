@@ -54,10 +54,10 @@ const int TMXLayer::FAST_TMX_ORIENTATION_HEX = 1;
 const int TMXLayer::FAST_TMX_ORIENTATION_ISO = 2;
 
 // FastTMXLayer - init & alloc & dealloc
-TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer();
-    if (ret->initWithTilesetInfo(tilesetInfo, layerInfo, mapInfo))
+    if (ret->initWithTilesetInfo(tilesetInfo, std::move( layerInfo ), mapInfo))
     {
         ret->autorelease();
         return ret;
@@ -67,8 +67,8 @@ TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, TMXLaye
 }
 
 bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
-                                   TMXLayerInfo *layerInfo,
-                                   TMXMapInfo *mapInfo)
+                                   retaining_ptr<TMXLayerInfo> layerInfo,
+                                   const TMXMapInfo & mapInfo)
 {    
 
     if( tilesetInfo )
@@ -90,8 +90,8 @@ bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
     _tileSet = tilesetInfo;
 
     // mapInfo
-    _mapTileSize = mapInfo->_tileSize;
-    _layerOrientation = mapInfo->_orientation;
+    _mapTileSize = mapInfo._tileSize;
+    _layerOrientation = mapInfo._orientation;
 
     // offset (after layer orientation is set);
     Vec2 offset = this->calculateLayerOffset(layerInfo->_offset);

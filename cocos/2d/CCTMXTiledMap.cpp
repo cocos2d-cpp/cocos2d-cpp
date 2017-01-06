@@ -171,7 +171,7 @@ void TMXTiledMap::buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo)
     _tileSize = mapInfo->_tileSize;
     _mapOrientation = mapInfo->_orientation;
 
-    _objectGroups = std::move(mapInfo->_objectGroups);
+    _objectGroups = std::move( mapInfo->_objectGroups );
 
     _properties = mapInfo->_properties;
 

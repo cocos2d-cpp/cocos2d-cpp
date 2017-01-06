@@ -42,7 +42,7 @@ TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaini
 {
     TMXLayer *ret = new (std::nothrow) TMXLayer;
 
-    if (ret->initWithTilesetInfo(std::move( tilesetInfo ), std::move( layerInfo ), mapInfo))
+    if (ret->initWithTilesetInfo(tilesetInfo, std::move( layerInfo ), mapInfo))
     {
         ret->autorelease();
         return ret;
@@ -52,7 +52,9 @@ TMXLayer * TMXLayer::create(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaini
     return nullptr;
 }
 
-bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo, retaining_ptr<TMXLayerInfo> layerInfo, const TMXMapInfo & mapInfo)
+bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
+                                   retaining_ptr<TMXLayerInfo> layerInfo,
+                                   const TMXMapInfo & mapInfo)
 {    
     // FIXME:: is 35% a good estimate ?
     Size size = layerInfo->_layerSize;

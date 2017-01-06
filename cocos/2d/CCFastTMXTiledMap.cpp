@@ -63,14 +63,14 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
     
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
+    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::create(tmxFile) );
 
     if (! mapInfo)
     {
         return false;
     }
     CCASSERT( !mapInfo->_tilesets.empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+    buildWithMapInfo(std::move( mapInfo ));
 
     return true;
 }
@@ -79,10 +79,10 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 {
     setContentSize(Size::ZERO);
 
-    TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
+    retaining_ptr<TMXMapInfo> mapInfo = to_retaining_ptr( TMXMapInfo::createWithXML(tmxString, resourcePath) );
 
     CCASSERT( !mapInfo->_tilesets.empty(), "FastTMXTiledMap: Map not found. Please check the filename.");
-    buildWithMapInfo(mapInfo);
+    buildWithMapInfo(std::move( mapInfo ));
 
     return true;
 }
@@ -98,13 +98,13 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
+TMXLayer * TMXTiledMap::parseLayer(retaining_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo)
 {
-    auto tileset = tilesetForLayer(layerInfo, mapInfo);
+    auto tileset = tilesetForLayer(layerInfo.get(), mapInfo);
     if (! tileset)
         return nullptr;
     
-    TMXLayer *layer = TMXLayer::create(tileset, layerInfo, mapInfo);
+    TMXLayer *layer = TMXLayer::create(tileset, std::move( layerInfo ), *mapInfo);
 
     // tell the layerinfo to release the ownership of the tiles map.
     layer->setupTiles();
@@ -157,7 +157,7 @@ std::shared_ptr<TMXTilesetInfo> TMXTiledMap::tilesetForLayer(TMXLayerInfo *layer
     return nullptr;
 }
 
-void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
+void TMXTiledMap::buildWithMapInfo(retaining_ptr<TMXMapInfo> mapInfo)
 {
     _mapSize = mapInfo->_mapSize;
     _tileSize = mapInfo->_tileSize;
@@ -171,11 +171,11 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
 
     int idx=0;
 
-    auto& layers = mapInfo->_layers;
-    for(const auto &layerInfo : layers) {
+    for(auto & layerInfo : mapInfo->_layers)
+    {
         if (layerInfo->_visible)
         {
-            TMXLayer *child = parseLayer(layerInfo.get(), mapInfo);
+            TMXLayer *child = parseLayer(std::move( layerInfo ), mapInfo.get());
             if (child == nullptr) {
                 idx++;
                 continue;
