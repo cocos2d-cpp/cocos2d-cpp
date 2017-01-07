@@ -111,17 +111,11 @@ public:
     /**get child bone count*/
     ssize_t getChildBoneCount() const;
     /**get child bone by index*/
-    Bone3D* getChildBoneByIndex(int index) const;
+    Bone3D* getChildBoneByIndex(size_t index) const;
     /**add child bone*/
-    void addChildBone(Bone3D* bone);
-    /**remove child bone by index*/
-    void removeChildBoneByIndex(int index);
-    /**remove child bone*/
-    void removeChildBone(Bone3D* bone);
+    void addChildBone(retaining_ptr<Bone3D> bone);
     /**remove all child bone*/
     void removeAllChildBone();
-    
-    
     
 protected:
     /**
@@ -172,7 +166,7 @@ protected:
     
     Bone3D* _parent; //parent bone
     
-    Vector<Bone3D*> _children;
+    std::vector<retaining_ptr<Bone3D>> _children;
     
     bool          _worldDirty;
     Mat4          _world;

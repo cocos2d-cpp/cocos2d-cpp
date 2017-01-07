@@ -93,7 +93,7 @@ namespace {
             return false;
         }
         
-        bool onTouchBegan(Touch  *touch, Event  *event)
+        bool onTouchBegan(Touch *touch, Event*)
         {
             auto hits = touchHits(touch);
             if (hits){
@@ -102,7 +102,7 @@ namespace {
             return hits;
         }
         
-        void onTouchEnded(Touch  *touch, Event  *event)
+        void onTouchEnded(Touch *touch, Event*)
         {
             if(_enabled) {
                 auto hits = touchHits(touch);
@@ -114,7 +114,7 @@ namespace {
             scaleButtonTo(1);
         }
         
-        void onTouchCancelled(Touch  *touch, Event  *event)
+        void onTouchCancelled(Touch*, Event*)
         {
             scaleButtonTo(1);
         }
@@ -288,7 +288,7 @@ bool VibrateControlTest::init()
 
     auto durationSlider = SliderEx::create();
     durationSlider->setPercent(0);
-    durationSlider->setCallBack([&](SliderEx* sender, float ratio, SliderEx::TouchEvent event){
+    durationSlider->setCallBack([&](SliderEx* sender, float ratio, SliderEx::TouchEvent){
         _duration = ratio * 1.9f + 0.1f; // From 0.1s to 2s
         auto durationLabelValue = StringUtils::format("duration: %.3fs", _duration);
         (static_cast<Label*>(_durationLabel))->setString(durationLabelValue);

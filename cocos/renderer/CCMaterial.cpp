@@ -150,9 +150,9 @@ bool Material::parseProperties(Properties* materialProperties)
 
 bool Material::parseTechnique(Properties* techniqueProperties)
 {
-    auto technique = to_retaining_ptr( Technique::create(this));
+    _techniques.push_back(to_retaining_ptr( Technique::create(this)));
 
-    _techniques.push_back(std::move( technique ));
+    auto & technique = _techniques.back();
 
     // first one is the default one
     if (!_currentTechnique)

@@ -51,7 +51,7 @@ void Bone3D::resetPose()
 {
     _local =_oriPose;
     
-    for (auto it : _children) {
+    for (auto & it : _children) {
         it->resetPose();
     }
 }
@@ -59,7 +59,7 @@ void Bone3D::resetPose()
 void Bone3D::setWorldMatDirty(bool dirty)
 {
     _worldDirty = dirty;
-    for (auto it : _children) {
+    for (auto & it : _children) {
         it->setWorldMatDirty(dirty);
     }
 }
@@ -68,7 +68,7 @@ void Bone3D::setWorldMatDirty(bool dirty)
 void Bone3D::updateWorldMat()
 {
     getWorldMat();
-    for (auto itor : _children) {
+    for (auto & itor : _children) {
         itor->updateWorldMat();
     }
 }
@@ -123,7 +123,7 @@ void Bone3D::setAnimationValue(float* trans, float* rot, float* scale, void* tag
 void Bone3D::clearBoneBlendState()
 {
     _blendStates.clear();
-    for (auto it : _children) {
+    for (auto & it : _children) {
         it->clearBoneBlendState();
     }
 }
@@ -158,22 +158,15 @@ ssize_t Bone3D::getChildBoneCount() const
 {
     return _children.size();
 }
-Bone3D* Bone3D::getChildBoneByIndex(int index) const
+Bone3D* Bone3D::getChildBoneByIndex(size_t index) const
 {
-    return _children.at(index);
+    return _children.at(index).get();
 }
-void Bone3D::addChildBone(Bone3D* bone)
+void Bone3D::addChildBone(retaining_ptr<Bone3D> bone)
 {
-    if (_children.find(bone) == _children.end())
-       _children.pushBack(bone);
-}
-void Bone3D::removeChildBoneByIndex(int index)
-{
-    _children.erase(index);
-}
-void Bone3D::removeChildBone(Bone3D* bone)
-{
-    _children.eraseObject(bone);
+    auto it = std::find(_children.begin(), _children.end(), bone);
+    if (it == _children.end())
+       _children.push_back(std::move( bone));
 }
 void Bone3D::removeAllChildBone()
 {
@@ -334,10 +327,12 @@ void Skeleton3D::addBone(Bone3D* bone)
 Bone3D* Skeleton3D::createBone3D(const NodeData& nodedata)
 {
     auto bone = Bone3D::create(nodedata.id);
-    for (const auto& it : nodedata.children) {
-        auto child = createBone3D(*it);
-        bone->addChildBone(child);
+
+    for (const auto & it : nodedata.children)
+    {
+        auto child = to_retaining_ptr( createBone3D(*it) );
         child->_parent = bone;
+        bone->addChildBone( std::move( child ));
     }
     _bones.pushBack(bone);
     bone->_oriPose = nodedata.transform;

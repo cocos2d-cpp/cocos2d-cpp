@@ -91,7 +91,7 @@ RenderTextureSave::~RenderTextureSave()
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
 }
 
-void RenderTextureSave::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void RenderTextureSave::onTouchesMoved(const std::vector<Touch*>& touches, Event* )
 {
     auto touch = touches[0];
     auto start = touch->getLocation();
@@ -276,7 +276,7 @@ std::string RenderTextureZbuffer::subtitle() const
     return "Touch screen. It should be green";
 }
 
-void RenderTextureZbuffer::onTouchesBegan(const std::vector<Touch*>& touches, Event *event)
+void RenderTextureZbuffer::onTouchesBegan(const std::vector<Touch*>& touches, Event *)
 {
 
     for (auto &item: touches)
@@ -296,7 +296,7 @@ void RenderTextureZbuffer::onTouchesBegan(const std::vector<Touch*>& touches, Ev
     }
 }
 
-void RenderTextureZbuffer::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void RenderTextureZbuffer::onTouchesMoved(const std::vector<Touch*>& touches, Event* )
 {
     for (auto &item: touches)
     {
@@ -315,7 +315,7 @@ void RenderTextureZbuffer::onTouchesMoved(const std::vector<Touch*>& touches, Ev
     }
 }
 
-void RenderTextureZbuffer::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void RenderTextureZbuffer::onTouchesEnded(const std::vector<Touch*>& touches, Event* )
 {
     this->renderScreenShot();
 }
@@ -690,7 +690,7 @@ SpriteRenderTextureBug::SimpleSprite* SpriteRenderTextureBug::addNewSpriteWithCo
     return nullptr;
 }
 
-void SpriteRenderTextureBug::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void SpriteRenderTextureBug::onTouchesEnded(const std::vector<Touch*>& touches, Event* )
 {
     for (auto &touch: touches)
     {
@@ -719,7 +719,7 @@ Issue16113Test::Issue16113Test()
 
     // Save Image menu
     MenuItemFont::setFontSize(16);
-    auto item1 = MenuItemFont::create("Save Image", [&](Ref* ref){
+    auto item1 = MenuItemFont::create("Save Image", [&](Ref*){
         auto winSize = Director::getInstance()->getVisibleSize();
         auto text = Label::createWithTTF("hello world", "fonts/Marker Felt.ttf", 40);
         text->setTextColor(Color4B::RED);
