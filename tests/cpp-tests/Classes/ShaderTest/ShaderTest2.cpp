@@ -463,7 +463,7 @@ bool EffectSpriteTest::init()
         auto s = Director::getInstance()->getWinSize();
 
         auto itemPrev = MenuItemImage::create("Images/b1.png", "Images/b2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref * /*sender*/) {
                                               _vectorIndex--;
                                               if(_vectorIndex<0)
                                                   _vectorIndex = _effects.size()-1;
@@ -471,7 +471,7 @@ bool EffectSpriteTest::init()
                                           });
 
         auto itemNext = MenuItemImage::create("Images/f1.png", "Images/f2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref * /*sender*/) {
                                               _vectorIndex++;
                                               if(_vectorIndex>=_effects.size())
                                                   _vectorIndex = 0;
@@ -560,7 +560,7 @@ bool EffectSpriteLamp::init()
 }
 
 
-void EffectSpriteLamp::onTouchesBegan(const std::vector<Touch*>& touches, Event *unused_event)
+void EffectSpriteLamp::onTouchesBegan(const std::vector<Touch*>& touches, Event *)
 {
     for ( auto &item: touches )
     {
@@ -575,7 +575,7 @@ void EffectSpriteLamp::onTouchesBegan(const std::vector<Touch*>& touches, Event 
     }
 }
 
-void EffectSpriteLamp::onTouchesMoved(const std::vector<Touch*>& touches, Event *unused_event)
+void EffectSpriteLamp::onTouchesMoved(const std::vector<Touch*>& touches, Event *)
 {
     for ( auto &item: touches )
     {
@@ -590,7 +590,7 @@ void EffectSpriteLamp::onTouchesMoved(const std::vector<Touch*>& touches, Event 
     }
 }
 
-void EffectSpriteLamp::onTouchesEnded(const std::vector<Touch*>& touches, Event *unused_event)
+void EffectSpriteLamp::onTouchesEnded(const std::vector<Touch*>& touches, Event *)
 {
     for ( auto &item: touches )
     {

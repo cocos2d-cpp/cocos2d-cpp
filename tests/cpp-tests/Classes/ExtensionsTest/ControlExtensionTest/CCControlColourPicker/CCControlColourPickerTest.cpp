@@ -65,7 +65,7 @@ ControlColourPickerTest::~ControlColourPickerTest()
     CC_SAFE_RELEASE(_colorLabel);
 }
 
-void ControlColourPickerTest::colourValueChanged(Ref *sender, Control::EventType controlEvent)
+void ControlColourPickerTest::colourValueChanged(Ref *sender, Control::EventType /*controlEvent*/)
 {
     ControlColourPicker* pPicker = (ControlColourPicker*)sender;
     _colorLabel->setString(StringUtils::format("#%02X%02X%02X",pPicker->getColor().r, pPicker->getColor().g, pPicker->getColor().b));

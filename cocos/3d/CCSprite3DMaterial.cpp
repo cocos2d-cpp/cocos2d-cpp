@@ -151,14 +151,14 @@ Material* Sprite3DMaterial::clone() const
     {
         RenderState::cloneInto(material);
         
-        for (const auto& technique: _techniques)
+        for (auto & technique : _techniques)
         {
-            auto t = technique->clone();
+            auto t = to_retaining_ptr( technique->clone());
             t->setParent(material);
             for (ssize_t i = 0; i < t->getPassCount(); i++) {
-                t->getPassByIndex(i)->setParent(t);
+                t->getPassByIndex(i)->setParent( t.get() );
             }
-            material->_techniques.pushBack(t);
+            material->_techniques.push_back( std::move( t ));
         }
         
         // current technique
@@ -206,7 +206,7 @@ Sprite3DMaterial* Sprite3DMaterial::createBuiltInMaterial(MaterialType type, boo
             break;
     }
     if (material)
-        return (Sprite3DMaterial*)material->clone();
+        return static_cast<Sprite3DMaterial*>(material->clone());
     
     return nullptr;
 }

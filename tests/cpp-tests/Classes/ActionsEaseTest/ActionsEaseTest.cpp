@@ -125,7 +125,7 @@ void SpriteEase::onEnter()
 }
 
 
-void SpriteEase::testStopAction(float dt)
+void SpriteEase::testStopAction(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(SpriteEase::testStopAction));
     _tamara->stopActionByTag(1);
@@ -1247,8 +1247,8 @@ void SpeedTest::onEnter()
     this->schedule(CC_SCHEDULE_SELECTOR(SpeedTest::altertime), 1.0f);//:@selector(altertime:) interval:1.0f];
 }
 
-void SpeedTest::altertime(float dt)
-{    
+void SpeedTest::altertime(float /*dt*/)
+{
     auto action1 = static_cast<Speed*>(_grossini->getActionByTag(kTagAction1));
     auto action2 = static_cast<Speed*>(_tamara->getActionByTag(kTagAction1));
     auto action3 = static_cast<Speed*>(_kathia->getActionByTag(kTagAction1));

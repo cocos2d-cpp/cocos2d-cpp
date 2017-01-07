@@ -60,7 +60,7 @@ bool MutiTouchTest::init()
 
 static Map<int, TouchPoint*> s_map;
 
-void MutiTouchTest::onTouchesBegan(const std::vector<Touch*>& touches, Event  *event)
+void MutiTouchTest::onTouchesBegan(const std::vector<Touch*>& touches, Event  * /*event*/)
 {
     for ( auto &item: touches )
     {
@@ -73,7 +73,7 @@ void MutiTouchTest::onTouchesBegan(const std::vector<Touch*>& touches, Event  *e
     }
 }
 
-void MutiTouchTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void MutiTouchTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  * /*event*/)
 {
     for( auto &item: touches)
     {
@@ -90,7 +90,7 @@ void MutiTouchTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  *e
     }
 }
 
-void MutiTouchTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
+void MutiTouchTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  * /*event*/)
 {
     for ( auto &item: touches )
     {

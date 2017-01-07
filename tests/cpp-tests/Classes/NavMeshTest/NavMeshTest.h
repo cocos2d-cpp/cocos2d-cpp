@@ -61,9 +61,9 @@ protected:
     void createAgent(const cocos2d::Vec3 &pos);
     void createObstacle(const cocos2d::Vec3 &pos);
     void moveAgents(const cocos2d::Vec3 &des);
-    virtual void touchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event){};
-    virtual void touchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event){};
-    virtual void touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event){};
+    virtual void touchesBegan(const std::vector<cocos2d::Touch*> &, cocos2d::Event *) {}
+    virtual void touchesMoved(const std::vector<cocos2d::Touch*> &, cocos2d::Event *) {}
+    virtual void touchesEnded(const std::vector<cocos2d::Touch*> &, cocos2d::Event *) {}
 
 protected:
     cocos2d::Camera *_camera;
@@ -88,9 +88,9 @@ public:
     
 protected:
 
-    virtual void touchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override{};
-    virtual void touchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override{};
-    virtual void touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override;
+    virtual void touchesBegan(const std::vector<cocos2d::Touch*> &, cocos2d::Event*) override{}
+    virtual void touchesMoved(const std::vector<cocos2d::Touch*> &, cocos2d::Event*) override{}
+    virtual void touchesEnded(const std::vector<cocos2d::Touch*> &, cocos2d::Event*) override;
 
 protected:
     cocos2d::Label *_debugLabel;
@@ -112,9 +112,9 @@ public:
 
 protected:
 
-    virtual void touchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override{};
-    virtual void touchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override{};
-    virtual void touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event)override;
+    virtual void touchesBegan(const std::vector<cocos2d::Touch*>&, cocos2d::Event*)override {}
+    virtual void touchesMoved(const std::vector<cocos2d::Touch*>&, cocos2d::Event*)override {}
+    virtual void touchesEnded(const std::vector<cocos2d::Touch*>&, cocos2d::Event*)override;
 
 protected:
     cocos2d::Label *_obstacleLabel;

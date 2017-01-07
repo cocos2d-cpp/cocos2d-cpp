@@ -225,7 +225,7 @@ Vec3 jump(const Vec3* pV1, const Vec3* pV2, float height, float t)
 void NavMeshBaseTestDemo::moveAgents(const cocos2d::Vec3 &des)
 {
     for (auto iter : _agents){
-        NavMeshAgent::MoveCallback callback = [](NavMeshAgent *agent, float totalTimeAfterMove){
+        NavMeshAgent::MoveCallback callback = [](NavMeshAgent *agent, float /*totalTimeAfterMove*/){
             AgentUserData *data = static_cast<AgentUserData *>(agent->getUserData());
             if (agent->isOnOffMeshLink()){
                 agent->setAutoTraverseOffMeshLink(false);
@@ -254,7 +254,7 @@ void NavMeshBaseTestDemo::moveAgents(const cocos2d::Vec3 &des)
     }
 }
 
-void NavMeshBaseTestDemo::update(float delta)
+void NavMeshBaseTestDemo::update(float /*delta*/)
 {
     for (auto iter : _agents){
         float speed = iter.first->getCurrentVelocity().length() * 0.2;
@@ -281,7 +281,7 @@ std::string NavMeshBasicTestDemo::subtitle() const
     return "Basic Test";
 }
 
-void NavMeshBasicTestDemo::touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *event)
+void NavMeshBasicTestDemo::touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *)
 {
     if (!_needMoveAgents) return;
     if (!touches.empty()){
@@ -415,7 +415,7 @@ std::string NavMeshAdvanceTestDemo::subtitle() const
     return "Advance Test";
 }
 
-void NavMeshAdvanceTestDemo::touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *event)
+void NavMeshAdvanceTestDemo::touchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event *)
 {
     if (!_needMoveAgents) return;
     if (!touches.empty()){

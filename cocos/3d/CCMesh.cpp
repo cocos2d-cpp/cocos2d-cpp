@@ -347,9 +347,9 @@ void Mesh::setMaterial(Material* material)
 
     if (_material)
     {
-        for (auto technique: _material->getTechniques())
+        for (auto & technique : _material->getTechniques())
         {
-            for (auto & pass: technique->getPasses())
+            for (auto & pass : technique->getPasses())
             {
                 auto vertexAttribBinding = VertexAttribBinding::create(_meshIndexData, pass->getGLProgramState());
                 pass->setVertexAttribBinding(vertexAttribBinding);

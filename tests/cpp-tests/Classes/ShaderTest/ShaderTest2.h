@@ -22,7 +22,7 @@ class Effect : public cocos2d::Ref
 {
 public:
     cocos2d::GLProgramState* getGLProgramState() const { return _glprogramstate; }
-    virtual void setTarget(EffectSprite *sprite){}
+    virtual void setTarget(EffectSprite *){}
 
 protected:
     bool initGLProgramState(const std::string &fragmentFilename);

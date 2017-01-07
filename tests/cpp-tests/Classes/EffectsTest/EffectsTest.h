@@ -12,7 +12,7 @@ public:
     virtual ~EffectBaseTest();
 protected:
     virtual bool init() override;
-    virtual cocos2d::ActionInterval* createEffect(float t) {return nullptr;}
+    virtual cocos2d::ActionInterval* createEffect(float /*t*/) {return nullptr;}
     void checkAnim(float dt);
     virtual bool isRectEffect(){return false;}
     virtual std::string title() const override {return _title;};

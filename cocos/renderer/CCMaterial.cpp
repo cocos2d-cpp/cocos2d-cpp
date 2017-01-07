@@ -91,12 +91,13 @@ Material* Material::createWithGLStateProgram(GLProgramState* programState)
 
 bool Material::initWithGLProgramState(cocos2d::GLProgramState *state)
 {
-    auto technique = Technique::createWithGLProgramState(this, state);
-    if (technique) {
-        _techniques.pushBack(technique);
-
+    auto technique = to_retaining_ptr( Technique::createWithGLProgramState(this, state));
+    if (technique)
+    {
         // weak pointer
-        _currentTechnique = technique;
+        _currentTechnique = technique.get();
+
+        _techniques.push_back(std::move( technique ));
 
         return true;
     }
@@ -149,12 +150,13 @@ bool Material::parseProperties(Properties* materialProperties)
 
 bool Material::parseTechnique(Properties* techniqueProperties)
 {
-    auto technique = Technique::create(this);
-    _techniques.pushBack(technique);
+    auto technique = to_retaining_ptr( Technique::create(this));
+
+    _techniques.push_back(std::move( technique ));
 
     // first one is the default one
     if (!_currentTechnique)
-        _currentTechnique = technique;
+        _currentTechnique = technique.get();
 
     // name
     technique->setName(techniqueProperties->getId());
@@ -167,7 +169,7 @@ bool Material::parseTechnique(Properties* techniqueProperties)
         const char* name = space->getNamespace();
         if (strcmp(name, "pass") == 0)
         {
-            parsePass(technique, space);
+            parsePass(technique.get(), space);
         }
         else if (strcmp(name, "renderState") == 0)
         {
@@ -435,11 +437,11 @@ Material* Material::clone() const
     {
         RenderState::cloneInto(material);
 
-        for (const auto& technique: _techniques)
+        for (const auto & technique : _techniques)
         {
-            auto t = technique->clone();
+            auto t = to_retaining_ptr( technique->clone() );
             t->_parent = material;
-            material->_techniques.pushBack(t);
+            material->_techniques.push_back(std::move( t ));
         }
 
         // current technique
@@ -456,30 +458,30 @@ Technique* Material::getTechnique() const
     return _currentTechnique;
 }
 
-const Vector<Technique*>& Material::getTechniques() const
+const std::vector<retaining_ptr<Technique>> & Material::getTechniques() const
 {
     return _techniques;
 }
 
 Technique* Material::getTechniqueByName(const std::string& name)
 {
-    for(const auto& technique : _techniques) {
-        if (technique->getName().compare(name)==0)
-            return technique;
+    for(const auto & technique : _techniques) {
+        if (technique->getName() == name)
+            return technique.get();
     }
     return nullptr;
 }
 
-Technique* Material::getTechniqueByIndex(ssize_t index)
+Technique* Material::getTechniqueByIndex(size_t index)
 {
-    CC_ASSERT(index>=0 && index<_techniques.size() && "Invalid size");
+    CC_ASSERT(index<_techniques.size() && "Invalid size");
 
-    return _techniques.at(index);
+    return _techniques.at(index).get();
 }
 
 void Material::addTechnique(Technique* technique)
 {
-    _techniques.pushBack(technique);
+    _techniques.push_back( to_retaining_ptr( technique));
 }
 
 void Material::setTechnique(const std::string& techniqueName)
@@ -488,12 +490,6 @@ void Material::setTechnique(const std::string& techniqueName)
     if (technique)
         _currentTechnique = technique;
 }
-
-ssize_t Material::getTechniqueCount() const
-{
-    return _techniques.size();
-}
-
 
 // Helpers implementation
 static bool isValidUniform(const char* name)

@@ -43,7 +43,7 @@ bool BugChild::init()
     return false;
 }
 
-void BugChild::switchChild(Ref *sender)
+void BugChild::switchChild(Ref * /*sender*/)
 {
     if(parent1->getChildren().size() > 0)
     {
@@ -101,7 +101,7 @@ bool BugCameraMask::init()
     return true;
 }
 
-void BugCameraMask::switchSpriteFlag(Ref *sender)
+void BugCameraMask::switchSpriteFlag(Ref * /*sender*/)
 {
     if((unsigned short) CameraFlag::USER1 == _sprite->getCameraMask())
     {

@@ -457,7 +457,7 @@ void TestController::destroyInstance()
     disableCrashCatch();
 }
 
-bool TestController::blockTouchBegan(Touch* touch, Event* event)
+bool TestController::blockTouchBegan(Touch*, Event*)
 {
     return !_stopAutoTest;
 }

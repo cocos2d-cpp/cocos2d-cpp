@@ -372,7 +372,7 @@ bool EffectBaseTest::init()
     return false;
 }
 
-void EffectBaseTest::checkAnim(float dt)
+void EffectBaseTest::checkAnim(float /*dt*/)
 {
     if ( _gridNodeTarget->getNumberOfRunningActions() == 0 && _gridNodeTarget->getGrid() != nullptr)
         _gridNodeTarget->setGrid(nullptr);
