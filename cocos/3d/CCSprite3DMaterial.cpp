@@ -250,8 +250,8 @@ Sprite3DMaterial* Sprite3DMaterial::createWithGLStateProgram(GLProgramState* pro
 
 void Sprite3DMaterial::setTexture(Texture2D* tex, NTextureData::Usage usage)
 {
-    const auto& passes = getTechnique()->getPasses();
-    for (auto& pass : passes) {
+    for (auto & pass : getTechnique()->getPasses())
+    {
         pass->getGLProgramState()->setUniformTexture(s_uniformSamplerName[(int)usage], tex);
     }
 }

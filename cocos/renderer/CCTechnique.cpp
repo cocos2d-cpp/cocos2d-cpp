@@ -83,11 +83,11 @@ Technique* Technique::clone() const
         technique->_name = _name;
         RenderState::cloneInto(technique);
 
-        for (const auto pass: _passes)
+        for (auto & pass: _passes)
         {
-            auto p = pass->clone();
+            auto p = to_retaining_ptr( pass->clone() );
             p->_parent = technique;
-            technique->_passes.pushBack(p);
+            technique->_passes.push_back(std::move( p ));
         }
 
         technique->autorelease();
@@ -97,7 +97,7 @@ Technique* Technique::clone() const
 
 void Technique::addPass(Pass *pass)
 {
-    _passes.pushBack(pass);
+    _passes.push_back( to_retaining_ptr( pass ));
 }
 
 std::string Technique::getName() const
@@ -110,10 +110,10 @@ void Technique::setName(const std::string &name)
     _name = name;
 }
 
-Pass* Technique::getPassByIndex(ssize_t index) const
+Pass* Technique::getPassByIndex(size_t index) const
 {
-    CC_ASSERT(index>=0 && index<_passes.size() && "Invalid index");
-    return _passes.at(index);
+    CC_ASSERT(index < _passes.size() && "Invalid index");
+    return _passes.at(index).get();
 }
 
 ssize_t Technique::getPassCount() const
@@ -121,7 +121,7 @@ ssize_t Technique::getPassCount() const
     return _passes.size();
 }
 
-const Vector<Pass*>& Technique::getPasses() const
+const std::vector<retaining_ptr<Pass>> & Technique::getPasses() const
 {
     return _passes;
 }

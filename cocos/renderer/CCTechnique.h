@@ -30,12 +30,14 @@
 #ifndef __cocos2d_libs__CCTechnique__
 #define __cocos2d_libs__CCTechnique__
 
-#include <string>
 #include "renderer/CCRenderState.h"
 #include "renderer/CCPass.h"
 #include "base/CCRef.h"
 #include "platform/CCPlatformMacros.h"
-#include "base/CCVector.h"
+
+#include <memory>
+#include <string>
+#include <vector>
 
 namespace cocos2d {
 
@@ -68,13 +70,13 @@ public:
     std::string getName() const;
 
     /** Returns the Pass at given index */
-    Pass* getPassByIndex(ssize_t index) const;
+    Pass* getPassByIndex(size_t index) const;
 
     /** Returns the number of Passes in the Technique */
     ssize_t getPassCount() const;
 
     /** Returns the list of passes */
-    const Vector<Pass*>& getPasses() const;
+    const std::vector<retaining_ptr<Pass>> & getPasses() const;
 
     /** Returns a new clone of the Technique */
     Technique* clone() const;
@@ -87,7 +89,7 @@ protected:
     void setName(const std::string& name);
 
     std::string _name;
-    Vector<Pass*> _passes;
+    std::vector<retaining_ptr<Pass>> _passes;
 };
 
 } // namespace cocos2d

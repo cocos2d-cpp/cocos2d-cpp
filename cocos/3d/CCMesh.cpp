@@ -349,7 +349,7 @@ void Mesh::setMaterial(Material* material)
     {
         for (auto technique: _material->getTechniques())
         {
-            for (auto pass: technique->getPasses())
+            for (auto & pass: technique->getPasses())
             {
                 auto vertexAttribBinding = VertexAttribBinding::create(_meshIndexData, pass->getGLProgramState());
                 pass->setVertexAttribBinding(vertexAttribBinding);
@@ -408,7 +408,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
     // 'u_color' and others
     const auto scene = Director::getInstance()->getRunningScene();
     auto technique = _material->_currentTechnique;
-    for(const auto pass : technique->_passes)
+    for(auto & pass : technique->_passes)
     {
         auto programState = pass->getGLProgramState();
         programState->setUniformVec4("u_color", color);
@@ -417,7 +417,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
             programState->setUniformVec4v("u_matrixPalette", (GLsizei)_skin->getMatrixPaletteSize(), _skin->getMatrixPalette());
 
         if (scene && scene->getLights().size() > 0)
-            setLightUniforms(pass, scene, color, lightMask);
+            setLightUniforms(pass.get(), scene, color, lightMask);
     }
 
     renderer->addCommand(&_meshCommand);
@@ -503,12 +503,11 @@ void Mesh::bindMeshCommand()
 {
     if (_material && _meshIndexData)
     {
-        auto pass = _material->_currentTechnique->_passes.at(0);
+        auto & pass = _material->_currentTechnique->_passes.at(0);
+
         auto glprogramstate = pass->getGLProgramState();
         auto texture = pass->getTexture();
         auto textureid = texture ? texture->getName() : 0;
-        // XXX
-//        auto blend = pass->getStateBlock()->getBlendFunc();
         auto blend = BlendFunc::ALPHA_PREMULTIPLIED;
 
         _meshCommand.genMaterialID(textureid, glprogramstate, _meshIndexData->getVertexBuffer()->getVBO(), _meshIndexData->getIndexBuffer()->getVBO(), blend);
