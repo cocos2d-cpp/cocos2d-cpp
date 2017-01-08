@@ -54,11 +54,11 @@ class MeshVertexData;
  * @js NA
  * @lua NA
  */
-class CC_DLL MeshIndexData : public Ref
+class CC_DLL MeshIndexData
 {
 public:
     /** create  */
-    static MeshIndexData* create(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb);
+    static std::unique_ptr<MeshIndexData> create(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb);
     
     /**get index buffer*/
     const IndexBuffer* getIndexBuffer() const { return _indexBuffer; }
@@ -80,10 +80,12 @@ public:
     GLenum getPrimitiveType() const { return _primitiveType; }
     void   setPrimitiveType(GLenum primitive) { _primitiveType = primitive; }
     
-protected:
-    MeshIndexData();
-    virtual ~MeshIndexData();
+    ~MeshIndexData();
     
+protected:
+
+    MeshIndexData(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb);
+
 protected:
     IndexBuffer*    _indexBuffer; //index buffer
     MeshVertexData* _vertexData; //vertex buffer, weak ref
@@ -116,12 +118,10 @@ public:
     /** get attribute by index */
     const MeshVertexAttrib& getMeshVertexAttrib(ssize_t index) const { return _attribs[index]; }
     
-    /** get index data count */
-    ssize_t getMeshIndexDataCount() const { return _indexs.size(); }
     /** get index data by index */
-    MeshIndexData* getMeshIndexDataByIndex(int index) const { return _indexs.at(index); }
+    std::shared_ptr<MeshIndexData> getMeshIndexDataByIndex(int index) const { return _indexs.at(index); }
     /** get index data by id */
-    MeshIndexData* getMeshIndexDataById(const std::string& id) const;
+    std::shared_ptr<MeshIndexData> getMeshIndexDataById(const std::string& id) const;
     
     /**has vertex attribute?*/
     bool hasVertexAttrib(int attrib) const;
@@ -133,7 +133,7 @@ protected:
 protected:
     VertexData*          _vertexData; //mesh vertex data
     VertexBuffer*        _vertexBuffer; // vertex buffer
-    Vector<MeshIndexData*> _indexs; //index data
+    std::vector<std::shared_ptr<MeshIndexData>> _indexs; //index data
     std::vector<MeshVertexAttrib> _attribs; //vertex attributes
     
     int                  _vertexCount; //vertex count

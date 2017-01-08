@@ -637,7 +637,7 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
     }
 }
 
-MeshIndexData* Sprite3D::getMeshIndexData(const std::string& indexId) const
+std::shared_ptr<MeshIndexData> Sprite3D::getMeshIndexData(const std::string & indexId) const
 {
     for (auto it : _meshVertexDatas) {
         auto index = it->getMeshIndexDataById(indexId);

@@ -61,22 +61,10 @@ class CC_DLL Mesh : public Ref
 public:
     typedef std::vector<unsigned short> IndexArray;
 
-    /**create mesh from positions, normals, and so on, single SubMesh*/
-    static Mesh* create(const std::vector<float> & positions,
-                        const std::vector<float> & normals,
-                        const std::vector<float> & texs,
-                        const IndexArray & indices);
-
-    /**create mesh with vertex attributes*/
-    static Mesh* create(const std::vector<float> & vertices,
-                        int perVertexSizeInFloat,
-                        const IndexArray & indices,
-                        const std::vector<MeshVertexAttrib> & attribs);
-    
     /** 
      * create mesh
      */
-    static Mesh* create(const std::string& name, MeshIndexData* indexData, MeshSkin* skin = nullptr);
+    static Mesh* create(const std::string& name, std::shared_ptr<MeshIndexData> indexData);
     
     /**
      * get vertex buffer
@@ -141,7 +129,7 @@ public:
     /**
      * mesh index data getter
      */
-    MeshIndexData* getMeshIndexData() const { return _meshIndexData; }
+    std::shared_ptr<MeshIndexData> getMeshIndexData() const { return _meshIndexData; }
     
     /**
      * get GLProgramState
@@ -195,7 +183,7 @@ public:
     /**skin setter*/
     void setSkin(MeshSkin* skin);
     /**Mesh index data setter*/
-    void setMeshIndexData(MeshIndexData* indexdata);
+    void setMeshIndexData(std::shared_ptr<MeshIndexData> indexdata);
     /**name setter*/
     void setName(const std::string& name) { _name = name; }
  
@@ -230,7 +218,7 @@ protected:
     
     std::string         _name;
     MeshCommand         _meshCommand;
-    MeshIndexData*      _meshIndexData;
+    std::shared_ptr<MeshIndexData> _meshIndexData;
     GLProgramState*     _glProgramState;
     BlendFunc           _blend;
     bool                _blendDirty;

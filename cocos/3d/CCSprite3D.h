@@ -230,7 +230,7 @@ protected:
     Sprite3D* createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& matrialdatas);
 
     /**get MeshIndexData by Id*/
-    MeshIndexData* getMeshIndexData(const std::string& indexId) const;
+    std::shared_ptr<MeshIndexData> getMeshIndexData(const std::string& indexId) const;
     
     void addMesh(Mesh* mesh);
     

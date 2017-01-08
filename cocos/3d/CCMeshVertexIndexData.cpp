@@ -48,18 +48,9 @@ namespace cocos2d {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-MeshIndexData* MeshIndexData::create(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb)
+std::unique_ptr<MeshIndexData> MeshIndexData::create(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb)
 {
-    auto meshindex = new (std::nothrow) MeshIndexData();
-    
-    meshindex->_id = id;
-    meshindex->_indexBuffer = indexbuffer;
-    meshindex->_vertexData = vertexData;
-    indexbuffer->retain();
-    meshindex->_aabb = aabb;
-    
-    meshindex->autorelease();
-    return meshindex;
+    return std::unique_ptr<MeshIndexData>(new MeshIndexData(id, vertexData, indexbuffer, aabb));
 }
 
 const VertexBuffer* MeshIndexData::getVertexBuffer() const
@@ -67,13 +58,16 @@ const VertexBuffer* MeshIndexData::getVertexBuffer() const
     return _vertexData->getVertexBuffer();
 }
 
-MeshIndexData::MeshIndexData()
-: _indexBuffer(nullptr)
-, _vertexData(nullptr)
+MeshIndexData::MeshIndexData(const std::string& id, MeshVertexData* vertexData, IndexBuffer* indexbuffer, const AABB& aabb)
+: _indexBuffer(indexbuffer)
+, _vertexData(vertexData)
+, _aabb(aabb)
+, _id(id)
 , _primitiveType(GL_TRIANGLES)
 {
-    
+    _indexBuffer->retain();
 }
+
 MeshIndexData::~MeshIndexData()
 {
     CC_SAFE_RELEASE(_indexBuffer);
@@ -108,7 +102,8 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
         auto indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, (int)(index.size()));
         indexBuffer->updateIndices(&index[0], (int)index.size(), 0);
         std::string id = (i < meshdata.subMeshIds.size() ? meshdata.subMeshIds[i] : "");
-        MeshIndexData* indexdata = nullptr;
+
+        std::shared_ptr<MeshIndexData> indexdata;
         if (needCalcAABB)
         {
             auto aabb = Bundle3D::calculateAABB(meshdata.vertex, meshdata.getPerVertexSize(), index);
@@ -117,20 +112,20 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
         else
             indexdata = MeshIndexData::create(id, vertexdata, indexBuffer, meshdata.subMeshAABB[i]);
         
-        vertexdata->_indexs.pushBack(indexdata);
+        vertexdata->_indexs.push_back(indexdata);
     }
     
     vertexdata->autorelease();
     return vertexdata;
 }
 
-MeshIndexData* MeshVertexData::getMeshIndexDataById(const std::string& id) const
+std::shared_ptr<MeshIndexData> MeshVertexData::getMeshIndexDataById(const std::string& id) const
 {
-    for (auto it : _indexs) {
+    for (auto & it : _indexs) {
         if (it->getId() == id)
             return it;
     }
-    return nullptr;
+    return std::shared_ptr<MeshIndexData>();
 }
 
 bool MeshVertexData::hasVertexAttrib(int attrib) const

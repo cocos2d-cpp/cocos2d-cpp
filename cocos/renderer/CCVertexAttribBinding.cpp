@@ -47,7 +47,7 @@ static std::vector<VertexAttribBinding*> __vertexAttribBindingCache;
 
 VertexAttribBinding::VertexAttribBinding()
 : _handle(0)
-, _meshIndexData(nullptr)
+, _meshIndexData()
 , _glProgramState(nullptr)
 , _attributes()
 {
@@ -62,7 +62,6 @@ VertexAttribBinding::~VertexAttribBinding()
         __vertexAttribBindingCache.erase(itr);
     }
 
-    CC_SAFE_RELEASE(_meshIndexData);
     CC_SAFE_RELEASE(_glProgramState);
     _attributes.clear();
 
@@ -73,7 +72,7 @@ VertexAttribBinding::~VertexAttribBinding()
     }
 }
 
-VertexAttribBinding* VertexAttribBinding::create(MeshIndexData* meshIndexData, GLProgramState* glProgramState)
+VertexAttribBinding* VertexAttribBinding::create(std::shared_ptr<MeshIndexData> meshIndexData, GLProgramState* glProgramState)
 {
     CCASSERT(meshIndexData && glProgramState, "Invalid MeshIndexData and/or GLProgramState");
 
@@ -100,7 +99,7 @@ VertexAttribBinding* VertexAttribBinding::create(MeshIndexData* meshIndexData, G
     return b;
 }
 
-bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glProgramState)
+bool VertexAttribBinding::init(std::shared_ptr<MeshIndexData> meshIndexData, GLProgramState* glProgramState)
 {
     CCASSERT(meshIndexData && glProgramState, "Invalid arguments");
 
@@ -119,7 +118,6 @@ bool VertexAttribBinding::init(MeshIndexData* meshIndexData, GLProgramState* glP
     }
 
     _meshIndexData = meshIndexData;
-    _meshIndexData->retain();
     _glProgramState = glProgramState;
     _glProgramState->retain();
 

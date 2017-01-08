@@ -69,7 +69,7 @@ public:
      * 
      * @return A VertexAttribBinding for the requested parameters.
      */
-    static VertexAttribBinding* create(MeshIndexData* meshIndexData, GLProgramState* glProgramState);
+    static VertexAttribBinding* create(std::shared_ptr<MeshIndexData> meshIndexData, GLProgramState* glProgramState);
 
     /**
      * Binds this vertex array object.
@@ -89,7 +89,7 @@ public:
 
 private:
 
-    bool init(MeshIndexData* meshIndexData, GLProgramState* glProgramState);
+    bool init(std::shared_ptr<MeshIndexData> meshIndexData, GLProgramState* glProgramState);
 
     /**
      * Constructor.
@@ -113,7 +113,7 @@ private:
 
     GLuint _handle;
 
-    MeshIndexData* _meshIndexData;
+    std::shared_ptr<MeshIndexData> _meshIndexData;
     GLProgramState* _glProgramState;
 
     std::unordered_map<std::string, VertexAttribValue> _attributes;
