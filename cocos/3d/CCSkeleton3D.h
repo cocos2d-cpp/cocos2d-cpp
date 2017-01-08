@@ -41,12 +41,15 @@ namespace cocos2d {
  * @brief Defines a basic hierarchical structure of transformation spaces.
  * @lua NA
  */
-class CC_DLL Bone3D : public Ref
+class CC_DLL Bone3D
 {
     friend class Skeleton3D;
     friend class MeshSkin;
+
 public:
     
+    Bone3D(const std::string& id);
+
     /**
      * Returns the inverse bind pose matrix for this joint.
      *
@@ -113,9 +116,7 @@ public:
     /**get child bone by index*/
     Bone3D* getChildBoneByIndex(size_t index) const;
     /**add child bone*/
-    void addChildBone(retaining_ptr<Bone3D> bone);
-    /**remove all child bone*/
-    void removeAllChildBone();
+    void addChildBone(Bone3D* bone);
     
 protected:
     /**
@@ -138,15 +139,6 @@ protected:
             
         }
     };
-	/**
-     * Constructor.
-     */
-    Bone3D(const std::string& id);
-    
-	/**
-     * Destructor.
-     */
-    virtual ~Bone3D();
     
     /**
      * Update local matrix
@@ -166,7 +158,7 @@ protected:
     
     Bone3D* _parent; //parent bone
     
-    std::vector<retaining_ptr<Bone3D>> _children;
+    std::vector<Bone3D*> _children;
     
     bool          _worldDirty;
     Mat4          _world;
@@ -188,11 +180,8 @@ public:
      */
     static Skeleton3D* create(const std::vector<NodeData*>& skeletondata);
     
-    /**get total bone count*/
-    ssize_t getBoneCount() const;
-    
     /**get bone*/
-    Bone3D* getBoneByIndex(unsigned int index) const;
+    Bone3D* getBoneByIndex(size_t index) const;
     Bone3D* getBoneByName(const std::string& id) const;
     
     /**get & set root bone*/
@@ -205,26 +194,16 @@ public:
     /**refresh bone world matrix*/
     void updateBoneMatrix();
     
-protected:
-    
-    Skeleton3D();
-    
-    ~Skeleton3D();
-    
-    /**remove all bones*/
-    void removeAllBones();
-    
-    /**add bone*/
-    void addBone(Bone3D* bone);
+private:
     
     /** create Bone3D from NodeData */
     Bone3D* createBone3D(const NodeData& nodedata);
     
 protected:
     
-    Vector<Bone3D*> _bones; // bones
+    std::vector<std::unique_ptr<Bone3D>> _bones;
 
-    Vector<Bone3D*> _rootBones;
+    std::vector<Bone3D*> _rootBones;
 };
 
 // end of 3d group

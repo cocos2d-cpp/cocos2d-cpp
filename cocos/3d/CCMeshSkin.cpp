@@ -31,8 +31,7 @@ namespace cocos2d {
 static int PALETTE_ROWS = 3;
 
 MeshSkin::MeshSkin()
-: _rootBone(nullptr)
-, _skeleton(nullptr)
+: _skeleton(nullptr)
 , _matrixPalette(nullptr)
 {
     
@@ -61,15 +60,10 @@ MeshSkin* MeshSkin::create(Skeleton3D* skeleton, const std::vector<std::string>&
     return skin;
 }
 
-ssize_t MeshSkin::getBoneCount() const
-{
-    return _skinBones.size();
-}
-
 //get bone
-Bone3D* MeshSkin::getBoneByIndex(unsigned int index) const
+Bone3D* MeshSkin::getBoneByIndex(size_t index) const
 {
-    if (static_cast<int>(index) < _skinBones.size())
+    if (index < _skinBones.size())
         return _skinBones.at(index);
     
     return nullptr;
@@ -123,12 +117,11 @@ void MeshSkin::removeAllBones()
 {
     _skinBones.clear();
     CC_SAFE_DELETE_ARRAY(_matrixPalette);
-    CC_SAFE_RELEASE(_rootBone);
 }
 
 void MeshSkin::addSkinBone(Bone3D* bone)
 {
-    _skinBones.pushBack(bone);
+    _skinBones.push_back(bone);
 }
 
 Bone3D* MeshSkin::getRootBone() const

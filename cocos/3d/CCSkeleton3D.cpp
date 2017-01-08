@@ -128,16 +128,6 @@ void Bone3D::clearBoneBlendState()
     }
 }
 
-/**
- * Creates C3DBone.
- */
-Bone3D* Bone3D::create(const std::string& id)
-{
-    auto bone = new (std::nothrow) Bone3D(id);
-    bone->autorelease();
-    return bone;
-}
-
 void Bone3D::updateJointMatrix(Vec4* matrixPalette)
 {
     {
@@ -154,37 +144,29 @@ Bone3D* Bone3D::getParentBone()
 {
     return _parent;
 }
+
 ssize_t Bone3D::getChildBoneCount() const
 {
     return _children.size();
 }
+
 Bone3D* Bone3D::getChildBoneByIndex(size_t index) const
 {
-    return _children.at(index).get();
+    return _children.at(index);
 }
-void Bone3D::addChildBone(retaining_ptr<Bone3D> bone)
+
+void Bone3D::addChildBone(Bone3D* bone)
 {
     auto it = std::find(_children.begin(), _children.end(), bone);
     if (it == _children.end())
        _children.push_back(std::move( bone));
-}
-void Bone3D::removeAllChildBone()
-{
-    _children.clear();
 }
 
 Bone3D::Bone3D(const std::string& id)
 : _name(id)
 , _parent(nullptr)
 , _worldDirty(true)
-{
-    
-}
-
-Bone3D::~Bone3D()
-{
-    removeAllChildBone();
-}
+{}
 
 void Bone3D::updateLocalMat()
 {
@@ -238,47 +220,37 @@ void Bone3D::updateLocalMat()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Skeleton3D::Skeleton3D()
-{
-    
-}
-
-Skeleton3D::~Skeleton3D()
-{
-    removeAllBones();
-}
-
 Skeleton3D* Skeleton3D::create(const std::vector<NodeData*>& skeletondata)
 {
     auto skeleton = new (std::nothrow) Skeleton3D();
-    for (const auto& it : skeletondata) {
+
+    for (const auto& it : skeletondata)
+    {
         auto bone = skeleton->createBone3D(*it);
         bone->resetPose();
-        skeleton->_rootBones.pushBack(bone);
+        skeleton->_rootBones.push_back(bone);
     }
+
     skeleton->autorelease();
+    
     return skeleton;
 }
 
-ssize_t Skeleton3D::getBoneCount() const
-{
-    return _bones.size();
-}
-
 //get bone
-Bone3D* Skeleton3D::getBoneByIndex(unsigned int index) const
+Bone3D* Skeleton3D::getBoneByIndex(size_t index) const
 {
-    if (index < static_cast<unsigned int>(_bones.size()))
-        return _bones.at(index);
+    if (index < _bones.size())
+        return _bones.at(index).get();
     
     return nullptr;
 }
 Bone3D* Skeleton3D::getBoneByName(const std::string& id) const
 {
     //search from bones
-    for (auto it : _bones) {
+    for (auto & it : _bones)
+    {
         if (it->getName() == id)
-            return it;
+            return it.get();
     }
     
     return nullptr;
@@ -297,7 +269,7 @@ Bone3D* Skeleton3D::getRootBone(int index) const
 int Skeleton3D::getBoneIndex(Bone3D* bone) const
 {
     for (int i = 0, size = _bones.size(); i < size; ++i) {
-        if (_bones.at(i) == bone)
+        if (_bones[i].get() == bone)
             return i;
     }
 
@@ -307,36 +279,27 @@ int Skeleton3D::getBoneIndex(Bone3D* bone) const
 //refresh bone world matrix
 void Skeleton3D::updateBoneMatrix()
 {
-    for (const auto& it : _rootBones) {
+    for (const auto & it : _rootBones) {
         it->setWorldMatDirty(true);
         it->updateWorldMat();
     }
 }
 
-void Skeleton3D::removeAllBones()
-{
-    _bones.clear();
-    _rootBones.clear();
-}
-
-void Skeleton3D::addBone(Bone3D* bone)
-{
-    _bones.pushBack(bone);
-}
-
 Bone3D* Skeleton3D::createBone3D(const NodeData& nodedata)
 {
-    auto bone = Bone3D::create(nodedata.id);
+    std::unique_ptr<Bone3D> bone( new Bone3D(nodedata.id) );
 
     for (const auto & it : nodedata.children)
     {
-        auto child = to_retaining_ptr( createBone3D(*it) );
-        child->_parent = bone;
-        bone->addChildBone( std::move( child ));
+        auto child = this->createBone3D(*it);
+        child->_parent = bone.get();
+        bone->addChildBone( child );
     }
-    _bones.pushBack(bone);
+
     bone->_oriPose = nodedata.transform;
-    return bone;
+    _bones.push_back( std::move( bone ));
+
+    return _bones.back().get();
 }
 
 } // namespace cocos2d

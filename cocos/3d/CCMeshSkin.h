@@ -57,11 +57,8 @@ public:
     
     static MeshSkin* create(Skeleton3D* skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose);
     
-    /**get total bone count, skin bone + node bone*/
-    ssize_t getBoneCount() const;
-    
     /**get bone*/
-    Bone3D* getBoneByIndex(unsigned int index) const;
+    Bone3D* getBoneByIndex(size_t index) const;
     Bone3D* getBoneByName(const std::string& id) const;
     
     /**get bone index*/
@@ -93,11 +90,10 @@ protected:
     
 protected:
     
-    Vector<Bone3D*>    _skinBones; // bones with skin
-    std::vector<Mat4>  _invBindPoses; //inverse bind pose of bone
+    std::vector<Bone3D*>  _skinBones; // bones with skin
+    std::vector<Mat4>     _invBindPoses; //inverse bind pose of bone
 
-    Bone3D* _rootBone;
-    Skeleton3D*     _skeleton; //skeleton the skin referred
+    Skeleton3D*           _skeleton; //skeleton the skin referred
     
     // Pointer to the array of palette matrices.
     // This array is passed to the vertex shader as a uniform.
