@@ -511,10 +511,9 @@ namespace cocos2d {
 template<>
 class ResizableBufferAdapter<AlreadyExistsBuffer> : public ResizableBuffer {
 public:
-    explicit ResizableBufferAdapter(AlreadyExistsBuffer* buffer) {
+    explicit ResizableBufferAdapter(AlreadyExistsBuffer*) {
     }
-    virtual void resize(size_t size) override {
-
+    virtual void resize(size_t) override {
     }
     virtual void* buffer() const override {
         return nullptr;

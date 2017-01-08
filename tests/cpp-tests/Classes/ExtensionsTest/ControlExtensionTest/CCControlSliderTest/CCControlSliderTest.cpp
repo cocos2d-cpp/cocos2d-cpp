@@ -80,7 +80,7 @@ bool ControlSliderTest::init()
     return false;
 }
 
-void ControlSliderTest::valueChanged(Ref *sender, Control::EventType controlEvent)
+void ControlSliderTest::valueChanged(Ref *sender, Control::EventType)
 {
     ControlSlider* pSlider = (ControlSlider*)sender;
     // Change value of label.
