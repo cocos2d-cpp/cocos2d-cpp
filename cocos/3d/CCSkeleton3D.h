@@ -172,13 +172,13 @@ protected:
  * Skeleton
  *
  */
-class CC_DLL Skeleton3D: public Ref
+class CC_DLL Skeleton3D
 {
 public:
     /**
      * @lua NA
      */
-    static Skeleton3D* create(const std::vector<NodeData*>& skeletondata);
+    Skeleton3D(const std::vector<NodeData*>& skeletondata);
     
     /**get bone*/
     Bone3D* getBoneByIndex(size_t index) const;

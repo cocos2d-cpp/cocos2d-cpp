@@ -97,7 +97,7 @@ public:
     /**get mesh*/
     Mesh* getMesh() const;
     
-    Skeleton3D* getSkeleton() const { return _skeleton; }
+    const Skeleton3D * getSkeleton() const { return _skeleton.get(); }
     
     /**get AttachNode by bone name, return nullptr if not exist*/
     AttachNode* getAttachNode(const std::string& boneName);
@@ -242,7 +242,7 @@ protected:
     
 protected:
 
-    Skeleton3D*                  _skeleton; //skeleton
+    std::shared_ptr<Skeleton3D>  _skeleton; //skeleton
     
     Vector<MeshVertexData*>      _meshVertexDatas;
     

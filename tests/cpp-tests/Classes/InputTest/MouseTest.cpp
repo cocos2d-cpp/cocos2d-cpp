@@ -96,11 +96,11 @@ HideMouseTest::HideMouseTest()
 {
     
     _lis = EventListenerMouse::create();
-    _lis->onMouseDown = [](Event* e){
+    _lis->onMouseDown = [](Event*){
         Director::getInstance()->getOpenGLView()->setCursorVisible(false);
     };
     
-    _lis->onMouseUp = [](Event* e){
+    _lis->onMouseUp = [](Event*){
         Director::getInstance()->getOpenGLView()->setCursorVisible(true);
     };
     

@@ -129,7 +129,7 @@ void Sprite3D::afterAsyncLoad(void* param)
         {
             _meshes.clear();
             _meshVertexDatas.clear();
-            CC_SAFE_RELEASE_NULL(_skeleton);
+            _skeleton.reset();
             removeAllAttachNode();
             
             //create in the main thread
@@ -197,8 +197,7 @@ bool Sprite3D::loadFromCache(const std::string& path)
         for (auto it : spritedata->meshVertexDatas) {
             _meshVertexDatas.pushBack(it);
         }
-        _skeleton = Skeleton3D::create(spritedata->nodedatas->skeleton);
-        CC_SAFE_RETAIN(_skeleton);
+        _skeleton.reset(new Skeleton3D(spritedata->nodedatas->skeleton));
 
         auto size = spritedata->nodedatas->nodes.size();
         for(const auto& it : spritedata->nodedatas->nodes)
@@ -257,7 +256,7 @@ bool Sprite3D::loadFromFile(const std::string& path, NodeDatas* nodedatas, MeshD
 }
 
 Sprite3D::Sprite3D()
-: _skeleton(nullptr)
+: _skeleton()
 , _blend(BlendFunc::ALPHA_NON_PREMULTIPLIED)
 , _aabbDirty(true)
 , _lightMask(-1)
@@ -271,7 +270,6 @@ Sprite3D::~Sprite3D()
 {
     _meshes.clear();
     _meshVertexDatas.clear();
-    CC_SAFE_RELEASE_NULL(_skeleton);
     removeAllAttachNode();
 }
 
@@ -289,7 +287,7 @@ bool Sprite3D::initWithFile(const std::string& path)
     _aabbDirty = true;
     _meshes.clear();
     _meshVertexDatas.clear();
-    CC_SAFE_RELEASE_NULL(_skeleton);
+    _skeleton.reset();
     removeAllAttachNode();
     
     if (loadFromCache(path))
@@ -334,8 +332,8 @@ bool Sprite3D::initFrom(const NodeDatas& nodeDatas, const MeshDatas& meshdatas, 
             _meshVertexDatas.pushBack(meshvertex);
         }
     }
-    _skeleton = Skeleton3D::create(nodeDatas.skeleton);
-    CC_SAFE_RETAIN(_skeleton);
+
+    _skeleton.reset(new Skeleton3D(nodeDatas.skeleton));
     
     auto size = nodeDatas.nodes.size();
     for(const auto& it : nodeDatas.nodes)

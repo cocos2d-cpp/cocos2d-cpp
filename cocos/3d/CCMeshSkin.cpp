@@ -31,7 +31,7 @@ namespace cocos2d {
 static int PALETTE_ROWS = 3;
 
 MeshSkin::MeshSkin()
-: _skeleton(nullptr)
+: _skeleton()
 , _matrixPalette(nullptr)
 {
     
@@ -40,14 +40,12 @@ MeshSkin::MeshSkin()
 MeshSkin::~MeshSkin()
 {
     removeAllBones();
-    CC_SAFE_RELEASE(_skeleton);
 }
 
-MeshSkin* MeshSkin::create(Skeleton3D* skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose)
+MeshSkin* MeshSkin::create(std::shared_ptr<Skeleton3D> skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose)
 {
     auto skin = new (std::nothrow) MeshSkin();
     skin->_skeleton = skeleton;
-    skeleton->retain();
     
     CCASSERT(boneNames.size() == invBindPose.size(), "bone names' num should equals to invBindPose's num");
     for (const auto& it : boneNames) {

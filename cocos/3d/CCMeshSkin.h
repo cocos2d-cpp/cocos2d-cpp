@@ -50,12 +50,10 @@ class Skeleton3D;
 class CC_DLL MeshSkin: public Ref
 {
     friend class Mesh;
+
 public:
     
-    /**create a new meshskin if do not want to share meshskin*/
-    static MeshSkin* create(Skeleton3D* skeleton, const std::string& filename, const std::string& name);
-    
-    static MeshSkin* create(Skeleton3D* skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose);
+    static MeshSkin* create(std::shared_ptr<Skeleton3D>, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose);
     
     /**get bone*/
     Bone3D* getBoneByIndex(size_t index) const;
@@ -90,10 +88,10 @@ protected:
     
 protected:
     
-    std::vector<Bone3D*>  _skinBones; // bones with skin
-    std::vector<Mat4>     _invBindPoses; //inverse bind pose of bone
+    std::vector<Bone3D*>        _skinBones; // bones with skin
+    std::vector<Mat4>           _invBindPoses; //inverse bind pose of bone
 
-    Skeleton3D*           _skeleton; //skeleton the skin referred
+    std::shared_ptr<Skeleton3D> _skeleton; //skeleton the skin referred
     
     // Pointer to the array of palette matrices.
     // This array is passed to the vertex shader as a uniform.

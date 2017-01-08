@@ -56,19 +56,19 @@ std::string RenderTextureSave::subtitle() const
     return "Press 'Save Image' to create an snapshot of the render texture";
 }
 
-void RenderTextureSave::clearImage(cocos2d::Ref *sender)
+void RenderTextureSave::clearImage(cocos2d::Ref *)
 {
     _target->clear(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1());
 }
 
-void RenderTextureSave::saveImage(cocos2d::Ref *sender)
+void RenderTextureSave::saveImage(cocos2d::Ref *)
 {
     static int counter = 0;
 
     char png[20];
     sprintf(png, "image-%d.png", counter);
     
-    auto callback = [&](RenderTexture* rt, const std::string& path)
+    auto callback = [&](RenderTexture*, const std::string& path)
     {
         auto sprite = Sprite::create(path);
         addChild(sprite);
@@ -171,7 +171,6 @@ RenderTextureIssue937::RenderTextureIssue937()
         return;
     }
 
-    auto spr_size = spr_premulti->getContentSize();
     rend->setKeepMatrix(true);
     Size pixelSize = Director::getInstance()->getWinSizeInPixels();
     rend->setVirtualViewport(Vec2(s.width/2-32, s.height/2-32),Rect(0,0,s.width,s.height),Rect(0,0,pixelSize.width,pixelSize.height));
@@ -315,7 +314,7 @@ void RenderTextureZbuffer::onTouchesMoved(const std::vector<Touch*>& touches, Ev
     }
 }
 
-void RenderTextureZbuffer::onTouchesEnded(const std::vector<Touch*>& touches, Event* )
+void RenderTextureZbuffer::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
     this->renderScreenShot();
 }
@@ -574,7 +573,7 @@ RenderTextureTargetNode::RenderTextureTargetNode()
     menu->setPosition(Vec2(s.width/2, s.height/2));
 }
 
-void RenderTextureTargetNode::touched(Ref* sender)
+void RenderTextureTargetNode::touched(Ref*)
 {
     if (renderTexture->getClearFlags() == 0)
     {

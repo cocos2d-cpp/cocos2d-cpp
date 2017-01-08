@@ -220,20 +220,16 @@ void Bone3D::updateLocalMat()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-Skeleton3D* Skeleton3D::create(const std::vector<NodeData*>& skeletondata)
+Skeleton3D::Skeleton3D(const std::vector<NodeData*>& skeletondata)
+: _bones()
+, _rootBones()
 {
-    auto skeleton = new (std::nothrow) Skeleton3D();
-
     for (const auto& it : skeletondata)
     {
-        auto bone = skeleton->createBone3D(*it);
+        auto bone = createBone3D(*it);
         bone->resetPose();
-        skeleton->_rootBones.push_back(bone);
+        _rootBones.push_back(bone);
     }
-
-    skeleton->autorelease();
-    
-    return skeleton;
 }
 
 //get bone
