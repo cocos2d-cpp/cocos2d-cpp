@@ -122,7 +122,7 @@ static Texture2D * getDummyTexture()
 
 
 Mesh::Mesh()
-: _skin(nullptr)
+: _skin()
 , _visible(true)
 , _isTransparent(false)
 , _force2DQueue(false)
@@ -141,7 +141,6 @@ Mesh::~Mesh()
     for (auto &tex : _textures){
         CC_SAFE_RELEASE(tex.second);
     }
-    CC_SAFE_RELEASE(_skin);
     CC_SAFE_RELEASE(_material);
     CC_SAFE_RELEASE(_glProgramState);
 }
@@ -351,13 +350,11 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
     renderer->addCommand(&_meshCommand);
 }
 
-void Mesh::setSkin(MeshSkin* skin)
+void Mesh::setSkin(std::unique_ptr<MeshSkin> skin)
 {
     if (_skin != skin)
     {
-        CC_SAFE_RETAIN(skin);
-        CC_SAFE_RELEASE(_skin);
-        _skin = skin;
+        _skin = std::move( skin );
         calculateAABB();
     }
 }

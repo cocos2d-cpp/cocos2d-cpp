@@ -47,13 +47,13 @@ class Skeleton3D;
  * @js NA
  * @lua NA
  */
-class CC_DLL MeshSkin: public Ref
+class CC_DLL MeshSkin
 {
     friend class Mesh;
 
 public:
     
-    static MeshSkin* create(std::shared_ptr<Skeleton3D>, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose);
+    MeshSkin(std::shared_ptr<Skeleton3D>, const std::vector<std::string> & boneNames, const std::vector<Mat4>& invBindPose);
     
     /**get bone*/
     Bone3D* getBoneByIndex(size_t index) const;
@@ -63,7 +63,7 @@ public:
     int getBoneIndex(Bone3D* bone) const;
     
     /**compute matrix palette used by gpu skin*/
-    Vec4* getMatrixPalette();
+    const Vec4* getMatrixPalette();
     
     /**getSkinBoneCount() * 3*/
     ssize_t getMatrixPaletteSize() const;
@@ -72,13 +72,6 @@ public:
     Bone3D* getRootBone() const;
     
 protected:
-    
-    MeshSkin();
-    
-    ~MeshSkin();
-    
-    /**remove all bones*/
-    void removeAllBones();
     
     /**add skin bone*/
     void addSkinBone(Bone3D* bone);
@@ -97,7 +90,7 @@ protected:
     // This array is passed to the vertex shader as a uniform.
     // Each 4x3 row-wise matrix is represented as 3 Vec4's.
     // The number of Vec4's is (_skinBones.size() * 3).
-    Vec4* _matrixPalette;
+    std::vector<Vec4> _matrixPalette;
 };
 
 // end of 3d group

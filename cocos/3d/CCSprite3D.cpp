@@ -365,8 +365,11 @@ Sprite3D* Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,c
         
         if (_skeleton && modeldata->bones.size())
         {
-            auto skin = MeshSkin::create(_skeleton, modeldata->bones, modeldata->invBindPose);
-            mesh->setSkin(skin);
+            mesh->setSkin(
+                std::unique_ptr<MeshSkin>(
+                    new MeshSkin(_skeleton, modeldata->bones, modeldata->invBindPose)
+                )
+            );
         }
         
         if (modeldata->matrialId == "" && materialdatas.materials.size())
@@ -529,8 +532,11 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
                     _meshes.push_back(to_retaining_ptr(mesh));
                     if (_skeleton && it->bones.size())
                     {
-                        auto skin = MeshSkin::create(_skeleton, it->bones, it->invBindPose);
-                        mesh->setSkin(skin);
+                        mesh->setSkin(
+                            std::unique_ptr<MeshSkin>(
+                                new MeshSkin(_skeleton, it->bones, it->invBindPose)
+                            )
+                        );
                     }
                     mesh->_visibleChanged = std::bind(&Sprite3D::onAABBDirty, this);
 

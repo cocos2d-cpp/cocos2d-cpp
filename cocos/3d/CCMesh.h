@@ -181,7 +181,7 @@ public:
     MeshCommand& getMeshCommand() { return _meshCommand; }
 
     /**skin setter*/
-    void setSkin(MeshSkin* skin);
+    void setSkin(std::unique_ptr<MeshSkin> skin);
     /**Mesh index data setter*/
     void setMeshIndexData(std::shared_ptr<MeshIndexData> indexdata);
     /**name setter*/
@@ -211,7 +211,7 @@ protected:
     void bindMeshCommand();
 
     std::map<NTextureData::Usage, Texture2D*> _textures; //textures that submesh is using
-    MeshSkin*           _skin;     //skin
+    std::unique_ptr<MeshSkin> _skin;     //skin
     bool                _visible; // is the submesh visible
     bool                _isTransparent; // is this mesh transparent, it is a property of material in fact
     bool                _force2DQueue; // add this mesh to 2D render queue

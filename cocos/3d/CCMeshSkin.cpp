@@ -30,32 +30,17 @@ namespace cocos2d {
 
 static int PALETTE_ROWS = 3;
 
-MeshSkin::MeshSkin()
-: _skeleton()
-, _matrixPalette(nullptr)
+MeshSkin::MeshSkin(std::shared_ptr<Skeleton3D> skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose)
+    : _skeleton( skeleton )
 {
-    
-}
-
-MeshSkin::~MeshSkin()
-{
-    removeAllBones();
-}
-
-MeshSkin* MeshSkin::create(std::shared_ptr<Skeleton3D> skeleton, const std::vector<std::string>& boneNames, const std::vector<Mat4>& invBindPose)
-{
-    auto skin = new (std::nothrow) MeshSkin();
-    skin->_skeleton = skeleton;
-    
     CCASSERT(boneNames.size() == invBindPose.size(), "bone names' num should equals to invBindPose's num");
-    for (const auto& it : boneNames) {
-        auto bone = skeleton->getBoneByName(it);
-        skin->addSkinBone(bone);
+
+    for (const auto& it : boneNames)
+    {
+        auto bone = _skeleton->getBoneByName(it);
+        this->addSkinBone(bone);
     }
-    skin->_invBindPoses = invBindPose;
-    skin->autorelease();
-    
-    return skin;
+    _invBindPoses = invBindPose;
 }
 
 //get bone
@@ -66,6 +51,7 @@ Bone3D* MeshSkin::getBoneByIndex(size_t index) const
     
     return nullptr;
 }
+
 Bone3D* MeshSkin::getBoneByName(const std::string& id) const
 {
     //search from skin bones
@@ -87,14 +73,17 @@ int MeshSkin::getBoneIndex(Bone3D* bone) const
 }
 
 //compute matrix palette used by gpu skin
-Vec4* MeshSkin::getMatrixPalette()
+const Vec4* MeshSkin::getMatrixPalette()
 {
-    if (_matrixPalette == nullptr)
+    if (_matrixPalette.empty())
     {
-        _matrixPalette = new (std::nothrow) Vec4[_skinBones.size() * PALETTE_ROWS];
+        _matrixPalette.resize(_skinBones.size() * PALETTE_ROWS, Vec4());
     }
-    int i = 0, paletteIndex = 0;
-    static Mat4 t;
+
+    int i = 0;
+    int paletteIndex = 0;
+    Mat4 t;
+    
     for (auto it : _skinBones )
     {
         Mat4::multiply(it->getWorldMat(), _invBindPoses[i++], &t);
@@ -103,18 +92,12 @@ Vec4* MeshSkin::getMatrixPalette()
         _matrixPalette[paletteIndex++].set(t.m[2], t.m[6], t.m[10], t.m[14]);
     }
     
-    return _matrixPalette;
+    return _matrixPalette.data();
 }
 
 ssize_t MeshSkin::getMatrixPaletteSize() const
 {
     return _skinBones.size() * PALETTE_ROWS;
-}
-
-void MeshSkin::removeAllBones()
-{
-    _skinBones.clear();
-    CC_SAFE_DELETE_ARRAY(_matrixPalette);
 }
 
 void MeshSkin::addSkinBone(Bone3D* bone)
