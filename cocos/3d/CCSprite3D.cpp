@@ -48,7 +48,7 @@
 
 namespace cocos2d {
 
-static Sprite3DMaterial* getSprite3DMaterialForAttribs(MeshVertexData* meshVertexData, bool usesLight);
+static Sprite3DMaterial* getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight);
 
 Sprite3D* Sprite3D::create()
 {
@@ -491,27 +491,21 @@ void Sprite3D::genMaterial(bool useLight)
 {
     _shaderUsingLight = useLight;
 
-    std::unordered_map<const MeshVertexData*, Sprite3DMaterial*> materials;
-    for(auto meshVertexData : _meshVertexDatas)
-    {
-        auto material = getSprite3DMaterialForAttribs(meshVertexData, useLight);
-        materials[meshVertexData] = material;
-    }
-    
     for (auto& mesh: _meshes)
     {
-        auto material = materials[mesh->getMeshIndexData()->getMeshVertexData()];
+        auto meshVertexData = mesh->getMeshIndexData()->getMeshVertexData();
+
+        auto material = getSprite3DMaterialForAttribs(meshVertexData, useLight);
+
         //keep original state block if exist
         auto oldmaterial = mesh->getMaterial();
+
         if (oldmaterial)
         {
             material->setStateBlock(oldmaterial->getStateBlock());
         }
 
-        if (material->getReferenceCount() == 1)
-            mesh->setMaterial(material);
-        else
-            mesh->setMaterial(material->clone());
+        mesh->setMaterial(material);
     }
 }
 
@@ -1000,7 +994,7 @@ Sprite3DCache::~Sprite3DCache()
 //
 // MARK: Helpers
 //
-static Sprite3DMaterial* getSprite3DMaterialForAttribs(MeshVertexData* meshVertexData, bool usesLight)
+static Sprite3DMaterial* getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight)
 {
     bool textured = meshVertexData->hasVertexAttrib(GLProgram::VERTEX_ATTRIB_TEX_COORD);
     bool hasSkin = meshVertexData->hasVertexAttrib(GLProgram::VERTEX_ATTRIB_BLEND_INDEX)
