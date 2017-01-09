@@ -24,7 +24,7 @@ public:
     void onMenuDeleteTestClicked(cocos2d::Ref *sender, bool isImmediate);
     
     //Http Response Callback
-    void onHttpRequestCompleted(cocos2d::network::HttpClient *sender, cocos2d::network::HttpResponse *response);
+    void onHttpRequestCompleted(cocos2d::network::HttpClient *sender, std::shared_ptr<cocos2d::network::HttpResponse> response);
 
     virtual std::string title() const override { return "Http Request Test"; }
 

@@ -153,7 +153,7 @@ namespace network {
         ComPtr<CXHR2Callback> _spXhrCallback;
         ComPtr<CXHR2DataStream> _spXhrRequestData;
         DWORD _timeOutInMs;
-        cocos2d::network::HttpRequest* _pRequest;
+        std::shared_ptr<cocos2d::network::HttpRequest> _pRequest;
     };
 }
 

@@ -525,7 +525,7 @@ namespace network {
         _spXhr(nullptr),
         _spXhrCallback(nullptr),
         _spXhrRequestData(nullptr),
-        _pRequest(nullptr),
+        _pRequest(),
         _timeOutInMs(0)
     {
     }
@@ -534,9 +534,9 @@ namespace network {
     {
     }
 
-    bool HttpConnection::init(HttpRequest *pRequest, DWORD timeOutInMs)
+    bool HttpConnection::init(std::shared_ptr<HttpRequest> pRequest, DWORD timeOutInMs)
     {
-        if (_isInitialized || nullptr == pRequest) {
+        if (_isInitialized || !pRequest) {
             return _isInitialized;
         }
 

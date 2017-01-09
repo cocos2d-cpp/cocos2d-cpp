@@ -27,13 +27,15 @@
 #ifndef __CCHTTPCLIENT_H__
 #define __CCHTTPCLIENT_H__
 
-#include <thread>
-#include <condition_variable>
 #include "base/CCVector.h"
 #include "base/CCScheduler.h"
 #include "network/HttpRequest.h"
 #include "network/HttpResponse.h"
 #include "network/HttpCookie.h"
+
+#include <condition_variable>
+#include <deque>
+#include <thread>
 
 /**
  * @addtogroup network
@@ -106,7 +108,7 @@ public:
      * @param request a HttpRequest object, which includes url, response callback etc.
                       please make sure request->_requestData is clear before calling "send" here.
      */
-    void send(HttpRequest* request);
+    void send(std::shared_ptr<HttpRequest> request);
 
     /**
      * Immediate send a request
@@ -114,7 +116,7 @@ public:
      * @param request a HttpRequest object, which includes url, response callback etc.
                       please make sure request->_requestData is clear before calling "sendImmediate" here.
      */
-    void sendImmediate(HttpRequest* request);
+    void sendImmediate(std::shared_ptr<HttpRequest> request);
 
     /**
      * Set the timeout value for connecting.
@@ -160,11 +162,11 @@ private:
      */
     bool lazyInitThreadSemphore();
     void networkThread();
-    void networkThreadAlone(HttpRequest* request, HttpResponse* response);
+    void networkThreadAlone(std::shared_ptr<HttpRequest> request, std::shared_ptr<HttpResponse> response);
     /** Poll function called from main thread to dispatch callbacks when http requests finished **/
     void dispatchResponseCallbacks();
 
-    void processResponse(HttpResponse* response, char* responseMessage);
+    void processResponse(std::shared_ptr<HttpResponse>, char* responseMessage);
     void increaseThreadCount();
     void decreaseThreadCountAndMayDeleteThis();
 
@@ -183,10 +185,10 @@ private:
     Scheduler* _scheduler;
     std::mutex _schedulerMutex;
 
-    Vector<HttpRequest*>  _requestQueue;
+    std::deque<std::shared_ptr<HttpRequest>> _requestQueue;
     std::mutex _requestQueueMutex;
 
-    Vector<HttpResponse*> _responseQueue;
+    std::deque<std::shared_ptr<HttpResponse>> _responseQueue;
     std::mutex _responseQueueMutex;
 
     std::string _cookieFilename;
@@ -200,8 +202,6 @@ private:
     std::condition_variable_any _sleepCondition;
 
     char _responseMessage[RESPONSE_BUFFER_SIZE];
-
-    HttpRequest* _requestSentinel;
 };
 
 } // namespace network

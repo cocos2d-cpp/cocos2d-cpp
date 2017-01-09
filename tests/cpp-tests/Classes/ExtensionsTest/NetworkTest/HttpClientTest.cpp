@@ -97,11 +97,11 @@ HttpClientTest::~HttpClientTest()
     HttpClient::destroyInstance();
 }
 
-void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *sender, bool isImmediate)
+void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *, bool isImmediate)
 {    
     // test 1
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://just-make-this-request-failed.com");
         request->setRequestType(HttpRequest::Type::GET);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -114,12 +114,11 @@ void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *sender, bool isImmediate
             request->setTag("GET test1");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
     
     // test 2
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         // required fields
         request->setUrl("http://httpbin.org/ip");
         request->setRequestType(HttpRequest::Type::GET);
@@ -133,13 +132,11 @@ void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *sender, bool isImmediate
             request->setTag("GET test2");
             HttpClient::getInstance()->send(request);
         }
-        // don't forget to release it, pair to new
-        request->release();
     }
     
     // test 3   
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("https://httpbin.org/get");
         request->setRequestType(HttpRequest::Type::GET);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -152,7 +149,6 @@ void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *sender, bool isImmediate
             request->setTag("GET test3");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
         
     // waiting
@@ -160,11 +156,11 @@ void HttpClientTest::onMenuGetTestClicked(cocos2d::Ref *sender, bool isImmediate
  
 }
 
-void HttpClientTest::onMenuPostTestClicked(cocos2d::Ref *sender, bool isImmediate)
+void HttpClientTest::onMenuPostTestClicked(cocos2d::Ref *, bool isImmediate)
 {
     // test 1
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://httpbin.org/post");
         request->setRequestType(HttpRequest::Type::POST);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -181,12 +177,11 @@ void HttpClientTest::onMenuPostTestClicked(cocos2d::Ref *sender, bool isImmediat
             request->setTag("POST test1");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
     
     // test 2: set Content-Type
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://httpbin.org/post");
         request->setRequestType(HttpRequest::Type::POST);
         std::vector<std::string> headers;
@@ -206,16 +201,15 @@ void HttpClientTest::onMenuPostTestClicked(cocos2d::Ref *sender, bool isImmediat
             request->setTag("POST test2");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
     
     // waiting
     _labelStatusCode->setString("waiting...");
 }
 
-void HttpClientTest::onMenuPostBinaryTestClicked(cocos2d::Ref *sender, bool isImmediate)
+void HttpClientTest::onMenuPostBinaryTestClicked(cocos2d::Ref *, bool isImmediate)
 {
-    HttpRequest* request = new (std::nothrow) HttpRequest();
+    auto request = std::make_shared<HttpRequest>();
     request->setUrl("http://httpbin.org/post");
     request->setRequestType(HttpRequest::Type::POST);
     request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -232,7 +226,6 @@ void HttpClientTest::onMenuPostBinaryTestClicked(cocos2d::Ref *sender, bool isIm
         request->setTag("POST Binary test");
         HttpClient::getInstance()->send(request);
     }
-    request->release();
     
     // waiting
     _labelStatusCode->setString("waiting...");
@@ -240,11 +233,11 @@ void HttpClientTest::onMenuPostBinaryTestClicked(cocos2d::Ref *sender, bool isIm
 
 
 
-void HttpClientTest::onMenuPutTestClicked(Ref *sender, bool isImmediate)
+void HttpClientTest::onMenuPutTestClicked(Ref *, bool isImmediate)
 {
     // test 1
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://httpbin.org/put");
         request->setRequestType(HttpRequest::Type::PUT);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -261,12 +254,11 @@ void HttpClientTest::onMenuPutTestClicked(Ref *sender, bool isImmediate)
             request->setTag("PUT Binary test1");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
 
     // test 2: set Content-Type
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://httpbin.org/put");
         request->setRequestType(HttpRequest::Type::PUT);
         std::vector<std::string> headers;
@@ -286,18 +278,17 @@ void HttpClientTest::onMenuPutTestClicked(Ref *sender, bool isImmediate)
             request->setTag("PUT Binary test2");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
 
     // waiting
     _labelStatusCode->setString("waiting...");
 }
 
-void HttpClientTest::onMenuDeleteTestClicked(Ref *sender, bool isImmediate)
+void HttpClientTest::onMenuDeleteTestClicked(Ref *, bool isImmediate)
 {
     // test 1
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://just-make-this-request-failed.com");
         request->setRequestType(HttpRequest::Type::DELETE);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -310,12 +301,11 @@ void HttpClientTest::onMenuDeleteTestClicked(Ref *sender, bool isImmediate)
             request->setTag("DELETE test1");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
 
     // test 2
     {
-        HttpRequest* request = new (std::nothrow) HttpRequest();
+        auto request = std::make_shared<HttpRequest>();
         request->setUrl("http://httpbin.org/delete");
         request->setRequestType(HttpRequest::Type::DELETE);
         request->setResponseCallback(CC_CALLBACK_2(HttpClientTest::onHttpRequestCompleted, this));
@@ -328,14 +318,13 @@ void HttpClientTest::onMenuDeleteTestClicked(Ref *sender, bool isImmediate)
             request->setTag("DELETE test2");
             HttpClient::getInstance()->send(request);
         }
-        request->release();
     }
 
     // waiting
     _labelStatusCode->setString("waiting...");
 }
 
-void HttpClientTest::onHttpRequestCompleted(HttpClient *sender, HttpResponse *response)
+void HttpClientTest::onHttpRequestCompleted(HttpClient *, std::shared_ptr<HttpResponse> response)
 {
     if (!response)
     {
@@ -369,8 +358,4 @@ void HttpClientTest::onHttpRequestCompleted(HttpClient *sender, HttpResponse *re
         log("%c", (*buffer)[i]);
     }
     log("\n");
-    if (response->getHttpRequest()->getReferenceCount() != 2)
-    {
-        log("request ref count not 2, is %d", response->getHttpRequest()->getReferenceCount());
-    }
 }
