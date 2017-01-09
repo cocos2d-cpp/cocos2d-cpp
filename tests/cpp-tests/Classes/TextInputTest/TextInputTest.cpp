@@ -321,18 +321,16 @@ bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, co
     float rotateDuration = 0.2f;
     int repeatTime = 5; 
     label->setPosition(beginPos);
+    
+    auto moveto = MoveTo::create(duration, endPos);
+    auto repeat = Repeat::create(RotateBy::create(rotateDuration, (rand() % 2) ? 360 : -360),
+                                 repeatTime);
+    auto fadeout = FadeOut::create(duration);
+    
+    auto spawn = Spawn::create(moveto, repeat, fadeout, std::nullptr_t());
 
     auto seq = Sequence::create(
-        to_action_ptr(
-            Spawn::create(
-                MoveTo::create(duration, endPos),
-                Repeat::create(
-                    RotateBy::create(rotateDuration, (rand()%2) ? 360 : -360),
-                    repeatTime
-                ),
-                FadeOut::create(duration)
-            )
-        ),
+        to_action_ptr(spawn),
         to_action_ptr(
             CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
         )

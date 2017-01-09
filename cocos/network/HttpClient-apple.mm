@@ -77,7 +77,7 @@ void HttpClient::networkThread()
         // add response packet into queue
         {
             std::lock_guard<std::mutex> lock(_responseQueueMutex);
-            _responseQueue.pushBack(response);
+            _responseQueue.push_back(response);
         }
         
         {
