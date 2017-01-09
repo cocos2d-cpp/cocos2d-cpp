@@ -43,7 +43,7 @@ namespace network {
 
 static HttpClient *_httpClient = nullptr; // pointer to singleton
 
-static int processTask(HttpClient* client, HttpRequest *request, NSString *requestType, void *stream, long *errorCode, void *headerStream, char *errorBuffer);
+static int processTask(HttpClient* client, std::shared_ptr<HttpRequest> request, NSString *requestType, void *stream, long *errorCode, void *headerStream, char *errorBuffer);
 
 // Worker thread
 void HttpClient::networkThread()
@@ -52,7 +52,7 @@ void HttpClient::networkThread()
     
     while (true) @autoreleasepool {
         
-        HttpRequest *request;
+        std::shared_ptr<HttpRequest> request;
 
         // step 1: send http request if the requestQueue isn't empty
         {
@@ -61,78 +61,81 @@ void HttpClient::networkThread()
                 _sleepCondition.wait(_requestQueueMutex);
             }
             request = _requestQueue.at(0);
-            _requestQueue.erase(0);
+            _requestQueue.erase( _requestQueue.begin() );
         }
 
-        if (request == _requestSentinel) {
+        if (!request)
+        {
             break;
         }
         
         // Create a HttpResponse object, the default setting is http access failed
-        HttpResponse *response = new (std::nothrow) HttpResponse(request);
+        std::shared_ptr<HttpResponse> response(new (std::nothrow) HttpResponse(request));
         
         processResponse(response, _responseMessage);
         
         // add response packet into queue
-        _responseQueueMutex.lock();
-        _responseQueue.pushBack(response);
-        _responseQueueMutex.unlock();
-        
-        _schedulerMutex.lock();
-        if (nullptr != _scheduler)
         {
-            _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+            std::lock_guard<std::mutex> lock(_responseQueueMutex);
+            _responseQueue.pushBack(response);
         }
-        _schedulerMutex.unlock();
+        
+        {
+            std::lock_guard<std::mutex> lock(_schedulerMutex);
+            if (_scheduler)
+            {
+                _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+            }
+        }
     }
     
     // cleanup: if worker thread received quit signal, clean up un-completed request queue
-    _requestQueueMutex.lock();
-    _requestQueue.clear();
-    _requestQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_requestQueueMutex);
+        _requestQueue.clear();
+    }
     
-    _responseQueueMutex.lock();
-    _responseQueue.clear();
-    _responseQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_responseQueueMutex);
+        _responseQueue.clear();
+    }
     
     decreaseThreadCountAndMayDeleteThis();
 }
 
 // Worker thread
-void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response)
+void HttpClient::networkThreadAlone(std::shared_ptr<HttpRequest> request, std::shared_ptr<HttpResponse> response)
 {
     increaseThreadCount();
     
     char responseMessage[RESPONSE_BUFFER_SIZE] = { 0 };
+
     processResponse(response, responseMessage);
     
-    _schedulerMutex.lock();
-    if (nullptr != _scheduler)
     {
-        _scheduler->performFunctionInCocosThread([this, response, request]{
-            const ccHttpRequestCallback& callback = request->getCallback();
-            Ref* pTarget = request->getTarget();
-            SEL_HttpResponse pSelector = request->getSelector();
-            
-            if (callback != nullptr)
-            {
-                callback(this, response);
-            }
-            else if (pTarget && pSelector)
-            {
-                (pTarget->*pSelector)(this, response);
-            }
-            response->release();
-            // do not release in other thread
-            request->release();
-        });
+        std::lock_guard<std::mutex> lock(_schedulerMutex);
+
+        if (_scheduler && request->getCallback())
+        {
+            _scheduler->performFunctionInCocosThread(
+                [this, response, request]
+                {
+                    auto & callback = request->getCallback();
+
+                    if (callback != nullptr)
+                    {
+                        callback(this, response);
+                    }
+                }
+            );
+        }
     }
-    _schedulerMutex.unlock();
+
     decreaseThreadCountAndMayDeleteThis();
 }
 
 //Process Request
-static int processTask(HttpClient* client, HttpRequest* request, NSString* requestType, void* stream, long* responseCode, void* headerStream, char* errorBuffer)
+static int processTask(HttpClient* client, std::shared_ptr<HttpRequest> request, NSString* requestType, void* stream, long* responseCode, void* headerStream, char* errorBuffer)
 {
     if (nullptr == client)
     {
@@ -321,15 +324,19 @@ void HttpClient::destroyInstance()
     _httpClient = nullptr;
     
     thiz->_scheduler->unscheduleAllForTarget(thiz);
-    thiz->_schedulerMutex.lock();
-    thiz->_scheduler = nullptr;
-    thiz->_schedulerMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(thiz->_schedulerMutex);
+        thiz->_scheduler = nullptr;
+    }
     
-    thiz->_requestQueueMutex.lock();
-    thiz->_requestQueue.pushBack(thiz->_requestSentinel);
-    thiz->_requestQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(thiz->_requestQueueMutex);
+        thiz->_requestQueue.push_back(std::shared_ptr<HttpRequest>());
+    }
+
 
     thiz->_sleepCondition.notify_one();
+
     thiz->decreaseThreadCountAndMayDeleteThis();
 
     CCLOG("HttpClient::destroyInstance() finished!");
@@ -368,7 +375,6 @@ HttpClient::HttpClient()
 , _timeoutForRead(60)
 , _isInited(false)
 , _threadCount(0)
-, _requestSentinel(new HttpRequest())
 , _cookie(nullptr)
 {
     CCLOG("In the constructor of HttpClient!");
@@ -380,7 +386,6 @@ HttpClient::HttpClient()
 
 HttpClient::~HttpClient()
 {
-    CC_SAFE_RELEASE(_requestSentinel);
     if (!_cookieFilename.empty() && nullptr != _cookie)
     {
         _cookie->writeFile();
@@ -392,24 +397,20 @@ HttpClient::~HttpClient()
 //Lazy create semaphore & mutex & thread
 bool HttpClient::lazyInitThreadSemphore()
 {
-    if (_isInited)
-    {
-        return true;
-    }
-    else
+    if (!_isInited)
     {
         auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
         t.detach();
         _isInited = true;
     }
 
-    return true;
+    return _isInited;
 }
 
 //Add a get task to queue
-void HttpClient::send(HttpRequest* request)
+void HttpClient::send(std::shared_ptr<HttpRequest> request)
 {
-    if (false == lazyInitThreadSemphore())
+    if (!lazyInitThreadSemphore())
     {
         return;
     }
@@ -419,28 +420,27 @@ void HttpClient::send(HttpRequest* request)
         return;
     }
 
-    request->retain();
-
-    _requestQueueMutex.lock();
-    _requestQueue.pushBack(request);
-    _requestQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_requestQueueMutex);
+        _requestQueue.push_back(request);
+    }
 
     // Notify thread start to work
     _sleepCondition.notify_one();
 }
 
-void HttpClient::sendImmediate(HttpRequest* request)
+void HttpClient::sendImmediate(std::shared_ptr<HttpRequest> request)
 {
     if(!request)
     {
         return;
     }
 
-    request->retain();
     // Create a HttpResponse object, the default setting is http access failed
-    HttpResponse *response = new (std::nothrow) HttpResponse(request);
+    std::shared_ptr<HttpResponse> response( new (std::nothrow) HttpResponse(request) );
 
     auto t = std::thread(&HttpClient::networkThreadAlone, this, request, response);
+
     t.detach();
 }
 
@@ -449,39 +449,31 @@ void HttpClient::dispatchResponseCallbacks()
 {
     // log("CCHttpClient::dispatchResponseCallbacks is running");
     //occurs when cocos thread fires but the network thread has already quited
-    HttpResponse* response = nullptr;
-    _responseQueueMutex.lock();
-    if (!_responseQueue.empty())
+    std::shared_ptr<HttpResponse> response;
+
     {
-        response = _responseQueue.at(0);
-        _responseQueue.erase(0);
+        std::lock_guard<std::mutex> lock(_responseQueueMutex);
+        if (!_responseQueue.empty())
+        {
+            response = _responseQueue.at(0);
+            _responseQueue.erase(_responseQueue.begin());
+        }
     }
-    _responseQueueMutex.unlock();
 
     if (response)
     {
-        HttpRequest *request = response->getHttpRequest();
-        const ccHttpRequestCallback& callback = request->getCallback();
-        Ref* pTarget = request->getTarget();
-        SEL_HttpResponse pSelector = request->getSelector();
+        auto request = response->getHttpRequest();
+        auto & callback = request->getCallback();
 
         if (callback != nullptr)
         {
             callback(this, response);
         }
-        else if (pTarget && pSelector)
-        {
-            (pTarget->*pSelector)(this, response);
-        }
-
-        response->release();
-        // do not release in other thread
-        request->release();
     }
 }
 
 // Process Response
-void HttpClient::processResponse(HttpResponse* response, char* responseMessage)
+void HttpClient::processResponse(std::shared_ptr<HttpResponse> response, char* responseMessage)
 {
     auto request = response->getHttpRequest();
     long responseCode = -1;
@@ -537,22 +529,22 @@ void HttpClient::processResponse(HttpResponse* response, char* responseMessage)
 
 void HttpClient::increaseThreadCount()
 {
-    _threadCountMutex.lock();
+    std::lock_guard<std::mutex> lock(_threadCountMutex);
     ++_threadCount;
-    _threadCountMutex.unlock();
 }
 
 void HttpClient::decreaseThreadCountAndMayDeleteThis()
 {
     bool needDeleteThis = false;
-    _threadCountMutex.lock();
-    --_threadCount;
-    if (0 == _threadCount)
     {
-        needDeleteThis = true;
-    }
+        std::lock_guard<std::mutex> lock(_threadCountMutex);
 
-    _threadCountMutex.unlock();
+        --_threadCount;
+        if (0 == _threadCount)
+        {
+            needDeleteThis = true;
+        }
+    }
     if (needDeleteThis)
     {
         delete this;

@@ -102,7 +102,9 @@ private:
     std::vector<std::string> _typesMessage;
 };
 
-SocketIOPacket::SocketIOPacket() :_separator(":"), _endpointseparator("")
+SocketIOPacket::SocketIOPacket()
+    : _endpointseparator("")
+    , _separator(":")
 {
     _types.push_back("disconnect");
     _types.push_back("connect");
@@ -369,7 +371,7 @@ public:
     void disconnect();
     bool init();
     void handshake();
-    void handshakeResponse(HttpClient *sender, HttpResponse *response);
+    void handshakeResponse(HttpClient *sender, std::shared_ptr<HttpResponse>);
     void openSocket();
     void heartbeat(float dt);
 
@@ -393,8 +395,8 @@ public:
 SIOClientImpl::SIOClientImpl(const std::string& host, int port) :
     _port(port),
     _host(host),
-    _connected(false),
     _uri(host + ":" + StringUtils::toString(port)),
+    _connected(false),
     _ws(nullptr)
 {
 }
@@ -414,7 +416,7 @@ void SIOClientImpl::handshake()
     std::stringstream pre;
     pre << "http://" << _uri << "/socket.io/1/?EIO=2&transport=polling&b64=true";
 
-    HttpRequest* request = new (std::nothrow) HttpRequest();
+    std::unique_ptr<HttpRequest> request(new HttpRequest);
     request->setUrl(pre.str());
     request->setRequestType(HttpRequest::Type::GET);
 
@@ -423,14 +425,10 @@ void SIOClientImpl::handshake()
 
     CCLOGINFO("SIOClientImpl::handshake() waiting");
 
-    HttpClient::getInstance()->send(request);
-
-    request->release();
-
-    return;
+    HttpClient::getInstance()->send( std::move( request));
 }
 
-void SIOClientImpl::handshakeResponse(HttpClient* /*sender*/, HttpResponse *response)
+void SIOClientImpl::handshakeResponse(HttpClient* /*sender*/, std::shared_ptr<HttpResponse> response)
 {
     CCLOGINFO("SIOClientImpl::handshakeResponse() called");
 

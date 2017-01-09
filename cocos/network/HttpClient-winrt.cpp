@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "network/HttpClient.h"
 
 #include <thread>
-#include <queue>
+#include <deque>
 #include <condition_variable>
 
 #include <errno.h>
@@ -56,8 +56,8 @@ namespace network {
     typedef int int32_t;
 #endif
 
-    static Vector<HttpRequest*>*  s_requestQueue = nullptr;
-    static Vector<HttpResponse*>* s_responseQueue = nullptr;
+    static std::deque<std::shared_ptr<HttpRequest>>  s_requestQueue;
+    static std::deque<std::shared_ptr<HttpResponse>> s_responseQueue;
 
     static HttpClient *s_pHttpClient = nullptr; // pointer to singleton
 
@@ -76,9 +76,7 @@ namespace network {
         pToBuffer->insert(pToBuffer->end(), pFromBuffer->begin(), pFromBuffer->end());
     }
 
-    static void processHttpResponse(HttpResponse* response, std::string& errorStr);
-
-    static HttpRequest *s_requestSentinel = new (std::nothrow) HttpRequest;
+    static void processHttpResponse(std::shared_ptr<HttpResponse>, std::string& errorStr);
 
     // Worker thread
     void HttpClient::networkThread()
@@ -87,34 +85,36 @@ namespace network {
 
         while (true)
         {
-            HttpRequest *request;
+            std::shared_ptr<HttpRequest> request;
 
             // step 1: send http request if the requestQueue isn't empty
             {
                 std::lock_guard<std::mutex> lock(s_requestQueueMutex);
-                while (s_requestQueue->empty()) {
+                while (s_requestQueue.empty()) {
                     s_SleepCondition.wait(s_requestQueueMutex);
                 }
-                request = s_requestQueue->at(0);
-                s_requestQueue->erase(0);
+                request = std::shared_ptr<HttpRequest>( s_requestQueue.front().release() );
+                s_requestQueue.erase(s_requestQueue.begin());
             }
 
-            if (request == s_requestSentinel) {
+            if (!request)
+            {
                 break;
             }
 
             // step 2: libcurl sync access
 
             // Create a HttpResponse object, the default setting is http access failed
-            HttpResponse *response = new (std::nothrow) HttpResponse(request);
+            std::shared_ptr<HttpResponse> response( new (std::nothrow) HttpResponse(request) );
 
             processHttpResponse(response, s_errorBuffer);
 
 
             // add response packet into queue
-            s_responseQueueMutex.lock();
-            s_responseQueue->pushBack(response);
-            s_responseQueueMutex.unlock();
+            {
+                std::lock_guard<std::mutex> lock(s_responseQueueMutex);
+                s_responseQueue.push_back(response);
+            }
 
             if (nullptr != s_pHttpClient) {
                 scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
@@ -122,48 +122,38 @@ namespace network {
         }
 
         // cleanup: if worker thread received quit signal, clean up un-completed request queue
-        s_requestQueueMutex.lock();
-        s_requestQueue->clear();
-        s_requestQueueMutex.unlock();
-
-
-        if (s_requestQueue != nullptr) {
-            delete s_requestQueue;
-            s_requestQueue = nullptr;
-            delete s_responseQueue;
-            s_responseQueue = nullptr;
+        {
+            std::lock_guard<std::mutex> lock(s_requestQueueMutex);
+            s_requestQueue.clear();
         }
-
     }
 
     // Worker thread
-    void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response)
+    void HttpClient::networkThreadAlone(std::shared_ptr<HttpRequest> request, std::shared_ptr<HttpResponse> response)
     {
         std::string errorStr;
         processHttpResponse(response, errorStr);
 
         auto scheduler = Director::getInstance()->getScheduler();
-        scheduler->performFunctionInCocosThread([response, request]{
-            const ccHttpRequestCallback& callback = request->getCallback();
-            Ref* pTarget = request->getTarget();
-            SEL_HttpResponse pSelector = request->getSelector();
 
-            if (callback != nullptr)
-            {
-                callback(s_pHttpClient, response);
-            }
-            else if (pTarget && pSelector)
-            {
-                (pTarget->*pSelector)(s_pHttpClient, response);
-            }
-            response->release();
-            // do not release in other thread
-            request->release();
-        });
+        if (request->getCallback())
+        {
+            scheduler->performFunctionInCocosThread(
+                [response, request]
+                {
+                    auto & callback = request->getCallback();
+
+                    if (callback)
+                    {
+                        callback(s_pHttpClient, response);
+                    }
+                }
+            );
+        }
     }
 
     // Process Response
-    static void processHttpResponse(HttpResponse* response, std::string& errorStr)
+    static void processHttpResponse(std::shared_ptr<HttpResponse> response, std::string& errorStr)
     {
         auto request = response->getHttpRequest();
         long responseCode = -1;
@@ -253,13 +243,11 @@ namespace network {
 
     HttpClient::~HttpClient()
     {
-        if (s_requestQueue != nullptr) {
-            {
-                std::lock_guard<std::mutex> lock(s_requestQueueMutex);
-                s_requestQueue->pushBack(s_requestSentinel);
-            }
-            s_SleepCondition.notify_one();
+        {
+            std::lock_guard<std::mutex> lock(s_requestQueueMutex);
+            s_requestQueue.push_back( std::shared_ptr<HttpRequest>() );
         }
+        s_SleepCondition.notify_one();
 
         s_pHttpClient = nullptr;
     }
@@ -267,25 +255,20 @@ namespace network {
     //Lazy create semaphore & mutex & thread
     bool HttpClient::lazyInitThreadSemphore()
     {
-        if (s_requestQueue != nullptr) {
-            return true;
-        }
-        else {
-
-            s_requestQueue = new (std::nothrow) Vector<HttpRequest*>();
-            s_responseQueue = new (std::nothrow) Vector<HttpResponse*>();
-
+        if (!_isInited)
+        {
             auto t = std::thread(CC_CALLBACK_0(HttpClient::networkThread, this));
             t.detach();
+            _isInited = true;
         }
 
-        return true;
+        return _isInited;
     }
 
     //Add a get task to queue
-    void HttpClient::send(HttpRequest* request)
+    void HttpClient::send(std::shared_ptr<HttpRequest> request)
     {
-        if (false == lazyInitThreadSemphore())
+        if (!lazyInitThreadSemphore())
         {
             return;
         }
@@ -295,30 +278,27 @@ namespace network {
             return;
         }
 
-        request->retain();
-
-        if (nullptr != s_requestQueue) {
-            s_requestQueueMutex.lock();
-            s_requestQueue->pushBack(request);
-            s_requestQueueMutex.unlock();
-
-            // Notify thread start to work
-            s_SleepCondition.notify_one();
+        {
+            std::lock_guard<std::mutex> lock(s_requestQueueMutex);
+            s_requestQueue.push_back(request);
         }
+
+        // Notify thread start to work
+        s_SleepCondition.notify_one();
     }
 
-    void HttpClient::sendImmediate(HttpRequest* request)
+    void HttpClient::sendImmediate(std::shared_ptr<HttpRequest> request)
     {
         if (!request)
         {
             return;
         }
 
-        request->retain();
         // Create a HttpResponse object, the default setting is http access failed
-        HttpResponse *response = new (std::nothrow) HttpResponse(request);
+        std::shared_ptr<HttpResponse> response( new (std::nothrow) HttpResponse(request) );
 
         auto t = std::thread(&HttpClient::networkThreadAlone, this, request, response);
+
         t.detach();
     }
 
@@ -327,40 +307,26 @@ namespace network {
     {
         // log("CCHttpClient::dispatchResponseCallbacks is running");
         //occurs when cocos thread fires but the network thread has already quited
-        if (nullptr == s_responseQueue) {
-            return;
-        }
-        HttpResponse* response = nullptr;
+        std::shared_ptr<HttpResponse> response;
 
-        s_responseQueueMutex.lock();
-
-        if (!s_responseQueue->empty())
         {
-            response = s_responseQueue->at(0);
-            s_responseQueue->erase(0);
+            std::lock_guard<std::mutex> lock(s_responseQueueMutex);
+            if (!s_responseQueue.empty())
+            {
+                response = s_responseQueue.at(0);
+                s_responseQueue.erase( s_responseQueue.begin() );
+            }
         }
-
-        s_responseQueueMutex.unlock();
 
         if (response)
         {
-            HttpRequest *request = response->getHttpRequest();
-            const ccHttpRequestCallback& callback = request->getCallback();
-            Ref* pTarget = request->getTarget();
-            SEL_HttpResponse pSelector = request->getSelector();
+            auto request = response->getHttpRequest();
+            auto & callback = request->getCallback();
 
             if (callback != nullptr)
             {
                 callback(this, response);
             }
-            else if (pTarget && pSelector)
-            {
-                (pTarget->*pSelector)(this, response);
-            }
-
-            response->release();
-            // do not release in other thread
-            request->release();
         }
     }
 

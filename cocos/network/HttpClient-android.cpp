@@ -64,7 +64,7 @@ struct CookiesInfo
 };
 
 //static size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
-static size_t writeData(void* buffer, size_t sizes, HttpResponse* response)
+static size_t writeData(void* buffer, size_t sizes, std::shared_ptr<HttpResponse> response)
 {
     std::vector<char> * recvBuffer = (std::vector<char>*)response->getResponseData();
     recvBuffer->clear();
@@ -73,7 +73,7 @@ static size_t writeData(void* buffer, size_t sizes, HttpResponse* response)
 } 
 
 //static size_t writeHeaderData(void *ptr, size_t size, size_t nmemb, void *stream)
-size_t writeHeaderData(void* buffer, size_t sizes,HttpResponse* response)
+size_t writeHeaderData(void* buffer, size_t sizes, std::shared_ptr<HttpResponse> response)
 {
     std::vector<char> * recvBuffer = (std::vector<char>*) response->getResponseHeader();
     recvBuffer->clear();
@@ -114,14 +114,16 @@ public:
                                            "(Ljava/net/HttpURLConnection;Ljava/lang/String;)V"))
         {
             jstring jstr = methodInfo.env->NewStringUTF(_requestmethod.c_str());
-            methodInfo.env->CallStaticVoidMethod(
-                                                 methodInfo.classID, methodInfo.methodID, _httpURLConnection, jstr);
+
+            methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, _httpURLConnection, jstr);
+            
             methodInfo.env->DeleteLocalRef(jstr);
+            
             methodInfo.env->DeleteLocalRef(methodInfo.classID);
         }
     }
     
-    bool init(HttpRequest* request)
+    bool init(std::shared_ptr<HttpRequest> request)
     {
         createHttpURLConnection(request->getUrl());
         if(!configure())
@@ -129,7 +131,7 @@ public:
             return false;
         }
         /* get custom header data (if set) */
-        HttpRequestHeaders headers=request->getHeaders();
+        HttpRequestHeaders headers = request->getHeaders();
         if(!headers.empty())
         {
             /* append custom headers one by one */
@@ -290,9 +292,9 @@ public:
         
     }
     
-    char* getResponseContent(HttpResponse* response)
+    char* getResponseContent(std::shared_ptr<HttpResponse> response)
     {
-        if (nullptr == response)
+        if (!response)
         {
             return nullptr;
         }
@@ -617,7 +619,7 @@ private:
 };
 
 // Process Response
-void HttpClient::processResponse(HttpResponse* response, char* responseMessage)
+void HttpClient::processResponse(std::shared_ptr<HttpResponse> response, char* responseMessage)
 {
     auto request = response->getHttpRequest();
     HttpRequest::Type requestType = request->getRequestType();
@@ -733,7 +735,7 @@ void HttpClient::networkThread()
 
     while (true) 
     {
-        HttpRequest *request;
+        std::shared_ptr<HttpRequest> request;
 
         // step 1: send http request if the requestQueue isn't empty
         {
@@ -741,73 +743,78 @@ void HttpClient::networkThread()
             while (_requestQueue.empty()) {
                 _sleepCondition.wait(_requestQueueMutex);
             }
-            request = _requestQueue.at(0);
-            _requestQueue.erase(0);
+            request.reset( _requestQueue.front().release() );
+            _requestQueue.erase( _requestQueue.begin() );
         }
 
-        if (request == _requestSentinel) {
+        if (!request)
+        {
             break;
         }
         
         // Create a HttpResponse object, the default setting is http access failed
-        HttpResponse *response = new (std::nothrow) HttpResponse(request);
+        std::shared_ptr<HttpResponse> response( new (std::nothrow) HttpResponse(request) );
+
         processResponse(response, _responseMessage);
         
         // add response packet into queue
-        _responseQueueMutex.lock();
-        _responseQueue.pushBack(response);
-        _responseQueueMutex.unlock();
-        
-        _schedulerMutex.lock();
-        if (nullptr != _scheduler)
         {
-            _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+            std::lock_guard<std::mutex> lock(_responseQueueMutex);
+            _responseQueue.push_back(response);
         }
-        _schedulerMutex.unlock();
+
+        {
+            std::lock_guard<std::mutex> lock(_schedulerMutex);
+
+            if (_scheduler)
+            {
+                _scheduler->performFunctionInCocosThread(CC_CALLBACK_0(HttpClient::dispatchResponseCallbacks, this));
+            }
+        }
     }
     
     // cleanup: if worker thread received quit signal, clean up un-completed request queue
-    _requestQueueMutex.lock();
-    _requestQueue.clear();
-    _requestQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_requestQueueMutex);
+        _requestQueue.clear();
+    }
     
-    _responseQueueMutex.lock();
-    _responseQueue.clear();
-    _responseQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_responseQueueMutex);
+        _responseQueue.clear();
+    }
 
     decreaseThreadCountAndMayDeleteThis();    
 }
 
 // Worker thread
-void HttpClient::networkThreadAlone(HttpRequest* request, HttpResponse* response)
+void HttpClient::networkThreadAlone(std::shared_ptr<HttpRequest> request, std::shared_ptr<HttpResponse> response)
 {
     increaseThreadCount();
 
     char responseMessage[RESPONSE_BUFFER_SIZE] = { 0 };
+
     processResponse(response, responseMessage);
 
-    _schedulerMutex.lock();
-    if (_scheduler != nullptr)
     {
-        _scheduler->performFunctionInCocosThread([this, response, request]{
-            const ccHttpRequestCallback& callback = request->getCallback();
-            Ref* pTarget = request->getTarget();
-            SEL_HttpResponse pSelector = request->getSelector();
+        std::lock_guard<std::mutex> lock(_schedulerMutex);
 
-            if (callback != nullptr)
-            {
-                callback(this, response);
-            }
-            else if (pTarget && pSelector)
-            {
-                (pTarget->*pSelector)(this, response);
-            }
-            response->release();
-            // do not release in other thread
-            request->release();
-        });
+        if (_scheduler && request->getCallback())
+        {
+            _scheduler->performFunctionInCocosThread(
+                [this, response, request] {
+
+                    auto & callback = request->getCallback();
+
+                    if (callback)
+                    {
+                        callback(this, response);
+                    }
+                }
+            );
+        }
     }
-    _schedulerMutex.unlock();
+
     decreaseThreadCountAndMayDeleteThis();
 }
 
@@ -837,14 +844,16 @@ void HttpClient::destroyInstance()
 
     thiz->_scheduler->unscheduleAllForTarget(thiz);
 
-    thiz->_schedulerMutex.lock();
-    thiz->_scheduler = nullptr;
-    thiz->_schedulerMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(thiz->_schedulerMutex);
+        thiz->_scheduler = nullptr;
+    }
 
     {
         std::lock_guard<std::mutex> lock(thiz->_requestQueueMutex);
-        thiz->_requestQueue.pushBack(thiz->_requestSentinel);
+        thiz->_requestQueue.push_back(std::shared_ptr<HttpRequest>());
     }
+
     thiz->_sleepCondition.notify_one();
 
     thiz->decreaseThreadCountAndMayDeleteThis();
@@ -875,7 +884,6 @@ HttpClient::HttpClient()
 , _timeoutForRead(60)
 , _isInited(false)
 , _threadCount(0)
-, _requestSentinel(new HttpRequest())
 , _cookie(nullptr)
 {
     CCLOG("In the constructor of HttpClient!");
@@ -886,7 +894,6 @@ HttpClient::HttpClient()
 HttpClient::~HttpClient()
 {
     CCLOG("In the destructor of HttpClient!");
-    CC_SAFE_RELEASE(_requestSentinel);
 }
 
 //Lazy create semaphore & mutex & thread
@@ -907,40 +914,39 @@ bool HttpClient::lazyInitThreadSemphore()
 }
 
 //Add a get task to queue
-void HttpClient::send(HttpRequest* request)
+void HttpClient::send(std::shared_ptr<HttpRequest> request)
 {    
     if (!lazyInitThreadSemphore()) 
     {
         return;
     }
     
-    if (nullptr == request)
+    if (!request)
     {
         return;
     }
         
-    request->retain();
-
-    _requestQueueMutex.lock();
-    _requestQueue.pushBack(request);
-    _requestQueueMutex.unlock();
+    {
+        std::lock_guard<std::mutex> lock(_requestQueueMutex);
+        _requestQueue.push_back(request);
+    }
 
     // Notify thread start to work
     _sleepCondition.notify_one();
 }
 
-void HttpClient::sendImmediate(HttpRequest* request)
+void HttpClient::sendImmediate(std::shared_ptr<HttpRequest> request)
 {
-    if(nullptr == request)
+    if(!request)
     {
         return;
     }
 
-    request->retain();
     // Create a HttpResponse object, the default setting is http access failed
-    HttpResponse *response = new (std::nothrow) HttpResponse(request);
+    std::shared_ptr<HttpResponse> response( new (std::nothrow) HttpResponse(request) );
 
     auto t = std::thread(&HttpClient::networkThreadAlone, this, request, response);
+
     t.detach();
 }
 
@@ -949,58 +955,48 @@ void HttpClient::dispatchResponseCallbacks()
 {
     // log("CCHttpClient::dispatchResponseCallbacks is running");
     //occurs when cocos thread fires but the network thread has already quited
-    HttpResponse* response = nullptr;
+    std::shared_ptr<HttpRequest> response;
     
-    _responseQueueMutex.lock();
-
-    if (!_responseQueue.empty())
     {
-        response = _responseQueue.at(0);
-        _responseQueue.erase(0);
-    }
+        std::lock_guard<std::mutex> lock(_responseQueueMutex);
 
-    _responseQueueMutex.unlock();
+        if (!_responseQueue.empty())
+        {
+            response = _responseQueue.at(0);
+            _responseQueue.erase( _responseQueue.begin() );
+        }
+    }
     
     if (response)
     {
-        HttpRequest *request = response->getHttpRequest();
-        const ccHttpRequestCallback& callback = request->getCallback();
-        Ref* pTarget = request->getTarget();
-        SEL_HttpResponse pSelector = request->getSelector();
+        auto request = response->getHttpRequest();
+        auto & callback = request->getCallback();
 
-        if (callback != nullptr)
+        if (callback)
         {
             callback(this, response);
         }
-        else if (pTarget && pSelector)
-        {
-            (pTarget->*pSelector)(this, response);
-        }
-        
-        response->release();
-        // do not release in other thread
-        request->release();
     }
 }
 
 void HttpClient::increaseThreadCount()
 {
-    _threadCountMutex.lock();
+    std::lock_guard<std::mutex> lock(_threadCountMutex);
     ++_threadCount;
-    _threadCountMutex.unlock();
 }
 
 void HttpClient::decreaseThreadCountAndMayDeleteThis()
 {
     bool needDeleteThis = false;
-    _threadCountMutex.lock();
-    --_threadCount;
-    if (0 == _threadCount)
     {
-        needDeleteThis = true;
+        std::lock_guard<std::mutex> lock(_threadCountMutex);
+
+        --_threadCount;
+        if (0 == _threadCount)
+        {
+            needDeleteThis = true;
+        }
     }
-    
-    _threadCountMutex.unlock();
     if (needDeleteThis)
     {
         delete this;

@@ -43,47 +43,18 @@ namespace network {
  * @since v2.0.2.
  * @lua NA
  */
-class CC_DLL HttpResponse : public cocos2d::Ref
+class CC_DLL HttpResponse
 {
 public:
     /**
      * Constructor, it's used by HttpClient internal, users don't need to create HttpResponse manually.
      * @param request the corresponding HttpRequest which leads to this response.
      */
-    HttpResponse(HttpRequest* request)
+    HttpResponse(std::shared_ptr<HttpRequest> request)
         : _pHttpRequest(request)
         , _succeed(false)
         , _responseDataString("")
-    {
-        if (_pHttpRequest)
-        {
-            _pHttpRequest->retain();
-        }
-    }
-
-    /**
-     * Destructor, it will be called in HttpClient internal.
-     * Users don't need to destruct HttpResponse object manually.
-     */
-    virtual ~HttpResponse()
-    {
-        if (_pHttpRequest)
-        {
-            _pHttpRequest->release();
-        }
-    }
-
-    /**
-     * Override autorelease method to prevent developers from calling it.
-     * If this method is called , it would trigger CCASSERT.
-     * @return cocos2d::Ref* always return nullptr.
-     */
-    cocos2d::Ref* autorelease()
-    {
-        CCASSERT(false, "HttpResponse is used between network thread and ui thread \
-                        therefore, autorelease is forbidden here");
-        return nullptr;
-    }
+    {}
 
     // getters, will be called by users
 
@@ -92,7 +63,7 @@ public:
      * There's no paired setter for it, because it's already set in class constructor
      * @return HttpRequest* the corresponding HttpRequest object which leads to this response.
      */
-    HttpRequest* getHttpRequest() const
+    std::shared_ptr<HttpRequest> getHttpRequest() const
     {
         return _pHttpRequest;
     }
@@ -223,13 +194,13 @@ protected:
     bool initWithRequest(HttpRequest* request);
 
     // properties
-    HttpRequest*        _pHttpRequest;  /// the corresponding HttpRequest pointer who leads to this response
-    bool                _succeed;       /// to indicate if the http request is successful simply
-    std::vector<char>   _responseData;  /// the returned raw data. You can also dump it as a string
-    std::vector<char>   _responseHeader;  /// the returned raw header data. You can also dump it as a string
-    long                _responseCode;    /// the status code returned from libcurl, e.g. 200, 404
-    std::string         _errorBuffer;   /// if _responseCode != 200, please read _errorBuffer to find the reason
-    std::string         _responseDataString; // the returned raw data. You can also dump it as a string
+    std::shared_ptr<HttpRequest> _pHttpRequest;  /// the corresponding HttpRequest pointer who leads to this response
+    bool                         _succeed;       /// to indicate if the http request is successful simply
+    std::vector<char>            _responseData;  /// the returned raw data. You can also dump it as a string
+    std::vector<char>            _responseHeader;  /// the returned raw header data. You can also dump it as a string
+    long                         _responseCode;    /// the status code returned from libcurl, e.g. 200, 404
+    std::string                  _errorBuffer;   /// if _responseCode != 200, please read _errorBuffer to find the reason
+    std::string                  _responseDataString; // the returned raw data. You can also dump it as a string
 
 };
 
