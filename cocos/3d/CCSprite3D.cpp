@@ -48,7 +48,7 @@
 
 namespace cocos2d {
 
-static Sprite3DMaterial* getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight);
+static std::shared_ptr<Material> getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight);
 
 Sprite3D* Sprite3D::create()
 {
@@ -452,12 +452,12 @@ void Sprite3D::createAttachSprite3DNode(NodeData* nodedata, const MaterialDatas&
     }
 }
 
-void Sprite3D::setMaterial(Material *material)
+void Sprite3D::setMaterial(std::shared_ptr<Material> material)
 {
     setMaterial(material, -1); 
 }
 
-void Sprite3D::setMaterial(Material *material, int meshIndex)
+void Sprite3D::setMaterial(std::shared_ptr<Material> material, int meshIndex)
 {
     CCASSERT(material, "Invalid Material");
     CCASSERT(meshIndex == -1
@@ -467,9 +467,17 @@ void Sprite3D::setMaterial(Material *material, int meshIndex)
 
     if (meshIndex == -1)
     {
-        for (size_t i = 0, size = _meshes.size(); i < size; ++i)
+        for (size_t i = 1, size = _meshes.size(); i < size; ++i)
         {
-            _meshes.at(i)->setMaterial(i == 0 ? material : material->clone());
+            _meshes.at(i)->setMaterial(
+                to_retaining_shared_ptr<Material>(
+                    material->clone()
+                )
+            );
+        }
+        if (!_meshes.empty())
+        {
+            _meshes.at(0)->setMaterial(material);
         }
     }
     else
@@ -994,7 +1002,7 @@ Sprite3DCache::~Sprite3DCache()
 //
 // MARK: Helpers
 //
-static Sprite3DMaterial* getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight)
+static std::shared_ptr<Material> getSprite3DMaterialForAttribs(const MeshVertexData * meshVertexData, bool usesLight)
 {
     bool textured = meshVertexData->hasVertexAttrib(GLProgram::VERTEX_ATTRIB_TEX_COORD);
     bool hasSkin = meshVertexData->hasVertexAttrib(GLProgram::VERTEX_ATTRIB_BLEND_INDEX)
@@ -1018,7 +1026,9 @@ static Sprite3DMaterial* getSprite3DMaterialForAttribs(const MeshVertexData * me
         type = hasNormal && usesLight ? Sprite3DMaterial::MaterialType::DIFFUSE_NOTEX : Sprite3DMaterial::MaterialType::UNLIT_NOTEX;
     }
     
-    return Sprite3DMaterial::createBuiltInMaterial(type, hasSkin);
+    return to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createBuiltInMaterial(type, hasSkin)
+    );
 }
 
 } // namespace cocos2d

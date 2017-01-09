@@ -203,14 +203,14 @@ BillBoardTest::BillBoardTest()
     schedule(CC_SCHEDULE_SELECTOR(BillBoardTest::update));
 }
 
-void BillBoardTest::menuCallback_orientedPoint(Ref* sender)
+void BillBoardTest::menuCallback_orientedPoint(Ref*)
 {
     for (auto& billboard : _billboards) {
         billboard->setMode(BillBoard::Mode::VIEW_POINT_ORIENTED);
     }
 }
 
-void BillBoardTest::menuCallback_orientedPlane(Ref* sender)
+void BillBoardTest::menuCallback_orientedPlane(Ref*)
 {
     for (auto& billboard : _billboards) {
         billboard->setMode(BillBoard::Mode::VIEW_PLANE_ORIENTED);
@@ -272,11 +272,11 @@ void BillBoardTest::addNewAniBillBoradWithCoords(Vec3 p)
         _billboards.push_back(billboardAni);
     }
 }
-void BillBoardTest::update(float dt)
+void BillBoardTest::update(float)
 {
 }
 
-void BillBoardTest::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void BillBoardTest::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     if(touches.size()==1)
     {
@@ -300,7 +300,7 @@ void BillBoardTest::onTouchesMoved(const std::vector<Touch*>& touches, Event* ev
     }
 }
 
-void BillBoardTest::rotateCameraCallback(Ref* sender,float value)
+void BillBoardTest::rotateCameraCallback(Ref*, float value)
 {
     Vec3  rotation3D= _camera->getRotation3D();
     rotation3D.y+= value;

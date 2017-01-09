@@ -90,7 +90,7 @@ IntervalTest::IntervalTest()
     addChild(sprite);
     sprite->runAction( RepeatForever::create(Sequence::create( to_action_ptr(jump), to_action_ptr( jump_back) ) ));
     // pause button
-    auto item1 = MenuItemFont::create("Pause", [&](Ref* sender) {
+    auto item1 = MenuItemFont::create("Pause", [&](Ref*) {
 		if(Director::getInstance()->isPaused())
 			Director::getInstance()->resume();
 		else

@@ -178,13 +178,13 @@ public:
      The Material will be applied to all the meshes that belong to the sprite.
      Internally it will call `setMaterial(material,-1)`
      */
-    void setMaterial(Material* material);
+    void setMaterial(std::shared_ptr<Material> material);
 
     /** Adds a new material to a particular mesh of the sprite.
      meshIndex is the mesh that will be applied to.
      if meshIndex == -1, then it will be applied to all the meshes that belong to the sprite.
      */
-    void setMaterial(Material* material, int meshIndex);
+    void setMaterial(std::shared_ptr<Material> material, int meshIndex);
 
     /** Adds a new material to a particular mesh of the sprite.
      meshIndex is the mesh that will be applied to.

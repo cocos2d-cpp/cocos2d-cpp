@@ -118,9 +118,10 @@ public:
     /** returns a clone (deep-copy) of the material */
     virtual Material* clone() const;
 
+    ~Material();
+
 protected:
     Material();
-    ~Material();
     bool initWithGLProgramState(GLProgramState* state);
     bool initWithFile(const std::string& file);
     bool initWithProperties(Properties* materialProperties);

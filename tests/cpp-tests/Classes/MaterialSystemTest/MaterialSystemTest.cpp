@@ -160,13 +160,13 @@ std::string Material_2DEffects::subtitle() const
  */
 class EffectAutoBindingResolver : public GLProgramState::AutoBindingResolver
 {
-    bool resolveAutoBinding(GLProgramState* glProgramState, Node* node, const std::string& uniform, const std::string& autoBinding);
+    bool resolveAutoBinding(GLProgramState* glProgramState, Node*, const std::string& uniform, const std::string& autoBinding);
 
     void callbackRadius(GLProgram* glProgram, Uniform* uniform);
     void callbackColor(GLProgram* glProgram, Uniform* uniform);
 };
 
-bool EffectAutoBindingResolver::resolveAutoBinding(GLProgramState* glProgramState, Node* node, const std::string& uniform, const std::string& autoBinding)
+bool EffectAutoBindingResolver::resolveAutoBinding(GLProgramState* glProgramState, Node*, const std::string& uniform, const std::string& autoBinding)
 {
     if (autoBinding.compare("DYNAMIC_RADIUS")==0)
     {
@@ -262,7 +262,9 @@ void Material_setTechnique::onEnter()
     _sprite = sprite;
 
 
-    Material *mat = Material::createWithFilename("Materials/3d_effects.material");
+    auto mat = to_retaining_shared_ptr(
+        Material::createWithFilename("Materials/3d_effects.material")
+    );
     sprite->setMaterial(mat);
 
     // lights
@@ -285,7 +287,7 @@ std::string Material_setTechnique::subtitle() const
     return "Testing setTechnique()";
 }
 
-void Material_setTechnique::changeMaterial(float dt)
+void Material_setTechnique::changeMaterial(float)
 {
     // get it from Mesh 0
     switch (_techniqueState)
@@ -320,7 +322,9 @@ void Material_clone::onEnter()
     this->addChild(sprite);
     sprite->setPositionNormalized(Vec2(0.25, 0.5));
 
-    Material *mat = Material::createWithFilename("Materials/3d_effects.material");
+    auto mat = to_retaining_shared_ptr(
+        Material::createWithFilename("Materials/3d_effects.material")
+    );
     sprite->setMaterial(mat);
 
     auto rot = RotateBy::create(5, Vec3(360,240,120));
@@ -340,7 +344,9 @@ void Material_clone::onEnter()
     sprite3->setScale(3);
     this->addChild(sprite3);
     sprite3->setPositionNormalized(Vec2(0.75, 0.5));
-    auto mat2 = mat->clone();
+    auto mat2 = to_retaining_shared_ptr(
+        mat->clone()
+    );
     sprite3->setMaterial(mat2);
     sprite3->runAction(repeat->clone());
 

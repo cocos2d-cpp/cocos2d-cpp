@@ -168,7 +168,7 @@ public:
     void setGLProgramState(GLProgramState* glProgramState);
 
     /** Sets a new Material to the Mesh */
-    void setMaterial(Material* material);
+    void setMaterial(std::shared_ptr<Material> material);
 
     /** Returns the Material being used by the Mesh */
     Material* getMaterial() const;
@@ -222,7 +222,7 @@ protected:
     GLProgramState*     _glProgramState;
     BlendFunc           _blend;
     bool                _blendDirty;
-    Material*           _material;
+    std::shared_ptr<Material> _material;
     AABB                _aabb;
     std::function<void()> _visibleChanged;
     

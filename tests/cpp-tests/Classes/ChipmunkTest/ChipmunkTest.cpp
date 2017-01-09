@@ -80,7 +80,7 @@ ChipmunkTest::ChipmunkTest()
     
 }
 
-void ChipmunkTest::toggleDebugCallback(Ref* sender)
+void ChipmunkTest::toggleDebugCallback(Ref*)
 {
 #if CC_ENABLE_CHIPMUNK_INTEGRATION
     _debugLayer->setVisible(! _debugLayer->isVisible());
@@ -157,7 +157,7 @@ void ChipmunkTest::initPhysics()
 #endif
 }
 
-void ChipmunkTest::update(float delta)
+void ChipmunkTest::update(float)
 {
     // Should use a fixed size step based on the animation interval.
     int steps = 2;
@@ -183,7 +183,7 @@ void ChipmunkTest::createResetButton()
     this->addChild(menu, -1);
 }
 
-void ChipmunkTest::reset(Ref* sender)
+void ChipmunkTest::reset(Ref*)
 {
     getTestSuite()->restartCurrTest();
 }
@@ -233,11 +233,11 @@ void ChipmunkTest::onEnter()
     TestCase::onEnter();
 }
 
-void ChipmunkTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void ChipmunkTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     //Add a new body/atlas sprite at the touched location
 
-    for( auto &touch: touches)
+    for (auto & touch: touches)
     {
         auto location = touch->getLocation();
 
@@ -245,7 +245,7 @@ void ChipmunkTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* eve
     }
 }
 
-void ChipmunkTest::onAcceleration(Acceleration* acc, Event* event)
+void ChipmunkTest::onAcceleration(Acceleration* acc, Event*)
 {
     static float prevX=0, prevY=0;
 

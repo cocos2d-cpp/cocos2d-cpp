@@ -130,7 +130,7 @@ Mesh::Mesh()
 , _glProgramState(nullptr)
 , _blend(BlendFunc::ALPHA_NON_PREMULTIPLIED)
 , _blendDirty(true)
-, _material(nullptr)
+, _material()
 , _visibleChanged(nullptr)
 , _texFile("")
 {
@@ -141,7 +141,6 @@ Mesh::~Mesh()
     for (auto &tex : _textures){
         CC_SAFE_RELEASE(tex.second);
     }
-    CC_SAFE_RELEASE(_material);
     CC_SAFE_RELEASE(_glProgramState);
 }
 
@@ -264,13 +263,10 @@ Texture2D* Mesh::getTexture(NTextureData::Usage usage)
     return _textures[usage];
 }
 
-void Mesh::setMaterial(Material* material)
+void Mesh::setMaterial(std::shared_ptr<Material> material)
 {
-    if (_material != material) {
-        CC_SAFE_RELEASE(_material);
-        _material = material;
-        CC_SAFE_RETAIN(_material);
-    }
+    _material = material;
+    _material->retain();
 
     if (_material)
     {
@@ -296,7 +292,7 @@ void Mesh::setMaterial(Material* material)
 
 Material* Mesh::getMaterial() const
 {
-    return _material;
+    return _material.get();
 }
 
 void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, uint32_t flags, unsigned int lightMask, const Vec4& color, bool /*forceDepthWrite*/)
@@ -310,7 +306,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
         flags |= Node::FLAGS_RENDER_AS_3D;
 
     _meshCommand.init(globalZ,
-                      _material,
+                      _material.get(),
                       getVertexBuffer(),
                       getIndexBuffer(),
                       getPrimitiveType(),
@@ -319,12 +315,7 @@ void Mesh::draw(Renderer* renderer, float globalZOrder, const Mat4& transform, u
                       transform,
                       flags);
 
-
-//    if (isTransparent && !forceDepthWrite)
-//        _material->getStateBlock()->setDepthWrite(false);
-//    else
-        _material->getStateBlock()->setDepthWrite(true);
-
+    _material->getStateBlock()->setDepthWrite(true);
 
     _meshCommand.setSkipBatching(isTransparent);
     _meshCommand.setTransparent(isTransparent);
@@ -372,7 +363,9 @@ void Mesh::setMeshIndexData(std::shared_ptr<MeshIndexData> subMesh)
 void Mesh::setGLProgramState(GLProgramState* glProgramState)
 {
     // XXX create dummy texture
-    auto material = Material::createWithGLStateProgram(glProgramState);
+    auto material = to_retaining_shared_ptr(
+        Material::createWithGLStateProgram(glProgramState)
+    );
     if (_material)
         material->setStateBlock(_material->getStateBlock());
     setMaterial(material);
@@ -602,7 +595,6 @@ void Mesh::setBlendFunc(const BlendFunc &blendFunc)
 
 const BlendFunc& Mesh::getBlendFunc() const
 {
-// return _material->_currentTechnique->_passes.at(0)->getBlendFunc();
     return _blend;
 }
 

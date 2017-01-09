@@ -245,7 +245,9 @@ Sprite3DUVAnimationTest::Sprite3DUVAnimationTest()
 
     //create cylinder
     auto cylinder = Sprite3D::create("Sprite3DTest/cylinder.c3b");
-    auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/UVAnimation.material");
+    auto mat = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/UVAnimation.material")
+    );
     _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
     cylinder->setMaterial(mat);
 
@@ -261,15 +263,16 @@ Sprite3DUVAnimationTest::Sprite3DUVAnimationTest()
     schedule(CC_SCHEDULE_SELECTOR(Sprite3DUVAnimationTest::cylinderUpdate));
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [=](EventCustom*)
-                                                            {
-                                                                auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/UVAnimation.material");
-                                                                
-                                                                cylinder->setMaterial(mat);
-                                                                _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [=](EventCustom*) {
+            auto mat = to_retaining_shared_ptr<Material>(
+                Sprite3DMaterial::createWithFilename("Sprite3DTest/UVAnimation.material")
+            );
+            cylinder->setMaterial(mat);
+            _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, -1);
 #endif
 }
@@ -340,7 +343,9 @@ Sprite3DFakeShadowTest::Sprite3DFakeShadowTest()
     _plane = Sprite3D::create("Sprite3DTest/plane.c3t");
     _plane->setRotation3D(Vec3(90,0,0));
 
-    auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/FakeShadow.material");
+    auto mat = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/FakeShadow.material")
+    );
     _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
     _plane->setMaterial(mat);
     _state->setUniformMat4("u_model_matrix",_plane->getNodeToWorldTransform());
@@ -361,16 +366,18 @@ Sprite3DFakeShadowTest::Sprite3DFakeShadowTest()
     schedule(CC_SCHEDULE_SELECTOR(Sprite3DFakeShadowTest::updateCamera), 0.0f);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [this](EventCustom*)
-                                                            {
-                                                                auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/FakeShadow.material");
-                                                                _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
-                                                                _plane->setMaterial(mat);
-                                                                _state->setUniformMat4("u_model_matrix",_plane->getNodeToWorldTransform());
-                                                                _state->setUniformVec3("u_target_pos", _orc->getPosition3D());
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [this](EventCustom*) {
+            auto mat = to_retaining_shared_ptr<Material>(
+                Sprite3DMaterial::createWithFilename("Sprite3DTest/FakeShadow.material")
+            );
+            _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
+            _plane->setMaterial(mat);
+            _state->setUniformMat4("u_model_matrix",_plane->getNodeToWorldTransform());
+            _state->setUniformVec3("u_target_pos", _orc->getPosition3D());
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, -1);
 #endif
 }
@@ -392,7 +399,7 @@ std::string Sprite3DFakeShadowTest::subtitle() const
     return "touch the screen to move around";
 }
 
-void Sprite3DFakeShadowTest::Move(cocos2d::Ref* sender,int value)
+void Sprite3DFakeShadowTest::Move(cocos2d::Ref*, int value)
 {
     _orc->setPositionX(_orc->getPositionX()+value);
 
@@ -552,7 +559,9 @@ Sprite3DBasicToonShaderTest::Sprite3DBasicToonShaderTest()
     _camera->setCameraFlag(CameraFlag::USER1);
     // create a teapot
     auto teapot = Sprite3D::create("Sprite3DTest/teapot.c3b"); 
-    auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/BasicToon.material");
+    auto mat = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/BasicToon.material")
+    );
     _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
     teapot->setMaterial(mat);
 
@@ -564,14 +573,16 @@ Sprite3DBasicToonShaderTest::Sprite3DBasicToonShaderTest()
     addChild(_camera);
     setCameraMask(2);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [=](EventCustom*)
-                                                            {
-                                                                auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/BasicToon.material");
-                                                                _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
-                                                                teapot->setMaterial(mat);
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [=](EventCustom*) {
+            auto mat = to_retaining_shared_ptr<Material>(
+                Sprite3DMaterial::createWithFilename("Sprite3DTest/BasicToon.material")
+            );
+            _state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
+            teapot->setMaterial(mat);
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, -1);
 #endif
 }
@@ -747,17 +758,19 @@ Sprite3DEffectTest::Sprite3DEffectTest()
     listener->onTouchesEnded = CC_CALLBACK_2(Sprite3DEffectTest::onTouchesEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [this](EventCustom*)
-                                                            {
-                                                                auto material = Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material");
-                                                                material->setTechnique("outline_noneskinned");
-                                                                for(auto& sprite : _sprites)
-                                                                {
-                                                                    sprite->setMaterial(material->clone());
-                                                                }
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [this](EventCustom*) {
+            auto mat = to_retaining_shared_ptr<Material>(
+                Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material")
+            );
+            material->setTechnique("outline_noneskinned");
+            for(auto& sprite : _sprites)
+            {
+                sprite->setMaterial(material->clone());
+            }
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, 1);
 #endif
 }
@@ -782,7 +795,9 @@ void Sprite3DEffectTest::addNewSpriteWithCoords(Vec2 p)
 {
     //option 2: load obj and assign the texture
     auto sprite = Sprite3D::create("Sprite3DTest/boss1.obj");
-    auto material = Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material");
+    auto material = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material")
+    );
     material->setTechnique("outline_noneskinned");
     sprite->setMaterial(material);
     sprite->setScale(6.f);
@@ -861,7 +876,7 @@ std::string AsyncLoadSprite3DTest::subtitle() const
     return "";
 }
 
-void AsyncLoadSprite3DTest::menuCallback_asyncLoadSprite(Ref* sender)
+void AsyncLoadSprite3DTest::menuCallback_asyncLoadSprite(Ref*)
 {
     //Note that you must stop the tasks before leaving the scene.
     AsyncTaskPool::getInstance()->stopTasks(AsyncTaskPool::TaskType::TASK_IO);
@@ -967,7 +982,7 @@ std::string Sprite3DWithSkinTest::getAnimationQualityMessage() const
     return "";
 }
 
-void Sprite3DWithSkinTest::switchAnimationQualityCallback(Ref* sender)
+void Sprite3DWithSkinTest::switchAnimationQualityCallback(Ref*)
 {
     ++_animateQuality;
     if (_animateQuality > (int)Animate3DQuality::QUALITY_HIGH)
@@ -1003,17 +1018,20 @@ Sprite3DWithSkinOutlineTest::Sprite3DWithSkinOutlineTest()
     addNewSpriteWithCoords( Vec2(s.width/2, s.height/2) );
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [this](EventCustom*)
-                                                            {
-                                                                auto material = Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material");
-                                                                material->setTechnique("outline_skinned");
-                                                                for(auto& sprite : _sprites)
-                                                                {
-                                                                    sprite->setMaterial(material->clone());
-                                                                }
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [this](EventCustom*) {
+            auto material = Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material");
+            material->setTechnique("outline_skinned");
+            for(auto& sprite : _sprites)
+            {
+                auto material = to_retaining_shared_ptr<Material>(
+                    material->clone()
+                );
+                sprite->setMaterial(material);
+            }
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, 1);
 #endif
 }
@@ -1038,7 +1056,9 @@ void Sprite3DWithSkinOutlineTest::addNewSpriteWithCoords(Vec2 p)
     std::string fileName = "Sprite3DTest/orc.c3b";
     auto sprite = Sprite3D::create(fileName);
     
-    auto material = Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material");
+    auto material = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/outline.material")
+    );
     material->setTechnique("outline_skinned");
     sprite->setMaterial(material);
     
@@ -1536,7 +1556,7 @@ void Sprite3DWithOBBPerformanceTest::initDrawBox()
     addChild(_drawOBB);
 }
 
-void Sprite3DWithOBBPerformanceTest::addNewSpriteWithCoords(Vec2 p)
+void Sprite3DWithOBBPerformanceTest::addNewSpriteWithCoords(Vec2)
 {
     std::string fileName = "Sprite3DTest/tortoise.c3b";
     auto sprite = Sprite3D::create(fileName);
@@ -1589,7 +1609,7 @@ void Sprite3DWithOBBPerformanceTest::reachEndCallBack()
     _sprite->runAction(seq);
 }
 
-void Sprite3DWithOBBPerformanceTest::addOBBCallback(Ref* sender)
+void Sprite3DWithOBBPerformanceTest::addOBBCallback(Ref*)
 {
     addOBBWithCount(10);
 }
@@ -1607,7 +1627,7 @@ void Sprite3DWithOBBPerformanceTest::addOBBWithCount(float value)
     }
 }
 
-void Sprite3DWithOBBPerformanceTest::delOBBCallback(Ref* sender)
+void Sprite3DWithOBBPerformanceTest::delOBBCallback(Ref*)
 {
     delOBBWithCount(10);
 }
@@ -1747,7 +1767,7 @@ std::string QuaternionTest::subtitle() const
     return "";
 }
 
-void QuaternionTest::addNewSpriteWithCoords(Vec2 p)
+void QuaternionTest::addNewSpriteWithCoords(Vec2)
 {
     std::string fileName = "Sprite3DTest/tortoise.c3b";
     auto sprite = Sprite3D::create(fileName);
@@ -1788,7 +1808,7 @@ UseCaseSprite3D::UseCaseSprite3D()
     _useCaseTitles[1] = "ui - 3d - ui";
     
     auto itemPrev = MenuItemImage::create("Images/b1.png", "Images/b2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref *) {
                                               _caseIdx--;
                                               if (_caseIdx < 0)
                                                   _caseIdx = (int)USECASE::MAX_CASE_NUM - 1;
@@ -1796,7 +1816,7 @@ UseCaseSprite3D::UseCaseSprite3D()
                                           });
     
     auto itemNext = MenuItemImage::create("Images/f1.png", "Images/f2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref *) {
                                               _caseIdx++;
                                               if (_caseIdx >= (int)USECASE::MAX_CASE_NUM)
                                                   _caseIdx = 0;
@@ -1916,7 +1936,7 @@ void UseCaseSprite3D::switchCase()
     }
 }
 
-void UseCaseSprite3D::menuCallback_Message(Ref* sender)
+void UseCaseSprite3D::menuCallback_Message(Ref*)
 {
     auto layer = getChildByTag(101);
     auto message = layer->getChildByTag(102); // message layer
@@ -1967,7 +1987,7 @@ NodeAnimationTest::NodeAnimationTest()
     auto s = Director::getInstance()->getWinSize();
     
     auto itemPrev = MenuItemImage::create("Images/b1.png", "Images/b2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref *) {
                                               _sprites[_vectorIndex]->setVisible(false);
                                               
                                               int tIndex = _vectorIndex - 1;
@@ -1980,7 +2000,7 @@ NodeAnimationTest::NodeAnimationTest()
                                           });
     
     auto itemNext = MenuItemImage::create("Images/f1.png", "Images/f2.png",
-                                          [&](Ref *sender) {
+                                          [&](Ref *) {
                                               _sprites[_vectorIndex]->setVisible(false);
                                               
                                               int tIndex = _vectorIndex + 1;
@@ -2010,7 +2030,7 @@ std::string NodeAnimationTest::subtitle() const
     return "Jumping animation";
 }
 
-void NodeAnimationTest::addNewSpriteWithCoords(Vec2 p)
+void NodeAnimationTest::addNewSpriteWithCoords(Vec2)
 {
     auto s = Director::getInstance()->getWinSize();
     
@@ -2087,7 +2107,7 @@ std::string Sprite3DCubeMapTest::subtitle() const
     return "";
 }
 
-void Sprite3DCubeMapTest::addNewSpriteWithCoords(Vec2 p)
+void Sprite3DCubeMapTest::addNewSpriteWithCoords(Vec2)
 {
     Size visibleSize = Director::getInstance()->getVisibleSize();
     _camera = Camera::createPerspective(60, visibleSize.width / visibleSize.height, 10, 1000);
@@ -2117,7 +2137,9 @@ void Sprite3DCubeMapTest::addNewSpriteWithCoords(Vec2 p)
     tRepeatParams.wrapT = GL_CLAMP_TO_EDGE;
     _textureCube->setTexParameters(tRepeatParams);
 
-    auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/CubeMap.material");
+    auto mat = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/CubeMap.material")
+    );
     auto state = mat->getTechniqueByIndex(0)->getPassByIndex(0)->getGLProgramState();
     _teapot->setMaterial(mat);
     // pass the texture sampler to our custom shader
@@ -2214,7 +2236,7 @@ Issue9767::~Issue9767()
     
 }
 
-void Issue9767::menuCallback_SwitchShader(cocos2d::Ref* sender)
+void Issue9767::menuCallback_SwitchShader(cocos2d::Ref*)
 {
     GLProgram* glProgram = nullptr;
     if (_shaderType == Issue9767::ShaderType::SHADER_TEX)
@@ -2386,7 +2408,9 @@ Sprite3DVertexColorTest::Sprite3DVertexColorTest()
     sprite->setPosition(Vec2(0, 0));
     sprite->setScale(1.0f);
     sprite->setCameraMask(2);
-    auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/VertexColor.material");
+    auto mat = to_retaining_shared_ptr<Material>(
+        Sprite3DMaterial::createWithFilename("Sprite3DTest/VertexColor.material")
+    );
     sprite->setMaterial(mat);
     sprite->runAction(RepeatForever::create(RotateBy::create(1.0f, Vec3(10.0f, 50.0f, 10.0f))));
 
@@ -2400,13 +2424,15 @@ Sprite3DVertexColorTest::Sprite3DVertexColorTest()
     addChild(camera);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    _backToForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND,
-                                                            [=](EventCustom*)
-                                                            {
-                                                                auto mat = Sprite3DMaterial::createWithFilename("Sprite3DTest/VertexColor.material");
-                                                                sprite->setMaterial(mat);
-                                                            }
-                                                            );
+    _backToForegroundListener = EventListenerCustom::create(
+        EVENT_COME_TO_FOREGROUND,
+        [=](EventCustom*) {
+            auto mat = to_retaining_shared_ptr<Material>(
+                Sprite3DMaterial::createWithFilename("Sprite3DTest/VertexColor.material")
+            );
+            sprite->setMaterial(mat);
+        }
+    );
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_backToForegroundListener, 1);
 #endif
 }
@@ -2457,7 +2483,7 @@ CameraBackgroundClearTest::CameraBackgroundClearTest()
     _label->setPosition(s.width / 2.f , VisibleRect::top().y * 0.8f);
 }
 
-void CameraBackgroundClearTest::switch_CameraClearMode(cocos2d::Ref* sender)
+void CameraBackgroundClearTest::switch_CameraClearMode(cocos2d::Ref*)
 {
     auto type = _camera->getBackgroundBrush()->getBrushType();
     if (type == CameraBackgroundBrush::BrushType::NONE)
@@ -2673,7 +2699,7 @@ void Sprite3DPropertyTest::update(float delta)
 {
 
 }
-void Sprite3DPropertyTest::printMeshName(cocos2d::Ref* sender)
+void Sprite3DPropertyTest::printMeshName(cocos2d::Ref*)
 {
     CCLOG("MeshName Begin");
     for(auto & mesh : _sprite->getMeshes())
@@ -2682,7 +2708,7 @@ void Sprite3DPropertyTest::printMeshName(cocos2d::Ref* sender)
     }
     CCLOG("MeshName End");
 }
-void Sprite3DPropertyTest::removeUsedTexture(cocos2d::Ref* sender)
+void Sprite3DPropertyTest::removeUsedTexture(cocos2d::Ref*)
 {
     if (_meshTex != nullptr)
     {
@@ -2691,7 +2717,7 @@ void Sprite3DPropertyTest::removeUsedTexture(cocos2d::Ref* sender)
     }
 }
 
-void Sprite3DPropertyTest::resetTexture(cocos2d::Ref* sender)
+void Sprite3DPropertyTest::resetTexture(cocos2d::Ref*)
 {
     if (_meshTex != nullptr)
     {
@@ -2723,8 +2749,6 @@ void Sprite3DPropertyTest::refreshSpriteRender()
 //
 Issue16155Test::Issue16155Test()
 {
-    auto s = Director::getInstance()->getWinSize();
-
     auto sprite = Sprite3D::create("Sprite3DTest/orc.c3b");
 
     int rcBefore = sprite->getMeshes().at(0)->getTexture()->getReferenceCount();

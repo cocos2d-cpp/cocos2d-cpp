@@ -185,6 +185,23 @@ retaining_ptr<T> to_retaining_ptr(T * ptr)
     return retaining_ptr<T>(ptr);
 }
 
+template<typename T>
+std::shared_ptr<T> to_retaining_shared_ptr(T * ptr)
+{
+    static_assert(std::is_base_of<Ref, T>::value,
+                  "retaining_ptr is for Ref-based types only");
+    static_assert(! std::is_base_of<Node, T>::value,
+                  "retaining_ptr is not for Node-based types. Use node_ptr");
+    static_assert(! std::is_base_of<Action, T>::value,
+                  "retaining_ptr is not for Action-based types. Use action_ptr");
+    
+    if (ptr)
+    {
+        ptr->retain();
+    }
+    return std::shared_ptr<T>(ptr, retaining_ptr_deleter<T>{});
+}
+
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
