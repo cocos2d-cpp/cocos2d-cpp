@@ -244,7 +244,7 @@ protected:
 
     std::shared_ptr<Skeleton3D>  _skeleton; //skeleton
     
-    Vector<MeshVertexData*>      _meshVertexDatas;
+    std::vector<std::shared_ptr<MeshVertexData>> _meshVertexDatas;
     
     std::unordered_map<std::string, AttachNode*> _attachments;
 
@@ -286,7 +286,7 @@ class CC_DLL Sprite3DCache
 public:
     struct Sprite3DData
     {
-        Vector<MeshVertexData*>   meshVertexDatas;
+        std::vector<std::shared_ptr<MeshVertexData>> meshVertexDatas;
         Vector<GLProgramState*>   glProgramStates;
         NodeDatas*      nodedatas;
         MaterialDatas*  materialdatas;

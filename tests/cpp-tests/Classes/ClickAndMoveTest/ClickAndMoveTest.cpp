@@ -40,12 +40,12 @@ ClickAndMoveTestCase::ClickAndMoveTestCase()
     ); 
 }
 
-bool ClickAndMoveTestCase::onTouchBegan(Touch* touch, Event  *event)
+bool ClickAndMoveTestCase::onTouchBegan(Touch*, Event*)
 {
     return true;
 }
 
-void ClickAndMoveTestCase::onTouchEnded(Touch* touch, Event  *event)
+void ClickAndMoveTestCase::onTouchEnded(Touch* touch, Event*)
 {
     auto location = touch->getLocation();
 

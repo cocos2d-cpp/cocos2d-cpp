@@ -66,7 +66,7 @@ public:
     const VertexBuffer* getVertexBuffer() const;
     
     /**get vertex data*/
-    const MeshVertexData* getMeshVertexData() const { return _vertexData; }
+    const std::shared_ptr<MeshVertexData> getMeshVertexData() const { return _vertexData; }
     
     /** aabb getter and setter */
     void setAABB(const AABB& aabb) { _aabb = aabb; }
@@ -88,7 +88,7 @@ protected:
 
 protected:
     IndexBuffer*    _indexBuffer; //index buffer
-    MeshVertexData* _vertexData; //vertex buffer, weak ref
+    std::shared_ptr<MeshVertexData> _vertexData; //vertex buffer, weak ref
     AABB           _aabb; // original aabb of the submesh
     std::string    _id; //id
     GLenum         _primitiveType;
@@ -101,7 +101,7 @@ protected:
  * the MeshVertexData class.
  * @brief the MeshIndexData contain all of the vertices data which mesh need.
  */
-class CC_DLL MeshVertexData : public Ref
+class CC_DLL MeshVertexData
 {
     friend class Sprite3D;
     friend class Mesh;
@@ -126,9 +126,10 @@ public:
     /**has vertex attribute?*/
     bool hasVertexAttrib(int attrib) const;
     
+    ~MeshVertexData();
+
 protected:
     MeshVertexData();
-    virtual ~MeshVertexData();
 
 protected:
     VertexData*          _vertexData; //mesh vertex data

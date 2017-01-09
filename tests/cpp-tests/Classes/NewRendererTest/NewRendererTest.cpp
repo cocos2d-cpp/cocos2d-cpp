@@ -128,7 +128,7 @@ void NewSpriteTest::createNewSpriteTest()
     addChild(parent);
 }
 
-void NewSpriteTest::onTouchesEnded(const std::vector<Touch *> &touches, Event *event)
+void NewSpriteTest::onTouchesEnded(const std::vector<Touch *> &, Event*)
 {
 
 }
@@ -254,7 +254,7 @@ std::string NewClippingNodeTest::subtitle() const
     return "ClipNode";
 }
 
-void NewClippingNodeTest::onTouchesBegan(const std::vector<Touch *> &touches, Event *event)
+void NewClippingNodeTest::onTouchesBegan(const std::vector<Touch *> &touches, Event *)
 {
     Touch *touch = touches[0];
     auto clipper = this->getChildByTag(kTagClipperNode);
@@ -264,7 +264,7 @@ void NewClippingNodeTest::onTouchesBegan(const std::vector<Touch *> &touches, Ev
     _lastPoint = point;
 }
 
-void NewClippingNodeTest::onTouchesMoved(const std::vector<Touch *> &touches, Event *event)
+void NewClippingNodeTest::onTouchesMoved(const std::vector<Touch *> &touches, Event *)
 {
     if (!_scrolling) return;
     Touch *touch = touches[0];
@@ -276,7 +276,7 @@ void NewClippingNodeTest::onTouchesMoved(const std::vector<Touch *> &touches, Ev
     _lastPoint = point;
 }
 
-void NewClippingNodeTest::onTouchesEnded(const std::vector<Touch *> &touches, Event *event)
+void NewClippingNodeTest::onTouchesEnded(const std::vector<Touch *> &, Event *)
 {
     if (!_scrolling) return;
     _scrolling = false;
@@ -345,14 +345,14 @@ NewCullingTest::NewCullingTest()
     
 }
 
-bool NewCullingTest::onTouchBegan(Touch* touch, Event  *event)
+bool NewCullingTest::onTouchBegan(Touch* touch, Event*)
 {
     auto pos = touch->getLocation();
     _lastPos = pos;
     return true;
 }
 
-void NewCullingTest::onTouchMoved(Touch* touch, Event  *event)
+void NewCullingTest::onTouchMoved(Touch* touch, Event*)
 {    
     auto pos = touch->getLocation();
     

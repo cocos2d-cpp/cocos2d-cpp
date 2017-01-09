@@ -420,7 +420,7 @@ SpriteColorOpacity::SpriteColorOpacity()
 
 // this function test if remove and add works as expected:
 //   color array and vertex array should be reindexed
-void SpriteColorOpacity::removeAndAddSprite(float dt)
+void SpriteColorOpacity::removeAndAddSprite(float)
 {
     auto sprite = static_cast<Sprite*>( getChildByTag(kTagSprite5) );
     sprite->retain();
@@ -513,7 +513,7 @@ SpriteBatchNodeColorOpacity::SpriteBatchNodeColorOpacity()
 
 // this function test if remove and add works as expected:
 //   color array and vertex array should be reindexed
-void SpriteBatchNodeColorOpacity::removeAndAddSprite(float dt)
+void SpriteBatchNodeColorOpacity::removeAndAddSprite(float)
 {
     auto batch= static_cast<SpriteBatchNode*>( getChildByTag(kTagSpriteBatchNode) );
     auto sprite = static_cast<Sprite*>( batch->getChildByTag(kTagSprite5) );
@@ -573,7 +573,7 @@ SpriteZOrder::SpriteZOrder()
     schedule( CC_CALLBACK_1(SpriteZOrder::reorderSprite, this), 1, "reorder_key");
 }
 
-void SpriteZOrder::reorderSprite(float dt)
+void SpriteZOrder::reorderSprite(float)
 {
     auto sprite = static_cast<Sprite*>( getChildByTag(kTagSprite1) );
     
@@ -641,7 +641,7 @@ SpriteBatchNodeZOrder::SpriteBatchNodeZOrder()
     schedule( CC_CALLBACK_1(SpriteBatchNodeZOrder::reorderSprite, this), 1, "reorder_key");
 }
 
-void SpriteBatchNodeZOrder::reorderSprite(float dt)
+void SpriteBatchNodeZOrder::reorderSprite(float)
 {
     auto batch= static_cast<SpriteBatchNode*>( getChildByTag( kTagSpriteBatchNode ));
     auto sprite = static_cast<Sprite*>(batch->getChildByTag(kTagSprite1));
@@ -793,7 +793,7 @@ Sprite* SpriteBatchNodeReorderIssue766::makeSpriteZ(int aZ)
     return sprite;
 }
 
-void SpriteBatchNodeReorderIssue766::reorderSprite(float dt)
+void SpriteBatchNodeReorderIssue766::reorderSprite(float)
 {
     unschedule("issue_766_key");
 
@@ -904,7 +904,7 @@ std::string SpriteBatchNodeReorderIssue767::subtitle() const
     return "reorder issue #767. Should not crash";
 }
 
-void SpriteBatchNodeReorderIssue767::reorderSprites(float dt)
+void SpriteBatchNodeReorderIssue767::reorderSprites(float)
 {
     auto spritebatch = static_cast<SpriteBatchNode*>( getChildByTag(kTagSprite1) );
     auto father = static_cast<Sprite*>( spritebatch->getChildByTag(kTagSprite2) );
@@ -1349,7 +1349,7 @@ SpriteFlip::SpriteFlip()
     schedule( CC_CALLBACK_1(SpriteFlip::flipSprites,this), 1, "sprite_flip_key");
 }
 
-void SpriteFlip::flipSprites(float dt)
+void SpriteFlip::flipSprites(float)
 {
     auto sprite1 = static_cast<Sprite*>(getChildByTag(kTagSprite1));
     auto sprite2 = static_cast<Sprite*>(getChildByTag(kTagSprite2));
@@ -1397,7 +1397,7 @@ SpriteBatchNodeFlip::SpriteBatchNodeFlip()
     schedule(CC_CALLBACK_1(SpriteBatchNodeFlip::flipSprites, this), 1, "flip_sprites_key");
 }
 
-void SpriteBatchNodeFlip::flipSprites(float dt)
+void SpriteBatchNodeFlip::flipSprites(float)
 {
     auto batch= static_cast<SpriteBatchNode*>(getChildByTag( kTagSpriteBatchNode ));
     auto sprite1 = static_cast<Sprite*>(batch->getChildByTag(kTagSprite1));
@@ -1848,13 +1848,13 @@ std::string SpriteFrameTest::subtitle() const
     return "Animation. Testing issue #792";
 }
 
-void SpriteFrameTest::startIn05Secs(float dt)
+void SpriteFrameTest::startIn05Secs(float)
 {
     unschedule("in_05_secs_key");
     schedule(CC_CALLBACK_1(SpriteFrameTest::flipSprites, this), 1.0f, "flip_sprites_key");
 }
 
-void SpriteFrameTest::flipSprites(float dt)
+void SpriteFrameTest::flipSprites(float)
 {
     _counter++;
 
@@ -2497,7 +2497,7 @@ SpriteHybrid::SpriteHybrid()
     schedule(CC_CALLBACK_1(SpriteHybrid::reparentSprite, this), 2, "reparent_sprite_key");
 }
 
-void SpriteHybrid::reparentSprite(float dt)
+void SpriteHybrid::reparentSprite(float)
 {
     auto p1 = getChildByTag(kTagNode);
     auto p2 = getChildByTag( kTagSpriteBatchNode );
@@ -4538,7 +4538,7 @@ std::string NodeSort::subtitle() const
     return "tag order in console should be 2,1,3,4,5";
 }
 
-void NodeSort::reorderSprite(float dt)
+void NodeSort::reorderSprite(float)
 {
     unschedule("reorder_sprite_key");
 
@@ -4600,7 +4600,7 @@ std::string SpriteBatchNodeReorderSameIndex::subtitle() const
     return "tag order in console should be 2,3,4,5,1";
 }
 
-void SpriteBatchNodeReorderSameIndex::reorderSprite(float dt)
+void SpriteBatchNodeReorderSameIndex::reorderSprite(float)
 {
     _batchNode->reorderChild(_sprite4, 4);
     _batchNode->reorderChild(_sprite5, 4);
@@ -4687,7 +4687,7 @@ SpriteBatchNodeReorderOneChild::SpriteBatchNodeReorderOneChild()
     scheduleOnce(CC_CALLBACK_1(SpriteBatchNodeReorderOneChild::reorderSprite, this), 2.0f, "reorder_sprite_key");
 }
 
-void SpriteBatchNodeReorderOneChild::reorderSprite(float dt)
+void SpriteBatchNodeReorderOneChild::reorderSprite(float)
 {
     _reorderSprite->getParent()->reorderChild(_reorderSprite, -1);
 
@@ -5326,7 +5326,7 @@ Sprite3DRotationTest::Sprite3DRotationTest()
     
     addChild(sprite2);
     
-    schedule([&](float dt) {
+    schedule([&](float) {
         rotation.y += 1;
         sprite1->setRotation3D(rotation);
         sprite2->setRotation3D(rotation);

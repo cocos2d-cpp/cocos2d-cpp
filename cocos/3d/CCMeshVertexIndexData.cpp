@@ -115,7 +115,6 @@ MeshVertexData* MeshVertexData::create(const MeshData& meshdata)
         vertexdata->_indexs.push_back(indexdata);
     }
     
-    vertexdata->autorelease();
     return vertexdata;
 }
 

@@ -194,8 +194,8 @@ bool Sprite3D::loadFromCache(const std::string& path)
     auto spritedata = Sprite3DCache::getInstance()->getSpriteData(path);
     if (spritedata)
     {
-        for (auto it : spritedata->meshVertexDatas) {
-            _meshVertexDatas.pushBack(it);
+        for (auto & it : spritedata->meshVertexDatas) {
+            _meshVertexDatas.push_back(it);
         }
         _skeleton.reset(new Skeleton3D(spritedata->nodedatas->skeleton));
 
@@ -328,8 +328,8 @@ bool Sprite3D::initFrom(const NodeDatas& nodeDatas, const MeshDatas& meshdatas, 
     {
         if(it)
         {
-            auto meshvertex = MeshVertexData::create(*it);
-            _meshVertexDatas.pushBack(meshvertex);
+            auto meshvertex = std::shared_ptr<MeshVertexData>(MeshVertexData::create(*it));
+            _meshVertexDatas.push_back(meshvertex);
         }
     }
 
@@ -501,7 +501,7 @@ void Sprite3D::genMaterial(bool useLight)
 
     for (auto& mesh: _meshes)
     {
-        auto meshVertexData = mesh->getMeshIndexData()->getMeshVertexData();
+        auto meshVertexData = mesh->getMeshIndexData()->getMeshVertexData().get();
 
         auto material = getSprite3DMaterialForAttribs(meshVertexData, useLight);
 
@@ -658,7 +658,7 @@ std::shared_ptr<MeshIndexData> Sprite3D::getMeshIndexData(const std::string & in
 void  Sprite3D::addMesh(Mesh* mesh)
 {
     auto meshVertex = mesh->getMeshIndexData()->_vertexData;
-    _meshVertexDatas.pushBack(meshVertex);
+    _meshVertexDatas.push_back(meshVertex);
     _meshes.push_back(to_retaining_ptr(mesh));
 }
 

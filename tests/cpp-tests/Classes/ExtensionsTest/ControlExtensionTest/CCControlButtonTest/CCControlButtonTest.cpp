@@ -179,47 +179,47 @@ bool ControlButtonTest_Event::init()
     return false;
 }
 
-void ControlButtonTest_Event::touchBitmaskAction(Ref *senderz, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchBitmaskAction(Ref *, Control::EventType controlEvent)
 {
     _displayBitmaskLabel->setString(StringUtils::format("using bitmask (%d)", static_cast<int>(controlEvent)));
 }
 
-void ControlButtonTest_Event::touchDownAction(Ref *senderz, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchDownAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Touch Down"));
 }
 
-void ControlButtonTest_Event::touchDragInsideAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchDragInsideAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Drag Inside"));
 }
 
-void ControlButtonTest_Event::touchDragOutsideAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchDragOutsideAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Drag Outside"));
 }
 
-void ControlButtonTest_Event::touchDragEnterAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchDragEnterAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Drag Enter"));
 }
 
-void ControlButtonTest_Event::touchDragExitAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchDragExitAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Drag Exit"));
 }
 
-void ControlButtonTest_Event::touchUpInsideAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchUpInsideAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Touch Up Inside."));
 }
 
-void ControlButtonTest_Event::touchUpOutsideAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchUpOutsideAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Touch Up Outside."));
 }
 
-void ControlButtonTest_Event::touchCancelAction(Ref *sender, Control::EventType controlEvent)
+void ControlButtonTest_Event::touchCancelAction(Ref *, Control::EventType)
 {
     _displayValueLabel->setString(StringUtils::format("Touch Cancel"));
 }
