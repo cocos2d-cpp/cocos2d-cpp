@@ -457,7 +457,7 @@ LabelFNTandTTFEmpty::LabelFNTandTTFEmpty()
     setEmpty = false;
 }
 
-void LabelFNTandTTFEmpty::updateStrings(float dt)
+void LabelFNTandTTFEmpty::updateStrings(float)
 {
     auto label1 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas1) );
     auto label2 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas2) );
@@ -697,7 +697,7 @@ void LabelFNTMultiLineAlignment::alignmentChanged(cocos2d::Ref *sender)
     this->snapArrowsToEdge();
 }
 
-void LabelFNTMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void LabelFNTMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     auto touch = touches[0];
     auto location = touch->getLocationInView();
@@ -709,7 +709,7 @@ void LabelFNTMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& touch
     }
 }
 
-void LabelFNTMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void LabelFNTMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>&, cocos2d::Event *)
 {
     _drag = false;
     this->snapArrowsToEdge();
@@ -717,7 +717,7 @@ void LabelFNTMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>& touch
     this->_arrowsBarShouldRetain->setVisible(false);
 }
 
-void LabelFNTMultiLineAlignment::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void LabelFNTMultiLineAlignment::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     if (! _drag)
     {
@@ -904,19 +904,19 @@ void  LabelTTFDynamicAlignment::updateAlignment()
     }
 }
 
-void LabelTTFDynamicAlignment::setAlignmentLeft(Ref* sender)
+void LabelTTFDynamicAlignment::setAlignmentLeft(Ref*)
 {
     _horizAlign = TextHAlignment::LEFT;
     this->updateAlignment();
 }
 
-void LabelTTFDynamicAlignment::setAlignmentCenter(Ref* sender)
+void LabelTTFDynamicAlignment::setAlignmentCenter(Ref*)
 {
     _horizAlign = TextHAlignment::CENTER;
     this->updateAlignment();
 }
 
-void LabelTTFDynamicAlignment::setAlignmentRight(Ref* sender)
+void LabelTTFDynamicAlignment::setAlignmentRight(Ref*)
 {
     _horizAlign = TextHAlignment::RIGHT;
     this->updateAlignment();
@@ -1228,7 +1228,7 @@ LabelShadowTest::LabelShadowTest()
     addChild(slider2);
 }
 
-void LabelShadowTest::sliderEvent(Ref *pSender, ui::Slider::EventType type)
+void LabelShadowTest::sliderEvent(Ref *, ui::Slider::EventType type)
 {
     if (type == Slider::EventType::ON_PERCENTAGE_CHANGED)
     {
@@ -1501,32 +1501,32 @@ LabelAlignmentTest::LabelAlignmentTest()
     addChild(_label);
 }
 
-void LabelAlignmentTest::setAlignmentLeft(Ref* sender)
+void LabelAlignmentTest::setAlignmentLeft(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::LEFT);
 }
 
-void LabelAlignmentTest::setAlignmentCenter(Ref* sender)
+void LabelAlignmentTest::setAlignmentCenter(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::CENTER);
 }
 
-void LabelAlignmentTest::setAlignmentRight(Ref* sender)
+void LabelAlignmentTest::setAlignmentRight(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::RIGHT);
 }
 
-void LabelAlignmentTest::setAlignmentTop(Ref* sender)
+void LabelAlignmentTest::setAlignmentTop(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::TOP);
 }
 
-void LabelAlignmentTest::setAlignmentMiddle(Ref* sender)
+void LabelAlignmentTest::setAlignmentMiddle(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::CENTER);
 }
 
-void LabelAlignmentTest::setAlignmentBottom(Ref* sender)
+void LabelAlignmentTest::setAlignmentBottom(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::BOTTOM);
 }
@@ -2040,7 +2040,7 @@ LabelIssue13202Test::LabelIssue13202Test()
 
     label->getContentSize();
     label->setString("A");
-    this->scheduleOnce([](float dt){
+    this->scheduleOnce([](float){
         FontAtlasCache::purgeCachedData();
     }, 0.15f, "FontAtlasCache::purgeCachedData");
 }
@@ -2138,7 +2138,7 @@ void LabelLayoutBaseTest::initWrapOption(const cocos2d::Size& size)
     checkBox->setSelected(true);
     checkBox->setName("toggleWrap");
 
-    checkBox->addEventListener([=](Ref* ref, CheckBox::EventType event){
+    checkBox->addEventListener([=](Ref*, CheckBox::EventType event){
         if (event == CheckBox::EventType::SELECTED) {
             _label->enableWrap(true);
         }else{
@@ -2168,7 +2168,7 @@ void LabelLayoutBaseTest::initToggleLabelTypeOption(const cocos2d::Size& size)
 
    auto stepper = (ControlStepper*)this->getChildByName("stepper");
 
-    checkBox->addEventListener([=](Ref* ref, CheckBox::EventType event){
+    checkBox->addEventListener([=](Ref*, CheckBox::EventType event){
        float fontSize = stepper->getValue();
 
         if (event == CheckBox::EventType::SELECTED) {
@@ -2233,7 +2233,7 @@ void LabelLayoutBaseTest::initSliders(const cocos2d::Size& size)
     addChild(slider2);
     auto winSize = Director::getInstance()->getVisibleSize();
 
-    slider->addEventListener([=](Ref* ref, Slider::EventType event){
+    slider->addEventListener([=](Ref*, Slider::EventType){
         float percent = slider->getPercent();
         auto labelSize = _label->getContentSize();
         auto drawNodeSize = Size(percent / 100.0 * winSize.width, labelSize.height);
@@ -2244,7 +2244,7 @@ void LabelLayoutBaseTest::initSliders(const cocos2d::Size& size)
         this->updateDrawNodeSize(drawNodeSize);
     });
 
-    slider2->addEventListener([=](Ref* ref, Slider::EventType event){
+    slider2->addEventListener([=](Ref*, Slider::EventType){
         float percent = slider2->getPercent();
         auto labelSize = _label->getContentSize();
         auto drawNodeSize = Size( labelSize.width, percent / 100.0 * winSize.height);
@@ -2268,7 +2268,7 @@ void LabelLayoutBaseTest::initTestLabel(const cocos2d::Size& size)
     _labelType = 0;
 }
 
-void LabelLayoutBaseTest::initDrawNode(const cocos2d::Size& size)
+void LabelLayoutBaseTest::initDrawNode(const cocos2d::Size &)
 {
     _drawNode = DrawNode::create();
 
@@ -2278,38 +2278,38 @@ void LabelLayoutBaseTest::initDrawNode(const cocos2d::Size& size)
 }
 
 
-void LabelLayoutBaseTest::setAlignmentLeft(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentLeft(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::LEFT);
 }
 
-void LabelLayoutBaseTest::setAlignmentCenter(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentCenter(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::CENTER);
 }
 
-void LabelLayoutBaseTest::setAlignmentRight(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentRight(Ref*)
 {
     _label->setHorizontalAlignment(TextHAlignment::RIGHT);
 }
 
-void LabelLayoutBaseTest::setAlignmentTop(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentTop(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::TOP);
 }
 
-void LabelLayoutBaseTest::setAlignmentMiddle(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentMiddle(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::CENTER);
 }
 
-void LabelLayoutBaseTest::setAlignmentBottom(Ref* sender)
+void LabelLayoutBaseTest::setAlignmentBottom(Ref*)
 {
     _label->setVerticalAlignment(TextVAlignment::BOTTOM);
 }
 
 
-void LabelLayoutBaseTest::valueChanged(cocos2d::Ref *sender, cocos2d::extension::Control::EventType controlEvent)
+void LabelLayoutBaseTest::valueChanged(cocos2d::Ref *sender, cocos2d::extension::Control::EventType)
 {
     ControlStepper* pControl = (ControlStepper*)sender;
     // Change value of label.
@@ -2447,7 +2447,7 @@ LabelResizeTest::LabelResizeTest()
      slider2->setVisible(false);
     
     auto winSize = Director::getInstance()->getVisibleSize();
-    slider1->addEventListener([=](Ref* ref, Slider::EventType event){
+    slider1->addEventListener([=](Ref*, Slider::EventType){
         float percent = slider1->getPercent();
         auto drawNodeSize = Size(percent / 100.0 * winSize.width,_label->getContentSize().height);
         if(drawNodeSize.height <= 0){
@@ -2475,7 +2475,7 @@ LabelResizeTest::LabelResizeTest()
     checkBox->setSelected(false);
     checkBox->setName("LineBreak");
     
-    checkBox->addEventListener([=](Ref* ref, CheckBox::EventType event){
+    checkBox->addEventListener([=](Ref*, CheckBox::EventType event){
         if (event == CheckBox::EventType::SELECTED) {
             _label->setLineBreakWithoutSpace(true);
         }else{
@@ -2513,7 +2513,7 @@ LabelToggleTypeTest::LabelToggleTypeTest()
      slider2->setVisible(false);
 
     auto winSize = Director::getInstance()->getVisibleSize();
-    slider1->addEventListener([=](Ref* ref, Slider::EventType event){
+    slider1->addEventListener([=](Ref*, Slider::EventType){
         float percent = slider1->getPercent();
         auto drawNodeSize = Size(percent / 100.0 * winSize.width,_label->getContentSize().height);
         if(drawNodeSize.height <= 0){
@@ -2541,7 +2541,7 @@ LabelToggleTypeTest::LabelToggleTypeTest()
     checkBox->setSelected(false);
     checkBox->setName("LineBreak");
 
-    checkBox->addEventListener([=](Ref* ref, CheckBox::EventType event){
+    checkBox->addEventListener([=](Ref*, CheckBox::EventType event){
         if (event == CheckBox::EventType::SELECTED) {
             _label->setLineBreakWithoutSpace(true);
         }else{
@@ -2657,7 +2657,7 @@ LabelSystemFontTest::LabelSystemFontTest()
     auto slider1 = (ui::Slider*)this->getChildByTag(1);
 
     auto winSize = Director::getInstance()->getVisibleSize();
-    slider1->addEventListener([=](Ref* ref, Slider::EventType event){
+    slider1->addEventListener([=](Ref*, Slider::EventType){
         float percent = slider1->getPercent();
         auto drawNodeSize = Size(percent / 100.0 * winSize.width,_label->getContentSize().height);
         if(drawNodeSize.height <= 0){
@@ -2683,7 +2683,7 @@ LabelSystemFontTest::LabelSystemFontTest()
     checkBox->setSelected(false);
     checkBox->setName("LineBreak");
 
-    checkBox->addEventListener([=](Ref* ref, CheckBox::EventType event){
+    checkBox->addEventListener([=](Ref*, CheckBox::EventType event){
         if (event == CheckBox::EventType::SELECTED) {
             _label->setLineBreakWithoutSpace(true);
         }else{
@@ -2885,7 +2885,7 @@ LabelItalics::LabelItalics()
     addChild(_label2a, 0, kTagBitmapAtlas2);
     _label2a->setPosition(Vec2(s.width/2, s.height*1/6));
 
-    auto menuItem = MenuItemFont::create("disable italics", [&](cocos2d::Ref* sender) {
+    auto menuItem = MenuItemFont::create("disable italics", [&](cocos2d::Ref*) {
         _label2a->disableEffect(LabelEffect::ITALICS);
         _label1a->disableEffect(LabelEffect::ITALICS);
     });
@@ -2936,7 +2936,7 @@ LabelBold::LabelBold()
     addChild(_label2a, 0, kTagBitmapAtlas2);
     _label2a->setPosition(Vec2(s.width/2, s.height*1/6));
 
-    auto menuItem = MenuItemFont::create("disable bold", [&](cocos2d::Ref* sender) {
+    auto menuItem = MenuItemFont::create("disable bold", [&](cocos2d::Ref*) {
         _label2a->disableEffect(LabelEffect::BOLD);
         _label1a->disableEffect(LabelEffect::BOLD);
     });
@@ -2987,7 +2987,7 @@ LabelUnderline::LabelUnderline()
     addChild(_label2a, 0, kTagBitmapAtlas2);
     _label2a->setPosition(Vec2(s.width/2, s.height*1/6));
 
-    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref* sender) {
+    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref*) {
         _label2a->disableEffect(LabelEffect::UNDERLINE);
         _label1a->disableEffect(LabelEffect::UNDERLINE);
     });
@@ -3028,7 +3028,7 @@ LabelUnderlineMultiline::LabelUnderlineMultiline()
     addChild(_label2a, 0, kTagBitmapAtlas2);
     _label2a->setPosition(Vec2(s.width/2, s.height*1/3));
 
-    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref* sender) {
+    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref*) {
         _label2a->disableEffect(LabelEffect::UNDERLINE);
         _label1a->disableEffect(LabelEffect::UNDERLINE);
     });
@@ -3069,7 +3069,7 @@ LabelStrikethrough::LabelStrikethrough()
     addChild(_label2a, 0, kTagBitmapAtlas2);
     _label2a->setPosition(Vec2(s.width/2, s.height*1/3));
 
-    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref* sender) {
+    auto menuItem = MenuItemFont::create("disable underline", [&](cocos2d::Ref*) {
         _label2a->disableEffect(LabelEffect::STRIKETHROUGH);
         _label1a->disableEffect(LabelEffect::STRIKETHROUGH);
     });

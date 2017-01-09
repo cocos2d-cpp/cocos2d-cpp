@@ -76,7 +76,7 @@ void TileDemoNew::onExit()
     Director::getInstance()->setDepthTest(false);
 }
 
-void TileDemoNew::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void TileDemoNew::onTouchesMoved(const std::vector<Touch*>& touches, Event  *)
 {
     auto touch = touches[0];
 
@@ -146,7 +146,7 @@ TileMapEditTestNew::TileMapEditTestNew()
     map->setPosition( Vec2(-20,-200) );
 }
 
-void TileMapEditTestNew::updateMap(float dt)
+void TileMapEditTestNew::updateMap(float)
 {
     // IMPORTANT
     //   The only limitation is that you cannot change an empty, or assign an empty tile to a tile
@@ -309,7 +309,7 @@ TMXOrthoTest4New::TMXOrthoTest4New()
 
 }
 
-void TMXOrthoTest4New::removeSprite(float dt)
+void TMXOrthoTest4New::removeSprite(float)
 {
     unschedule(CC_SCHEDULE_SELECTOR(TMXOrthoTest4New::removeSprite));
 
@@ -410,7 +410,7 @@ void TMXReadWriteTestNew::removeSprite(Node* sender)
     }    
 }
 
-void TMXReadWriteTestNew::updateCol(float dt)
+void TMXReadWriteTestNew::updateCol(float)
 {    
     auto map = (cocos2d::experimental::TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (cocos2d::experimental::TMXLayer*)map->getChildByTag(0);
@@ -425,7 +425,7 @@ void TMXReadWriteTestNew::updateCol(float dt)
     _gid2 = (_gid2 + 1) % 80;
 }
 
-void TMXReadWriteTestNew::repaintWithGID(float dt)
+void TMXReadWriteTestNew::repaintWithGID(float)
 {
 //    unschedule:_cmd);
     
@@ -441,7 +441,7 @@ void TMXReadWriteTestNew::repaintWithGID(float dt)
     }
 }
 
-void TMXReadWriteTestNew::removeTiles(float dt)
+void TMXReadWriteTestNew::removeTiles(float)
 {
     unschedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles));
 
@@ -795,7 +795,7 @@ void TMXIsoZorderNew::onExit()
     TileDemoNew::onExit();
 }
 
-void TMXIsoZorderNew::repositionSprite(float dt)
+void TMXIsoZorderNew::repositionSprite(float)
 {
     auto p = _tamara->getPosition();
     p = CC_POINT_POINTS_TO_PIXELS(p);
@@ -855,7 +855,7 @@ TMXOrthoZorderNew::~TMXOrthoZorderNew()
     _tamara->release();
 }
 
-void TMXOrthoZorderNew::repositionSprite(float dt)
+void TMXOrthoZorderNew::repositionSprite(float)
 {
     auto p = _tamara->getPosition();
     p = CC_POINT_POINTS_TO_PIXELS(p);
@@ -918,7 +918,7 @@ TMXIsoVertexZNew::~TMXIsoVertexZNew()
     _tamara->release();
 }
 
-void TMXIsoVertexZNew::repositionSprite(float dt)
+void TMXIsoVertexZNew::repositionSprite(float)
 {
     // tile height is 64x32
     // map size: 30x30
@@ -990,7 +990,7 @@ TMXOrthoVertexZNew::~TMXOrthoVertexZNew()
     _tamara->release();
 }
 
-void TMXOrthoVertexZNew::repositionSprite(float dt)
+void TMXOrthoVertexZNew::repositionSprite(float)
 {
     // tile height is 101x81
     // map size: 12x12
@@ -1160,7 +1160,7 @@ std::string TMXOrthoFlipRunTimeTestNew::subtitle() const
     return "in 2 sec bottom left tiles will flip";
 }
 
-void TMXOrthoFlipRunTimeTestNew::flipIt(float dt)
+void TMXOrthoFlipRunTimeTestNew::flipIt(float)
 {
     auto map = (cocos2d::experimental::TMXTiledMap*) getChildByTag(kTagTileMap);
     auto layer = map->getLayer("Layer 0");

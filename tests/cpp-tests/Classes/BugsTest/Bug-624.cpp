@@ -39,7 +39,7 @@ bool Bug624Layer::init()
     return false;
 }
 
-void Bug624Layer::switchLayer(float dt)
+void Bug624Layer::switchLayer(float)
 {
     unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer));
 
@@ -48,7 +48,7 @@ void Bug624Layer::switchLayer(float dt)
     Director::getInstance()->replaceScene(TransitionFade::create(2.0f, scene, Color3B::WHITE));
 }
 
-void Bug624Layer::onAcceleration(Acceleration* acc, Event* event)
+void Bug624Layer::onAcceleration(Acceleration*, Event*)
 {    
     log("Layer1 accel");
 }
@@ -86,7 +86,7 @@ bool Bug624Layer2::init()
     return false;
 }
 
-void Bug624Layer2::switchLayer(float dt)
+void Bug624Layer2::switchLayer(float)
 {
     unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer));
 
@@ -95,7 +95,7 @@ void Bug624Layer2::switchLayer(float dt)
     Director::getInstance()->replaceScene(TransitionFade::create(2.0f, scene, Color3B::RED));
 }
 
-void Bug624Layer2::onAcceleration(Acceleration* acc, Event* event)
+void Bug624Layer2::onAcceleration(Acceleration*, Event*)
 {    
     log("Layer2 accel");
 }

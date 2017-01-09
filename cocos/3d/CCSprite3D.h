@@ -287,7 +287,7 @@ public:
     struct Sprite3DData
     {
         std::vector<std::shared_ptr<MeshVertexData>> meshVertexDatas;
-        Vector<GLProgramState*>   glProgramStates;
+        std::vector<retaining_ptr<GLProgramState>>   glProgramStates;
         NodeDatas*      nodedatas;
         MaterialDatas*  materialdatas;
         ~Sprite3DData()

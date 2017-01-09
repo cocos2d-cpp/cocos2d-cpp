@@ -147,7 +147,7 @@ void Sprite3D::afterAsyncLoad(void* param)
                     data->nodedatas = nodeDatas;
                     data->meshVertexDatas = _meshVertexDatas;
                     for (const auto & mesh : _meshes) {
-                        data->glProgramStates.pushBack(mesh->getGLProgramState());
+                        data->glProgramStates.push_back( to_retaining_ptr( mesh->getGLProgramState()));
                     }
                     
                     Sprite3DCache::getInstance()->addSprite3DData(asyncParam->modlePath, data);
@@ -218,7 +218,7 @@ bool Sprite3D::loadFromCache(const std::string& path)
 
         for (size_t i = 0, size = _meshes.size(); i < size; ++i) {
             // cloning is needed in order to have one state per sprite
-            auto glstate = spritedata->glProgramStates.at(i);
+            auto & glstate = spritedata->glProgramStates.at(i);
             _meshes.at(i)->setGLProgramState(glstate->clone());
         }
         return true;
@@ -306,7 +306,7 @@ bool Sprite3D::initWithFile(const std::string& path)
             data->nodedatas = nodeDatas;
             data->meshVertexDatas = _meshVertexDatas;
             for (const auto & mesh : _meshes) {
-                data->glProgramStates.pushBack(mesh->getGLProgramState());
+                data->glProgramStates.push_back( to_retaining_ptr( mesh->getGLProgramState()));
             }
             
             Sprite3DCache::getInstance()->addSprite3DData(path, data);
