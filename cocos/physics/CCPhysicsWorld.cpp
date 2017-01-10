@@ -542,7 +542,7 @@ void PhysicsWorld::doAddBody(PhysicsBody* body)
         // add shapes to space
         for (auto& shape : body->getShapes())
         {
-            addShape(dynamic_cast<PhysicsShape*>(shape));
+            addShape(dynamic_cast<PhysicsShape*>(shape.get()));
         }
     }
 }
@@ -764,7 +764,7 @@ void PhysicsWorld::doRemoveBody(PhysicsBody* body)
     // remove shapes
     for (auto& shape : body->getShapes())
     {
-        removeShape(shape);
+        removeShape(shape.get());
     }
     
     // remove body

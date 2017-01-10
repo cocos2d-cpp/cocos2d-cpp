@@ -198,14 +198,20 @@ public:
      * 
      * @return A Vector<PhysicsShape*> object contains PhysicsShape pointer.
      */
-    const Vector<PhysicsShape*>& getShapes() const { return _shapes; }
+    const std::vector<retaining_ptr<PhysicsShape>>& getShapes() const
+    {
+        return _shapes;
+    }
 
     /**
      * Get the first shape of the body shapes.
      *
      * @return The first shape in this body.
      */
-    PhysicsShape* getFirstShape() const { return _shapes.size() >= 1 ? _shapes.at(0) : nullptr; }
+    PhysicsShape* getFirstShape() const
+    { 
+        return _shapes.empty() ? nullptr : _shapes.at(0).get();
+    }
 
     /** 
      * get the shape of the body.
@@ -518,7 +524,7 @@ protected:
     void afterSimulation(const Mat4& parentToWorldTransform, float parentRotation);
 protected:
     std::vector<PhysicsJoint*> _joints;
-    Vector<PhysicsShape*> _shapes;
+    std::vector<retaining_ptr<PhysicsShape>> _shapes;
     PhysicsWorld* _world;
     
     cpBody* _cpBody;

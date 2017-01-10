@@ -347,7 +347,7 @@ void PhysicsBody::setRotation(float rotation)
 
 void PhysicsBody::setScale(float scaleX, float scaleY)
 {
-    for (auto& shape : _shapes)
+    for (auto & shape : _shapes)
     {
         _area -= shape->getArea();
         if (!_massSetByUser)
@@ -402,10 +402,18 @@ float PhysicsBody::getRotation()
 
 PhysicsShape* PhysicsBody::addShape(PhysicsShape* shape, bool addMassAndMoment/* = true*/)
 {
-    if (shape == nullptr) return nullptr;
+    if (shape == nullptr)
+        return nullptr;
     
+    auto it = std::find_if(
+        _shapes.begin(), _shapes.end(),
+        [shape](const retaining_ptr<PhysicsShape>& p) {
+            return p.get() == shape;
+        }
+    );
+
     // add shape to body
-    if (_shapes.getIndex(shape) == -1)
+    if (_shapes.end() == it)
     {
         shape->setBody(this);
         
@@ -423,7 +431,7 @@ PhysicsShape* PhysicsBody::addShape(PhysicsShape* shape, bool addMassAndMoment/*
             _world->addShape(shape);
         }
         
-        _shapes.pushBack(shape);
+        _shapes.push_back(to_retaining_ptr(shape));
     }
     
     return shape;
@@ -650,11 +658,11 @@ void PhysicsBody::setMoment(float moment)
 
 PhysicsShape* PhysicsBody::getShape(int tag) const
 {
-    for (auto& shape : _shapes)
+    for (auto & shape : _shapes)
     {
         if (shape->getTag() == tag)
         {
-            return shape;
+            return shape.get();
         }
     }
     
@@ -663,11 +671,11 @@ PhysicsShape* PhysicsBody::getShape(int tag) const
 
 void PhysicsBody::removeShape(int tag, bool reduceMassAndMoment/* = true*/)
 {
-    for (auto& shape : _shapes)
+    for (auto & shape : _shapes)
     {
         if (shape->getTag() == tag)
         {
-            removeShape(shape, reduceMassAndMoment);
+            removeShape(shape.get(), reduceMassAndMoment);
             return;
         }
     }
@@ -675,7 +683,14 @@ void PhysicsBody::removeShape(int tag, bool reduceMassAndMoment/* = true*/)
 
 void PhysicsBody::removeShape(PhysicsShape* shape, bool reduceMassAndMoment/* = true*/)
 {
-    if (_shapes.getIndex(shape) != -1)
+    auto it = std::find_if(
+        _shapes.begin(), _shapes.end(),
+        [shape](const retaining_ptr<PhysicsShape>& p) {
+            return p.get() == shape;
+        }
+    );
+
+    if (_shapes.end() != it)
     {
         // deduce the area, mass and moment
         // area must update before mass, because the density changes depend on it.
@@ -695,15 +710,16 @@ void PhysicsBody::removeShape(PhysicsShape* shape, bool reduceMassAndMoment/* = 
         // set shape->_body = nullptr make the shape->setBody will not trigger the _body->removeShape function call.
         shape->_body = nullptr;
         shape->setBody(nullptr);
-        _shapes.eraseObject(shape);
+
+        _shapes.erase(it);
     }
 }
 
 void PhysicsBody::removeAllShapes(bool reduceMassAndMoment/* = true*/)
 {
-    for (auto& child : _shapes)
+    for (auto & child : _shapes)
     {
-        PhysicsShape* shape = dynamic_cast<PhysicsShape*>(child);
+        PhysicsShape* shape = dynamic_cast<PhysicsShape*>(child.get());
         
         // deduce the area, mass and moment
         // area must update before mass, because the density changes depend on it.
@@ -781,7 +797,7 @@ void PhysicsBody::update(float delta)
 
 void PhysicsBody::setCategoryBitmask(int bitmask)
 {
-    for (auto& shape : _shapes)
+    for (auto & shape : _shapes)
     {
         shape->setCategoryBitmask(bitmask);
     }
