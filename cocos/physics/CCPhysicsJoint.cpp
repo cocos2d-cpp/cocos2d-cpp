@@ -77,7 +77,7 @@ bool PhysicsJoint::init(cocos2d::PhysicsBody *a, cocos2d::PhysicsBody *b)
     return false;
 }
 
-bool PhysicsJoint::initJoint()
+bool PhysicsJoint::initJoint(cpSpace* space)
 {
     bool ret = !_initDirty;
     while (_initDirty)
@@ -89,7 +89,7 @@ bool PhysicsJoint::initJoint()
         {
             cpConstraintSetMaxForce(subjoint, _maxForce);
             cpConstraintSetErrorBias(subjoint, cpfpow(1.0f - 0.15f, 60.0f));
-            cpSpaceAddConstraint(_world->_cpSpace, subjoint);
+            cpSpaceAddConstraint(space, subjoint);
         }
         _initDirty = false;
         ret = true;

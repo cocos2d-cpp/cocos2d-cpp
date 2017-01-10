@@ -759,7 +759,8 @@ void PhysicsBody::setEnabled(bool enable)
             if (enable)
             {
                 _world->addBodyOrDelay(this);
-            }else
+            }
+            else
             {
                 _world->removeBodyOrDelay(this);
             }

@@ -97,14 +97,28 @@ typedef PhysicsQueryRectCallbackFunc PhysicsQueryPointCallbackFunc;
  */
 class CC_DLL PhysicsWorld
 {
+    class Callbacks;
+
 public:
-    static const int DEBUGDRAW_NONE;        ///< draw nothing
-    static const int DEBUGDRAW_SHAPE;       ///< draw shapes
-    static const int DEBUGDRAW_JOINT;       ///< draw joints
-    static const int DEBUGDRAW_CONTACT;     ///< draw contact
-    static const int DEBUGDRAW_ALL;         ///< draw all
+    enum class DebugDraw {
+        ///< draw nothing
+        NONE = 0x00,
+        ///< draw shapes
+        SHAPE = 0x01,
+        ///< draw joints
+        JOINT = 0x02,
+        ///< draw contact
+        CONTACT = 0x04,
+        ///< draw all
+        ALL = SHAPE | JOINT | CONTACT
+    };
+
+public:
+    static PhysicsWorld* construct(Scene* scene);
+    ~PhysicsWorld();
+
+    void update(float delta, bool userCall = false);
     
-public:
     /**
     * Adds a joint to this physics world.
     *
@@ -112,7 +126,7 @@ public:
     * @attention If this joint is already added to another physics world, it will be removed from that world first and then add to this world.
     * @param   joint   A pointer to an existing PhysicsJoint object.
     */
-    virtual void addJoint(PhysicsJoint* joint);
+    void addJoint(PhysicsJoint* joint);
 
     /**
     * Remove a joint from this physics world.
@@ -122,7 +136,7 @@ public:
     * @param   joint   A pointer to an existing PhysicsJoint object.
     * @param   destroy   true this joint will be destroyed after remove from this world, false otherwise.
     */
-    virtual void removeJoint(PhysicsJoint* joint, bool destroy = true);
+    void removeJoint(PhysicsJoint* joint, bool destroy = true);
 
     /**
     * Remove all joints from this physics world.
@@ -130,7 +144,7 @@ public:
     * @attention This function is invoked in the destructor of this physics world, you do not use this api in common.
     * @param   destroy   true all joints will be destroyed after remove from this world, false otherwise.
     */
-    virtual void removeAllJoints(bool destroy = true);
+    void removeAllJoints(bool destroy = true);
     
     /**
     * Remove a body from this physics world. 
@@ -139,7 +153,7 @@ public:
     * @attention If this body has joints, those joints will be removed also.
     * @param   body   A pointer to an existing PhysicsBody object.
     */
-    virtual void removeBody(PhysicsBody* body);
+    void removeBody(PhysicsBody* body);
     
     /**
     * Remove body by tag. 
@@ -148,14 +162,14 @@ public:
     * @attention If this body has joints, those joints will be removed also.    
     * @param   tag   An integer number that identifies a PhysicsBody object.
     */
-    virtual void removeBody(int tag);
+    void removeBody(int tag);
 
     /**
     * Remove all bodies from physics world. 
     * 
     * If this world is not locked, those body are removed immediately, otherwise at next frame.
     */
-    virtual void removeAllBodies();
+    void removeAllBodies();
     
     /**
     * Searches for physics shapes that intersects the ray. 
@@ -307,14 +321,14 @@ public:
     * This physics world will draw shapes and joints by DrawNode according to mask.
     * @param mask Mask has four value:DEBUGDRAW_NONE, DEBUGDRAW_SHAPE, DEBUGDRAW_JOINT, DEBUGDRAW_CONTACT and DEBUGDRAW_ALL, default is DEBUGDRAW_NONE
     */
-    void setDebugDrawMask(int mask);
+    void setDebugDrawMask(DebugDraw mask);
 
     /**
     * Get the debug draw mask.
     *
     * @return An integer number.
     */
-    int getDebugDrawMask() { return _debugDrawMask; }
+    DebugDraw getDebugDrawMask() { return _debugDrawMask; }
     
     /**
      * To control the step of physics.
@@ -342,32 +356,32 @@ public:
      */
     void step(float delta);
     
-protected:
-    static PhysicsWorld* construct(Scene* scene);
+    void addBody(PhysicsBody* body);
+    void addBodyOrDelay(PhysicsBody* body);
+    void removeBodyOrDelay(PhysicsBody* body);
+
+    void addShape(PhysicsShape* shape);
+    void removeShape(PhysicsShape* shape);
+
+    void debugDraw();
+    
+private:
+
     bool init();
     
+    bool collisionBeginCallback(PhysicsContact& contact);
+    bool collisionPreSolveCallback(PhysicsContact& contact);
+    void collisionPostSolveCallback(PhysicsContact& contact);
+    void collisionSeparateCallback(PhysicsContact& contact);
     
-    virtual void addBody(PhysicsBody* body);
-    virtual void addShape(PhysicsShape* shape);
-    virtual void removeShape(PhysicsShape* shape);
-    virtual void update(float delta, bool userCall = false);
+    void doAddBody(PhysicsBody* body);
+    void doRemoveBody(PhysicsBody* body);
+    void doRemoveJoint(PhysicsJoint* joint);
+
+    void updateBodies();
+    void updateJoints();
     
-    virtual void debugDraw();
-    
-    virtual bool collisionBeginCallback(PhysicsContact& contact);
-    virtual bool collisionPreSolveCallback(PhysicsContact& contact);
-    virtual void collisionPostSolveCallback(PhysicsContact& contact);
-    virtual void collisionSeparateCallback(PhysicsContact& contact);
-    
-    virtual void doAddBody(PhysicsBody* body);
-    virtual void doRemoveBody(PhysicsBody* body);
-    virtual void doRemoveJoint(PhysicsJoint* joint);
-    virtual void addBodyOrDelay(PhysicsBody* body);
-    virtual void removeBodyOrDelay(PhysicsBody* body);
-    virtual void updateBodies();
-    virtual void updateJoints();
-    
-protected:
+private:
     Vec2 _gravity;
     float _speed;
     int _updateRate;
@@ -384,7 +398,7 @@ protected:
     
     bool _autoStep;
     DrawNode* _debugDraw;
-    int _debugDrawMask;
+    DebugDraw _debugDrawMask;
     
     EventDispatcher* _eventDispatcher;
 
@@ -393,22 +407,11 @@ protected:
     std::vector<PhysicsJoint*> _delayAddJoints;
     std::vector<PhysicsJoint*> _delayRemoveJoints;
     
-protected:
+private:
     PhysicsWorld();
-    virtual ~PhysicsWorld();
     
     void beforeSimulation(Node *node, const Mat4& parentToWorldTransform, float nodeParentScaleX, float nodeParentScaleY, float parentRotation);
     void afterSimulation(Node* node, const Mat4& parentToWorldTransform, float parentRotation);
-
-    friend class Node;
-    friend class Sprite;
-    friend class Scene;
-    friend class Director;
-    friend class PhysicsBody;
-    friend class PhysicsShape;
-    friend class PhysicsJoint;
-    friend class PhysicsWorldCallback;
-    friend class PhysicsDebugDraw;
 };
 
 extern const float CC_DLL PHYSICS_INFINITY;

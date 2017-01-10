@@ -40,7 +40,7 @@ void PhysicsDemo::toggleDebug()
 {
 #if CC_USE_PHYSICS
     _debugDraw = !_debugDraw;
-    _physicsWorld->setDebugDrawMask(_debugDraw ? PhysicsWorld::DEBUGDRAW_ALL : PhysicsWorld::DEBUGDRAW_NONE);
+    _physicsWorld->setDebugDrawMask(_debugDraw ? PhysicsWorld::DebugDraw::ALL : PhysicsWorld::DebugDraw::NONE);
 #endif
 }
 
@@ -1706,7 +1706,7 @@ void PhysicsFixedUpdate::onEnter()
 {
     PhysicsDemo::onEnter();
     
-    _physicsWorld->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+    _physicsWorld->setDebugDrawMask(PhysicsWorld::DebugDraw::ALL);
     _physicsWorld->setGravity(Point::ZERO);
     
     // wall

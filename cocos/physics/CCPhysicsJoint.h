@@ -32,6 +32,7 @@
 #include "math/CCGeometry.h"
 
 struct cpConstraint;
+typedef struct cpSpace cpSpace;
 
 namespace cocos2d {
 
@@ -103,7 +104,7 @@ public:
 protected:
     bool init(PhysicsBody* a, PhysicsBody* b);
 
-    bool initJoint();
+    bool initJoint(cpSpace* space);
     
     /** Create constraints for this type joint */
     virtual bool createConstraints() { return false; }
