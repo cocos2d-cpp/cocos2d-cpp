@@ -205,12 +205,11 @@ public:
     /**
     * Get physics shapes that contains the point. 
     * 
-    * All shapes contains the point will be pushed in a Vector<PhysicsShape*> object.
+    * All shapes contains the point will be pushed in a std::vector<retaining_ptr<PhysicsShape>> object.
     * @attention The point must lie inside a shape.
     * @param   point   A Vec2 object contains the position of the point.
-    * @return A Vector<PhysicsShape*> object contains all found PhysicsShape pointer.
     */
-    Vector<PhysicsShape*> getShapes(const Vec2& point) const;
+    std::vector<retaining_ptr<PhysicsShape>> getShapes(const Vec2& point) const;
     
     /**
     * Get the nearest physics shape that contains the point. 
@@ -223,8 +222,6 @@ public:
 
     /**
     * Get all the bodies that in this physics world.
-    *
-    * @return A Vector<PhysicsBody*>& object contains all bodies in this physics world. 
     */
     const std::vector<retaining_ptr<PhysicsBody>> & getAllBodies() const
     {

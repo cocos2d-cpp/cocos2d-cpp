@@ -116,11 +116,11 @@ CameraRotationTest::CameraRotationTest()
 
     //Listener
     _lis = EventListenerTouchOneByOne::create();
-    _lis->onTouchBegan = [this](Touch* t, Event* e) {
+    _lis->onTouchBegan = [this](Touch*, Event*) {
         return true;
     };
 
-    _lis->onTouchMoved = [this](Touch* t, Event* e) {
+    _lis->onTouchMoved = [this](Touch* t, Event*) {
         float dx = t->getDelta().x;
         Vec3 rot = _camControlNode->getRotation3D();
         rot.y += dx;
@@ -163,7 +163,7 @@ void CameraRotationTest::onExit()
     CameraBaseTest::onExit();
 }
 
-void CameraRotationTest::update(float dt)
+void CameraRotationTest::update(float)
 {
 }
 
@@ -193,7 +193,7 @@ std::string Camera3DTestDemo::title() const
     return "Testing Camera";
 }
 
-void Camera3DTestDemo::scaleCameraCallback(Ref* sender,float value)
+void Camera3DTestDemo::scaleCameraCallback(Ref*, float value)
 {
     if(_camera&& _cameraType!=CameraType::FirstPerson)
     {
@@ -202,7 +202,7 @@ void Camera3DTestDemo::scaleCameraCallback(Ref* sender,float value)
         _camera->setPosition3D(cameraPos);
     }
 }
-void Camera3DTestDemo::rotateCameraCallback(Ref* sender,float value)
+void Camera3DTestDemo::rotateCameraCallback(Ref*, float value)
 {
     if(_cameraType==CameraType::Free || _cameraType==CameraType::FirstPerson)
     {
@@ -211,7 +211,7 @@ void Camera3DTestDemo::rotateCameraCallback(Ref* sender,float value)
         _camera->setRotation3D(rotation3D);
     }
 }
-void Camera3DTestDemo::SwitchViewCallback(Ref* sender, CameraType cameraType)
+void Camera3DTestDemo::SwitchViewCallback(Ref*, CameraType cameraType)
 {
     if(_cameraType==cameraType)
     {
@@ -396,7 +396,7 @@ void Camera3DTestDemo::addNewSpriteWithCoords(Vec3 p,std::string fileName,bool p
     }
     sprite->setScale(scale);  
 }
-void Camera3DTestDemo::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Camera3DTestDemo::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     for ( auto &item: touches )
     {
@@ -404,7 +404,7 @@ void Camera3DTestDemo::onTouchesBegan(const std::vector<Touch*>& touches, cocos2
         auto location = touch->getLocation();
     }
 }
-void Camera3DTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Camera3DTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     if(touches.size()==1)
     {
@@ -453,7 +453,7 @@ void Camera3DTestDemo::move3D(float elapsedTime)
         }
     }
 }
-void Camera3DTestDemo::updateState(float elapsedTime)
+void Camera3DTestDemo::updateState(float /*elapsedTime*/)
 {
     if(_sprite3D)
     {
@@ -483,7 +483,7 @@ void Camera3DTestDemo::updateState(float elapsedTime)
         }
     }
 }
-void Camera3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Camera3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     for ( auto &item: touches )
     {
@@ -495,7 +495,6 @@ void Camera3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos2
             {
                 Vec3 nearP(location.x, location.y, -1.0f), farP(location.x, location.y, 1.0f);
                 
-                auto size = Director::getInstance()->getWinSize();
                 nearP = _camera->unproject(nearP);
                 farP = _camera->unproject(farP);
                 Vec3 dir(farP - nearP);
@@ -521,9 +520,11 @@ void Camera3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos2
         }
     }
 }
-void onTouchesCancelled(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+
+void onTouchesCancelled(const std::vector<Touch*>&, cocos2d::Event *)
 {
 }
+
 void Camera3DTestDemo::updateCamera(float fDelta)
 {
     if(_sprite3D)
@@ -665,7 +666,7 @@ bool Camera3DTestDemo::onTouchesZoomOut(Touch* touch, Event* event)
 {
     return Camera3DTestDemo::onTouchesCommon(touch, event, &_bZoomOut);
 }
-void Camera3DTestDemo::onTouchesZoomOutEnd(Touch* touch, Event* event)
+void Camera3DTestDemo::onTouchesZoomOutEnd(Touch*, Event*)
 {
     _bZoomOut = false;
 }
@@ -673,7 +674,7 @@ bool Camera3DTestDemo::onTouchesZoomIn(Touch* touch, Event* event)
 {
     return Camera3DTestDemo::onTouchesCommon(touch, event, &_bZoomIn);
 }
-void Camera3DTestDemo::onTouchesZoomInEnd(Touch* touch, Event* event)
+void Camera3DTestDemo::onTouchesZoomInEnd(Touch*, Event*)
 {
     _bZoomIn = false;
 }
@@ -681,7 +682,7 @@ bool Camera3DTestDemo::onTouchesRotateLeft(Touch* touch, Event* event)
 {
     return Camera3DTestDemo::onTouchesCommon(touch, event, &_bRotateLeft);
 }
-void Camera3DTestDemo::onTouchesRotateLeftEnd(Touch* touch, Event* event)
+void Camera3DTestDemo::onTouchesRotateLeftEnd(Touch*, Event*)
 {
     _bRotateLeft = false;
 }
@@ -689,7 +690,7 @@ bool Camera3DTestDemo::onTouchesRotateRight(Touch* touch, Event* event)
 {
     return Camera3DTestDemo::onTouchesCommon(touch, event, &_bRotateRight);
 }
-void Camera3DTestDemo::onTouchesRotateRightEnd(Touch* touch, Event* event)
+void Camera3DTestDemo::onTouchesRotateRightEnd(Touch*, Event*)
 {
     _bRotateRight = false;
 }
@@ -791,7 +792,7 @@ void CameraCullingDemo::onExit()
     }
 }
 
-void CameraCullingDemo::update(float dt)
+void CameraCullingDemo::update(float)
 {
     _drawAABB->clear();
     
@@ -833,7 +834,7 @@ void CameraCullingDemo::reachEndCallBack()
     _cameraFirst->runAction(seq);
 }
 
-void CameraCullingDemo::switchViewCallback(Ref* sender)
+void CameraCullingDemo::switchViewCallback(Ref*)
 {
     auto s = Director::getInstance()->getWinSize();
     
@@ -878,7 +879,7 @@ void CameraCullingDemo::switchViewCallback(Ref* sender)
     }
 }
 
-void CameraCullingDemo::addSpriteCallback(Ref* sender)
+void CameraCullingDemo::addSpriteCallback(Ref*)
 {
     _layer3D->removeAllChildren();
     _objects.clear();
@@ -906,7 +907,7 @@ void CameraCullingDemo::addSpriteCallback(Ref* sender)
     _labelSprite3DCount->setString(szText);
 }
 
-void CameraCullingDemo::delSpriteCallback(Ref* sender)
+void CameraCullingDemo::delSpriteCallback(Ref*)
 {
     if (_row == 0) return;
     
@@ -1092,7 +1093,7 @@ void CameraArcBallDemo::onExit()
     }
 }
 
-void CameraArcBallDemo::onTouchsMoved( const std::vector<Touch*> &touchs, Event *event )
+void CameraArcBallDemo::onTouchsMoved( const std::vector<Touch*> & touchs, Event *)
 {
     if (!touchs.empty())
     {
@@ -1174,7 +1175,7 @@ void CameraArcBallDemo::updateCameraTransform()
     _camera->setNodeToParentTransform(result);
 }
 
-void CameraArcBallDemo::switchOperateCallback(Ref* sender)
+void CameraArcBallDemo::switchOperateCallback(Ref*)
 {
     if(_operate == OperateCamType::MoveCamera)
     {
@@ -1186,7 +1187,7 @@ void CameraArcBallDemo::switchOperateCallback(Ref* sender)
     }
 }
 
-void CameraArcBallDemo::switchTargetCallback(Ref* sender)
+void CameraArcBallDemo::switchTargetCallback(Ref*)
 {
     if(_target == 0)
     {
@@ -1202,9 +1203,8 @@ void CameraArcBallDemo::switchTargetCallback(Ref* sender)
     }
 }
 
-void CameraArcBallDemo::update(float dt)
+void CameraArcBallDemo::update(float)
 {
-     //updateCameraTransform();
 }
 
 ////////////////////////////////////////////////////////////
@@ -1345,7 +1345,7 @@ void FogTestDemo::onEnter()
 
 }
 
-void FogTestDemo::switchTypeCallback(Ref* sender,int type)
+void FogTestDemo::switchTypeCallback(Ref* , int type)
 {
     if(type == 0)
     {
@@ -1391,11 +1391,11 @@ void FogTestDemo::onExit()
 #endif
 }
 
-void FogTestDemo::update(float dt)
+void FogTestDemo::update(float)
 {
 }
 
-void FogTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void FogTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     if(touches.size()==1)
     {

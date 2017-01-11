@@ -81,7 +81,7 @@ public:
     static void rayCastCallbackFunc(cpShape *shape, cpVect point, cpVect normal, cpFloat alpha, RayCastCallbackInfo *info);
     static void queryRectCallbackFunc(cpShape *shape, RectQueryCallbackInfo *info);
     static void queryPointFunc(cpShape *shape, cpVect point, cpFloat distance, cpVect gradient, PointQueryCallbackInfo *info);
-    static void getShapesAtPointFunc(cpShape *shape, cpVect point, cpFloat distance, cpVect gradient, Vector<PhysicsShape*>* arr);
+    static void getShapesAtPointFunc(cpShape *shape, cpVect point, cpFloat distance, cpVect gradient, std::vector<retaining_ptr<PhysicsShape>>* arr);
     
 public:
     static bool continues;
@@ -160,11 +160,11 @@ void PhysicsWorld::Callbacks::queryRectCallbackFunc(cpShape *shape, RectQueryCal
     continues = info->func(*info->world, *physicsShape, info->data);
 }
 
-void PhysicsWorld::Callbacks::getShapesAtPointFunc(cpShape *shape, cpVect /*point*/, cpFloat /*distance*/, cpVect /*gradient*/, Vector<PhysicsShape*>* arr)
+void PhysicsWorld::Callbacks::getShapesAtPointFunc(cpShape *shape, cpVect /*point*/, cpFloat /*distance*/, cpVect /*gradient*/, std::vector<retaining_ptr<PhysicsShape>>* arr)
 {
     PhysicsShape *physicsShape = static_cast<PhysicsShape*>(cpShapeGetUserData(shape));
     CC_ASSERT(physicsShape != nullptr);
-    arr->pushBack(physicsShape);
+    arr->push_back( to_retaining_ptr( physicsShape));
 }
 
 void PhysicsWorld::Callbacks::queryPointFunc(cpShape *shape, cpVect /*point*/, cpFloat /*distance*/, cpVect /*gradient*/, PointQueryCallbackInfo *info)
@@ -455,16 +455,16 @@ void PhysicsWorld::queryPoint(PhysicsQueryPointCallbackFunc func, const Vec2& po
     }
 }
 
-Vector<PhysicsShape*> PhysicsWorld::getShapes(const Vec2& point) const
+std::vector<retaining_ptr<PhysicsShape>> PhysicsWorld::getShapes(const Vec2& point) const
 {
-    Vector<PhysicsShape*> arr;
+    std::vector<retaining_ptr<PhysicsShape>> arr;
     cpSpacePointQuery(_cpSpace,
-                             PhysicsHelper::point2cpv(point),
-                             0,
-                             CP_SHAPE_FILTER_ALL,
-                             (cpSpacePointQueryFunc)PhysicsWorld::Callbacks::getShapesAtPointFunc,
-                             &arr);
-    
+                      PhysicsHelper::point2cpv(point),
+                      0,
+                      CP_SHAPE_FILTER_ALL,
+                      (cpSpacePointQueryFunc)PhysicsWorld::Callbacks::getShapesAtPointFunc,
+                      &arr);
+
     return arr;
 }
 
