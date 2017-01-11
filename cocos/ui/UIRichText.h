@@ -550,7 +550,7 @@ protected:
 
     bool _formatTextDirty;
     std::vector<retaining_ptr<RichElement>> _richElements;
-    std::vector<Vector<Node*>*> _elementRenders;
+    std::vector<std::vector<node_ptr<Node>>> _elementRenders;
     float _leftSpaceWidth;
 
     ValueMap _defaults;             /*!< default values */

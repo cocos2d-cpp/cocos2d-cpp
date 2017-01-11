@@ -233,7 +233,7 @@ Sprite* PhysicsDemo::makeTriangle(Vec2 point, Size size, int color, PhysicsMater
     return triangle;
 }
 
-bool PhysicsDemo::onTouchBegan(Touch* touch, Event* event)
+bool PhysicsDemo::onTouchBegan(Touch* touch, Event*)
 {
     auto location = touch->getLocation();
     auto arr = _physicsWorld->getShapes(location);
@@ -267,7 +267,7 @@ bool PhysicsDemo::onTouchBegan(Touch* touch, Event* event)
     return false;
 }
 
-void PhysicsDemo::onTouchMoved(Touch* touch, Event* /*event*/)
+void PhysicsDemo::onTouchMoved(Touch* touch, Event*)
 {
     auto it = _mouses.find(touch->getID());
     
@@ -277,7 +277,7 @@ void PhysicsDemo::onTouchMoved(Touch* touch, Event* /*event*/)
     }
 }
 
-void PhysicsDemo::onTouchEnded(Touch* touch, Event* /*event*/)
+void PhysicsDemo::onTouchEnded(Touch* touch, Event*)
 {
     auto it = _mouses.find(touch->getID());
     
@@ -367,7 +367,7 @@ std::string PhysicsDemoClickAdd::subtitle() const
     return "multi touch to add grossini";
 }
 
-void PhysicsDemoClickAdd::onTouchesEnded(const std::vector<Touch*>& touches, Event* /*event*/)
+void PhysicsDemoClickAdd::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     //Add a new body/atlas sprite at the touched location
     
@@ -379,7 +379,7 @@ void PhysicsDemoClickAdd::onTouchesEnded(const std::vector<Touch*>& touches, Eve
     }
 }
 
-void PhysicsDemoClickAdd::onAcceleration(Acceleration* acc, Event* /*event*/)
+void PhysicsDemoClickAdd::onAcceleration(Acceleration* acc, Event*)
 {
     static float prevX=0, prevY=0;
     
@@ -593,7 +593,7 @@ void PhysicsDemoRayCast::update(float /*delta*/)
     _angle += 0.25f * (float)M_PI / 180.0f;
 }
 
-void PhysicsDemoRayCast::onTouchesEnded(const std::vector<Touch*>& touches, Event* /*event*/)
+void PhysicsDemoRayCast::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     //Add a new body/atlas sprite at the touched location
     
@@ -1015,7 +1015,7 @@ void PhysicsDemoPump::onEnter()
     _physicsWorld->addJoint(PhysicsJointDistance::construct(pluggerBody, sgearBody, Vec2::ZERO, Vec2(44, 0)));
 }
 
-void PhysicsDemoPump::update(float delta)
+void PhysicsDemoPump::update(float /*delta*/)
 {
     for (const auto& body : _physicsWorld->getAllBodies())
     {
@@ -1132,7 +1132,7 @@ void PhysicsDemoSlice::onEnter()
     _sliceTag = 1;
     
     auto touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = [](Touch* /*touch*/, Event* /*event*/)->bool{ return true; };
+    touchListener->onTouchBegan = [](Touch*, Event*)->bool{ return true; };
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoSlice::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
     

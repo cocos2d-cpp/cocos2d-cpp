@@ -1724,7 +1724,7 @@ void RichText::handleCustomRenderer(cocos2d::Node *renderer)
 void RichText::addNewLine()
 {
     _leftSpaceWidth = _customSize.width;
-    _elementRenders.push_back(new Vector<Node*>());
+    _elementRenders.push_back( std::move( std::vector<node_ptr<Node>>()));
 }
     
 void RichText::formarRenderers()
@@ -1733,14 +1733,13 @@ void RichText::formarRenderers()
     {
         float newContentSizeWidth = 0.0f;
         float nextPosY = 0.0f;
-        for (auto& element: _elementRenders)
+        for (auto & row : _elementRenders)
         {
-            Vector<Node*>* row = element;
             float nextPosX = 0.0f;
             float maxY = 0.0f;
-            for (ssize_t j=0, size = row->size(); j<size; j++)
+            for (ssize_t j=0, size = row.size(); j<size; j++)
             {
-                Node* l = row->at(j);
+                Node* l = row.at(j).get();
                 l->setAnchorPoint(Vec2::ZERO);
                 l->setPosition(nextPosX, nextPosY);
                 this->addProtectedChild(l, 1);
@@ -1760,11 +1759,11 @@ void RichText::formarRenderers()
         
         for (size_t i=0, size = _elementRenders.size(); i<size; i++)
         {
-            Vector<Node*>* row = (_elementRenders[i]);
+            auto & row = _elementRenders[i];
             float maxHeight = 0.0f;
-            for (ssize_t j=0, size = row->size(); j<size; j++)
+            for (ssize_t j=0, size = row.size(); j < size; j++)
             {
-                Node* l = row->at(j);
+                Node* l = row.at(j).get();
                 maxHeight = MAX(l->getContentSize().height, maxHeight);
             }
             maxHeights[i] = maxHeight;
@@ -1774,13 +1773,13 @@ void RichText::formarRenderers()
         float nextPosY = _customSize.height;
         for (size_t i=0, size = _elementRenders.size(); i<size; i++)
         {
-            Vector<Node*>* row = (_elementRenders[i]);
+            auto & row = _elementRenders[i];
             float nextPosX = 0.0f;
             nextPosY -= (maxHeights[i] + _defaults.at(KEY_VERTICAL_SPACE).asFloat());
             
-            for (ssize_t j=0, size = row->size(); j<size; j++)
+            for (ssize_t j=0, size = row.size(); j < size; j++)
             {
-                Node* l = row->at(j);
+                Node* l = row.at(j).get();
                 l->setAnchorPoint(Vec2::ZERO);
                 l->setPosition(nextPosX, nextPosY);
                 this->addProtectedChild(l, 1);
@@ -1790,13 +1789,6 @@ void RichText::formarRenderers()
         delete [] maxHeights;
     }
     
-    size_t length = _elementRenders.size();
-    for (size_t i = 0; i<length; i++)
-	{
-        Vector<Node*>* l = _elementRenders[i];
-        l->clear();
-        delete l;
-	}    
     _elementRenders.clear();
     
     if (_ignoreSize)
@@ -1822,7 +1814,7 @@ void RichText::pushToContainer(cocos2d::Node *renderer)
     {
         return;
     }
-    _elementRenders[_elementRenders.size()-1]->pushBack(renderer);
+    _elementRenders[_elementRenders.size()-1].push_back( to_node_ptr( renderer));
 }
     
 void RichText::setVerticalSpace(float space)
