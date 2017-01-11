@@ -190,7 +190,7 @@ void RadioButtonGroup::addRadioButton(RadioButton* radioButton)
     {
         CCASSERT(!radioButton->_group, "It already belongs to a group!");
         radioButton->_group = this;
-        _radioButtons.pushBack(radioButton);
+        _radioButtons.push_back( to_node_ptr( radioButton));
         
         if(!_allowedNoSelection && _selectedRadioButton == nullptr)
         {
@@ -201,21 +201,26 @@ void RadioButtonGroup::addRadioButton(RadioButton* radioButton)
 
 void RadioButtonGroup::removeRadioButton(RadioButton* radioButton)
 {
-    ssize_t index = _radioButtons.getIndex(radioButton);
-    if( index == CC_INVALID_INDEX )
+    auto it = std::find_if(
+        _radioButtons.begin(), _radioButtons.end(),
+        [radioButton](const node_ptr<RadioButton> & p) {
+            return p.get() == radioButton;
+        }
+    );
+    if (_radioButtons.end() == it)
     {
         CCLOGERROR("The radio button does not belong to this group!");
         return;
     }
     
-    if(radioButton != nullptr)
+    if (radioButton != nullptr)
     {
         radioButton->_group = nullptr;
         if(radioButton == _selectedRadioButton)
         {
             deselect();
         }
-        _radioButtons.erase(index);
+        _radioButtons.erase(it);
         
         if(!_allowedNoSelection && _selectedRadioButton == nullptr && !_radioButtons.empty())
         {
@@ -228,23 +233,13 @@ void RadioButtonGroup::removeAllRadioButtons()
 {
     while(!_radioButtons.empty())
     {
-        removeRadioButton(_radioButtons.at(0));
+        removeRadioButton(_radioButtons.at(0).get());
     }
 }
 
 ssize_t RadioButtonGroup::getNumberOfRadioButtons() const
 {
     return _radioButtons.size();
-}
-
-RadioButton* RadioButtonGroup::getRadioButtonByIndex(int index) const
-{
-    if(index >= _radioButtons.size())
-    {
-        CCLOGERROR("Out of array index! length=%d, requestedIndex=%d", (int)_radioButtons.size(), index);
-        return nullptr;
-    }
-    return _radioButtons.at(index);
 }
 
 void RadioButtonGroup::deselect()
@@ -259,13 +254,15 @@ void RadioButtonGroup::deselect()
 
 int RadioButtonGroup::getSelectedButtonIndex() const
 {
-    return (int) _radioButtons.getIndex(_selectedRadioButton);
-}
-
-void RadioButtonGroup::setSelectedButton(int index)
-{
-    CCASSERT(index < _radioButtons.size(), "Out of array index!");
-    setSelectedButton(_radioButtons.at(index));
+    auto it = std::find_if(
+        _radioButtons.begin(), _radioButtons.end(),
+        [this](const node_ptr<RadioButton> & p) {
+            return p.get() == this->_selectedRadioButton;
+        }
+    );
+    if (_radioButtons.end() == it)
+        return -1;
+    return std::distance(_radioButtons.begin(), it);
 }
 
 void RadioButtonGroup::setSelectedButton(RadioButton* radioButton)
@@ -276,7 +273,7 @@ void RadioButtonGroup::setSelectedButton(RadioButton* radioButton)
 
 void RadioButtonGroup::setSelectedButtonWithoutEvent(int index)
 {
-    setSelectedButtonWithoutEvent(_radioButtons.at(index));
+    setSelectedButtonWithoutEvent(_radioButtons.at(index).get());
 }
 
 void RadioButtonGroup::setSelectedButtonWithoutEvent(RadioButton* radioButton)
@@ -289,7 +286,15 @@ void RadioButtonGroup::setSelectedButtonWithoutEvent(RadioButton* radioButton)
     {
         return;
     }
-    if(radioButton != nullptr && !_radioButtons.contains(radioButton))
+
+    auto it = std::find_if(
+        _radioButtons.begin(), _radioButtons.end(),
+        [radioButton](const node_ptr<RadioButton> & p) {
+            return p.get() == radioButton;
+        }
+    );
+
+    if(radioButton != nullptr && _radioButtons.end() == it)
     {
         CCLOGERROR("The radio button does not belong to this group!");
         return;
@@ -315,7 +320,7 @@ void RadioButtonGroup::setAllowedNoSelection(bool allowedNoSelection)
     {
         if (_radioButtons.size() > 0)
         {
-            setSelectedButton(_radioButtons.at(0));
+            setSelectedButton(_radioButtons.at(0).get());
         }
     }
 }
@@ -343,7 +348,7 @@ void RadioButtonGroup::copySpecialProperties(Widget *widget)
         _radioButtons.clear();
         for(const auto& radioButton : radioButtonGroup->_radioButtons)
         {
-            _radioButtons.pushBack(radioButton);
+            _radioButtons.push_back( to_node_ptr( radioButton.get()));
         }
     }
 }
@@ -359,8 +364,17 @@ void RadioButtonGroup::onChangedRadioButtonSelect(RadioButton* radioButton)
     this->retain();
     if (_radioButtonGroupEventCallback)
     {
-        int index = (int) _radioButtons.getIndex(radioButton);
-        _radioButtonGroupEventCallback(_selectedRadioButton, index, EventType::SELECT_CHANGED);
+        auto it = std::find_if(
+            _radioButtons.begin(), _radioButtons.end(),
+            [this](const node_ptr<RadioButton> & p) {
+                return p.get() == this->_selectedRadioButton;
+            }
+        );
+        _radioButtonGroupEventCallback(_selectedRadioButton,
+                                       _radioButtons.end() == it
+                                       ? -1
+                                       : std::distance(_radioButtons.begin(), it),
+                                       EventType::SELECT_CHANGED);
     }
     if (_ccEventCallback)
     {

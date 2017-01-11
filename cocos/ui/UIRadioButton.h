@@ -191,18 +191,11 @@ public:
     virtual int getSelectedButtonIndex() const;
     
     /**
-     * Select a radio button by index.
-     *
-     * @param index of the radio button
-     */
-    virtual void setSelectedButton(int index);
-    
-    /**
      * Select a radio button by instance.
      *
      * @param radio button instance
      */
-    virtual void setSelectedButton(RadioButton* radioButton);
+    void setSelectedButton(RadioButton* radioButton);
     
     /**
      * Select a radio button by index without event dispatch.
@@ -245,14 +238,6 @@ public:
     ssize_t getNumberOfRadioButtons() const;
     
     /**
-     * Get a radio button in this group by index.
-     *
-     * @param index of the radio button
-     * @return radio button instance. Returns nullptr if out of index.
-     */
-    RadioButton* getRadioButtonByIndex(int index) const;
-    
-    /**
      * Set a flag for allowing no-selection feature.
      * If it is allowed, no radio button can be selected.
      * If it is not allowed, one radio button must be selected all time except it is empty.
@@ -278,7 +263,7 @@ protected:
     void onChangedRadioButtonSelect(RadioButton* radioButton);
     void deselect();
     
-    Vector<RadioButton*> _radioButtons;
+    std::vector<node_ptr<RadioButton>> _radioButtons;
     ccRadioButtonGroupCallback _radioButtonGroupEventCallback;
     RadioButton* _selectedRadioButton;
     bool _allowedNoSelection;
