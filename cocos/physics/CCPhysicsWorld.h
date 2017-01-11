@@ -226,7 +226,10 @@ public:
     *
     * @return A Vector<PhysicsBody*>& object contains all bodies in this physics world. 
     */
-    const Vector<PhysicsBody*>& getAllBodies() const;
+    const std::vector<retaining_ptr<PhysicsBody>> & getAllBodies() const
+    {
+        return _bodies;
+    }
 
     /**
     * Get a body by tag. 
@@ -392,7 +395,7 @@ private:
     cpSpace* _cpSpace;
     
     bool _updateBodyTransform;
-    Vector<PhysicsBody*> _bodies;
+    std::vector<retaining_ptr<PhysicsBody>> _bodies;
     std::list<PhysicsJoint*> _joints;
     Scene* _scene;
     
@@ -402,8 +405,8 @@ private:
     
     EventDispatcher* _eventDispatcher;
 
-    Vector<PhysicsBody*> _delayAddBodies;
-    Vector<PhysicsBody*> _delayRemoveBodies;
+    std::vector<retaining_ptr<PhysicsBody>> _delayAddBodies;
+    std::vector<retaining_ptr<PhysicsBody>> _delayRemoveBodies;
     std::vector<PhysicsJoint*> _delayAddJoints;
     std::vector<PhysicsJoint*> _delayRemoveJoints;
     

@@ -521,7 +521,7 @@ void PhysicsWorld::addBody(PhysicsBody* body)
     }
     
     addBodyOrDelay(body);
-    _bodies.pushBack(body);
+    _bodies.push_back( to_retaining_ptr( body));
     body->_world = this;
 }
 
@@ -545,17 +545,29 @@ void PhysicsWorld::doAddBody(PhysicsBody* body)
 
 void PhysicsWorld::addBodyOrDelay(PhysicsBody* body)
 {
-    auto removeBodyIter = _delayRemoveBodies.find(body);
+    auto removeBodyIter = std::find_if(
+        _delayRemoveBodies.begin(), _delayRemoveBodies.end(),
+        [body](const retaining_ptr<PhysicsBody> & p) {
+            return p.get() == body;
+        }
+    );
 
     if (removeBodyIter != _delayRemoveBodies.end())
     {
         _delayRemoveBodies.erase(removeBodyIter);
         return;
     }
+
+    auto addBodyIter = std::find_if(
+        _delayAddBodies.begin(), _delayAddBodies.end(),
+        [body](const retaining_ptr<PhysicsBody> & p) {
+            return p.get() == body;
+        }
+    );
     
-    if (_delayAddBodies.find(body) == _delayAddBodies.end())
+    if (addBodyIter == _delayAddBodies.end())
     {
-        _delayAddBodies.pushBack(body);
+        _delayAddBodies.push_back( to_retaining_ptr( body));
     }
 }
 
@@ -567,18 +579,16 @@ void PhysicsWorld::updateBodies()
     }
     
     // issue #4944, contact callback will be invoked when add/remove body, _delayAddBodies maybe changed, so we need make a copy.
-    auto addCopy = _delayAddBodies;
-    _delayAddBodies.clear();
+    auto addCopy = std::move( _delayAddBodies );
     for (auto& body : addCopy)
     {
-        doAddBody(body);
+        doAddBody(body.get());
     }
     
-    auto removeCopy = _delayRemoveBodies;
-    _delayRemoveBodies.clear();
+    auto removeCopy = std::move( _delayRemoveBodies );
     for (auto& body : removeCopy)
     {
-        doRemoveBody(body);
+        doRemoveBody(body.get());
     }
 }
 
@@ -588,7 +598,7 @@ void PhysicsWorld::removeBody(int tag)
     {
         if (body->getTag() == tag)
         {
-            removeBody(body);
+            removeBody(body.get());
             return;
         }
     }
@@ -611,23 +621,46 @@ void PhysicsWorld::removeBody(PhysicsBody* body)
     body->_joints.clear();
     
     removeBodyOrDelay(body);
-    _bodies.eraseObject(body);
+    
+    auto it = std::find_if(
+        _bodies.begin(), _bodies.end(),
+        [body](const retaining_ptr<PhysicsBody> & p) {
+            return p.get() == body;
+        }
+    );
+    if (_bodies.end() != it)
+        _bodies.erase(it);
+
     body->_world = nullptr;
 }
 
 void PhysicsWorld::removeBodyOrDelay(PhysicsBody* body)
 {
-    if (_delayAddBodies.getIndex(body) != CC_INVALID_INDEX)
+    auto addBodyIter = std::find_if(
+        _delayAddBodies.begin(), _delayAddBodies.end(),
+        [body](const retaining_ptr<PhysicsBody> & p) {
+            return p.get() == body;
+        }
+    );
+
+    if (_delayAddBodies.end() != addBodyIter)
     {
-        _delayAddBodies.eraseObject(body);
+        _delayAddBodies.erase(addBodyIter);
         return;
     }
     
     if (cpSpaceIsLocked(_cpSpace))
     {
-        if (_delayRemoveBodies.getIndex(body) == CC_INVALID_INDEX)
+        auto removeBodyIter = std::find_if(
+            _delayRemoveBodies.begin(), _delayRemoveBodies.end(),
+            [body](const retaining_ptr<PhysicsBody> & p) {
+                return p.get() == body;
+            }
+        );
+
+        if (_delayRemoveBodies.end() == removeBodyIter)
         {
-            _delayRemoveBodies.pushBack(body);
+            _delayRemoveBodies.push_back( to_retaining_ptr( body));
         }
     }
     else
@@ -801,7 +834,7 @@ void PhysicsWorld::removeAllBodies()
 {
     for (auto& child : _bodies)
     {
-        removeBodyOrDelay(child);
+        removeBodyOrDelay(child.get());
         child->_world = nullptr;
     }
     
@@ -819,18 +852,13 @@ void PhysicsWorld::setDebugDrawMask(DebugDraw mask)
     _debugDrawMask = mask;
 }
 
-const Vector<PhysicsBody*>& PhysicsWorld::getAllBodies() const
-{
-    return _bodies;
-}
-
 PhysicsBody* PhysicsWorld::getBody(int tag) const
 {
     for (auto& body : _bodies)
     {
         if (body->getTag() == tag)
         {
-            return body;
+            return body.get();
         }
     }
     

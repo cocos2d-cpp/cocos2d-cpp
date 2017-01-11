@@ -99,7 +99,7 @@ void DemoPause::onEnter()
 
 
 }
-void DemoPause::pauseEmitter(float time)
+void DemoPause::pauseEmitter(float /*time*/)
 {
     if (_emitter->isPaused())
     {
@@ -941,7 +941,7 @@ void Issue870::onEnter()
     schedule(CC_SCHEDULE_SELECTOR(Issue870::updateQuads), 2.0f);
 }
 
-void Issue870::updateQuads(float dt)
+void Issue870::updateQuads(float /*dt*/)
 {
     _index = (_index + 1) % 4;
     auto rect = Rect(_index * 32, 0, 32, 32);
@@ -1149,7 +1149,7 @@ void ParticleDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event  *ev
     return onTouchesEnded(touches, event);
 }
 
-void ParticleDemo::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
+void ParticleDemo::onTouchesEnded(const std::vector<Touch*>& touches, Event  *)
 {
     auto touch = touches[0];
 
@@ -1167,7 +1167,7 @@ void ParticleDemo::onTouchesEnded(const std::vector<Touch*>& touches, Event  *ev
     }
 }
 
-void ParticleDemo::update(float dt)
+void ParticleDemo::update(float /*dt*/)
 {
     if (_emitter)
     {
@@ -1178,7 +1178,7 @@ void ParticleDemo::update(float dt)
     }
 }
 
-void ParticleDemo::toggleCallback(Ref* sender)
+void ParticleDemo::toggleCallback(Ref*)
 {
     if (_emitter != nullptr)
     {
@@ -1227,7 +1227,7 @@ void ParticleBatchHybrid::onEnter()
      _parent2 = node;
 }
 
-void ParticleBatchHybrid::switchRender(float dt)
+void ParticleBatchHybrid::switchRender(float /*dt*/)
 {
      bool usingBatch = ( _emitter->getBatchNode() != nullptr );
      _emitter->removeFromParentAndCleanup(false);
@@ -1348,7 +1348,7 @@ std::string ParticleReorder::subtitle() const
     return "Reordering particles with and without batches batches";
 }
 
-void ParticleReorder::reorderParticles(float dt)
+void ParticleReorder::reorderParticles(float /*dt*/)
 {
     for( int i=0; i<2;i++) {
         auto parent = getChildByTag(1000+i);
@@ -1526,7 +1526,7 @@ std::string MultipleParticleSystems::subtitle() const
     return "v1.1 test: FPS should be lower than next test";
 }
 
-void MultipleParticleSystems::update(float dt)
+void MultipleParticleSystems::update(float /*dt*/)
 {
     auto atlas = (LabelAtlas*) getChildByTag(kTagParticleCount);
 
@@ -1575,7 +1575,7 @@ void MultipleParticleSystemsBatched::onEnter()
     _emitter = nullptr;
 }
 
-void MultipleParticleSystemsBatched::update(float dt)
+void MultipleParticleSystemsBatched::update(float /*dt*/)
 {
     auto atlas = (LabelAtlas*) getChildByTag(kTagParticleCount);
 
@@ -1640,7 +1640,7 @@ void AddAndDeleteParticleSystems::onEnter()
 
 }
 
-void AddAndDeleteParticleSystems::removeSystem(float dt)
+void AddAndDeleteParticleSystems::removeSystem(float /*dt*/)
 {
     ssize_t nChildrenCount = _batchNode->getChildren().size();
     if (nChildrenCount > 0) 
@@ -1663,7 +1663,7 @@ void AddAndDeleteParticleSystems::removeSystem(float dt)
     }
 }
 
-void AddAndDeleteParticleSystems::update(float dt)
+void AddAndDeleteParticleSystems::update(float /*dt*/)
 {
     auto atlas = (LabelAtlas*) getChildByTag(kTagParticleCount);
 
@@ -1791,14 +1791,14 @@ void ReorderParticleSystems::onEnter()
 
 }
 
-void ReorderParticleSystems::reorderSystem(float time)
+void ReorderParticleSystems::reorderSystem(float /*time*/)
 {
     auto system = static_cast<ParticleSystem*>(_batchNode->getChildren().at(1).get());
     _batchNode->reorderChild(system, system->getLocalZOrder() - 1);     
 }
 
 
-void ReorderParticleSystems::update(float dt)
+void ReorderParticleSystems::update(float /*dt*/)
 {
     auto atlas = static_cast<LabelAtlas*>(getChildByTag(kTagParticleCount));
 
@@ -1839,7 +1839,7 @@ std::string PremultipliedAlphaTest::subtitle() const
     return "no black halo, particles should fade out\n animation should be normal";
 }
 
-void PremultipliedAlphaTest::readdPaticle(float delta)
+void PremultipliedAlphaTest::readdPaticle(float /*delta*/)
 {
     if (_hasEmitter)
     {
@@ -1969,7 +1969,7 @@ std::string ParticleVisibleTest::subtitle() const
     return "Visible enable/disable";
 }
 
-void ParticleVisibleTest::callback(float delta)
+void ParticleVisibleTest::callback(float /*delta*/)
 {
     _emitter->setVisible(!_emitter->isVisible());
 }

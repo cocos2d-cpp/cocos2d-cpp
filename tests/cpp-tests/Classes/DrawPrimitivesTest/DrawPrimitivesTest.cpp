@@ -32,12 +32,8 @@ void SimpleDrawNodeTest::draw(Renderer *renderer, const Mat4 &transform, uint32_
     renderer->addCommand(&_customCommand);
 }
 
-void SimpleDrawNodeTest::onDraw(const Mat4 &transform, uint32_t flags)
+void SimpleDrawNodeTest::onDraw(const Mat4 & /*transform*/, uint32_t /*flags*/)
 {
-    Director* director = Director::getInstance();
-
-    auto s = director->getWinSize();
-    
     auto draw = DrawNode::create();
 
     addChild(draw, 10);

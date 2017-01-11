@@ -195,8 +195,6 @@ public:
 
     /**
      * Get the body shapes.
-     * 
-     * @return A Vector<PhysicsShape*> object contains PhysicsShape pointer.
      */
     const std::vector<retaining_ptr<PhysicsShape>>& getShapes() const
     {
