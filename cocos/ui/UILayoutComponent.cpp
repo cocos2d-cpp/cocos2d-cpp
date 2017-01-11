@@ -648,10 +648,10 @@ namespace ui {
             PageView* page = static_cast<PageView*>(_owner);
             page->forceDoLayout();
 
-            Vector<Widget*> _widgetVector = page->getItems();
+            auto & _widgetVector = page->getItems();
             for(auto& item : _widgetVector)
             {
-                ui::Helper::doLayout(item);
+                ui::Helper::doLayout(item.get());
             }
         }
         else

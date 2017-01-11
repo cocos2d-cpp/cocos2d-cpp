@@ -125,9 +125,8 @@ public:
     
     /**
      * Insert a default item(create by cloning model) into listview at a give index.
-     *@param index  An index in ssize_t.
      */
-    void insertDefaultItem(ssize_t index);
+    void insertDefaultItem(size_t index);
     
     /**
      * Insert a  custom item into the end of ListView.
@@ -138,11 +137,8 @@ public:
     
     /**
      * @brief Insert a custom widget into ListView at a given index.
-     *
-     * @param item A widget pointer to be inserted.
-     * @param index A given index in ssize_t.
      */
-    void insertCustomItem(Widget* item, ssize_t index);
+    void insertCustomItem(Widget* item, size_t index);
     
     /**
      *  Removes the last item of ListView.
@@ -151,10 +147,8 @@ public:
     
     /**
      * Remove an item at given index.
-     *
-     * @param index A given index in ssize_t.
      */
-    void removeItem(ssize_t index);
+    void removeItem(size_t index);
 
     /**
      * @brief Remove all items in current ListView.
@@ -165,17 +159,14 @@ public:
     
     /**
      * Return an item at a given index.
-     *
-     * @param index A given index in ssize_t.
-     * @return A widget instance.
      */
-    Widget* getItem(ssize_t index)const;
+    Widget* getItem(size_t index)const;
     
     /**
      * Return all items in a ListView.
      *@returns A vector of widget pointers.
      */
-    Vector<Widget*>& getItems();
+    std::vector<node_ptr<Widget>>& getItems();
     
     /**
      * Return the index of specified widget.
@@ -323,7 +314,7 @@ public:
      * @param positionRatioInView Specifies the position with ratio in list view's content size.
      * @param itemAnchorPoint Specifies an anchor point of each item for position to calculate distance.
      */
-    void jumpToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint);
+    void jumpToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint);
     
     /**
      * @brief Scroll to specific item
@@ -331,8 +322,8 @@ public:
      * @param itemAnchorPoint Specifies an anchor point of each item for position to calculate distance.
      * @param timeInSec Scroll time
      */
-    void scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint);
-    void scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec);
+    void scrollToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint);
+    void scrollToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec);
     
     /**
      * @brief Query current selected widget's index.
@@ -376,8 +367,8 @@ protected:
 
     virtual void remedyLayoutParameter(Widget* item);
     void updateInnerContainerSize();
-    void remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, ssize_t itemIndex);
-    void remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter,ssize_t itemIndex);
+    void remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, size_t itemIndex);
+    void remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter,size_t itemIndex);
     
     virtual void onSizeChanged() override;
     virtual Widget* createCloneInstance() override;
@@ -396,7 +387,7 @@ protected:
 protected:
     Widget* _model;
     
-    Vector<Widget*> _items;
+    std::vector<node_ptr<Widget>> _items;
     
     Gravity _gravity;
     

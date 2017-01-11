@@ -25,6 +25,8 @@ THE SOFTWARE.
 #include "ui/UIListView.h"
 #include "ui/UIHelper.h"
 
+#include <algorithm>
+
 namespace cocos2d {
 
 static const float DEFAULT_TIME_IN_SEC_FOR_SCROLL_TO_ITEM = 1.0f;
@@ -139,7 +141,7 @@ void ListView::updateInnerContainerSize()
     }
 }
     
-void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, ssize_t itemIndex)
+void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParameter, size_t itemIndex)
 {
     CCASSERT(nullptr != layoutParameter, "Layout parameter can't be nullptr!");
     
@@ -168,7 +170,7 @@ void ListView::remedyVerticalLayoutParameter(LinearLayoutParameter* layoutParame
     }
 }
     
-void ListView::remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter, ssize_t itemIndex)
+void ListView::remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter, size_t itemIndex)
 {
     CCASSERT(nullptr != layoutParameter, "Layout parameter can't be nullptr!");
     
@@ -242,7 +244,7 @@ void ListView::pushBackDefaultItem()
     requestDoLayout();
 }
 
-void ListView::insertDefaultItem(ssize_t index)
+void ListView::insertDefaultItem(size_t index)
 {
     if (nullptr == _model)
     {
@@ -266,7 +268,7 @@ void ListView::addChild(cocos2d::Node *child, int zOrder, int tag)
     Widget* widget = dynamic_cast<Widget*>(child);
     if (nullptr != widget)
     {
-        _items.pushBack(widget);
+        _items.push_back( to_node_ptr( widget));
         onItemListChanged();
     }
 }
@@ -288,7 +290,7 @@ void ListView::addChild(Node* child, int zOrder, const std::string &name)
     Widget* widget = dynamic_cast<Widget*>(child);
     if (nullptr != widget)
     {
-        _items.pushBack(widget);
+        _items.push_back( to_node_ptr( widget));
         onItemListChanged();
     }
 }
@@ -310,7 +312,16 @@ void ListView::removeChild(cocos2d::Node *child, bool cleanup)
                 _curSelectedIndex = -1;
             }
         }
-        _items.eraseObject(widget);
+
+        auto it = std::find_if(
+            _items.begin(), _items.end(),
+            [widget](const node_ptr<Widget> & p) {
+                return p.get() == widget;
+            }
+        );
+        if (_items.end() != it)
+            _items.erase(it);
+
         onItemListChanged();
     }
    
@@ -330,16 +341,17 @@ void ListView::removeAllChildrenWithCleanup(bool cleanup)
     onItemListChanged();
 }
 
-void ListView::insertCustomItem(Widget* item, ssize_t index)
+void ListView::insertCustomItem(Widget* item, size_t index)
 {
     if (-1 != _curSelectedIndex)
     {
-        if (_curSelectedIndex >= index)
+        if (_curSelectedIndex >= 0
+            && static_cast<size_t>(_curSelectedIndex) >= index)
         {
             _curSelectedIndex += 1;
         }
     }
-    _items.insert(index, item);
+    _items.insert(_items.begin() + index, to_node_ptr(item));
     onItemListChanged();
 
     ScrollView::addChild(item);
@@ -348,7 +360,7 @@ void ListView::insertCustomItem(Widget* item, ssize_t index)
     requestDoLayout();
 }
 
-void ListView::removeItem(ssize_t index)
+void ListView::removeItem(size_t index)
 {
     Widget* item = getItem(index);
     if (nullptr == item)
@@ -361,7 +373,8 @@ void ListView::removeItem(ssize_t index)
 
 void ListView::removeLastItem()
 {
-    removeItem(_items.size() -1);
+    if (!_items.empty())
+        removeItem(_items.size() - 1);
 }
     
 void ListView::removeAllItems()
@@ -369,27 +382,33 @@ void ListView::removeAllItems()
     removeAllChildren();
 }
 
-Widget* ListView::getItem(ssize_t index) const
+Widget* ListView::getItem(size_t index) const
 {
-    if (index < 0 || index >= _items.size())
+    if (index >= _items.size())
     {
         return nullptr;
     }
-    return _items.at(index);
+    return _items.at(index).get();
 }
 
-Vector<Widget*>& ListView::getItems()
+std::vector<node_ptr<Widget>>& ListView::getItems()
 {
     return _items;
 }
 
 ssize_t ListView::getIndex(Widget *item) const
 {
-    if (nullptr == item)
-    {
+    auto it = std::find_if(
+        _items.begin(), _items.end(),
+        [item](const node_ptr<Widget> & p) {
+            return p.get() == item;
+        }
+    );
+
+    if (_items.end() == it)
         return -1;
-    }
-    return _items.getIndex(item);
+
+    return std::distance(_items.begin(), it);
 }
 
 void ListView::setGravity(Gravity gravity)
@@ -485,7 +504,7 @@ void ListView::doLayout()
     ssize_t length = _items.size();
     for (int i = 0; i < length; ++i)
     {
-        Widget* item = _items.at(i);
+        Widget* item = _items.at(i).get();
         item->setLocalZOrder(i);
         remedyLayoutParameter(item);
     }
@@ -564,28 +583,28 @@ static Vec2 calculateItemPositionWithAnchor(Widget* item, const Vec2& itemAnchor
     return origin + Vec2(size.width * itemAnchorPoint.x, size.height * itemAnchorPoint.y);
 }
     
-static Widget* findClosestItem(const Vec2& targetPosition, const Vector<Widget*>& items, const Vec2& itemAnchorPoint, ssize_t firstIndex, float distanceFromFirst, ssize_t lastIndex, float distanceFromLast)
+static Widget* findClosestItem(const Vec2& targetPosition, const std::vector<node_ptr<Widget>>& items, const Vec2& itemAnchorPoint, size_t firstIndex, float distanceFromFirst, size_t lastIndex, float distanceFromLast)
 {
-    CCASSERT(firstIndex >= 0 && lastIndex < items.size() && firstIndex <= lastIndex, "");
+    CCASSERT(lastIndex < items.size() && firstIndex <= lastIndex, "");
     if (firstIndex == lastIndex)
     {
-        return items.at(firstIndex);
+        return items.at(firstIndex).get();
     }
     if (lastIndex - firstIndex == 1)
     {
         if (distanceFromFirst <= distanceFromLast)
         {
-            return items.at(firstIndex);
+            return items.at(firstIndex).get();
         }
         else
         {
-            return items.at(lastIndex);
+            return items.at(lastIndex).get();
         }
     }
     
     // Binary search
     ssize_t midIndex = (firstIndex + lastIndex) / 2;
-    Vec2 itemPosition = calculateItemPositionWithAnchor(items.at(midIndex), itemAnchorPoint);
+    Vec2 itemPosition = calculateItemPositionWithAnchor(items.at(midIndex).get(), itemAnchorPoint);
     float distanceFromMid = (targetPosition - itemPosition).length();
     if (distanceFromFirst <= distanceFromLast)
     {
@@ -608,11 +627,11 @@ Widget* ListView::getClosestItemToPosition(const Vec2& targetPosition, const Vec
     
     // Find the closest item through binary search
     ssize_t firstIndex = 0;
-    Vec2 firstPosition = calculateItemPositionWithAnchor(_items.at(firstIndex), itemAnchorPoint);
+    Vec2 firstPosition = calculateItemPositionWithAnchor(_items.at(firstIndex).get(), itemAnchorPoint);
     float distanceFromFirst = (targetPosition - firstPosition).length();
     
     ssize_t lastIndex = _items.size() - 1;
-    Vec2 lastPosition = calculateItemPositionWithAnchor(_items.at(lastIndex), itemAnchorPoint);
+    Vec2 lastPosition = calculateItemPositionWithAnchor(_items.at(lastIndex).get(), itemAnchorPoint);
     float distanceFromLast = (targetPosition - lastPosition).length();
     
     return findClosestItem(targetPosition, _items, itemAnchorPoint, firstIndex, distanceFromFirst, lastIndex, distanceFromLast);
@@ -746,7 +765,7 @@ Vec2 ListView::calculateItemDestination(const Vec2& positionRatioInView, Widget*
     return -(itemPosition - positionInView);
 }
 
-void ListView::jumpToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
+void ListView::jumpToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
 {
     Widget* item = getItem(itemIndex);
     if (item == nullptr)
@@ -765,12 +784,12 @@ void ListView::jumpToItem(ssize_t itemIndex, const Vec2& positionRatioInView, co
     jumpToDestination(destination);
 }
 
-void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
+void ListView::scrollToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint)
 {
     scrollToItem(itemIndex, positionRatioInView, itemAnchorPoint, _scrollTime);
 }
 
-void ListView::scrollToItem(ssize_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec)
+void ListView::scrollToItem(size_t itemIndex, const Vec2& positionRatioInView, const Vec2& itemAnchorPoint, float timeInSec)
 {
     Widget* item = getItem(itemIndex);
     if (item == nullptr)
