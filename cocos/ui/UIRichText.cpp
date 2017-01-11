@@ -281,11 +281,11 @@ public:
             hasColor = true;
         }
         Attributes()
-        : bold(false)
+        : fontSize(-1)
+        , hasColor(false)
+        , bold(false)
         , italics(false)
         , line(StyleLine::NONE)
-        , hasColor(false)
-        , fontSize(-1)
         , effect(StyleEffect::NONE)
         {
         }
@@ -354,8 +354,8 @@ private:
 MyXMLVisitor::TagTables MyXMLVisitor::_tagTables;
 
 MyXMLVisitor::MyXMLVisitor(RichText* richText)
-: _richText(richText)
-, _fontElements(20)
+: _fontElements(20)
+, _richText(richText)
 {
     MyXMLVisitor::setTagDescription("font", true, [](const ValueMap& tagAttrValueMap) {
         // supported attributes:
@@ -885,11 +885,6 @@ RichText::RichText()
     _defaults[KEY_ANCHOR_TEXT_STYLE] = VALUE_TEXT_STYLE_NONE;
 }
     
-RichText::~RichText()
-{
-    _richElements.clear();
-}
-    
 RichText* RichText::create()
 {
     RichText* widget = new (std::nothrow) RichText();
@@ -959,25 +954,35 @@ void RichText::initRenderer()
 
 void RichText::insertElement(RichElement *element, int index)
 {
-    _richElements.insert(index, element);
+    _richElements.insert(_richElements.begin() + index,
+                         to_retaining_ptr(element));
     _formatTextDirty = true;
 }
     
 void RichText::pushBackElement(RichElement *element)
 {
-    _richElements.pushBack(element);
+    _richElements.push_back( to_retaining_ptr( element));
     _formatTextDirty = true;
 }
     
 void RichText::removeElement(int index)
 {
-    _richElements.erase(index);
+    _richElements.erase(_richElements.begin() + index);
     _formatTextDirty = true;
 }
     
 void RichText::removeElement(RichElement *element)
 {
-    _richElements.eraseObject(element);
+    auto it = std::find_if(
+        _richElements.begin(), _richElements.end(),
+        [element](const retaining_ptr<RichElement> & p) {
+            return p.get() == element;
+        }
+    );
+
+    if (it != _richElements.end())
+        _richElements.erase(it);
+
     _formatTextDirty = true;
 }
 
@@ -1331,7 +1336,7 @@ void RichText::formatText()
             addNewLine();
             for (ssize_t i=0, size = _richElements.size(); i<size; ++i)
             {
-                RichElement* element = _richElements.at(i);
+                RichElement* element = _richElements.at(i).get();
                 Node* elementRenderer = nullptr;
                 switch (element->_type)
                 {
@@ -1419,7 +1424,7 @@ void RichText::formatText()
             addNewLine();
             for (ssize_t i=0, size = _richElements.size(); i<size; ++i)
             {
-                RichElement* element = static_cast<RichElement*>(_richElements.at(i));
+                RichElement* element = static_cast<RichElement*>(_richElements.at(i).get());
                 switch (element->_type)
                 {
                     case RichElement::Type::TEXT:

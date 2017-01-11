@@ -400,19 +400,7 @@ public:
     static const std::string KEY_ANCHOR_TEXT_SHADOW_BLUR_RADIUS;    /*!< key of shadow blur radius of anchor tag */
     static const std::string KEY_ANCHOR_TEXT_GLOW_COLOR;            /*!< key of glow color of anchor tag */
     
-    /**
-     * @brief Default constructor.
-     * @js ctor
-     * @lua new
-     */
     RichText();
-    
-    /**
-     * @brief Default destructor.
-     * @js NA
-     * @lua NA
-     */
-    virtual ~RichText();
     
     /**
      * @brief Create a empty RichText.
@@ -561,7 +549,7 @@ protected:
     int findSplitPositionForChar(cocos2d::Label* label, const std::string& text);
 
     bool _formatTextDirty;
-    Vector<RichElement*> _richElements;
+    std::vector<retaining_ptr<RichElement>> _richElements;
     std::vector<Vector<Node*>*> _elementRenders;
     float _leftSpaceWidth;
 

@@ -109,7 +109,7 @@ namespace {
             return false;
         }
         
-        bool onTouchBegan(Touch  *touch, Event  *event)
+        bool onTouchBegan(Touch  *touch, Event *)
         {
             auto hits = touchHits(touch);
             if (hits){
@@ -118,7 +118,7 @@ namespace {
             return hits;
         }
         
-        void onTouchEnded(Touch  *touch, Event  *event)
+        void onTouchEnded(Touch  *touch, Event *)
         {
             if(_enabled) {
                 auto hits = touchHits(touch);
@@ -130,7 +130,7 @@ namespace {
             scaleButtonTo(1);
         }
         
-        void onTouchCancelled(Touch  *touch, Event  *event)
+        void onTouchCancelled(Touch *, Event *)
         {
             scaleButtonTo(1);
         }
@@ -231,12 +231,12 @@ bool AudioControlTest::init()
                 _isStopped = false;
                 
                 button->setEnabled(false);
-                AudioEngine::setFinishCallback(_audioID, [&](int id, const std::string& filePath){
+                AudioEngine::setFinishCallback(_audioID, [&](int /*id*/, const std::string & /*filePath*/){
                     log("_audioID(%d), _isStopped:(%d), played over!!!", _audioID, _isStopped);
                     
                     _playOverLabel->setVisible(true);
                     
-                    scheduleOnce([&](float dt){
+                    scheduleOnce([&](float /*dt*/){
                         _playOverLabel->setVisible(false);
                     }, 2.0f, "hide_play_over_label");
                     
@@ -254,7 +254,7 @@ bool AudioControlTest::init()
     playItem->setPosition(layerSize.width * 0.3f,layerSize.height * 0.8f);
     addChild(playItem);
     
-    auto stopItem = TextButton::create("stop", [&](TextButton* button){
+    auto stopItem = TextButton::create("stop", [&](TextButton* /*button*/){
         if (_audioID != AudioEngine::INVALID_AUDIO_ID ) {
             _isStopped = true;
             AudioEngine::stop(_audioID);
@@ -266,7 +266,7 @@ bool AudioControlTest::init()
     stopItem->setPosition(layerSize.width * 0.7f,layerSize.height * 0.8f);
     addChild(stopItem);
     
-    auto pauseItem = TextButton::create("pause", [&](TextButton* button){
+    auto pauseItem = TextButton::create("pause", [&](TextButton* /*button*/){
         if (_audioID != AudioEngine::INVALID_AUDIO_ID ) {
             AudioEngine::pause(_audioID);
         }
@@ -274,7 +274,7 @@ bool AudioControlTest::init()
     pauseItem->setPosition(layerSize.width * 0.3f,layerSize.height * 0.7f);
     addChild(pauseItem);
     
-    auto resumeItem = TextButton::create("resume", [&](TextButton* button){
+    auto resumeItem = TextButton::create("resume", [&](TextButton* /*button*/){
         if (_audioID != AudioEngine::INVALID_AUDIO_ID ) {
             AudioEngine::resume(_audioID);
         }
@@ -300,7 +300,7 @@ bool AudioControlTest::init()
     
     auto volumeSlider = SliderEx::create();
     volumeSlider->setPercent(100);
-    volumeSlider->addEventListener([&](Ref* sender, Slider::EventType event){
+    volumeSlider->addEventListener([&](Ref* sender, Slider::EventType){
         SliderEx *slider = dynamic_cast<SliderEx *>(sender);
         _volume = slider->getRatio();
         if (_audioID != AudioEngine::INVALID_AUDIO_ID ) {
@@ -351,7 +351,7 @@ bool AudioControlTest::init()
     return ret;
 }
 
-void AudioControlTest::update(float dt)
+void AudioControlTest::update(float /*dt*/)
 {
     if (_audioID != AudioEngine::INVALID_AUDIO_ID ) {
         if(_duration == AudioEngine::TIME_UNKNOWN){
@@ -386,7 +386,7 @@ bool AudioLoadTest::init()
         stateLabel->setPosition(layerSize.width / 2, layerSize.height * 0.7f);
         addChild(stateLabel);
 
-        auto preloadItem = TextButton::create("preload", [&, stateLabel](TextButton* button){
+        auto preloadItem = TextButton::create("preload", [&, stateLabel](TextButton* /*button*/){
             stateLabel->setString("status:loading...");
             auto isDestroyed = _isDestroyed;
             AudioEngine::preload("audio/SoundEffectsFX009/FX082.mp3", [isDestroyed, stateLabel](bool isSuccess){
@@ -409,7 +409,7 @@ bool AudioLoadTest::init()
         preloadItem->setPosition(layerSize.width * 0.35f, layerSize.height * 0.5f);
         addChild(preloadItem);
 
-        auto uncacheItem = TextButton::create("uncache", [&, stateLabel](TextButton* button){
+        auto uncacheItem = TextButton::create("uncache", [&, stateLabel](TextButton* /*button*/){
             stateLabel->setString("status:uncache");
             AudioEngine::uncache("audio/SoundEffectsFX009/FX082.mp3");
         });
@@ -451,7 +451,7 @@ bool PlaySimultaneouslyTest::init()
             if(audioId != AudioEngine::INVALID_AUDIO_ID){
                 _playingcount += 1;
                 
-                AudioEngine::setFinishCallback(audioId, [&](int id, const std::string& filePath){
+                AudioEngine::setFinishCallback(audioId, [&](int /*id*/, const std::string & /*filePath*/){
                     _playingcount -= 1;
                     if(_playingcount <= 0){
                         ((TextButton*)_playItem)->setEnabled(true);
@@ -515,7 +515,7 @@ bool AudioProfileTest::init()
                 sprintf(show,"audio count:%d",_audioCount);
                 _showLabel->setString(show);
                 
-                AudioEngine::setFinishCallback(id, [&](int id, const std::string& filePath){
+                AudioEngine::setFinishCallback(id, [&](int /*id*/, const std::string & /*filePath*/){
                     _audioCount -= 1;
                     char show[30];
                     sprintf(show,"audio count:%d",_audioCount);
@@ -584,7 +584,7 @@ bool InvalidAudioFileTest::init()
 {
     auto ret = AudioEngineTestDemo::init();
     
-    auto playItem = TextButton::create("play unsupported media type", [&](TextButton* button){
+    auto playItem = TextButton::create("play unsupported media type", [&](TextButton* /*button*/){
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC
         AudioEngine::play2d("background.ogg");
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
@@ -594,9 +594,12 @@ bool InvalidAudioFileTest::init()
     playItem->setPositionNormalized(Vec2(0.5f, 0.6f));
     this->addChild(playItem);
     
-    auto playItem2 = TextButton::create("play not-existent file", [&](TextButton* button){
-        AudioEngine::play2d("not-existent file.mp3");
-    });
+    auto playItem2 = TextButton::create(
+        "play not-existent file",
+        [&](TextButton* /*button*/){
+            AudioEngine::play2d("not-existent file.mp3");
+        }
+    );
     playItem2->setPositionNormalized(Vec2(0.5f, 0.4f));
     this->addChild(playItem2);
     
@@ -622,7 +625,7 @@ bool LargeAudioFileTest::init()
 {
     auto ret = AudioEngineTestDemo::init();
     
-    auto playItem = TextButton::create("play large audio file", [&](TextButton* button){
+    auto playItem = TextButton::create("play large audio file", [&](TextButton* /*button*/){
         AudioEngine::play2d("audio/LuckyDay.mp3");
     });
     playItem->setPositionNormalized(Vec2::ANCHOR_MIDDLE);
@@ -653,7 +656,7 @@ bool AudioIssue11143Test::init()
             auto audioId = AudioEngine::play2d("audio/SoundEffectsFX009/FX082.mp3", true);
             char key[100] = {0};
             sprintf(key, "play another sound %d", audioId);
-            button->scheduleOnce([audioId](float dt){
+            button->scheduleOnce([audioId](float /*dt*/){
                 AudioEngine::stop(audioId);
                 AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
             }, 0.3f, key);
@@ -734,7 +737,7 @@ bool AudioPerformanceTest::init()
             static_cast<TextButton*>(getChildByName("DisplayButton"))->setEnabled(true);
             
             unschedule("test");
-            schedule([audioFiles](float dt){
+            schedule([audioFiles](float /*dt*/){
                 int index = cocos2d::random(0, (int)(audioFiles.size()-1));
                 CC_PROFILER_START("play2d");
                 AudioEngine::play2d(audioFiles[index]);
@@ -779,7 +782,7 @@ bool AudioSwitchStateTest::init()
 {
     if (AudioEngineTestDemo::init())
     {
-        schedule([](float dt){
+        schedule([](float /*dt*/){
             
             AudioEngine::uncacheAll();
             AudioEngine::preload("audio/SoundEffectsFX009/FX081.mp3");
