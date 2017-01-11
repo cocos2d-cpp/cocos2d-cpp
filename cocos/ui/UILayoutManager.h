@@ -25,7 +25,7 @@
 #ifndef __cocos2d_libs__CCLayoutManager__
 #define __cocos2d_libs__CCLayoutManager__
 
-#include "base/CCRef.h"
+#include "2d/CCNode.h"
 #include "base/CCVector.h"
 #include "ui/GUIExport.h"
 
@@ -113,13 +113,13 @@ private:
     static RelativeLayoutManager* create();
     virtual void doLayout(LayoutProtocol *layout) override;
     
-    Vector<Widget*> getAllWidgets(LayoutProtocol *layout);
+    std::vector<node_ptr<Widget>> getAllWidgets(LayoutProtocol *layout);
     Widget* getRelativeWidget(Widget* widget);
     bool calculateFinalPositionWithRelativeWidget(LayoutProtocol *layout);
     void calculateFinalPositionWithRelativeAlign();
     
     ssize_t _unlayoutChildCount;
-    Vector<Widget*> _widgetChildren;
+    std::vector<node_ptr<Widget>> _widgetChildren;
     Widget* _widget;
     float _finalPositionX;
     float _finalPositionY;

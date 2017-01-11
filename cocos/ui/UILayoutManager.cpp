@@ -161,25 +161,26 @@ RelativeLayoutManager* RelativeLayoutManager::create()
 
 
 
-Vector<Widget*> RelativeLayoutManager::getAllWidgets(cocos2d::ui::LayoutProtocol *layout)
+std::vector<node_ptr<Widget>> RelativeLayoutManager::getAllWidgets(cocos2d::ui::LayoutProtocol *layout)
 {
-    Vector<Widget*> widgetChildren;
+    std::vector<node_ptr<Widget>> widgetChildren;
+
     auto & container = layout->getLayoutElements();
 
-    for (auto& subWidget : container)
+    for (auto & subWidget : container)
     {
         Widget* child = dynamic_cast<Widget*>(subWidget.get());
+
         if (child)
         {
             RelativeLayoutParameter* layoutParameter = dynamic_cast<RelativeLayoutParameter*>(child->getLayoutParameter());
             layoutParameter->_put = false;
             _unlayoutChildCount++;
-            widgetChildren.pushBack(child);
+            widgetChildren.push_back( to_node_ptr( child));
         }
     }
 
     return widgetChildren;
-
 }
     
 Widget* RelativeLayoutManager::getRelativeWidget(Widget* widget)
@@ -190,14 +191,14 @@ Widget* RelativeLayoutManager::getRelativeWidget(Widget* widget)
     
     if (!relativeName.empty())
     {
-        for (auto& sWidget : _widgetChildren)
+        for (auto & sWidget : _widgetChildren)
         {
             if (sWidget)
             {
                 RelativeLayoutParameter* rlayoutParameter = dynamic_cast<RelativeLayoutParameter*>(sWidget->getLayoutParameter());
                 if (rlayoutParameter &&  rlayoutParameter->getRelativeName() == relativeName)
                 {
-                    relativeWidget = sWidget;
+                    relativeWidget = sWidget.get();
                     _relativeWidgetLP = rlayoutParameter;
                     break;
                 }
@@ -529,13 +530,13 @@ void RelativeLayoutManager::calculateFinalPositionWithRelativeAlign()
 void RelativeLayoutManager::doLayout(LayoutProtocol *layout)
 {
     
-    _widgetChildren = this->getAllWidgets(layout);
+    _widgetChildren = std::move( this->getAllWidgets(layout) );
     
     while (_unlayoutChildCount > 0)
     {
         for (auto& subWidget : _widgetChildren)
         {
-            _widget = static_cast<Widget*>(subWidget);
+            _widget = static_cast<Widget*>(subWidget.get());
             
             RelativeLayoutParameter* layoutParameter = dynamic_cast<RelativeLayoutParameter*>(_widget->getLayoutParameter());
             
@@ -563,6 +564,7 @@ void RelativeLayoutManager::doLayout(LayoutProtocol *layout)
         _unlayoutChildCount--;
 
     }
+
     _widgetChildren.clear();
 }
 
