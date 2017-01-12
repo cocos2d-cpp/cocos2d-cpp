@@ -45,7 +45,7 @@ public:
 
 protected:
     ssize_t _vectorIndex;
-    cocos2d::Vector<Effect*> _effects;
+    std::vector<cocos2d::retaining_ptr<Effect>> _effects;
     EffectSprite *_sprite;
 };
 

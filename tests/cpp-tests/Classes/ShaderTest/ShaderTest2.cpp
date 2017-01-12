@@ -462,21 +462,23 @@ bool EffectSpriteTest::init()
 
         auto s = Director::getInstance()->getWinSize();
 
-        auto itemPrev = MenuItemImage::create("Images/b1.png", "Images/b2.png",
-                                          [&](Ref * /*sender*/) {
-                                              _vectorIndex--;
-                                              if(_vectorIndex<0)
-                                                  _vectorIndex = _effects.size()-1;
-                                              _sprite->setEffect(_effects.at(_vectorIndex));
-                                          });
+        auto itemPrev = MenuItemImage::create(
+            "Images/b1.png", "Images/b2.png",
+            [&](Ref * /*sender*/) {
+                _vectorIndex--;
+                if (_vectorIndex<0)
+                    _vectorIndex = static_cast<ssize_t>(_effects.size()) - 1;
+                _sprite->setEffect(_effects.at(_vectorIndex).get());
+            });
 
-        auto itemNext = MenuItemImage::create("Images/f1.png", "Images/f2.png",
-                                          [&](Ref * /*sender*/) {
-                                              _vectorIndex++;
-                                              if(_vectorIndex>=_effects.size())
-                                                  _vectorIndex = 0;
-                                              _sprite->setEffect(_effects.at(_vectorIndex));
-                                          });
+        auto itemNext = MenuItemImage::create(
+            "Images/f1.png", "Images/f2.png",
+            [&](Ref * /*sender*/) {
+                _vectorIndex++;
+                if (_vectorIndex >= static_cast<ssize_t>(_effects.size()))
+                    _vectorIndex = 0;
+                _sprite->setEffect(_effects.at(_vectorIndex).get());
+            });
 
         auto menu = Menu::create(itemPrev, itemNext, nullptr);
         menu->alignItemsHorizontally();
@@ -501,22 +503,19 @@ bool EffectSpriteTest::init()
         _sprite->runAction(repeat);
 
         // set the Effects
-        _effects.pushBack(EffectBlur::create());
-        _effects.pushBack(EffectOutline::create());
-        _effects.pushBack(EffectNoise::create());
-        _effects.pushBack(EffectEdgeDetect::create());
-        _effects.pushBack(EffectGreyScale::create());
-        _effects.pushBack(EffectSepia::create());
-        _effects.pushBack(EffectBloom::create());
-        _effects.pushBack(EffectCelShading::create());
-        _effects.pushBack(EffectLensFlare::create());
+        _effects.push_back( to_retaining_ptr<Effect>( EffectBlur::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectOutline::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectNoise::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectEdgeDetect::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectGreyScale::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectSepia::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectBloom::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectCelShading::create()));
+        _effects.push_back( to_retaining_ptr<Effect>( EffectLensFlare::create()));
 
         _vectorIndex = 0;
-        _sprite->setEffect( _effects.at(_vectorIndex) );
+        _sprite->setEffect( _effects.at(_vectorIndex).get() );
 
-//        _sprite->addEffect( _effects.at(8), -10 );
-//        _sprite->addEffect( _effects.at(1), 1 );
-        
         return true;
     }
     return false;
