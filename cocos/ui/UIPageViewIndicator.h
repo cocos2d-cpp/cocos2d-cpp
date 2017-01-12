@@ -50,8 +50,8 @@ public:
     virtual ~PageViewIndicator();
 
     void setDirection(PageView::Direction direction);
-    void reset(ssize_t numberOfTotalPages);
-    void indicate(ssize_t index);
+    void reset(size_t numberOfTotalPages);
+    void indicate(size_t index);
     void clear();
     void setSpaceBetweenIndexNodes(float spaceBetweenIndexNodes);
     float getSpaceBetweenIndexNodes() const { return _spaceBetweenIndexNodes; }
@@ -77,7 +77,7 @@ protected:
     void rearrange();
 
     PageView::Direction _direction;
-    Vector<Sprite*> _indexNodes;
+    std::vector<node_ptr<Sprite>> _indexNodes;
     Sprite* _currentIndexNode;
     float _spaceBetweenIndexNodes;
     float _indexNodesScale;

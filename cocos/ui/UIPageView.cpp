@@ -249,7 +249,7 @@ void PageView::handleReleaseLogic(Touch *touch)
             {
                 --_currentPageIndex;
             }
-            _currentPageIndex = MIN(_currentPageIndex, _items.size() - 1);
+            _currentPageIndex = MIN(_currentPageIndex, static_cast<ssize_t>(_items.size()) - 1);
             _currentPageIndex = MAX(_currentPageIndex, 0);
             scrollToItem(_currentPageIndex);
         }

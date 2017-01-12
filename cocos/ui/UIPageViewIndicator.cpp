@@ -77,7 +77,7 @@ void PageViewIndicator::setDirection(PageView::Direction direction)
     rearrange();
 }
 
-void PageViewIndicator::reset(ssize_t numberOfTotalPages)
+void PageViewIndicator::reset(size_t numberOfTotalPages)
 {
     while(_indexNodes.size() < numberOfTotalPages)
     {
@@ -91,9 +91,9 @@ void PageViewIndicator::reset(ssize_t numberOfTotalPages)
     _currentIndexNode->setVisible(!_indexNodes.empty());
 }
 
-void PageViewIndicator::indicate(ssize_t index)
+void PageViewIndicator::indicate(size_t index)
 {
-    if (index < 0 || index >= _indexNodes.size())
+    if (index >= _indexNodes.size())
     {
         return;
     }
@@ -222,7 +222,7 @@ void PageViewIndicator::increaseNumberOfPages()
     indexNode->setScale(_indexNodesScale);
     indexNode->setOpacity(255 * 0.3f);
     addProtectedChild(indexNode);
-    _indexNodes.pushBack(indexNode);
+    _indexNodes.push_back( to_node_ptr( indexNode));
 }
 
 void PageViewIndicator::decreaseNumberOfPages()
@@ -231,15 +231,15 @@ void PageViewIndicator::decreaseNumberOfPages()
     {
         return;
     }
-    removeProtectedChild(*_indexNodes.begin());
+    removeProtectedChild(_indexNodes.begin()->get());
     _indexNodes.erase(_indexNodes.begin());
 }
 
 void PageViewIndicator::clear()
 {
-    for(auto& indexNode : _indexNodes)
+    for(auto& node : _indexNodes)
     {
-        removeProtectedChild(indexNode);
+        removeProtectedChild(node.get());
     }
     _indexNodes.clear();
     _currentIndexNode->setVisible(false);
