@@ -139,7 +139,7 @@ Parallax2::Parallax2()
     addChild(voidNode, 0, kTagNode);
 }
 
-void Parallax2::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void Parallax2::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     auto diff = touches[0]->getDelta();
     
@@ -189,12 +189,12 @@ void Issue2572::update(float dt)
     if (_addTimer >= _addChildStep) {
         _addTimer = 0.0f;
         
-        auto child = Sprite::create("Images/Icon.png");
+        auto child = to_node_ptr( Sprite::create("Images/Icon.png"));
         Size viewSize = Director::getInstance()->getVisibleSize();
         Vec2 offset = Vec2(viewSize.width / 2, viewSize.height/2);
-        _paraNode->addChild(child, 1, Vec2( 1, 0 ), offset );
+        _paraNode->addChild(child.get(), 1, Vec2( 1, 0 ), offset );
         
-        _childList.pushBack(child);
+        _childList.push_back( std::move( child));
     }
 
     // After a child added, output the position of the children 3 times.
@@ -207,8 +207,8 @@ void Issue2572::update(float dt)
                 log( "--child count-- %zd", _childList.size());
                 for (const auto& obj : _childList)
                 {
-                    Sprite* obstacle = dynamic_cast<Sprite*>( obj );
-                    log("child position : (%.2f, %.2f)", obstacle->getPositionX(), obstacle->getPositionY());
+                    log("child position : (%.2f, %.2f)",
+                        obj->getPositionX(), obj->getPositionY());
                 }
                 log("-------------------");
                 _printCount++;

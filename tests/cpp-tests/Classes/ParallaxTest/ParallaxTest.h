@@ -46,8 +46,8 @@ protected:
     cocos2d::ParallaxNode* _paraNode;
     float _moveTimer;
     float _addTimer;
-    cocos2d::Vector<cocos2d::Sprite*> _childList;
-    ssize_t _preListSize;
+    std::vector<cocos2d::node_ptr<cocos2d::Sprite>> _childList;
+    size_t _preListSize;
     int _printCount;
     
     float _addChildStep;
