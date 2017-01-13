@@ -160,9 +160,12 @@ protected:
     void onDisableStencil();
     void onBeforeDrawClip(int planeIndex, const cocos2d::Vec2& pt);
     void onBeforeDrawSprite(int planeIndex, const cocos2d::Vec2& pt);
+
 protected:
-    cocos2d::Vector<cocos2d::Sprite*> _sprites;
-    cocos2d::Vector<cocos2d::Sprite*> _spritesStencil;
+    using container_type = std::vector<cocos2d::node_ptr<cocos2d::Sprite>>;
+
+    container_type _sprites;
+    container_type _spritesStencil;
 };
 
 class RawStencilBufferTest2 : public RawStencilBufferTest

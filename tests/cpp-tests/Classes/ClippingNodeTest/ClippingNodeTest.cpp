@@ -538,15 +538,15 @@ void RawStencilBufferTest::setup()
     
     for(int i = 0; i < _planeCount; ++i)
     {
-        Sprite* sprite = Sprite::create(s_pathGrossini);
+        auto sprite = to_node_ptr( Sprite::create( s_pathGrossini));
         sprite->setAnchorPoint(  Vec2(0.5, 0) );
         sprite->setScale( 2.5f );
-        _sprites.pushBack(sprite);
+        _sprites.push_back( std::move( sprite));
 
-        Sprite* sprite2 = Sprite::create(s_pathGrossini);
+        auto sprite2 = to_node_ptr( Sprite::create( s_pathGrossini));
         sprite2->setAnchorPoint(  Vec2(0.5, 0) );
         sprite2->setScale( 2.5f );
-        _spritesStencil.pushBack(sprite2);
+        _spritesStencil.push_back( std::move( sprite2));
     }
 
     Director::getInstance()->setAlphaBlending(true);
