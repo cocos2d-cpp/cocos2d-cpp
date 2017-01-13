@@ -215,7 +215,8 @@ PlayerMenuItem *PlayerMenuServiceWin::addItem(const std::string &menuId,
     }
 
     // update menu state
-    parent->_children.insert(order, item);
+    parent->_children.insert(parent->_children.begin() + order,
+                             to_retaining_ptr(item));
     _items[item->_menuId] = item;
     _commandId2menuId[item->_commandId] = item->_menuId;
     updateChildrenOrder(parent);

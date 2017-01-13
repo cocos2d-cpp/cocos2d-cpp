@@ -264,7 +264,8 @@ PlayerMenuItem* PlayerMenuServiceMac::addItem(const std::string &menuId, const s
 
     
     // update menu state
-    parent->_children.insert(order, item);
+    parent->_children.insert(parent->_children.begin() + order,
+                             to_retaining_ptr(item));
     _items[item->_menuId] = item;
     updateChildrenOrder(parent);
     

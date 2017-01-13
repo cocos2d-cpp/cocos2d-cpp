@@ -50,7 +50,7 @@ protected:
     PlayerMenuItemMac *_parent;
     NNMenuItem *_menuItem;
     NSMenu     *_menu;
-    cocos2d::Vector<PlayerMenuItemMac*> _children;
+    std::vector<retaining_ptr<PlayerMenuItemMac>> _children;
 
     friend class PlayerMenuServiceMac;
 };

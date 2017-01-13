@@ -68,14 +68,18 @@ ConnectWaitLayer::ConnectWaitLayer()
     Texture2D* textureShine = Director::getInstance()->getTextureCache()->addImage(_imageShine, "shine");
     auto shineSprite = Sprite::createWithTexture(textureShine);
     shineSprite->setOpacity(0);
-    Vector<FiniteTimeAction*> arrayOfActions;
-    arrayOfActions.pushBack(DelayTime::create(0.4f));
-    arrayOfActions.pushBack(FadeTo::create(0.8f, 200));
-    arrayOfActions.pushBack(FadeTo::create(0.8f, 255));
-    arrayOfActions.pushBack(FadeTo::create(0.8f, 200));
-    arrayOfActions.pushBack(FadeTo::create(0.8f, 0));
-    arrayOfActions.pushBack(DelayTime::create(0.4f));
-    shineSprite->runAction(RepeatForever::create(Sequence::create(arrayOfActions)));
+    std::vector<action_ptr<FiniteTimeAction>> arrayOfActions;
+    arrayOfActions.push_back( to_action_ptr( DelayTime::create(0.4f)));
+    arrayOfActions.push_back( to_action_ptr( FadeTo::create(0.8f, 200)));
+    arrayOfActions.push_back( to_action_ptr( FadeTo::create(0.8f, 255)));
+    arrayOfActions.push_back( to_action_ptr( FadeTo::create(0.8f, 200)));
+    arrayOfActions.push_back( to_action_ptr( FadeTo::create(0.8f, 0)));
+    arrayOfActions.push_back( to_action_ptr( DelayTime::create(0.4f)));
+    shineSprite->runAction(
+        RepeatForever::create(
+            Sequence::create(
+                std::move( arrayOfActions )
+            )));
     addChild(shineSprite, 9998);
 
     std::string strip = getIPAddress();
