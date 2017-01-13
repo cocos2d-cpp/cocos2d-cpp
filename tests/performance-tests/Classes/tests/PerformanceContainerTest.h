@@ -63,17 +63,6 @@ protected:
     int autoTestCountIndex;
 };
 
-class TemplateVectorPerfTest : public PerformanceContainerScene
-{
-public:
-    CREATE_FUNC(TemplateVectorPerfTest);
-    
-    virtual void generateTestFunctions() override;
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
-
 class TemplateMapStringKeyPerfTest : public PerformanceContainerScene
 {
 public:

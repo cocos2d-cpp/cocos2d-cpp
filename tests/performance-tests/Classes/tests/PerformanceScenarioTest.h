@@ -39,7 +39,7 @@ private:
     static int _initParticleNum;
     static int _parStepNum;
     static int _initSpriteNum;
-    static int _spriteStepNum;
+    static size_t _spriteStepNum;
     static int _initParsysNum;
     static int _parsysStepNum;
 
@@ -47,8 +47,8 @@ private:
     cocos2d::TMXTiledMap* _map2;
 
     cocos2d::MenuItemToggle* _itemToggle;
-    cocos2d::Vector<cocos2d::Sprite*> _spriteArray;
-    cocos2d::Vector<cocos2d::ParticleSystemQuad*> _parsysArray;
+    std::vector<cocos2d::node_ptr<cocos2d::Sprite>> _spriteArray;
+    std::vector<cocos2d::node_ptr<cocos2d::ParticleSystemQuad>> _parsysArray;
     cocos2d::Label* _spriteLabel;
     cocos2d::Label* _particleLabel;
     cocos2d::Label* _parsysLabel;

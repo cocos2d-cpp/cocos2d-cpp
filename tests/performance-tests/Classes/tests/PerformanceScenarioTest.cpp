@@ -19,7 +19,7 @@ PerformceScenarioTests::PerformceScenarioTests()
 int ScenarioTest::_initParticleNum = 500;
 int ScenarioTest::_parStepNum = 500;
 int ScenarioTest::_initSpriteNum = 2000;
-int ScenarioTest::_spriteStepNum = 500;
+size_t ScenarioTest::_spriteStepNum = 500;
 int ScenarioTest::_initParsysNum = 10;
 int ScenarioTest::_parsysStepNum = 5;
 
@@ -165,7 +165,7 @@ void ScenarioTest::addParticles(int num)
 {
     _particleNumber += num;
 
-    for (auto par : _parsysArray) {
+    for (auto & par : _parsysArray) {
         par->setTotalParticles(_particleNumber);
     }
 
@@ -183,7 +183,7 @@ void ScenarioTest::removeParticles()
     int removeNum = MIN(_particleNumber, _parStepNum);
     _particleNumber -= removeNum;
 
-    for (auto par : _parsysArray) {
+    for (auto & par : _parsysArray) {
         par->setTotalParticles(_particleNumber);
     }
 
@@ -202,8 +202,8 @@ void ScenarioTest::addNewSprites(int num)
         int x = (idx%5) * 85;
         int y = (idx/5) * 121;
 
-        auto sprite = Sprite::create("Images/grossini_dance_atlas.png", Rect(x,y,85,121) );
-        addChild( sprite );
+        auto sprite = to_node_ptr(Sprite::create("Images/grossini_dance_atlas.png", Rect(x,y,85,121)));
+        addChild( sprite.get() );
         
         float randomx = CCRANDOM_0_1();
         float randomy = CCRANDOM_0_1();
@@ -230,7 +230,7 @@ void ScenarioTest::addNewSprites(int num)
         
         sprite->runAction( RepeatForever::create(seq) );
 
-        _spriteArray.pushBack(sprite);
+        _spriteArray.push_back( std::move( sprite));
     }
 
     char str[20] = {0};
@@ -240,16 +240,16 @@ void ScenarioTest::addNewSprites(int num)
 
 void ScenarioTest::removeSprites()
 {
-    ssize_t number = _spriteArray.size();
-    if (number <= 0) {
+    auto number = _spriteArray.size();
+    if (!number) {
         return;
     }
 
-    ssize_t removeNum = MIN(number, _spriteStepNum);
-    for (int i = 0; i < removeNum; ++i) {
-        auto sprite = _spriteArray.getRandomObject();
-        removeChild(sprite);
-        _spriteArray.eraseObject(sprite);
+    size_t removeNum = MIN(number, _spriteStepNum);
+    for (size_t i = 0; i < removeNum; ++i) {
+        auto rand_it = _spriteArray.begin() + RandomHelper::random_int(0, static_cast<int>(_data.size()) - 1);
+        removeChild(rand_it->get());
+        _spriteArray.erase(rand_it);
     }
     
     char str[20] = {0};
@@ -280,15 +280,15 @@ void ScenarioTest::addParticleSystem(int num)
         float randomIdx = CCRANDOM_0_1();
         int idx = (filesSize - 1) * randomIdx;
         std::string fileName = _particleFiles[idx];
-        auto par = ParticleSystemQuad::create(fileName);
+        auto par = to_node_ptr(ParticleSystemQuad::create(fileName));
 
         float randomx = CCRANDOM_0_1();
         float randomy = CCRANDOM_0_1();
         par->setPosition(origin + Vec2(s.width * randomx, s.height * randomy));
         par->setTotalParticles(_particleNumber);
-        addChild(par, 9);
+        addChild(par.get(), 9);
 
-        _parsysArray.pushBack(par);
+        _parsysArray.push_back( std::move( par));
     }
 
     char str[40] = {0};
@@ -305,9 +305,9 @@ void ScenarioTest::removeParticleSystem()
     
     ssize_t removeNum = MIN(number, _parsysStepNum);
     for (int i = 0; i < removeNum; ++i) {
-        auto par = _parsysArray.getRandomObject();
-        removeChild(par);
-        _parsysArray.eraseObject(par);
+        auto rand_it = _parsysArray.begin() + RandomHelper::random_int(0, static_cast<int>(_data.size()) - 1);
+        removeChild(rand_it->get());
+        _parsysArray.erase(rand_it);
     }
     
     char str[40] = {0};
@@ -363,9 +363,9 @@ void ScenarioTest::endStat(float dt)
     
     // record test data
     auto avgStr = genStr("%.2f", (float) statCount / totalStatTime);
-    Profile::getInstance()->addTestResult(genStrVector(genStr("%d", _spriteArray.size()).c_str(),
+    Profile::getInstance()->addTestResult(genStrVector(genStr("%lu", _spriteArray.size()).c_str(),
                                                        genStr("%d", _particleNumber).c_str(),
-                                                       genStr("%d", _parsysArray.size()).c_str(),
+                                                       genStr("%lu", _parsysArray.size()).c_str(),
                                                        nullptr),
                                           genStrVector(avgStr.c_str(), genStr("%.2f", minFrameRate).c_str(),
                                                        genStr("%.2f", maxFrameRate).c_str(), nullptr));

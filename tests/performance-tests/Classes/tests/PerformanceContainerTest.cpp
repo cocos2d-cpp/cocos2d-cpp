@@ -36,7 +36,6 @@ using namespace cocos2d;
 
 PerformceContainerTests::PerformceContainerTests()
 {
-    ADD_TEST_CASE(TemplateVectorPerfTest);
     ADD_TEST_CASE(TemplateMapStringKeyPerfTest);
     ADD_TEST_CASE(TemplateMapIntKeyPerfTest);
 }
@@ -128,7 +127,7 @@ void PerformanceContainerScene::initWithQuantityOfNodes(unsigned int nNodes)
     int oldFontSize = MenuItemFont::getFontSize();
     MenuItemFont::setFontSize(24);
     
-    Vector<cocos2d::MenuItem *> toggleItems;
+    std::vector<node_ptr<MenuItem>> toggleItems;
     
     generateTestFunctions();
     
@@ -137,13 +136,13 @@ void PerformanceContainerScene::initWithQuantityOfNodes(unsigned int nNodes)
     
     for (const auto& f : _testFunctions)
     {
-        toggleItems.pushBack(MenuItemFont::create(f.name));
+        toggleItems.push_back( to_node_ptr( MenuItemFont::create( f.name)));
     }
     
     auto toggle = MenuItemToggle::createWithCallback([this](Ref* sender){
         auto toggle = static_cast<MenuItemToggle*>(sender);
         switchTestType(toggle->getSelectedIndex());
-    }, toggleItems);
+    }, std::move(toggleItems));
     
     toggle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     toggle->setPosition(VisibleRect::left());
@@ -332,219 +331,6 @@ void PerformanceContainerScene::updateQuantityOfNodes()
 const char*  PerformanceContainerScene::testName()
 {
     return _testFunctions[_type].name;
-}
-
-////////////////////////////////////////////////////////
-//
-// TemplateVectorPerfTest
-//
-////////////////////////////////////////////////////////
-
-void TemplateVectorPerfTest::generateTestFunctions()
-{
-    _typePrefix = "Vector";
-    auto createVector = [this](){
-        Vector<Node*> ret;
-        
-        for( int i=0; i<quantityOfNodes; ++i)
-        {
-            auto node = Node::create();
-            node->setTag(i);
-            ret.pushBack(node);
-        }
-        return ret;
-    };
-    
-    TestFunction testFunctions[] = {
-        { "pushBack",    [=](){
-            Vector<Node*> nodeVector;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.pushBack(Node::create());
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        { "insert",      [=](){
-            Vector<Node*> nodeVector;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.insert(0, Node::create());
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        { "replace",     [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            std::srand((unsigned)time(nullptr));
-            ssize_t index = rand() % quantityOfNodes;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.replace(index, Node::create());
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        { "getIndex",    [=](){
-            
-            Vector<Node*> nodeVector = createVector();
-            Node* objToGet = nodeVector.at(quantityOfNodes/3);
-            ssize_t index = 0;
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                index = nodeVector.getIndex(objToGet);
-            CC_PROFILER_STOP(this->profilerName());
-            
-            // Uses `index` to avoids `getIndex` invoking was optimized in release mode
-            if (index == quantityOfNodes/3)
-            {
-                nodeVector.clear();
-            }
-        } } ,
-        { "find",        [=](){
-            Vector<Node*> nodeVector = createVector();
-            Node* objToGet = nodeVector.at(quantityOfNodes/3);
-            Vector<Node*>::iterator iter;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                iter = nodeVector.find(objToGet);
-            CC_PROFILER_STOP(this->profilerName());
-            
-            // Uses `iter` to avoids `find` invoking was optimized in release mode
-            if (*iter == objToGet)
-            {
-                nodeVector.clear();
-            }
-            
-        } } ,
-        { "at",          [=](){
-            Vector<Node*> nodeVector = createVector();
-            Node* objToGet = nullptr;
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                objToGet = nodeVector.at(quantityOfNodes/3);
-            CC_PROFILER_STOP(this->profilerName());
-            
-            // Uses `objToGet` to avoids `at` invoking was optimized in release mode
-            if (nodeVector.getIndex(objToGet) == quantityOfNodes/3)
-            {
-                nodeVector.clear();
-            }
-        } } ,
-        { "contains",    [=](){
-            Vector<Node*> nodeVector = createVector();
-            Node* objToGet = nodeVector.at(quantityOfNodes/3);
-            
-            bool ret = false;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                ret = nodeVector.contains(objToGet);
-            CC_PROFILER_STOP(this->profilerName());
-            
-            // Uses `ret` to avoids `contains` invoking was optimized in release mode
-            if (ret)
-            {
-                nodeVector.clear();
-            }
-        } } ,
-        { "eraseObject", [=](){
-            Vector<Node*> nodeVector = createVector();
-            Node** nodes = (Node**)malloc(sizeof(Node*) * quantityOfNodes);
-            
-            for (int i = 0; i < quantityOfNodes; ++i)
-            {
-                nodes[i] = nodeVector.at(i);
-            }
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.eraseObject(nodes[i]);
-            CC_PROFILER_STOP(this->profilerName());
-            
-            CCASSERT(nodeVector.empty(), "nodeVector was not empty.");
-            
-            free(nodes);
-        } } ,
-        { "erase",       [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.erase(nodeVector.begin());
-            CC_PROFILER_STOP(this->profilerName());
-            
-            CCASSERT(nodeVector.empty(), "nodeVector was not empty.");
-
-        } } ,
-        { "clear",       [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.clear();
-            CC_PROFILER_STOP(this->profilerName());
-            
-            CCASSERT(nodeVector.empty(), "nodeVector was not empty.");
-        } } ,
-        { "swap by index",        [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            int swapIndex1 = quantityOfNodes / 3;
-            int swapIndex2 = quantityOfNodes / 3 * 2;
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.swap(swapIndex1, swapIndex2);
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        
-        { "swap by object",        [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            Node* swapNode1 = nodeVector.at(quantityOfNodes / 3);
-            Node* swapNode2 = nodeVector.at(quantityOfNodes / 3 * 2);
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.swap(swapNode1, swapNode2);
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        
-        { "reverse",     [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            CC_PROFILER_START(this->profilerName());
-            for( int i=0; i<quantityOfNodes; ++i)
-                nodeVector.reverse();
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-        
-        { "c++11 Range Loop",     [=](){
-            Vector<Node*> nodeVector = createVector();
-            
-            CC_PROFILER_START(this->profilerName());
-            for (const auto& e : nodeVector)
-            {
-                e->setTag(111);
-            }
-            CC_PROFILER_STOP(this->profilerName());
-        } } ,
-    };
-    
-    for (const auto& func : testFunctions)
-    {
-        _testFunctions.push_back(func);
-    }
-}
-
-std::string TemplateVectorPerfTest::title() const
-{
-    return "Vector<T> Perf test";
-}
-
-std::string TemplateVectorPerfTest::subtitle() const
-{
-    return "Test 'pushBack', See console";
 }
 
 ////////////////////////////////////////////////////////

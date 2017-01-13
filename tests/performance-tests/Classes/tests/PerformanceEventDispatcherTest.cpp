@@ -127,7 +127,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     int oldFontSize = MenuItemFont::getFontSize();
     MenuItemFont::setFontSize(24);
     
-    Vector<cocos2d::MenuItem *> toggleItems;
+    cocos2d::MenuItemToggle::items_container toggleItems;
     
     generateTestFunctions();
     
@@ -136,13 +136,13 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     
     for (const auto& f : _testFunctions)
     {
-        toggleItems.pushBack(MenuItemFont::create(f.name));
+        toggleItems.push_back( cocos2d::to_node_ptr( MenuItemFont::create( f.name)));
     }
 
     auto toggle = MenuItemToggle::createWithCallback([=](Ref* sender){
         auto toggle = static_cast<MenuItemToggle*>(sender);
         switchTestType(toggle->getSelectedIndex());
-    }, toggleItems);
+    }, std::move(toggleItems));
     
     toggle->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
     toggle->setPosition(VisibleRect::left());
