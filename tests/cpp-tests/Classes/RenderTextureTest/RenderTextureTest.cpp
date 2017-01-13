@@ -109,10 +109,10 @@ void RenderTextureSave::onTouchesMoved(const std::vector<Touch*>& touches, Event
         _brushs.clear();
         for(int i = 0; i < d; ++i)
         {
-            Sprite * sprite = Sprite::create("Images/fire.png");
+            auto sprite = to_node_ptr( Sprite::create("Images/fire.png"));
             sprite->setColor(Color3B::RED);
             sprite->setOpacity(20);
-            _brushs.pushBack(sprite);
+            _brushs.push_back( std::move( sprite));
         }
         for (int i = 0; i < d; i++)
         {

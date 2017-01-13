@@ -24,7 +24,7 @@ public:
 
 private:
     cocos2d::RenderTexture* _target;
-    cocos2d::Vector<cocos2d::Sprite*> _brushs;
+    std::vector<cocos2d::node_ptr<cocos2d::Sprite>> _brushs;
 };
 
 class RenderTextureIssue937 : public RenderTextureTest
