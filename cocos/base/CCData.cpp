@@ -94,7 +94,7 @@ unsigned char* Data::getBytes() const
     return _bytes;
 }
 
-ssize_t Data::getSize() const
+size_t Data::getSize() const
 {
     return _size;
 }

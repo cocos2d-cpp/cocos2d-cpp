@@ -176,14 +176,7 @@ public:
     virtual void setOpacityModifyRGB(bool bOpacityModifyRGB) override;
     
 protected:
-    /**
-     * @js ctor
-     */
     Control();
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~Control();
 
     virtual bool init(void) override;
@@ -213,7 +206,7 @@ protected:
     *
     * @return the Invocation list for the given control event.
     */
-    Vector<Invocation*>& dispatchListforControlEvent(EventType controlEvent);
+    std::vector<retaining_ptr<Invocation>> & dispatchListforControlEvent(EventType controlEvent);
 
     /**
      * Adds a target and action for a particular event to an internal dispatch 
@@ -256,7 +249,7 @@ protected:
      * target-actions pairs. For each ButtonEvents a list of NSInvocation
      * (which contains the target-action pair) is linked.
      */
-    std::unordered_map<int, Vector<Invocation*>*> _dispatchTable;
+    std::unordered_map<int, std::vector<retaining_ptr<Invocation>>> _dispatchTable;
 
     //CCRGBAProtocol
     bool _isOpacityModifyRGB;

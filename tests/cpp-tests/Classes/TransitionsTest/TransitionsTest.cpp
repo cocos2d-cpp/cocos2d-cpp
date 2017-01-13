@@ -302,7 +302,7 @@ TestLayer1::~TestLayer1()
 
 }
 
-void TestLayer1::step(float dt)
+void TestLayer1::step(float /*dt*/)
 {
 
 }
@@ -378,7 +378,7 @@ TestLayer2::~TestLayer2()
 
 }
 
-void TestLayer2::step(float dt)
+void TestLayer2::step(float /*dt*/)
 {
 
 }

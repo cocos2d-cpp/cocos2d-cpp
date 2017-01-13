@@ -55,7 +55,7 @@ bool Bug914Layer::init()
     return false;
 }
 
-void Bug914Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event * event)
+void Bug914Layer::onTouchesMoved(const std::vector<Touch*>& touches, Event *)
 {
     log("Number of touches: %d", (int)touches.size());
 }
@@ -65,7 +65,7 @@ void Bug914Layer::onTouchesBegan(const std::vector<Touch*>& touches, Event * eve
     onTouchesMoved(touches, event);
 }
 
-void Bug914Layer::restart(Ref* sender)
+void Bug914Layer::restart(Ref*)
 {
     Director::getInstance()->replaceScene(Bug914Layer::create());
 }

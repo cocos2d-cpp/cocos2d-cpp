@@ -90,7 +90,7 @@ public:
      *
      * @return The size of bytes of Data.
      */
-    ssize_t getSize() const;
+    size_t getSize() const;
 
     /** Copies the buffer pointer and its size.
      *  @note This method will copy the whole buffer.
@@ -146,7 +146,7 @@ private:
 
 private:
     unsigned char* _bytes;
-    ssize_t _size;
+    size_t _size;
 };
 
 

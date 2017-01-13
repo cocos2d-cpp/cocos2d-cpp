@@ -46,7 +46,10 @@ Control::Control()
 , _isOpacityModifyRGB(false)
 , _state(State::NORMAL)
 {
+}
 
+Control::~Control()
+{
 }
 
 Control* Control::create()
@@ -92,16 +95,6 @@ bool Control::init()
     }
 }
 
-Control::~Control()
-{
-    for (auto iter = _dispatchTable.begin(); iter != _dispatchTable.end(); ++iter)
-    {
-        delete iter->second;
-    }
-    
-    _dispatchTable.clear();
-}
-
 void Control::sendActionsForControlEvents(EventType controlEvents)
 {
 	retain();
@@ -112,7 +105,7 @@ void Control::sendActionsForControlEvents(EventType controlEvents)
         if (((int)controlEvents & (1 << i)))
         {
             // Call invocations
-            const auto& invocationList = this->dispatchListforControlEvent((Control::EventType)(1<<i));
+            const auto & invocationList = this->dispatchListforControlEvent((Control::EventType)(1<<i));
 
             for(const auto &invocation : invocationList) {
                 invocation->invoke(this);
@@ -152,11 +145,11 @@ void Control::addTargetWithActionForControlEvents(Ref* target, Handler action, E
 void Control::addTargetWithActionForControlEvent(Ref* target, Handler action, EventType controlEvent)
 {    
     // Create the invocation object
-    Invocation *invocation = Invocation::create(target, action, controlEvent);
+    auto invocation = to_retaining_ptr( Invocation::create(target, action, controlEvent));
 
     // Add the invocation into the dispatch list for the given control event
-    auto& eventInvocationList = this->dispatchListforControlEvent(controlEvent);
-    eventInvocationList.pushBack(invocation);
+    auto & eventInvocationList = this->dispatchListforControlEvent(controlEvent);
+    eventInvocationList.push_back( std::move( invocation));
 }
 
 void Control::removeTargetWithActionForControlEvents(Ref* target, Handler action, EventType controlEvents)
@@ -187,29 +180,24 @@ void Control::removeTargetWithActionForControlEvent(Ref* target, Handler action,
     } 
     else
     {
-        std::vector<Invocation*> tobeRemovedInvocations;
-        
-        //normally we would use a predicate, but this won't work here. Have to do it manually
-        for(const auto &invocation : eventInvocationList) {
-            bool shouldBeRemoved=true;
-            if (target)
-            {
-                shouldBeRemoved=(target==invocation->getTarget());
-            }
-            if (action)
-            {
-                shouldBeRemoved=(shouldBeRemoved && (action==invocation->getAction()));
-            }
-            // Remove the corresponding invocation object
-            if (shouldBeRemoved)
-            {
-                tobeRemovedInvocations.push_back(invocation);
-            }
-        }
-
-        for(const auto &invocation : tobeRemovedInvocations) {
-            eventInvocationList.eraseObject(invocation);
-        }
+        eventInvocationList.erase(
+            std::remove_if(
+                eventInvocationList.begin(), eventInvocationList.end(),
+                [&target, &action](const retaining_ptr<Invocation> & p) {
+                    bool shouldBeRemoved = true;
+                    if (target)
+                    {
+                        shouldBeRemoved = (target == p->getTarget());
+                    }
+                    if (action)
+                    {
+                        shouldBeRemoved &= (action == p->getAction());
+                    }
+                    return shouldBeRemoved;
+                }
+            ),
+            eventInvocationList.end()
+        );
     }
 }
 
@@ -261,22 +249,9 @@ bool Control::isTouchInside(Touch* touch)
     return bBox.containsPoint(touchLocation);
 }
 
-Vector<Invocation*>& Control::dispatchListforControlEvent(EventType controlEvent)
+std::vector<retaining_ptr<Invocation>> & Control::dispatchListforControlEvent(EventType controlEvent)
 {
-    Vector<Invocation*>* invocationList = nullptr;
-    auto iter = _dispatchTable.find((int)controlEvent);
-    
-    // If the invocation list does not exist for the  dispatch table, we create it
-    if (iter == _dispatchTable.end())
-    {
-        invocationList = new (std::nothrow) Vector<Invocation*>();
-        _dispatchTable[(int)controlEvent] = invocationList;
-    }
-    else
-    {
-        invocationList = iter->second;
-    }
-    return *invocationList;
+    return _dispatchTable[(int)controlEvent];
 }
 
 void Control::needsLayout()

@@ -86,7 +86,7 @@ bool ControlSwitchTest::init()
     return false;
 }
 
-void ControlSwitchTest::valueChanged(Ref* sender, Control::EventType controlEvent)
+void ControlSwitchTest::valueChanged(Ref* sender, Control::EventType)
 {
     ControlSwitch* pSwitch = (ControlSwitch*)sender;
     if (pSwitch->isOn())
