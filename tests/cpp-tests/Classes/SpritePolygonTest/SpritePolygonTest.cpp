@@ -54,18 +54,18 @@ bool SpritePolygonTestCase::init()
         {
             TTFConfig ttfConfig("fonts/arial.ttf", 10);
             auto label = Label::createWithTTF(ttfConfig,"DebugDraw OFF");
-            auto menuItem = MenuItemLabel::create(label, [=](Ref *ref){
+            auto menuItem = MenuItemLabel::create(label, [=](Ref *){
                 if (_isDebugDraw){
                     _isDebugDraw = false;
                     label->setString("DebugDraw ON");
-                    for (int i = 0; i < _drawNodes.size(); i++)
+                    for (size_t i = 0; i < _drawNodes.size(); i++)
                     {
                         _drawNodes.at(i)->setVisible(false);
                     }
                 }else{
                     _isDebugDraw = true;
                     label->setString("DebugDraw OFF");
-                    for (int i = 0; i < _drawNodes.size(); i++)
+                    for (size_t i = 0; i < _drawNodes.size(); i++)
                     {
                         _drawNodes.at(i)->setVisible(true);
                         updateDrawNode();
@@ -87,9 +87,9 @@ bool SpritePolygonTestCase::init()
 void SpritePolygonTestCase::updateDrawNode()
 {
     if (_isDebugDraw && _drawNodes.size() > 0) {
-        for (int i = 0; i < _drawNodes.size(); i++)
+        for (size_t i = 0; i < _drawNodes.size(); i++)
         {
-                auto drawnode = _drawNodes.at(i);
+                auto & drawnode = _drawNodes.at(i);
                 auto sp = (Sprite*)drawnode->getParent();
                 if(!sp) return;
                 const auto& polygoninfo = sp->getPolygonInfo();
@@ -131,10 +131,10 @@ void SpritePolygonTestDemo::initTouches()
 {
     if(_polygonSprite) {
         auto touchListener = EventListenerTouchOneByOne::create();
-        touchListener->onTouchBegan = [&](Touch* touch, Event* event){
+        touchListener->onTouchBegan = [&](Touch*, Event*){
             return true;
         };
-        touchListener->onTouchMoved = [&](Touch* touch, Event* event){
+        touchListener->onTouchMoved = [&](Touch* touch, Event*){
             auto pos = touch->getDelta();
             float newScale = clampf(_polygonSprite->getScale() + pos.x * 0.01f, 0.1f, 2.f);
             _polygonSprite->setScale(newScale);
@@ -170,17 +170,17 @@ void SpritePolygonTest1::initSprites()
     _normalSprite->setPosition(Vec2(s)/2 - offset);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(_normalSprite->getTag());
     spDrawNode->clear();
-    _normalSprite->addChild(spDrawNode);
-    _drawNodes.pushBack(spDrawNode);
+    _normalSprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
     
-    auto sppDrawNode = DrawNode::create();
+    auto sppDrawNode = to_node_ptr( DrawNode::create());
     sppDrawNode->setTag(_polygonSprite->getTag());
     sppDrawNode->clear();
-    _polygonSprite->addChild(sppDrawNode);
-    _drawNodes.pushBack(sppDrawNode);
+    _polygonSprite->addChild(sppDrawNode.get());
+    _drawNodes.push_back( std::move( sppDrawNode));
     
     //Label
     TTFConfig ttfConfig("fonts/arial.ttf", 8);
@@ -225,17 +225,17 @@ void SpritePolygonTest2::initSprites()
     _normalSprite->setPosition(Vec2(s)/2 - offset);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
-    _drawNodes.pushBack(spDrawNode);
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(_normalSprite->getTag());
     spDrawNode->clear();
-    _normalSprite->addChild(spDrawNode);
+    _normalSprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
 
-    auto sppDrawNode = DrawNode::create();
-    _drawNodes.pushBack(sppDrawNode);
+    auto sppDrawNode = to_node_ptr( DrawNode::create());
     sppDrawNode->setTag(_polygonSprite->getTag());
     sppDrawNode->clear();
-    _polygonSprite->addChild(sppDrawNode);
+    _polygonSprite->addChild(sppDrawNode.get());
+    _drawNodes.push_back( std::move( sppDrawNode));
     
     //Label
     TTFConfig ttfConfig("fonts/arial.ttf", 8);
@@ -338,11 +338,11 @@ Sprite* SpritePolygonTestSlider::makeSprite(const std::string &filename, const V
     ret->setPosition(pos);
     
     //DrawNode
-    auto drawNode = DrawNode::create();
-    _drawNodes.pushBack(drawNode);
+    auto drawNode = to_node_ptr( DrawNode::create());
     drawNode->setTag(ret->getTag());
     drawNode->clear();
-    ret->addChild(drawNode);
+    ret->addChild(drawNode.get());
+    _drawNodes.push_back( std::move( drawNode));
  
     //Label
     auto ttfConfig = TTFConfig("fonts/arial.ttf", 8);
@@ -419,10 +419,10 @@ bool SpritePolygonTest5::init()
 void SpritePolygonTest5::initTouch()
 {
     auto touchListener = EventListenerTouchOneByOne::create();
-    touchListener->onTouchBegan = [&](Touch* touch, Event* event){
+    touchListener->onTouchBegan = [&](Touch*, Event*){
         return true;
     };
-    touchListener->onTouchEnded = [&](Touch* touch, Event* event){
+    touchListener->onTouchEnded = [&](Touch* touch, Event*){
         auto pos = touch->getLocation();
         addSpritePolygon(pos);
     };
@@ -442,11 +442,11 @@ void SpritePolygonTest5::loadDefaultSprites()
         _tagIndex++;
         sprites[i]->setPosition(s.width * CCRANDOM_0_1(), s.height * CCRANDOM_0_1());
         this->addChild(sprites[i]);
-        auto drawNode = DrawNode::create();
-        _drawNodes.pushBack(drawNode);
+        auto drawNode = to_node_ptr( DrawNode::create());
         drawNode->setTag(sprites[i]->getTag());
         drawNode->clear();
-        sprites[i]->addChild(drawNode);
+        sprites[i]->addChild(drawNode.get());
+        _drawNodes.push_back( std::move( drawNode));
     }
     sprites[0]->setColor(Color3B::RED);
     sprites[1]->setOpacity(100);
@@ -467,11 +467,11 @@ void SpritePolygonTest5::addSpritePolygon(const Vec2& pos)
     _tagIndex++;
     sprite->setPosition(pos);
     this->addChild(sprite);
-    auto drawNode = DrawNode::create();
-    _drawNodes.pushBack(drawNode);
+    auto drawNode = to_node_ptr( DrawNode::create());
     drawNode->setTag(sprite->getTag());
     drawNode->clear();
-    sprite->addChild(drawNode);
+    sprite->addChild(drawNode.get());
+    _drawNodes.push_back( std::move( drawNode));
     
     ActionInterval* action;
     float random = CCRANDOM_0_1();
@@ -495,7 +495,7 @@ void SpritePolygonTest5::addSpritePolygon(const Vec2& pos)
     sprite->runAction(RepeatForever::create(seq));
 }
 
-void SpritePolygonTest5::update(float dt)
+void SpritePolygonTest5::update(float /*dt*/)
 {
     updateDrawNode();
 }
@@ -666,11 +666,11 @@ void SpritePolygonTestNoCrash::initSprites()
     sprite->setPosition(s.width/2, s.height/2);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(sprite->getTag());
     spDrawNode->clear();
-    sprite->addChild(spDrawNode);
-    _drawNodes.pushBack(spDrawNode);
+    sprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
 
     updateDrawNode();
 }
@@ -695,11 +695,11 @@ void SpritePolygonTestTPIsland::initSprites()
     sprite->setPosition(s.width/2, s.height/2);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(sprite->getTag());
     spDrawNode->clear();
-    sprite->addChild(spDrawNode);
-    _drawNodes.pushBack(spDrawNode);
+    sprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
 
     updateDrawNode();
 }
@@ -723,11 +723,11 @@ void SpritePolygonTestAutoPolyIsland::initSprites()
     sprite->setPosition(s.width/2, s.height/2);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(sprite->getTag());
     spDrawNode->clear();
-    sprite->addChild(spDrawNode);
-    _drawNodes.pushBack(spDrawNode);
+    sprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
 
     updateDrawNode();
 }
@@ -769,10 +769,10 @@ void SpritePolygonTestFrameAnim::initSprites()
         addChild(sprite, i);
 
         //DrawNode
-        auto spDrawNode = DrawNode::create();
+        auto spDrawNode = to_node_ptr( DrawNode::create());
         spDrawNode->clear();
-        sprite->addChild(spDrawNode);
-        _drawNodes.pushBack(spDrawNode);
+        sprite->addChild(spDrawNode.get());
+        _drawNodes.push_back( std::move( spDrawNode));
     }
 
     updateDrawNode();
@@ -822,17 +822,17 @@ void Issue14017Test::initSprites()
     _normalSprite->setPosition(Vec2(s)/2 - offset);
 
     //DrawNode
-    auto spDrawNode = DrawNode::create();
+    auto spDrawNode = to_node_ptr( DrawNode::create());
     spDrawNode->setTag(_normalSprite->getTag());
     spDrawNode->clear();
-    _normalSprite->addChild(spDrawNode);
-    _drawNodes.pushBack(spDrawNode);
+    _normalSprite->addChild(spDrawNode.get());
+    _drawNodes.push_back( std::move( spDrawNode));
 
-    auto sppDrawNode = DrawNode::create();
+    auto sppDrawNode = to_node_ptr( DrawNode::create());
     sppDrawNode->setTag(_polygonSprite->getTag());
     sppDrawNode->clear();
-    _polygonSprite->addChild(sppDrawNode);
-    _drawNodes.pushBack(sppDrawNode);
+    _polygonSprite->addChild(sppDrawNode.get());
+    _drawNodes.push_back( std::move( sppDrawNode));
 
     //Label
     TTFConfig ttfConfig("fonts/arial.ttf", 8);

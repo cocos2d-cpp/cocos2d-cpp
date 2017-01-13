@@ -12,7 +12,7 @@ protected:
     std::string _subtitle;
     bool _isDebugDraw;
     bool _isNeedDebugMenu;
-    cocos2d::Vector<cocos2d::DrawNode* > _drawNodes;
+    std::vector<cocos2d::node_ptr<cocos2d::DrawNode>> _drawNodes;
     virtual std::string title() const override {return _title;};
     virtual std::string subtitle() const override {return _subtitle;};
     virtual bool init() override;
