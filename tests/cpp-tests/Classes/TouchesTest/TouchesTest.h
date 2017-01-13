@@ -1,6 +1,7 @@
 #ifndef _TOUCHES_TEST__H_
 #define _TOUCHES_TEST__H_
 
+#include "2d/CCNode.h"
 #include "../BaseTest.h"
 
 
@@ -20,7 +21,7 @@ class PongLayer : public cocos2d::Layer
 {
 private:
     Ball*       _ball;
-    cocos2d::Vector<Paddle*>    _paddles;
+    std::vector<cocos2d::node_ptr<Paddle>>  _paddles;
     cocos2d::Vec2     _ballStartingVelocity; 
 public:
     CREATE_FUNC(PongLayer);

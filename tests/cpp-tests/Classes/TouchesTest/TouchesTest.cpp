@@ -57,29 +57,30 @@ PongLayer::PongLayer()
     
     auto paddleTexture = Director::getInstance()->getTextureCache()->addImage(s_Paddle);
     
-    Vector<Paddle*> paddlesM(4);
+    std::vector<node_ptr<Paddle>> paddlesM;
+    paddlesM.reserve(4);
     
     Paddle* paddle = Paddle::createWithTexture(paddleTexture);
     paddle->setPosition( Vec2(VisibleRect::center().x, VisibleRect::bottom().y + 15) );
-	paddlesM.pushBack( paddle );
+	paddlesM.push_back( to_node_ptr( paddle));
     
     paddle = Paddle::createWithTexture( paddleTexture );
     paddle->setPosition( Vec2(VisibleRect::center().x, VisibleRect::top().y - kStatusBarHeight - 15) );
-    paddlesM.pushBack( paddle );
+    paddlesM.push_back( to_node_ptr( paddle));
     
     paddle = Paddle::createWithTexture( paddleTexture );
     paddle->setPosition( Vec2(VisibleRect::center().x, VisibleRect::bottom().y + 100) );
-    paddlesM.pushBack( paddle );
+    paddlesM.push_back( to_node_ptr( paddle));
     
     paddle = Paddle::createWithTexture( paddleTexture );
     paddle->setPosition( Vec2(VisibleRect::center().x, VisibleRect::top().y - kStatusBarHeight - 100) );
-    paddlesM.pushBack( paddle );
+    paddlesM.push_back( to_node_ptr( paddle));
     
-    _paddles = paddlesM;
+    _paddles = std::move( paddlesM );
     
-    for (auto& paddle : _paddles)
+    for (auto & paddle : _paddles)
     {
-        addChild(paddle);
+        addChild(paddle.get());
     }
 
     schedule( CC_SCHEDULE_SELECTOR(PongLayer::doStep) );
@@ -89,7 +90,7 @@ PongLayer::~PongLayer()
 {
 }
 
-void PongLayer::resetAndScoreBallForPlayer(int player)
+void PongLayer::resetAndScoreBallForPlayer(int /*player*/)
 {
     _ballStartingVelocity = _ballStartingVelocity * -1.1f;
     _ball->setVelocity( _ballStartingVelocity );
@@ -104,7 +105,7 @@ void PongLayer::doStep(float delta)
 
     for (auto& paddle : _paddles)
     {
-        _ball->collideWithPaddle( paddle );
+        _ball->collideWithPaddle( paddle.get() );
     }
 
     if (_ball->getPosition().y > VisibleRect::top().y - kStatusBarHeight + _ball->radius())
@@ -145,11 +146,11 @@ std::string ForceTouchTest::subtitle() const
     return std::string("Touch with force to see info label changes\nOnly work on iPhone6s / iPhone6s Plus");
 }
     
-void ForceTouchTest::onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void ForceTouchTest::onTouchesBegan(const std::vector<cocos2d::Touch*>&, cocos2d::Event*)
 {
 }
 
-void ForceTouchTest::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void ForceTouchTest::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event*)
 {
     for(auto& t : touches)
     {
@@ -160,7 +161,7 @@ void ForceTouchTest::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches,
     }
 }
 
-void ForceTouchTest::onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void ForceTouchTest::onTouchesEnded(const std::vector<cocos2d::Touch*> &, cocos2d::Event*)
 {
     sprintf(formatBuffer, _Info_Formatter, 0.0f, 0.0f);
     _infoLabel->setString(std::string(formatBuffer));
