@@ -35,7 +35,6 @@ THE SOFTWARE.
 
 #include <errno.h>
 
-#include "base/CCVector.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 

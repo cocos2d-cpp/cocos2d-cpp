@@ -31,7 +31,6 @@
 #include "2d/CCComponent.h"
 #include "math/CCGeometry.h"
 #include "physics/CCPhysicsShape.h"
-#include "base/CCVector.h"
 
 struct cpBody;
 

@@ -33,7 +33,6 @@ THE SOFTWARE.
 #include "2d/CCAction.h"
 #include "2d/CCAnimation.h"
 #include "base/CCProtocols.h"
-#include "base/CCVector.h"
 
 namespace cocos2d {
 

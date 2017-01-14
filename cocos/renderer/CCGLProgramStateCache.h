@@ -26,7 +26,6 @@ THE SOFTWARE.
 #define __CCGLPROGRAMSTATECACHE_H__
 
 #include "base/ccTypes.h"
-#include "base/CCVector.h"
 #include "base/CCMap.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"

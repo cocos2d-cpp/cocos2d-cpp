@@ -27,7 +27,6 @@
 #ifndef __CCHTTPCLIENT_H__
 #define __CCHTTPCLIENT_H__
 
-#include "base/CCVector.h"
 #include "base/CCScheduler.h"
 #include "network/HttpRequest.h"
 #include "network/HttpResponse.h"

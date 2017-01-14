@@ -26,7 +26,6 @@
 #define __cocos2d_libs__CCLayoutManager__
 
 #include "2d/CCNode.h"
-#include "base/CCVector.h"
 #include "ui/GUIExport.h"
 
 /**

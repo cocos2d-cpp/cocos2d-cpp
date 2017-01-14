@@ -5,7 +5,6 @@
 #include <vector>
 #include "base/CCMap.h"
 #include "base/CCValue.h"
-#include "base/CCVector.h"
 
 std::string genStr(const char* format, ...);
 std::vector<std::string> genStrVector(const char* str1, ...);

@@ -34,7 +34,6 @@
 #include "platform/CCPlatformMacros.h"
 #include "base/CCRef.h"
 #include "base/ccTypes.h"
-#include "base/CCVector.h"
 
 namespace cocos2d {
 

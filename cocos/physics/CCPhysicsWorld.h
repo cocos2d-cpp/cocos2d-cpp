@@ -29,7 +29,6 @@
 #if CC_USE_PHYSICS
 
 #include <list>
-#include "base/CCVector.h"
 #include "math/CCGeometry.h"
 #include "physics/CCPhysicsBody.h"
 

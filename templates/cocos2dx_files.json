@@ -468,7 +468,6 @@
         "cocos/base/CCUserDefault.h", 
         "cocos/base/CCValue.cpp", 
         "cocos/base/CCValue.h", 
-        "cocos/base/CCVector.h", 
         "cocos/base/CMakeLists.txt", 
         "cocos/base/ObjectFactory.cpp", 
         "cocos/base/ObjectFactory.h", 

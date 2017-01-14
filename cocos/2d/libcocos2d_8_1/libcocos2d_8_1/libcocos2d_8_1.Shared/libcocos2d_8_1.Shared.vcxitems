@@ -298,7 +298,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccUTF8.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccUtils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCValue.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCVector.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\etc1.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\firePngData.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ObjectFactory.h" />

@@ -2246,7 +2246,6 @@
 		507B3DB21C31BDD30067B53E /* CCPUVertexEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1ED1AA80A6500DDB1C5 /* CCPUVertexEmitter.h */; };
 		507B3DB31C31BDD30067B53E /* CCPUCollisionAvoidanceAffector.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0F51AA80A6500DDB1C5 /* CCPUCollisionAvoidanceAffector.h */; };
 		507B3DB41C31BDD30067B53E /* btQuantization.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB0B31AF9AA1900B9B856 /* btQuantization.h */; };
-		507B3DB51C31BDD30067B53E /* CCVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE131925AB6F00A911A9 /* CCVector.h */; };
 		507B3DB61C31BDD30067B53E /* CCEventCustom.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD91925AB6E00A911A9 /* CCEventCustom.h */; };
 		507B3DB71C31BDD30067B53E /* b2WheelJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 46A169121807AF9C005B8026 /* b2WheelJoint.h */; };
 		507B3DB81C31BDD30067B53E /* CCPUOnCountObserverTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E16B1AA80A6500DDB1C5 /* CCPUOnCountObserverTranslator.h */; };
@@ -3391,8 +3390,6 @@
 		50ABBEC01925AB6F00A911A9 /* CCValue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE111925AB6F00A911A9 /* CCValue.cpp */; };
 		50ABBEC11925AB6F00A911A9 /* CCValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE121925AB6F00A911A9 /* CCValue.h */; };
 		50ABBEC21925AB6F00A911A9 /* CCValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE121925AB6F00A911A9 /* CCValue.h */; };
-		50ABBEC31925AB6F00A911A9 /* CCVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE131925AB6F00A911A9 /* CCVector.h */; };
-		50ABBEC41925AB6F00A911A9 /* CCVector.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE131925AB6F00A911A9 /* CCVector.h */; };
 		50ABBEC51925AB6F00A911A9 /* etc1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE141925AB6F00A911A9 /* etc1.cpp */; };
 		50ABBEC61925AB6F00A911A9 /* etc1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE141925AB6F00A911A9 /* etc1.cpp */; };
 		50ABBEC71925AB6F00A911A9 /* etc1.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE151925AB6F00A911A9 /* etc1.h */; };
@@ -6278,7 +6275,6 @@
 		50ABBE101925AB6F00A911A9 /* ccUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccUtils.h; path = ../base/ccUtils.h; sourceTree = "<group>"; };
 		50ABBE111925AB6F00A911A9 /* CCValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCValue.cpp; path = ../base/CCValue.cpp; sourceTree = "<group>"; };
 		50ABBE121925AB6F00A911A9 /* CCValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCValue.h; path = ../base/CCValue.h; sourceTree = "<group>"; };
-		50ABBE131925AB6F00A911A9 /* CCVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCVector.h; path = ../base/CCVector.h; sourceTree = "<group>"; };
 		50ABBE141925AB6F00A911A9 /* etc1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = etc1.cpp; path = ../base/etc1.cpp; sourceTree = "<group>"; };
 		50ABBE151925AB6F00A911A9 /* etc1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = etc1.h; path = ../base/etc1.h; sourceTree = "<group>"; };
 		50ABBE161925AB6F00A911A9 /* firePngData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = firePngData.h; path = ../base/firePngData.h; sourceTree = "<group>"; };
@@ -7572,7 +7568,6 @@
 				50ABBE101925AB6F00A911A9 /* ccUtils.h */,
 				50ABBE111925AB6F00A911A9 /* CCValue.cpp */,
 				50ABBE121925AB6F00A911A9 /* CCValue.h */,
-				50ABBE131925AB6F00A911A9 /* CCVector.h */,
 				50ABBE141925AB6F00A911A9 /* etc1.cpp */,
 				50ABBE151925AB6F00A911A9 /* etc1.h */,
 				50ABBE161925AB6F00A911A9 /* firePngData.h */,
@@ -10512,7 +10507,6 @@
 				15FB20891AE7C57D00C31518 /* shapes.h in Headers */,
 				15AE184819AAD2F700C27E9E /* cocos3d.h in Headers */,
 				B6CAB2531AF9AA1A00B9B856 /* btEmptyCollisionAlgorithm.h in Headers */,
-				50ABBEC31925AB6F00A911A9 /* CCVector.h in Headers */,
 				1A57008B180BC5A10088DEC7 /* CCActionProgressTimer.h in Headers */,
 				B6CAB2A51AF9AA1A00B9B856 /* btConvexHullShape.h in Headers */,
 				B665E2EC1AA80A6500DDB1C5 /* CCPULinearForceAffectorTranslator.h in Headers */,
@@ -11408,7 +11402,6 @@
 				507B3DB31C31BDD30067B53E /* CCPUCollisionAvoidanceAffector.h in Headers */,
 				5020A1C71D49912500E80C72 /* PathAttachment.h in Headers */,
 				507B3DB41C31BDD30067B53E /* btQuantization.h in Headers */,
-				507B3DB51C31BDD30067B53E /* CCVector.h in Headers */,
 				507B3DB61C31BDD30067B53E /* CCEventCustom.h in Headers */,
 				507B3DB71C31BDD30067B53E /* b2WheelJoint.h in Headers */,
 				507B3DB81C31BDD30067B53E /* CCPUOnCountObserverTranslator.h in Headers */,
@@ -12464,7 +12457,6 @@
 				5020A22F1D49912500E80C72 /* VertexAttachment.h in Headers */,
 				B665E2451AA80A6500DDB1C5 /* CCPUCollisionAvoidanceAffector.h in Headers */,
 				B6CAB3381AF9AA1A00B9B856 /* btQuantization.h in Headers */,
-				50ABBEC41925AB6F00A911A9 /* CCVector.h in Headers */,
 				50ABBE501925AB6F00A911A9 /* CCEventCustom.h in Headers */,
 				15AE1AD719AAD40300C27E9E /* b2WheelJoint.h in Headers */,
 				B665E3311AA80A6500DDB1C5 /* CCPUOnCountObserverTranslator.h in Headers */,

@@ -28,13 +28,13 @@ THE SOFTWARE.
 #ifndef __CCSCHEDULER_H__
 #define __CCSCHEDULER_H__
 
+#include "base/CCRef.h"
+#include "base/uthash.h"
+
 #include <functional>
 #include <mutex>
 #include <set>
-
-#include "base/CCRef.h"
-#include "base/CCVector.h"
-#include "base/uthash.h"
+#include <vector>
 
 namespace cocos2d {
 

@@ -27,7 +27,6 @@
 
 #include <unordered_map>
 
-#include "base/CCVector.h"
 #include "base/ccTypes.h"
 #include "base/CCProtocols.h"
 #include "2d/CCNode.h"

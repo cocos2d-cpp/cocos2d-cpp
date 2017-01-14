@@ -27,9 +27,7 @@
 
 #include "3d/CCBundle3DData.h"
 #include "base/CCRef.h"
-#include "base/CCVector.h"
 #include "math/CCMath.h"
-
 
 namespace cocos2d {
 

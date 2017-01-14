@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include <unordered_map>
 
 #include "base/ccTypes.h"
-#include "base/CCVector.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"

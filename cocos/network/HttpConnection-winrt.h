@@ -46,7 +46,6 @@ THE SOFTWARE.
 using namespace Microsoft::WRL;
 using namespace Microsoft::WRL::Details;
 
-#include "base/CCVector.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
 
