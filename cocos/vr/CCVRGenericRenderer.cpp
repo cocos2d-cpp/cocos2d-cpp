@@ -40,10 +40,10 @@
 namespace cocos2d {
 
 VRGenericRenderer::VRGenericRenderer()
-: _vignetteEnabled(true)
-, _distortion(nullptr)
-, _leftDistortionMesh(nullptr)
+: _leftDistortionMesh(nullptr)
 , _rightDistortionMesh(nullptr)
+, _distortion(nullptr)
+, _vignetteEnabled(true)
 , _glProgramState(nullptr)
 {
     _headTracker = new VRGenericHeadTracker;

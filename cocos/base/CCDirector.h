@@ -95,7 +95,7 @@ enum class MATRIX_STACK_TYPE
  Since the Director is a singleton, the standard way to use it is by calling:
  _ Director::getInstance()->methodName();
  */
-class CC_DLL Director
+class CC_DLL Director final
 {
 public:
     /** Director will trigger an event when projection type is changed. */

@@ -140,8 +140,8 @@ RenderTarget::~RenderTarget()
 }
 
 RenderTargetRenderBuffer::RenderTargetRenderBuffer()
-: _colorBuffer(0)
-, _format(GL_RGBA4)
+: _format(GL_RGBA4)
+, _colorBuffer(0)
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 , _reBuildRenderBufferListener(nullptr)
 #endif
@@ -382,14 +382,14 @@ bool FrameBuffer::init(uint8_t fid, unsigned int width, unsigned int height)
 }
 
 FrameBuffer::FrameBuffer()
-: _clearColor(Color4F(0, 0, 0, 1))
+: _fbo(0)
+, _previousFBO(0)
+, _fboBindingDirty(true)
+, _clearColor(Color4F(0, 0, 0, 1))
 , _clearDepth(1.0)
 , _clearStencil(0)
-, _fbo(0)
-, _previousFBO(0)
 , _rt(nullptr)
 , _rtDepthStencil(nullptr)
-, _fboBindingDirty(true)
 , _isDefault(false)
 #if CC_ENABLE_CACHE_TEXTURE_DATA
 , _dirtyFBOListener(nullptr)
@@ -432,7 +432,8 @@ void FrameBuffer::attachRenderTarget(RenderTargetBase* rt)
         return;
     }
     CC_ASSERT(rt);
-    if(rt->getWidth() != _width || rt->getHeight() != _height)
+    if (static_cast<int>(rt->getWidth()) != _width
+        || static_cast<int>(rt->getHeight()) != _height)
     {
         CCLOG("Error, attach a render target with different size, Skip.");
         return;
@@ -485,7 +486,9 @@ void FrameBuffer::attachDepthStencilTarget(RenderTargetDepthStencil* rt)
         return;
     }
     
-    if(nullptr != rt && (rt->getWidth() != _width || rt->getHeight() != _height))
+    if (nullptr != rt
+        && (static_cast<int>(rt->getWidth()) != _width
+            || static_cast<int>(rt->getHeight()) != _height))
     {
         CCLOG("Error, attach a render target Depth stencil with different size, Skip.");
         return;
