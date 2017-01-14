@@ -1009,8 +1009,7 @@ void Director::purgeDirector()
         _openGLView = nullptr;
     }
 
-    // delete Director
-    release();
+    delete this;
 }
 
 void Director::restartDirector()

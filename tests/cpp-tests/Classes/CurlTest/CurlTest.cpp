@@ -58,7 +58,7 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 
 // the test code is
 // http://curl.haxx.se/mail/lib-2009-12/0071.html
-void CurlTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
+void CurlTest::onTouchesEnded(const std::vector<Touch*> &, Event *)
 {
     CURL *curl;
     CURLcode res;

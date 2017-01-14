@@ -79,7 +79,7 @@ bool SpineTestLayerNormal::init () {
 	spTrackEntry* jumpEntry = skeletonNode->addAnimation(0, "jump", false, 3);
 	skeletonNode->addAnimation(0, "run", true);
     
-	skeletonNode->setTrackStartListener(jumpEntry, [] (int trackIndex) {
+	skeletonNode->setTrackStartListener(jumpEntry, [] (int) {
 		log("jumped!");
 	});
     
@@ -90,7 +90,7 @@ bool SpineTestLayerNormal::init () {
 	scheduleUpdate();
     
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+	listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
 		if (!skeletonNode->getDebugBonesEnabled())
 			skeletonNode->setDebugBonesEnabled(true);
 		else if (skeletonNode->getTimeScale() == 1)
@@ -108,7 +108,7 @@ bool SpineTestLayerNormal::init () {
 	return true;
 }
 
-void SpineTestLayerNormal::update (float deltaTime) {
+void SpineTestLayerNormal::update (float /*deltaTime*/) {
     
 }
 
@@ -127,7 +127,7 @@ bool SpineTestLayerFFD::init () {
 	scheduleUpdate();
 	
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+	listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
 		if (!skeletonNode->getDebugBonesEnabled())
 			skeletonNode->setDebugBonesEnabled(true);
 		else if (skeletonNode->getTimeScale() == 1)
@@ -144,7 +144,7 @@ bool SpineTestLayerFFD::init () {
 	return true;
 }
 
-void SpineTestLayerFFD::update (float deltaTime) {
+void SpineTestLayerFFD::update (float /*deltaTime*/) {
     
 }
 
@@ -154,7 +154,7 @@ bool SpineTestPerformanceLayer::init () {
 	scheduleUpdate();
 	
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-	listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool
+	listener->onTouchBegan = [this] (Touch* touch, Event*) -> bool
     {
         
         Vec2 pos = convertToNodeSpace(touch->getLocation());
@@ -172,7 +172,7 @@ bool SpineTestPerformanceLayer::init () {
 	return true;
 }
 
-void SpineTestPerformanceLayer::update (float deltaTime) {
+void SpineTestPerformanceLayer::update (float /*deltaTime*/) {
     
 }
 
@@ -192,7 +192,7 @@ bool SpineTestLayerRapor::init () {
     scheduleUpdate();
     
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+    listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
         if (!skeletonNode->getDebugBonesEnabled())
             skeletonNode->setDebugBonesEnabled(true);
         else if (skeletonNode->getTimeScale() == 1)
@@ -234,7 +234,7 @@ bool SpineTestLayerNormalBin::init () {
     spTrackEntry* jumpEntry = skeletonNode->addAnimation(0, "jump", false, 3);
     skeletonNode->addAnimation(0, "run", true);
 
-    skeletonNode->setTrackStartListener(jumpEntry, [] (int trackIndex) {
+    skeletonNode->setTrackStartListener(jumpEntry, [] (int /*trackIndex*/) {
         log("jumped!");
     });
 
@@ -245,7 +245,7 @@ bool SpineTestLayerNormalBin::init () {
     scheduleUpdate();
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+    listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
         if (!skeletonNode->getDebugBonesEnabled())
             skeletonNode->setDebugBonesEnabled(true);
         else if (skeletonNode->getTimeScale() == 1)
@@ -263,7 +263,7 @@ bool SpineTestLayerNormalBin::init () {
     return true;
 }
 
-void SpineTestLayerNormalBin::update (float deltaTime) {
+void SpineTestLayerNormalBin::update (float /*deltaTime*/) {
 }
 
 bool SpineTestLayerFFDBin::init () {
@@ -281,7 +281,7 @@ bool SpineTestLayerFFDBin::init () {
     scheduleUpdate();
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+    listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
         if (!skeletonNode->getDebugBonesEnabled())
             skeletonNode->setDebugBonesEnabled(true);
         else if (skeletonNode->getTimeScale() == 1)
@@ -298,7 +298,7 @@ bool SpineTestLayerFFDBin::init () {
     return true;
 }
 
-void SpineTestLayerFFDBin::update (float deltaTime) {
+void SpineTestLayerFFDBin::update (float /*deltaTime*/) {
 }
 
 bool SpineTestPerformanceLayerBin::init () {
@@ -307,7 +307,7 @@ bool SpineTestPerformanceLayerBin::init () {
     scheduleUpdate();
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool
+    listener->onTouchBegan = [this] (Touch* touch, Event*) -> bool
     {
 
         Vec2 pos = convertToNodeSpace(touch->getLocation());
@@ -325,7 +325,7 @@ bool SpineTestPerformanceLayerBin::init () {
     return true;
 }
 
-void SpineTestPerformanceLayerBin::update (float deltaTime) {
+void SpineTestPerformanceLayerBin::update (float /*deltaTime*/) {
 
 }
 
@@ -345,7 +345,7 @@ bool SpineTestLayerRaporBin::init () {
     scheduleUpdate();
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
-    listener->onTouchBegan = [this] (Touch* touch, Event* event) -> bool {
+    listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
         if (!skeletonNode->getDebugBonesEnabled())
             skeletonNode->setDebugBonesEnabled(true);
         else if (skeletonNode->getTimeScale() == 1)

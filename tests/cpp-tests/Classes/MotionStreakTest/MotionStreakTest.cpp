@@ -75,7 +75,7 @@ void MotionStreakTest1::onEnter()
     _streak->runAction(colorAction);
 }
 
-void MotionStreakTest1::onUpdate(float delta)
+void MotionStreakTest1::onUpdate(float /*delta*/)
 {
     _streak->setPosition( _target->convertToWorldSpace(Vec2::ZERO) );
 }
@@ -108,7 +108,7 @@ void MotionStreakTest2::onEnter()
     _streak->setPosition( Vec2(s.width/2, s.height/2) );
 }
 
-void MotionStreakTest2::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void MotionStreakTest2::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     auto touchLocation = touches[0]->getLocation();
     
@@ -144,7 +144,7 @@ void Issue1358::onEnter()
     schedule(CC_SCHEDULE_SELECTOR(Issue1358::update), 0);
 }
 
-void Issue1358::update(float dt)
+void Issue1358::update(float)
 {
     _angle += 1.0f;
     _streak->setPosition(Vec2(_center.x + cosf(_angle/180 * M_PI)*_radius,
@@ -191,7 +191,7 @@ void Issue12226::onEnter()
 
     const uint32_t length = (radius * 0.95);
 
-    std::function<void(float)> updateMotionStreak = [=](float dt) {
+    std::function<void(float)> updateMotionStreak = [=](float /*dt*/) {
 
         Vec2 position = Vec2(outer->getPositionX() + length * cosf(-1 * CC_DEGREES_TO_RADIANS(outer->getRotation() + 90.0f)),
                              outer->getPositionY() + length * sinf(-1 * CC_DEGREES_TO_RADIANS(outer->getRotation() + 90.0f)));
@@ -277,7 +277,7 @@ void MotionStreakTest::onEnter()
     menuMode->setPosition(Vec2(s.width/2, s.height/4));
 }
 
-void MotionStreakTest::modeCallback(Ref *pSender)
+void MotionStreakTest::modeCallback(Ref *)
 {
     bool fastMode = _streak->isFastMode();
     _streak->setFastMode(! fastMode);
