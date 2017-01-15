@@ -28,11 +28,13 @@ THE SOFTWARE.
 #define __SUPPORT_CCPROFILING_H__
 /// @cond DO_NOT_SHOW
 
-#include <string>
-#include <chrono>
 #include "base/ccConfig.h"
 #include "base/CCRef.h"
-#include "base/CCMap.h"
+
+#include <chrono>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace cocos2d {
 
@@ -52,80 +54,36 @@ class ProfilingTimer;
 class CC_DLL Profiler : public Ref
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
     ~Profiler(void);
-    /** display the timers
-     * @js NA
-     * @lua NA
-     */
     void displayTimers(void);
-    /**
-     * @js NA
-     * @lua NA
-     */
     bool init(void);
 
 public:
-    /** returns the singleton 
-     * @js NA
-     * @lua NA
-     */
     static Profiler* getInstance(void);
 
-    /** Creates and adds a new timer 
-     * @js NA
-     * @lua NA
-     */
     ProfilingTimer* createAndAddTimerWithName(const char* timerName);
-    /** releases a timer 
-     * @js NA
-     * @lua NA
-     */
+
     void releaseTimer(const char* timerName);
-    /** releases all timers 
-     * @js NA
-     * @lua NA
-     */
+
     void releaseAllTimers();
 
-    Map<std::string, ProfilingTimer*> _activeTimers;
+    std::map<std::string, std::unique_ptr<ProfilingTimer>> _activeTimers;
 };
 
-class ProfilingTimer : public Ref
+class ProfilingTimer
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
     ProfilingTimer();
-    /**
-     * @js NA
-     * @lua NA
-     */
+    
     ~ProfilingTimer(void);
-    /**
-     * @js NA
-     * @lua NA
-     */
+    
     bool initWithName(const char* timerName);
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual std::string getDescription() const;
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     const std::chrono::high_resolution_clock::time_point& getStartTime() { return _startTime; }
 
     /** resets the timer properties
-     * @js NA
-     * @lua NA
      */
     void reset();
 

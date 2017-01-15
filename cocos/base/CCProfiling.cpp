@@ -25,6 +25,8 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "base/CCProfiling.h"
 
+#include "base/ccMacros.h"
+
 using namespace std;
 
 namespace cocos2d {
@@ -51,12 +53,11 @@ Profiler* Profiler::getInstance()
 
 ProfilingTimer* Profiler::createAndAddTimerWithName(const char* timerName)
 {
-    ProfilingTimer *t = new (std::nothrow) ProfilingTimer();
+    std::unique_ptr<ProfilingTimer> t (new (std::nothrow) ProfilingTimer());
+    auto p = t.get();
     t->initWithName(timerName);
-    _activeTimers.insert(timerName, t);
-    t->release();
-
-    return t;
+    _activeTimers[timerName] = std::move(t);
+    return p;
 }
 
 void Profiler::releaseTimer(const char* timerName)
@@ -80,9 +81,9 @@ Profiler::~Profiler(void)
 
 void Profiler::displayTimers()
 {
-    for (auto& iter : _activeTimers)
+    for (auto & iter : _activeTimers)
     {
-        ProfilingTimer* timer = iter.second;
+        auto & timer = iter.second;
         log("%s", timer->getDescription().c_str());
     }
 }
@@ -132,8 +133,8 @@ void ProfilingTimer::reset()
 void ProfilingBeginTimingBlock(const char *timerName)
 {
     Profiler* p = Profiler::getInstance();
-    ProfilingTimer* timer = p->_activeTimers.at(timerName);
-    if( ! timer )
+    auto timer = p->_activeTimers[timerName].get();
+    if ( ! timer )
     {
         timer = p->createAndAddTimerWithName(timerName);
     }
@@ -150,7 +151,7 @@ void ProfilingEndTimingBlock(const char *timerName)
     auto now = chrono::high_resolution_clock::now();
 
     Profiler* p = Profiler::getInstance();
-    ProfilingTimer* timer = p->_activeTimers.at(timerName);
+    ProfilingTimer* timer = p->_activeTimers[timerName].get();
 
     CCASSERT(timer, "CCProfilingTimer  not found");
 
@@ -160,14 +161,14 @@ void ProfilingEndTimingBlock(const char *timerName)
     timer->totalTime += duration;
     timer->_averageTime1 = (timer->_averageTime1 + duration) / 2.0f;
     timer->_averageTime2 = timer->totalTime / timer->numberOfCalls;
-    timer->maxTime = MAX( timer->maxTime, duration);
-    timer->minTime = MIN( timer->minTime, duration);
+    timer->maxTime = std::max( timer->maxTime, duration);
+    timer->minTime = std::min( timer->minTime, duration);
 }
 
 void ProfilingResetTimingBlock(const char *timerName)
 {
     Profiler* p = Profiler::getInstance();
-    ProfilingTimer *timer = p->_activeTimers.at(timerName);
+    ProfilingTimer *timer = p->_activeTimers[timerName].get();
 
     CCASSERT(timer, "CCProfilingTimer not found");
 

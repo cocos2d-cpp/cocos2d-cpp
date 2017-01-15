@@ -768,7 +768,7 @@ bool AudioPerformanceTest::init()
 
 std::string AudioPerformanceTest::title() const
 {
-    return "Test Performance of AudioEngine::play2d, audio is played 1 time per second";
+    return "Test Performance of AudioEngine::play2d,\n audio is played 1 time per second";
 }
 
 std::string AudioPerformanceTest::subtitle() const
