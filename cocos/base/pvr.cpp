@@ -420,7 +420,7 @@ static void GetModulationValue(int x,
     
 	int ModVal;
     
-	// Map X and Y into the local 2x2 block
+	// map X and Y into the local 2x2 block
 	y = (y & 0x3) | ((~y & 0x2) << 1);
     
 	if(Do2bitMode)
@@ -633,7 +633,7 @@ static void PVRDecompress(AMTC_BLOCK_STRUCT *pCompressedData,
 			BlkXp1 = LIMIT_COORD(BlkX+1, BlkXDim, AssumeImageTiles);
 			BlkYp1 = LIMIT_COORD(BlkY+1, BlkYDim, AssumeImageTiles);
             
-			// Map to block memory locations
+			// map to block memory locations
 			pBlocks[0][0] = pCompressedData +TwiddleUV(BlkYDim, BlkXDim, BlkY, BlkX);
 			pBlocks[0][1] = pCompressedData +TwiddleUV(BlkYDim, BlkXDim, BlkY, BlkXp1);
 			pBlocks[1][0] = pCompressedData +TwiddleUV(BlkYDim, BlkXDim, BlkYp1, BlkX);

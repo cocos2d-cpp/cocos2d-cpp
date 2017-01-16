@@ -27,20 +27,21 @@
 
  ****************************************************************************/
 
-#include "network/SocketIO.h"
-#include <algorithm>
-#include <sstream>
-#include <iterator>
 #include "base/ccUTF8.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"
-#include "network/WebSocket.h"
 #include "network/HttpClient.h"
+#include "network/SocketIO.h"
+#include "network/WebSocket.h"
 
 #include "json/rapidjson.h"
 #include "json/document-wrapper.h"
 #include "json/stringbuffer.h"
 #include "json/writer.h"
+
+#include <algorithm>
+#include <iterator>
+#include <sstream>
 
 namespace cocos2d {
 
@@ -342,9 +343,7 @@ SocketIOPacket * SocketIOPacket::createPacketWithTypeIndex(int type, SocketIOPac
  *  @brief The implementation of the socket.io connection
  *         Clients/endpoints may share the same impl to accomplish multiplexing on the same websocket
  */
-class SIOClientImpl :
-    public cocos2d::Ref,
-    public WebSocket::Delegate
+class SIOClientImpl : public cocos2d::Ref, public WebSocket::Delegate
 {
 private:
     int _port, _heartbeat, _timeout;
@@ -716,7 +715,7 @@ void SIOClientImpl::onOpen(WebSocket* /*ws*/)
 {
     _connected = true;
 
-    SocketIO::getInstance()->addSocket(_uri, this);
+    SocketIO::getInstance()->addSocket(_uri, to_retaining_ptr(this));
 
     if (_version == SocketIOPacket::SocketIOVersion::V10x)
     {
@@ -1209,12 +1208,15 @@ SIOClient* SocketIO::connect(const std::string& uri, SocketIO::SIODelegate& dele
 
 SIOClientImpl* SocketIO::getSocket(const std::string& uri)
 {
-    return _sockets.at(uri);
+    auto iter = _sockets.find(uri);
+    if (iter != _sockets.end())
+        return iter->second.get();
+    return nullptr;
 }
 
-void SocketIO::addSocket(const std::string& uri, SIOClientImpl* socket)
+void SocketIO::addSocket(const std::string& uri, retaining_ptr<SIOClientImpl> socket)
 {
-    _sockets.insert(uri, socket);
+    _sockets[uri] = std::move(socket);
 }
 
 void SocketIO::removeSocket(const std::string& uri)

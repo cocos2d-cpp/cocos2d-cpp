@@ -59,11 +59,13 @@ in the onClose method the pointer should be set to NULL or used to connect to a 
 #ifndef __CC_SOCKETIO_H__
 #define __CC_SOCKETIO_H__
 
+#include "base/CCConsole.h"
+#include "platform/CCPlatformMacros.h"
+
+#include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include "platform/CCPlatformMacros.h"
-#include "base/CCMap.h"
-
 
 /**
  * @addtogroup network
@@ -162,10 +164,10 @@ private:
 
     static SocketIO *_inst;
 
-    cocos2d::Map<std::string, SIOClientImpl*> _sockets;
+    std::map<std::string, retaining_ptr<SIOClientImpl>> _sockets;
 
     SIOClientImpl* getSocket(const std::string& uri);
-    void addSocket(const std::string& uri, SIOClientImpl* socket);
+    void addSocket(const std::string& uri, retaining_ptr<SIOClientImpl>);
     void removeSocket(const std::string& uri);
 
     friend class SIOClientImpl;
@@ -184,8 +186,7 @@ typedef std::unordered_map<std::string, SIOEvent> EventRegistry;
  *
  * @lua NA
  */
-class CC_DLL SIOClient
-    : public cocos2d::Ref
+class CC_DLL SIOClient : public cocos2d::Ref
 {
 private:
     int _port;
