@@ -45,9 +45,8 @@ SceneTestLayer1::SceneTestLayer1()
     schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer1::testDealloc) );
 }
 
-void SceneTestLayer1::testDealloc(float dt)
+void SceneTestLayer1::testDealloc(float /*dt*/)
 {
-    //CCLOG("SceneTestLayer1:testDealloc");
 }
 
 void SceneTestLayer1::onEnter()
@@ -67,20 +66,20 @@ SceneTestLayer1::~SceneTestLayer1()
     //NSLog(@"SceneTestLayer1 - dealloc");
 }
 
-void SceneTestLayer1::onPushScene(Ref* sender)
+void SceneTestLayer1::onPushScene(Ref*)
 {
     auto scene = SceneTestScene::create(2);
     Director::getInstance()->pushScene( scene );
 }
 
-void SceneTestLayer1::onPushSceneTran(Ref* sender)
+void SceneTestLayer1::onPushSceneTran(Ref*)
 {
     auto scene = SceneTestScene::create(2);
     Director::getInstance()->pushScene( TransitionSlideInT::create(1, scene) );
 }
 
 
-void SceneTestLayer1::onQuit(Ref* sender)
+void SceneTestLayer1::onQuit(Ref*)
 {
 }
 
@@ -114,25 +113,22 @@ SceneTestLayer2::SceneTestLayer2()
     schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer2::testDealloc) );
 }
 
-void SceneTestLayer2::testDealloc(float dt)
+void SceneTestLayer2::testDealloc(float /*dt*/)
 {
-    //_timeCounter += dt;
-    //if( _timeCounter > 10 )
-    //    onReplaceScene(this);
 }
 
-void SceneTestLayer2::onGoBack(Ref* sender)
+void SceneTestLayer2::onGoBack(Ref*)
 {
     Director::getInstance()->popScene();
 }
 
-void SceneTestLayer2::onReplaceScene(Ref* sender)
+void SceneTestLayer2::onReplaceScene(Ref*)
 {
     auto scene = SceneTestScene::create(3);
     Director::getInstance()->replaceScene( scene );
 }
 
-void SceneTestLayer2::onReplaceSceneTran(Ref* sender)
+void SceneTestLayer2::onReplaceSceneTran(Ref*)
 {
     auto scene = SceneTestScene::create(3);
     Director::getInstance()->replaceScene( TransitionFlipX::create(2, scene) );
@@ -177,12 +173,12 @@ bool SceneTestLayer3::init()
     return false;
 }
 
-void SceneTestLayer3::testDealloc(float dt)
+void SceneTestLayer3::testDealloc(float /*dt*/)
 {
     log("Layer3:testDealloc");
 }
 
-void SceneTestLayer3::item0Clicked(Ref* sender)
+void SceneTestLayer3::item0Clicked(Ref*)
 {
     auto s = Director::getInstance()->getWinSize();
     auto newScene = Scene::createWithSize(s);
@@ -190,17 +186,17 @@ void SceneTestLayer3::item0Clicked(Ref* sender)
     Director::getInstance()->pushScene(TransitionFade::create(0.5, newScene, Color3B(0,255,255)));
 }
 
-void SceneTestLayer3::item1Clicked(Ref* sender)
+void SceneTestLayer3::item1Clicked(Ref*)
 {
     Director::getInstance()->popScene();
 }
 
-void SceneTestLayer3::item2Clicked(Ref* sender)
+void SceneTestLayer3::item2Clicked(Ref*)
 {
     Director::getInstance()->popToRootScene();
 }
 
-void SceneTestLayer3::item3Clicked(Ref* sender)
+void SceneTestLayer3::item3Clicked(Ref*)
 {
     Director::getInstance()->popToSceneStackLevel(2);
 }

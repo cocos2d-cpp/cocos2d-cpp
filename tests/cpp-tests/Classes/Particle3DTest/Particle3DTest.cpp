@@ -89,12 +89,11 @@ bool Particle3DTestDemo::init()
     return true;
 }
 
-void Particle3DTestDemo::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Particle3DTestDemo::onTouchesBegan(const std::vector<Touch*>&, cocos2d::Event*)
 {
-    
 }
 
-void Particle3DTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Particle3DTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event*)
 {
     if (touches.size())
     {
@@ -107,9 +106,8 @@ void Particle3DTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, coco
     }
 }
 
-void Particle3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Particle3DTestDemo::onTouchesEnded(const std::vector<Touch*>&, cocos2d::Event*)
 {
-    
 }
 
 Particle3DTestDemo::Particle3DTestDemo( void )
@@ -118,7 +116,7 @@ Particle3DTestDemo::Particle3DTestDemo( void )
 
 }
 
-void Particle3DTestDemo::update( float delta )
+void Particle3DTestDemo::update( float /*delta*/ )
 {
     ParticleSystem3D *ps = static_cast<ParticleSystem3D *>(this->getChildByTag(PARTICLE_SYSTEM_TAG));
     if (ps){

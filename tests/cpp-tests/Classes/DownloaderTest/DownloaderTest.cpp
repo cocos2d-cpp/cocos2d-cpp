@@ -212,7 +212,7 @@ struct DownloaderTest : public TestCase
 
         // define progress callback
         downloader->onTaskProgress = [this](const network::DownloadTask& task,
-                                          int64_t bytesReceived,
+                                          int64_t /*bytesReceived*/,
                                           int64_t totalBytesReceived,
                                           int64_t totalBytesExpected)
         {

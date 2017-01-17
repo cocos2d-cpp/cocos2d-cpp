@@ -567,23 +567,6 @@ void WebSocket::onSubThreadLoop()
 
 void WebSocket::onSubThreadStarted()
 {
-    static const struct lws_extension exts[] = {
-        {
-            "permessage-deflate",
-            lws_extension_callback_pm_deflate,
-            // client_no_context_takeover extension is not supported in the current version, it will cause connection fail
-            // It may be a bug of lib websocket build
-//            "permessage-deflate; client_no_context_takeover; client_max_window_bits"
-            "permessage-deflate; client_max_window_bits"
-        },
-        {
-            "deflate-frame",
-            lws_extension_callback_pm_deflate,
-            "deflate_frame"
-        },
-        { nullptr, nullptr, nullptr /* terminator */ }
-    };
-
     struct lws_context_creation_info info;
     memset(&info, 0, sizeof info);
     /*
@@ -927,12 +910,12 @@ void WebSocket::onConnectionClosed()
     });
 }
 
-int WebSocket::onSocketCallback(struct lws *wsi,
-                     int reason,
-                     void *user, void *in, ssize_t len)
+int WebSocket::onSocketCallback(struct lws *,
+                                int         reason,
+                                void       *,
+                                void       *in,
+                                ssize_t     len)
 {
-    //LOGD("socket callback for %d reason\n", reason);
-
     switch (reason)
     {
         case LWS_CALLBACK_CLIENT_ESTABLISHED:
@@ -957,7 +940,6 @@ int WebSocket::onSocketCallback(struct lws *wsi,
             break;
 
         default:
-//            LOGD("Unhandled websocket event: %d\n", reason);
             break;
     }
 

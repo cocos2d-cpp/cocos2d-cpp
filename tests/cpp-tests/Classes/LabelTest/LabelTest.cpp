@@ -116,7 +116,7 @@ void Atlas1::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     renderer->addCommand(&_customCommand);
 }
 
-void Atlas1::onDraw(const Mat4 &transform, uint32_t flags)
+void Atlas1::onDraw(const Mat4 & transform, uint32_t)
 {
     getGLProgram()->use();
     getGLProgram()->setUniformsForBuiltins(transform);
@@ -743,7 +743,7 @@ LabelsEmpty::LabelsEmpty()
     setEmpty = false;
 }
 
-void LabelsEmpty::updateStrings(float dt)
+void LabelsEmpty::updateStrings(float /*dt*/)
 {
     auto label1 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas1) );
     auto label2 = static_cast<Label*>( getChildByTag(kTagBitmapAtlas2) );
@@ -926,37 +926,37 @@ void  LabelTTFTest::updateAlignment()
     this->addChild(_label);
 }
 
-void LabelTTFTest::setAlignmentLeft(Ref* sender)
+void LabelTTFTest::setAlignmentLeft(Ref* /*sender*/)
 {
     _horizAlign = TextHAlignment::LEFT;
     this->updateAlignment();
 }
 
-void LabelTTFTest::setAlignmentCenter(Ref* sender)
+void LabelTTFTest::setAlignmentCenter(Ref* /*sender*/)
 {
     _horizAlign = TextHAlignment::CENTER;
     this->updateAlignment();
 }
 
-void LabelTTFTest::setAlignmentRight(Ref* sender)
+void LabelTTFTest::setAlignmentRight(Ref* /*sender*/)
 {
     _horizAlign = TextHAlignment::RIGHT;
     this->updateAlignment();
 }
 
-void LabelTTFTest::setAlignmentTop(Ref* sender)
+void LabelTTFTest::setAlignmentTop(Ref* /*sender*/)
 {
     _vertAlign = TextVAlignment::TOP;
     this->updateAlignment();
 }
 
-void LabelTTFTest::setAlignmentMiddle(Ref* sender)
+void LabelTTFTest::setAlignmentMiddle(Ref* /*sender*/)
 {
     _vertAlign = TextVAlignment::CENTER;
     this->updateAlignment();
 }
 
-void LabelTTFTest::setAlignmentBottom(Ref* sender)
+void LabelTTFTest::setAlignmentBottom(Ref* /*sender*/)
 {
     _vertAlign = TextVAlignment::BOTTOM;
     this->updateAlignment();
@@ -1220,7 +1220,7 @@ void BitmapFontMultiLineAlignment::alignmentChanged(cocos2d::Ref *sender)
     this->snapArrowsToEdge();
 }
 
-void BitmapFontMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void BitmapFontMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event*)
 {
     auto touch = touches[0];
     auto location = touch->getLocationInView();
@@ -1232,7 +1232,7 @@ void BitmapFontMultiLineAlignment::onTouchesBegan(const std::vector<Touch*>& tou
     }
 }
 
-void BitmapFontMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void BitmapFontMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>&, cocos2d::Event*)
 {
     _drag = false;
     this->snapArrowsToEdge();
@@ -1240,7 +1240,7 @@ void BitmapFontMultiLineAlignment::onTouchesEnded(const std::vector<Touch*>& tou
     this->_arrowsBarShouldRetain->setVisible(false);
 }
 
-void BitmapFontMultiLineAlignment::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void BitmapFontMultiLineAlignment::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event*)
 {
     if (! _drag)
     {

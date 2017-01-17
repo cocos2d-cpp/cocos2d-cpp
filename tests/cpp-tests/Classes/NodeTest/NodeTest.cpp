@@ -167,14 +167,14 @@ NodeTest4::NodeTest4()
     schedule(CC_CALLBACK_1(NodeTest4::delay4, this), 4.0f, "delay4_key");
 }
 
-void NodeTest4::delay2(float dt)
+void NodeTest4::delay2(float /*dt*/)
 {
     auto node = static_cast<Sprite*>(getChildByTag(2));
     auto action1 = RotateBy::create(1, 360);
     node->runAction(action1);
 }
 
-void NodeTest4::delay4(float dt)
+void NodeTest4::delay4(float /*dt*/)
 {
     unschedule("delay4_key");
     removeChildByTag(3, false);
@@ -215,7 +215,7 @@ NodeTest5::NodeTest5()
     schedule(CC_CALLBACK_1(NodeTest5::addAndRemove, this), 2.0f, "add_and_remove_key");
 }
 
-void NodeTest5::addAndRemove(float dt)
+void NodeTest5::addAndRemove(float /*dt*/)
 {
     auto sp1 = getChildByTag(kTagSprite1);
     auto sp2 = getChildByTag(kTagSprite2);
@@ -275,7 +275,7 @@ NodeTest6::NodeTest6()
     schedule(CC_CALLBACK_1(NodeTest6::addAndRemove, this), 2.0f, "add_and_remove_key");
 }
 
-void NodeTest6::addAndRemove(float dt)
+void NodeTest6::addAndRemove(float /*dt*/)
 {
     auto sp1 = getChildByTag(kTagSprite1);
     auto sp2 = getChildByTag(kTagSprite2);
@@ -317,7 +317,7 @@ StressTest1::StressTest1()
     schedule(CC_CALLBACK_1(StressTest1::shouldNotCrash, this), 1.0f, "should_not_crash_key");
 }
 
-void StressTest1::shouldNotCrash(float dt)
+void StressTest1::shouldNotCrash(float /*dt*/)
 {
     unschedule("should_not_crash_key");
 
@@ -342,7 +342,7 @@ void StressTest1::shouldNotCrash(float dt)
 }
 
 // remove
-void StressTest1::removeMe(Node* node)
+void StressTest1::removeMe(Node*)
 {
     getTestSuite()->enterNextTest();
 }
@@ -388,7 +388,7 @@ StressTest2::StressTest2()
     addChild(sublayer, 0, kTagSprite1);
 }
 
-void StressTest2::shouldNotLeak(float dt)
+void StressTest2::shouldNotLeak(float /*dt*/)
 {
     unschedule("should_not_leak_key");
     auto sublayer = static_cast<Layer*>( getChildByTag(kTagSprite1) );
@@ -421,7 +421,7 @@ SchedulerTest1::SchedulerTest1()
     //CCLOG("retain count after unschedule is %d", layer->getReferenceCount());        // STILL 3!  (win32 is '2')
 }
 
-void SchedulerTest1::doSomething(float dt)
+void SchedulerTest1::doSomething(float /*dt*/)
 {
 
 }
@@ -451,7 +451,7 @@ SchedulerCallbackTest::SchedulerCallbackTest()
                    ,"some_key");
 
 
-    node->scheduleOnce([&](float dt) {
+    node->scheduleOnce([&](float /*dt*/) {
         // the local variable "node" will go out of scope, so I have to get it from "this"
         auto anode = this->getChildByName("a node");
         anode->unschedule("some_key");
@@ -683,18 +683,7 @@ CameraZoomTest::CameraZoomTest()
 
 void CameraZoomTest::update(float dt)
 {
-    Node *sprite;
-//    Camera *cam;
-
     _z += dt * 100;
-    
-    sprite = getChildByTag(20);
-//    cam = sprite->getCamera();
-//    cam->setEye(0, 0, _z);
-
-    sprite = getChildByTag(40);
-//    cam = sprite->getCamera();
-//    cam->setEye(0, 0, -_z);    
 }
 
 std::string CameraZoomTest::subtitle() const
@@ -833,7 +822,7 @@ ConvertToNode::ConvertToNode()
     }
 }
 
-void ConvertToNode::onTouchesEnded(const std::vector<Touch*>& touches, Event *event)
+void ConvertToNode::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for( auto& touch : touches)
     {
@@ -993,7 +982,7 @@ void MySprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     renderer->addCommand(&_customCommand);
 }
 
-void MySprite::onDraw(const Mat4 &transform, uint32_t flags)
+void MySprite::onDraw(const Mat4 &transform, uint32_t /*flags*/)
 {
     getGLProgram()->use();
     getGLProgram()->setUniformsForBuiltins(transform);
@@ -1275,7 +1264,7 @@ void NodeNameTest::onExit()
     TestCocosNodeDemo::onExit();
 }
 
-void NodeNameTest::test(float dt)
+void NodeNameTest::test(float /*dt*/)
 {
     auto parent = Node::create();
     
@@ -1309,21 +1298,18 @@ void NodeNameTest::test(float dt)
     }
     
     i = 0;
-    parent->enumerateChildren("node[[:digit:]]+", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node[[:digit:]]+", [&i](Node*) -> bool {
         ++i;
         return false;
     });
     CCASSERT(i == 100, "");
     
     i = 0;
-    parent->enumerateChildren("node[[:digit:]]+", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node[[:digit:]]+", [&i](Node*) -> bool {
         ++i;
         return true;
     });
     CCASSERT(i == 1, "");
-    
-    // enumerateChildren
-    // name = node[[digit]]+/node
     
     parent = Node::create();
     for (int i = 0; i < 10; ++i)
@@ -1342,14 +1328,14 @@ void NodeNameTest::test(float dt)
     }
     
     i = 0;
-    parent->enumerateChildren("node1/node", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node1/node", [&i](Node*) -> bool {
         ++i;
         return false;
     });
     CCASSERT(i == 10, "");
     
     i = 0;
-    parent->enumerateChildren("node1/node", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node1/node", [&i](Node*) -> bool {
         ++i;
         return true;
     });
@@ -1373,14 +1359,14 @@ void NodeNameTest::test(float dt)
     }
     
     i = 0;
-    parent->enumerateChildren("node[[:digit:]]+/node", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node[[:digit:]]+/node", [&i](Node*) -> bool {
         ++i;
         return false;
     });
     CCASSERT(i == 100, "");
     
     i = 0;
-    parent->enumerateChildren("node[[:digit:]]+/node", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node[[:digit:]]+/node", [&i](Node*) -> bool {
         ++i;
         return true;
     });
@@ -1389,14 +1375,14 @@ void NodeNameTest::test(float dt)
     // search from parent
     // name is xxx/..
     i = 0;
-    parent->enumerateChildren("node/..", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node/..", [&i](Node*) -> bool {
         ++i;
         return true;
     });
     CCASSERT(i == 1, "");
     
     i = 0;
-    parent->enumerateChildren("node/..", [&i](Node* node) -> bool {
+    parent->enumerateChildren("node/..", [&i](Node*) -> bool {
         ++i;
         return false;
     });
@@ -1421,21 +1407,21 @@ void NodeNameTest::test(float dt)
     }
     
     i = 0;
-    parent->enumerateChildren("//node[[:digit:]]+", [&i](Node* node) -> bool {
+    parent->enumerateChildren("//node[[:digit:]]+", [&i](Node*) -> bool {
         ++i;
         return false;
     });
     CCASSERT(i == 110, ""); // 100(children) + 10(parent)
     
     i = 0;
-    parent->enumerateChildren("//node[[:digit:]]+", [&i](Node* node) -> bool {
+    parent->enumerateChildren("//node[[:digit:]]+", [&i](Node*) -> bool {
         ++i;
         return true;
     });
     CCASSERT(i == 1, "");
     
     i = 0;
-    parent->enumerateChildren("//node[[:digit:]]+/..", [&i](Node* node) -> bool {
+    parent->enumerateChildren("//node[[:digit:]]+/..", [&i](Node*) -> bool {
         ++i;
         return false;
     });

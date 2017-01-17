@@ -393,7 +393,7 @@ void LayerTest1::onTouchesBegan(const std::vector<Touch*>& touches, Event  *even
     onTouchesMoved(touches, event);
 }
 
-void LayerTest1::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void LayerTest1::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     auto touchLocation = touches[0]->getLocation();
 
@@ -470,7 +470,7 @@ LayerTestBlend::LayerTestBlend()
     schedule( CC_SCHEDULE_SELECTOR(LayerTestBlend::newBlend), 1.0f);
 }
 
-void LayerTestBlend::newBlend(float dt)
+void LayerTestBlend::newBlend(float /*dt*/)
 {
      auto layer = (LayerColor*)getChildByTag(kTagLayer);
 
@@ -541,13 +541,13 @@ LayerGradientTest::LayerGradientTest()
     menu->setPosition(Vec2(s.width / 2, 100));
 }
 
-void LayerGradientTest::toggleItem(Ref *sender)
+void LayerGradientTest::toggleItem(Ref*)
 {
     auto gradient = static_cast<LayerGradient*>( getChildByTag(kTagLayer) );
     gradient->setCompressedInterpolation(! gradient->isCompressedInterpolation());
 }
 
-void LayerGradientTest::onTouchesMoved(const std::vector<Touch*>& touches, Event *event)
+void LayerGradientTest::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     auto s = Director::getInstance()->getWinSize();
 
@@ -626,7 +626,7 @@ void LayerIgnoreAnchorPointPos::onEnter()
     menu->setPosition(Vec2(s.width/2, s.height/2));
 }
 
-void LayerIgnoreAnchorPointPos::onToggle(Ref* pObject)
+void LayerIgnoreAnchorPointPos::onToggle(Ref* /*pObject*/)
 {
     auto layer = this->getChildByTag(kLayerIgnoreAnchorPoint);
     bool ignore = layer->isIgnoreAnchorPointForPosition();
@@ -674,7 +674,7 @@ void LayerIgnoreAnchorPointRot::onEnter()
     menu->setPosition(Vec2(s.width/2, s.height/2));
 }
 
-void LayerIgnoreAnchorPointRot::onToggle(Ref* pObject)
+void LayerIgnoreAnchorPointRot::onToggle(Ref* /*pObject*/)
 {
     auto layer = this->getChildByTag(kLayerIgnoreAnchorPoint);
     bool ignore = layer->isIgnoreAnchorPointForPosition();
@@ -725,7 +725,7 @@ void LayerIgnoreAnchorPointScale::onEnter()
     menu->setPosition(Vec2(s.width/2, s.height/2));
 }
 
-void LayerIgnoreAnchorPointScale::onToggle(Ref* pObject)
+void LayerIgnoreAnchorPointScale::onToggle(Ref* /*pObject*/)
 {
     auto layer = this->getChildByTag(kLayerIgnoreAnchorPoint);
     bool ignore = layer->isIgnoreAnchorPointForPosition();
@@ -803,7 +803,7 @@ void LayerBug3162A::onEnter()
     schedule(CC_SCHEDULE_SELECTOR(LayerBug3162A::step), 0.5, CC_REPEAT_FOREVER, 0);
 }
 
-void LayerBug3162A::step(float dt)
+void LayerBug3162A::step(float /*dt*/)
 {
     _layer[0]->setCascadeOpacityEnabled(!_layer[0]->isCascadeOpacityEnabled());
 }
@@ -849,7 +849,7 @@ void LayerBug3162B::onEnter()
     schedule(CC_SCHEDULE_SELECTOR(LayerBug3162B::step), 0.5, CC_REPEAT_FOREVER, 0);
 }
 
-void LayerBug3162B::step(float dt)
+void LayerBug3162B::step(float /*dt*/)
 {
     _layer[0]->setCascadeColorEnabled(!_layer[0]->isCascadeColorEnabled());
 }
