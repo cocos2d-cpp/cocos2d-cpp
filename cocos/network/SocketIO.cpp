@@ -353,7 +353,7 @@ private:
 
     WebSocket *_ws;
 
-    Map<std::string, SIOClient*> _clients;
+    std::map<std::string, retaining_ptr<SIOClient>> _clients;
 
 public:
     SIOClientImpl(const std::string& host, int port);
@@ -446,9 +446,10 @@ void SIOClientImpl::handshakeResponse(HttpClient* /*sender*/, std::shared_ptr<Ht
         CCLOGERROR("SIOClientImpl::handshake() failed");
         CCLOGERROR("error buffer: %s", response->getErrorBuffer());
 
-        for (auto& client : _clients)
+        for (auto & client : _clients)
         {
-            client.second->getDelegate()->onError(client.second, response->getErrorBuffer());
+            auto p = client.second.get();
+            p->getDelegate()->onError(p, response->getErrorBuffer());
         }
 
         return;
@@ -624,12 +625,15 @@ SIOClientImpl* SIOClientImpl::create(const std::string& host, int port)
 
 SIOClient* SIOClientImpl::getClient(const std::string& endpoint)
 {
-    return _clients.at(endpoint);
+    auto it = _clients.find(endpoint);
+    if (_clients.end() == it)
+        return nullptr;
+    return it->second.get();
 }
 
 void SIOClientImpl::addClient(const std::string& endpoint, SIOClient* client)
 {
-    _clients.insert(endpoint, client);
+    _clients[endpoint] = to_retaining_ptr(client);
 }
 
 void SIOClientImpl::connectToEndpoint(const std::string& endpoint)
