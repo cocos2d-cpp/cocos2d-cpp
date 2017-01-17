@@ -122,7 +122,7 @@ void ShaderNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     renderer->addCommand(&_customCommand);
 }
 
-void ShaderNode::onDraw(const Mat4 &transform, uint32_t flags)
+void ShaderNode::onDraw(const Mat4 & transform, uint32_t /*flags*/)
 {
     float w = SIZE_X, h = SIZE_Y;
     GLfloat vertices[12] = {0,0, w,0, w,h, 0,0, 0,h, w,h};

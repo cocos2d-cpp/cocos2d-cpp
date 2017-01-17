@@ -497,7 +497,7 @@ public:
 
     /**
      * Change the label's Overflow type, currently only TTF and BMFont support all the valid Overflow type.
-     * Char Map font supports all the Overflow type except for SHRINK, because we can't measure it's font size.
+     * Char map font supports all the Overflow type except for SHRINK, because we can't measure it's font size.
      * System font only support Overflow::Normal and Overflow::RESIZE_HEIGHT.
      *
      * @param overflow   see `Overflow`

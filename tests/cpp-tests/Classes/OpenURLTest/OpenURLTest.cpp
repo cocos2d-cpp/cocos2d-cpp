@@ -25,7 +25,7 @@ OpenURLTest::OpenURLTest()
     _label->retain();
 }
 
-void OpenURLTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  *event)
+void OpenURLTest::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
     Application::getInstance()->openURL("http://www.cocos2d-x.org/");
 }

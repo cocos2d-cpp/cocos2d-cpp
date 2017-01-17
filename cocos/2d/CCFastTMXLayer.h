@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "2d/CCNode.h"
 #include "2d/CCTMXXMLParser.h"
 #include "renderer/CCPrimitiveCommand.h"
-#include "base/CCMap.h"
 
 #include <map>
 #include <memory>
@@ -333,7 +332,7 @@ protected:
     
     IndexBuffer* _indexBuffer;
     
-    Map<int , Primitive*> _primitives;
+    std::map<int, retaining_ptr<Primitive>> _primitives;
     
 public:
     /** Possible orientations of the TMX map */

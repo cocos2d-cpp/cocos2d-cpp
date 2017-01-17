@@ -167,7 +167,7 @@ void TMXLayer::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
         _dirty = false;
     }
     
-    if(_renderCommands.size() < static_cast<size_t>(_primitives.size()))
+    if (_renderCommands.size() < _primitives.size())
     {
         _renderCommands.resize(_primitives.size());
     }
@@ -177,9 +177,13 @@ void TMXLayer::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
     {
         if(iter.second->getCount() > 0)
         {
-            auto& cmd = _renderCommands[index++];
-            auto blendfunc = _texture->hasPremultipliedAlpha() ? BlendFunc::ALPHA_PREMULTIPLIED : BlendFunc::ALPHA_NON_PREMULTIPLIED;
-            cmd.init(iter.first, _texture->getName(), getGLProgramState(), blendfunc, iter.second, _modelViewTransform, flags);
+            auto & cmd = _renderCommands[index++];
+            auto blendfunc = _texture->hasPremultipliedAlpha()
+                ? BlendFunc::ALPHA_PREMULTIPLIED
+                : BlendFunc::ALPHA_NON_PREMULTIPLIED;
+
+            cmd.init(iter.first, _texture->getName(), getGLProgramState(), blendfunc, iter.second.get(), _modelViewTransform, flags);
+
             renderer->addCommand(&cmd);
         }
     }
@@ -420,14 +424,15 @@ void TMXLayer::updatePrimitives()
     {
         int start = _indicesVertexZOffsets.at(iter.first);
         
-        auto primitiveIter= _primitives.find(iter.first);
+        auto primitiveIter = _primitives.find(iter.first);
+
         if(primitiveIter == _primitives.end())
         {
-            auto primitive = Primitive::create(_vData, _indexBuffer, GL_TRIANGLES);
+            auto primitive = to_retaining_ptr(Primitive::create(_vData, _indexBuffer, GL_TRIANGLES));
             primitive->setCount(iter.second * 6);
             primitive->setStart(start * 6);
             
-            _primitives.insert(iter.first, primitive);
+            _primitives[iter.first] = std::move(primitive);
         }
         else
         {
