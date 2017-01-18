@@ -30,12 +30,13 @@ THE SOFTWARE.
 #ifndef __SPRITE_CCSPRITE_FRAME_CACHE_H__
 #define __SPRITE_CCSPRITE_FRAME_CACHE_H__
 
-#include <set>
-#include <string>
 #include "2d/CCSpriteFrame.h"
 #include "base/CCRef.h"
 #include "base/CCValue.h"
-#include "base/CCMap.h"
+
+#include <set>
+#include <string>
+#include <unordered_map>
 
 namespace cocos2d {
 
@@ -237,7 +238,7 @@ protected:
 
     void reloadSpriteFramesWithDictionary(ValueMap& dictionary, Texture2D *texture);
 
-    Map<std::string, SpriteFrame*> _spriteFrames;
+    std::unordered_map<std::string, retaining_ptr<SpriteFrame>> _spriteFrames;
     ValueMap _spriteFramesAliases;
     std::set<std::string>*  _loadedFileNames;
 };

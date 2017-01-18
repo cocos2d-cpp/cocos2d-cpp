@@ -19,7 +19,6 @@ class RootTests : public TestList
 public:
     RootTests()
     {
-        addTest("Node: Scene3D", [](){return new (std::nothrow) Scene3DTests(); });
         addTest("ActionManager", [](){return new (std::nothrow) ActionManagerTests(); });
         addTest("Actions - Basic", [](){ return new (std::nothrow) ActionsTests(); });
         addTest("Actions - Ease", [](){return new (std::nothrow) ActionsEaseTests(); });
@@ -74,6 +73,7 @@ public:
         addTest("Node: Physics3D", []() { return new Physics3DTests(); } );
         addTest("Node: RenderTexture", [](){return new RenderTextureTests(); });
         addTest("Node: Scene", [](){return new SceneTests(); });
+        addTest("Node: Scene3D", [](){return new (std::nothrow) Scene3DTests(); });
         addTest("Node: Spine", [](){return new SpineTests(); });
         addTest("Node: Sprite", [](){return new SpriteTests(); });
         addTest("Node: Sprite3D", [](){  return new Sprite3DTests(); });
@@ -90,6 +90,7 @@ public:
         addTest("Scheduler", [](){return new SchedulerTests(); });
         addTest("Shader - Basic", []() { return new ShaderTests(); });
         addTest("Shader - Sprite", []() { return new Shader2Tests(); });
+        addTest("SpriteFrameCache", []() { return new SpriteFrameCacheTests(); });
         addTest("Texture2D", [](){return new Texture2DTests(); });
         addTest("TextureCache", []() { return new TextureCacheTests(); });
         addTest("TexturePacker Encryption", []() { return new TextureAtlasEncryptionTests(); });
@@ -100,10 +101,9 @@ public:
         addTest("UserDefault", []() { return new UserDefaultTests(); });
         addTest("Vibrate", []() { return new VibrateTests(); });
         addTest("VR Test", []() { return new VRTests(); });
-        addTest("Zwoptex", []() { return new ZwoptexTests(); });
-        addTest("SpriteFrameCache", []() { return new SpriteFrameCacheTests(); });
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         addTest("Window Test", []() { return new WindowTests(); });
+        addTest("Zwoptex", []() { return new ZwoptexTests(); });
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 #endif
     }
 };

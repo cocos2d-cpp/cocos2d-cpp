@@ -53,7 +53,7 @@ std::string TerrainSimple::subtitle() const
     return "Drag to walkThru";
 }
 
-void TerrainSimple::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void TerrainSimple::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event*)
 {
     float delta = Director::getInstance()->getDeltaTime();
     auto touch = touches[0];
@@ -143,11 +143,11 @@ TerrainWalkThru::TerrainWalkThru()
 }
 
 
-void TerrainWalkThru::onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void TerrainWalkThru::onTouchesBegan(const std::vector<cocos2d::Touch*>&, cocos2d::Event*)
 {
 }
 
-void TerrainWalkThru::onTouchesEnd(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void TerrainWalkThru::onTouchesEnd(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event*)
 {
     auto touch = touches[0];
     auto location = touch->getLocationInView();
@@ -352,7 +352,7 @@ std::string TerrainWithLightMap::subtitle() const
 {
     return "Drag to walkThru";
 }
-void TerrainWithLightMap::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void TerrainWithLightMap::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event*)
 {
     float delta = Director::getInstance()->getDeltaTime();
     auto touch = touches[0];

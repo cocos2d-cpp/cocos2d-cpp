@@ -174,11 +174,13 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
     auto textureFileName = Director::getInstance()->getTextureCache()->getTextureFilePath(texture);
     Image* image = nullptr;
     NinePatchImageParser parser;
+
     for (auto& iter : framesDict)
     {
         ValueMap& frameDict = iter.second.asValueMap();
         std::string spriteFrameName = iter.first;
-        SpriteFrame* spriteFrame = _spriteFrames.at(spriteFrameName);
+        auto & spriteFrame = _spriteFrames[spriteFrameName];
+
         if (spriteFrame)
         {
             continue;
@@ -203,12 +205,13 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                                                         Rect(x, y, w, h),
-                                                         false,
-                                                         Vec2(ox, oy),
-                                                         Size((float)ow, (float)oh)
-                                                         );
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(texture,
+                                               Rect(x, y, w, h),
+                                               false,
+                                               Vec2(ox, oy),
+                                               Size((float)ow, (float)oh)
+                ));
         } 
         else if(format == 1 || format == 2) 
         {
@@ -225,12 +228,13 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             Size sourceSize = SizeFromString(frameDict["sourceSize"].asString());
 
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                                                         frame,
-                                                         rotated,
-                                                         offset,
-                                                         sourceSize
-                                                         );
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(texture,
+                                               frame,
+                                               rotated,
+                                               offset,
+                                               sourceSize
+                ));
         } 
         else if (format == 3)
         {
@@ -255,11 +259,19 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             }
 
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                                                         Rect(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height),
-                                                         textureRotated,
-                                                         spriteOffset,
-                                                         spriteSourceSize);
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(
+                    texture,
+                    Rect(
+                        textureRect.origin.x,
+                        textureRect.origin.y,
+                        spriteSize.width,
+                        spriteSize.height
+                    ),
+                    textureRotated,
+                    spriteOffset,
+                    spriteSourceSize
+                ));
 
             if(frameDict.find("vertices") != frameDict.end())
             {
@@ -288,11 +300,10 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
                 image->initWithImageFile(textureFileName);
             }
             parser.setSpriteFrameInfo(image, spriteFrame->getRectInPixels(), spriteFrame->isRotated());
-            texture->addSpriteFrameCapInset(spriteFrame, parser.parseCapInset());
+            texture->addSpriteFrameCapInset(spriteFrame.get(), parser.parseCapInset());
         }
-        // add sprite frame
-        _spriteFrames.insert(spriteFrameName, spriteFrame);
     }
+
     CC_SAFE_DELETE(image);
 }
 
@@ -446,7 +457,7 @@ bool SpriteFrameCache::isSpriteFramesWithFileLoaded(const std::string& plist) co
 void SpriteFrameCache::addSpriteFrame(SpriteFrame* frame, const std::string& frameName)
 {
     CCASSERT(frame, "frame should not be nil");
-    _spriteFrames.insert(frameName, frame);
+    _spriteFrames[frameName] = to_retaining_ptr( frame );
 }
 
 void SpriteFrameCache::removeSpriteFrames()
@@ -461,9 +472,9 @@ void SpriteFrameCache::removeUnusedSpriteFrames()
     bool removed = false;
     std::vector<std::string> toRemoveFrames;
     
-    for (auto& iter : _spriteFrames)
+    for (auto & iter : _spriteFrames)
     {
-        SpriteFrame* spriteFrame = iter.second;
+        SpriteFrame* spriteFrame = iter.second.get();
         if( spriteFrame->getReferenceCount() == 1 )
         {
             toRemoveFrames.push_back(iter.first);
@@ -473,7 +484,8 @@ void SpriteFrameCache::removeUnusedSpriteFrames()
         }
     }
 
-    _spriteFrames.erase(toRemoveFrames);
+    for (auto & s : toRemoveFrames)
+        _spriteFrames.erase(s);
 
     // FIXME:. Since we don't know the .plist file that originated the frame, we must remove all .plist from the cache
     if( removed )
@@ -543,17 +555,16 @@ void SpriteFrameCache::removeSpriteFramesFromDictionary(ValueMap& dictionary)
         return;
 
     ValueMap framesDict = dictionary["frames"].asValueMap();
-    std::vector<std::string> keysToRemove;
 
     for (const auto& iter : framesDict)
     {
-        if (_spriteFrames.at(iter.first))
+        auto it = _spriteFrames.find(iter.first);
+
+        if (_spriteFrames.end() != it && it->second)
         {
-            keysToRemove.push_back(iter.first);
+            _spriteFrames.erase(it);
         }
     }
-
-    _spriteFrames.erase(keysToRemove);
 }
 
 void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
@@ -563,20 +574,24 @@ void SpriteFrameCache::removeSpriteFramesFromTexture(Texture2D* texture)
     for (auto& iter : _spriteFrames)
     {
         std::string key = iter.first;
-        SpriteFrame* frame = _spriteFrames.at(key);
-        if (frame && (frame->getTexture() == texture))
+        auto frame = _spriteFrames.find(key);
+        if (frame != _spriteFrames.end()
+            && frame->second
+            && (frame->second->getTexture() == texture))
         {
             keysToRemove.push_back(key);
         }
     }
 
-    _spriteFrames.erase(keysToRemove);
+    for (auto & key : keysToRemove)
+        _spriteFrames.erase(key);
 }
 
 SpriteFrame* SpriteFrameCache::getSpriteFrameByName(const std::string& name)
 {
-    SpriteFrame* frame = _spriteFrames.at(name);
-    if (!frame)
+    auto it = _spriteFrames.find(name);
+
+    if (it == _spriteFrames.end() || !it->second)
     {
         // try alias dictionary
         if (_spriteFramesAliases.find(name) != _spriteFramesAliases.end())
@@ -584,8 +599,8 @@ SpriteFrame* SpriteFrameCache::getSpriteFrameByName(const std::string& name)
             std::string key = _spriteFramesAliases[name].asString();
             if (!key.empty())
             {
-                frame = _spriteFrames.at(key);
-                if (!frame)
+                it = _spriteFrames.find(key);
+                if (it == _spriteFrames.end() || !it->second)
                 {
                     CCLOG("cocos2d: SpriteFrameCache: Frame aliase '%s' isn't found", key.c_str());
                 }
@@ -596,7 +611,8 @@ SpriteFrame* SpriteFrameCache::getSpriteFrameByName(const std::string& name)
             CCLOG("cocos2d: SpriteFrameCache: Frame '%s' isn't found", name.c_str());
         }
     }
-    return frame;
+
+    return it == _spriteFrames.end() ? nullptr : it->second.get();
 }
 
 void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Texture2D *texture)
@@ -625,7 +641,7 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             _spriteFrames.erase(it);
         }
 
-        SpriteFrame* spriteFrame = nullptr;
+        retaining_ptr<SpriteFrame> spriteFrame;
 
         if (format == 0)
         {
@@ -646,12 +662,14 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             ow = std::abs(ow);
             oh = std::abs(oh);
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                Rect(x, y, w, h),
-                false,
-                Vec2(ox, oy),
-                Size((float)ow, (float)oh)
-                );
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(
+                    texture,
+                    Rect(x, y, w, h),
+                    false,
+                    Vec2(ox, oy),
+                    Size((float)ow, (float)oh)
+                ));
         }
         else if (format == 1 || format == 2)
         {
@@ -668,12 +686,14 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             Size sourceSize = SizeFromString(frameDict["sourceSize"].asString());
 
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                frame,
-                rotated,
-                offset,
-                sourceSize
-                );
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(
+                    texture,
+                    frame,
+                    rotated,
+                    offset,
+                    sourceSize
+                ));
         }
         else if (format == 3)
         {
@@ -698,15 +718,21 @@ void SpriteFrameCache::reloadSpriteFramesWithDictionary(ValueMap& dictionary, Te
             }
 
             // create frame
-            spriteFrame = SpriteFrame::createWithTexture(texture,
-                Rect(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height),
-                textureRotated,
-                spriteOffset,
-                spriteSourceSize);
+            spriteFrame = to_retaining_ptr(
+                SpriteFrame::createWithTexture(
+                    texture,
+                    Rect(textureRect.origin.x,
+                         textureRect.origin.y,
+                         spriteSize.width,
+                         spriteSize.height),
+                    textureRotated,
+                    spriteOffset,
+                    spriteSourceSize
+                ));
         }
 
         // add sprite frame
-        _spriteFrames.insert(spriteFrameName, spriteFrame);
+        _spriteFrames[spriteFrameName] = std::move(spriteFrame);
     }
 }
 
