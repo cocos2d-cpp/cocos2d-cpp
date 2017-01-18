@@ -40,16 +40,19 @@ class IndexBuffer;
  Primitive can support sending points, lines and triangles to glpipeline, which is an abstraction
  of primitive data.
  */
-class CC_DLL Primitive : public Ref
+class CC_DLL Primitive final
 {
 public:
     /**
-     Create an instance of primitive.
+     Constructor
      @param verts VertexData used in the primitive.
      @param indices Optional index data.
      @param type The type (Points, Lines, Triangles) used.
      */
-    static Primitive* create(VertexData* verts, IndexBuffer* indices, int type);
+    Primitive(VertexData* verts, IndexBuffer* indices, int type);
+
+    ~Primitive();
+
     /**Get the vertexData.*/
     const VertexData* getVertexData() const;
     /**Get the optional index data, will return null if index data is not used.*/
@@ -69,15 +72,9 @@ public:
     /**Setter for the count. */
     void setCount(int count);
     
-protected:
-    Primitive();
-    virtual ~Primitive();
-    
-    bool init(VertexData* verts, IndexBuffer* indices, int type);
-    
-protected:
-    VertexData* _verts;
-    IndexBuffer* _indices;
+private:
+    retaining_ptr<VertexData>  _verts;
+    retaining_ptr<IndexBuffer> _indices;
     int _start;
     int _count;
     int _type;

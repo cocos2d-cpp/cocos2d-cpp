@@ -428,7 +428,7 @@ void TMXLayer::updatePrimitives()
 
         if(primitiveIter == _primitives.end())
         {
-            auto primitive = to_retaining_ptr(Primitive::create(_vData, _indexBuffer, GL_TRIANGLES));
+            std::unique_ptr<Primitive> primitive( new Primitive(_vData, _indexBuffer, GL_TRIANGLES));
             primitive->setCount(iter.second * 6);
             primitive->setStart(start * 6);
             

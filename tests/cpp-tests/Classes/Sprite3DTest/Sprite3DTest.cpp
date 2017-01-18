@@ -206,7 +206,7 @@ void Sprite3DBasicTest::addNewSpriteWithCoords(Vec2 p)
     sprite->runAction( RepeatForever::create(seq) );
 }
 
-void Sprite3DBasicTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DBasicTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -466,7 +466,7 @@ void Sprite3DFakeShadowTest::move3D(float elapsedTime)
     _state->setUniformVec3("u_target_pos",_orc->getPosition3D());
 }
 
-void Sprite3DFakeShadowTest::updateState(float elapsedTime)
+void Sprite3DFakeShadowTest::updateState(float /*elapsedTime*/)
 {
     Vec3 curPos=  _orc->getPosition3D();
     Vec3 curFaceDir;
@@ -499,16 +499,16 @@ bool Sprite3DFakeShadowTest::isState(unsigned int state,unsigned int bit) const
     return (state & bit) == bit;
 }
 
-void Sprite3DFakeShadowTest::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event *event)
+void Sprite3DFakeShadowTest::onTouchesBegan(const std::vector<Touch*>&, cocos2d::Event*)
 {
 
 }
 
-void Sprite3DFakeShadowTest::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event *event)
+void Sprite3DFakeShadowTest::onTouchesMoved(const std::vector<Touch*>&, cocos2d::Event*)
 {
 }
 
-void Sprite3DFakeShadowTest::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event *event)
+void Sprite3DFakeShadowTest::onTouchesEnded(const std::vector<Touch*>& touches, cocos2d::Event*)
 {
     for ( auto &item: touches )
     {
@@ -520,7 +520,6 @@ void Sprite3DFakeShadowTest::onTouchesEnded(const std::vector<Touch*>& touches, 
             {
                 Vec3 nearP(location.x, location.y, -1.0f), farP(location.x, location.y, 1.0f);
 
-                auto size = Director::getInstance()->getWinSize();
                 nearP = _camera->unproject(nearP);
                 farP = _camera->unproject(farP);
                 Vec3 dir(farP - nearP);
@@ -650,7 +649,7 @@ std::string Sprite3DLightMapTest::subtitle() const
     return "drag the screen to move around";
 }
 
-void Sprite3DLightMapTest::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event)
+void Sprite3DLightMapTest::onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event*)
 {
     if(touches.size()==1)
     {
@@ -728,7 +727,7 @@ Sprite3DHitTest::Sprite3DHitTest()
         target->setPosition(target->getPosition() + touch->getDelta());
     };
     
-    listener1->onTouchEnded = [=](Touch* touch, Event* event){
+    listener1->onTouchEnded = [=](Touch*, Event* event){
         auto target = static_cast<Sprite3D*>(event->getCurrentTarget());
         log("sprite3d onTouchesEnded.. ");
         target->setOpacity(255);
@@ -827,7 +826,7 @@ void Sprite3DEffectTest::addNewSpriteWithCoords(Vec2 p)
     _sprites.push_back(sprite);
 }
 
-void Sprite3DEffectTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DEffectTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -998,7 +997,7 @@ void Sprite3DWithSkinTest::switchAnimationQualityCallback(Ref*)
     }
 }
 
-void Sprite3DWithSkinTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DWithSkinTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -1089,7 +1088,7 @@ void Sprite3DWithSkinOutlineTest::addNewSpriteWithCoords(Vec2 p)
     }
 }
 
-void Sprite3DWithSkinOutlineTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DWithSkinOutlineTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -1213,7 +1212,7 @@ void Animate3DTest::renewCallBack()
     _elapseTransTime = 0.0f;
 }
 
-void Animate3DTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Animate3DTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -1289,7 +1288,7 @@ void AttachmentTest::addNewSpriteWithCoords(Vec2 p)
     _hasWeapon = true;
 }
 
-void AttachmentTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void AttachmentTest::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
     if (_hasWeapon)
     {
@@ -1302,6 +1301,7 @@ void AttachmentTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* e
     }
     _hasWeapon = !_hasWeapon;
 }
+
 Sprite3DReskinTest::Sprite3DReskinTest()
 : _sprite(nullptr)
 {
@@ -1406,7 +1406,7 @@ void Sprite3DReskinTest::addNewSpriteWithCoords(Vec2 p)
     applyCurSkin();
 }
 
-void Sprite3DReskinTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DReskinTest::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
 }
 
@@ -1475,7 +1475,7 @@ void Sprite3DWithOBBPerformanceTest::addNewOBBWithCoords(Vec2 p)
     _obb.push_back(obb);
 }
 
-void Sprite3DWithOBBPerformanceTest::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DWithOBBPerformanceTest::onTouchesBegan(const std::vector<Touch*>& touches, Event*)
 {
     for (const auto& touch: touches)
     {
@@ -1498,12 +1498,12 @@ void Sprite3DWithOBBPerformanceTest::onTouchesBegan(const std::vector<Touch*>& t
     }
 }
 
-void Sprite3DWithOBBPerformanceTest::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DWithOBBPerformanceTest::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
     
 }
 
-void Sprite3DWithOBBPerformanceTest::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void Sprite3DWithOBBPerformanceTest::onTouchesMoved(const std::vector<Touch*>& touches, Event*)
 {
     for (const auto& touch: touches)
     {
@@ -1518,7 +1518,7 @@ void Sprite3DWithOBBPerformanceTest::onTouchesMoved(const std::vector<Touch*>& t
     }
 }
 
-void Sprite3DWithOBBPerformanceTest::update(float dt)
+void Sprite3DWithOBBPerformanceTest::update(float /*dt*/)
 {
     char szText[16];
     sprintf(szText,"%lu cubes", static_cast<unsigned long>(_obb.size()));
@@ -2194,7 +2194,7 @@ void Sprite3DCubeMapTest::addNewSpriteWithCoords(Vec2)
 #endif
 }
 
-void Sprite3DCubeMapTest::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Sprite3DCubeMapTest::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event*)
 {
     if (touches.size())
     {
@@ -2695,10 +2695,10 @@ std::string Sprite3DPropertyTest::subtitle() const
     return "";
 }
 
-void Sprite3DPropertyTest::update(float delta)
+void Sprite3DPropertyTest::update(float /*delta*/)
 {
-
 }
+
 void Sprite3DPropertyTest::printMeshName(cocos2d::Ref*)
 {
     CCLOG("MeshName Begin");

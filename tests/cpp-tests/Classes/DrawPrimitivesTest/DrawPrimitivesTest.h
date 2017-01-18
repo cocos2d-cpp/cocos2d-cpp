@@ -55,7 +55,7 @@ public:
 protected:
     cocos2d::Texture2D* _texture;
     cocos2d::GLProgramState* _programState;
-    cocos2d::Primitive* _primitive;
+    std::unique_ptr<cocos2d::Primitive> _primitive;
 
     cocos2d::PrimitiveCommand _primitiveCommand;
 };

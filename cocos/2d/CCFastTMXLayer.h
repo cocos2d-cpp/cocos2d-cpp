@@ -332,7 +332,7 @@ protected:
     
     IndexBuffer* _indexBuffer;
     
-    std::map<int, retaining_ptr<Primitive>> _primitives;
+    std::map<int, std::unique_ptr<Primitive>> _primitives;
     
 public:
     /** Possible orientations of the TMX map */

@@ -331,7 +331,7 @@ PrimitivesCommandTest::PrimitivesCommandTest()
     auto indexBuffer = IndexBuffer::create(IndexBuffer::IndexType::INDEX_TYPE_SHORT_16, TOTAL_INDICES);
     indexBuffer->updateIndices(indices, TOTAL_INDICES, 0);
 
-    _primitive = Primitive::create(vertsData, indexBuffer, GL_TRIANGLES);
+    _primitive.reset( new Primitive(vertsData, indexBuffer, GL_TRIANGLES) );
     _primitive->setCount(TOTAL_INDICES);
     _primitive->setStart(0);
 
@@ -339,14 +339,12 @@ PrimitivesCommandTest::PrimitivesCommandTest()
     _texture = cache->addImage("Images/grossini.png");
     _programState = GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR);
 
-    _primitive->retain();
     _texture->retain();
     _programState->retain();
 }
 
 PrimitivesCommandTest::~PrimitivesCommandTest()
 {
-    CC_SAFE_RELEASE(_primitive);
     CC_SAFE_RELEASE(_texture);
     CC_SAFE_RELEASE(_programState);
 }
@@ -358,7 +356,7 @@ void PrimitivesCommandTest::draw(Renderer* renderer, const Mat4& transform, uint
                            _texture->getName(),
                            _programState,
                            BlendFunc::ALPHA_NON_PREMULTIPLIED,
-                           _primitive,
+                           _primitive.get(),
                            transform,
                            flags);
     renderer->addCommand(&_primitiveCommand);
