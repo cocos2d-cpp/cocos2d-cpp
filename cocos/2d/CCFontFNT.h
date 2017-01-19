@@ -53,7 +53,7 @@ public:
 
 protected:
     
-    FontFNT(BMFontConfiguration *theContfig, const Vec2& imageOffset = Vec2::ZERO);
+    FontFNT(std::shared_ptr<BMFontConfiguration> theContfig, const Vec2& imageOffset = Vec2::ZERO);
     /**
      * @js NA
      * @lua NA
@@ -64,8 +64,8 @@ private:
     
     int  getHorizontalKerningForChars(unsigned short firstChar, unsigned short secondChar) const;
     
-    BMFontConfiguration * _configuration;
-    Vec2                   _imageOffset;
+    std::shared_ptr<BMFontConfiguration> _configuration;
+    Vec2                                 _imageOffset;
     //User defined font size
     float  _fontSize;
 };
