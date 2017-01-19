@@ -139,7 +139,7 @@ public:
         *determine the chunk size,chunk is the minimal subdivision of the Terrain
         */
         Size _chunkSize;
-        /**height Map source path*/
+        /**height map source path*/
         std::string _heightMapSrc;
         /**the source path of the alpha map*/
         std::string _alphaMapSrc;
@@ -360,7 +360,7 @@ public:
 
     /** set the alpha map*/
     void setAlphaMap(cocos2d::Texture2D * newAlphaMapTexture);
-    /**set the Detail Map */
+    /**set the Detail map */
     void setDetailMap(unsigned int index, DetailMap detailMap);
 
     // Overrides, internal use only

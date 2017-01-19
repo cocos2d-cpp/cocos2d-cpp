@@ -66,7 +66,7 @@ AnimationCache::~AnimationCache()
 
 void AnimationCache::addAnimation(Animation *animation, const std::string& name)
 {
-    _animations.insert(name, animation);
+    _animations[name] = to_retaining_ptr(animation);
 }
 
 void AnimationCache::removeAnimation(const std::string& name)
@@ -79,7 +79,10 @@ void AnimationCache::removeAnimation(const std::string& name)
 
 Animation* AnimationCache::getAnimation(const std::string& name)
 {
-    return _animations.at(name);
+    auto it = _animations.find(name);
+    if (it == _animations.end())
+        return nullptr;
+    return it->second.get();
 }
 
 void AnimationCache::parseVersion1(const ValueMap& animations)
