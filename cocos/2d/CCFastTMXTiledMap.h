@@ -65,7 +65,7 @@ class TMXLayer;
  * - Each tile will have a unique z value. top-left: z=1, bottom-right: z=max z.
  * - Each object group will be treated as an MutableArray.
  * - Object class which will contain all the properties in a dictionary.
- * - Properties can be assigned to the Map, Layer, Object Group, and Object.
+ * - Properties can be assigned to the map, Layer, Object Group, and Object.
 
  * Limitations:
  * - It only supports one tileset per layer.
@@ -99,13 +99,13 @@ class TMXLayer;
 class CC_DLL TMXTiledMap : public Node
 {
 public:
-    /** Creates a TMX Tiled Map with a TMX file.
+    /** Creates a TMX Tiled map with a TMX file.
      *
      * @return An autorelease object.
      */
     static TMXTiledMap* create(const std::string& tmxFile);
 
-    /** Initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources. 
+    /** Initializes a TMX Tiled map with a TMX formatted XML string and a path to TMX resources. 
      *
      * @param tmxString A TMX formatted XML string.
      * @param resourcePath A path to TMX resources.
@@ -200,10 +200,10 @@ protected:
      */
     virtual ~TMXTiledMap();
 
-    /** initializes a TMX Tiled Map with a TMX file */
+    /** initializes a TMX Tiled map with a TMX file */
     bool initWithTMXFile(const std::string& tmxFile);
 
-    /** initializes a TMX Tiled Map with a TMX formatted XML string and a path to TMX resources */
+    /** initializes a TMX Tiled map with a TMX formatted XML string and a path to TMX resources */
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
     
     TMXLayer * parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);

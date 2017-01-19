@@ -56,33 +56,42 @@ void GLProgramStateCache::destroyInstance()
 
 GLProgramState* GLProgramStateCache::getGLProgramState(GLProgram* glprogram)
 {
-    const auto& itr = _glProgramStates.find(glprogram);
-    if (itr != _glProgramStates.end())
+    GLProgramState* ret = nullptr;
+
+    auto it = _glProgramStates.find(glprogram);
+
+    if (it != _glProgramStates.end())
     {
-        return itr->second;
+        ret = it->second.get();
     }
-    
-    auto ret = new (std::nothrow) GLProgramState;
-    if(ret && ret->init(glprogram)) {
-        _glProgramStates.insert(glprogram, ret);
-        ret->release();
-        return ret;
+    else
+    {
+        auto n = to_retaining_ptr(new (std::nothrow) GLProgramState);
+        if (n->init(glprogram))
+        {
+            ret = n.get();
+            _glProgramStates[glprogram] = std::move( n );
+        }
     }
-    
-    CC_SAFE_RELEASE(ret);
+
     return ret;
 }
 
 void GLProgramStateCache::removeUnusedGLProgramState()
 {
-    for( auto it=_glProgramStates.cbegin(); it!=_glProgramStates.cend(); /* nothing */) {
-        auto value = it->second;
-        if( value->getReferenceCount() == 1 ) {
+    for (auto it=_glProgramStates.cbegin(); it!=_glProgramStates.cend(); /* nothing */)
+    {
+        auto & value = it->second;
+
+        if ( value->getReferenceCount() == 1 )
+        {
             CCLOG("cocos2d: GLProgramStateCache: removing unused GLProgramState");
 
             //value->release();
             it = _glProgramStates.erase(it);
-        } else {
+        }
+        else
+        {
             ++it;
         }
     }

@@ -26,10 +26,11 @@ THE SOFTWARE.
 #define __CCGLPROGRAMSTATECACHE_H__
 
 #include "base/ccTypes.h"
-#include "base/CCMap.h"
 #include "math/Vec2.h"
 #include "math/Vec3.h"
 #include "math/Vec4.h"
+
+#include <unordered_map>
 
 /**
  * @addtogroup renderer
@@ -65,7 +66,7 @@ protected:
     GLProgramStateCache();
     ~GLProgramStateCache();
     
-    Map<GLProgram*, GLProgramState*> _glProgramStates;
+    std::unordered_map<GLProgram*, retaining_ptr<GLProgramState>> _glProgramStates;
     static GLProgramStateCache* s_instance;
 };
 

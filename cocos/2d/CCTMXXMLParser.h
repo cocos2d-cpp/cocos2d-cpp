@@ -145,9 +145,9 @@ public:
 };
 
 /** @brief TMXMapInfo contains the information about the map like:
-- Map orientation (hexagonal, isometric or orthogonal)
+- map orientation (hexagonal, isometric or orthogonal)
 - Tile size
-- Map size
+- map size
 
 And it also contains:
 - Layers (an array of TMXLayerInfo objects)
@@ -174,9 +174,9 @@ private:
     bool initWithTMXFile(const std::string& tmxFile);
     /** initializes a TMX format with an XML string and a TMX resource path */
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
-    /** initializes parsing of an XML file, either a tmx (Map) file or tsx (Tileset) file */
+    /** initializes parsing of an XML file, either a tmx (map) file or tsx (Tileset) file */
     bool parseXMLFile(const std::string& xmlFilename);
-    /* initializes parsing of an XML string, either a tmx (Map) string or tsx (Tileset) string */
+    /* initializes parsing of an XML string, either a tmx (map) string or tsx (Tileset) string */
     bool parseXMLString(const std::string& xmlString);
 
     // implement pure virtual methods of SAXDelegator

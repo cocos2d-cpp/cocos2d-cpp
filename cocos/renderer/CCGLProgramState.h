@@ -463,7 +463,7 @@ protected:
     // contains uniform name and variable
     std::unordered_map<std::string, std::string> _autoBindings;
 
-    // Map of custom auto binding resolvers.
+    // map of custom auto binding resolvers.
     static std::vector<AutoBindingResolver*> _customAutoBindingResolvers;
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)

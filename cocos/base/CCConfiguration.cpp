@@ -319,8 +319,12 @@ Animate3DQuality Configuration::getAnimate3DQuality() const
 const Value& Configuration::getValue(const std::string& key, const Value& defaultValue) const
 {
     auto iter = _valueDict.find(key);
+    
     if (iter != _valueDict.cend())
+    {
         return _valueDict.at(key);
+    }
+
 	return defaultValue;
 }
 
