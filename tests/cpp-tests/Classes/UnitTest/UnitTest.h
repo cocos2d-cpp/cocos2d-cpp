@@ -15,15 +15,6 @@ public:
 
 //-------------------------------------
 
-class TemplateMapTest : public UnitTestDemo
-{
-public:
-    CREATE_FUNC(TemplateMapTest);
-    virtual void onEnter() override;
-    virtual std::string subtitle() const override;
-    void constFunc(const cocos2d::Map<std::string, cocos2d::Node*>& map) const;
-};
-
 class ValueTest : public UnitTestDemo
 {
 public:
