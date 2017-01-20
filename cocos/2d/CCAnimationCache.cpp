@@ -175,7 +175,7 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
             float delayUnits = entry["delayUnits"].asFloat();
             Value& userInfo = entry["notification"];
 
-            AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, delayUnits, userInfo.getType() == Value::Type::MAP ? userInfo.asValueMap() : ValueMapNull);
+            AnimationFrame *animFrame = AnimationFrame::create(spriteFrame, delayUnits, userInfo.getType() == Value::Type::MAP ? userInfo.asValueMap() : ValueMap());
 
             array.push_back(to_retaining_ptr(animFrame));
         }
