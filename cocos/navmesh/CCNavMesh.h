@@ -63,8 +63,6 @@ public:
     */
     NavMesh(const std::string &navFilePath, const std::string &geomFilePath);
     ~NavMesh();
-    static NavMesh* create(const std::string &navFilePath, const std::string &geomFilePath);
-    bool initWithFilePath();
 
     /** update navmesh. */
     void update(float dt);
