@@ -153,9 +153,9 @@ void NavMeshBaseTestDemo::initScene()
     this->addChild(sprite);
     setPhysics3DDebugCamera(_camera);
 
-    auto navMesh = NavMesh::create("NavMesh/all_tiles_tilecache.bin", "NavMesh/geomset.txt");
+    std::unique_ptr<NavMesh> navMesh(new NavMesh("NavMesh/all_tiles_tilecache.bin", "NavMesh/geomset.txt"));
     navMesh->setDebugDrawEnable(true);
-    setNavMesh(navMesh);
+    setNavMesh( std::move( navMesh));
     setNavMeshDebugCamera(_camera);
 
 

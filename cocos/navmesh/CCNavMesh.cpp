@@ -86,19 +86,7 @@ static const int TILECACHESET_MAGIC = 'T' << 24 | 'S' << 16 | 'E' << 8 | 'T'; //
 static const int TILECACHESET_VERSION = 1;
 static const int MAX_AGENTS = 128;
 
-NavMesh* NavMesh::create(const std::string &navFilePath, const std::string &geomFilePath)
-{
-    auto ref = new (std::nothrow) NavMesh();
-    if (ref && ref->initWithFilePath(navFilePath, geomFilePath))
-    {
-        ref->autorelease();
-        return ref;
-    }
-    CC_SAFE_DELETE(ref);
-    return nullptr;
-}
-
-NavMesh::NavMesh()
+NavMesh::NavMesh(const std::string & navFilePath, const std::string & geomFilePath)
     : _navMesh(nullptr)
     , _navMeshQuery(nullptr)
     , _crowed(nullptr)
@@ -107,9 +95,12 @@ NavMesh::NavMesh()
     , _compressor(nullptr)
     , _meshProcess(nullptr)
     , _geomData(nullptr)
+    , _navFilePath( navFilePath )
+    , _geomFilePath( geomFilePath )
     , _isDebugDrawEnabled(false)
 {
-
+    loadGeomFile();
+    loadNavMeshFile();
 }
 
 NavMesh::~NavMesh()
@@ -134,26 +125,12 @@ NavMesh::~NavMesh()
     _obstacleList.clear();
 }
 
-bool NavMesh::initWithFilePath(const std::string &navFilePath, const std::string &geomFilePath)
-{
-    _navFilePath = navFilePath;
-    _geomFilePath = geomFilePath;
-    if (!read()) return false;
-    return true;
-}
-
-bool NavMesh::read()
-{
-    if (!loadGeomFile()) return false;
-    if (!loadNavMeshFile()) return false;
-
-    return true;
-}
-
-bool NavMesh::loadNavMeshFile()
+void NavMesh::loadNavMeshFile()
 {
     auto data = FileUtils::getInstance()->getDataFromFile(_navFilePath);
-    if (data.isNull()) return false;
+
+    if (data.isNull())
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": data is null");
 
     // Read header.
     unsigned int offset = 0;
@@ -161,28 +138,29 @@ bool NavMesh::loadNavMeshFile()
     offset += sizeof(TileCacheSetHeader);
     if (header.magic != TILECACHESET_MAGIC)
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": header.magic != TILECACHESET_MAGIC");
     }
     if (header.version != TILECACHESET_VERSION)
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": header.version != TILECACHESET_VERSION");
     }
 
     _navMesh = dtAllocNavMesh();
     if (!_navMesh)
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": Cannot allocate _navMesh");
     }
+
     dtStatus status = _navMesh->init(&header.meshParams);
     if (dtStatusFailed(status))
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": Cannot init _navMesh");
     }
 
     _tileCache = dtAllocTileCache();
     if (!_tileCache)
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": Cannot alloate _tileCache");
     }
 
     _allocator = new (std::nothrow) LinearAllocator(32000);
@@ -192,7 +170,7 @@ bool NavMesh::loadNavMeshFile()
 
     if (dtStatusFailed(status))
     {
-        return false;
+        throw std::runtime_error("NavMesh::loadNavMeshFile: " + _navFilePath + ": Cannot init _tileCache");
     }
 
     // Read tiles.
@@ -225,15 +203,16 @@ bool NavMesh::loadNavMeshFile()
 
     _agentList.assign(MAX_AGENTS, nullptr);
     _obstacleList.assign(header.cacheParams.maxObstacles, nullptr);
-    //duDebugDrawNavMesh(&_debugDraw, *_navMesh, DU_DRAWNAVMESH_OFFMESHCONS);
-    return true;
 }
 
-bool NavMesh::loadGeomFile()
+void NavMesh::loadGeomFile()
 {
     unsigned char* buf = nullptr;
     auto data = FileUtils::getInstance()->getDataFromFile(_geomFilePath);
-    if (data.isNull()) return false;
+
+    if (data.isNull())
+        throw std::runtime_error("NavMesh::loadGeomFile: " + _geomFilePath + ": data is null");
+
     buf = data.getBytes();
     _geomData = new (std::nothrow) GeomData;
     _geomData->offMeshConCount = 0;
@@ -264,8 +243,6 @@ bool NavMesh::loadGeomFile()
             }
         }
     }
-
-    return true;
 }
 
 void NavMesh::dtDraw()

@@ -368,19 +368,16 @@ void NavMeshAgent::syncToNode()
 
 void NavMeshAgent::syncToAgent()
 {
-    if (_crowd){
+    if (_crowd)
+    {
         auto agent = _crowd->getEditableAgent(_agentID);
         Mat4 mat = _owner->getNodeToWorldTransform();
         agent->npos[0] = mat.m[12];
         agent->npos[1] = mat.m[13];
         agent->npos[2] = mat.m[14];
-        //if (_needAutoOrientation){
-        //	Vec3 vel = mat * _rotRefAxes;
-        //	agent->vel[0] = vel.x;
-        //	agent->vel[1] = vel.y;
-        //	agent->vel[2] = vel.z;
-        //}
-        if (_needUpdateAgent){
+
+        if (_needUpdateAgent)
+        {
             dtCrowdAgentParams ap;
             convertTodtAgentParam(_param, ap);
             agent->params = ap;

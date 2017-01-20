@@ -204,17 +204,17 @@ protected:
 #if CC_USE_NAVMESH
 public:
     /** set navigation mesh */
-    void setNavMesh(NavMesh* navMesh);
+    void setNavMesh( std::unique_ptr<NavMesh> );
     /** get navigation mesh */
-    NavMesh* getNavMesh() const { return _navMesh; }
+    NavMesh* getNavMesh() const { return _navMesh.get(); }
     /**
     * Set NavMesh debug draw camera.
     */
     void setNavMeshDebugCamera(Camera *camera);
 
 protected:
-    NavMesh*        _navMesh;
-    Camera *        _navMeshDebugCamera;
+    std::unique_ptr<NavMesh> _navMesh;
+    Camera                   *_navMeshDebugCamera;
 #endif
     
 #if (CC_USE_PHYSICS || (CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION) || CC_USE_NAVMESH)

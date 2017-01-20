@@ -56,7 +56,6 @@ Scene::Scene()
     _physics3dDebugCamera = nullptr;
 #endif
 #if CC_USE_NAVMESH
-    _navMesh = nullptr;
     _navMeshDebugCamera = nullptr;
 #endif
 #if CC_USE_PHYSICS
@@ -83,9 +82,6 @@ Scene::~Scene()
     CC_SAFE_RELEASE(_physics3DWorld);
     CC_SAFE_RELEASE(_physics3dDebugCamera);
 #endif
-#if CC_USE_NAVMESH
-    CC_SAFE_RELEASE(_navMesh);
-#endif
     Director::getInstance()->getEventDispatcher()->removeEventListener(_event);
     CC_SAFE_RELEASE(_event);
     
@@ -95,14 +91,9 @@ Scene::~Scene()
 }
 
 #if CC_USE_NAVMESH
-void Scene::setNavMesh(NavMesh* navMesh)
+void Scene::setNavMesh(std::unique_ptr<NavMesh> navMesh)
 {
-    if (_navMesh != navMesh)
-    {
-        CC_SAFE_RETAIN(navMesh);
-        CC_SAFE_RELEASE(_navMesh);
-        _navMesh = navMesh;
-    }
+    _navMesh = std::move( navMesh );
 }
 #endif
 
