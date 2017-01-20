@@ -597,8 +597,7 @@ enum class LabelEffect {
 /** @struct Acceleration
  * The device accelerometer reports values for each axis in units of g-force.
  */
-class CC_DLL Acceleration
-    : public Ref
+class CC_DLL Acceleration : public Ref
 {
 public:
     double x;

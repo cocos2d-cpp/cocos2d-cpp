@@ -51,7 +51,7 @@ namespace cocos2d {
  */
 class Renderer;
 /** @brief NavMesh: The NavMesh information container, include mesh, tileCache, and so on. */
-class CC_DLL NavMesh : public Ref
+class CC_DLL NavMesh final
 {
 public:
 
@@ -61,7 +61,10 @@ public:
     @param navFilePath The NavMesh File path.
     @param geomFilePath The geometry File Path,include offmesh information,etc.
     */
+    NavMesh(const std::string &navFilePath, const std::string &geomFilePath);
+    ~NavMesh();
     static NavMesh* create(const std::string &navFilePath, const std::string &geomFilePath);
+    bool initWithFilePath();
 
     /** update navmesh. */
     void update(float dt);
@@ -96,22 +99,16 @@ public:
     */
     void findPath(const Vec3 &start, const Vec3 &end, std::vector<Vec3> &pathPoints);
 
-protected:
-    NavMesh();
-    virtual ~NavMesh();
+private:
 
-protected:
-
-    bool initWithFilePath(const std::string &navFilePath, const std::string &geomFilePath);
-    bool read();
-    bool loadNavMeshFile();
-    bool loadGeomFile();
+    void loadNavMeshFile();
+    void loadGeomFile();
     void dtDraw();
     void drawAgents();
     void drawObstacles();
     void drawOffMeshConnections();
 
-protected:
+private:
 
     dtNavMesh *_navMesh;
     dtNavMeshQuery *_navMeshQuery;

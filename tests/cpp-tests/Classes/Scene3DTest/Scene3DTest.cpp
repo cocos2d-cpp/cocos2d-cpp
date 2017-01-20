@@ -53,7 +53,7 @@ class Scene3DTestScene : public TestCase
 public:
     CREATE_FUNC(Scene3DTestScene);
     
-    bool onTouchBegan(Touch* touch, Event* event) { return true; }
+    bool onTouchBegan(Touch*, Event*) { return true; }
     void onTouchEnd(Touch*, Event*);
     
 private:
@@ -457,7 +457,7 @@ void Scene3DTestScene::createUI()
     // create player button
     auto showPlayerDlgItem = MenuItemImage::create("Images/Pea.png",
                                                    "Images/Pea.png",
-                                                   [this](Ref* sender){
+                                                   [this](Ref*){
         this->_playerDlg->setVisible(!this->_playerDlg->isVisible());
     });
     showPlayerDlgItem->setName("showPlayerDlgItem");
@@ -466,7 +466,7 @@ void Scene3DTestScene::createUI()
     // create discription button
     TTFConfig ttfConfig("fonts/arial.ttf", 20);
     auto descItem = MenuItemLabel::create(Label::createWithTTF(ttfConfig, "Description"),
-                                          [this](Ref* sender)
+                                          [this](Ref*)
     {
         if (this->_descDlg->isVisible())
         {
@@ -588,7 +588,7 @@ void Scene3DTestScene::createPlayerDlg()
     item->setScale(1.5);
     item->setAnchorPoint(itemAnchor);
     item->setPosition(itemPos);
-    item->addClickEventListener([this](Ref* sender){
+    item->addClickEventListener([this](Ref*){
         this->_detailDlg->setVisible(!this->_detailDlg->isVisible());
     });
     _playerDlg->addChild(item);
@@ -607,7 +607,7 @@ void Scene3DTestScene::createPlayerDlg()
     zoomIn->setScale(0.5);
     zoomIn->setAnchorPoint(Vec2(1, 1));
     zoomIn->setPosition(Vec2(bgSize.width / 2 - margin / 2, bgSize.height - margin));
-    zoomIn->addClickEventListener([girl](Ref* sender){
+    zoomIn->addClickEventListener([girl](Ref*){
         girl->setScale(girl->getScale() * 2);
     });
     zoomIn->setTitleText("Zoom In");
@@ -620,7 +620,7 @@ void Scene3DTestScene::createPlayerDlg()
     zoomOut->setScale(0.5);
     zoomOut->setAnchorPoint(Vec2(0, 1));
     zoomOut->setPosition(Vec2(bgSize.width / 2 + margin / 2, bgSize.height - margin));
-    zoomOut->addClickEventListener([girl](Ref* sender){
+    zoomOut->addClickEventListener([girl](Ref*){
         girl->setScale(girl->getScale() / 2);
     });
     zoomOut->setTitleText("Zoom Out");
@@ -633,7 +633,7 @@ void Scene3DTestScene::createPlayerDlg()
     slider->setScale9Enabled(true);
     slider->setPosition(Vec2(bgSize.width / 2, margin));
     slider->setContentSize(Size(bgSize.width - margin, slider->getContentSize().height));
-    slider->addEventListener([girl, slider](Ref* sender,ui::Slider::EventType type)
+    slider->addEventListener([girl, slider](Ref*, ui::Slider::EventType)
     {
         girl->setRotation3D(Vec3(0, 360 * slider->getPercent() / 100, 0));
     });
@@ -672,7 +672,7 @@ void Scene3DTestScene::createDetailDlg()
     capture->setScale(0.5);
     capture->setAnchorPoint(Vec2(0.5, 0));
     capture->setPosition(Vec2(dlgSize.width / 3, margin));
-    capture->addClickEventListener([this](Ref* sender)
+    capture->addClickEventListener([this](Ref*)
     {
         Director::getInstance()->getTextureCache()->removeTextureForKey(_snapshotFile);
         _osdScene->removeChildByTag(SNAPSHOT_TAG);
@@ -701,7 +701,7 @@ void Scene3DTestScene::createDetailDlg()
     remove->setScale(0.5);
     remove->setAnchorPoint(Vec2(0.5, 0));
     remove->setPosition(Vec2(dlgSize.width * 2 / 3, margin));
-    remove->addClickEventListener([this](Ref* sender)
+    remove->addClickEventListener([this](Ref*)
     {
         _osdScene->removeChildByTag(SNAPSHOT_TAG);
     });
@@ -716,7 +716,6 @@ void Scene3DTestScene::createDetailDlg()
     skeletonNode->setSkin("goblin");
     
     skeletonNode->setScale(0.25);
-    Size windowSize = Director::getInstance()->getWinSize();
     skeletonNode->setPosition(Vec2(dlgSize.width / 2, remove->getContentSize().height / 2 + 2 * margin));
     _detailDlg->addChild(skeletonNode);
 }
