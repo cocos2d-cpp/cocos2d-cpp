@@ -13,6 +13,5 @@
 #include "PerformanceScenarioTest.h"
 #include "PerformanceCallbackTest.h"
 #include "PerformanceMathTest.h"
-#include "PerformanceContainerTest.h"
 
 #endif

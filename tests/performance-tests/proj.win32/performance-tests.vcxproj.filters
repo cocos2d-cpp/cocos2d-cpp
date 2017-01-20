@@ -36,9 +36,6 @@
     <ClCompile Include="..\Classes\tests\PerformanceCallbackTest.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\tests\PerformanceContainerTest.cpp">
-      <Filter>src\tests</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\tests\PerformanceEventDispatcherTest.cpp">
       <Filter>src\tests</Filter>
     </ClCompile>
@@ -90,9 +87,6 @@
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\tests\PerformanceCallbackTest.h">
-      <Filter>src\tests</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\tests\PerformanceContainerTest.h">
       <Filter>src\tests</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\tests\PerformanceEventDispatcherTest.h">

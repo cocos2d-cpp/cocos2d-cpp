@@ -150,7 +150,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\tests\controller.cpp" />
     <ClCompile Include="..\Classes\tests\PerformanceAllocTest.cpp" />
     <ClCompile Include="..\Classes\tests\PerformanceCallbackTest.cpp" />
-    <ClCompile Include="..\Classes\tests\PerformanceContainerTest.cpp" />
     <ClCompile Include="..\Classes\tests\PerformanceEventDispatcherTest.cpp" />
     <ClCompile Include="..\Classes\tests\PerformanceLabelTest.cpp" />
     <ClCompile Include="..\Classes\tests\PerformanceMathTest.cpp" />
@@ -170,7 +169,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\tests\controller.h" />
     <ClInclude Include="..\Classes\tests\PerformanceAllocTest.h" />
     <ClInclude Include="..\Classes\tests\PerformanceCallbackTest.h" />
-    <ClInclude Include="..\Classes\tests\PerformanceContainerTest.h" />
     <ClInclude Include="..\Classes\tests\PerformanceEventDispatcherTest.h" />
     <ClInclude Include="..\Classes\tests\PerformanceLabelTest.h" />
     <ClInclude Include="..\Classes\tests\PerformanceMathTest.h" />
