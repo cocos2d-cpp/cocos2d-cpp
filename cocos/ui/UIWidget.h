@@ -846,9 +846,7 @@ protected:
     bool _flippedX;
     bool _flippedY;
 
-    //use map to enable switch back and forth for user layout parameters
-    Map<int,LayoutParameter*> _layoutParameterDictionary;
-    LayoutParameter::Type _layoutParameterType;
+    retaining_ptr<LayoutParameter> _layoutParameter;    
 
     bool _focused;
     bool _focusEnabled;

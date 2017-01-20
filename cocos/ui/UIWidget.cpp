@@ -162,7 +162,6 @@ _hittedByCamera(nullptr),
 _touchListener(nullptr),
 _flippedX(false),
 _flippedY(false),
-_layoutParameterType(LayoutParameter::Type::NONE),
 _focused(false),
 _focusEnabled(true),
 _touchEventListener(nullptr),
@@ -1102,17 +1101,16 @@ const Vec2& Widget::getTouchEndPosition()const
 
 void Widget::setLayoutParameter(LayoutParameter *parameter)
 {
-    if (!parameter)
+    if (!parameter || _layoutParameter.get() == parameter)
     {
         return;
     }
-    _layoutParameterDictionary.insert((int)parameter->getLayoutType(), parameter);
-    _layoutParameterType = parameter->getLayoutType();
+    _layoutParameter = to_retaining_ptr( parameter );
 }
 
 LayoutParameter* Widget::getLayoutParameter()const
 {
-    return dynamic_cast<LayoutParameter*>(_layoutParameterDictionary.at((int)_layoutParameterType));
+    return _layoutParameter.get();
 }
 
 std::string Widget::getDescription() const
@@ -1205,11 +1203,7 @@ void Widget::copyProperties(Widget *widget)
 
     copySpecialProperties(widget);
 
-    Map<int, LayoutParameter*>& layoutParameterDic = widget->_layoutParameterDictionary;
-    for (auto& iter : layoutParameterDic)
-    {
-        setLayoutParameter(iter.second->clone());
-    }
+    _layoutParameter = to_retaining_ptr( widget->_layoutParameter->clone() );
 }
 
     void Widget::setFlippedX(bool flippedX)
