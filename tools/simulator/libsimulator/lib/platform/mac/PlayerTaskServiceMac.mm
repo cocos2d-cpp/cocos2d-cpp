@@ -219,15 +219,21 @@ PlayerTask *PlayerTaskServiceMac::createTask(const std::string &name,
                                              const std::string &commandLineArguments)
 {
     CCASSERT(_tasks.find(name) == _tasks.end(), "Task already exists.");
-    PlayerTaskMac *task = PlayerTaskMac::create(name, executePath, commandLineArguments);
-    _tasks.insert(name, task);
-    return task;
+    auto task = to_retaining_ptr(
+        PlayerTaskMac::create(
+            name,
+            executePath,
+            commandLineArguments
+        ));
+    auto ret = task.get();
+    _tasks[name] = std::move(task);
+    return ret;
 }
 
 PlayerTask *PlayerTaskServiceMac::getTask(const std::string &name)
 {
     auto it = _tasks.find(name);
-    return it != _tasks.end() ? it->second : nullptr;
+    return it != _tasks.end() ? it->second.get() : nullptr;
 }
 
 void PlayerTaskServiceMac::removeTask(const std::string &name)

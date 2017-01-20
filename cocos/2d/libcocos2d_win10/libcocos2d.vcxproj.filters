@@ -1811,9 +1811,6 @@
     <ClInclude Include="..\..\base\ccMacros.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\base\CCMap.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\base\CCNS.h">
       <Filter>base</Filter>
     </ClInclude>

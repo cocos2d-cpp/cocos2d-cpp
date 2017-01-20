@@ -902,7 +902,6 @@
     <ClInclude Include="..\..\base\CCIMEDelegate.h" />
     <ClInclude Include="..\..\base\CCIMEDispatcher.h" />
     <ClInclude Include="..\..\base\ccMacros.h" />
-    <ClInclude Include="..\..\base\CCMap.h" />
     <ClInclude Include="..\..\base\CCNinePatchImageParser.h" />
     <ClInclude Include="..\..\base\CCStencilStateManager.h" />
     <ClInclude Include="..\..\base\CCNS.h" />

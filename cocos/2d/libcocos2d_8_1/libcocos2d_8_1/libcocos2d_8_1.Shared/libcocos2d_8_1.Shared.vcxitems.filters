@@ -775,9 +775,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccMacros.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCMap.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCNS.h">
       <Filter>base</Filter>
     </ClInclude>

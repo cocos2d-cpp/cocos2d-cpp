@@ -32,8 +32,9 @@
 
 #include "CCControl.h"
 #include "CCInvocation.h"
-#include "base/CCMap.h"
 #include "ui/UIScale9Sprite.h"
+
+#include <map>
 
 namespace cocos2d {
 namespace extension {
@@ -238,8 +239,8 @@ protected:
     std::unordered_map<int, std::string> _titleDispatchTable;
     std::unordered_map<int, Color3B> _titleColorDispatchTable;
 
-    Map<int, Node*> _titleLabelDispatchTable;
-    Map<int, cocos2d::ui::Scale9Sprite*> _backgroundSpriteDispatchTable;
+    std::map<State, node_ptr<Node>> _titleLabelDispatchTable;
+    std::map<State, node_ptr<cocos2d::ui::Scale9Sprite>> _backgroundSpriteDispatchTable;
 
     /* Define the button margin for Top/Bottom edge */
     CC_SYNTHESIZE_READONLY(int, _marginV, VerticalMargin);

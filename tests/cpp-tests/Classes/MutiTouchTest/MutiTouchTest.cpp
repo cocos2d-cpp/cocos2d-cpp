@@ -1,5 +1,7 @@
 #include "MutiTouchTest.h"
 
+#include <unordered_map>
+
 using namespace cocos2d;
 
 MutiTouchTests::MutiTouchTests()
@@ -58,18 +60,18 @@ bool MutiTouchTest::init()
     return false;
 }
 
-static Map<int, TouchPoint*> s_map;
+static std::unordered_map<int, node_ptr<TouchPoint>> s_map;
 
-void MutiTouchTest::onTouchesBegan(const std::vector<Touch*>& touches, Event  * /*event*/)
+void MutiTouchTest::onTouchesBegan(const std::vector<Touch*>& touches, Event*)
 {
     for ( auto &item: touches )
     {
         auto touch = item;
         auto location = touch->getLocation();
-        auto touchPoint = TouchPoint::touchPointWithParent(this, location, *s_TouchColors[touch->getID()%5]);
+        auto touchPoint = to_node_ptr(TouchPoint::touchPointWithParent(this, location, *s_TouchColors[touch->getID()%5]));
 
-        addChild(touchPoint);
-        s_map.insert(touch->getID(), touchPoint);
+        addChild(touchPoint.get());
+        s_map[ touch->getID() ] = std::move(touchPoint);
     }
 }
 
@@ -78,15 +80,23 @@ void MutiTouchTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  * 
     for( auto &item: touches)
     {
         auto touch = item;
-        auto pTP = s_map.at(touch->getID());
         auto location = touch->getLocation();
+
+        auto & pTP = s_map[touch->getID()];
+
+        if (pTP)
+        {
+            removeChild(pTP.get(), true);
+        }
         
-        removeChild(pTP, true);
-        s_map.erase(touch->getID());
-        
-        auto touchPointNew = TouchPoint::touchPointWithParent(this, location, *s_TouchColors[touch->getID()%5]);
-        addChild(touchPointNew);
-        s_map.insert(touch->getID(), touchPointNew);
+        pTP = to_node_ptr(
+            TouchPoint::touchPointWithParent(
+                this,
+                location,
+                *s_TouchColors[touch->getID()%5]
+            ));
+
+        addChild(pTP.get());
     }
 }
 
@@ -95,9 +105,12 @@ void MutiTouchTest::onTouchesEnded(const std::vector<Touch*>& touches, Event  * 
     for ( auto &item: touches )
     {
         auto touch = item;
-        auto pTP = s_map.at(touch->getID());
-        removeChild(pTP, true);
-        s_map.erase(touch->getID());
+        auto pTP = s_map.find(touch->getID());
+        if (pTP != s_map.end())
+        {
+            removeChild(pTP->second.get(), true);
+            s_map.erase(pTP);
+        }
     }
 }
 
