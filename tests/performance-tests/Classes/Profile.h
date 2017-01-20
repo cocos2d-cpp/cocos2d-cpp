@@ -3,7 +3,6 @@
 
 #include <string.h>
 #include <vector>
-#include "base/CCMap.h"
 #include "base/CCValue.h"
 
 std::string genStr(const char* format, ...);

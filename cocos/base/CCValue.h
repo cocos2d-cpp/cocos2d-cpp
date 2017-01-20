@@ -44,10 +44,6 @@ typedef std::vector<Value> ValueVector;
 typedef std::unordered_map<std::string, Value> ValueMap;
 typedef std::unordered_map<int, Value> ValueMapIntKey;
 
-CC_DLL extern const ValueVector ValueVectorNull;
-CC_DLL extern const ValueMap ValueMapNull;
-CC_DLL extern const ValueMapIntKey ValueMapIntKeyNull;
-
 /*
  * This class is provide as a wrapper of basic types, such as int and bool.
  */

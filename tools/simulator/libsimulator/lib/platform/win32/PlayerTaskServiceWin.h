@@ -2,9 +2,10 @@
 #ifndef __PLAYER_TASK_SERVICE_WIN_H_
 #define __PLAYER_TASK_SERVICE_WIN_H_
 
-#include <sstream>
-
 #include "PlayerTaskServiceProtocol.h"
+
+#include <sstream>
+#include <unordered_map>
 
 namespace player {
 
@@ -57,7 +58,7 @@ public:
 
 protected:
     HWND _hwnd;
-    cocos2d::Map<std::string, PlayerTaskWin*> _tasks;
+    std::unordered_map<std::string, retaining_ptr<PlayerTaskWin>> _tasks;
 };
 
 } // namespace player

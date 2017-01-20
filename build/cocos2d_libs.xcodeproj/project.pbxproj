@@ -2347,7 +2347,6 @@
 		507B3E1E1C31BDD30067B53E /* btMatrix3x3.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1C21AF9AA1A00B9B856 /* btMatrix3x3.h */; };
 		507B3E1F1C31BDD30067B53E /* CCConsole.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDCD1925AB6E00A911A9 /* CCConsole.h */; };
 		507B3E201C31BDD30067B53E /* btDiscreteDynamicsWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1111AF9AA1900B9B856 /* btDiscreteDynamicsWorld.h */; };
-		507B3E211C31BDD30067B53E /* CCMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF61925AB6E00A911A9 /* CCMap.h */; };
 		507B3E221C31BDD30067B53E /* CCPUOnCountObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1691AA80A6500DDB1C5 /* CCPUOnCountObserver.h */; };
 		507B3E231C31BDD30067B53E /* CCEAGLView-ios.h in Headers */ = {isa = PBXBuildFile; fileRef = 503DD8D41926736A00CD74DD /* CCEAGLView-ios.h */; };
 		507B3E241C31BDD30067B53E /* CCEventAcceleration.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDD71925AB6E00A911A9 /* CCEventAcceleration.h */; };
@@ -3342,8 +3341,6 @@
 		50ABBE861925AB6F00A911A9 /* ccFPSImages.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF41925AB6E00A911A9 /* ccFPSImages.h */; };
 		50ABBE871925AB6F00A911A9 /* ccMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF51925AB6E00A911A9 /* ccMacros.h */; };
 		50ABBE881925AB6F00A911A9 /* ccMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF51925AB6E00A911A9 /* ccMacros.h */; };
-		50ABBE891925AB6F00A911A9 /* CCMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF61925AB6E00A911A9 /* CCMap.h */; };
-		50ABBE8A1925AB6F00A911A9 /* CCMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF61925AB6E00A911A9 /* CCMap.h */; };
 		50ABBE8B1925AB6F00A911A9 /* CCNS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDF71925AB6E00A911A9 /* CCNS.cpp */; };
 		50ABBE8C1925AB6F00A911A9 /* CCNS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDF71925AB6E00A911A9 /* CCNS.cpp */; };
 		50ABBE8D1925AB6F00A911A9 /* CCNS.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDF81925AB6E00A911A9 /* CCNS.h */; };
@@ -6251,7 +6248,6 @@
 		50ABBDF31925AB6E00A911A9 /* ccFPSImages.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ccFPSImages.c; path = ../base/ccFPSImages.c; sourceTree = "<group>"; };
 		50ABBDF41925AB6E00A911A9 /* ccFPSImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccFPSImages.h; path = ../base/ccFPSImages.h; sourceTree = "<group>"; };
 		50ABBDF51925AB6E00A911A9 /* ccMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccMacros.h; path = ../base/ccMacros.h; sourceTree = "<group>"; };
-		50ABBDF61925AB6E00A911A9 /* CCMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCMap.h; path = ../base/CCMap.h; sourceTree = "<group>"; };
 		50ABBDF71925AB6E00A911A9 /* CCNS.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCNS.cpp; path = ../base/CCNS.cpp; sourceTree = "<group>"; };
 		50ABBDF81925AB6E00A911A9 /* CCNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCNS.h; path = ../base/CCNS.h; sourceTree = "<group>"; };
 		50ABBDFB1925AB6E00A911A9 /* CCProfiling.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCProfiling.cpp; path = ../base/CCProfiling.cpp; sourceTree = "<group>"; };
@@ -7544,7 +7540,6 @@
 				503DD8F31926B0DB00CD74DD /* CCIMEDispatcher.cpp */,
 				503DD8F41926B0DB00CD74DD /* CCIMEDispatcher.h */,
 				50ABBDF51925AB6E00A911A9 /* ccMacros.h */,
-				50ABBDF61925AB6E00A911A9 /* CCMap.h */,
 				50ABBDF71925AB6E00A911A9 /* CCNS.cpp */,
 				50ABBDF81925AB6E00A911A9 /* CCNS.h */,
 				50ABBDFB1925AB6E00A911A9 /* CCProfiling.cpp */,
@@ -10343,7 +10338,6 @@
 				D0FD03591A3B51AA00825BB5 /* CCAllocatorStrategyDefault.h in Headers */,
 				B665E2901AA80A6500DDB1C5 /* CCPUDynamicAttributeTranslator.h in Headers */,
 				B6CAB3531AF9AA1A00B9B856 /* gim_hash_table.h in Headers */,
-				50ABBE891925AB6F00A911A9 /* CCMap.h in Headers */,
 				B6CAB3131AF9AA1A00B9B856 /* btUniformScalingShape.h in Headers */,
 				50ABBE8D1925AB6F00A911A9 /* CCNS.h in Headers */,
 				B6CAB1E91AF9AA1A00B9B856 /* btAxisSweep3.h in Headers */,
@@ -11517,7 +11511,6 @@
 				507B3E1E1C31BDD30067B53E /* btMatrix3x3.h in Headers */,
 				507B3E1F1C31BDD30067B53E /* CCConsole.h in Headers */,
 				507B3E201C31BDD30067B53E /* btDiscreteDynamicsWorld.h in Headers */,
-				507B3E211C31BDD30067B53E /* CCMap.h in Headers */,
 				507B3E221C31BDD30067B53E /* CCPUOnCountObserver.h in Headers */,
 				507B3E231C31BDD30067B53E /* CCEAGLView-ios.h in Headers */,
 				507B3E241C31BDD30067B53E /* CCEventAcceleration.h in Headers */,
@@ -12549,7 +12542,6 @@
 				B6CAB5121AF9AA1A00B9B856 /* btMatrix3x3.h in Headers */,
 				50ABBE381925AB6F00A911A9 /* CCConsole.h in Headers */,
 				B6CAB3EA1AF9AA1A00B9B856 /* btDiscreteDynamicsWorld.h in Headers */,
-				50ABBE8A1925AB6F00A911A9 /* CCMap.h in Headers */,
 				B665E32D1AA80A6500DDB1C5 /* CCPUOnCountObserver.h in Headers */,
 				503DD8E61926736A00CD74DD /* CCEAGLView-ios.h in Headers */,
 				50ABBE4C1925AB6F00A911A9 /* CCEventAcceleration.h in Headers */,

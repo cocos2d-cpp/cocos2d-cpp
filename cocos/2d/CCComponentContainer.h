@@ -27,8 +27,10 @@ THE SOFTWARE.
 
 /// @cond DO_NOT_SHOW
 
-#include "base/CCMap.h"
+#include <platform/CCPlatformDefine.h>
+
 #include <string>
+#include <unordered_map>
 
 namespace cocos2d {
 

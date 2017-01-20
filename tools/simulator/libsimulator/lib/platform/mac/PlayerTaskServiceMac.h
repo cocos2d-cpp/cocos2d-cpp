@@ -2,9 +2,11 @@
 #ifndef __PLAYER_TASK_SERVICE_MAC_H_
 #define __PLAYER_TASK_SERVICE_MAC_H_
 
-#include <sstream>
-
 #include "PlayerTaskServiceProtocol.h"
+#include "base/CCRef.h"
+
+#include <unordered_map>
+#include <sstream>
 
 namespace player {
 class PlayerTaskMac;
@@ -71,7 +73,7 @@ public:
     virtual void removeTask(const std::string &name);
     
 protected:
-    cocos2d::Map<std::string, PlayerTaskMac*> _tasks;
+    std::unordered_map<std::string, PlayerTaskMac*> _tasks;
 };
 
 } // namespace player

@@ -30,10 +30,6 @@
 
 namespace cocos2d {
 
-const ValueVector ValueVectorNull;
-const ValueMap ValueMapNull;
-const ValueMapIntKey ValueMapIntKeyNull;
-
 const Value Value::Null;
 
 Value::Value()

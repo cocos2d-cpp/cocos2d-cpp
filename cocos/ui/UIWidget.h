@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "ui/GUIDefine.h"
 #include "ui/GUIExport.h"
 #include "ui/UIWidget.h"
-#include "base/CCMap.h"
 
 /**
  * @addtogroup ui

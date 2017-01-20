@@ -282,7 +282,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCIMEDelegate.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCIMEDispatcher.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ccMacros.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCMap.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCNinePatchImageParser.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCStencilStateManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\CCNS.h" />

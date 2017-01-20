@@ -232,9 +232,9 @@ void ControlButton::setPreferredSize(const Size& size)
     {
         _doesAdjustBackgroundImage = false;
         
-        for (auto iter = _backgroundSpriteDispatchTable.begin(); iter != _backgroundSpriteDispatchTable.end(); ++iter)
+        for (auto & iter : _backgroundSpriteDispatchTable)
         {
-            iter->second->setPreferredSize(size);
+            iter.second->setPreferredSize(size);
         }
     }
 
@@ -337,27 +337,38 @@ void ControlButton::setTitleColorForState(const Color3B& color, State state)
 
 Node* ControlButton::getTitleLabelForState(State state)
 {
-    Node* titleLabel = _titleLabelDispatchTable.at((int)state);
-    if (titleLabel)
+    auto titleLabel = _titleLabelDispatchTable.find(state);
+    
+    if (titleLabel != _titleLabelDispatchTable.end())
     {
-        return titleLabel;
+        return titleLabel->second.get();
     }
-    return _titleLabelDispatchTable.at((int)Control::State::NORMAL);
+    if (Control::State::NORMAL != state)
+    {
+        return getTitleLabelForState(Control::State::NORMAL);
+    }
+
+    return nullptr;
 }
 
 void ControlButton::setTitleLabelForState(Node* titleLabel, State state)
 {
-    Node* previousLabel = _titleLabelDispatchTable.at((int)state);
-    if (previousLabel)
+    if (!titleLabel)
     {
-        removeChild(previousLabel, true);
-        _titleLabelDispatchTable.erase((int)state);
+        return;
     }
 
-    _titleLabelDispatchTable.insert((int)state, titleLabel);
-    titleLabel->setVisible(false);
-    titleLabel->setAnchorPoint(Vec2(0.5f, 0.5f));
-    addChild(titleLabel, 1);
+    auto & label = _titleLabelDispatchTable[state];
+    if (label)
+    {
+        removeChild(label.get(), true);
+    }
+
+    label = to_node_ptr(titleLabel);
+
+    label->setVisible(false);
+    label->setAnchorPoint(Vec2(0.5f, 0.5f));
+    addChild(label.get(), 1);
 
     // If the current state if equal to the given state we update the layout
     if (getState() == state)
@@ -433,27 +444,38 @@ const std::string& ControlButton::getTitleBMFontForState(State state)
 
 ui::Scale9Sprite* ControlButton::getBackgroundSpriteForState(State state)
 {
-    auto backgroundSprite = _backgroundSpriteDispatchTable.at((int)state);
-    if (backgroundSprite)
+    auto titleLabel = _backgroundSpriteDispatchTable.find(state);
+    
+    if (titleLabel != _backgroundSpriteDispatchTable.end())
     {
-        return backgroundSprite;
+        return titleLabel->second.get();
     }
-    return _backgroundSpriteDispatchTable.at((int)Control::State::NORMAL);
+    if (Control::State::NORMAL != state)
+    {
+        return getBackgroundSpriteForState(Control::State::NORMAL);
+    }
+
+    return nullptr;
 }
 
 
 void ControlButton::setBackgroundSpriteForState(ui::Scale9Sprite* sprite, State state)
 {
-    Size oldPreferredSize = _preferredSize;
-
-    auto previousBackgroundSprite = _backgroundSpriteDispatchTable.at((int)state);
-    if (previousBackgroundSprite)
+    if (!sprite)
     {
-        removeChild(previousBackgroundSprite, true);
-        _backgroundSpriteDispatchTable.erase((int)state);
+        return;
     }
 
-    _backgroundSpriteDispatchTable.insert((int)state, sprite);
+    Size oldPreferredSize = _preferredSize;
+
+    auto & bckg = _backgroundSpriteDispatchTable[state];
+    if (bckg)
+    {
+        removeChild(bckg.get(), true);
+    }
+
+    bckg = to_node_ptr(sprite);
+
     sprite->setVisible(false);
     sprite->setAnchorPoint(Vec2(0.5f, 0.5f));
     addChild(sprite);
@@ -666,14 +688,14 @@ void ControlButton::setOpacity(GLubyte opacity)
 {
     Control::setOpacity(opacity);
     
-    for (auto iter = _backgroundSpriteDispatchTable.begin(); iter != _backgroundSpriteDispatchTable.end(); ++iter)
+    for (auto & iter : _backgroundSpriteDispatchTable)
     {
-        iter->second->setOpacity(opacity);
+        iter.second->setOpacity(opacity);
     }
 
-    for (auto iter = _titleLabelDispatchTable.begin(); iter != _titleLabelDispatchTable.end(); ++iter)
+    for (auto & iter : _titleLabelDispatchTable)
     {
-        iter->second->setOpacity(opacity);
+        iter.second->setOpacity(opacity);
     }
 }
 
@@ -681,14 +703,14 @@ void ControlButton::updateDisplayedOpacity(GLubyte parentOpacity)
 {
     Control::updateDisplayedOpacity(parentOpacity);
 
-    for (auto iter = _backgroundSpriteDispatchTable.begin(); iter != _backgroundSpriteDispatchTable.end(); ++iter)
+    for (auto & iter : _backgroundSpriteDispatchTable)
     {
-        iter->second->updateDisplayedOpacity(parentOpacity);
+        iter.second->updateDisplayedOpacity(parentOpacity);
     }
 
-    for (auto iter = _titleLabelDispatchTable.begin(); iter != _titleLabelDispatchTable.end(); ++iter)
+    for (auto & iter : _titleLabelDispatchTable)
     {
-        iter->second->updateDisplayedOpacity(parentOpacity);
+        iter.second->updateDisplayedOpacity(parentOpacity);
     }
 }
 
@@ -696,14 +718,14 @@ void ControlButton::setColor(const Color3B & color)
 {
 	Control::setColor(color);
 	
-    for (auto iter = _backgroundSpriteDispatchTable.begin(); iter != _backgroundSpriteDispatchTable.end(); ++iter)
+    for (auto & iter : _backgroundSpriteDispatchTable)
     {
-        iter->second->setColor(color);
+        iter.second->setColor(color);
     }
 
-    for (auto iter = _titleLabelDispatchTable.begin(); iter != _titleLabelDispatchTable.end(); ++iter)
+    for (auto & iter : _titleLabelDispatchTable)
     {
-        iter->second->setColor(color);
+        iter.second->setColor(color);
     }
 }
 
@@ -711,14 +733,14 @@ void ControlButton::updateDisplayedColor(const Color3B& parentColor)
 {
     Control::updateDisplayedColor(parentColor);
 
-    for (auto iter = _backgroundSpriteDispatchTable.begin(); iter != _backgroundSpriteDispatchTable.end(); ++iter)
+    for (auto & iter : _backgroundSpriteDispatchTable)
     {
-        iter->second->updateDisplayedColor(parentColor);
+        iter.second->updateDisplayedColor(parentColor);
     }
 
-    for (auto iter = _titleLabelDispatchTable.begin(); iter != _titleLabelDispatchTable.end(); ++iter)
+    for (auto & iter : _titleLabelDispatchTable)
     {
-        iter->second->updateDisplayedColor(parentColor);
+        iter.second->updateDisplayedColor(parentColor);
     }
 }
 

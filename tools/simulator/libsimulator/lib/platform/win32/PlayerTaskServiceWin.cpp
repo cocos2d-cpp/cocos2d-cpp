@@ -43,20 +43,6 @@ bool PlayerTaskWin::run()
         return false;
     }
 
-    //BOOL WINAPI CreateProcess(
-    //    _In_opt_     LPCTSTR lpApplicationName,
-    //    _Inout_opt_  LPTSTR lpCommandLine,
-    //    _In_opt_     LPSECURITY_ATTRIBUTES lpProcessAttributes,
-    //    _In_opt_     LPSECURITY_ATTRIBUTES lpThreadAttributes,
-    //    _In_         BOOL bInheritHandles,
-    //    _In_         DWORD dwCreationFlags,
-    //    _In_opt_     LPVOID lpEnvironment,
-    //    _In_opt_     LPCTSTR lpCurrentDirectory,
-    //    _In_         LPSTARTUPINFO lpStartupInfo,
-    //    _Out_        LPPROCESS_INFORMATION lpProcessInformation
-    //);
-
-    // http://msdn.microsoft.com/en-us/library/windows/desktop/ms682499(v=vs.85).aspx
     SECURITY_ATTRIBUTES sa = {0};
     sa.nLength = sizeof(sa);
     sa.bInheritHandle = TRUE;
@@ -245,15 +231,20 @@ PlayerTask *PlayerTaskServiceWin::createTask(const std::string &name,
                                              const std::string &commandLineArguments)
 {
     CCASSERT(_tasks.find(name) == _tasks.end(), "Task already exists.");
-    PlayerTaskWin *task = PlayerTaskWin::create(name, executePath, commandLineArguments);
-    _tasks.insert(name, task);
-    return task;
+    PlayerTaskWin *task = to_retaining_ptr(
+        PlayerTaskWin::create(name,
+                              executePath,
+                              commandLineArguments
+        ));
+    auto ret = task.get();
+    _tasks[name] = std::move(task);
+    return ret;
 }
 
 PlayerTask *PlayerTaskServiceWin::getTask(const std::string &name)
 {
     auto it = _tasks.find(name);
-    return it != _tasks.end() ? it->second : nullptr;
+    return it != _tasks.end() ? it->second.get() : nullptr;
 }
 
 void PlayerTaskServiceWin::removeTask(const std::string &name)
