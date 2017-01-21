@@ -442,7 +442,7 @@ char* Properties::readLine(char* output, int num)
     const ssize_t dataIdx = *_dataIdx;
     int i;
 
-    for (i=0; i<num && dataIdx+i < _data->_size; i++)
+    for (i=0; i<num && dataIdx+i < static_cast<ssize_t>(_data->_size); i++)
     {
         auto c = _data->_bytes[dataIdx+i];
         if (c == '\n')
@@ -467,7 +467,7 @@ bool Properties::seekFromCurrent(int offset)
 
 bool Properties::eof()
 {
-    return (*_dataIdx >= _data->_size);
+    return (*_dataIdx >= static_cast<ssize_t>(_data->_size));
 }
 
 void Properties::skipWhiteSpace()

@@ -286,7 +286,7 @@ void IMEDispatcher::dispatchKeyboardWillShow(IMEKeyboardNotificationInfo& info)
     }
 }
 
-void IMEDispatcher::dispatchKeyboardDidShow(IMEKeyboardNotificationInfo& info)
+void IMEDispatcher::dispatchKeyboardDidShow(IMEKeyboardNotificationInfo&)
 {
 }
 
@@ -307,7 +307,7 @@ void IMEDispatcher::dispatchKeyboardWillHide(IMEKeyboardNotificationInfo& info)
     }
 }
 
-void IMEDispatcher::dispatchKeyboardDidHide(IMEKeyboardNotificationInfo& info)
+void IMEDispatcher::dispatchKeyboardDidHide(IMEKeyboardNotificationInfo&)
 {
 }
 
