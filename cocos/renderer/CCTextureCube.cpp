@@ -248,7 +248,7 @@ bool TextureCube::init(const std::string& positive_x, const std::string& negativ
 
 void TextureCube::setTexParameters(const TexParams& texParams)
 {
-    CCASSERT(_name != 0, __FUNCTION__);
+    CC_ASSERT(_name != 0);
 
     GL::bindTextureN(0, _name, GL_TEXTURE_CUBE_MAP);
 
