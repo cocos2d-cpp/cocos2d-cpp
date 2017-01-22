@@ -291,7 +291,7 @@ static spAnimation* _spSkeletonBinary_readAnimation (spSkeletonBinary* self, con
 					break;
 				}
 				default: {
-					int i;
+					size_t i;
 					for (i = 0; i < kv_size(timelines); ++i)
 						spTimeline_dispose(kv_A(timelines, i));
 					kv_destroy(timelines);
@@ -354,7 +354,7 @@ static spAnimation* _spSkeletonBinary_readAnimation (spSkeletonBinary* self, con
 					break;
 				}
 				default: {
-					int i;
+					size_t i;
 					for (i = 0; i < kv_size(timelines); ++i)
 						spTimeline_dispose(kv_A(timelines, i));
 					kv_destroy(timelines);
@@ -466,7 +466,7 @@ static spAnimation* _spSkeletonBinary_readAnimation (spSkeletonBinary* self, con
 				spVertexAttachment* attachment = SUB_CAST(spVertexAttachment,
 						spSkin_getAttachment(skin, slotIndex, attachmentName));
 				if (!attachment) {
-					int i;
+					size_t i;
 					for (i = 0; i < kv_size(timelines); ++i)
 						spTimeline_dispose(kv_A(timelines, i));
 					kv_destroy(timelines);

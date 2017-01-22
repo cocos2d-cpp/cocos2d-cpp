@@ -501,10 +501,11 @@ namespace ui {
 
         void resetRender();
 
-    protected:
+    private:
         void updateCapInset();
         void setupSlice9(Texture2D* texture, const Rect& capInsets);
 
+    private:
         bool _isPatch9;
 
         Rect _previousCenterRectNormalized;
