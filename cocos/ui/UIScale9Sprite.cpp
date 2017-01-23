@@ -129,14 +129,14 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteF
 }
 
 Scale9Sprite::Scale9Sprite()
-: _previousCenterRectNormalized(Rect(0,0,1,1))
+: _isPatch9(false)
+, _previousCenterRectNormalized(Rect(0,0,1,1))
+, _insetLeft(0)
+, _insetRight(0)
+, _insetTop(0)
+, _insetBottom(0)
 , _brightState(State::NORMAL)
 , _renderingType(RenderingType::SLICE)
-, _insetLeft(0)
-, _insetTop(0)
-, _insetRight(0)
-, _insetBottom(0)
-, _isPatch9(false)
 {
 }
 

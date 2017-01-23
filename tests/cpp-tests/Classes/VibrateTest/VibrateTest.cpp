@@ -71,8 +71,8 @@ namespace {
         
     private:
         TextButton()
-        : _enabled(true)
-        , _onTriggered(nullptr)
+        : _onTriggered(nullptr)
+        , _enabled(true)
         {
             auto listener = EventListenerTouchOneByOne::create();
             listener->setSwallowTouches(true);
@@ -272,7 +272,7 @@ bool VibrateControlTest::init()
     
     auto& layerSize = this->getContentSize();
 
-    auto vibrateItem = TextButton::create("vibrate", [&](TextButton* button){
+    auto vibrateItem = TextButton::create("vibrate", [&](TextButton*){
         Device::vibrate(_duration);
     });
     vibrateItem->setPosition(layerSize.width * 0.5f, layerSize.height * 0.7f);
@@ -288,7 +288,7 @@ bool VibrateControlTest::init()
 
     auto durationSlider = SliderEx::create();
     durationSlider->setPercent(0);
-    durationSlider->setCallBack([&](SliderEx* sender, float ratio, SliderEx::TouchEvent){
+    durationSlider->setCallBack([&](SliderEx*, float ratio, SliderEx::TouchEvent){
         _duration = ratio * 1.9f + 0.1f; // From 0.1s to 2s
         auto durationLabelValue = StringUtils::format("duration: %.3fs", _duration);
         (static_cast<Label*>(_durationLabel))->setString(durationLabelValue);

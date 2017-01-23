@@ -48,7 +48,8 @@ void PUScriptLexer::openLexer(const std::string &str,const std::string &source,P
     
     
     std::string lexeme;
-    unsigned int line = 1, state = READY, lastQuote = 0;
+    unsigned int line = 1;
+    unsigned int state = READY;
     
 //    ScriptTokenListPtr tokens(OGRE_NEW_T(ScriptTokenList, MEMCATEGORY_GENERAL)(), SPFM_DELETE_T);
 //    
@@ -59,9 +60,6 @@ void PUScriptLexer::openLexer(const std::string &str,const std::string &source,P
     {
         lastc = c;
         c = *i;
-        
-        if(c == quote)
-            lastQuote = line;
         
         switch(state)
         {
