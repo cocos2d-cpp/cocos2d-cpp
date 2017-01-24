@@ -52,14 +52,14 @@ void ZwoptexGenericTest::onEnter()
     counter = 0;
 }
 
-void ZwoptexGenericTest::startIn05Secs(float dt)
+void ZwoptexGenericTest::startIn05Secs(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::startIn05Secs));
     schedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::flipSprites), 0.5f);
 }
 
 static int spriteFrameIndex = 0;
-void ZwoptexGenericTest::flipSprites(float dt)
+void ZwoptexGenericTest::flipSprites(float /*dt*/)
 {
     counter++;
 

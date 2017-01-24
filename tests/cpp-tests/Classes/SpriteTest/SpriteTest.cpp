@@ -185,7 +185,7 @@ void Sprite1::addNewSpriteWithCoords(Vec2 p)
     sprite->runAction( RepeatForever::create(seq) );
 }
 
-void Sprite1::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite1::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch: touches)
     {
@@ -261,7 +261,7 @@ void Sprite1ETC1Alpha::addNewSpriteWithCoords(Vec2 p)
     sprite->runAction(RepeatForever::create(seq));
 }
 
-void Sprite1ETC1Alpha::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void Sprite1ETC1Alpha::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto touch : touches)
     {
@@ -334,7 +334,7 @@ void SpriteBatchNode1::addNewSpriteWithCoords(Vec2 p)
     sprite->runAction( RepeatForever::create(seq));
 }
 
-void SpriteBatchNode1::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void SpriteBatchNode1::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
 {
     for (auto &touch: touches)
     {
@@ -1612,7 +1612,7 @@ void SpriteNewTexture::addNewSprite()
     sprite->runAction( RepeatForever::create(seq) );
 }
 
-void SpriteNewTexture::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void SpriteNewTexture::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
 
     auto node = getChildByTag( kTagSpriteBatchNode );
@@ -1717,7 +1717,7 @@ void SpriteBatchNodeNewTexture::addNewSprite()
     sprite->runAction( RepeatForever::create(seq) );
 }
 
-void SpriteBatchNodeNewTexture::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+void SpriteBatchNodeNewTexture::onTouchesEnded(const std::vector<Touch*>&, Event*)
 {
     auto batch = static_cast<SpriteBatchNode*>( getChildByTag( kTagSpriteBatchNode) );
     

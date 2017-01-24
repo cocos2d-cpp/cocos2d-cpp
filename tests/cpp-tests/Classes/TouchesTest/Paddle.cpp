@@ -62,7 +62,7 @@ bool Paddle::containsTouchLocation(Touch* touch)
     return getRect().containsPoint(convertTouchToNodeSpaceAR(touch));
 }
 
-bool Paddle::onTouchBegan(Touch* touch, Event* event)
+bool Paddle::onTouchBegan(Touch* touch, Event*)
 {
     CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
     
@@ -74,7 +74,7 @@ bool Paddle::onTouchBegan(Touch* touch, Event* event)
     return true;
 }
 
-void Paddle::onTouchMoved(Touch* touch, Event* event)
+void Paddle::onTouchMoved(Touch* touch, Event*)
 {
     // If it weren't for the TouchDispatcher, you would need to keep a reference
     // to the touch from touchBegan and check that the current touch is the same
@@ -101,7 +101,7 @@ Paddle* Paddle::clone() const
     return ret;
 }
 
-void Paddle::onTouchEnded(Touch* touch, Event* event)
+void Paddle::onTouchEnded(Touch*, Event*)
 {
     CCASSERT(_state == kPaddleStateGrabbed, "Paddle - Unexpected state!");    
     

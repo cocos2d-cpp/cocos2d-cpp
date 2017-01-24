@@ -90,7 +90,7 @@ void TileDemo::onExit()
     Director::getInstance()->setDepthTest(false);
 }
 
-void TileDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void TileDemo::onTouchesMoved(const std::vector<Touch*>& touches, Event *)
 {
     auto touch = touches[0];
 
@@ -160,7 +160,7 @@ TileMapEditTest::TileMapEditTest()
     map->setPosition( Vec2(-20,-200) );
 }
 
-void TileMapEditTest::updateMap(float dt)
+void TileMapEditTest::updateMap(float /*dt*/)
 {
     // IMPORTANT
     //   The only limitation is that you cannot change an empty, or assign an empty tile to a tile
@@ -377,7 +377,7 @@ TMXOrthoTest4::TMXOrthoTest4()
 
 }
 
-void TMXOrthoTest4::removeSprite(float dt)
+void TMXOrthoTest4::removeSprite(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(TMXOrthoTest4::removeSprite));
 
@@ -480,7 +480,7 @@ void TMXReadWriteTest::removeSprite(Node* sender)
     }    
 }
 
-void TMXReadWriteTest::updateCol(float dt)
+void TMXReadWriteTest::updateCol(float /*dt*/)
 {    
     auto map = (TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (TMXLayer*)map->getChildByTag(0);
@@ -495,7 +495,7 @@ void TMXReadWriteTest::updateCol(float dt)
     _gid2 = (_gid2 + 1) % 80;
 }
 
-void TMXReadWriteTest::repaintWithGID(float dt)
+void TMXReadWriteTest::repaintWithGID(float /*dt*/)
 {
 //    unschedule:_cmd);
     
@@ -511,7 +511,7 @@ void TMXReadWriteTest::repaintWithGID(float dt)
     }
 }
 
-void TMXReadWriteTest::removeTiles(float dt)
+void TMXReadWriteTest::removeTiles(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTest::removeTiles));
 
@@ -909,7 +909,7 @@ void TMXIsoZorder::onExit()
     TileDemo::onExit();
 }
 
-void TMXIsoZorder::repositionSprite(float dt)
+void TMXIsoZorder::repositionSprite(float /*dt*/)
 {
     auto p = _tamara->getPosition();
     p = CC_POINT_POINTS_TO_PIXELS(p);
@@ -969,7 +969,7 @@ TMXOrthoZorder::~TMXOrthoZorder()
     _tamara->release();
 }
 
-void TMXOrthoZorder::repositionSprite(float dt)
+void TMXOrthoZorder::repositionSprite(float /*dt*/)
 {
     auto p = _tamara->getPosition();
     p = CC_POINT_POINTS_TO_PIXELS(p);
@@ -1032,7 +1032,7 @@ TMXIsoVertexZ::~TMXIsoVertexZ()
     _tamara->release();
 }
 
-void TMXIsoVertexZ::repositionSprite(float dt)
+void TMXIsoVertexZ::repositionSprite(float /*dt*/)
 {
     // tile height is 64x32
     // map size: 30x30
@@ -1104,7 +1104,7 @@ TMXOrthoVertexZ::~TMXOrthoVertexZ()
     _tamara->release();
 }
 
-void TMXOrthoVertexZ::repositionSprite(float dt)
+void TMXOrthoVertexZ::repositionSprite(float /*dt*/)
 {
     // tile height is 101x81
     // map size: 12x12
@@ -1286,7 +1286,7 @@ std::string TMXOrthoFlipRunTimeTest::subtitle() const
     return "in 2 sec bottom left tiles will flip";
 }
 
-void TMXOrthoFlipRunTimeTest::flipIt(float dt)
+void TMXOrthoFlipRunTimeTest::flipIt(float /*dt*/)
 {
     auto map = (TMXTiledMap*) getChildByTag(kTagTileMap); 
     auto layer = map->getLayer("Layer 0");

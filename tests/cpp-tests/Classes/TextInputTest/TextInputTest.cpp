@@ -81,14 +81,14 @@ void KeyboardNotificationLayer::keyboardWillShow(IMEKeyboardNotificationInfo& in
 
 // Layer function
 
-bool KeyboardNotificationLayer::onTouchBegan(Touch  *touch, Event  *event)
+bool KeyboardNotificationLayer::onTouchBegan(Touch *touch, Event*)
 {
     CCLOG("++++++++++++++++++++++++++++++++++++++++++++");
     _beginPos = touch->getLocation();    
     return true;
 }
 
-void KeyboardNotificationLayer::onTouchEnded(Touch  *touch, Event  *event)
+void KeyboardNotificationLayer::onTouchEnded(Touch *touch, Event*)
 {
     if (! _trackNode)
     {
@@ -231,7 +231,7 @@ void TextFieldTTFActionTest::onExit()
 }
 
 // TextFieldDelegate protocol
-bool TextFieldTTFActionTest::onTextFieldAttachWithIME(TextFieldTTF * sender)
+bool TextFieldTTFActionTest::onTextFieldAttachWithIME(TextFieldTTF *)
 {
     if (! _action)
     {
@@ -241,7 +241,7 @@ bool TextFieldTTFActionTest::onTextFieldAttachWithIME(TextFieldTTF * sender)
     return false;
 }
 
-bool TextFieldTTFActionTest::onTextFieldDetachWithIME(TextFieldTTF * sender)
+bool TextFieldTTFActionTest::onTextFieldDetachWithIME(TextFieldTTF *)
 {
     if (_action)
     {
@@ -252,7 +252,7 @@ bool TextFieldTTFActionTest::onTextFieldDetachWithIME(TextFieldTTF * sender)
     return false;
 }
 
-bool TextFieldTTFActionTest::onTextFieldInsertText(TextFieldTTF * sender, const char * text, size_t nLen)
+bool TextFieldTTFActionTest::onTextFieldInsertText(TextFieldTTF *sender, const char * text, size_t /*nLen*/)
 {
     // if insert enter, treat as default to detach with ime
     if ('\n' == *text)
@@ -302,7 +302,7 @@ bool TextFieldTTFActionTest::onTextFieldInsertText(TextFieldTTF * sender, const 
     return false;
 }
 
-bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, const char * delText, size_t nLen)
+bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, const char * delText, size_t /*nLen*/)
 {
     // create a delete text sprite and do some action
     auto label = Label::createWithSystemFont(delText, FONT_NAME, FONT_SIZE);
@@ -339,7 +339,7 @@ bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, co
     return false;
 }
 
-bool TextFieldTTFActionTest::onDraw(TextFieldTTF * sender)
+bool TextFieldTTFActionTest::onDraw(TextFieldTTF *)
 {
     return false;
 }

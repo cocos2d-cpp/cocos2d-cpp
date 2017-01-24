@@ -135,7 +135,7 @@ void DrawNode3D::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
     renderer->addCommand(&_customCommand);
 }
 
-void DrawNode3D::onDraw(const Mat4 &transform, uint32_t flags)
+void DrawNode3D::onDraw(const Mat4 & transform, uint32_t)
 {
     auto glProgram = getGLProgram();
     glProgram->use();

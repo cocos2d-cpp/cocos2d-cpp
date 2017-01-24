@@ -1576,7 +1576,7 @@ TextureAsync::~TextureAsync()
     textureCache->removeAllTextures();
 }
 
-void TextureAsync::loadImages(float dt)
+void TextureAsync::loadImages(float /*dt*/)
 {
     auto textureCache = Director::getInstance()->getTextureCache();
     for( int i=0;i < 8;i++) {
@@ -1850,7 +1850,7 @@ void TextureDrawAtPoint::draw(Renderer *renderer, const Mat4 &transform, uint32_
 
 }
 
-void TextureDrawAtPoint::onDraw(const Mat4 &transform, uint32_t flags)
+void TextureDrawAtPoint::onDraw(const Mat4 & transform, uint32_t /*flags*/)
 {
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when seting matrix stack");
@@ -1892,7 +1892,7 @@ void TextureDrawInRect::draw(Renderer *renderer, const Mat4 &transform, uint32_t
     renderer->addCommand(&_renderCmd);
 }
 
-void TextureDrawInRect::onDraw(const Mat4 &transform, uint32_t flags)
+void TextureDrawInRect::onDraw(const Mat4 & transform, uint32_t /*flags*/)
 {
     Director* director = Director::getInstance();
     CCASSERT(nullptr != director, "Director is null when seting matrix stack");
@@ -1964,7 +1964,7 @@ void TextureMemoryAlloc::onEnter()
     menu2->setPosition(Vec2(s.width/2, s.height/4));
 }
 
-void TextureMemoryAlloc::changeBackgroundVisible(cocos2d::Ref *sender)
+void TextureMemoryAlloc::changeBackgroundVisible(cocos2d::Ref *)
 {
     if (_background)
     {

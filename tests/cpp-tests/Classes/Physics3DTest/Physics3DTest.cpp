@@ -134,7 +134,7 @@ bool Physics3DTestDemo::init()
     return false;
 }
 
-void Physics3DTestDemo::onTouchesBegan(const std::vector<Touch*>& touches, cocos2d::Event  *event)
+void Physics3DTestDemo::onTouchesBegan(const std::vector<Touch*>&, cocos2d::Event  *event)
 {
     _needShootBox = true;
     event->stopPropagation();
@@ -176,8 +176,8 @@ void Physics3DTestDemo::onTouchesEnded(const std::vector<Touch*>& touches, cocos
 }
 
 Physics3DTestDemo::Physics3DTestDemo( void )
-: _angle(0.0f)
-, _camera(nullptr)
+: _camera(nullptr)
+, _angle(0.0f)
 {
 
 }
