@@ -156,7 +156,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/base/etc1.cpp \
             ../../cocos/base/pvr.cpp \
             ../../cocos/base/s3tc.cpp \
-            ../../cocos/cc_dummy.c \
             ../../cocos/cocos2d.cpp \
             ../../cocos/editor-support/spine/Animation.c \
             ../../cocos/editor-support/spine/AnimationState.c \

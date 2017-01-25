@@ -513,7 +513,6 @@
         "cocos/base/s3tc.h", 
         "cocos/base/uthash.h", 
         "cocos/base/utlist.h", 
-        "cocos/cc_dummy.c", 
         "cocos/cocos2d.cpp", 
         "cocos/cocos2d.h", 
         "cocos/editor-support/spine/Android.mk", 
