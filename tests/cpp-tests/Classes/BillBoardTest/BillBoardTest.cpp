@@ -255,7 +255,7 @@ void BillBoardTest::addNewAniBillBoradWithCoords(Vec3 p)
         billboardAni->setPosition3D(Vec3(p.x, p.y,  -150.0f + 30 * i));
         _layerBillBorad->addChild(billboardAni);
 
-        auto animation = Animation::create();
+        std::unique_ptr<Animation> animation(new Animation);
         for( int i=1;i<15;i++)
         {
             char szName1[100] = {0};
@@ -266,7 +266,7 @@ void BillBoardTest::addNewAniBillBoradWithCoords(Vec3 p)
         animation->setDelayPerUnit(2.8f / 14.0f);
         animation->setRestoreOriginalFrame(true);
 
-        auto action = Animate::create(animation);
+        auto action = Animate::create( std::move( animation));
         billboardAni->runAction(RepeatForever::create(action));
         billboardAni->setOpacity(CCRANDOM_0_1() * 128 + 128);
         _billboards.push_back(billboardAni);

@@ -2431,10 +2431,10 @@ ReverseTime* ReverseTime::reverse() const
 //
 // Animate
 //
-Animate* Animate::create(Animation *animation)
+Animate* Animate::create(std::unique_ptr<Animation> animation)
 {
     Animate *animate = new (std::nothrow) Animate();
-    if (animate && animate->initWithAnimation(animation))
+    if (animate && animate->initWithAnimation( std::move( animation)))
     {
         animate->autorelease();
         return animate;
@@ -2450,7 +2450,7 @@ Animate::Animate()
 , _origFrame(nullptr)
 , _currFrameIndex(0)
 , _executedLoops(0)
-, _animation(nullptr)
+, _animation()
 , _frameDisplayedEvent(nullptr)
 {
 
@@ -2458,16 +2458,15 @@ Animate::Animate()
 
 Animate::~Animate()
 {
-    CC_SAFE_RELEASE(_animation);
     CC_SAFE_RELEASE(_origFrame);
     CC_SAFE_DELETE(_splitTimes);
     CC_SAFE_RELEASE(_frameDisplayedEvent);
 }
 
-bool Animate::initWithAnimation(Animation* animation)
+bool Animate::initWithAnimation(std::unique_ptr<Animation> animation)
 {
-    CCASSERT( animation!=nullptr, "Animate: argument Animation must be non-nullptr");
-    if (animation == nullptr)
+    CCASSERT( animation, "Animate: argument Animation must be non-nullptr");
+    if ( ! animation)
     {
         log("Animate::initWithAnimation: argument Animation must be non-nullptr");
         return false;
@@ -2478,7 +2477,6 @@ bool Animate::initWithAnimation(Animation* animation)
     if ( ActionInterval::initWithDuration(singleDuration * animation->getLoops() ) )
     {
         _nextFrame = 0;
-        setAnimation(animation);
         _origFrame = nullptr;
         _executedLoops = 0;
 
@@ -2495,25 +2493,23 @@ bool Animate::initWithAnimation(Animation* animation)
             accumUnitsOfTime += frame->getDelayUnits();
             _splitTimes->push_back(value);
         }    
+
+        setAnimation( std::move( animation));
+
         return true;
     }
     return false;
 }
 
-void Animate::setAnimation(cocos2d::Animation *animation)
+void Animate::setAnimation(std::unique_ptr<Animation> animation)
 {
-    if (_animation != animation)
-    {
-        CC_SAFE_RETAIN(animation);
-        CC_SAFE_RELEASE(_animation);
-        _animation = animation;
-    }
+    _animation = std::move(animation);
 }
 
 Animate* Animate::clone() const
 {
     // no copy constructor
-    return Animate::create(_animation->clone());
+    return Animate::create( std::unique_ptr<Animation>( _animation->clone()));
 }
 
 void Animate::startWithTarget(Node *target)
@@ -2617,11 +2613,15 @@ Animate* Animate::reverse() const
         newArray.push_back( to_retaining_ptr((*it)->clone()) );
     }
 
-    Animation *newAnim = Animation::create(std::move(newArray),
-                                           _animation->getDelayPerUnit(),
-                                           _animation->getLoops());
+    std::unique_ptr<Animation> newAnim(
+        new Animation(
+            std::move(newArray),
+            _animation->getDelayPerUnit(),
+            _animation->getLoops()
+        ));
+
     newAnim->setRestoreOriginalFrame(_animation->getRestoreOriginalFrame());
-    return Animate::create(newAnim);
+    return Animate::create( std::move( newAnim));
 }
 
 // TargetedAction

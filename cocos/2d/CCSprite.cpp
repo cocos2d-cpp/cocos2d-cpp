@@ -1467,11 +1467,7 @@ void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, 
         return;
     }
 
-    Animation *a = AnimationCache::getInstance()->getAnimation(animationName);
-
-    CCASSERT(a, "CCSprite#setDisplayFrameWithAnimationName: Frame not found");
-
-    AnimationFrame* frame = a->getFrames().at(frameIndex).get();
+    AnimationFrame* frame = AnimationCache::getInstance()->getAnimationFrame(animationName, frameIndex);
 
     CCASSERT(frame, "CCSprite#setDisplayFrameWithAnimationName. Invalid frame");
 
