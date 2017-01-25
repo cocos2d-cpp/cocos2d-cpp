@@ -1553,19 +1553,19 @@ public:
      * @param animation A certain animation.
      * @return An autoreleased Animate object.
      */
-    static Animate* create(Animation *animation);
+    static Animate* create(std::unique_ptr<Animation>);
 
     /** Sets the Animation object to be animated 
      * 
      * @param animation certain animation.
      */
-    void setAnimation( Animation* animation );
+    void setAnimation(std::unique_ptr<Animation>);
     /** returns the Animation object that is being animated 
      *
      * @return Gets the animation object that is being animated.
      */
-    Animation* getAnimation() { return _animation; }
-    const Animation* getAnimation() const { return _animation; }
+    Animation* getAnimation() { return _animation.get(); }
+    const Animation* getAnimation() const { return _animation.get(); }
 
     /**
      * Gets the index of sprite frame currently displayed.
@@ -1589,7 +1589,7 @@ protected:
     virtual ~Animate();
 
     /** initializes the action with an Animation and will restore the original frame when the animation is over */
-    bool initWithAnimation(Animation *animation);
+    bool initWithAnimation(std::unique_ptr<Animation>);
 
 protected:
     std::vector<float>* _splitTimes;
@@ -1597,7 +1597,7 @@ protected:
     SpriteFrame*    _origFrame;
     int _currFrameIndex;
     unsigned int    _executedLoops;
-    Animation*      _animation;
+    std::unique_ptr<Animation> _animation;
 
     EventCustom*    _frameDisplayedEvent;
     AnimationFrame::DisplayedEventInfo _frameDisplayedEventInfo;

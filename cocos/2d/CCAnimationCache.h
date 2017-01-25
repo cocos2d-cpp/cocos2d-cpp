@@ -72,22 +72,21 @@ public:
      * @param animation An animation.
      * @param name The name of animation.
      */
-    void addAnimation(Animation *animation, const std::string& name);
+    void addAnimation(std::unique_ptr<Animation> animation, const std::string& name);
 
-    /** Deletes a Animation from the cache.
-     *
+    /** Erasea an Animation from the cache and returns it
      * @param name The name of animation.
      */
-    void removeAnimation(const std::string& name);
+    std::unique_ptr<Animation> extractAnimation(const std::string& name);
 
-    /** Returns a Animation that was previously added.
+    /** Returns a clone of an Animation that was previously added.
      * If the name is not found it will return nil.
-     * You should retain the returned copy if you are going to use it.
-     *
      * @return A Animation that was previously added. If the name is not found it will return nil.
      */
-    Animation* getAnimation(const std::string& name);
+    std::unique_ptr<Animation> cloneAnimation(const std::string& name);
 
+    AnimationFrame* getAnimationFrame(const std::string& animationName, size_t frameIndex);
+    
     /** Adds an animation from an NSDictionary.
      * Make sure that the frames were previously loaded in the SpriteFrameCache.
      * @param dictionary An NSDictionary.
@@ -108,7 +107,7 @@ private:
     void parseVersion2(const ValueMap& animations);
 
 private:
-    std::unordered_map<std::string, retaining_ptr<Animation>> _animations;
+    std::unordered_map<std::string, std::unique_ptr<Animation>> _animations;
     static AnimationCache* s_sharedAnimationCache;
 };
 

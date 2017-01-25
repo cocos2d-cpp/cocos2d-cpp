@@ -25,11 +25,11 @@
 
 #include "SpriteTest.h"
 
+#include "../testResource.h"
+
 #include <vector>
 #include <cmath>
 #include <algorithm>
-
-#include "../testResource.h"
 
 using namespace cocos2d;
 
@@ -137,6 +137,27 @@ SpriteTests::SpriteTests()
     ADD_TEST_CASE(SpriteSlice9Test9);
     ADD_TEST_CASE(SpriteSlice9Test10);
 };
+
+static void run_grossini_dance_animation_forever(cocos2d::Sprite* sprite)
+{
+    std::vector<retaining_ptr<SpriteFrame>> animFrames;
+    animFrames.reserve(14);
+    char tmp[50];
+
+    for (int i = 1; i < 15; i++)
+    {            
+        sprintf(tmp, "grossini_dance_%02d.png", i);
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(tmp);
+        animFrames.push_back(to_retaining_ptr(frame));
+    }
+
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+
+    sprite->runAction(
+        RepeatForever::create(
+            Animate::create( std::move( animation))
+        ));
+}
 
 //------------------------------------------------------------------
 //
@@ -1244,19 +1265,22 @@ void SpriteAnchorPointFromFile::onEnter()
     
     std::vector<retaining_ptr<SpriteFrame>> animFrames;
     animFrames.reserve(5);
+    char tmp[50];
 
-    for(int i = 9; i < 14; i++)
-    {
-        sprintf(str, "grossini_dance_%02d.png", i+1);
-        animFrames.push_back(
-            to_retaining_ptr(
-                cache->getSpriteFrameByName(str)
-            )
-        );
+    for (int i = 10; i < 15; i++)
+    {            
+        sprintf(tmp, "grossini_dance_%02d.png", i);
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(tmp);
+        animFrames.push_back(to_retaining_ptr(frame));
     }
 
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-    sprite->runAction(RepeatForever::create(Animate::create(animation)));
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+
+    sprite->runAction(
+        RepeatForever::create(
+            Animate::create( std::move( animation))
+        ));
+
 }
 
 void SpriteAnchorPointFromFile::onExit()
@@ -1767,19 +1791,7 @@ void SpriteFrameTest::onEnter()
     spritebatch->addChild(_sprite1);
     addChild(spritebatch);
 
-    std::vector<retaining_ptr<SpriteFrame>> animFrames;
-    animFrames.reserve(15);
-
-    char str[100] = {0};
-    for(int i = 1; i < 15; i++) 
-    {
-        sprintf(str, "grossini_dance_%02d.png", i);
-        auto frame = cache->getSpriteFrameByName( str );
-        animFrames.push_back(to_retaining_ptr(frame));
-    }
-
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-    _sprite1->runAction( RepeatForever::create( Animate::create(animation) ) );
+    run_grossini_dance_animation_forever(_sprite1);
 
     // to test issue #732, uncomment the following line
     _sprite1->setFlippedX(false);
@@ -1795,6 +1807,7 @@ void SpriteFrameTest::onEnter()
     std::vector<retaining_ptr<SpriteFrame>> moreFrames;
     moreFrames.reserve(20);
 
+    char str[100];
     for(int i = 1; i < 15; i++) 
     {
         sprintf(str, "grossini_dance_gray_%02d.png",i);
@@ -1810,16 +1823,18 @@ void SpriteFrameTest::onEnter()
     }
 
     // append frames from another batch
-    using iterator = std::vector<retaining_ptr<SpriteFrame>>::iterator;
-    moreFrames.insert(std::end(moreFrames),
-                      std::move_iterator<iterator>(std::begin(animFrames)),
-                      std::move_iterator<iterator>(std::end(animFrames)));
+    for(int i = 1; i < 15; i++) 
+    {
+        sprintf(str, "grossini_dance_%02d.png", i);
+        auto frame = cache->getSpriteFrameByName( str );
+        moreFrames.push_back(to_retaining_ptr(frame));
+    }
 
-    auto animMixed = Animation::createWithSpriteFrames(moreFrames, 0.3f);
-
-
-    _sprite2->runAction(RepeatForever::create( Animate::create(animMixed) ) );
-
+    std::unique_ptr<Animation> animMixed(new Animation(moreFrames, 0.3f));
+    _sprite2->runAction(
+        RepeatForever::create(
+            Animate::create( std::move(animMixed))
+        ));
 
     // to test issue #732, uncomment the following line
     _sprite2->setFlippedX(false);
@@ -1941,9 +1956,11 @@ void SpriteFrameAliasNameTest::onEnter()
         animFrames.push_back(to_retaining_ptr(frame));
     }
 
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-    // 14 frames * 1sec = 14 seconds
-    sprite->runAction(RepeatForever::create(Animate::create(animation)));
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+    sprite->runAction(
+        RepeatForever::create(
+            Animate::create( std::move(animation))
+        ));
 
     cache->reloadTexture("animations/grossini-aliases.plist");
 }
@@ -2006,8 +2023,11 @@ void SpriteFramesFromFileContent::onEnter()
 		animFrames.push_back(to_retaining_ptr(frame));
 	}
 
-	auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-	sprite->runAction( RepeatForever::create( Animate::create(animation) ) );
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+    sprite->runAction(
+        RepeatForever::create(
+            Animate::create( std::move(animation))
+        ));
 }
 
 void SpriteFramesFromFileContent::onExit()
@@ -2092,23 +2112,11 @@ void SpriteOffsetAnchorRotation::onEnter()
         
         point->setPosition( sprite->getPosition() );
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char str[100] = {0};
+        run_grossini_dance_animation_forever(sprite);
 
-        for(int i = 0; i < 14; i++) 
-        {
-            sprintf(str, "grossini_dance_%02d.png",(i+1));
-            auto frame = cache->getSpriteFrameByName(str);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create( Animate::create(animation) ) );            
         sprite->runAction(RepeatForever::create(RotateBy::create(10, 360) ) );
 
         addChild(sprite, 0);
-
     }        
 }
 
@@ -2187,8 +2195,12 @@ SpriteBatchNodeOffsetAnchorRotation::SpriteBatchNodeOffsetAnchorRotation()
             animFrames.push_back(to_retaining_ptr(frame));
         }
 
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create( Animate::create(animation) ));
+        std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+        sprite->runAction(
+            RepeatForever::create(
+                Animate::create( std::move(animation))
+            ));
+
         sprite->runAction(RepeatForever::create(RotateBy::create(10, 360) ));
         
         spritebatch->addChild(sprite, i);
@@ -2268,8 +2280,11 @@ SpriteOffsetAnchorScale::SpriteOffsetAnchorScale()
             animFrames.push_back(to_retaining_ptr(frame));
         }
 
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create( Animate::create(animation) ));            
+        std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+        sprite->runAction(
+            RepeatForever::create(
+                Animate::create( std::move(animation))
+            ));
         
         auto scale = ScaleBy::create(2, 2);
         auto scale_back = scale->reverse();
@@ -2352,8 +2367,11 @@ SpriteBatchNodeOffsetAnchorScale::SpriteBatchNodeOffsetAnchorScale()
             animFrames.push_back(to_retaining_ptr(frame));
         }
 
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create( Animate::create(animation) ) );
+        std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
+        sprite->runAction(
+            RepeatForever::create(
+                Animate::create( std::move(animation))
+            ));
 
         auto scale = ScaleBy::create(2, 2);
         auto scale_back = scale->reverse();
@@ -2421,8 +2439,8 @@ SpriteAnimationSplit::SpriteAnimationSplit()
     animFrames.push_back(to_retaining_ptr(frame4));
     animFrames.push_back(to_retaining_ptr(frame5));
             
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-    auto animate = Animate::create(animation);
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.2f));
+    auto animate = Animate::create( std::move( animation));
     auto animate_clone = animate->clone();
     auto seq = Sequence::create(
         to_action_ptr(animate),
@@ -2581,8 +2599,11 @@ SpriteBatchNodeChildren::SpriteBatchNodeChildren()
         animFrames.push_back(to_retaining_ptr(frame));
     }
     
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
-    sprite1->runAction(RepeatForever::create( Animate::create(animation) ) );
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.2f));
+    sprite1->runAction(
+        RepeatForever::create(
+            Animate::create( std::move(animation))
+        ));
     // END NEW CODE
     
     auto action = MoveBy::create(2, Vec2(200,0));
@@ -3753,10 +3774,10 @@ AnimationCacheTest::AnimationCacheTest()
         animFrames.push_back(to_retaining_ptr(frame));
     }
 
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+    std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.2f));
 
     // Add an animation to the Cache
-    AnimationCache::getInstance()->addAnimation(animation, "dance");
+    AnimationCache::getInstance()->addAnimation( std::move(animation), "dance");
 
     //
     // create animation "dance gray"
@@ -3770,10 +3791,10 @@ AnimationCacheTest::AnimationCacheTest()
         animFrames.push_back(to_retaining_ptr(frame));
     }
 
-    animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+    animation.reset(new Animation( std::move(animFrames), 0.2f));
 
     // Add an animation to the Cache
-    AnimationCache::getInstance()->addAnimation(animation, "dance_gray");
+    AnimationCache::getInstance()->addAnimation( std::move(animation), "dance_gray");
 
     //
     // create animation "dance blue"
@@ -3787,24 +3808,24 @@ AnimationCacheTest::AnimationCacheTest()
         animFrames.push_back(to_retaining_ptr(frame));
     }
 
-    animation = Animation::createWithSpriteFrames(animFrames, 0.2f);
+    animation.reset(new Animation( std::move(animFrames), 0.2f));
 
     // Add an animation to the Cache
-    AnimationCache::getInstance()->addAnimation(animation, "dance_blue");
+    AnimationCache::getInstance()->addAnimation( std::move(animation), "dance_blue");
 
 
     auto animCache = AnimationCache::getInstance();
 
-    auto normal = animCache->getAnimation("dance");
+    auto normal = animCache->cloneAnimation("dance");
     normal->setRestoreOriginalFrame(true);
-    auto dance_grey = animCache->getAnimation("dance_gray");
+    auto dance_grey = animCache->cloneAnimation("dance_gray");
     dance_grey->setRestoreOriginalFrame(true);
-    auto dance_blue = animCache->getAnimation("dance_blue");
+    auto dance_blue = animCache->cloneAnimation("dance_blue");
     dance_blue->setRestoreOriginalFrame(true);
 
-    auto animN = Animate::create(normal);
-    auto animG = Animate::create(dance_grey);
-    auto animB = Animate::create(dance_blue);
+    auto animN = Animate::create( std::move( normal));
+    auto animG = Animate::create( std::move( dance_grey));
+    auto animB = Animate::create( std::move( dance_blue));
 
     auto seq = Sequence::create(
         to_action_ptr(animN),
@@ -3863,16 +3884,16 @@ AnimationCacheFile::AnimationCacheFile()
     animCache->addAnimationsWithFile("animations/animations.plist");
 
 
-    auto normal = animCache->getAnimation("dance_1");
+    auto normal = animCache->extractAnimation("dance_1");
     normal->setRestoreOriginalFrame(true);
-    auto dance_grey = animCache->getAnimation("dance_2");
+    auto dance_grey = animCache->extractAnimation("dance_2");
     dance_grey->setRestoreOriginalFrame(true);
-    auto dance_blue = animCache->getAnimation("dance_3");
+    auto dance_blue = animCache->extractAnimation("dance_3");
     dance_blue->setRestoreOriginalFrame(true);
 
-    auto animN = Animate::create(normal);
-    auto animG = Animate::create(dance_grey);
-    auto animB = Animate::create(dance_blue);
+    auto animN = Animate::create( std::move( normal));
+    auto animG = Animate::create( std::move( dance_grey));
+    auto animB = Animate::create( std::move( dance_blue));
 
     auto seq = Sequence::create(
         to_action_ptr(animN),
@@ -3992,19 +4013,7 @@ SpriteOffsetAnchorSkew::SpriteOffsetAnchorSkew()
 
         point->setPosition(sprite->getPosition());
 
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-
-        char tmp[50];
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", j + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         auto skewX = SkewBy::create(2, 45, 0);
         auto skewX_back = skewX->reverse();
@@ -4082,19 +4091,7 @@ SpriteBatchNodeOffsetAnchorSkew::SpriteBatchNodeOffsetAnchorSkew()
 
         point->setPosition(sprite->getPosition());
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char tmp[50];
-
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", j + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         auto skewX = SkewBy::create(2, 45, 0);
         auto skewX_back = skewX->reverse();
@@ -4169,19 +4166,7 @@ SpriteOffsetAnchorSkewScale::SpriteOffsetAnchorSkewScale()
 
         point->setPosition(sprite->getPosition());
 
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char tmp[50];
-
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", j + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         // Skew
         auto skewX = SkewBy::create(2, 45, 0);
@@ -4265,19 +4250,7 @@ SpriteBatchNodeOffsetAnchorSkewScale::SpriteBatchNodeOffsetAnchorSkewScale()
 
         point->setPosition(sprite->getPosition());        
 
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char tmp[50];
-
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", j + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         // skew
         auto skewX = SkewBy::create(2, 45, 0);
@@ -4360,19 +4333,7 @@ SpriteOffsetAnchorFlip::SpriteOffsetAnchorFlip()
 
         point->setPosition(sprite->getPosition());
 
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char tmp[50];
-
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", i + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         auto flip = FlipY::create(true);
         auto flip_back = FlipY::create(false);
@@ -4450,19 +4411,7 @@ SpriteBatchNodeOffsetAnchorFlip::SpriteBatchNodeOffsetAnchorFlip()
 
         point->setPosition(sprite->getPosition());        
 
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        char tmp[50];
-
-        for (int j = 0; j < 14; j++)
-        {            
-            sprintf(tmp, "grossini_dance_%02d.png", i + 1);
-            auto frame = cache->getSpriteFrameByName(tmp);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
 
         auto flip = FlipY::create(true);
         auto flip_back = FlipY::create(false);
@@ -4741,18 +4690,7 @@ SpriteOffsetAnchorRotationalSkew::SpriteOffsetAnchorRotationalSkew()
         
         point->setPosition(sprite->getPosition());
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-
-        for(int i = 0; i < 14; i++)
-        {
-            char pngName[30];
-            snprintf(pngName, 30, "grossini_dance_%02d.png", (i+1));
-            auto frame = cache->getSpriteFrameByName(pngName);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
         
         auto skewX = RotateBy::create(2, 45, 0);
         auto skewX_back = skewX->reverse();
@@ -4831,17 +4769,7 @@ SpriteBatchNodeOffsetAnchorRotationalSkew::SpriteBatchNodeOffsetAnchorRotational
         
         point->setPosition(sprite->getPosition());
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        for(int j = 0; j < 14; j++)
-        {
-            char pngName[30];
-            snprintf(pngName, 30, "grossini_dance_%02d.png", (j+1));
-            auto frame = cache->getSpriteFrameByName(pngName);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
         
         auto skewX = RotateBy::create(2, 45, 0);
         auto skewX_back = skewX->reverse();
@@ -4917,17 +4845,7 @@ SpriteOffsetAnchorRotationalSkewScale::SpriteOffsetAnchorRotationalSkewScale()
         
         point->setPosition(sprite->getPosition());
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        for(int j = 0; j < 14; j++)
-        {
-            char pngName[30];
-            snprintf(pngName, 30, "grossini_dance_%02d.png", (j+1));
-            auto frame = cache->getSpriteFrameByName(pngName);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
         
         // Skew
         auto skewX = RotateBy::create(2, 45, 0);
@@ -5011,17 +4929,7 @@ SpriteBatchNodeOffsetAnchorRotationalSkewScale::SpriteBatchNodeOffsetAnchorRotat
         
         point->setPosition(sprite->getPosition());
         
-        std::vector<retaining_ptr<SpriteFrame>> animFrames;
-        animFrames.reserve(14);
-        for(int j = 0; j < 14; j++)
-        {
-            char pngName[30];
-            snprintf(pngName, 30, "grossini_dance_%02d.png", (j+1));
-            auto frame = cache->getSpriteFrameByName(pngName);
-            animFrames.push_back(to_retaining_ptr(frame));
-        }
-        auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-        sprite->runAction(RepeatForever::create(Animate::create(animation)));
+        run_grossini_dance_animation_forever(sprite);
         
         // Skew
         auto skewX = RotateBy::create(2, 45, 0);

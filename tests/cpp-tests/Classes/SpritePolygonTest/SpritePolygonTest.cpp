@@ -789,9 +789,11 @@ void SpritePolygonTestFrameAnim::initSprites()
             )
         );
     }
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.3f);
-    sprite->runAction(RepeatForever::create(Animate::create(animation)));
-    
+    std::unique_ptr<Animation> animation(new Animation(animFrames, 0.3f));
+    sprite->runAction(
+        RepeatForever::create(
+            Animate::create( std::move( animation))
+        ));
 }
 
 //

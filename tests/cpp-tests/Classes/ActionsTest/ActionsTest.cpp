@@ -778,7 +778,8 @@ void ActionAnimate::onEnter()
     //
     // Manual animation
     //
-    auto animation = Animation::create();
+    std::unique_ptr<Animation> animation(new Animation);
+    
     for( int i=1;i<15;i++)
     {
         char szName[100] = {0};
@@ -789,7 +790,7 @@ void ActionAnimate::onEnter()
     animation->setDelayPerUnit(2.8f / 14.0f);
     animation->setRestoreOriginalFrame(true);
 
-    auto action = Animate::create(animation);
+    auto action = Animate::create( std::move( animation));
     auto action_reverse = action->reverse();
 
     _grossini->runAction(
@@ -805,9 +806,9 @@ void ActionAnimate::onEnter()
     // With 2 loops and reverse
     auto cache = AnimationCache::getInstance();
     cache->addAnimationsWithFile("animations/animations-2.plist");
-    auto animation2 = cache->getAnimation("dance_1");
+    auto animation2 = cache->extractAnimation("dance_1");
 
-    auto action2 = Animate::create(animation2);
+    auto action2 = Animate::create(animation2->clone());
     auto action2_reverse = action2->reverse();
 
     _tamara->runAction(
@@ -829,11 +830,11 @@ void ActionAnimate::onEnter()
     // File animation
     //
     // with 4 loops
-    auto animation3 = animation2->clone();
+    auto animation3 = std::move(animation2);
     animation3->setLoops(4);
 
 
-    auto action3 = Animate::create(animation3);
+    auto action3 = Animate::create( std::move( animation3));
     _kathia->runAction(action3);
 }
 

@@ -64,28 +64,48 @@ AnimationCache::~AnimationCache()
     CCLOGINFO("deallocing AnimationCache: %p", this);
 }
 
-void AnimationCache::addAnimation(Animation *animation, const std::string& name)
+void AnimationCache::addAnimation(std::unique_ptr<Animation> animation, const std::string& name)
 {
-    _animations[name] = to_retaining_ptr(animation);
+    _animations[name] = std::move(animation);
 }
 
-void AnimationCache::removeAnimation(const std::string& name)
+std::unique_ptr<Animation> AnimationCache::extractAnimation(const std::string& name)
 {
-    if (name.empty())
-        return;
+    std::unique_ptr<Animation> ret;
 
-    _animations.erase(name);
-}
-
-Animation* AnimationCache::getAnimation(const std::string& name)
-{
     auto it = _animations.find(name);
-    if (it == _animations.end())
-        return nullptr;
-    return it->second.get();
+    if (it != _animations.end())
+    {
+        ret = std::move(it->second);
+        _animations.erase(it);
+    }
+    return ret;
 }
 
-void AnimationCache::parseVersion1(const ValueMap& animations)
+std::unique_ptr<Animation> AnimationCache::cloneAnimation(const std::string& name)
+{
+    std::unique_ptr<Animation> ret;
+
+    auto it = _animations.find(name);
+    if (it != _animations.end())
+    {
+        ret = it->second->clone();
+    }
+
+    return ret;
+}
+
+AnimationFrame* AnimationCache::getAnimationFrame(const std::string& animationName, size_t frameIndex)
+{
+    auto it = _animations.find(animationName);
+    if (it == _animations.end())
+    {
+        throw std::runtime_error("AnimationCache: " + animationName + ": Not found");
+    }
+    return it->second->getFrames().at(frameIndex).get();
+}
+
+ void AnimationCache::parseVersion1(const ValueMap& animations)
 {
     SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
 
@@ -94,7 +114,6 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
         const ValueMap& animationDict = anim.second.asValueMap();
         const ValueVector& frameNames = animationDict.at("frames").asValueVector();
         float delay = animationDict.at("delay").asFloat();
-        Animation* animation = nullptr;
 
         if ( frameNames.empty() )
         {
@@ -130,9 +149,10 @@ void AnimationCache::parseVersion1(const ValueMap& animations)
             CCLOG("cocos2d: AnimationCache: An animation in your dictionary refers to a frame which is not in the SpriteFrameCache. Some or all of the frames for the animation '%s' may be missing.", anim.first.c_str());
         }
 
-        animation = Animation::create(std::move(frames), delay, 1);
-
-        AnimationCache::getInstance()->addAnimation(animation, anim.first);
+        AnimationCache::getInstance()->addAnimation(
+            std::unique_ptr<Animation>(new Animation(std::move(frames), delay, 1)),
+            anim.first
+        );
     }
 }
 
@@ -181,11 +201,17 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
         }
 
         float delayPerUnit = animationDict["delayPerUnit"].asFloat();
-        Animation *animation = Animation::create(std::move(array), delayPerUnit, loops.getType() != Value::Type::NONE ? loops.asInt() : 1);
+
+        std::unique_ptr<Animation> animation(
+            new Animation(
+                std::move(array),
+                delayPerUnit,
+                loops.getType() != Value::Type::NONE ? loops.asInt() : 1
+            ));
 
         animation->setRestoreOriginalFrame(restoreOriginalFrame);
 
-        AnimationCache::getInstance()->addAnimation(animation, name);
+        AnimationCache::getInstance()->addAnimation(std::move(animation), name);
     }
 }
 

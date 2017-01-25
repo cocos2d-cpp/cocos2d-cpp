@@ -285,7 +285,7 @@ protected:
      */
     bool initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
 
-protected:
+private:
     Vec2 _offset;
     Vec2 _anchorPoint;
     Size _originalSize;

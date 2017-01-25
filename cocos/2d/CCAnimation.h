@@ -94,7 +94,7 @@ public:
      *
      * @return The units of time the frame takes.
      */
-    float getDelayUnits() const { return _delayUnits; };
+    float getDelayUnits() const noexcept { return _delayUnits; };
     
     /** Sets the units of time the frame takes.
      *
@@ -163,13 +163,10 @@ private:
  * sprite->runAction(Animate::create(animation));
  * @endcode
 */
-class CC_DLL Animation : public Ref, public Clonable
+class CC_DLL Animation final
 {
 public:
-    /** Creates an animation.
-     * @since v0.99.5
-     */
-    static Animation* create(void);
+    Animation() noexcept;
 
     /* Creates an animation with an array of SpriteFrame and a delay between frames in seconds.
      * The frames will be added with one "delay unit".
@@ -178,15 +175,17 @@ public:
      * @param delay A delay between frames in seconds.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* createWithSpriteFrames(const std::vector<retaining_ptr<SpriteFrame>>& arrayOfSpriteFrameNames, float delay = 0.0f, unsigned int loops = 1);
-
+    Animation(const std::vector<retaining_ptr<SpriteFrame>> &, float delay = 0.0f, unsigned int loops = 1);
+    
     /* Creates an animation with an array of AnimationFrame, the delay per units in seconds and how many times it should be executed.
      * @since v2.0
      * @param arrayOfAnimationFrameNames An animation with an array of AnimationFrame.
      * @param delayPerUnit The delay per units in seconds and how many times it should be executed.
      * @param loops The times the animation is going to loop.
      */
-    static Animation* create(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops = 1);
+    Animation(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops) noexcept;
+
+    ~Animation();
 
     /** Adds a SpriteFrame to a Animation.
      *
@@ -213,88 +212,89 @@ public:
      *
      * @return The total Delay units of the Animation.
      */
-    float getTotalDelayUnits() const { return _totalDelayUnits; };
+    float getTotalDelayUnits() const noexcept
+    {
+        return _totalDelayUnits;
+    }
     
     /** Sets the delay in seconds of the "delay unit".
      *
      * @param delayPerUnit The delay in seconds of the "delay unit".
      */
-    void setDelayPerUnit(float delayPerUnit) { _delayPerUnit = delayPerUnit; };
+    void setDelayPerUnit(float delayPerUnit) noexcept
+    {
+        _delayPerUnit = delayPerUnit;
+    }
     
     /** Gets the delay in seconds of the "delay unit".
      * 
      * @return The delay in seconds of the "delay unit".
      */
-    float getDelayPerUnit() const { return _delayPerUnit; };
-
+    float getDelayPerUnit() const  noexcept
+    {
+        return _delayPerUnit;
+    }
     
     /** Gets the duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit.
      *
      * @return Result of totalDelayUnits * delayPerUnit.
      */
-    float getDuration() const;
+    float getDuration() const noexcept;
     
     /** Gets the array of AnimationFrames.
      * 
      * @return The array of AnimationFrames.
      */
-    const std::vector<retaining_ptr<AnimationFrame>> & getFrames() const { return _frames; };
+    const std::vector<retaining_ptr<AnimationFrame>> & getFrames() const noexcept
+    {
+        return _frames;
+    };
     
     /** Checks whether to restore the original frame when animation finishes. 
      *
      * @return Restore the original frame when animation finishes.
      */
-    bool getRestoreOriginalFrame() const { return _restoreOriginalFrame; };
+    bool getRestoreOriginalFrame() const noexcept
+    {
+        return _restoreOriginalFrame;
+    }
     
     /** Sets whether to restore the original frame when animation finishes. 
      *
      * @param restoreOriginalFrame Whether to restore the original frame when animation finishes.
      */
-    void setRestoreOriginalFrame(bool restoreOriginalFrame) { _restoreOriginalFrame = restoreOriginalFrame; };
+    void setRestoreOriginalFrame(bool restoreOriginalFrame) noexcept
+    {
+        _restoreOriginalFrame = restoreOriginalFrame;
+    }
     
     /** Gets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
      *
      * @return The times the animation is going to loop.
      */
-    unsigned int getLoops() const { return _loops; };
+    unsigned int getLoops() const noexcept
+    {
+        return _loops;
+    }
     
     /** Sets the times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... 
      *
      * @param loops The times the animation is going to loop.
      */
-    void setLoops(unsigned int loops) { _loops = loops; };
+    void setLoops(unsigned int loops) noexcept
+    {
+        _loops = loops;
+    }
     
     // overrides
-    virtual Animation *clone() const override;
+    std::unique_ptr<Animation> clone() const;
     
-protected:
-    Animation();
-    virtual ~Animation(void);
-    
-    /** Initializes a Animation. */
-    bool init();
-    
-    /** Initializes a Animation with frames and a delay between frames.
-     * @since v0.99.5
-     */
-    bool initWithSpriteFrames(const std::vector<retaining_ptr<SpriteFrame>> &,
-                              float delay = 0.0f,
-                              unsigned int loops = 1);
-    
-    /** Initializes a Animation with AnimationFrame.
-     * @since v2.0
-     */
-    bool initWithAnimationFrames(std::vector<retaining_ptr<AnimationFrame>> && arrayOfAnimationFrameNames, float delayPerUnit, unsigned int loops);
-
-protected:
+private:
     /** total Delay units of the Animation. */
     float _totalDelayUnits;
 
     /** Delay in seconds of the "delay unit". */
     float _delayPerUnit;
-
-    /** duration in seconds of the whole animation. It is the result of totalDelayUnits * delayPerUnit. */
-    float _duration;
 
     /** whether or not it shall restore the original frame when the animation finishes. */
     bool _restoreOriginalFrame;
@@ -302,11 +302,10 @@ protected:
     /** how many times the animation is going to loop. 0 means animation is not animated. 1, animation is executed one time, ... */
     unsigned int _loops;
     
-private:
-
     /** array of AnimationFrames. */
     std::vector<retaining_ptr<AnimationFrame>> _frames;
 
+private:
     Animation(const Animation &) = delete;
     const Animation & operator=(const Animation &) = delete;
 };
