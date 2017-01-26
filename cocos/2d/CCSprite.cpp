@@ -43,7 +43,7 @@ THE SOFTWARE.
 namespace cocos2d {
 
 // MARK: create, init, dealloc
-Sprite* Sprite::createWithTexture(Texture2D *texture)
+Sprite* Sprite::createWithTexture(const Texture2D *texture)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithTexture(texture))
@@ -55,7 +55,7 @@ Sprite* Sprite::createWithTexture(Texture2D *texture)
     return nullptr;
 }
 
-Sprite* Sprite::createWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
+Sprite* Sprite::createWithTexture(const Texture2D *texture, const Rect& rect, bool rotated)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithTexture(texture, rect, rotated))
@@ -143,7 +143,7 @@ bool Sprite::init()
     return true;
 }
 
-bool Sprite::initWithTexture(Texture2D *texture)
+bool Sprite::initWithTexture(const Texture2D *texture)
 {
     CCASSERT(texture != nullptr, "Invalid texture for sprite");
 
@@ -155,7 +155,7 @@ bool Sprite::initWithTexture(Texture2D *texture)
     return initWithTexture(texture, rect, false);
 }
 
-bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect)
+bool Sprite::initWithTexture(const Texture2D *texture, const Rect& rect)
 {
     return initWithTexture(texture, rect, false);
 }
@@ -253,7 +253,7 @@ bool Sprite::initWithPolygon(const cocos2d::PolygonInfo &info)
 }
 
 // designated initializer
-bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
+bool Sprite::initWithTexture(const Texture2D *texture, const Rect& rect, bool rotated)
 {
     bool result = false;
     if (Node::init())
@@ -351,7 +351,7 @@ static unsigned char cc_2x2_white_image[] = {
     0xFF, 0xFF, 0xFF, 0xFF
 };
 
-#define CC_2x2_WHITE_IMAGE_KEY  "/cc_2x2_white_image"
+static constexpr const char* CC_2x2_WHITE_IMAGE_KEY = "/cc_2x2_white_image";
 
 // MARK: texture
 void Sprite::setTexture(const std::string &filename)
@@ -365,14 +365,12 @@ void Sprite::setTexture(const std::string &filename)
     setTextureRect(rect);
 }
 
-void Sprite::setTexture(Texture2D *texture)
+void Sprite::setTexture(const Texture2D *texture)
 {
     setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP, texture));
 
     // If batchnode, then texture id should be the same
     CCASSERT(! _batchNode || (texture &&  texture->getName() == _batchNode->getTexture()->getName()), "CCSprite: Batched sprites should use the same texture as the batchnode");
-    // accept texture==nil as argument
-    CCASSERT( !texture || dynamic_cast<Texture2D*>(texture), "setTexture expects a Texture2D. Invalid argument");
 
     if (texture == nullptr)
     {
@@ -400,7 +398,7 @@ void Sprite::setTexture(Texture2D *texture)
     }
 }
 
-Texture2D* Sprite::getTexture() const
+const Texture2D* Sprite::getTexture() const
 {
     return _texture;
 }
@@ -726,7 +724,7 @@ void Sprite::setTextureCoords(const Rect& rectInPoints)
 
 void Sprite::setTextureCoords(const Rect& rectInPoints, V3F_C4B_T2F_Quad* outQuad)
 {
-    Texture2D *tex = _batchNode ? _textureAtlas->getTexture() : _texture;
+    const Texture2D *tex = _batchNode ? _textureAtlas->getTexture() : _texture;
     if (tex == nullptr)
     {
         return;
@@ -1434,7 +1432,7 @@ void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
     }
     _unflippedOffsetPositionFromCenter = spriteFrame->getOffset();
 
-    Texture2D *texture = spriteFrame->getTexture();
+    const Texture2D *texture = spriteFrame->getTexture();
     // update texture before updating texture rect
     if (texture != _texture)
     {

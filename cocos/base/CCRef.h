@@ -76,7 +76,7 @@ public:
      * @see release, autorelease
      * @js NA
      */
-    void retain();
+    void retain() const;
 
     /**
      * Releases the ownership immediately.
@@ -89,7 +89,7 @@ public:
      * @see retain, autorelease
      * @js NA
      */
-    void release();
+    void release() const;
 
     /**
      * Releases the ownership sometime soon automatically.
@@ -136,7 +136,7 @@ public:
 
 protected:
     /// count of references
-    unsigned int _referenceCount;
+    mutable unsigned int _referenceCount;
 
     friend class AutoreleasePool;
 

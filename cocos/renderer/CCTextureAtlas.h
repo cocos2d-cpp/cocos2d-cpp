@@ -78,7 +78,7 @@ public:
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
      */
-    static TextureAtlas* createWithTexture(Texture2D *texture, ssize_t capacity);
+    static TextureAtlas* createWithTexture(const Texture2D *texture, ssize_t capacity);
     /**
      * @js ctor
      */
@@ -105,7 +105,7 @@ public:
      @param texture A texture2D object pointer.
      @param capacity Capacity for Quads.
     */
-    bool initWithTexture(Texture2D *texture, ssize_t capacity);
+    bool initWithTexture(const Texture2D *texture, ssize_t capacity);
 
     /** Updates a Quad (texture, vertex and color) at a certain index.
     @param quad Quad that are going to be rendered.
@@ -226,10 +226,10 @@ public:
     ssize_t getCapacity() const;
     
     /** Gets the texture of the texture atlas. */
-    Texture2D* getTexture() const;
+    const Texture2D* getTexture() const;
     
     /** Sets the texture for the texture atlas. */
-    void setTexture(Texture2D* texture);
+    void setTexture(const Texture2D* texture);
     
     /** Gets the quads that are going to be rendered. */
     V3F_C4B_T2F_Quad* getQuads();
@@ -255,7 +255,7 @@ protected:
     /** quantity of quads that can be stored with the current texture atlas size */
     ssize_t _capacity;
     /** Texture of the texture atlas */
-    Texture2D* _texture;
+    const Texture2D* _texture;
     /** Quads that are going to be rendered */
     V3F_C4B_T2F_Quad* _quads;
     

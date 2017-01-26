@@ -294,7 +294,7 @@ public:
 
     @since v0.8
     */
-    void setAntiAliasTexParameters();
+    void setAntiAliasTexParameters() const;
 
     /** Sets alias texture parameters:
     - GL_TEXTURE_MIN_FILTER = GL_NEAREST
@@ -304,14 +304,14 @@ public:
 
     @since v0.8
     */
-    void setAliasTexParameters();
+    void setAliasTexParameters() const;
 
 
     /** Generates mipmap images for the texture.
     It only works if the texture size is POT (power of 2).
     @since v0.99.0
     */
-    void generateMipmap();
+    void generateMipmap() const;
 
     /** Returns the pixel format.
      @since v2.0
@@ -329,7 +329,7 @@ public:
     unsigned int getBitsPerPixelForFormat(Texture2D::PixelFormat format) const;
 
     /** Get content size. */
-    const Size& getContentSizeInPixels();
+    const Size & getContentSizeInPixels() const;
 
     /** Whether or not the texture has their Alpha premultiplied. */
     bool hasPremultipliedAlpha() const;
@@ -382,17 +382,6 @@ public:
     
 private:
     /**
-    * A struct for storing 9-patch image capInsets.
-    */
-
-    class NinePatchInfo
-    {
-    public:
-        Rect capInsetSize;
-        std::unordered_map<SpriteFrame*, Rect> capInsetMap;
-    };
-
-    /**
      * Whether the texture contains a 9-patch capInset info or not.
      *
      * @return True is Texture contains a 9-patch info, false otherwise.
@@ -408,13 +397,7 @@ private:
      *
      * @return The capInset of the SpriteFrame object.
      */
-    const Rect& getSpriteFrameCapInset(SpriteFrame* spriteFrame)const;
-    /**
-     * Remove the spriteFrame capInset info when the spriteFrame is removed.
-     *
-     * @param spriteFrame A SpriteFrame object pointer.
-     */
-    void removeSpriteFrameCapInset(SpriteFrame* spriteFrame);
+    const Rect& getSpriteFrameCapInset(const SpriteFrame*) const;
     /**
      * Add capInset for sprite atlas.
      * When handling single texture, pass nullptr in the first arg.
@@ -498,15 +481,21 @@ protected:
     bool _hasPremultipliedAlpha;
     
     /** whether or not the texture has mip maps*/
-    bool _hasMipmaps;
+    mutable bool _hasMipmaps;
 
     /** shader program used by drawAtPoint and drawInRect */
     GLProgram* _shaderProgram;
 
     static const PixelFormatInfoMap _pixelFormatInfoTables;
 
-    bool _antialiasEnabled;
-    NinePatchInfo* _ninePatchInfo;
+    mutable bool _antialiasEnabled;
+
+    /**
+    * A struct for storing 9-patch image capInsets.
+    */
+    bool _isContain9PatchInfo;
+    Rect _ninePatchCapInsetSize;
+    
     friend class SpriteFrameCache;
     friend class TextureCache;
     friend class ui::Scale9Sprite;

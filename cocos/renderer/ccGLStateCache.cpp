@@ -152,7 +152,7 @@ void bindTexture2D(GLuint textureId)
     GL::bindTexture2DN(0, textureId);
 }
 
-void bindTexture2D(Texture2D* texture)
+void bindTexture2D(const Texture2D* texture)
 {
     GL::bindTexture2DN(0, texture->getName());
     auto alphaTexID = texture->getAlphaTextureName();

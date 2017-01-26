@@ -434,7 +434,7 @@ void Scale9Sprite::resetRender()
     // nothing. keeping it to be backwards compatible
 }
 
-void Scale9Sprite::setupSlice9(Texture2D* texture, const Rect& capInsets)
+void Scale9Sprite::setupSlice9(const Texture2D* texture, const Rect& capInsets)
 {
     setCapInsets(capInsets);
 

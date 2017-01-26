@@ -250,7 +250,7 @@ public:
     static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName );
 
     /** gets-or-creates an instance of GLProgramState for the given GLProgramName & texture */
-    static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName, Texture2D* texture);
+    static GLProgramState* getOrCreateWithGLProgramName(const std::string& glProgramName, const Texture2D*);
 
     /** gets-or-creates an instance of GLProgramState for given shaders */
     static GLProgramState* getOrCreateWithShaders(const std::string& vertexShader, const std::string& fragShader, const std::string& compileTimeDefines);
@@ -315,7 +315,7 @@ public:
     void setUniformVec4v(const std::string& uniformName, ssize_t size, const Vec4* pointer);
     void setUniformMat4(const std::string& uniformName, const Mat4& value);
     void setUniformCallback(const std::string& uniformName, const std::function<void(GLProgram*, Uniform*)> &callback);
-    void setUniformTexture(const std::string& uniformName, Texture2D *texture);
+    void setUniformTexture(const std::string& uniformName, const Texture2D *texture);
     void setUniformTexture(const std::string& uniformName, GLuint textureId);
     /**@}*/
     
@@ -333,7 +333,7 @@ public:
     void setUniformVec4v(GLint uniformLocation, ssize_t size, const Vec4* pointer);
     void setUniformMat4(GLint uniformLocation, const Mat4& value);
     void setUniformCallback(GLint uniformLocation, const std::function<void(GLProgram*, Uniform*)> &callback);
-    void setUniformTexture(GLint uniformLocation, Texture2D *texture);
+    void setUniformTexture(GLint uniformLocation, const Texture2D *texture);
     void setUniformTexture(GLint uniformLocation, GLuint textureId);
     /**@}*/
 

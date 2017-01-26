@@ -90,12 +90,12 @@ ssize_t TextureAtlas::getCapacity() const
     return _capacity;
 }
 
-Texture2D* TextureAtlas::getTexture() const
+const Texture2D* TextureAtlas::getTexture() const
 {
     return _texture;
 }
 
-void TextureAtlas::setTexture(Texture2D * var)
+void TextureAtlas::setTexture(const Texture2D * var)
 {
     CC_SAFE_RETAIN(var);
     CC_SAFE_RELEASE(_texture);
@@ -128,7 +128,7 @@ TextureAtlas * TextureAtlas::create(const std::string& file, ssize_t capacity)
     return nullptr;
 }
 
-TextureAtlas * TextureAtlas::createWithTexture(Texture2D *texture, ssize_t capacity)
+TextureAtlas * TextureAtlas::createWithTexture(const Texture2D *texture, ssize_t capacity)
 {
     TextureAtlas * textureAtlas = new (std::nothrow) TextureAtlas();
     if (textureAtlas && textureAtlas->initWithTexture(texture, capacity))
@@ -143,7 +143,7 @@ TextureAtlas * TextureAtlas::createWithTexture(Texture2D *texture, ssize_t capac
 bool TextureAtlas::initWithFile(const std::string& file, ssize_t capacity)
 {
     // retained in property
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(file);
+    const Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(file);
 
     if (texture)
     {   
@@ -156,7 +156,7 @@ bool TextureAtlas::initWithFile(const std::string& file, ssize_t capacity)
     }
 }
 
-bool TextureAtlas::initWithTexture(Texture2D *texture, ssize_t capacity)
+bool TextureAtlas::initWithTexture(const Texture2D *texture, ssize_t capacity)
 {
     CCASSERT(capacity>=0, "Capacity must be >= 0");
     

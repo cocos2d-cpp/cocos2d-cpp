@@ -76,7 +76,7 @@ void AutoreleasePool::clear()
 #endif
 }
 
-bool AutoreleasePool::contains(Ref* object) const
+bool AutoreleasePool::contains(const Ref* object) const
 {
     for (const auto& obj : _managedObjectArray)
     {
@@ -145,7 +145,7 @@ AutoreleasePool* PoolManager::getCurrentPool() const
     return _releasePoolStack.back();
 }
 
-bool PoolManager::isObjectInPools(Ref* obj) const
+bool PoolManager::isObjectInPools(const Ref* obj) const
 {
     for (const auto& pool : _releasePoolStack)
     {

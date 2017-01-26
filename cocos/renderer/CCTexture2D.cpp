@@ -443,7 +443,7 @@ Texture2D::Texture2D()
 , _hasMipmaps(false)
 , _shaderProgram(nullptr)
 , _antialiasEnabled(true)
-, _ninePatchInfo(nullptr)
+, _isContain9PatchInfo(false)
 , _valid(true)
 , _alphaTexture(nullptr)
 {
@@ -458,8 +458,6 @@ Texture2D::~Texture2D()
 
     CCLOGINFO("deallocing Texture2D: %p - id=%u", this, _name);
     CC_SAFE_RELEASE(_shaderProgram);
-
-    CC_SAFE_DELETE(_ninePatchInfo);
 
     if(_name)
     {
@@ -511,7 +509,7 @@ Size Texture2D::getContentSize() const
     return ret;
 }
 
-const Size& Texture2D::getContentSizeInPixels()
+const Size & Texture2D::getContentSizeInPixels() const
 {
     return _contentSize;
 }
@@ -1229,7 +1227,7 @@ void Texture2D::drawInRect(const Rect& rect)
 //
 // implementation Texture2D (GLFilter)
 
-void Texture2D::generateMipmap()
+void Texture2D::generateMipmap() const
 {
     CCASSERT(_pixelsWide == ccNextPOT(_pixelsWide) && _pixelsHigh == ccNextPOT(_pixelsHigh), "Mipmap texture only works in POT textures");
     GL::bindTexture2D( _name );
@@ -1262,7 +1260,7 @@ void Texture2D::setTexParameters(const TexParams &texParams)
 #endif
 }
 
-void Texture2D::setAliasTexParameters()
+void Texture2D::setAliasTexParameters() const
 {
     if (! _antialiasEnabled)
     {
@@ -1294,7 +1292,7 @@ void Texture2D::setAliasTexParameters()
 #endif
 }
 
-void Texture2D::setAntiAliasTexParameters()
+void Texture2D::setAntiAliasTexParameters() const
 {
     if ( _antialiasEnabled )
     {
@@ -1433,58 +1431,31 @@ const Texture2D::PixelFormatInfoMap& Texture2D::getPixelFormatInfoMap()
 
 void Texture2D::addSpriteFrameCapInset(SpriteFrame* spritframe, const Rect& capInsets)
 {
-    if(nullptr == _ninePatchInfo)
-    {
-        _ninePatchInfo = new (std::nothrow) NinePatchInfo;
-    }
     if(nullptr == spritframe)
     {
-        _ninePatchInfo->capInsetSize = capInsets;
+        _ninePatchCapInsetSize = capInsets;
     }
     else
     {
-        _ninePatchInfo->capInsetMap[spritframe] = capInsets;
+        spritframe->setNinePatchCapInsetSize( capInsets );
     }
 }
 
 bool Texture2D::isContain9PatchInfo()const
 {
-    return nullptr != _ninePatchInfo;
+    return _isContain9PatchInfo;
 }
 
-const Rect& Texture2D::getSpriteFrameCapInset( cocos2d::SpriteFrame *spriteFrame )const
+const Rect& Texture2D::getSpriteFrameCapInset(const cocos2d::SpriteFrame *spriteFrame) const
 {
-    CCASSERT(_ninePatchInfo != nullptr,
+    CCASSERT(_isContain9PatchInfo,
              "Can't get the sprite frame capInset when the texture contains no 9-patch info.");
+
     if(nullptr == spriteFrame)
     {
-        return this->_ninePatchInfo->capInsetSize;
+        return _ninePatchCapInsetSize;
     }
-    else
-    {
-        auto &capInsetMap = this->_ninePatchInfo->capInsetMap;
-        if(capInsetMap.find(spriteFrame) != capInsetMap.end())
-        {
-            return capInsetMap.at(spriteFrame);
-        }
-        else
-        {
-            return this->_ninePatchInfo->capInsetSize;
-        }
-    }
-}
-
-
-void Texture2D::removeSpriteFrameCapInset(SpriteFrame* spriteFrame)
-{
-    if(nullptr != this->_ninePatchInfo)
-    {
-        auto capInsetMap = this->_ninePatchInfo->capInsetMap;
-        if(capInsetMap.find(spriteFrame) != capInsetMap.end())
-        {
-            capInsetMap.erase(spriteFrame);
-        }
-    }
+    return spriteFrame->getNinePatchCapInsetSize();
 }
 
 /// halx99 spec, ANDROID ETC1 ALPHA supports.

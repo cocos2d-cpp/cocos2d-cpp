@@ -1143,7 +1143,7 @@ void Widget::copyClonedWidgetChildren(Widget* model)
     }
 }
 
-GLProgramState* Widget::getNormalGLProgramState(Texture2D* texture)const
+GLProgramState* Widget::getNormalGLProgramState(const Texture2D* texture) const
 {
     GLProgramState *glState = nullptr;
 
@@ -1151,7 +1151,7 @@ GLProgramState* Widget::getNormalGLProgramState(Texture2D* texture)const
     return glState;
 }
 
-GLProgramState* Widget::getGrayGLProgramState(Texture2D* texture)const
+GLProgramState* Widget::getGrayGLProgramState(const Texture2D* texture) const
 {
     GLProgramState *glState = nullptr;
 

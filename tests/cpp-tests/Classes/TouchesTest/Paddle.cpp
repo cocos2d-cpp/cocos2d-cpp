@@ -16,7 +16,7 @@ Rect Paddle::getRect()
     return Rect(-s.width / 2, -s.height / 2, s.width, s.height);
 }
 
-Paddle* Paddle::createWithTexture(Texture2D* aTexture)
+Paddle* Paddle::createWithTexture(const Texture2D* aTexture)
 {
     Paddle* pPaddle = new (std::nothrow) Paddle();
     pPaddle->initWithTexture(aTexture);
@@ -25,7 +25,7 @@ Paddle* Paddle::createWithTexture(Texture2D* aTexture)
     return pPaddle;
 }
 
-bool Paddle::initWithTexture(Texture2D* aTexture)
+bool Paddle::initWithTexture(const Texture2D* aTexture)
 {
     if( Sprite::initWithTexture(aTexture) )
     {

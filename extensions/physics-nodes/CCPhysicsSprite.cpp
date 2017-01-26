@@ -62,7 +62,7 @@ PhysicsSprite* PhysicsSprite::create()
     return pRet;
 }
 
-PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture)
+PhysicsSprite* PhysicsSprite::createWithTexture(const Texture2D *pTexture)
 {
     PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();
     if (pRet && pRet->initWithTexture(pTexture))
@@ -77,7 +77,7 @@ PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture)
     return pRet;
 }
 
-PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture, const Rect& rect)
+PhysicsSprite* PhysicsSprite::createWithTexture(const Texture2D *pTexture, const Rect& rect)
 {
     PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();
     if (pRet && pRet->initWithTexture(pTexture, rect))

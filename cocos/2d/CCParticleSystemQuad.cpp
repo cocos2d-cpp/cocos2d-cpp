@@ -217,7 +217,7 @@ void ParticleSystemQuad::updateTexCoords()
     }
 }
 
-void ParticleSystemQuad::setTextureWithRect(Texture2D *texture, const Rect& rect)
+void ParticleSystemQuad::setTextureWithRect(const Texture2D *texture, const Rect& rect)
 {
     // Only update the texture if is different from the current one
     if( !_texture || texture->getName() != _texture->getName() )
@@ -228,7 +228,7 @@ void ParticleSystemQuad::setTextureWithRect(Texture2D *texture, const Rect& rect
     this->initTexCoordsWithRect(rect);
 }
 
-void ParticleSystemQuad::setTexture(Texture2D* texture)
+void ParticleSystemQuad::setTexture(const Texture2D* texture)
 {
     const Size& s = texture->getContentSize();
     this->setTextureWithRect(texture, Rect(0, 0, s.width, s.height));

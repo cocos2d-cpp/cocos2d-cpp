@@ -472,7 +472,7 @@ bool ParticleSystem::initWithDictionary(ValueMap& dictionary, const std::string&
                 	textureName = dirname + textureName;
                 }
                 
-                Texture2D *tex = nullptr;
+                const Texture2D *tex = nullptr;
                 
                 if (!textureName.empty())
                 {
@@ -1007,7 +1007,7 @@ void ParticleSystem::postStep()
 }
 
 // ParticleSystem - Texture protocol
-void ParticleSystem::setTexture(Texture2D* var)
+void ParticleSystem::setTexture(const Texture2D* var)
 {
     if (_texture != var)
     {
@@ -1043,7 +1043,7 @@ void ParticleSystem::updateBlendFunc()
     }
 }
 
-Texture2D * ParticleSystem::getTexture() const
+const Texture2D * ParticleSystem::getTexture() const
 {
     return _texture;
 }

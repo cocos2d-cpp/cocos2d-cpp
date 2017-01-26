@@ -503,7 +503,7 @@ namespace ui {
 
     private:
         void updateCapInset();
-        void setupSlice9(Texture2D* texture, const Rect& capInsets);
+        void setupSlice9(const Texture2D* texture, const Rect& capInsets);
 
     private:
         bool _isPatch9;

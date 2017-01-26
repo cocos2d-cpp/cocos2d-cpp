@@ -310,7 +310,7 @@ void VertexAttribValue::setPointer(GLint size, GLenum type, GLboolean normalized
 // GLProgramState
 //
 //
-GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& glProgramName, Texture2D* texture)
+GLProgramState* GLProgramState::getOrCreateWithGLProgramName(const std::string& glProgramName, const Texture2D* texture)
 {
     if (texture != nullptr && texture->getAlphaTextureName() != 0) {
         if (glProgramName == GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR) {
@@ -809,13 +809,13 @@ void GLProgramState::setUniformMat4(GLint uniformLocation, const Mat4& value)
 
 // Textures
 
-void GLProgramState::setUniformTexture(const std::string& uniformName, Texture2D *texture)
+void GLProgramState::setUniformTexture(const std::string& uniformName, const Texture2D *texture)
 {
     CCASSERT(texture, "Invalid texture");
     setUniformTexture(uniformName, texture->getName());
 }
 
-void GLProgramState::setUniformTexture(GLint uniformLocation, Texture2D *texture)
+void GLProgramState::setUniformTexture(GLint uniformLocation, const Texture2D *texture)
 {
     CCASSERT(texture, "Invalid texture");
     setUniformTexture(uniformLocation, texture->getName());

@@ -69,7 +69,7 @@ void TrianglesCommand::init(float globalOrder, GLuint textureID, GLProgramState*
     }
 }
 
-void TrianglesCommand::init(float globalOrder, Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags)
+void TrianglesCommand::init(float globalOrder, const Texture2D* texture, GLProgramState* glProgramState, BlendFunc blendType, const Triangles& triangles, const Mat4& mv, uint32_t flags)
 {
     init(globalOrder, texture->getName(), glProgramState, blendType, triangles, mv, flags);
     _alphaTextureID = texture->getAlphaTextureName();

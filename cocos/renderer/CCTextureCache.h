@@ -151,7 +151,7 @@ public:
 
     /** Deletes a texture from the cache given a texture.
     */
-    void removeTexture(Texture2D* texture);
+    void removeTexture(const Texture2D* texture);
 
     /** Deletes a texture from the cache given a its key name.
     @param key It's the related/absolute path of the file image.
@@ -268,8 +268,8 @@ public:
     static void addImage(Texture2D *tt, Image *image);
 
     static void setHasMipmaps(Texture2D *t, bool hasMipmaps);
-    static void setTexParameters(Texture2D *t, const Texture2D::TexParams &texParams);
-    static void removeTexture(Texture2D *t);
+    static void setTexParameters(const Texture2D *t, const Texture2D::TexParams &texParams);
+    static void removeTexture(const Texture2D *t);
     static void reloadAllTextures();
 public:
     static std::list<VolatileTexture*> _textures;
@@ -277,7 +277,7 @@ public:
 private:
     // find VolatileTexture by Texture2D*
     // if not found, create a new one
-    static VolatileTexture* findVolotileTexture(Texture2D *tt);
+    static VolatileTexture* findVolotileTexture(const Texture2D *tt);
 };
 
 #endif

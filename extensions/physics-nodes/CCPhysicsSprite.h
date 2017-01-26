@@ -57,12 +57,12 @@ public:
      The rect used will be the size of the texture.
      The offset will be (0,0).
      */
-    static PhysicsSprite* createWithTexture(Texture2D *pTexture);
+    static PhysicsSprite* createWithTexture(const Texture2D *pTexture);
 
     /** Creates an sprite with a texture and a rect.
      The offset will be (0,0).
      */
-    static PhysicsSprite* createWithTexture(Texture2D *pTexture, const Rect& rect);
+    static PhysicsSprite* createWithTexture(const Texture2D *pTexture, const Rect& rect);
 
     /** Creates an sprite with an sprite frame. */
     static PhysicsSprite* createWithSpriteFrame(SpriteFrame *pSpriteFrame);

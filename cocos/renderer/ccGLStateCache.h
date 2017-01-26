@@ -134,7 +134,7 @@ void CC_DLL bindTexture2D(GLuint textureId);
 * @remark: It will bind alpha texture to support ETC1 alpha channel.
 * @since v3.13
 */
-void CC_DLL bindTexture2D(Texture2D* texture);
+void CC_DLL bindTexture2D(const Texture2D* texture);
 
 /** 
  * If the texture is not already bound to a given unit, it binds it.

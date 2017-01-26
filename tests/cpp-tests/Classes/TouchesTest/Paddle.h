@@ -19,7 +19,7 @@ public:
     virtual ~Paddle(void);
 
     cocos2d::Rect getRect();
-    bool initWithTexture(cocos2d::Texture2D* aTexture) override;
+    bool initWithTexture(const cocos2d::Texture2D* aTexture) override;
     virtual void onEnter() override;
     virtual void onExit() override;
     bool containsTouchLocation(cocos2d::Touch* touch);
@@ -28,7 +28,7 @@ public:
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     virtual Paddle* clone() const override;
 
-    static Paddle* createWithTexture(cocos2d::Texture2D* aTexture);
+    static Paddle* createWithTexture(const cocos2d::Texture2D* aTexture);
 };
 
 #endif

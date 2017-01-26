@@ -34,7 +34,7 @@ public:
     
 protected:
     
-    cocos2d::Texture2D* _spriteTexture;
+    const cocos2d::Texture2D* _spriteTexture;
     cocos2d::SpriteBatchNode* _ball;
     std::unordered_map<int, cocos2d::Node*> _mouses;
     bool _debugDraw;

@@ -100,7 +100,7 @@ public:
      * @param texture A given texture.
      8 @param rect A given rect, in points.
      */
-    void setTextureWithRect(Texture2D *texture, const Rect& rect);
+    void setTextureWithRect(const Texture2D *texture, const Rect& rect);
 
     /** Listen the event that renderer was recreated on Android/WP8.
      * @js NA
@@ -114,7 +114,7 @@ public:
      * @js NA
      * @lua NA
      */
-    virtual void setTexture(Texture2D* texture) override;
+    virtual void setTexture(const Texture2D* texture) override;
     /**
      * @js NA
      * @lua NA

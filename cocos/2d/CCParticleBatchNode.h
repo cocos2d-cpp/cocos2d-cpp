@@ -67,7 +67,7 @@ class ParticleSystem;
  * @since v1.1
  */
 
-class CC_DLL ParticleBatchNode : public Node, public TextureProtocol
+class CC_DLL ParticleBatchNode : public Node
 {
 public:
     /** Create the particle system with Texture2D, a capacity of particles, which particle system to use.
@@ -77,7 +77,7 @@ public:
      * @return An autoreleased ParticleBatchNode object.
      * @js NA
      */
-    static ParticleBatchNode* createWithTexture(Texture2D *tex, int capacity = kParticleDefaultCapacity);
+    static ParticleBatchNode* createWithTexture(const Texture2D *tex, int capacity = kParticleDefaultCapacity);
 
     /** Create the particle system with the name of a file on disk (for a list of supported formats look at the Texture2D class), a capacity of particles.
      *
@@ -129,8 +129,8 @@ public:
     virtual void removeChild(Node* child, bool cleanup) override;
     virtual void reorderChild(Node * child, int zOrder) override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
-    virtual Texture2D* getTexture(void) const override;
-    virtual void setTexture(Texture2D *texture) override;
+    virtual const Texture2D* getTexture(void) const;
+    virtual void setTexture(const Texture2D *texture);
     /**
     * @code
     * When this function bound into js or lua,the parameter will be changed
@@ -138,12 +138,12 @@ public:
     * @endcode
     * @lua NA
     */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+    virtual void setBlendFunc(const BlendFunc &blendFunc);
     /**
     * @js NA
     * @lua NA
     */
-    virtual const BlendFunc& getBlendFunc(void) const override;
+    virtual const BlendFunc& getBlendFunc(void) const;
     
 protected:
     /**
@@ -157,7 +157,7 @@ protected:
     virtual ~ParticleBatchNode();
     
     /** initializes the particle system with Texture2D, a capacity of particles */
-    bool initWithTexture(Texture2D *tex, int capacity);
+    bool initWithTexture(const Texture2D *tex, int capacity);
     
     /** initializes the particle system with the name of a file on disk (for a list of supported formats look at the Texture2D class), a capacity of particles */
     bool initWithFile(const std::string& fileImage, int capacity);

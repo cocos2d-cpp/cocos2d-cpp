@@ -61,7 +61,7 @@ class Sprite;
  *
  * @since v0.7.1
  */
-class CC_DLL SpriteBatchNode : public Node, public TextureProtocol
+class CC_DLL SpriteBatchNode : public Node
 {
     static const int DEFAULT_CAPACITY = 29;
 
@@ -73,7 +73,7 @@ public:
      * @param capacity The capacity of children.
      * @return Return an autorelease object.
      */
-    static SpriteBatchNode* createWithTexture(Texture2D* tex, ssize_t capacity = DEFAULT_CAPACITY);
+    static SpriteBatchNode* createWithTexture(const Texture2D* tex, ssize_t capacity = DEFAULT_CAPACITY);
 
     /** Creates a SpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and capacity of children.
      * The capacity will be increased in 33% in runtime if it runs out of space.
@@ -172,8 +172,8 @@ public:
     // Overrides
     //
     // TextureProtocol
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D *texture) override;
+    virtual const Texture2D* getTexture() const;
+    virtual void setTexture(const Texture2D *texture);
     /**
     *@code
     * When this function bound into js or lua,the parameter will be changed.
@@ -181,11 +181,11 @@ public:
     * @endcode
     * @lua NA 
     */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+    virtual void setBlendFunc(const BlendFunc &blendFunc);
     /**
     * @lua NA
     */
-    virtual const BlendFunc& getBlendFunc() const override;
+    virtual const BlendFunc& getBlendFunc() const;
 
     /**
      * @js NA
@@ -240,7 +240,7 @@ protected:
     /** initializes a SpriteBatchNode with a texture2d and capacity of children.
      The capacity will be increased in 33% in runtime if it runs out of space.
      */
-    bool initWithTexture(Texture2D *tex, ssize_t capacity = DEFAULT_CAPACITY);
+    bool initWithTexture(const Texture2D *tex, ssize_t capacity = DEFAULT_CAPACITY);
     /** initializes a SpriteBatchNode with a file image (.png, .jpeg, .pvr, etc) and a capacity of children.
      The capacity will be increased in 33% in runtime if it runs out of space.
      The file will be loaded using the TextureMgr.

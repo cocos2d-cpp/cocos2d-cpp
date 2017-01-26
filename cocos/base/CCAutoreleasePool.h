@@ -109,7 +109,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool contains(Ref* object) const;
+    bool contains(const Ref* object) const;
 
     /**
      * Dump the objects that are put into the autorelease pool. It is used for debugging.
@@ -163,7 +163,7 @@ public:
      */
     AutoreleasePool *getCurrentPool() const;
 
-    bool isObjectInPools(Ref* obj) const;
+    bool isObjectInPools(const Ref* obj) const;
 
 
     friend class AutoreleasePool;

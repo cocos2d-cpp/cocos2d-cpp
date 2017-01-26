@@ -320,8 +320,8 @@ public:
     virtual std::string subtitle() const override;
 
 protected:
-    cocos2d::Texture2D*    _texture1;
-    cocos2d::Texture2D*    _texture2;
+    const cocos2d::Texture2D *_texture1;
+    const cocos2d::Texture2D *_texture2;
 };
 
 class SpriteFrameTest: public SpriteTestDemo

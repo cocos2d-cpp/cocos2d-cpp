@@ -57,13 +57,13 @@ Ref::~Ref()
 #endif
 }
 
-void Ref::retain()
+void Ref::retain() const
 {
     CCASSERT(_referenceCount > 0, "reference count should be greater than 0");
     ++_referenceCount;
 }
 
-void Ref::release()
+void Ref::release() const
 {
     CCASSERT(_referenceCount > 0, "reference count should be greater than 0");
     --_referenceCount;

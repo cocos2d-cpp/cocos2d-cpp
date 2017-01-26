@@ -763,13 +763,13 @@ protected:
      *@since v3.4
      */
     
-    GLProgramState* getNormalGLProgramState(Texture2D* texture)const;
+    GLProgramState* getNormalGLProgramState(const Texture2D* texture) const;
     
     /**
      * Get a disabled state GLProgramState
      *@since v3.4
      */
-    GLProgramState* getGrayGLProgramState(Texture2D* texture)const;
+    GLProgramState* getGrayGLProgramState(const Texture2D* texture) const;
      
     
     //call back function called when size changed.

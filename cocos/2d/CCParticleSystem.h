@@ -194,7 +194,7 @@ emitter.startSpin = 0;
 #endif
 #endif
 
-class CC_DLL ParticleSystem : public Node, public TextureProtocol, public PlayableProtocol
+class CC_DLL ParticleSystem : public Node, public PlayableProtocol
 {
 public:
     /** Mode
@@ -744,8 +744,8 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void update(float dt) override;
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D *texture) override;
+    virtual const Texture2D* getTexture() const;
+    virtual void setTexture(const Texture2D *texture);
     /**
     *@code
     *When this function bound into js or lua,the parameter will be changed
@@ -753,12 +753,12 @@ public:
     *In lua: local setBlendFunc(local src, local dst)
     *@endcode
     */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+    virtual void setBlendFunc(const BlendFunc &blendFunc);
     /**
     * @js NA
     * @lua NA
     */
-    virtual const BlendFunc &getBlendFunc() const override;
+    virtual const BlendFunc &getBlendFunc() const;
 
     const std::string& getResourceFile() const { return _plistFile; }
 
@@ -953,7 +953,7 @@ protected:
     /** maximum particles of the system */
     int _totalParticles;
     /** conforms to CocosNodeTexture protocol */
-    Texture2D* _texture;
+    const Texture2D* _texture;
     /** conforms to CocosNodeTexture protocol */
     BlendFunc _blendFunc;
     /** does the alpha value modify color */

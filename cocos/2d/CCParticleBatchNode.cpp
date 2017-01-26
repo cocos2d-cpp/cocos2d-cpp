@@ -54,7 +54,7 @@ ParticleBatchNode::~ParticleBatchNode()
  * creation with Texture2D
  */
 
-ParticleBatchNode* ParticleBatchNode::createWithTexture(Texture2D *tex, int capacity/* = kParticleDefaultCapacity*/)
+ParticleBatchNode* ParticleBatchNode::createWithTexture(const Texture2D *tex, int capacity/* = kParticleDefaultCapacity*/)
 {
     ParticleBatchNode * p = new (std::nothrow) ParticleBatchNode();
     if( p && p->initWithTexture(tex, capacity))
@@ -85,7 +85,7 @@ ParticleBatchNode* ParticleBatchNode::create(const std::string& imageFile, int c
 /*
  * init with Texture2D
  */
-bool ParticleBatchNode::initWithTexture(Texture2D *tex, int capacity)
+bool ParticleBatchNode::initWithTexture(const Texture2D *tex, int capacity)
 {
     _textureAtlas = new (std::nothrow) TextureAtlas();
     _textureAtlas->initWithTexture(tex, capacity);
@@ -104,7 +104,7 @@ bool ParticleBatchNode::initWithTexture(Texture2D *tex, int capacity)
  */
 bool ParticleBatchNode::initWithFile(const std::string& fileImage, int capacity)
 {
-    Texture2D *tex = Director::getInstance()->getTextureCache()->addImage(fileImage);
+    const Texture2D *tex = Director::getInstance()->getTextureCache()->addImage(fileImage);
     return initWithTexture(tex, capacity);
 }
 
@@ -490,7 +490,7 @@ void ParticleBatchNode::updateBlendFunc()
         _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
 }
 
-void ParticleBatchNode::setTexture(Texture2D* texture)
+void ParticleBatchNode::setTexture(const Texture2D* texture)
 {
     _textureAtlas->setTexture(texture);
 
@@ -504,7 +504,7 @@ void ParticleBatchNode::setTexture(Texture2D* texture)
     }
 }
 
-Texture2D* ParticleBatchNode::getTexture() const
+const Texture2D* ParticleBatchNode::getTexture() const
 {
     return _textureAtlas->getTexture();
 }

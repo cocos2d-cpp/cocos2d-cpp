@@ -369,7 +369,10 @@ void TexturePVRMipMap::onEnter()
     TextureDemo::onEnter();
     auto s = Director::getInstance()->getWinSize();
 
-    auto imgMipMap = Sprite::create("Images/logo-mipmap.pvr");
+    Texture2D *imgMipMapTexture = Director::getInstance()->getTextureCache()->addImage("Images/logo-mipmap.pvr");
+
+    auto imgMipMap = Sprite::createWithTexture(imgMipMapTexture);
+
     if( imgMipMap )
     {
         imgMipMap->setPosition(Vec2( s.width/2.0f-100, s.height/2.0f));
@@ -377,7 +380,7 @@ void TexturePVRMipMap::onEnter()
 
         // support mipmap filtering
         Texture2D::TexParams texParams = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
-        imgMipMap->getTexture()->setTexParameters(texParams);
+        imgMipMapTexture->setTexParameters(texParams);
     }
 
     auto img = Sprite::create("Images/logo-nomipmap.pvr");
@@ -431,13 +434,14 @@ void TexturePVRMipMap2::onEnter()
     TextureDemo::onEnter();
     auto s = Director::getInstance()->getWinSize();
     
-    auto imgMipMap = Sprite::create("Images/test_image_rgba4444_mipmap.pvr");
+    Texture2D *imgMipMapTexture = Director::getInstance()->getTextureCache()->addImage("Images/test_image_rgba4444_mipmap.pvr");
+    auto imgMipMap = Sprite::createWithTexture(imgMipMapTexture);
     imgMipMap->setPosition(Vec2( s.width/2.0f-100, s.height/2.0f));
     addChild(imgMipMap);
     
     // support mipmap filtering
     Texture2D::TexParams texParams = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE };
-    imgMipMap->getTexture()->setTexParameters(texParams);
+    imgMipMapTexture->setTexParameters(texParams);
 
     auto img = Sprite::create("Images/test_image.png");
     img->setPosition(Vec2( s.width/2.0f+100, s.height/2.0f));
@@ -1642,11 +1646,12 @@ void TextureGlClamp::onEnter()
 
     // The .png image MUST be power of 2 in order to create a continue effect.
     // eg: 32x64, 512x128, 256x1024, 64x64, etc..
-    auto sprite = Sprite::create("Images/pattern1.png", Rect(0,0,512,256));
+    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Images/pattern1.png");
+    auto sprite = Sprite::createWithTexture(texture, Rect(0,0,512,256));
     addChild(sprite, -1, kTagSprite1);
     sprite->setPosition(Vec2(size.width/2,size.height/2));
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
-    sprite->getTexture()->setTexParameters(params);
+    texture->setTexParameters(params);
 
     auto rotate = RotateBy::create(4, 360);
     sprite->runAction(rotate);
@@ -1682,11 +1687,12 @@ void TextureGlRepeat::onEnter()
     
     // The .png image MUST be power of 2 in order to create a continue effect.
     // eg: 32x64, 512x128, 256x1024, 64x64, etc..
-    auto sprite = Sprite::create("Images/pattern1.png", Rect(0, 0, 4096, 4096));
+    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Images/pattern1.png");
+    auto sprite = Sprite::createWithTexture(texture, Rect(0, 0, 4096, 4096));
     addChild(sprite, -1, kTagSprite1);
     sprite->setPosition(Vec2(size.width/2,size.height/2));
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
-    sprite->getTexture()->setTexParameters(params);
+    texture->setTexParameters(params);
     
     auto rotate = RotateBy::create(4, 360);
     sprite->runAction(rotate);

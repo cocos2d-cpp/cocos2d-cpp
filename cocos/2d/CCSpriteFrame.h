@@ -86,7 +86,7 @@ public:
      * @param rect A specified rect.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const Rect& rect);
+    static SpriteFrame* createWithTexture(const Texture2D* pobTexture, const Rect& rect);
 
     /** Create a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
@@ -97,7 +97,7 @@ public:
      * @param originalSize A specified original size.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    static SpriteFrame* createWithTexture(const Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
 
     // attributes
     /** Get rect of the sprite frame.
@@ -197,12 +197,12 @@ public:
      *
      * @return The texture of the sprite frame.
      */
-    Texture2D* getTexture();
+    const Texture2D* getTexture();
     /** Set texture of the frame, the texture is retained.
      *
      * @param pobTexture The texture of the sprite frame.
      */
-    void setTexture(Texture2D* pobTexture);
+    void setTexture(const Texture2D* pobTexture);
 
     /** Get offset of the frame.
      *
@@ -252,6 +252,16 @@ public:
      */
     bool hasPolygonInfo() const;
 
+    const Rect & getNinePatchCapInsetSize() const
+    {
+        return _ninePatchCapInsetSize;
+    }
+
+    void setNinePatchCapInsetSize(const Rect & ninePatchCapInsetSize)
+    {
+        _ninePatchCapInsetSize = ninePatchCapInsetSize;
+    }
+
 protected:
     /**
      * @lua NA
@@ -266,7 +276,7 @@ protected:
     /** Initializes a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      */
-    bool initWithTexture(Texture2D* pobTexture, const Rect& rect);
+    bool initWithTexture(const Texture2D* pobTexture, const Rect& rect);
     
     /** Initializes a SpriteFrame with a texture filename, rect in points;
      It is assumed that the frame was not trimmed.
@@ -276,7 +286,7 @@ protected:
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
      */
-    bool initWithTexture(Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    bool initWithTexture(const Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
     
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
@@ -295,9 +305,10 @@ private:
     Rect _centerRect;
     Vec2 _offsetInPixels;
     Size _originalSizeInPixels;
-    Texture2D *_texture;
+    const Texture2D *_texture;
     std::string  _textureFilename;
     PolygonInfo _polygonInfo;
+    Rect _ninePatchCapInsetSize;
 };
 
 // end of _2d group

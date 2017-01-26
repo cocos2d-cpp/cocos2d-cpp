@@ -71,11 +71,11 @@ AtlasNode * AtlasNode::create(const std::string& tile, int tileWidth, int tileHe
 bool AtlasNode::initWithTileFile(const std::string& tile, int tileWidth, int tileHeight, int itemsToRender)
 {
     CCASSERT(tile.size() > 0, "file size should not be empty");
-    Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(tile);
+    const Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(tile);
     return initWithTexture(texture, tileWidth, tileHeight, itemsToRender);
 }
 
-bool AtlasNode::initWithTexture(Texture2D* texture, int tileWidth, int tileHeight, int itemsToRender)
+bool AtlasNode::initWithTexture(const Texture2D* texture, int tileWidth, int tileHeight, int itemsToRender)
 {
     _itemWidth  = tileWidth;
     _itemHeight = tileHeight;
@@ -220,14 +220,14 @@ void AtlasNode::updateBlendFunc()
     }
 }
 
-void AtlasNode::setTexture(Texture2D *texture)
+void AtlasNode::setTexture(const Texture2D *texture)
 {
     _textureAtlas->setTexture(texture);
     this->updateBlendFunc();
     this->updateOpacityModifyRGB();
 }
 
-Texture2D * AtlasNode::getTexture() const
+const Texture2D * AtlasNode::getTexture() const
 {
     return _textureAtlas->getTexture();
 }

@@ -515,7 +515,7 @@ void TextureCache::removeUnusedTextures()
     }
 }
 
-void TextureCache::removeTexture(Texture2D* texture)
+void TextureCache::removeTexture(const Texture2D* texture)
 {
     if (!texture)
     {
@@ -702,7 +702,7 @@ void VolatileTextureMgr::addImage(Texture2D *tt, Image *image)
     vt->_cashedImageType = VolatileTexture::kImage;
 }
 
-VolatileTexture* VolatileTextureMgr::findVolotileTexture(Texture2D *tt)
+VolatileTexture* VolatileTextureMgr::findVolotileTexture(const Texture2D *tt)
 {
     VolatileTexture *vt = nullptr;
     for (const auto& texture : _textures)
@@ -760,7 +760,7 @@ void VolatileTextureMgr::setHasMipmaps(Texture2D *t, bool hasMipmaps)
     vt->_hasMipmaps = hasMipmaps;
 }
 
-void VolatileTextureMgr::setTexParameters(Texture2D *t, const Texture2D::TexParams &texParams)
+void VolatileTextureMgr::setTexParameters(const Texture2D *t, const Texture2D::TexParams &texParams)
 {
     VolatileTexture *vt = findVolotileTexture(t);
 
@@ -774,7 +774,7 @@ void VolatileTextureMgr::setTexParameters(Texture2D *t, const Texture2D::TexPara
         vt->_texParams.wrapT = texParams.wrapT;
 }
 
-void VolatileTextureMgr::removeTexture(Texture2D *t)
+void VolatileTextureMgr::removeTexture(const Texture2D *t)
 {
     for (auto& item : _textures)
     {

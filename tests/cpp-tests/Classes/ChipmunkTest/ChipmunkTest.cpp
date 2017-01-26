@@ -45,15 +45,10 @@ ChipmunkTest::ChipmunkTest()
     // init physics
     initPhysics();
 
-#if 1
     // Use batch node. Faster
     auto parent = SpriteBatchNode::create("Images/grossini_dance_atlas.png", 100);
     _spriteTexture = parent->getTexture();
-#else
-    // doesn't use batch node. Slower
-    _spriteTexture = Director::getInstance()->getTextureCache()->addImage("Images/grossini_dance_atlas.png");
-    auto parent = Node::create();
-#endif
+
     addChild(parent, 0, kTagParentNode);
 
     addNewSpriteAtPosition(cocos2d::Vec2(200,200));

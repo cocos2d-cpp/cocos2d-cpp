@@ -48,7 +48,7 @@ class TextureAtlas;
  * All features from Node are valid, plus the following features:
  * - opacity and RGB colors.
  */
-class CC_DLL AtlasNode : public Node, public TextureProtocol
+class CC_DLL AtlasNode : public Node
 {    
 public:
 	/** creates a AtlasNode  with an Atlas file the width and height of each item and the quantity of items to render.
@@ -80,8 +80,8 @@ public:
     
     // Overrides
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D *texture) override;
+    virtual const Texture2D* getTexture() const;
+    virtual void setTexture(const Texture2D *texture);
     virtual bool isOpacityModifyRGB() const override;
     virtual void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
     virtual const Color3B& getColor(void) const override;
@@ -94,11 +94,11 @@ public:
     * @endcode
     * @lua NA
     */
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+    virtual void setBlendFunc(const BlendFunc& blendFunc);
     /**
     * @lua NA
     */
-    virtual const BlendFunc& getBlendFunc() const override;
+    virtual const BlendFunc& getBlendFunc() const;
 
 protected:
     AtlasNode();
@@ -108,7 +108,7 @@ protected:
     bool initWithTileFile(const std::string& tile, int tileWidth, int tileHeight, int itemsToRender);
     
     /** Initializes an AtlasNode  with a texture the width and height of each item measured in points and the quantity of items to render*/
-    bool initWithTexture(Texture2D* texture, int tileWidth, int tileHeight, int itemsToRender);
+    bool initWithTexture(const Texture2D* texture, int tileWidth, int tileHeight, int itemsToRender);
 
 protected:
     void calculateMaxItems();
