@@ -168,9 +168,6 @@ bool Sprite::initWithFile(const std::string& filename)
         return false;
     }
 
-    _fileName = filename;
-    _fileType = 0;
-
     Texture2D *texture = _director->getTextureCache()->addImage(filename);
     if (texture)
     {
@@ -193,9 +190,6 @@ bool Sprite::initWithFile(const std::string &filename, const Rect& rect)
         return false;
     }
 
-    _fileName = filename;
-    _fileType = 0;
-
     Texture2D *texture = _director->getTextureCache()->addImage(filename);
     if (texture)
     {
@@ -215,9 +209,6 @@ bool Sprite::initWithSpriteFrameName(const std::string& spriteFrameName)
     {
         return false;
     }
-
-    _fileName = spriteFrameName;
-    _fileType = 1;
 
     SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
     return initWithSpriteFrame(frame);

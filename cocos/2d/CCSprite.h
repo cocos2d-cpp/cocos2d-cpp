@@ -491,9 +491,6 @@ public:
     virtual bool isOpacityModifyRGB() const override;
     /// @}
 
-    int getResourceType() const { return _fileType; }
-    const std::string& getResourceName() const { return _fileName; }
-
 protected :
 
     Sprite();
@@ -661,9 +658,6 @@ protected:
     bool _flippedY;                         /// Whether the sprite is flipped vertically or not
 
     bool _insideBounds;                     /// whether or not the sprite was inside bounds the previous frame
-
-    std::string _fileName;
-    int _fileType;
 
     bool _strechEnabled;
 
