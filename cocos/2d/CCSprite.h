@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include <string>
 #include "2d/CCNode.h"
 #include "2d/CCDrawNode.h"
-#include "base/CCProtocols.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCTrianglesCommand.h"
 #include "renderer/CCCustomCommand.h"
@@ -216,14 +215,13 @@ public:
      */
     virtual void setTexture(const std::string &filename );
 
-    /** @overload
-     *
+    /**
      *  The Texture's rect is not changed.
      */
-    virtual void setTexture(const Texture2D *texture);
+    void setTexture(const Texture2D *texture);
 
     /** Returns the Texture2D object used by the sprite. */
-    virtual const Texture2D* getTexture() const;
+    const Texture2D* getTexture() const;
 
     /**
      * Updates the texture rect of the Sprite in points.
@@ -419,16 +417,6 @@ public:
     /** returns whether or not contentSize streches the sprite's texture */
     bool isStrechEnabled() const;
 
-    //
-    // Overrides
-    //
-    /// @{
-    /// @name Functions inherited from TextureProtocol.
-    /**
-    *@code
-    *When this function bound into js or lua,the parameter will be changed.
-    *@endcode
-    */
     void setBlendFunc(const BlendFunc &blendFunc)
     {
         _blendFunc = blendFunc;
@@ -438,11 +426,7 @@ public:
     {
         return _blendFunc;
     }
-    /// @}
 
-    /**
-     * @js NA
-     */
     virtual std::string getDescription() const override;
 
     /// @{
@@ -450,10 +434,7 @@ public:
     virtual void setScaleX(float scaleX) override;
     virtual void setScaleY(float scaleY) override;
     virtual void setScale(float scaleX, float scaleY) override;
-    /**
-    * @js  NA
-    * @lua NA
-    */
+
     virtual void setPosition(const Vec2& pos) override;
     virtual void setPosition(float x, float y) override;
     virtual void setRotation(float rotation) override;
@@ -611,7 +592,7 @@ protected:
     //
     // Data used when the sprite is self-rendered
     //
-    BlendFunc        _blendFunc;            /// It's required for TextureProtocol inheritance
+    BlendFunc        _blendFunc;
 
 
 

@@ -192,38 +192,6 @@ public:
     virtual const BlendFunc &getBlendFunc() const = 0;
 };
 
-/** 
- * Node objects that uses a Texture2D to render the images.
- * The texture can have a blending function.
- * If the texture has alpha premultiplied the default blending function is:
- *   src=GL_ONE dst= GL_ONE_MINUS_SRC_ALPHA
- * else
- *   src=GL_SRC_ALPHA dst= GL_ONE_MINUS_SRC_ALPHA
- * But you can change the blending function at any time.
- */
-class CC_DLL TextureProtocol : public BlendProtocol
-{
-public:
-    virtual ~TextureProtocol() {}
-    /**
-     * Returns the currently used texture
-     *
-     * @return  The texture that is currently being used.
-     * @js NA
-     * @lua NA
-     */
-    virtual Texture2D* getTexture() const = 0;
-
-    /**
-     * Sets a new texture. It will be retained.
-     *
-     * @param   texture A valid Texture2D object, which will be applied to this sprite object.
-     * @js NA
-     * @lua NA
-     */
-    virtual void setTexture(Texture2D *texture) = 0;
-};
-
 /**
  * Common interface for Labels
  */

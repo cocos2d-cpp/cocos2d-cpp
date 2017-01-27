@@ -32,7 +32,6 @@ THE SOFTWARE.
 #include <vector>
 
 #include "2d/CCNode.h"
-#include "base/CCProtocols.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCBatchCommand.h"
 
@@ -168,28 +167,12 @@ public:
     /* Sprites use this to start sortChildren, don't call this manually. */
     void reorderBatch(bool reorder);
 
-    //
-    // Overrides
-    //
-    // TextureProtocol
-    virtual const Texture2D* getTexture() const;
-    virtual void setTexture(const Texture2D *texture);
-    /**
-    *@code
-    * When this function bound into js or lua,the parameter will be changed.
-    * In js: var setBlendFunc(var src, var dst).
-    * @endcode
-    * @lua NA 
-    */
-    virtual void setBlendFunc(const BlendFunc &blendFunc);
-    /**
-    * @lua NA
-    */
-    virtual const BlendFunc& getBlendFunc() const;
+    const Texture2D* getTexture() const;
+    void setTexture(const Texture2D *texture);
 
-    /**
-     * @js NA
-     */
+    void setBlendFunc(const BlendFunc &blendFunc);
+    const BlendFunc& getBlendFunc() const;
+
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
     
     using Node::addChild;
@@ -198,18 +181,12 @@ public:
     virtual void reorderChild(Node *child, int zOrder) override;
         
 	virtual void removeChild(Node *child, bool cleanup) override;
-    /**
-     * @js NA
-     */
+
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
 	virtual void sortAllChildren() override;
-	/**
-	* @js NA
-	*/
+
 	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
-	/**
-	* @js NA
-	*/
+
     virtual std::string getDescription() const override;
 
     /** Inserts a quad at a certain index into the texture atlas. The Sprite won't be added into the children array.

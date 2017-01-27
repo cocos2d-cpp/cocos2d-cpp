@@ -24,7 +24,6 @@ THE SOFTWARE.
 #ifndef __CC_MOTION_STREAK3D_H__
 #define __CC_MOTION_STREAK3D_H__
 
-#include "base/CCProtocols.h"
 #include "2d/CCNode.h"
 #include "renderer/CCCustomCommand.h"
 
@@ -40,7 +39,7 @@ class Texture2D;
 /** @class MotionStreak3D.
  * @brief Creates a trailing path. It is created from a line segment sweeping along the path.
  */
-class CC_DLL MotionStreak3D : public Node, public TextureProtocol
+class CC_DLL MotionStreak3D : public Node
 {
 public:
     /** Creates and initializes a motion streak with fade in seconds, minimum segments, stroke's width, color, texture filename.
@@ -122,18 +121,13 @@ public:
     * @lua NA
     */
     virtual void update(float delta) override;
-    virtual Texture2D* getTexture() const override;
-    virtual void setTexture(Texture2D *texture) override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
-    /**
-    * @js NA
-    * @lua NA
-    */
-    virtual const BlendFunc& getBlendFunc() const override;
+
+    Texture2D* getTexture() const;
+    void setTexture(Texture2D *texture);
+    
+    void setBlendFunc(const BlendFunc &blendFunc);
+    const BlendFunc& getBlendFunc() const;
+
     virtual GLubyte getOpacity() const override;
     virtual void setOpacity(GLubyte opacity) override;
     virtual void setOpacityModifyRGB(bool value) override;

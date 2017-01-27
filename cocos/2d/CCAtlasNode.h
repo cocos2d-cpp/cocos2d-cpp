@@ -29,7 +29,6 @@ THE SOFTWARE.
 #define __CCATLAS_NODE_H__
 
 #include "2d/CCNode.h"
-#include "base/CCProtocols.h"
 #include "base/ccTypes.h"
 #include "renderer/CCQuadCommand.h"
 
@@ -42,7 +41,7 @@ namespace cocos2d {
 
 class TextureAtlas;
 
-/** @brief AtlasNode is a subclass of Node that implements the RGBAProtocol and TextureProtocol protocol.
+/** @brief AtlasNode is a subclass of Node that implements the RGBA and Texture protocols protocol.
  * It knows how to render a TextureAtlas object.
  * If you are going to render a TextureAtlas consider subclassing AtlasNode (or a subclass of AtlasNode).
  * All features from Node are valid, plus the following features:
@@ -80,25 +79,18 @@ public:
     
     // Overrides
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
-    virtual const Texture2D* getTexture() const;
-    virtual void setTexture(const Texture2D *texture);
+
+    const Texture2D* getTexture() const;
+    void setTexture(const Texture2D *texture);
+
     virtual bool isOpacityModifyRGB() const override;
     virtual void setOpacityModifyRGB(bool isOpacityModifyRGB) override;
     virtual const Color3B& getColor(void) const override;
     virtual void setColor(const Color3B& color) override;
     virtual void setOpacity(GLubyte opacity) override;
-    /**
-    * @code
-    * When this function bound into js or lua,the parameter will be changed
-    * In js: var setBlendFunc(var src, var dst)
-    * @endcode
-    * @lua NA
-    */
-    virtual void setBlendFunc(const BlendFunc& blendFunc);
-    /**
-    * @lua NA
-    */
-    virtual const BlendFunc& getBlendFunc() const;
+
+    void setBlendFunc(const BlendFunc& blendFunc);
+    const BlendFunc& getBlendFunc() const;
 
 protected:
     AtlasNode();
