@@ -272,6 +272,33 @@ public:
      */
     bool initWithString(const char *text, const FontDefinition& textDefinition);
 
+    /**
+     * Add capInset for sprite atlas.
+     * When handling single texture, pass nullptr in the first arg.
+     *
+     * @param spritframe The sprite frame object.
+     * @param capInsets The parsed capInset from a .9 patch image.
+     */
+    void addSpriteFrameCapInset(SpriteFrame* spritframe, const Rect& capInsets);
+
+    /**
+     * Whether the texture contains a 9-patch capInset info or not.
+     *
+     * @return True is Texture contains a 9-patch info, false otherwise.
+     */
+    bool isContain9PatchInfo()const;
+
+    /**
+     * Get spriteFrame capInset, If spriteFrame can't be found in 9-patch info map,
+     * then single 9-patch texture capInset will be returned.
+     * If the arg is nullptr, the capInset of single 9-patch texture will be returned.
+     *
+     * @param spriteFrame A SpriteFrame object pointer.
+     *
+     * @return The capInset of the SpriteFrame object.
+     */
+    const Rect& getSpriteFrameCapInset(const SpriteFrame*) const;
+
     /** Sets the min filter, mag filter, wrap s and wrap t texture parameters.
     If the texture size is NPOT (non power of 2), then in can only use GL_CLAMP_TO_EDGE in GL_TEXTURE_WRAP_{S,T}.
 
@@ -381,32 +408,6 @@ public:
     static const PixelFormatInfoMap& getPixelFormatInfoMap();
     
 private:
-    /**
-     * Whether the texture contains a 9-patch capInset info or not.
-     *
-     * @return True is Texture contains a 9-patch info, false otherwise.
-     */
-    bool isContain9PatchInfo()const;
-
-    /**
-     * Get spriteFrame capInset, If spriteFrame can't be found in 9-patch info map,
-     * then single 9-patch texture capInset will be returned.
-     * If the arg is nullptr, the capInset of single 9-patch texture will be returned.
-     *
-     * @param spriteFrame A SpriteFrame object pointer.
-     *
-     * @return The capInset of the SpriteFrame object.
-     */
-    const Rect& getSpriteFrameCapInset(const SpriteFrame*) const;
-    /**
-     * Add capInset for sprite atlas.
-     * When handling single texture, pass nullptr in the first arg.
-     *
-     * @param spritframe The sprite frame object.
-     * @param capInsets The parsed capInset from a .9 patch image.
-     */
-    void addSpriteFrameCapInset(SpriteFrame* spritframe, const Rect& capInsets);
-
     /**convert functions*/
 
     /**
@@ -496,10 +497,6 @@ protected:
     bool _isContain9PatchInfo;
     Rect _ninePatchCapInsetSize;
     
-    friend class SpriteFrameCache;
-    friend class TextureCache;
-    friend class ui::Scale9Sprite;
-
     bool _valid;
     std::string _filePath;
 
