@@ -163,36 +163,6 @@ public:
 };
 
 /**
- * Specify the blending function according glBlendFunc
- * Please refer to glBlendFunc in OpenGL ES Manual
- * http://www.khronos.org/opengles/sdk/docs/man/xhtml/glBlendFunc.xml for more details.
- */
-class CC_DLL BlendProtocol
-{
-public:
-    virtual ~BlendProtocol() {}
-
-    /**
-     * Sets the source blending function.
-     *
-     * @param blendFunc A structure with source and destination factor to specify pixel arithmetic, 
-     *                  e.g. {GL_ONE, GL_ONE}, {GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA}.
-     * @js NA
-     * @lua NA
-     */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) = 0;
-
-    /**
-     * Returns the blending function that is currently being used.
-     * 
-     * @return A BlendFunc structure with source and destination factor which specified pixel arithmetic.
-     * @js NA
-     * @lua NA
-     */
-    virtual const BlendFunc &getBlendFunc() const = 0;
-};
-
-/**
  * Common interface for Labels
  */
 class CC_DLL LabelProtocol

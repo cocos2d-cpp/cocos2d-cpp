@@ -231,7 +231,7 @@ All features from Layer are valid, plus the following new features:
 - opacity
 - RGB colors
 */
-class CC_DLL LayerColor : public Layer, public BlendProtocol
+class CC_DLL LayerColor : public Layer
 {
 public:
     /** Creates a fullscreen black layer.
@@ -278,19 +278,9 @@ public:
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
     virtual void setContentSize(const Size & var) override;
-    /** BlendFunction. Conforms to BlendProtocol protocol */
-    /**
-    * @lua NA
-    */
-    virtual const BlendFunc& getBlendFunc() const override;
-    /**
-    *@code
-    *When this function bound into js or lua,the parameter will be changed
-    *In js: var setBlendFunc(var src, var dst)
-    *In lua: local setBlendFunc(local src, local dst)
-    *@endcode
-    */
-    virtual void setBlendFunc(const BlendFunc& blendFunc) override;
+
+    const BlendFunc& getBlendFunc() const;
+    void setBlendFunc(const BlendFunc& blendFunc);
 
     virtual std::string getDescription() const override;
     

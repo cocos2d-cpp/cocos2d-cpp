@@ -40,7 +40,8 @@ namespace spine {
 class AttachmentVertices;
 
 /* Draws a skeleton. */
-class SkeletonRenderer: public cocos2d::Node, public cocos2d::BlendProtocol {
+class SkeletonRenderer: public cocos2d::Node
+{
 public:
 	CREATE_FUNC(SkeletonRenderer);
 	static SkeletonRenderer* createWithData (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
@@ -93,9 +94,9 @@ public:
 	/* @param attachmentName May be 0 for no attachment. */
 	bool setAttachment (const std::string& slotName, const char* attachmentName);
 
-    // --- BlendProtocol
-    virtual void setBlendFunc (const cocos2d::BlendFunc& blendFunc)override;
-    virtual const cocos2d::BlendFunc& getBlendFunc () const override;
+    void setBlendFunc (const cocos2d::BlendFunc& blendFunc);
+    const cocos2d::BlendFunc& getBlendFunc () const;
+
     virtual void setOpacityModifyRGB (bool value) override;
     virtual bool isOpacityModifyRGB () const override;
 

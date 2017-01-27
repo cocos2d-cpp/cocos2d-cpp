@@ -443,8 +443,6 @@ void SkeletonRenderer::onExit () {
 	unscheduleUpdate();
 }
 
-// --- CCBlendProtocol
-
 const BlendFunc& SkeletonRenderer::getBlendFunc () const {
 	return _blendFunc;
 }

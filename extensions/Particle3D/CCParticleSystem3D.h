@@ -145,7 +145,7 @@ private:
 
 typedef DataPool<Particle3D> ParticlePool;
 
-class CC_DLL ParticleSystem3D : public Node, public BlendProtocol
+class CC_DLL ParticleSystem3D : public Node
 {
 public:
 
@@ -156,25 +156,12 @@ public:
         PAUSE,
     };
     
-    /**
-     * override function
-     */
     virtual void update(float delta) override;
     
-    /**
-     * override function
-     */
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     
-    /**
-     * override function
-     */
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
-    
-    /**
-     * override function
-     */
-    virtual const BlendFunc &getBlendFunc() const override;
+    void setBlendFunc(const BlendFunc &blendFunc);
+    const BlendFunc &getBlendFunc() const;
     
     /**
      * particle system play control

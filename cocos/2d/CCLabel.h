@@ -119,7 +119,7 @@ class EventListenerCustom;
  * - http://www.angelcode.com/products/bmfont/ (Free, Windows only)
  * @js NA
  */
-class CC_DLL Label : public Node, public LabelProtocol, public BlendProtocol
+class CC_DLL Label : public Node, public LabelProtocol
 {
 public:
     enum class Overflow
@@ -579,8 +579,8 @@ public:
 
     FontAtlas* getFontAtlas() { return _fontAtlas; }
 
-    virtual const BlendFunc& getBlendFunc() const override { return _blendFunc; }
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
+    const BlendFunc& getBlendFunc() const { return _blendFunc; }
+    void setBlendFunc(const BlendFunc &blendFunc);
 
     virtual bool isOpacityModifyRGB() const override { return _isOpacityModifyRGB; }
     virtual void setOpacityModifyRGB(bool isOpacityModifyRGB) override;

@@ -51,7 +51,7 @@ class MeshSkin;
 class AttachNode;
 struct NodeData;
 /** @brief Sprite3D: A sprite can be loaded from 3D model files, .obj, .c3t, .c3b, then can be drawn as sprite */
-class CC_DLL Sprite3D : public Node, public BlendProtocol
+class CC_DLL Sprite3D : public Node
 {
 public:
     /**
@@ -108,8 +108,8 @@ public:
     void removeAllAttachNode();
 
     // overrides
-    virtual void setBlendFunc(const BlendFunc &blendFunc) override;
-    virtual const BlendFunc &getBlendFunc() const override;
+    void setBlendFunc(const BlendFunc &blendFunc);
+    const BlendFunc &getBlendFunc() const;
     
     // overrides
     /** set GLProgramState, you should bind attributes by yourself */
