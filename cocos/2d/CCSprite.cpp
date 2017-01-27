@@ -297,15 +297,15 @@ Sprite::Sprite(void)
 , _dirty(true)
 , _recursiveDirty(false)
 , _shouldBeHidden(false)
-, _texture(nullptr)
 , _spriteFrame(nullptr)
+, _texture(nullptr)
+, _originalContentSize(Size::ZERO)
 , _centerRectNormalized(0,0,1,1)
 , _numberOfSlices(1)
 , _strechFactor(Vec2::ONE)
-, _originalContentSize(Size::ZERO)
+, _strechEnabled(true)
 , _quads(nullptr)
 , _insideBounds(true)
-, _strechEnabled(true)
 {
 #if CC_SPRITE_DEBUG_DRAW
     _debugDrawNode = DrawNode::create();
@@ -1446,21 +1446,6 @@ void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
     {
         setCenterRect(spriteFrame->getCenterRect());
     }
-}
-
-void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex)
-{
-    CCASSERT(!animationName.empty(), "CCSprite#setDisplayFrameWithAnimationName. animationName must not be nullptr");
-    if (animationName.empty())
-    {
-        return;
-    }
-
-    AnimationFrame* frame = AnimationCache::getInstance()->getAnimationFrame(animationName, frameIndex);
-
-    CCASSERT(frame, "CCSprite#setDisplayFrameWithAnimationName. Invalid frame");
-
-    setSpriteFrame(frame->getSpriteFrame());
 }
 
 bool Sprite::isFrameDisplayed(SpriteFrame *frame) const

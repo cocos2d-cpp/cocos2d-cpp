@@ -262,15 +262,10 @@ public:
         _ninePatchCapInsetSize = ninePatchCapInsetSize;
     }
 
-protected:
-    /**
-     * @lua NA
-     */
+private:
+
     SpriteFrame();
     
-    /**
-     * @lua NA
-     */
     virtual ~SpriteFrame();
     
     /** Initializes a SpriteFrame with a texture, rect in points.
@@ -296,18 +291,19 @@ protected:
     bool initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
 
 private:
+    const Texture2D *_texture;
     Vec2 _offset;
-    Vec2 _anchorPoint;
-    Size _originalSize;
-    Rect _rectInPixels;
     bool   _rotated;
     Rect _rect;
+    Size _originalSize;
+    PolygonInfo _polygonInfo;
+
+    Vec2 _anchorPoint;
+    Rect _rectInPixels;
     Rect _centerRect;
     Vec2 _offsetInPixels;
     Size _originalSizeInPixels;
-    const Texture2D *_texture;
     std::string  _textureFilename;
-    PolygonInfo _polygonInfo;
     Rect _ninePatchCapInsetSize;
 };
 

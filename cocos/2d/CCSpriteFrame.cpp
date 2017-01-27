@@ -76,8 +76,8 @@ SpriteFrame* SpriteFrame::create(const std::string& filename, const Rect& rect, 
 }
 
 SpriteFrame::SpriteFrame()
-: _rotated(false)
-, _texture(nullptr)
+: _texture(nullptr)
+, _rotated(false)
 {
 }
 

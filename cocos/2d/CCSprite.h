@@ -302,16 +302,6 @@ public:
     /// @} End of frames methods
 
     /// @{
-    /// @name Animation methods
-    /**
-     * Changes the display frame with animation name and index.
-     * The animation name will be get from the AnimationCache.
-     */
-    virtual void setDisplayFrameWithAnimationName(const std::string& animationName, ssize_t frameIndex);
-    /// @}
-
-
-    /// @{
     /// @name Sprite Properties' setter/getters.
 
     /**
@@ -605,6 +595,7 @@ protected:
     void updatePoly();
     void updateStretchFactor();
 
+protected:
     //
     // Data used when the sprite is rendered using a SpriteSheet
     //
@@ -621,8 +612,22 @@ protected:
     // Data used when the sprite is self-rendered
     //
     BlendFunc        _blendFunc;            /// It's required for TextureProtocol inheritance
-    const Texture2D* _texture;              /// Texture2D object that is used to render the sprite
+
+
+
+
+
     SpriteFrame*     _spriteFrame;
+    const Texture2D* _texture;              /// Texture2D object that is used to render the sprite
+    Vec2 _unflippedOffsetPositionFromCenter; // SpriteFrame._offset
+    bool _rectRotated;                      /// Whether the texture is rotated
+    Size _originalContentSize;              /// original content size
+    Rect _rect;                             /// Rectangle of Texture2D
+    PolygonInfo  _polyInfo;
+
+
+
+
     TrianglesCommand _trianglesCommand;     ///
 #if CC_SPRITE_DEBUG_DRAW
     DrawNode *_debugDrawNode;
@@ -631,24 +636,17 @@ protected:
     // Shared data
     //
 
-    // texture
-    Rect _rect;                             /// Rectangle of Texture2D
-    bool _rectRotated;                      /// Whether the texture is rotated
-
     Rect _centerRectNormalized;             /// Rectangle to implement "slice 9"
     int _numberOfSlices;                    /// how many sprite slices: 1 or 9
     Vec2 _strechFactor;                     /// strech factor to match the contentSize. for 1- and 9- slice sprites
-    Size _originalContentSize;              /// original content size
-
+    bool _strechEnabled;
 
     // Offset Position (used by Zwoptex)
     Vec2 _offsetPosition;
-    Vec2 _unflippedOffsetPositionFromCenter;
 
     // vertex coords, texture coords and color info
     V3F_C4B_T2F_Quad _quad;
     V3F_C4B_T2F_Quad* _quads;
-    PolygonInfo  _polyInfo;
 
     // opacity and RGB protocol
     bool _opacityModifyRGB;
@@ -658,8 +656,6 @@ protected:
     bool _flippedY;                         /// Whether the sprite is flipped vertically or not
 
     bool _insideBounds;                     /// whether or not the sprite was inside bounds the previous frame
-
-    bool _strechEnabled;
 
 private:
     Sprite(const Sprite &) = delete;
