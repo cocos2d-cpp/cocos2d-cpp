@@ -55,7 +55,7 @@ EventListenerFocus* EventListenerFocus::create()
     return nullptr;
 }
 
-EventListenerFocus* EventListenerFocus::clone()
+EventListenerFocus* EventListenerFocus::clone() const
 {
     EventListenerFocus* ret = new (std::nothrow) EventListenerFocus;
     if (ret && ret->init()) {

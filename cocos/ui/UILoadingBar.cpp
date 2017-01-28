@@ -399,14 +399,14 @@ std::string LoadingBar::getDescription() const
     return "LoadingBar";
 }
 
-Widget* LoadingBar::createCloneInstance()
+Widget* LoadingBar::createCloneInstance() const
 {
     return LoadingBar::create();
 }
 
-void LoadingBar::copySpecialProperties(Widget *widget)
+void LoadingBar::copySpecialProperties(const Widget *widget)
 {
-    LoadingBar* loadingBar = dynamic_cast<LoadingBar*>(widget);
+    auto loadingBar = dynamic_cast<const LoadingBar*>(widget);
     if (loadingBar)
     {
         _prevIgnoreSize = loadingBar->_prevIgnoreSize;

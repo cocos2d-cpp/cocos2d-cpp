@@ -255,7 +255,7 @@ PUDoPlacementParticleEventHandler* PUDoPlacementParticleEventHandler::create()
     return peh;
 }
 
-void PUDoPlacementParticleEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUDoPlacementParticleEventHandler::copyAttributesTo( PUEventHandler* eventHandler ) const
 {
     PUEventHandler::copyAttributesTo(eventHandler);
     PUDoPlacementParticleEventHandler* doPlacementParticleEventHandler = static_cast<PUDoPlacementParticleEventHandler*>(eventHandler);

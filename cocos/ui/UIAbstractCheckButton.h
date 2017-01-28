@@ -209,7 +209,7 @@ protected:
     void backGroundDisabledTextureScaleChangedWithSize();
     void frontCrossDisabledTextureScaleChangedWithSize();
     
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual void copySpecialProperties(const Widget* model) override;
     virtual void adaptRenderers() override;
 protected:
     Sprite* _backGroundBoxRenderer;

@@ -36,8 +36,8 @@ class  CC_DLL PUPointEmitter : public PUEmitter
 public:
      static PUPointEmitter* create();
 
-     virtual PUPointEmitter* clone() override;
-     virtual void copyAttributesTo (PUEmitter* emitter) override;
+     virtual PUPointEmitter* clone() const override;
+     virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     PUPointEmitter(void);

@@ -318,8 +318,8 @@ public:
     */
     bool makeParticleLocal(PUParticle3D* particle);
 
-    virtual PUEmitter* clone() = 0;
-    virtual void copyAttributesTo (PUEmitter* emitter);
+    virtual PUEmitter* clone() const = 0;
+    virtual void copyAttributesTo(PUEmitter* emitter) const = 0;
 
 protected:
 

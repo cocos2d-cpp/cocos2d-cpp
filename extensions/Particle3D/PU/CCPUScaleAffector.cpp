@@ -265,7 +265,7 @@ PUScaleAffector* PUScaleAffector::create()
     return psa;
 }
 
-void PUScaleAffector::copyAttributesTo( PUAffector* affector )
+void PUScaleAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

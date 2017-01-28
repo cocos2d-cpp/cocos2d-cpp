@@ -255,7 +255,7 @@ PUTextureAnimator* PUTextureAnimator::create()
     return pta;
 }
 
-void PUTextureAnimator::copyAttributesTo( PUAffector* affector )
+void PUTextureAnimator::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
     PUTextureAnimator* textureAnimator = static_cast<PUTextureAnimator*>(affector);

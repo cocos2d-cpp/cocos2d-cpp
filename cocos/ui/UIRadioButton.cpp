@@ -136,14 +136,14 @@ std::string RadioButton::getDescription() const
     return "RadioButton";
 }
 
-Widget* RadioButton::createCloneInstance()
+Widget* RadioButton::createCloneInstance() const
 {
     return RadioButton::create();
 }
 
-void RadioButton::copySpecialProperties(Widget *widget)
+void RadioButton::copySpecialProperties(const Widget *widget)
 {
-    RadioButton* radioButton = dynamic_cast<RadioButton*>(widget);
+    const RadioButton* radioButton = dynamic_cast<const RadioButton*>(widget);
     if (radioButton)
     {
         AbstractCheckButton::copySpecialProperties(widget);
@@ -330,14 +330,14 @@ bool RadioButtonGroup::isAllowedNoSelection() const
     return _allowedNoSelection;
 }
 
-Widget* RadioButtonGroup::createCloneInstance()
+Widget* RadioButtonGroup::createCloneInstance() const
 {
     return RadioButtonGroup::create();
 }
 
-void RadioButtonGroup::copySpecialProperties(Widget *widget)
+void RadioButtonGroup::copySpecialProperties(const Widget *widget)
 {
-    RadioButtonGroup* radioButtonGroup = dynamic_cast<RadioButtonGroup*>(widget);
+    const RadioButtonGroup* radioButtonGroup = dynamic_cast<const RadioButtonGroup*>(widget);
     if (radioButtonGroup)
     {
         _radioButtonGroupEventCallback = radioButtonGroup->_radioButtonGroupEventCallback;

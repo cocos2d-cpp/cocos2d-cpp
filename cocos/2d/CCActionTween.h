@@ -98,7 +98,7 @@ public:
     void startWithTarget(Node *target) override;
     void update(float dt) override;
     ActionTween* reverse() const override;
-    ActionTween *clone() const override;
+    virtual ActionTween *clone() const override;
     
 protected:
     /** 

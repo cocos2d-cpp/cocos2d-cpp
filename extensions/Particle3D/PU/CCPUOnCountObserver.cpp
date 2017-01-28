@@ -104,7 +104,7 @@ PUOnCountObserver* PUOnCountObserver::create()
     return pco;
 }
 
-void PUOnCountObserver::copyAttributesTo( PUObserver* observer )
+void PUOnCountObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
 

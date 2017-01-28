@@ -56,7 +56,7 @@ public:
     virtual ~EventListenerFocus();
     
     /// Overrides
-    virtual EventListenerFocus* clone() override;
+    EventListenerFocus* clone() const;
     virtual bool checkAvailable() override;
     //
     

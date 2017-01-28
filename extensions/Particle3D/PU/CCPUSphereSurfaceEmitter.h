@@ -51,8 +51,8 @@ public:
     */
     virtual void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PUSphereSurfaceEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual PUSphereSurfaceEmitter* clone() const override;
+    virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     PUSphereSurfaceEmitter(void);

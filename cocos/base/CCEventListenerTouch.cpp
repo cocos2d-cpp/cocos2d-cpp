@@ -94,7 +94,7 @@ bool EventListenerTouchOneByOne::checkAvailable()
     return true;
 }
 
-EventListenerTouchOneByOne* EventListenerTouchOneByOne::clone()
+EventListenerTouchOneByOne* EventListenerTouchOneByOne::clone() const
 {
     auto ret = new (std::nothrow) EventListenerTouchOneByOne();
     if (ret && ret->init())
@@ -169,7 +169,7 @@ bool EventListenerTouchAllAtOnce::checkAvailable()
     return true;
 }
 
-EventListenerTouchAllAtOnce* EventListenerTouchAllAtOnce::clone()
+EventListenerTouchAllAtOnce* EventListenerTouchAllAtOnce::clone() const
 {
     auto ret = new (std::nothrow) EventListenerTouchAllAtOnce();
     if (ret && ret->init())

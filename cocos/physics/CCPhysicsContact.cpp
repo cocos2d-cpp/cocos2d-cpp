@@ -293,7 +293,7 @@ bool EventListenerPhysicsContact::checkAvailable()
     return true;
 }
 
-EventListenerPhysicsContact* EventListenerPhysicsContact::clone()
+EventListenerPhysicsContact* EventListenerPhysicsContact::clone() const
 {
     EventListenerPhysicsContact* obj = EventListenerPhysicsContact::create();
     
@@ -351,7 +351,7 @@ bool EventListenerPhysicsContactWithBodies::hitTest(PhysicsShape* shapeA, Physic
     return false;
 }
 
-EventListenerPhysicsContactWithBodies* EventListenerPhysicsContactWithBodies::clone()
+EventListenerPhysicsContactWithBodies* EventListenerPhysicsContactWithBodies::clone() const
 {
     EventListenerPhysicsContactWithBodies* obj = EventListenerPhysicsContactWithBodies::create(_a, _b);
     
@@ -406,7 +406,7 @@ bool EventListenerPhysicsContactWithShapes::hitTest(PhysicsShape* shapeA, Physic
     return false;
 }
 
-EventListenerPhysicsContactWithShapes* EventListenerPhysicsContactWithShapes::clone()
+EventListenerPhysicsContactWithShapes* EventListenerPhysicsContactWithShapes::clone() const
 {
     EventListenerPhysicsContactWithShapes* obj = EventListenerPhysicsContactWithShapes::create(_a, _b);
     
@@ -458,7 +458,7 @@ bool EventListenerPhysicsContactWithGroup::hitTest(PhysicsShape* shapeA, Physics
     return false;
 }
 
-EventListenerPhysicsContactWithGroup* EventListenerPhysicsContactWithGroup::clone()
+EventListenerPhysicsContactWithGroup* EventListenerPhysicsContactWithGroup::clone() const
 {
     EventListenerPhysicsContactWithGroup* obj = EventListenerPhysicsContactWithGroup::create(_group);
     

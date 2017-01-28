@@ -1118,7 +1118,7 @@ std::string Widget::getDescription() const
     return "Widget";
 }
 
-Widget* Widget::clone()
+Widget* Widget::clone() const
 {
     Widget* clonedWidget = createCloneInstance();
     clonedWidget->copyProperties(this);
@@ -1126,12 +1126,12 @@ Widget* Widget::clone()
     return clonedWidget;
 }
 
-Widget* Widget::createCloneInstance()
+Widget* Widget::createCloneInstance() const
 {
     return Widget::create();
 }
 
-void Widget::copyClonedWidgetChildren(Widget* model)
+void Widget::copyClonedWidgetChildren(const Widget* model)
 {
     for (auto& subWidget : model->getChildren())
     {
@@ -1159,12 +1159,12 @@ GLProgramState* Widget::getGrayGLProgramState(const Texture2D* texture) const
     return glState;
 }
 
-void Widget::copySpecialProperties(Widget* /*model*/)
+void Widget::copySpecialProperties(const Widget* /*model*/)
 {
 
 }
 
-void Widget::copyProperties(Widget *widget)
+void Widget::copyProperties(const Widget *widget)
 {
     setEnabled(widget->isEnabled());
     setVisible(widget->isVisible());

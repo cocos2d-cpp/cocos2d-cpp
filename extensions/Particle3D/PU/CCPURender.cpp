@@ -44,7 +44,7 @@ namespace cocos2d {
 void PURender::updateRender(PUParticle3D* /*particle*/, float /*deltaTime*/, bool /*firstParticle*/)
 {}
 
-void PURender::copyAttributesTo( PURender *render )
+void PURender::copyAttributesTo( PURender *render ) const
 {
     Particle3DRender::copyAttributesTo(render);
 
@@ -416,7 +416,7 @@ void PUParticle3DQuadRender::setType( Type type )
     }
 }
 
-void PUParticle3DQuadRender::copyAttributesTo(PUParticle3DQuadRender *quadRender)
+void PUParticle3DQuadRender::copyAttributesTo(PUParticle3DQuadRender *quadRender) const
 {
     PURender::copyAttributesTo(quadRender);
     quadRender->_type = _type;
@@ -430,7 +430,7 @@ void PUParticle3DQuadRender::copyAttributesTo(PUParticle3DQuadRender *quadRender
     quadRender->_textureCoordsColStep = _textureCoordsColStep;
 }
 
-PUParticle3DQuadRender* PUParticle3DQuadRender::clone()
+PUParticle3DQuadRender* PUParticle3DQuadRender::clone() const
 {
     auto render = PUParticle3DQuadRender::create(_texFile);
     copyAttributesTo(render);
@@ -516,12 +516,12 @@ PUParticle3DModelRender::~PUParticle3DModelRender()
     }
 }
 
-void PUParticle3DModelRender::copyAttributesTo(PUParticle3DModelRender *render)
+void PUParticle3DModelRender::copyAttributesTo(PUParticle3DModelRender *render) const
 {
     PURender::copyAttributesTo(render);
 }
 
-PUParticle3DModelRender* PUParticle3DModelRender::clone()
+PUParticle3DModelRender* PUParticle3DModelRender::clone() const
 {
     auto mr = PUParticle3DModelRender::create(_modelFile, _texFile);
     copyAttributesTo(mr);
@@ -600,7 +600,7 @@ bool PUParticle3DEntityRender::initRender( const std::string &texFile )
     return true;
 }
 
-void PUParticle3DEntityRender::copyAttributesTo(PUParticle3DEntityRender *render)
+void PUParticle3DEntityRender::copyAttributesTo(PUParticle3DEntityRender *render) const
 {
     PURender::copyAttributesTo(render);
 }
@@ -791,7 +791,7 @@ void PUParticle3DBoxRender::reBuildIndices(unsigned short count)
     }
 }
 
-PUParticle3DBoxRender* PUParticle3DBoxRender::clone()
+PUParticle3DBoxRender* PUParticle3DBoxRender::clone() const
 {
     auto render = PUParticle3DBoxRender::create(_texFile);
     copyAttributesTo(render);
@@ -964,14 +964,14 @@ PUSphereRender::~PUSphereRender()
 
 }
 
-void PUSphereRender::copyAttributesTo(PUSphereRender *sphereRender)
+void PUSphereRender::copyAttributesTo(PUSphereRender *sphereRender) const
 {
     PURender::copyAttributesTo(sphereRender);
     sphereRender->_numberOfRings = _numberOfRings;
     sphereRender->_numberOfSegments = _numberOfSegments;
 }
 
-PUSphereRender* PUSphereRender::clone()
+PUSphereRender* PUSphereRender::clone() const
 {
     auto render = PUSphereRender::create(_texFile);
     copyAttributesTo(render);

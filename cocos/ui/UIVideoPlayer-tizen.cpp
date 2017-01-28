@@ -404,7 +404,7 @@ cocos2d::ui::Widget* VideoPlayer::createCloneInstance()
     return VideoPlayer::create();
 }
 
-void VideoPlayer::copySpecialProperties(Widget *widget)
+void VideoPlayer::copySpecialProperties(const Widget *widget)
 {
     VideoPlayer* videoPlayer = dynamic_cast<VideoPlayer*>(widget);
     if (videoPlayer)

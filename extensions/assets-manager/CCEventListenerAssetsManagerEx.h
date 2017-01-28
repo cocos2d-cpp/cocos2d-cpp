@@ -62,7 +62,7 @@ public:
     
     /// Overrides
     virtual bool checkAvailable() override;
-    virtual EventListenerAssetsManagerEx* clone() override;
+    EventListenerAssetsManagerEx* clone() const;
     
 protected:
     /** Constructor */

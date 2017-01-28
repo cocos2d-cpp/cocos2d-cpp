@@ -103,7 +103,7 @@ PUParticleFollower* PUParticleFollower::create()
     return ppf;
 }
 
-void PUParticleFollower::copyAttributesTo( PUAffector* affector )
+void PUParticleFollower::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

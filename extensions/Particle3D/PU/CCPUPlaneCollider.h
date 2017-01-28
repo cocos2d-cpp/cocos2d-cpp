@@ -56,7 +56,7 @@ public:
     */
     void calculateDirectionAfterCollision(PUParticle3D* particle, float timeElapsed);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PUPlaneCollider(void);

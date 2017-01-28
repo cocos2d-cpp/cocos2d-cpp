@@ -123,7 +123,7 @@ PUVortexAffector* PUVortexAffector::create()
     return pvf;
 }
 
-void PUVortexAffector::copyAttributesTo( PUAffector* affector )
+void PUVortexAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

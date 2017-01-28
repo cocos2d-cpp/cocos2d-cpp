@@ -292,14 +292,14 @@ std::string PageView::getDescription() const
     return "PageView";
 }
 
-Widget* PageView::createCloneInstance()
+Widget* PageView::createCloneInstance() const
 {
     return PageView::create();
 }
 
-void PageView::copySpecialProperties(Widget *widget)
+void PageView::copySpecialProperties(const Widget *widget)
 {
-    PageView* pageView = dynamic_cast<PageView*>(widget);
+    auto pageView = dynamic_cast<const PageView*>(widget);
     if (pageView)
     {
         ListView::copySpecialProperties(widget);

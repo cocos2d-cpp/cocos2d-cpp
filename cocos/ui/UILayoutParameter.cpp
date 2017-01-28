@@ -90,19 +90,19 @@ LayoutParameter::Type LayoutParameter::getLayoutType() const
     return _layoutParameterType;
 }
     
-LayoutParameter* LayoutParameter::clone()
+LayoutParameter* LayoutParameter::clone() const
 {
     LayoutParameter* clonedParameter = createCloneInstance();
     clonedParameter->copyProperties(this);
     return clonedParameter;
 }
     
-LayoutParameter* LayoutParameter::createCloneInstance()
+LayoutParameter* LayoutParameter::createCloneInstance() const
 {
     return LayoutParameter::create();
 }
     
-void LayoutParameter::copyProperties(LayoutParameter *model)
+void LayoutParameter::copyProperties(const LayoutParameter *model)
 {
     _margin = model->_margin;
 }
@@ -129,15 +129,15 @@ LinearLayoutParameter::LinearGravity LinearLayoutParameter::getGravity() const
     return _linearGravity;
 }
     
-LayoutParameter* LinearLayoutParameter::createCloneInstance()
+LayoutParameter* LinearLayoutParameter::createCloneInstance() const
 {
     return LinearLayoutParameter::create();
 }
 
-void LinearLayoutParameter::copyProperties(LayoutParameter *model)
+void LinearLayoutParameter::copyProperties(const LayoutParameter *model)
 {
     LayoutParameter::copyProperties(model);
-    LinearLayoutParameter* parameter = dynamic_cast<LinearLayoutParameter*>(model);
+    const LinearLayoutParameter* parameter = dynamic_cast<const LinearLayoutParameter*>(model);
     if (parameter)
     {
         setGravity(parameter->_linearGravity);
@@ -186,15 +186,15 @@ const std::string& RelativeLayoutParameter::getRelativeName() const
     return _relativeLayoutName;
 }
     
-LayoutParameter* RelativeLayoutParameter::createCloneInstance()
+LayoutParameter* RelativeLayoutParameter::createCloneInstance() const
 {
     return RelativeLayoutParameter::create();
 }
 
-void RelativeLayoutParameter::copyProperties(LayoutParameter *model)
+void RelativeLayoutParameter::copyProperties(const LayoutParameter *model)
 {
     LayoutParameter::copyProperties(model);
-    RelativeLayoutParameter* parameter = dynamic_cast<RelativeLayoutParameter*>(model);
+    const RelativeLayoutParameter* parameter = dynamic_cast<const RelativeLayoutParameter*>(model);
     if (parameter)
     {
         setAlign(parameter->_relativeAlign);

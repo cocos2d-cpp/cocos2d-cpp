@@ -71,7 +71,7 @@ PUFlockCenteringAffector* PUFlockCenteringAffector::create()
     return pfca;
 }
 
-void PUFlockCenteringAffector::copyAttributesTo( PUAffector* affector )
+void PUFlockCenteringAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
     PUFlockCenteringAffector* flockCenteringAffector = static_cast<PUFlockCenteringAffector*>(affector);

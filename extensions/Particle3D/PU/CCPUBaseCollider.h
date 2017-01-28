@@ -116,7 +116,7 @@ public:
     */
     void calculateRotationSpeedAfterCollision(PUParticle3D* particle);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUBaseCollider();

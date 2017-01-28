@@ -168,7 +168,7 @@ namespace ui {
         virtual void releaseUpEvent() override;
         void dispatchSelectChangedEvent(bool select) override;
         
-        virtual void copySpecialProperties(Widget* model) override;
+        virtual void copySpecialProperties(const Widget* model) override;
         
     private:
         Label*       _tabLabelRender;
@@ -343,7 +343,7 @@ namespace ui {
         void onSizeChanged() override;
         void initTabHeadersPos(int startIndex);
         void initContainers();
-        virtual void copySpecialProperties(Widget* model) override;
+        virtual void copySpecialProperties(const Widget* model) override;
 
         ccTabControlCallback _tabChangedCallback;
         // dispatch selected changed

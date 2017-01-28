@@ -64,7 +64,7 @@ public:
     bool isSwallowTouches();
     
     /// Overrides
-    virtual EventListenerTouchOneByOne* clone() override;
+    EventListenerTouchOneByOne* clone() const;
     virtual bool checkAvailable() override;
     //
 
@@ -106,7 +106,7 @@ public:
     virtual ~EventListenerTouchAllAtOnce();
     
     /// Overrides
-    virtual EventListenerTouchAllAtOnce* clone() override;
+    EventListenerTouchAllAtOnce* clone() const;
     virtual bool checkAvailable() override;
     //
 public:

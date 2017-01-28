@@ -75,7 +75,7 @@ public:
     bool isSinceStartSystem(void) const {return _sinceStartSystem;};
     void setSinceStartSystem(bool sinceStartSystem){_sinceStartSystem = sinceStartSystem;};
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUScaleAffector(void);

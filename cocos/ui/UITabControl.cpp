@@ -420,9 +420,9 @@ namespace ui
     }
 
 
-    void TabControl::copySpecialProperties(Widget* model)
+    void TabControl::copySpecialProperties(const Widget* model)
     {
-        auto srcTab = dynamic_cast<TabControl*>(model);
+        auto srcTab = dynamic_cast<const TabControl*>(model);
         if (srcTab != nullptr)
         {
             Widget::copySpecialProperties(srcTab);
@@ -719,9 +719,9 @@ namespace ui
         return _tabView->indexOfTabHeader(this);
     }
 
-    void TabHeader::copySpecialProperties(Widget* model)
+    void TabHeader::copySpecialProperties(const Widget* model)
     {
-        auto header = dynamic_cast<TabHeader*>(model);
+        auto header = dynamic_cast<const TabHeader*>(model);
         if (header != nullptr)
         {
             AbstractCheckButton::copySpecialProperties(model);

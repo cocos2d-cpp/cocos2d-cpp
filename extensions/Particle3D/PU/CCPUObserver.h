@@ -167,7 +167,7 @@ public:
     */
     bool isParticleTypeToObserveSet(void) const;
 
-    virtual void copyAttributesTo (PUObserver* observer);
+    virtual void copyAttributesTo (PUObserver* observer) const;
 
 protected:
     PUObserver(void);

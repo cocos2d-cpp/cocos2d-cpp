@@ -72,7 +72,7 @@ bool EventListenerAssetsManagerEx::init(const AssetsManagerEx *AssetsManagerEx, 
     return ret;
 }
 
-EventListenerAssetsManagerEx* EventListenerAssetsManagerEx::clone()
+EventListenerAssetsManagerEx* EventListenerAssetsManagerEx::clone() const
 {
     EventListenerAssetsManagerEx* ret = new (std::nothrow) EventListenerAssetsManagerEx();
     if (ret && ret->init(_AssetsManagerEx, _onAssetsManagerExEvent))

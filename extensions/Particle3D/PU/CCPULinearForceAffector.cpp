@@ -62,7 +62,7 @@ PULinearForceAffector* PULinearForceAffector::create()
     return plfa;
 }
 
-void PULinearForceAffector::copyAttributesTo( PUAffector* affector )
+void PULinearForceAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUBaseForceAffector::copyAttributesTo(affector);
 }

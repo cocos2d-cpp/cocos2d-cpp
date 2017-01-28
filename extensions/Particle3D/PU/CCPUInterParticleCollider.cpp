@@ -175,7 +175,7 @@ PUParticle3DInterParticleCollider* PUParticle3DInterParticleCollider::create()
     return pipc;
 }
 
-void PUParticle3DInterParticleCollider::copyAttributesTo( PUAffector* affector )
+void PUParticle3DInterParticleCollider::copyAttributesTo( PUAffector* affector ) const
 {
     PUBaseCollider::copyAttributesTo(affector);
     PUParticle3DInterParticleCollider* interParticleCollider = static_cast<PUParticle3DInterParticleCollider*>(affector);

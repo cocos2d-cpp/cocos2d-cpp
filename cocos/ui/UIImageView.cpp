@@ -273,14 +273,14 @@ std::string ImageView::getDescription() const
     return "ImageView";
 }
 
-Widget* ImageView::createCloneInstance()
+Widget* ImageView::createCloneInstance() const
 {
     return ImageView::create();
 }
 
-void ImageView::copySpecialProperties(Widget *widget)
+void ImageView::copySpecialProperties(const Widget *widget)
 {
-    ImageView* imageView = dynamic_cast<ImageView*>(widget);
+    const ImageView* imageView = dynamic_cast<const ImageView*>(widget);
     if (imageView)
     {
         _prevIgnoreSize = imageView->_prevIgnoreSize;

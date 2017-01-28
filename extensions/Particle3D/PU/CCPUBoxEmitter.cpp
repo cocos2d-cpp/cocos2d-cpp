@@ -112,7 +112,7 @@ CCPUBoxEmitter* CCPUBoxEmitter::create()
     return pe;
 }
 
-void CCPUBoxEmitter::copyAttributesTo( PUEmitter* emitter )
+void CCPUBoxEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 
@@ -125,7 +125,7 @@ void CCPUBoxEmitter::copyAttributesTo( PUEmitter* emitter )
     boxEmitter->_zRange = _zRange;
 }
 
-CCPUBoxEmitter* CCPUBoxEmitter::clone()
+CCPUBoxEmitter* CCPUBoxEmitter::clone() const
 {
     auto be = CCPUBoxEmitter::create();
     copyAttributesTo(be);

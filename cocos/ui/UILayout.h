@@ -470,9 +470,9 @@ protected:
     void addBackGroundImage();
     
     void supplyTheLayoutParameterLackToChild(Widget* child);
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
-    virtual void copyClonedWidgetChildren(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
+    virtual void copyClonedWidgetChildren(const Widget* model) override;
     
     void stencilClippingVisit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags);
     void scissorClippingVisit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags);

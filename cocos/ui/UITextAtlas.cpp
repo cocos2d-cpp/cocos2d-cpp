@@ -176,14 +176,14 @@ std::string TextAtlas::getDescription() const
     return "TextAtlas";
 }
 
-Widget* TextAtlas::createCloneInstance()
+Widget* TextAtlas::createCloneInstance() const
 {
     return TextAtlas::create();
 }
 
-void TextAtlas::copySpecialProperties(Widget *widget)
+void TextAtlas::copySpecialProperties(const Widget *widget)
 {
-    TextAtlas* labelAtlas = dynamic_cast<TextAtlas*>(widget);
+    const TextAtlas* labelAtlas = dynamic_cast<const TextAtlas*>(widget);
     if (labelAtlas)
     {
         setProperty(labelAtlas->_stringValue, labelAtlas->_charMapFileName, labelAtlas->_itemWidth, labelAtlas->_itemHeight, labelAtlas->_startCharMap);

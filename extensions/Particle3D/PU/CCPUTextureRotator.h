@@ -81,7 +81,7 @@ public:
     /** @copydoc ParticleAffector::_initParticleForEmission */
     virtual void initParticleForEmission(PUParticle3D* particle) override;
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PUTextureRotator(void);

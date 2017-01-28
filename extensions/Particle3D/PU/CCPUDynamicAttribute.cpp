@@ -73,7 +73,7 @@ float PUDynamicAttributeFixed::getValue (float /*x*/)
     return _value;
 }
 
-void PUDynamicAttributeFixed::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeFixed::copyAttributesTo( PUDynamicAttribute* dynamicAttribute ) const
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_FIXED)
         return;
@@ -82,7 +82,7 @@ void PUDynamicAttributeFixed::copyAttributesTo( PUDynamicAttribute* dynamicAttri
     dynAttr->_value = _value;
 }
 
-PUDynamicAttributeFixed* PUDynamicAttributeFixed::clone()
+PUDynamicAttributeFixed* PUDynamicAttributeFixed::clone() const
 {
     auto af = new (std::nothrow) PUDynamicAttributeFixed();
     this->copyAttributesTo(af);
@@ -137,7 +137,7 @@ float PUDynamicAttributeRandom::getValue (float /*x*/)
     return cocos2d::random(_min, _max);
 }
 
-void PUDynamicAttributeRandom::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeRandom::copyAttributesTo( PUDynamicAttribute* dynamicAttribute ) const
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_RANDOM)
         return;
@@ -147,7 +147,7 @@ void PUDynamicAttributeRandom::copyAttributesTo( PUDynamicAttribute* dynamicAttr
     dynAttr->_max = _max;
 }
 
-PUDynamicAttributeRandom* PUDynamicAttributeRandom::clone()
+PUDynamicAttributeRandom* PUDynamicAttributeRandom::clone() const
 {
     auto ar = new (std::nothrow) PUDynamicAttributeRandom();
     this->copyAttributesTo(ar);
@@ -310,7 +310,7 @@ PUDynamicAttributeCurved::ControlPointList::iterator PUDynamicAttributeCurved::g
     return _controlPoints.end() - 1;
 }
 
-void PUDynamicAttributeCurved::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeCurved::copyAttributesTo( PUDynamicAttribute* dynamicAttribute ) const
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_CURVED)
         return;
@@ -331,7 +331,7 @@ void PUDynamicAttributeCurved::copyAttributesTo( PUDynamicAttribute* dynamicAttr
     dynAttr->processControlPoints();
 }
 
-PUDynamicAttributeCurved* PUDynamicAttributeCurved::clone()
+PUDynamicAttributeCurved* PUDynamicAttributeCurved::clone() const
 {
     auto ac = new (std::nothrow) PUDynamicAttributeCurved();
     this->copyAttributesTo(ac);
@@ -430,7 +430,7 @@ float PUDynamicAttributeOscillate::getValue (float x)
     return 0;
 }
 
-void PUDynamicAttributeOscillate::copyAttributesTo( PUDynamicAttribute* dynamicAttribute )
+void PUDynamicAttributeOscillate::copyAttributesTo( PUDynamicAttribute* dynamicAttribute ) const
 {
     if (!dynamicAttribute || dynamicAttribute->getType() != PUDynamicAttribute::DAT_OSCILLATE)
         return;
@@ -443,7 +443,7 @@ void PUDynamicAttributeOscillate::copyAttributesTo( PUDynamicAttribute* dynamicA
     dynAttr->_amplitude = _amplitude;
 }
 
-PUDynamicAttributeOscillate* PUDynamicAttributeOscillate::clone()
+PUDynamicAttributeOscillate* PUDynamicAttributeOscillate::clone() const
 {
     auto ao = new (std::nothrow) PUDynamicAttributeOscillate();
     this->copyAttributesTo(ao);

@@ -870,14 +870,14 @@ std::string Button::getDescription() const
     return "Button";
 }
 
-Widget* Button::createCloneInstance()
+Widget* Button::createCloneInstance() const
 {
     return Button::create();
 }
 
-void Button::copySpecialProperties(Widget *widget)
+void Button::copySpecialProperties(const Widget *widget)
 {
-    Button* button = dynamic_cast<Button*>(widget);
+    const Button* button = dynamic_cast<const Button*>(widget);
     if (button)
     {
         _prevIgnoreSize = button->_prevIgnoreSize;

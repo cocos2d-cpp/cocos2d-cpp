@@ -771,14 +771,14 @@ void TextField::attachWithIME()
     _textFieldRenderer->attachWithIME();
 }
 
-Widget* TextField::createCloneInstance()
+Widget* TextField::createCloneInstance() const
 {
     return TextField::create();
 }
 
-void TextField::copySpecialProperties(Widget *widget)
+void TextField::copySpecialProperties(const Widget *widget)
 {
-    TextField* textField = dynamic_cast<TextField*>(widget);
+    auto textField = dynamic_cast<const TextField*>(widget);
     if (textField)
     {
         setString(textField->_textFieldRenderer->getString());

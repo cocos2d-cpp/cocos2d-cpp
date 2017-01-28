@@ -70,7 +70,7 @@ public:
     */
     void setColorOperation (const ColorOperation& colorOperation);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUColorAffector();

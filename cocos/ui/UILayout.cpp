@@ -957,19 +957,19 @@ std::string Layout::getDescription() const
     return "Layout";
 }
 
-Widget* Layout::createCloneInstance()
+Widget* Layout::createCloneInstance() const
 {
     return Layout::create();
 }
 
-void Layout::copyClonedWidgetChildren(Widget* model)
+void Layout::copyClonedWidgetChildren(const Widget* model)
 {
     Widget::copyClonedWidgetChildren(model);
 }
 
-void Layout::copySpecialProperties(Widget *widget)
+void Layout::copySpecialProperties(const Widget *widget)
 {
-    Layout* layout = dynamic_cast<Layout*>(widget);
+    const Layout* layout = dynamic_cast<const Layout*>(widget);
     if (layout)
     {
         setBackGroundImageScale9Enabled(layout->_backGroundScale9Enabled);

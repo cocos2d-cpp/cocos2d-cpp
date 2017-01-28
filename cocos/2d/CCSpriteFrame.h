@@ -55,7 +55,7 @@ class Texture2D;
     sprite->setSpriteFrame(frame);
  @endcode
  */
-class CC_DLL SpriteFrame : public Ref, public Clonable
+class CC_DLL SpriteFrame : public Ref
 {
 public:
 
@@ -232,7 +232,7 @@ public:
     bool hasAnchorPoint() const;
 
     // Overrides
-	virtual SpriteFrame *clone() const override;
+	SpriteFrame *clone() const;
 
     /** Set the polygon info for polygon mesh sprites
      *

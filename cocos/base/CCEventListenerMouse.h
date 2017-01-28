@@ -54,7 +54,7 @@ public:
     static EventListenerMouse* create();
 
     /// Overrides
-    virtual EventListenerMouse* clone() override;
+    EventListenerMouse* clone() const;
     virtual bool checkAvailable() override;
 
     std::function<void(EventMouse* event)> onMouseDown;

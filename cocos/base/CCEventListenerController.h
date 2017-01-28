@@ -56,7 +56,7 @@ public:
     
     /// Overrides
     virtual bool checkAvailable() override;
-    virtual EventListenerController* clone() override;
+    EventListenerController* clone() const;
     
 	std::function<void(Controller*, Event*)> onConnected;
 	std::function<void(Controller*, Event*)> onDisconnected;

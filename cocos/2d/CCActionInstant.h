@@ -47,12 +47,6 @@ public:
     //
     // Overrides
     //
-    virtual ActionInstant* clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-    
     virtual ActionInstant * reverse() const override
     {
         CC_ASSERT(0);

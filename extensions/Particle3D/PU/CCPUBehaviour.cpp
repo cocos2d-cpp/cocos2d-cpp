@@ -45,7 +45,7 @@ void PUBehaviour::initParticleForEmission(PUParticle3D* /*particle*/)
 void PUBehaviour::initParticleForExpiration(PUParticle3D* /*particle*/, float /*timeElapsed*/)
 {}
 
-PUBehaviour* PUBehaviour::clone()
+PUBehaviour* PUBehaviour::clone() const
 {
     auto pb = new (std::nothrow) PUBehaviour;
     pb->autorelease();
@@ -53,7 +53,7 @@ PUBehaviour* PUBehaviour::clone()
     return pb;
 }
 
-void PUBehaviour::copyAttributesTo( PUBehaviour* behaviour )
+void PUBehaviour::copyAttributesTo( PUBehaviour* behaviour ) const
 {
     behaviour->_particleSystem = _particleSystem;
     behaviour->_behaviourType = _behaviourType;

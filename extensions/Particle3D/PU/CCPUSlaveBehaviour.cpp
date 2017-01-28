@@ -48,7 +48,7 @@ void PUSlaveBehaviour::updateBehaviour( PUParticle3D *particle, float /*deltaTim
     }
 }
 
-PUSlaveBehaviour* PUSlaveBehaviour::clone()
+PUSlaveBehaviour* PUSlaveBehaviour::clone() const
 {
     auto pb = PUSlaveBehaviour::create();
     copyAttributesTo(pb);
@@ -62,7 +62,7 @@ PUSlaveBehaviour* PUSlaveBehaviour::create()
     return pb;
 }
 
-void PUSlaveBehaviour::copyAttributesTo( PUBehaviour* behaviour )
+void PUSlaveBehaviour::copyAttributesTo( PUBehaviour* behaviour ) const
 {
     PUBehaviour::copyAttributesTo(behaviour);
 }

@@ -173,7 +173,7 @@ PUPlaneCollider* PUPlaneCollider::create()
     return ppc;
 }
 
-void PUPlaneCollider::copyAttributesTo( PUAffector* affector )
+void PUPlaneCollider::copyAttributesTo( PUAffector* affector ) const
 {
     PUBaseCollider::copyAttributesTo(affector);
     PUPlaneCollider* planeCollider = static_cast<PUPlaneCollider*>(affector);

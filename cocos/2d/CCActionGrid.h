@@ -55,11 +55,6 @@ public:
     virtual GridBase* getGrid();
 
     // overrides
-    virtual GridAction * clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
     virtual GridAction* reverse() const override;
     virtual void startWithTarget(Node *target) override;
 
@@ -117,13 +112,6 @@ public:
      */
     void setVertex(const Vec2& position, const Vec3& vertex);
 
-    // Overrides
-    virtual Grid3DAction * clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-    
     /**
      * @brief Get the effect grid rect.
      * @return Return the effect grid rect.
@@ -168,13 +156,6 @@ public:
 
     /** returns the grid */
     virtual GridBase* getGrid() override;
-
-    // Override
-    virtual TiledGrid3DAction * clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
 };
 
 /**

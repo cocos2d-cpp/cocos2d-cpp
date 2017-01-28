@@ -111,7 +111,7 @@ PUScaleVelocityAffector* PUScaleVelocityAffector::create()
     return psva;
 }
 
-void PUScaleVelocityAffector::copyAttributesTo( PUAffector* affector )
+void PUScaleVelocityAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

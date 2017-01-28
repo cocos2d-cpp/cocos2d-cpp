@@ -70,7 +70,7 @@ public:
     bool isRandomDirection(void) const;
     void setRandomDirection(bool randomDirection);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PURandomiser(void);

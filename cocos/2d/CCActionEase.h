@@ -89,7 +89,6 @@ private:
 class CC_DLL EaseRateAction : public ActionEase
 {
 public:
-    static EaseRateAction* create(ActionInterval* action, float rate);
     /**
     @brief Set the rate value for the ease rate action.
     @param rate The value will be set.

@@ -198,7 +198,7 @@ PUSphereCollider* PUSphereCollider::create()
     return psc;
 }
 
-void PUSphereCollider::copyAttributesTo( PUAffector* affector )
+void PUSphereCollider::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

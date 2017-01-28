@@ -65,8 +65,8 @@ public:
     */
     virtual void initParticleForExpiration(PUParticle3D* particle, float timeElapsed);
 
-    virtual PUBehaviour* clone();
-    virtual void copyAttributesTo (PUBehaviour* behaviour);
+    virtual PUBehaviour* clone() const;
+    virtual void copyAttributesTo (PUBehaviour* behaviour) const;
 
 protected:
     PUBehaviour(void);

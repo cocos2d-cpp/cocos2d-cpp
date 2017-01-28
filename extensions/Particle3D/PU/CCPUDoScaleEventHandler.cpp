@@ -84,7 +84,7 @@ PUDoScaleEventHandler* PUDoScaleEventHandler::create()
     return peh;
 }
 
-void PUDoScaleEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUDoScaleEventHandler::copyAttributesTo( PUEventHandler* eventHandler ) const
 {
     PUEventHandler::copyAttributesTo(eventHandler);
     PUDoScaleEventHandler* doScaleEventHandler = static_cast<PUDoScaleEventHandler*>(eventHandler);

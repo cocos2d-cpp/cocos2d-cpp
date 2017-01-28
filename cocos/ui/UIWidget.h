@@ -549,7 +549,7 @@ public:
      * Create a new widget copy of the original one.
      * @return A cloned widget copy of original.
      */
-    Widget* clone();
+    Widget* clone() const;
     /**
      * @lua NA
      */
@@ -795,10 +795,10 @@ protected:
     virtual void adaptRenderers(){};
     void updateChildrenDisplayedRGBA();
     
-    void copyProperties(Widget* model);
-    virtual Widget* createCloneInstance();
-    virtual void copySpecialProperties(Widget* model);
-    virtual void copyClonedWidgetChildren(Widget* model);
+    void copyProperties(const Widget* model);
+    virtual Widget* createCloneInstance() const;
+    virtual void copySpecialProperties(const Widget* model);
+    virtual void copyClonedWidgetChildren(const Widget* model);
     
     Widget* getWidgetParent();
     void updateContentSizeWithTextureSize(const Size& size);

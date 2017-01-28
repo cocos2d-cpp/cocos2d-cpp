@@ -140,8 +140,8 @@ protected:
     virtual void onSizeChanged() override;
   
     void labelAtlasScaleChangedWithSize();
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
 protected:
     Label* _labelAtlasRenderer;
     std::string _stringValue;

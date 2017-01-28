@@ -132,7 +132,7 @@ PUColorAffector* PUColorAffector::create()
     return pca;
 }
 
-void PUColorAffector::copyAttributesTo( PUAffector* affector )
+void PUColorAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

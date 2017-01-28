@@ -184,19 +184,19 @@ public:
      * Create a copy of original LayoutParameter.
      *@return A LayoutParameter pointer.
      */
-    LayoutParameter* clone();
+    LayoutParameter* clone() const;
 
     /**
      * Create a cloned instance of LayoutParameter.
      *@return A LayoutParameter pointer.
      */
-    virtual LayoutParameter* createCloneInstance();
+    virtual LayoutParameter* createCloneInstance() const;
     
     /**
      * Copy all the member field from argument LayoutParameter to self.
      *@param model A LayoutParameter instance.
      */
-    virtual void copyProperties(LayoutParameter* model);
+    virtual void copyProperties(const LayoutParameter* model);
 protected:
     Margin _margin;
     Type _layoutParameterType;
@@ -284,8 +284,8 @@ public:
     LinearGravity getGravity() const;
 
     //override functions.
-    virtual LayoutParameter* createCloneInstance() override;
-    virtual void copyProperties(LayoutParameter* model) override;
+    virtual LayoutParameter* createCloneInstance() const override;
+    virtual void copyProperties(const LayoutParameter* model) override;
 protected:
     LinearGravity _linearGravity;
     int i;
@@ -403,8 +403,8 @@ public:
     const std::string& getRelativeName() const;
     
     //override functions.
-    virtual LayoutParameter* createCloneInstance() override;
-    virtual void copyProperties(LayoutParameter* model) override;
+    virtual LayoutParameter* createCloneInstance() const override;
+    virtual void copyProperties(const LayoutParameter* model) override;
 protected:
     RelativeAlign _relativeAlign;
     std::string _relativeWidgetName;

@@ -113,7 +113,7 @@ PUSineForceAffector* PUSineForceAffector::create()
     return psfa;
 }
 
-void PUSineForceAffector::copyAttributesTo( PUAffector* affector )
+void PUSineForceAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

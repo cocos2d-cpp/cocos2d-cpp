@@ -327,8 +327,8 @@ protected:
     virtual void onSizeChanged() override;
 
     void labelScaleChangedWithSize();
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
     virtual void adaptRenderers() override;
 protected:
     bool _touchScaleChangeEnabled;

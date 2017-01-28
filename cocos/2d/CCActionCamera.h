@@ -61,7 +61,8 @@ public:
     // Overrides
     virtual void startWithTarget(Node *target) override;
     virtual ActionCamera * reverse() const override;
-    virtual ActionCamera *clone() const override;
+
+    virtual ActionCamera *clone() const override = 0;
 
     /* Sets the Eye value of the Camera. 
      * 
@@ -142,7 +143,7 @@ public:
     void sphericalRadius(float *r, float *zenith, float *azimuth);
 
     // Overrides
-    OrbitCamera *clone() const override;
+    virtual OrbitCamera *clone() const override;
     virtual void startWithTarget(Node *target) override;
     virtual void update(float time) override;
     

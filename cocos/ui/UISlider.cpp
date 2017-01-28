@@ -694,14 +694,14 @@ std::string Slider::getDescription() const
     return "Slider";
 }
 
-Widget* Slider::createCloneInstance()
+Widget* Slider::createCloneInstance() const
 {
     return Slider::create();
 }
 
-void Slider::copySpecialProperties(Widget *widget)
+void Slider::copySpecialProperties(const Widget *widget)
 {
-    Slider* slider = dynamic_cast<Slider*>(widget);
+    auto slider = dynamic_cast<const Slider*>(widget);
     if (slider)
     {
         _prevIgnoreSize = slider->_prevIgnoreSize;

@@ -138,14 +138,14 @@ std::string CheckBox::getDescription() const
     return "CheckBox";
 }
 
-Widget* CheckBox::createCloneInstance()
+Widget* CheckBox::createCloneInstance() const
 {
     return CheckBox::create();
 }
 
-void CheckBox::copySpecialProperties(Widget *widget)
+void CheckBox::copySpecialProperties(const Widget *widget)
 {
-    CheckBox* checkBox = dynamic_cast<CheckBox*>(widget);
+    const CheckBox* checkBox = dynamic_cast<const CheckBox*>(widget);
     if (checkBox)
     {
         AbstractCheckButton::copySpecialProperties(widget);

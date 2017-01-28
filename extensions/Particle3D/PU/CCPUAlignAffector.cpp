@@ -87,7 +87,7 @@ PUAlignAffector* PUAlignAffector::create()
     return paa;
 }
 
-void PUAlignAffector::copyAttributesTo( PUAffector* affector )
+void PUAlignAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

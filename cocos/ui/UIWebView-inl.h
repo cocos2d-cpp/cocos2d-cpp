@@ -163,12 +163,12 @@ namespace experimental{
           _impl->setBounces(bounces);
         }
         
-        cocos2d::ui::Widget* WebView::createCloneInstance()
+        cocos2d::ui::Widget* WebView::createCloneInstance() const
         {
             return WebView::create();
         }
 
-        void WebView::copySpecialProperties(Widget* model)
+        void WebView::copySpecialProperties(const Widget* model)
         {
             WebView* webView = dynamic_cast<WebView*>(model);
             if (webView)

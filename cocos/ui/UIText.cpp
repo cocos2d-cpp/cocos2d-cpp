@@ -404,14 +404,14 @@ Color4B Text::getEffectColor() const
     return Color4B(effect.r * 255, effect.g * 255, effect.b * 255, effect.a * 255);
 }
 
-Widget* Text::createCloneInstance()
+Widget* Text::createCloneInstance() const
 {
     return Text::create();
 }
 
-void Text::copySpecialProperties(Widget *widget)
+void Text::copySpecialProperties(const Widget *widget)
 {
-    Text* label = dynamic_cast<Text*>(widget);
+    const Text* label = dynamic_cast<const Text*>(widget);
     if (label)
     {
         setFontName(label->_fontName);

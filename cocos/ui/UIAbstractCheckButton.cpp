@@ -553,9 +553,9 @@ void AbstractCheckButton::frontCrossDisabledTextureScaleChangedWithSize()
     _frontCrossDisabledRenderer->setPosition(_contentSize.width / 2, _contentSize.height / 2);
 }
 
-void AbstractCheckButton::copySpecialProperties(Widget *widget)
+void AbstractCheckButton::copySpecialProperties(const Widget *widget)
 {
-    AbstractCheckButton* abstractCheckButton = dynamic_cast<AbstractCheckButton*>(widget);
+    const AbstractCheckButton* abstractCheckButton = dynamic_cast<const AbstractCheckButton*>(widget);
     if (abstractCheckButton)
     {
         loadTextureBackGround(abstractCheckButton->_backGroundBoxRenderer->getSpriteFrame());

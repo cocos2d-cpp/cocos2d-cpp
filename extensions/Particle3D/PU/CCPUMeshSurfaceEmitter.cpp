@@ -577,7 +577,7 @@ PUMeshSurfaceEmitter* PUMeshSurfaceEmitter::create()
     return pe;
 }
 
-void PUMeshSurfaceEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUMeshSurfaceEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
     PUMeshSurfaceEmitter* meshSurfaceEmitter = static_cast<PUMeshSurfaceEmitter*>(emitter);
@@ -587,7 +587,7 @@ void PUMeshSurfaceEmitter::copyAttributesTo( PUEmitter* emitter )
     meshSurfaceEmitter->_scale = _scale;
 }
 
-PUMeshSurfaceEmitter* PUMeshSurfaceEmitter::clone()
+PUMeshSurfaceEmitter* PUMeshSurfaceEmitter::clone() const
 {
     auto be = PUMeshSurfaceEmitter::create();
     copyAttributesTo(be);

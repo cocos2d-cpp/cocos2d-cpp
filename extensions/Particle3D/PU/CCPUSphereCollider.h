@@ -68,7 +68,7 @@ public:
     */
     void calculateDirectionAfterCollision(PUParticle3D* particle, Vec3 distance, float distanceLength);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PUSphereCollider(void);

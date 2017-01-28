@@ -51,7 +51,7 @@ public:
     */
     void setResize(bool resize);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUAlignAffector();

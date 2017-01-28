@@ -47,7 +47,7 @@ enum {
 /** 
  * @brief Base class for Action objects.
  */
-class CC_DLL Action : public Ref, public Clonable
+class CC_DLL Action : public Ref
 {
 public:
     /** Default tag used for all the actions. */
@@ -55,15 +55,7 @@ public:
 
     virtual std::string description() const;
 
-    /** Returns a clone of action.
-     *
-     * @return A clone action.
-     */
-    virtual Action* clone() const
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual Action* clone() const = 0;
 
     /** Returns a new action that performs the exact reverse of the action. 
      *
@@ -235,11 +227,8 @@ public:
         CC_ASSERT(0);
         return nullptr;
     }
-    virtual FiniteTimeAction* clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+
+    virtual FiniteTimeAction* clone() const override = 0;
 
 protected:
     FiniteTimeAction()

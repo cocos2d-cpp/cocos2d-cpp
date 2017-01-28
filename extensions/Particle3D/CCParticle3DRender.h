@@ -71,7 +71,7 @@ public:
     void setDepthWrite(bool isDepthWrite);
     void setBlendFunc(const BlendFunc& blendFunc);
 
-    void copyAttributesTo (Particle3DRender *render);
+    void copyAttributesTo(Particle3DRender *render) const;
 
     virtual void reset(){}
 

@@ -126,7 +126,7 @@ public:
     */
     void suppressGeneration(bool suppress);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUForceFieldAffector();

@@ -176,8 +176,8 @@ namespace experimental{
             virtual void onExit() override;
 
         protected:
-            virtual cocos2d::ui::Widget* createCloneInstance() override;
-            virtual void copySpecialProperties(Widget* model) override;
+            virtual cocos2d::ui::Widget* createCloneInstance() const override;
+            virtual void copySpecialProperties(const Widget* model) override;
             
         protected:
             VideoPlayer();

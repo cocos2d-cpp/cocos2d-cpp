@@ -50,8 +50,8 @@ public:
     */
     virtual void updateBehaviour(PUParticle3D *particle, float deltaTime) override;
 
-    virtual PUSlaveBehaviour* clone() override;
-    virtual void copyAttributesTo (PUBehaviour* behaviour) override;
+    virtual PUSlaveBehaviour* clone() const override;
+    virtual void copyAttributesTo (PUBehaviour* behaviour) const override;
 
 protected:
     PUSlaveBehaviour();

@@ -61,7 +61,7 @@ public:
     float getThreshold(void) const {return _threshold;};
     void setThreshold(float threshold){_threshold = threshold;};
 
-    virtual void copyAttributesTo (PUObserver* observer) override;
+    virtual void copyAttributesTo (PUObserver* observer) const override;
 
 protected:
     PUOnRandomObserver(void);

@@ -102,7 +102,7 @@ PUSphereSurfaceEmitter* PUSphereSurfaceEmitter::create()
     return pe;
 }
 
-void PUSphereSurfaceEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUSphereSurfaceEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 
@@ -110,7 +110,7 @@ void PUSphereSurfaceEmitter::copyAttributesTo( PUEmitter* emitter )
     sphereSurfaceEmitter->_radius = _radius;
 }
 
-PUSphereSurfaceEmitter* PUSphereSurfaceEmitter::clone()
+PUSphereSurfaceEmitter* PUSphereSurfaceEmitter::clone() const
 {
     auto be = PUSphereSurfaceEmitter::create();
     copyAttributesTo(be);

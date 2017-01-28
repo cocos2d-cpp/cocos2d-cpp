@@ -170,7 +170,7 @@ PUGeometryRotator* PUGeometryRotator::create()
     return pgr;
 }
 
-void PUGeometryRotator::copyAttributesTo( PUAffector* affector )
+void PUGeometryRotator::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

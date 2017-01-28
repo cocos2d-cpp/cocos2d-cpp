@@ -58,7 +58,7 @@ public:
     PUComparisionOperator getCompare() const {return _compare;};
     void setCompare(PUComparisionOperator op){_compare = op;};
 
-    virtual void copyAttributesTo (PUObserver* observer) override;
+    virtual void copyAttributesTo (PUObserver* observer) const override;
 
 protected:
     PUOnVelocityObserver(void);

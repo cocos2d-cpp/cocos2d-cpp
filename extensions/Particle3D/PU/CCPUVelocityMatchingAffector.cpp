@@ -117,7 +117,7 @@ PUVelocityMatchingAffector* PUVelocityMatchingAffector::create()
     return pvma;
 }
 
-void PUVelocityMatchingAffector::copyAttributesTo( PUAffector* affector )
+void PUVelocityMatchingAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
     PUVelocityMatchingAffector* velocityMatchingAffector = static_cast<PUVelocityMatchingAffector*>(affector);

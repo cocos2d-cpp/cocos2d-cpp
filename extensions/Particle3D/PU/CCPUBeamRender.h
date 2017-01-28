@@ -126,8 +126,8 @@ public:
     */
     void destroyAll(void);
 
-    virtual PUBeamRender* clone() override;
-    void copyAttributesTo(PUBeamRender *render);
+    virtual PUBeamRender* clone() const override;
+    virtual void copyAttributesTo(PUBeamRender *render) const;
 
 protected:
     PUBeamRender();

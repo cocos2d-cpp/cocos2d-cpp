@@ -41,7 +41,7 @@ PUEventHandler::~PUEventHandler(  )
 
 }
 
-void PUEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUEventHandler::copyAttributesTo( PUEventHandler* eventHandler ) const
 {
     eventHandler->setName(_name);
     eventHandler->_parentObserver = _parentObserver;

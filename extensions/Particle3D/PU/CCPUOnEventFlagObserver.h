@@ -57,7 +57,7 @@ public:
     unsigned int getEventFlag(void) const {return _eventFlag;};
     void setEventFlag(unsigned int eventFlag){_eventFlag = eventFlag;};
 
-    virtual void copyAttributesTo (PUObserver* observer) override;
+    virtual void copyAttributesTo (PUObserver* observer) const override;
 
 protected:
     PUOnEventFlagObserver(void);

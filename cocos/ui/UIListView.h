@@ -167,6 +167,7 @@ public:
      *@returns A vector of widget pointers.
      */
     std::vector<node_ptr<Widget>>& getItems();
+    const std::vector<node_ptr<Widget>>& getItems() const;
     
     /**
      * Return the index of specified widget.
@@ -371,9 +372,9 @@ protected:
     void remedyHorizontalLayoutParameter(LinearLayoutParameter* layoutParameter,size_t itemIndex);
     
     virtual void onSizeChanged() override;
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
-    virtual void copyClonedWidgetChildren(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
+    virtual void copyClonedWidgetChildren(const Widget* model) override;
     void selectedItemEvent(TouchEventType event);
     virtual void interceptTouchEvent(Widget::TouchEventType event,Widget* sender,Touch* touch) override;
     

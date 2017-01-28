@@ -144,7 +144,7 @@ void Sprite3DMaterial::releaseCachedMaterial()
     _materials.clear();
 }
 
-Material* Sprite3DMaterial::clone() const
+Sprite3DMaterial* Sprite3DMaterial::clone() const
 {
     auto material = new (std::nothrow) Sprite3DMaterial();
     if (material)

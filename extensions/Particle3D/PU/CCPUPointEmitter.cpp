@@ -46,12 +46,12 @@ PUPointEmitter* PUPointEmitter::create()
     return pe;
 }
 
-void PUPointEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUPointEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 }
 
-PUPointEmitter* PUPointEmitter::clone()
+PUPointEmitter* PUPointEmitter::clone() const
 {
     auto be = PUPointEmitter::create();
     copyAttributesTo(be);

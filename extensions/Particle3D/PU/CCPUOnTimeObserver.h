@@ -69,7 +69,7 @@ public:
     bool isSinceStartSystem(void) const {return _sinceStartSystem;};
     void setSinceStartSystem(bool sinceStartSystem){_sinceStartSystem = sinceStartSystem;};
 
-    virtual void copyAttributesTo (PUObserver* observer) override;
+    virtual void copyAttributesTo (PUObserver* observer) const override;
 
 protected:
     PUOnTimeObserver(void);

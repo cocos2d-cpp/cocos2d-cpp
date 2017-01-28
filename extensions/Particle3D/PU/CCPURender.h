@@ -49,8 +49,9 @@ public:
     const std::string& getRenderType(void) const {return _renderType;};
     void setRenderType(const std::string& observerType) {_renderType = observerType;};
 
-    virtual PURender* clone() = 0;
-    void copyAttributesTo(PURender* render);
+    virtual PURender* clone() const = 0;
+
+    void copyAttributesTo(PURender* render) const;
 
 public:
 
@@ -64,7 +65,7 @@ protected:
 class CC_DLL PUParticle3DEntityRender : public PURender
 {
 public:
-    void copyAttributesTo(PUParticle3DEntityRender *render);
+    void copyAttributesTo(PUParticle3DEntityRender *render) const;
     virtual void reset()override;
 protected:
     PUParticle3DEntityRender();
@@ -148,8 +149,8 @@ public:
 
     virtual void render(Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DQuadRender* clone() override;
-    void copyAttributesTo(PUParticle3DQuadRender *render);
+    virtual PUParticle3DQuadRender* clone() const override;
+    void copyAttributesTo(PUParticle3DQuadRender *render) const;
     
 protected:
     PUParticle3DQuadRender();
@@ -184,8 +185,8 @@ public:
 
     virtual void render(Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DModelRender* clone() override;
-    void copyAttributesTo(PUParticle3DModelRender *render);
+    virtual PUParticle3DModelRender* clone() const override;
+    void copyAttributesTo(PUParticle3DModelRender *render) const;
 
     virtual void reset()override;
 protected:
@@ -208,7 +209,7 @@ public:
 
     virtual void render(Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUParticle3DBoxRender* clone() override;
+    virtual PUParticle3DBoxRender* clone() const override;
 
 protected:
     PUParticle3DBoxRender();
@@ -227,8 +228,8 @@ public:
 
     virtual void render(Renderer* renderer, const Mat4 &transform, ParticleSystem3D* particleSystem) override;
 
-    virtual PUSphereRender* clone() override;
-    void copyAttributesTo(PUSphereRender *render);
+    virtual PUSphereRender* clone() const override;
+    void copyAttributesTo(PUSphereRender *render) const;
 
 protected:
     PUSphereRender();

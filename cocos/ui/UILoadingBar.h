@@ -186,8 +186,8 @@ protected:
     
     virtual void adaptRenderers() override;
     
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
 protected:
     Direction _direction;
     float _percent;

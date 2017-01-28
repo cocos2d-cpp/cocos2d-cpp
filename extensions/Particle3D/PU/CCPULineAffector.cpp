@@ -164,7 +164,7 @@ PULineAffector* PULineAffector::create()
     return pla;
 }
 
-void PULineAffector::copyAttributesTo( PUAffector* affector )
+void PULineAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

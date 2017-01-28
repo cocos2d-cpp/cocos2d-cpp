@@ -111,7 +111,7 @@ PUOnTimeObserver* PUOnTimeObserver::create()
     return pto;
 }
 
-void PUOnTimeObserver::copyAttributesTo( PUObserver* observer )
+void PUOnTimeObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
 

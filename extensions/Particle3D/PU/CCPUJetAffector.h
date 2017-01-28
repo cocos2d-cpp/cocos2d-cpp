@@ -48,7 +48,7 @@ public:
     PUDynamicAttribute* getDynAcceleration(void) const {return _dynAcceleration;};
     void setDynAcceleration(PUDynamicAttribute* dynAcceleration);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:
     PUJetAffector(void);

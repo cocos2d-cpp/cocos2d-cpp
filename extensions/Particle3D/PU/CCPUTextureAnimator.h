@@ -85,7 +85,7 @@ public:
     /** Todo */
     void setStartRandom(bool startRandom);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const;
 
 protected:	
     PUTextureAnimator(void);

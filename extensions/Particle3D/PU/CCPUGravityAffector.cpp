@@ -88,7 +88,7 @@ PUGravityAffector* PUGravityAffector::create()
     return pga;
 }
 
-void PUGravityAffector::copyAttributesTo( PUAffector* affector )
+void PUGravityAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

@@ -350,8 +350,8 @@ public:
     bool makeParticleLocal(PUParticle3D* particle);
     void calulateRotationOffset(void);
 
-    virtual PUParticleSystem3D* clone();
-    virtual void copyAttributesTo(PUParticleSystem3D* system);
+    virtual PUParticleSystem3D* clone() const;
+    virtual void copyAttributesTo(PUParticleSystem3D* system) const;
 
     bool initSystem(const std::string &filePath);
 

@@ -120,8 +120,8 @@ protected:
     
     virtual void dispatchSelectChangedEvent(bool selected) override;
     
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
     
 protected:
     //if you use the old event callback, it will retain the _checkBoxEventListener

@@ -103,7 +103,7 @@ public:
     const std::string& getName(void) const {return _name;};
     void setName(const std::string& name) {_name = name;};
 
-    virtual void copyAttributesTo (PUAffector* affector);
+    virtual void copyAttributesTo (PUAffector* affector) const;
 
 protected:
     PUAffector();

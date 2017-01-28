@@ -82,7 +82,7 @@ PUJetAffector* PUJetAffector::create()
     return pja;
 }
 
-void PUJetAffector::copyAttributesTo( PUAffector* affector )
+void PUJetAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

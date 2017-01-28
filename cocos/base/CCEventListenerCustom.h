@@ -69,7 +69,7 @@ public:
     
     /// Overrides
     virtual bool checkAvailable() override;
-    virtual EventListenerCustom* clone() override;
+    EventListenerCustom* clone() const;
     
 protected:
     /** Constructor */

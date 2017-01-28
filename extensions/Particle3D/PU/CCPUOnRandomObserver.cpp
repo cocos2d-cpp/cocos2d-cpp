@@ -64,7 +64,7 @@ PUOnRandomObserver* PUOnRandomObserver::create()
     return pro;
 }
 
-void PUOnRandomObserver::copyAttributesTo( PUObserver* observer )
+void PUOnRandomObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
     PUOnRandomObserver* onRandomObserver = static_cast<PUOnRandomObserver*>(observer);

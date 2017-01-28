@@ -1353,19 +1353,19 @@ std::string ScrollView::getDescription() const
     return "ScrollView";
 }
 
-Widget* ScrollView::createCloneInstance()
+Widget* ScrollView::createCloneInstance() const
 {
     return ScrollView::create();
 }
 
-void ScrollView::copyClonedWidgetChildren(Widget* model)
+void ScrollView::copyClonedWidgetChildren(const Widget* model)
 {
     Layout::copyClonedWidgetChildren(model);
 }
 
-void ScrollView::copySpecialProperties(Widget *widget)
+void ScrollView::copySpecialProperties(const Widget *widget)
 {
-    ScrollView* scrollView = dynamic_cast<ScrollView*>(widget);
+    auto scrollView = dynamic_cast<const ScrollView*>(widget);
     if (scrollView)
     {
         Layout::copySpecialProperties(widget);

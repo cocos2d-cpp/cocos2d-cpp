@@ -103,21 +103,6 @@ ActionInterval* ActionEase::getInnerAction()
 // EaseRateAction
 //
 
-EaseRateAction* EaseRateAction::create(ActionInterval* action, float rate)
-{
-    CCASSERT(action != nullptr, "action cannot be nullptr!");
-
-    EaseRateAction *easeRateAction = new (std::nothrow) EaseRateAction();
-    if (easeRateAction && easeRateAction->initWithAction(action, rate))
-    {
-        easeRateAction->autorelease();
-        return easeRateAction;
-    }
-
-    CC_SAFE_DELETE(easeRateAction);
-    return nullptr;
-}
-
 bool EaseRateAction::initWithAction(ActionInterval *action, float rate)
 {
     if (ActionEase::initWithAction(action))

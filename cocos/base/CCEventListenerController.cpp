@@ -109,7 +109,7 @@ bool EventListenerController::checkAvailable()
     return true;
 }
 
-EventListenerController* EventListenerController::clone()
+EventListenerController* EventListenerController::clone() const
 {
     return nullptr;
 }

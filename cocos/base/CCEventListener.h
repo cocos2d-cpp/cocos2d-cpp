@@ -90,10 +90,6 @@ public:
      */
     virtual bool checkAvailable() = 0;
 
-    /** Clones the listener, its subclasses have to override this method.
-     */
-    virtual EventListener* clone() = 0;
-
     /** Enables or disables the listener.
      * @note Only listeners with `enabled` state will be able to receive events.
      *        When an listener was initialized, it's enabled by default.

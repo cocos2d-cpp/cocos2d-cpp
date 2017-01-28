@@ -76,7 +76,7 @@ PUOnVelocityObserver* PUOnVelocityObserver::create()
     return pvo;
 }
 
-void PUOnVelocityObserver::copyAttributesTo( PUObserver* observer )
+void PUOnVelocityObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
 

@@ -87,8 +87,8 @@ public:
     */
     virtual void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PULineEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual PULineEmitter* clone() const override;
+    virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     PULineEmitter(void);

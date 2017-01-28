@@ -45,7 +45,7 @@ class ExtraAction : public FiniteTimeAction
 {
 public:
     static ExtraAction* create();
-    virtual ExtraAction* clone() const;
+    virtual ExtraAction* clone() const override;
     virtual ExtraAction* reverse(void) const;
     virtual void update(float time);
     virtual void step(float dt);

@@ -118,7 +118,7 @@ void PUBaseCollider::preUpdateAffector( float deltaTime )
     _velocityScale = deltaTime * (static_cast<PUParticleSystem3D *>(_particleSystem))->getParticleSystemScaleVelocity();
 }
 
-void PUBaseCollider::copyAttributesTo( PUAffector* affector )
+void PUBaseCollider::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

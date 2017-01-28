@@ -238,8 +238,8 @@ public:
     */
     virtual void initParticleDirection(PUParticle3D* particle) override;
 
-    virtual PUMeshSurfaceEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual PUMeshSurfaceEmitter* clone() const override;
+    virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     PUMeshSurfaceEmitter(void);

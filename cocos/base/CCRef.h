@@ -40,26 +40,6 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-class Ref;
-
-/** 
-  * Interface that defines how to clone an Ref.
-  * @lua NA
-  * @js NA
-  */
-class CC_DLL Clonable
-{
-public:
-    /** Returns a copy of the Ref. */
-    virtual Clonable* clone() const = 0;
-    
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Clonable() {};
-};
-
 /**
  * Ref is used for reference count management. If a class inherits from Ref,
  * then it is easy to be shared in different places.

@@ -70,8 +70,8 @@ public:
     */
     virtual void initParticlePosition(PUParticle3D* particle) override;
 
-    virtual PUPositionEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual PUPositionEmitter* clone() const;
+    virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     PUPositionEmitter(void);

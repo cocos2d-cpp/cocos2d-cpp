@@ -155,7 +155,7 @@ PUSlaveEmitter* PUSlaveEmitter::create()
     return pe;
 }
 
-void PUSlaveEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUSlaveEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 
@@ -165,7 +165,7 @@ void PUSlaveEmitter::copyAttributesTo( PUEmitter* emitter )
     slaveEmitter->_masterEmitterNameSet = _masterEmitterNameSet;
 }
 
-PUSlaveEmitter* PUSlaveEmitter::clone()
+PUSlaveEmitter* PUSlaveEmitter::clone() const
 {
     auto be = PUSlaveEmitter::create();
     copyAttributesTo(be);

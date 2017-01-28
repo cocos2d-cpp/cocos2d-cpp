@@ -53,7 +53,7 @@ class SpriteFrame;
  
  @since v2.0
  */
-class CC_DLL AnimationFrame : public Ref, public Clonable
+class CC_DLL AnimationFrame : public Ref
 {
 public:
     /** @struct DisplayedEventInfo
@@ -120,7 +120,7 @@ public:
     }
     
     // Overrides
-    virtual AnimationFrame *clone() const override;
+    AnimationFrame *clone() const;
     
 protected:
     /**

@@ -71,7 +71,7 @@ bool EventListenerAcceleration::init(const std::function<void(Acceleration*, Eve
     return false;
 }
 
-EventListenerAcceleration* EventListenerAcceleration::clone()
+EventListenerAcceleration* EventListenerAcceleration::clone() const
 {
     auto ret = new (std::nothrow) EventListenerAcceleration();
     

@@ -313,7 +313,7 @@ void PUObserver::firstParticleUpdate( PUParticle3D* /*particle*/, float /*deltaT
 
 }
 
-void PUObserver::copyAttributesTo( PUObserver* observer )
+void PUObserver::copyAttributesTo( PUObserver* observer ) const
 {
     // Copy attributes
     observer->setName(_name);

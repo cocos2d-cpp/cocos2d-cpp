@@ -56,8 +56,8 @@ public:
     float getDepth() const;
     void setDepth(const float depth);
 
-    virtual CCPUBoxEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual CCPUBoxEmitter* clone() const override;
+    virtual void copyAttributesTo (PUEmitter* emitter) const override;
 
 protected:
     CCPUBoxEmitter(void);

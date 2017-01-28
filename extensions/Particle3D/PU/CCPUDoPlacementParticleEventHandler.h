@@ -128,7 +128,7 @@ public:
     */
     virtual void particleExpired(PUParticleSystem3D* particleSystem, PUParticle3D* particle) override;
 
-    virtual void copyAttributesTo (PUEventHandler* eventHandler) override;
+    virtual void copyAttributesTo (PUEventHandler* eventHandler) const override;
 
 protected:
     PUDoPlacementParticleEventHandler(void);

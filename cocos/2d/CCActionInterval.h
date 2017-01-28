@@ -101,11 +101,7 @@ public:
         return nullptr;
     }
 
-    virtual ActionInterval *clone() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual ActionInterval* clone() const override = 0;
 
 protected:
     /** initializes the action */
@@ -770,7 +766,7 @@ public:
     // Overrides
     //
     virtual void startWithTarget(Node *target) override;
-    virtual SkewBy* clone() const  override;
+    virtual SkewBy* clone() const override;
     virtual SkewBy* reverse(void) const override;
     
 protected:
@@ -1346,7 +1342,7 @@ public:
     // Overrides
     //
     virtual void startWithTarget(Node *target) override;
-    virtual FadeOut* clone() const  override;
+    virtual FadeOut* clone() const override;
     virtual FadeTo* reverse(void) const override;
 
     /**
@@ -1691,7 +1687,7 @@ public:
     void startWithTarget(Node* target) override;
     void update(float delta) override;
     ActionFloat* reverse() const override;
-    ActionFloat* clone() const override;
+    virtual ActionFloat* clone() const override;
 
 protected:
     ActionFloat() {};

@@ -59,7 +59,7 @@ public:
     bool isStopAtFlip(void) const {return _stopAtFlip;};
     void setStopAtFlip(bool stopAtFlip){_stopAtFlip = stopAtFlip;};
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PUScaleVelocityAffector(void);

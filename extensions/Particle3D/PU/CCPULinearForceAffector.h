@@ -41,7 +41,7 @@ public:
     virtual void preUpdateAffector(float deltaTime) override;
     virtual void updatePUAffector(PUParticle3D *particle, float deltaTime) override;
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:          
     PULinearForceAffector(void){};

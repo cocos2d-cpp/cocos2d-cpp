@@ -111,7 +111,7 @@ public:
     /**
      * Clone material
      */
-    virtual Material* clone() const override;
+    virtual Sprite3DMaterial* clone() const override;
     
 protected:
     

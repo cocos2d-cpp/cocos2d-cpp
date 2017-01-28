@@ -44,19 +44,6 @@ void ActionCamera::startWithTarget(Node *target)
     ActionInterval::startWithTarget(target);
 }
 
-ActionCamera* ActionCamera::clone() const
-{
-    auto action = new (std::nothrow) ActionCamera();
-    if (action)
-    {
-        action->autorelease();
-        return action;
-    }
-    
-    delete action;
-    return nullptr;
-}
-
 ActionCamera * ActionCamera::reverse() const
 {
     // FIXME: This conversion isn't safe.

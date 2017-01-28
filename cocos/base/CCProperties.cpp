@@ -1083,7 +1083,7 @@ void Properties::setVariable(const char* name, const char* value)
     }
 }
 
-Properties* Properties::clone()
+Properties* Properties::clone() const
 {
     Properties* p = new (std::nothrow) Properties();
     

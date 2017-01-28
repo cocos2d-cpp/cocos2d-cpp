@@ -83,7 +83,7 @@ PUOnPositionObserver* PUOnPositionObserver::create()
     return ppo;
 }
 
-void PUOnPositionObserver::copyAttributesTo( PUObserver* observer )
+void PUOnPositionObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
 

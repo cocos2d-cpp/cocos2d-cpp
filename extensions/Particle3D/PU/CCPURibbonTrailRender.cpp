@@ -362,14 +362,14 @@ void PURibbonTrailRender::notifyRescaled( const Vec3& scale )
     }
 }
 
-PURibbonTrailRender* PURibbonTrailRender::clone()
+PURibbonTrailRender* PURibbonTrailRender::clone() const
 {
     auto tr = PURibbonTrailRender::create(_texFile);
     copyAttributesTo(tr);
     return tr;
 }
 
-void PURibbonTrailRender::copyAttributesTo(PURibbonTrailRender *trailRender)
+void PURibbonTrailRender::copyAttributesTo(PURibbonTrailRender *trailRender) const
 {
     PURender::copyAttributesTo(trailRender);
     trailRender->setUseVertexColors(_useVertexColours);

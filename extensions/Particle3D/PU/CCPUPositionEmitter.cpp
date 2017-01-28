@@ -126,7 +126,7 @@ PUPositionEmitter* PUPositionEmitter::create()
     return pe;
 }
 
-void PUPositionEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUPositionEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
     PUPositionEmitter* positionEmitter = static_cast<PUPositionEmitter*>(emitter);
@@ -134,7 +134,7 @@ void PUPositionEmitter::copyAttributesTo( PUEmitter* emitter )
     positionEmitter->_positionList = _positionList;
 }
 
-PUPositionEmitter* PUPositionEmitter::clone()
+PUPositionEmitter* PUPositionEmitter::clone() const
 {
     auto be = PUPositionEmitter::create();
     copyAttributesTo(be);

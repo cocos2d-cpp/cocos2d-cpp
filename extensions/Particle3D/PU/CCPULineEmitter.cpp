@@ -232,7 +232,7 @@ PULineEmitter* PULineEmitter::create()
     return pe;
 }
 
-void PULineEmitter::copyAttributesTo( PUEmitter* emitter )
+void PULineEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 
@@ -244,7 +244,7 @@ void PULineEmitter::copyAttributesTo( PUEmitter* emitter )
     lineEmitter->setMaxDeviation(_maxDeviation);
 }
 
-PULineEmitter* PULineEmitter::clone()
+PULineEmitter* PULineEmitter::clone() const
 {
     auto be = PULineEmitter::create();
     copyAttributesTo(be);

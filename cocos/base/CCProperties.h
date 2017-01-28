@@ -583,7 +583,7 @@ private:
     void mergeWith(Properties* overrides);
 
     // Clones the Properties object.
-    Properties* clone();
+    Properties* clone() const;
 
     void setDirectoryPath(const std::string* path);
     void setDirectoryPath(const std::string& path);

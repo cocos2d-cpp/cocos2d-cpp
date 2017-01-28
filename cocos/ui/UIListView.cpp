@@ -396,6 +396,11 @@ std::vector<node_ptr<Widget>>& ListView::getItems()
     return _items;
 }
 
+const std::vector<node_ptr<Widget>>& ListView::getItems() const
+{
+    return _items;
+}
+
 ssize_t ListView::getIndex(Widget *item) const
 {
     auto it = std::find_if(
@@ -827,23 +832,23 @@ std::string ListView::getDescription() const
     return "ListView";
 }
 
-Widget* ListView::createCloneInstance()
+Widget* ListView::createCloneInstance() const
 {
     return ListView::create();
 }
 
-void ListView::copyClonedWidgetChildren(Widget* model)
+void ListView::copyClonedWidgetChildren(const Widget* model)
 {
-    auto& arrayItems = static_cast<ListView*>(model)->getItems();
-    for (auto& item : arrayItems)
+    const auto& arrayItems = static_cast<const ListView*>(model)->getItems();
+    for (const auto& item : arrayItems)
     {
         pushBackCustomItem(item->clone());
     }
 }
 
-void ListView::copySpecialProperties(Widget *widget)
+void ListView::copySpecialProperties(const Widget *widget)
 {
-    ListView* listViewEx = dynamic_cast<ListView*>(widget);
+    const ListView* listViewEx = dynamic_cast<const ListView*>(widget);
     if (listViewEx)
     {
         ScrollView::copySpecialProperties(widget);

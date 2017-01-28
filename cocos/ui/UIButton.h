@@ -339,8 +339,8 @@ protected:
     void updateContentSize();
     void createTitleRenderer();
 
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
 
     virtual Size getNormalSize() const;
 protected:

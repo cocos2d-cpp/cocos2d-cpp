@@ -246,7 +246,7 @@ cocos2d::Quaternion PUCircleEmitter::getRotationTo( const Vec3 &src, const Vec3&
     return q;
 }
 
-void PUCircleEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUCircleEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     PUEmitter::copyAttributesTo(emitter);
 
@@ -260,7 +260,7 @@ void PUCircleEmitter::copyAttributesTo( PUEmitter* emitter )
     circleEmitter->_orientation = _orientation; 
 }
 
-PUCircleEmitter* PUCircleEmitter::clone()
+PUCircleEmitter* PUCircleEmitter::clone() const
 {
     auto be = PUCircleEmitter::create();
     copyAttributesTo(be);

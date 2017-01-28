@@ -48,7 +48,7 @@ EventListenerMouse* EventListenerMouse::create()
     return ret;
 }
 
-EventListenerMouse* EventListenerMouse::clone()
+EventListenerMouse* EventListenerMouse::clone() const
 {
     auto ret = new (std::nothrow) EventListenerMouse();
     if (ret && ret->init())

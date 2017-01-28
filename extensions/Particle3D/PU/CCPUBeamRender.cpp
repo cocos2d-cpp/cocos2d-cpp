@@ -350,14 +350,14 @@ void PUBeamRender::destroyAll(void)
     _visualData.clear();
 }
 
-PUBeamRender* PUBeamRender::clone()
+PUBeamRender* PUBeamRender::clone() const
 {
     auto br = PUBeamRender::create(_texFile);
     copyAttributesTo(br);
     return br;
 }
 
-void PUBeamRender::copyAttributesTo(PUBeamRender *beamRender)
+void PUBeamRender::copyAttributesTo(PUBeamRender *beamRender) const
 {
     PURender::copyAttributesTo(beamRender);
     beamRender->setUseVertexColours(_useVertexColours);

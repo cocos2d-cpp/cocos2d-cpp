@@ -162,7 +162,7 @@ PUTextureRotator* PUTextureRotator::create()
     return ptr;
 }
 
-void PUTextureRotator::copyAttributesTo( PUAffector* affector )
+void PUTextureRotator::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

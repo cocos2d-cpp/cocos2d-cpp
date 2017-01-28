@@ -73,8 +73,8 @@ public:
     */
     virtual void notifyStart(void) override;
 
-    virtual PUCircleEmitter* clone() override;
-    virtual void copyAttributesTo (PUEmitter* emitter) override;
+    virtual PUCircleEmitter* clone() const override;
+    virtual void copyAttributesTo(PUEmitter* emitter) const override;
 
 protected:
     PUCircleEmitter(void);

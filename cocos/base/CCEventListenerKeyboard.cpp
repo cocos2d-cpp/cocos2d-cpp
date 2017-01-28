@@ -55,7 +55,7 @@ EventListenerKeyboard* EventListenerKeyboard::create()
     return ret;
 }
 
-EventListenerKeyboard* EventListenerKeyboard::clone()
+EventListenerKeyboard* EventListenerKeyboard::clone() const
 {
     auto ret = new (std::nothrow) EventListenerKeyboard();
     if (ret && ret->init())

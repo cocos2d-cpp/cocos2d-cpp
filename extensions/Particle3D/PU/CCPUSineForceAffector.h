@@ -54,7 +54,7 @@ public:
     float getFrequencyMax() const;
     void setFrequencyMax(const float frequencyMax);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:	
     PUSineForceAffector(void);

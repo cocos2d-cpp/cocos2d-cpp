@@ -184,7 +184,7 @@ float PUAffector::getMass() const
     return _mass;
 }
 
-void PUAffector::copyAttributesTo( PUAffector* affector )
+void PUAffector::copyAttributesTo( PUAffector* affector ) const
 {
     affector->setName(_name);
     affector->setAffectorType(_affectorType);

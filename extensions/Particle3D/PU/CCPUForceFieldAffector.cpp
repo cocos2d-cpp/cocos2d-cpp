@@ -319,7 +319,7 @@ PUForceFieldAffector* PUForceFieldAffector::create()
     return pffa;
 }
 
-void PUForceFieldAffector::copyAttributesTo( PUAffector* affector )
+void PUForceFieldAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

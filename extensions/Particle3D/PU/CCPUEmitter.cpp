@@ -882,7 +882,7 @@ Ref* PUEmitter::getEmitsEntityPtr() const
     return _emitsEntity;
 }
 
-void PUEmitter::copyAttributesTo( PUEmitter* emitter )
+void PUEmitter::copyAttributesTo( PUEmitter* emitter ) const
 {
     emitter->setName(_name);
     emitter->setEmitterType(_emitterType);

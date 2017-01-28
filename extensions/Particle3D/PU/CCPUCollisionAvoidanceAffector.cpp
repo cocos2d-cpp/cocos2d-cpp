@@ -102,7 +102,7 @@ PUCollisionAvoidanceAffector* PUCollisionAvoidanceAffector::create()
     return pcaa;
 }
 
-void PUCollisionAvoidanceAffector::copyAttributesTo( PUAffector* affector )
+void PUCollisionAvoidanceAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
     PUCollisionAvoidanceAffector* collisionAvoidanceAffector = static_cast<PUCollisionAvoidanceAffector*>(affector);

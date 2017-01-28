@@ -364,7 +364,7 @@ public:
     void turnOffTile(const Vec2& pos);
 
     // Overrides
-	virtual TurnOffTiles* clone() const override;
+    virtual TurnOffTiles* clone() const override;
     virtual void startWithTarget(Node *target) override;
     virtual void update(float time) override;
     

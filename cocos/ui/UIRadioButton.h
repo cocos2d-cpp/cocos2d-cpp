@@ -128,8 +128,8 @@ protected:
 
     virtual void dispatchSelectChangedEvent(bool selected) override;
     
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const;
+    virtual void copySpecialProperties(const Widget* model) override;
     
     ccRadioButtonCallback _radioButtonEventCallback;
     RadioButtonGroup* _group;
@@ -257,8 +257,8 @@ public:
     virtual std::string getDescription() const override;
     
 protected:
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
     
     void onChangedRadioButtonSelect(RadioButton* radioButton);
     void deselect();

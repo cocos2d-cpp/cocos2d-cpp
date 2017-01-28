@@ -285,7 +285,7 @@ PUBoxCollider* PUBoxCollider::create()
     return pbc;
 }
 
-void PUBoxCollider::copyAttributesTo( PUAffector* affector )
+void PUBoxCollider::copyAttributesTo( PUAffector* affector ) const
 {
     PUBaseCollider::copyAttributesTo(affector);
 

@@ -85,7 +85,7 @@ PUDoAffectorEventHandler* PUDoAffectorEventHandler::create()
     return peh;
 }
 
-void PUDoAffectorEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUDoAffectorEventHandler::copyAttributesTo( PUEventHandler* eventHandler ) const
 {
     PUEventHandler::copyAttributesTo(eventHandler);
     PUDoAffectorEventHandler* doAffectorEventHandler = static_cast<PUDoAffectorEventHandler*>(eventHandler);

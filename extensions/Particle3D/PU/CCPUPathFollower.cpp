@@ -75,7 +75,7 @@ PUPathFollower* PUPathFollower::create()
     return ppf;
 }
 
-void PUPathFollower::copyAttributesTo( PUAffector* affector )
+void PUPathFollower::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
     PUPathFollower* pathFollower = static_cast<PUPathFollower*>(affector);

@@ -211,7 +211,7 @@ public:
     virtual bool checkAvailable() override;
     
     /** Clone an object from this listener.*/
-    virtual EventListenerPhysicsContact* clone() override;
+    EventListenerPhysicsContact* clone() const;
     
 protected:
     /**
@@ -259,7 +259,7 @@ public:
     
     virtual bool hitTest(PhysicsShape* shapeA, PhysicsShape* shapeB) override;
 
-    virtual EventListenerPhysicsContactWithBodies* clone() override;
+    EventListenerPhysicsContactWithBodies* clone() const;
     
 protected:
     PhysicsBody* _a;
@@ -278,7 +278,7 @@ public:
     static EventListenerPhysicsContactWithShapes* create(PhysicsShape* shapeA, PhysicsShape* shapeB);
     
     virtual bool hitTest(PhysicsShape* shapeA, PhysicsShape* shapeB) override;
-    virtual EventListenerPhysicsContactWithShapes* clone() override;
+    EventListenerPhysicsContactWithShapes* clone() const;
     
 protected:
     PhysicsShape* _a;
@@ -297,7 +297,7 @@ public:
     static EventListenerPhysicsContactWithGroup* create(int group);
     
     virtual bool hitTest(PhysicsShape* shapeA, PhysicsShape* shapeB) override;
-    virtual EventListenerPhysicsContactWithGroup* clone() override;
+    EventListenerPhysicsContactWithGroup* clone() const;
     
 protected:
     int _group;

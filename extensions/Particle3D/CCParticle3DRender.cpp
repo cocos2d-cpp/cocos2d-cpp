@@ -325,7 +325,7 @@ Particle3DRender::~Particle3DRender()
     _stateBlock->release();
 }
 
-void Particle3DRender::copyAttributesTo (Particle3DRender *render)
+void Particle3DRender::copyAttributesTo(Particle3DRender *render) const
 {
     CC_SAFE_RELEASE(render->_stateBlock);
     render->_stateBlock = _stateBlock;

@@ -138,8 +138,8 @@ protected:
     void setupTexture();
     
     void imageTextureScaleChangedWithSize();
-    virtual Widget* createCloneInstance() override;
-    virtual void copySpecialProperties(Widget* model) override;
+    virtual Widget* createCloneInstance() const override;
+    virtual void copySpecialProperties(const Widget* model) override;
 protected:
     bool _scale9Enabled;
     bool _prevIgnoreSize;

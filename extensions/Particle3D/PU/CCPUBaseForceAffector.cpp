@@ -64,7 +64,7 @@ void PUBaseForceAffector::setForceApplication( ForceApplication forceApplication
     _forceApplication = forceApplication;
 }
 
-void PUBaseForceAffector::copyAttributesTo( PUAffector* affector )
+void PUBaseForceAffector::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 

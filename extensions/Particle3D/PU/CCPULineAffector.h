@@ -70,7 +70,7 @@ public:
     float getDrift(void) const;
     void setDrift(float drift);
 
-    virtual void copyAttributesTo (PUAffector* affector) override;
+    virtual void copyAttributesTo (PUAffector* affector) const override;
 
 protected:          
     PULineAffector(void);

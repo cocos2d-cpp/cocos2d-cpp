@@ -87,7 +87,7 @@ public:
     virtual void step(float dt) override;
     virtual void startWithTarget(Node *target) override;
     virtual Animate3D* reverse() const override;
-    virtual Animate3D *clone() const override;
+    Animate3D *clone() const;
     
     virtual void update(float t) override;
     

@@ -66,7 +66,7 @@ bool EventListenerCustom::init(const ListenerID& listenerId, const std::function
     return ret;
 }
 
-EventListenerCustom* EventListenerCustom::clone()
+EventListenerCustom* EventListenerCustom::clone() const
 {
     EventListenerCustom* ret = new (std::nothrow) EventListenerCustom();
     if (ret && ret->init(_listenerID, _onCustomEvent))

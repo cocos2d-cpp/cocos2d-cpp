@@ -1065,7 +1065,7 @@ void PUParticleSystem3D::clearAllParticles()
     }
 }
 
-void PUParticleSystem3D::copyAttributesTo(PUParticleSystem3D* system )
+void PUParticleSystem3D::copyAttributesTo(PUParticleSystem3D* system ) const
 {
     system->removeAllEmitter();
     system->removeAllAffector();
@@ -1131,7 +1131,7 @@ void PUParticleSystem3D::copyAttributesTo(PUParticleSystem3D* system )
     system->_parentParticleSystem = _parentParticleSystem;
 }
 
-PUParticleSystem3D* PUParticleSystem3D::clone()
+PUParticleSystem3D* PUParticleSystem3D::clone() const
 {
     auto ps = PUParticleSystem3D::create();
     copyAttributesTo(ps);

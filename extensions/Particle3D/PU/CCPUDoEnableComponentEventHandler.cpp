@@ -159,7 +159,7 @@ PUDoEnableComponentEventHandler* PUDoEnableComponentEventHandler::create()
     return peh;
 }
 
-void PUDoEnableComponentEventHandler::copyAttributesTo( PUEventHandler* eventHandler )
+void PUDoEnableComponentEventHandler::copyAttributesTo( PUEventHandler* eventHandler ) const
 {
     PUEventHandler::copyAttributesTo(eventHandler);
     PUDoEnableComponentEventHandler* doEnableComponentEventHandler = static_cast<PUDoEnableComponentEventHandler*>(eventHandler);

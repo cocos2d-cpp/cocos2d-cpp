@@ -165,14 +165,14 @@ std::string TextBMFont::getDescription() const
     return "TextBMFont";
 }
 
-Widget* TextBMFont::createCloneInstance()
+Widget* TextBMFont::createCloneInstance() const
 {
     return TextBMFont::create();
 }
 
-void TextBMFont::copySpecialProperties(Widget *widget)
+void TextBMFont::copySpecialProperties(const Widget *widget)
 {
-    TextBMFont* labelBMFont = dynamic_cast<TextBMFont*>(widget);
+    auto labelBMFont = dynamic_cast<const TextBMFont*>(widget);
     if (labelBMFont)
     {
         setFntFile(labelBMFont->_fntFileName);

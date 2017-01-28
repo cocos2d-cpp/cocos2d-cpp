@@ -52,106 +52,51 @@ class Node;
 /** An Array that contain control points.
  * Used by CardinalSplineTo and (By) and CatmullRomTo (and By) actions.
  * @ingroup Actions
- * @js NA
  */
-class CC_DLL PointArray : public Ref, public Clonable
+class CC_DLL PointArray : public Ref
 {
 public:
 
-    /** Creates and initializes a Points array with capacity.
-     * @js NA
-     * @param capacity The size of the array.
-     */
+    /* Creates and initializes a Points array with capacity */
     static PointArray* create(ssize_t capacity);
 
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~PointArray();
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     PointArray();
 
-    /** Initializes a Catmull Rom config with a capacity hint.
-     *
-     * @js NA
-     * @param capacity The size of the array.
-     * @return True.
-     */
+    /* Initializes a Catmull Rom config with a capacity hint */
     bool initWithCapacity(ssize_t capacity);
 
-    /** Appends a control point.
-     *
-     * @js NA
-     * @param controlPoint A control point.
-     */
+    /* Appends a control point */
     void addControlPoint(const Vec2& controlPoint);
 
-    /** Inserts a controlPoint at index.
-     *
-     * @js NA
-     * @param controlPoint A control point.
-     * @param index Insert the point to array in index.
-     */
+    /* Inserts a controlPoint at index */
     void insertControlPoint(Vec2 &controlPoint, ssize_t index);
 
-    /** Replaces an existing controlPoint at index.
-     *
-     * @js NA
-     * @param controlPoint A control point.
-     * @param index Replace the point to array in index.
-     */
+    /* Replaces an existing controlPoint at index */
     void replaceControlPoint(Vec2 &controlPoint, ssize_t index);
 
-    /** Get the value of a controlPoint at a given index.
-     *
-     * @js NA
-     * @param index Get the point in index.
-     * @return A Vec2.
-     */
+    /* Get the value of a controlPoint at a given index */
     Vec2 getControlPointAtIndex(ssize_t index);
 
-    /** Deletes a control point at a given index
-     *
-     * @js NA
-     * @param index Remove the point in index.
-     */
+    /* Deletes a control point at a given index */
     void removeControlPointAtIndex(ssize_t index);
 
-    /** Returns the number of objects of the control point array.
-     *
-     * @js NA
-     * @return The number of objects of the control point array.
-     */
+    /* Returns the number of objects of the control point array */
     ssize_t count() const;
 
-    /** Returns a new copy of the array reversed. User is responsible for releasing this copy.
-     *
-     * @js NA
-     * @return A new copy of the array reversed.
-     */
+    /* Returns a new copy of the array reversed. User is responsible for releasing this copy */
     PointArray* reverse() const;
 
-    /** Reverse the current control point array inline, without generating a new one.
-     * @js NA
-     */
+    /* Reverse the current control point array inline, without generating a new one */
     void reverseInline();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual PointArray* clone() const;
-    /**
-     * @js NA
-     */
+
+    PointArray* clone() const;
+
     const std::vector<Vec2*>* getControlPoints() const;
-    /**
-     * @js NA
-     */
+
     void setControlPoints(std::vector<Vec2*> *controlPoints);
+
 private:
     /** Array that contains the control points. */
     std::vector<Vec2*> *_controlPoints;

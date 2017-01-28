@@ -77,7 +77,7 @@ public:
     */
     virtual void handle (PUParticleSystem3D* particleSystem, PUParticle3D* particle, float timeElapsed) override;
 
-    virtual void copyAttributesTo (PUEventHandler* eventHandler) override;
+    virtual void copyAttributesTo (PUEventHandler* eventHandler) const override;
 
 protected:
     PUDoEnableComponentEventHandler(void);

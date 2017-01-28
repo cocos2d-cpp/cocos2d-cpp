@@ -53,7 +53,7 @@ PUOnEventFlagObserver* PUOnEventFlagObserver::create()
     return peo;
 }
 
-void PUOnEventFlagObserver::copyAttributesTo( PUObserver* observer )
+void PUOnEventFlagObserver::copyAttributesTo( PUObserver* observer ) const
 {
     PUObserver::copyAttributesTo(observer);
 

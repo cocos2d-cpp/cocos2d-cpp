@@ -156,7 +156,7 @@ PURandomiser* PURandomiser::create()
     return pr;
 }
 
-void PURandomiser::copyAttributesTo( PUAffector* affector )
+void PURandomiser::copyAttributesTo( PUAffector* affector ) const
 {
     PUAffector::copyAttributesTo(affector);
 
