@@ -27,6 +27,8 @@
 
 #include "../CCControlScene.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
 class ControlPotentiometerTest : public ControlScene
 {
 public:

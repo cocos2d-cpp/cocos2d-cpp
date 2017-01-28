@@ -25,9 +25,18 @@
 #ifndef _CPPTESTS_BASETEST_H__
 #define _CPPTESTS_BASETEST_H__
 
-#include "cocos2d.h"
-#include "extensions/cocos-ext.h"
+#include "2d/CCLayer.h"
+#include "2d/CCScene.h"
+#include "base/CCRef.h"
+#include "GUI/CCScrollView/CCScrollView.h"
+#include "GUI/CCScrollView/CCTableView.h"
+#include "math/Vec2.h"
 #include "VisibleRect.h"
+
+namespace cocos2d {
+class MenuItemImage;
+class Label;
+};
 
 class TestSuite;
 

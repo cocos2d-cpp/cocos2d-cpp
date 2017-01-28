@@ -26,10 +26,7 @@
 #ifndef __CCCONTROLSCENE_H__
 #define __CCCONTROLSCENE_H__
 
-#include "cocos2d.h"
-#include "extensions/cocos-ext.h"
 #include "BaseTest.h"
-
 
 class ControlScene : public TestCase
 {

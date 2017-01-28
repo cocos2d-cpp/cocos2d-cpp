@@ -25,9 +25,19 @@
 #ifndef _SPRITE_TEST_H_
 #define _SPRITE_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
+
+#include "base/CCEvent.h"
+#include "base/CCTouch.h"
+#include "math/Vec2.h"
+
 #include <string>
+
+namespace cocos2d {
+class Sprite;
+class SpriteBatchNode;
+class Texture2D;
+}
 
 DEFINE_TEST_SUITE(SpriteTests);
 

@@ -28,6 +28,15 @@
 
 #include "../CCControlScene.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
+namespace cocos2d {
+namespace extension {
+
+class ControlStepper;
+
+}}
+
 class ControlStepperTest : public ControlScene
 {
 public:

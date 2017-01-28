@@ -25,8 +25,6 @@
 #ifndef __CCCONTROLSCENEMANAGER_H__
 #define __CCCONTROLSCENEMANAGER_H__
 
-#include "cocos2d.h"
-#include "extensions/cocos-ext.h"
 #include "BaseTest.h"
 
 DEFINE_TEST_SUITE(ControlTests);

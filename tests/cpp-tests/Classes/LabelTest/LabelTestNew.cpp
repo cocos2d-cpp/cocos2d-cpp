@@ -1,7 +1,11 @@
 #include "LabelTestNew.h"
-#include "../testResource.h"
-#include "renderer/CCRenderer.h"
+
 #include "2d/CCFontAtlasCache.h"
+#include "GUI/CCControlExtension/CCControlStepper.h"
+#include "GUI/CCControlExtension/CCInvocation.h"
+#include "renderer/CCRenderer.h"
+#include "ui/UICheckBox.h"
+#include "ui/UIRichText.h"
 
 using namespace cocos2d;
 using namespace ui;

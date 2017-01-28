@@ -25,6 +25,8 @@
 
 #include "../CCControlScene.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
 class ControlSliderTest : public ControlScene
 {
 public:

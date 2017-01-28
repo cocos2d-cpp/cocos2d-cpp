@@ -26,6 +26,8 @@
 
 #include "../CCControlScene.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
 class ControlSwitchTest : public ControlScene
 {
 public:

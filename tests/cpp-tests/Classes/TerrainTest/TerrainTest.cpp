@@ -1,5 +1,7 @@
 #include "TerrainTest.h"
 
+#include "Particle3D/PU/CCPUParticleSystem3D.h"
+
 using namespace cocos2d;
 
 TerrainTests::TerrainTests()

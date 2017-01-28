@@ -25,6 +25,10 @@
 
 #include "CCControlStepperTest.h"
 
+#include "GUI/CCControlExtension/CCControlStepper.h"
+#include "GUI/CCControlExtension/CCInvocation.h"
+#include "ui/UIScale9Sprite.h"
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 

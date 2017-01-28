@@ -25,7 +25,9 @@
 
 #include "SpriteTest.h"
 
-#include "../testResource.h"
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteBatchNode.h"
+#include "renderer/CCTexture2D.h"
 
 #include <vector>
 #include <cmath>

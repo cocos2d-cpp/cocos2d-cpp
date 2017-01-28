@@ -24,6 +24,9 @@
 
 #include "CCControlPotentiometerTest.h"
 
+#include "GUI/CCControlExtension/CCControlButton.h"
+#include "GUI/CCControlExtension/CCControlPotentiometer.h"
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 

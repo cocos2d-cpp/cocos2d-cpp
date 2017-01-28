@@ -27,8 +27,10 @@
 
 #include "../testResource.h"
 
-#include "ui/UILoadingBar.h"
 #include "network/CCDownloader.h"
+#include "ui/UIButton.h"
+#include "ui/UILoadingBar.h"
+#include "ui/UIScale9Sprite.h"
 
 using namespace cocos2d;
 

@@ -2,9 +2,28 @@
 #define _ATLAS_TEST_NEW_H_
 
 #include "../BaseTest.h"
-#include "renderer/CCCustomCommand.h"
-#include "ui/CocosGUI.h"
-#include "extensions/cocos-ext.h"
+
+#include "base/ccTypes.h"
+#include "GUI/CCControlExtension/CCControl.h"
+#include "ui/UIRadioButton.h"
+#include "ui/UISlider.h"
+
+namespace cocos2d {
+
+class Event;
+class Label;
+class MenuItemFont;
+class Ref;
+class Size;
+class Sprite;
+class Touch;
+
+namespace extension {
+
+class ControlStepper;
+
+}
+}
 
 DEFINE_TEST_SUITE(NewLabelTests);
 

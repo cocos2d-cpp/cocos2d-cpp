@@ -28,6 +28,19 @@
 
 #include "../CCControlScene.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
+namespace cocos2d {
+
+class Label;
+class Ref;
+
+namespace extension {
+
+class ControlButton;
+
+}}
+
 class ControlButtonTest_HelloVariableSize : public ControlScene
 {
 public:

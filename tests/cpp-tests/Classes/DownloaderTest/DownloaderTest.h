@@ -22,7 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#pragma once
+#ifndef cpp_tests_DownloaderTests_h
+#define cpp_tests_DownloaderTests_h
 
 #include "../BaseTest.h"
 DEFINE_TEST_SUITE(DownloaderTests);
+
+#endif

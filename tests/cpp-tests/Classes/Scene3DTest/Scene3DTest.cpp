@@ -1,8 +1,9 @@
 #include "Scene3DTest.h"
 
-#include "ui/CocosGUI.h"
+#include "editor-support/spine/spine-cocos2dx.h"
+#include "Particle3D/PU/CCPUParticleSystem3D.h"
 #include "renderer/CCRenderState.h"
-#include <spine/spine-cocos2dx.h>
+#include "ui/CocosGUI.h"
 
 #include "../testResource.h"
 #include "../TerrainTest/TerrainTest.h"

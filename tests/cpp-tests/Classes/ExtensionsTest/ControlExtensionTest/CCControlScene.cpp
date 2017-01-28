@@ -24,8 +24,8 @@
  */
 
 #include "CCControlScene.h"
-#include "CCControlSceneManager.h"
-#include "../ExtensionsTest.h"
+
+#include "ui/UIScale9Sprite.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

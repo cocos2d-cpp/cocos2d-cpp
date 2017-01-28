@@ -1,8 +1,7 @@
 #ifndef __CUSTOMTABELVIEWCELL_H__
 #define __CUSTOMTABELVIEWCELL_H__
 
-#include "cocos2d.h"
-#include "extensions/cocos-ext.h"
+#include "GUI/CCScrollView/CCTableView.h"
 
 class CustomTableViewCell : public cocos2d::extension::TableViewCell
 {
