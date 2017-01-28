@@ -303,7 +303,6 @@ private:
     Rect _centerRect;
     Vec2 _offsetInPixels;
     Size _originalSizeInPixels;
-    std::string  _textureFilename;
     Rect _ninePatchCapInsetSize;
 };
 

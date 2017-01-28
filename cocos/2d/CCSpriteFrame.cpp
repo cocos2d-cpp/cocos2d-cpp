@@ -113,8 +113,7 @@ bool SpriteFrame::initWithTexture(const Texture2D* texture, const Rect& rect, bo
 bool SpriteFrame::initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize)
 {
     if (FileUtils::getInstance()->isFileExist(filename)) {
-        _texture = nullptr;
-        _textureFilename = filename;
+        setTexture( Director::getInstance()->getTextureCache()->addImage(filename) );
         _rectInPixels = rect;
         _rect = CC_RECT_PIXELS_TO_POINTS( rect );
         _offsetInPixels = offset;
@@ -139,8 +138,7 @@ SpriteFrame* SpriteFrame::clone() const
 {
 	// no copy constructor	
     SpriteFrame *copy = new (std::nothrow) SpriteFrame();
-    copy->initWithTextureFilename(_textureFilename, _rectInPixels, _rotated, _offsetInPixels, _originalSizeInPixels);
-    copy->setTexture(_texture);
+    copy->initWithTexture(_texture, _rectInPixels, _rotated, _offsetInPixels, _originalSizeInPixels);
     copy->setPolygonInfo(_polygonInfo);
     copy->autorelease();
     return copy;
@@ -217,11 +215,6 @@ void SpriteFrame::setTexture(const Texture2D * texture)
 
 const Texture2D* SpriteFrame::getTexture()
 {
-    if( !_texture && !_textureFilename.empty())
-    {
-        _texture = Director::getInstance()->getTextureCache()->addImage(_textureFilename);
-    }
-    // no texture or texture filename
     return _texture;
 }
 
