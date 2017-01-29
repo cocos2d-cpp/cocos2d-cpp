@@ -32,8 +32,14 @@
 #ifndef SPINE_SKELETONBATCH_H_
 #define SPINE_SKELETONBATCH_H_
 
-#include <spine/spine.h>
-#include "cocos2d.h"
+#include "spine/spine.h"
+#include "renderer/CCTrianglesCommand.h"
+
+namespace cocos2d {
+    class Renderer;
+    class GLProgramState;
+    class Mat4;
+}
 
 namespace spine {
     

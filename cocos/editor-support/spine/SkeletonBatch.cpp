@@ -29,8 +29,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-#include <spine/SkeletonBatch.h>
-#include <spine/extension.h>
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "renderer/CCRenderer.h"
+#include "spine/SkeletonBatch.h"
+#include "spine/extension.h"
+
 #include <algorithm>
 
 using namespace cocos2d;

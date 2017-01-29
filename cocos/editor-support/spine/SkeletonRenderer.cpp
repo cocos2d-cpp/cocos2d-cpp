@@ -29,11 +29,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-#include <spine/SkeletonRenderer.h>
-#include <spine/extension.h>
-#include <spine/SkeletonBatch.h>
-#include <spine/AttachmentVertices.h>
-#include <spine/Cocos2dAttachmentLoader.h>
+#include "2d/CCDrawNode.h"
+#include "base/CCDirector.h"
+#include "renderer/CCGLProgram.h"
+#include "spine/SkeletonRenderer.h"
+#include "spine/extension.h"
+#include "spine/SkeletonBatch.h"
+#include "spine/AttachmentVertices.h"
+#include "spine/Cocos2dAttachmentLoader.h"
+
 #include <algorithm>
 
 using namespace cocos2d;

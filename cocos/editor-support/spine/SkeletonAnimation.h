@@ -32,9 +32,8 @@
 #ifndef SPINE_SKELETONANIMATION_H_
 #define SPINE_SKELETONANIMATION_H_
 
-#include <spine/spine.h>
-#include <spine/SkeletonRenderer.h>
-#include "cocos2d.h"
+#include "spine/spine.h"
+#include "spine/SkeletonRenderer.h"
 
 namespace spine {
 

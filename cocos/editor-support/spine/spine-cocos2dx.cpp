@@ -29,8 +29,12 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *****************************************************************************/
 
-#include <spine/spine-cocos2dx.h>
-#include <spine/extension.h>
+#include "base/CCData.h"
+#include "base/CCDirector.h"
+#include "platform/CCFileUtils.h"
+#include "renderer/CCTextureCache.h"
+#include "spine/spine-cocos2dx.h"
+#include "spine/extension.h"
 
 using namespace cocos2d;
 
