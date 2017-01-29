@@ -24,6 +24,8 @@
 
 #include "CCControlPotentiometerTest.h"
 
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
 #include "GUI/CCControlExtension/CCControlButton.h"
 #include "GUI/CCControlExtension/CCControlPotentiometer.h"
 

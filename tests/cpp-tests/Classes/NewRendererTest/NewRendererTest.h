@@ -1,7 +1,6 @@
 #ifndef __NewRendererTest_H_
 #define __NewRendererTest_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
 #define kTagSpriteBatchNode 100

@@ -1,5 +1,11 @@
 #include "FileUtilsTest.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
+#include "platform/CCFileUtils.h"
+
 using namespace cocos2d;
 
 FileUtilsTests::FileUtilsTests()

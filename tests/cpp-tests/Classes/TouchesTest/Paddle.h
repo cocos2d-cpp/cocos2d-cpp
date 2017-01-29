@@ -1,8 +1,7 @@
 #ifndef _PADDLE_H_
 #define _PADDLE_H_
 
-#include "cocos2d.h"
-
+#include "cocos2d.h" // TODO remove
 
 typedef enum tagPaddleState 
 {

@@ -25,7 +25,6 @@
 #ifndef _VR_TEST_H_
 #define _VR_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 #include <string>
 

@@ -25,6 +25,8 @@
 
 #include "CCControlButtonTest.h"
 
+#include "base/ccUTF8.h"
+#include "base/CCDirector.h"
 #include "GUI/CCControlExtension/CCControlButton.h"
 
 using namespace cocos2d;

@@ -7,7 +7,24 @@
 
 #include "ClippingNodeTest.h"
 #include "../testResource.h"
+
+#include "2d/CCActionInstant.h"
+#include "2d/CCClippingRectangleNode.h"
+#include "2d/CCClippingNode.h"
+#include "2d/CCDrawNode.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCRenderTexture.h"
+#include "2d/CCSprite.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccUTF8.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/ccGLStateCache.h"
 #include "renderer/CCRenderer.h"
+#include "renderer/CCTextureCache.h"
 
 using namespace cocos2d;
 

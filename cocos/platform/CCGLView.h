@@ -31,14 +31,6 @@ THE SOFTWARE.
 
 #include <vector>
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-#include <windows.h>
-#endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-typedef void* id;
-#endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) */
-
 /** There are some Resolution Policy for Adapt to the screen. */
 enum class ResolutionPolicy
 {
@@ -425,5 +417,27 @@ protected:
 /// @}
 
 } // namespace cocos2d
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    #include "platform/ios/CCGLViewImpl-ios.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+    #include "platform/android/CCGLViewImpl-android.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_BLACKBERRY)
+    #include "platform/blackberry/CCGLViewImpl.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    #include <windows.h>
+    #include "platform/desktop/CCGLViewImpl-desktop.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+    typedef void* id;
+    #include "platform/desktop/CCGLViewImpl-desktop.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+    #include "platform/desktop/CCGLViewImpl-desktop.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+	#include "platform/winrt/CCGLViewImpl-winrt.h"
+#elif (CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN)
+	#include "platform/tizen/CCGLViewImpl-tizen.h"
+#else
+    #error Unsupported platform
+#endif
 
 #endif /* __CCGLVIEW_H__ */

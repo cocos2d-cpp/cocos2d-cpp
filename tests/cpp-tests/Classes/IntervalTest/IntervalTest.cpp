@@ -1,6 +1,14 @@
 #include "IntervalTest.h"
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCParticleExamples.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 
 #define SID_STEP1    100

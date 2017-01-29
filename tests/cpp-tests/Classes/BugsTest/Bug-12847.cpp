@@ -9,6 +9,10 @@
 
 #include "Bug-12847.h"
 
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 bool Bug12847Layer::init()

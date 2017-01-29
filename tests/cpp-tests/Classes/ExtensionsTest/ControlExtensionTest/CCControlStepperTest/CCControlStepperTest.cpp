@@ -25,6 +25,8 @@
 
 #include "CCControlStepperTest.h"
 
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
 #include "GUI/CCControlExtension/CCControlStepper.h"
 #include "GUI/CCControlExtension/CCInvocation.h"
 #include "ui/UIScale9Sprite.h"

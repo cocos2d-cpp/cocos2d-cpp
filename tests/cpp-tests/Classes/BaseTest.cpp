@@ -26,6 +26,18 @@
 #include "testResource.h"
 #include "controller.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "2d/CCTransition.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerMouse.h"
+#include "base/CCEventMouse.h"
+#include "base/ccUTF8.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 

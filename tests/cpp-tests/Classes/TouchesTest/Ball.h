@@ -1,7 +1,7 @@
 #ifndef _BALL_H_
 #define _BALL_H_
 
-#include "cocos2d.h"
+#include "cocos2d.h" // TODO remove
 
 class Paddle;
 

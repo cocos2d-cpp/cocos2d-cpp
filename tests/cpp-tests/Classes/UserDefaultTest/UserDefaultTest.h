@@ -1,7 +1,6 @@
 #ifndef _USERDEFAULT_TEST_H_
 #define _USERDEFAULT_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 #include "2d/CCLabel.h"
 

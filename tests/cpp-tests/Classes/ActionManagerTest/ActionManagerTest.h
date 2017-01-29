@@ -3,6 +3,10 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class TextureAtlas;
+}
+
 DEFINE_TEST_SUITE(ActionManagerTests);
 
 class ActionManagerTest : public TestCase

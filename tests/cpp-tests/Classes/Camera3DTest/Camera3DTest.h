@@ -30,6 +30,11 @@ THE SOFTWARE.
 #include <string>
 
 namespace cocos2d {
+class BillBoard;
+class MenuItem;
+}
+
+namespace cocos2d {
     class Sprite3D;
     class Delay;
 }

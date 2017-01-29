@@ -1,12 +1,12 @@
 #ifndef __QUESTION_CONTAINER_SPRITE_H__
 #define __QUESTION_CONTAINER_SPRITE_H__
 
-#include "cocos2d.h"
+#include <2d/CCSprite.h>
 
 class QuestionContainerSprite : public cocos2d::Sprite 
 {
 public:
-    virtual bool init() override;
+    QuestionContainerSprite();
 };
 
 #endif // __QUESTION_CONTAINER_SPRITE_H__

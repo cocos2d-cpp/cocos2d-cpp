@@ -26,8 +26,12 @@
 #ifndef _MENU_TEST_H_
 #define _MENU_TEST_H_
 
-////----#include "cocos2d.h"
 #include "../BaseTest.h"
+
+namespace cocos2d {
+class MenuItem;
+class MenuItemFont;
+}
 
 DEFINE_TEST_SUITE(MenuTests);
 

@@ -2,8 +2,17 @@
 #define __CLIPPINGNODETEST_H__
 
 #include "../BaseTest.h"
+
+#include "base/CCRef.h"
 #include "renderer/CCCustomCommand.h"
+
 #include <list>
+
+namespace cocos2d {
+class ClippingNode;
+class DrawNode;
+class Sprite;
+}
 
 DEFINE_TEST_SUITE(ClippingNodeTests);
 

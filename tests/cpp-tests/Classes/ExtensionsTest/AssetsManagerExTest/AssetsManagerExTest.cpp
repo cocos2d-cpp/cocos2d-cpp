@@ -1,6 +1,10 @@
 #include "AssetsManagerExTest.h"
 #include "../../testResource.h"
-#include "cocos2d.h"
+
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/ccUTF8.h"
+#include "base/CCDirector.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

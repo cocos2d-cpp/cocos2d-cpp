@@ -25,7 +25,6 @@
 #include "ShaderTest2.h"
 #include "ShaderTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
 #include <tuple>
 
 using namespace cocos2d;

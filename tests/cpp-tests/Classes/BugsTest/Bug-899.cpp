@@ -7,6 +7,8 @@
 
 #include "Bug-899.h"
 
+#include "2d/CCSprite.h"
+
 using namespace cocos2d;
 
 bool Bug899Layer::init()

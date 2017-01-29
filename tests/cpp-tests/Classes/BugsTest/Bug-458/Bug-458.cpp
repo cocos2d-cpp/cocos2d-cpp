@@ -6,6 +6,10 @@
 #include "Bug-458.h"
 #include "QuestionContainerSprite.h"
 
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 bool Bug458Layer::init()
@@ -17,11 +21,6 @@ bool Bug458Layer::init()
 
         auto question = new (std::nothrow) QuestionContainerSprite();
         auto question2 = new (std::nothrow) QuestionContainerSprite();
-        question->init();
-        question2->init();
-
-//        [question setContentSize:CGSizeMake(50,50)];
-//        [question2 setContentSize:CGSizeMake(50,50)];
         
         auto sprite = MenuItemSprite::create(question2, question, CC_CALLBACK_1(Bug458Layer::selectAnswer, this) );
         auto layer = LayerColor::create(Color4B(0,0,255,255), 100, 100);

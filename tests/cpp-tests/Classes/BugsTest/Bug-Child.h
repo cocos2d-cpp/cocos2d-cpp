@@ -11,6 +11,11 @@
 
 #include "BugsTest.h"
 
+namespace cocos2d {
+class Menu;
+class Sprite;
+}
+
 class BugChild : public BugsTestBase
 {
 public:

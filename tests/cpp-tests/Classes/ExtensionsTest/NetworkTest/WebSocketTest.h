@@ -9,7 +9,6 @@
 #ifndef __TestCpp__WebSocketTest__
 #define __TestCpp__WebSocketTest__
 
-#include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "network/WebSocket.h"
 #include "BaseTest.h"

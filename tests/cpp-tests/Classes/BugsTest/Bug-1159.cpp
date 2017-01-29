@@ -9,6 +9,12 @@
 
 #include "Bug-1159.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCTransitionPageTurn.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 bool Bug1159Layer::init()

@@ -3,6 +3,8 @@
 
 #include "../BaseTest.h"
 
+#include "2d/CCNodeGrid.h"
+
 DEFINE_TEST_SUITE(EffectTests);
 
 class EffectBaseTest : public TestCase

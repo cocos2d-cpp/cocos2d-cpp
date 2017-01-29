@@ -25,12 +25,23 @@
 
 #include "ActionsTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
-#include "ui/CocosGUI.h"
 
+#include "2d/CCActionCamera.h"
+#include "2d/CCActionCatmullRom.h"
+#include "2d/CCActionInstant.h"
+#include "2d/CCAnimationCache.h"
+#include "2d/CCActionManager.h"
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "base/CCEventListenerCustom.h"
+#include "base/CCEventCustom.h"
+#include "base/CCEventDispatcher.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCCustomCommand.h"
 #include "renderer/CCGroupCommand.h"
+#include "ui/UIImageView.h"
+#include "ui/UIText.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;

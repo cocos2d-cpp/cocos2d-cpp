@@ -3,6 +3,13 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class Menu;
+class MenuItemFont;
+class Sprite;
+class TextureAtlas;
+}
+
 DEFINE_TEST_SUITE(LabelTests);
 
 class AtlasDemo : public TestCase

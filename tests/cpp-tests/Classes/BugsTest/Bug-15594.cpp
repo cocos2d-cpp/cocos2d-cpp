@@ -10,6 +10,10 @@
 
 #include "Bug-15594.h"
 
+#include "3d/CCSprite3D.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCAnimate3D.h"
+#include "base/CCDirector.h"
 
 using namespace cocos2d;
 

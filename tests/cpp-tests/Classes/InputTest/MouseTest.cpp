@@ -1,5 +1,13 @@
 #include "MouseTest.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerMouse.h"
+#include "base/CCEventMouse.h"
+
+#include <sstream>
+
 using namespace cocos2d;
 
 template <typename T> std::string tostr(const T& t) { std::ostringstream os; os<<t; return os.str(); }

@@ -5,6 +5,9 @@
 
 #include "Bug-422.h"
 
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+
 using namespace cocos2d;
 
 bool Bug422Layer::init()

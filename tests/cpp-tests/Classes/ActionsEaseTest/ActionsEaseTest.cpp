@@ -26,6 +26,10 @@
 #include "ActionsEaseTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionEase.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 enum {

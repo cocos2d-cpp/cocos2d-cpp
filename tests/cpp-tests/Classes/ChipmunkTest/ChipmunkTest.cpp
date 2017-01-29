@@ -4,9 +4,14 @@
 // http://www.cocos2d-x.org
 //
 
-#include "chipmunk/chipmunk.h"
-
 #include "ChipmunkTest.h"
+
+#include "chipmunk/chipmunk.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+#include "base/CCEventListenerAcceleration.h"
+#include "platform/CCDevice.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

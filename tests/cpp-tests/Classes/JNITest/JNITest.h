@@ -3,7 +3,6 @@
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
 DEFINE_TEST_SUITE(JNITests);

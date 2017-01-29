@@ -1,7 +1,6 @@
 #ifndef _RENDERTEXTURE_TEST_H_
 #define _RENDERTEXTURE_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
 DEFINE_TEST_SUITE(RenderTextureTests);

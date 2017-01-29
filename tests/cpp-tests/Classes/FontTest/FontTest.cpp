@@ -1,7 +1,11 @@
 #include "FontTest.h"
 #include "../testResource.h"
+
 #include "2d/CCFontAtlasCache.h"
 #include "2d/CCFontFreeType.h"
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "platform/CCFileUtils.h"
 
 using namespace cocos2d;
 

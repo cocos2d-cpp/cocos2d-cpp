@@ -4,6 +4,10 @@
 #include "extensions/cocos-ext.h"
 #include "../../BaseTest.h"
 
+namespace cocos2d {
+class Menu;
+}
+
 DEFINE_TEST_SUITE(AssetsManagerExTests);
 
 class AssetsManagerExLoaderScene : public TestCase

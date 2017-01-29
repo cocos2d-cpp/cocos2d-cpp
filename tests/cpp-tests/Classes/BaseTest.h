@@ -25,6 +25,8 @@
 #ifndef _CPPTESTS_BASETEST_H__
 #define _CPPTESTS_BASETEST_H__
 
+#include "cocos2d.h" // TODO remove it
+
 #include "2d/CCLayer.h"
 #include "2d/CCScene.h"
 #include "base/CCRef.h"

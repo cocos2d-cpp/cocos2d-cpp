@@ -5,6 +5,13 @@
 
 #include "Bug-624.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCTransition.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerAcceleration.h"
+#include "platform/CCDevice.h"
+
 using namespace cocos2d;
 
 ////////////////////////////////////////////////////////

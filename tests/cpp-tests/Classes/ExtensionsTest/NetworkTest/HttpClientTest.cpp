@@ -1,5 +1,10 @@
 #include "HttpClientTest.h"
 #include "../ExtensionsTest.h"
+
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+
 #include <string>
 
 using namespace cocos2d;

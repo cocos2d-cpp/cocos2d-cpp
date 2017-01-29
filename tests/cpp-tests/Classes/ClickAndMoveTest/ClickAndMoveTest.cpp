@@ -1,6 +1,9 @@
 #include "ClickAndMoveTest.h"
 #include "../testResource.h"
 
+#include "2d/CCSprite.h"
+#include "base/CCEventDispatcher.h"
+
 using namespace cocos2d;
 
 enum

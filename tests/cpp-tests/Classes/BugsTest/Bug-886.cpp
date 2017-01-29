@@ -5,6 +5,8 @@
 
 #include "Bug-886.h"
 
+#include "2d/CCSprite.h"
+
 using namespace cocos2d;
 
 bool Bug886Layer::init()

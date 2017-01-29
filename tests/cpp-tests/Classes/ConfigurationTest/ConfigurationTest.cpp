@@ -1,7 +1,7 @@
-
 #include "ConfigurationTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
+
+#include "base/CCConfiguration.h"
 
 using namespace cocos2d;
 

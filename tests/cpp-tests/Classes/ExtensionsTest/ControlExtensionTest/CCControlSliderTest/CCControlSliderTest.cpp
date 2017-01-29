@@ -26,6 +26,9 @@
 
 #include "CCControlSliderTest.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
 #include "GUI/CCControlExtension/CCControlSlider.h"
 
 using namespace cocos2d;

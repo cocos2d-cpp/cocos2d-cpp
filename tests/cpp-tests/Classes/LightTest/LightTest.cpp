@@ -1,5 +1,14 @@
 #include "LightTest.h"
 
+#include "2d/CCCamera.h"
+#include "2d/CCLabel.cpp"
+#include "2d/CCLight.cpp"
+#include "2d/CCMenu.cpp"
+#include "2d/CCMenuItem.cpp"
+#include "3d/CCAnimation3D.cpp"
+#include "3d/CCAnimate3D.cpp"
+#include "3d/CCSprite3D.cpp"
+
 using namespace cocos2d;
 
 LightTests::LightTests()

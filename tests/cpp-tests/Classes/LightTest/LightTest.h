@@ -27,6 +27,15 @@
 
 #include "../BaseTest.h"
 
+#include "2d/CCLight.h"
+
+namespace cocos2d {
+class AmbientLight;
+class DirectionLight;
+class PointLight;
+class SpotLight;
+}
+
 DEFINE_TEST_SUITE(LightTests);
 
 class LightTest : public TestCase

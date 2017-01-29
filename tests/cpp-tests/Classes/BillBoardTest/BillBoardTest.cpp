@@ -24,10 +24,18 @@
  ****************************************************************************/
 
 #include "BillBoardTest.h"
+#include "../testResource.h"
+
+#include "2d/CCLabel.h"
+#include "2d/CCCamera.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
 #include "3d/CCBillBoard.h"
+#include "3d/CCSprite3D.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCDirector.h"
 
 #include <algorithm>
-#include "../testResource.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

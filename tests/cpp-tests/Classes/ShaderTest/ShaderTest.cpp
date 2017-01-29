@@ -1,6 +1,5 @@
 #include "ShaderTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

@@ -3,6 +3,10 @@
 
 #include "BugsTest.h"
 
+namespace cocos2d {
+class Sprite;
+}
+
 class Bug12847Layer : public BugsTestBase
 {
 public:

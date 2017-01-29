@@ -24,6 +24,11 @@
 
 #include "ConsoleTest.h"
 #include "../testResource.h"
+
+#include "base/base64.h"
+#include "base/CCDirector.h"
+#include "platform/CCFileUtils.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #if (CC_TARGET_PLATFORM != CC_PLATFORM_WIN32) && (CC_TARGET_PLATFORM != CC_PLATFORM_WINRT)

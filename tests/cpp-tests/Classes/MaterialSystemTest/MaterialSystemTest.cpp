@@ -24,13 +24,19 @@
  ****************************************************************************/
 
 #include "MaterialSystemTest.h"
+#include "../testResource.h"
+
+#include "2d/CCLight.h"
+#include "3d/CCSprite3D.h"
+#include "base/CCDirector.h"
+#include "base/CCProperties.h"
+#include "base/ccUTF8.h"
+#include "renderer/CCMaterial.h"
+#include "renderer/CCRenderer.h"
+#include "spine/spine-cocos2dx.h"
+#include "ui/CocosGUI.h"
 
 #include <ctime>
-#include <spine/spine-cocos2dx.h>
-
-#include "../testResource.h"
-#include "cocos2d.h"
-#include "ui/CocosGUI.h"
 
 using namespace cocos2d;
 

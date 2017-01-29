@@ -1,8 +1,11 @@
 #ifndef __MOUSE_TEST_H_
 #define __MOUSE_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
+
+namespace cocos2d {
+class EventListenerMouse;
+}
 
 DEFINE_TEST_SUITE(MouseTests);
 

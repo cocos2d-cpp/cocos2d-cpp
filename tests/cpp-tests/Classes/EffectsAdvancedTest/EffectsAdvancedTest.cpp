@@ -1,5 +1,13 @@
 #include "EffectsAdvancedTest.h"
 
+#include "2d/CCActionGrid3D.h"
+#include "2d/CCActionManager.h"
+#include "2d/CCActionTiledGrid.h"
+#include "2d/CCNodeGrid.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "renderer/CCTextureAtlas.h"
+
 using namespace cocos2d;
 
 enum 

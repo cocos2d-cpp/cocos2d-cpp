@@ -1,10 +1,16 @@
 #ifndef _DRAW_PRIMITIVES_TEST_H_
 #define _DRAW_PRIMITIVES_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
+#include "renderer/CCPrimitiveCommand.h"
+
 #include <string>
+
+namespace cocos2d {
+class Primitive;
+class PrimitiveCommand;
+}
 
 DEFINE_TEST_SUITE(DrawNodeTests);
 

@@ -26,6 +26,15 @@
 #include "MenuTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionEase.h"
+#include "2d/CCLabel.h"
+#include "2d/CCLabelAtlas.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+
 using namespace cocos2d;
 
 enum {

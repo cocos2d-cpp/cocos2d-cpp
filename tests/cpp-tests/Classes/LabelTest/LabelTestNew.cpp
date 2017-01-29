@@ -1,9 +1,16 @@
 #include "LabelTestNew.h"
 
+#include "2d/CCActionInstant.h"
 #include "2d/CCFontAtlasCache.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccUTF8.h"
 #include "GUI/CCControlExtension/CCControlStepper.h"
 #include "GUI/CCControlExtension/CCInvocation.h"
 #include "renderer/CCRenderer.h"
+#include "platform/CCFileUtils.h"
 #include "ui/UICheckBox.h"
 #include "ui/UIRichText.h"
 

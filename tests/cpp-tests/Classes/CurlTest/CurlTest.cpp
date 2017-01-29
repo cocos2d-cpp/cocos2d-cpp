@@ -5,6 +5,10 @@
 #include "stdlib.h"
 #include "curl/curl.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccUTF8.h"
+
 using namespace cocos2d;
 
 CurlTests::CurlTests()

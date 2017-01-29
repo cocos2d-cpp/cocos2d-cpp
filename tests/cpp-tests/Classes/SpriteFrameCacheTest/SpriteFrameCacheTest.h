@@ -22,9 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#pragma once
+#ifndef cpp_tests_SpriteFrameCacheTest_h
+#define cpp_tests_SpriteFrameCacheTest_h
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
 DEFINE_TEST_SUITE(SpriteFrameCacheTests);
@@ -45,3 +45,5 @@ private:
 private:
     cocos2d::Label *infoLabel;
 };
+
+#endif

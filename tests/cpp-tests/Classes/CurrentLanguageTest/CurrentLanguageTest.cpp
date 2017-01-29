@@ -1,5 +1,9 @@
 #include "CurrentLanguageTest.h"
 
+#include "2d/CCLabel.h"
+#include "platform/CCApplication.h"
+#include "platform/CCCommon.h"
+
 using namespace cocos2d;
 
 CurrentLanguageTests::CurrentLanguageTests()

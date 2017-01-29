@@ -1,6 +1,11 @@
 #include "EffectsTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionTiledGrid.h"
+#include "2d/CCActionPageTurn3D.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 EffectTests::EffectTests()

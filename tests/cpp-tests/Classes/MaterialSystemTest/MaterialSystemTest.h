@@ -26,6 +26,12 @@
 
 #include "../BaseTest.h"
 
+#include "renderer/CCRenderState.h"
+
+namespace cocos2d {
+class Sprite3D;
+}
+
 DEFINE_TEST_SUITE(MaterialSystemTest);
 
 class MaterialSystemBaseTest : public TestCase

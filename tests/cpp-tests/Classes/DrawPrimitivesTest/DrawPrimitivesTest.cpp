@@ -1,6 +1,12 @@
 #include "DrawPrimitivesTest.h"
+
+#include "2d/CCActionCatmullRom.h"
+#include "2d/CCDrawNode.h"
+#include "base/CCDirector.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/CCCustomCommand.h"
+#include "renderer/CCTextureCache.h"
+#include "renderer/CCVertexIndexBuffer.h"
 
 using namespace cocos2d;
 

@@ -27,7 +27,6 @@
 #ifndef __TestCpp__SocketIOTest__
 #define __TestCpp__SocketIOTest__
 
-#include "cocos2d.h"
 #include "extensions/cocos-ext.h"
 #include "network/SocketIO.h"
 #include "BaseTest.h"

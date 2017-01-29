@@ -25,9 +25,11 @@
 
 #include "AppDelegate.h"
 
-#include "cocos2d.h"
 #include "controller.h"
+#include "base/CCConfiguration.h"
+#include "base/CCDirector.h"
 #include "extensions/cocos-ext.h"
+#include "platform/CCGLView.h"
 
 using namespace cocos2d;
 

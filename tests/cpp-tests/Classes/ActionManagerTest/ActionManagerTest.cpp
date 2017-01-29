@@ -1,6 +1,12 @@
 #include "ActionManagerTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
+
+#include "2d/CCActionInstant.h"
+#include "2d/CCActionManager.h"
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "renderer/CCTextureAtlas.h"
 
 using namespace cocos2d;
 

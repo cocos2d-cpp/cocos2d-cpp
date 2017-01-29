@@ -5,6 +5,9 @@
 
 #include "Bug-350.h"
 
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 bool Bug350Layer::init()

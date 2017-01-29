@@ -27,7 +27,11 @@
 
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "network/CCDownloader.h"
+#include "platform/CCFileUtils.h"
 #include "ui/UIButton.h"
 #include "ui/UILoadingBar.h"
 #include "ui/UIScale9Sprite.h"

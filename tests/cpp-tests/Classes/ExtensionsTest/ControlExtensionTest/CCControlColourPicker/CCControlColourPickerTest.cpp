@@ -1,5 +1,8 @@
 #include "CCControlColourPickerTest.h"
 
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 

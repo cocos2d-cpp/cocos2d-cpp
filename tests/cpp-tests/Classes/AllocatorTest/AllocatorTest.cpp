@@ -24,7 +24,9 @@
  ****************************************************************************/
 
 #include "AllocatorTest.h"
-#include "cocos2d.h"
+
+#include "2d/CCLabel.h"
+
 #include <chrono>
 
 using namespace cocos2d;

@@ -1,8 +1,11 @@
 #ifndef _EFFECT_ADVANCED_TEST_H_
 #define _EFFECT_ADVANCED_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
+
+namespace cocos2d {
+class TextureAtlas;
+}
 
 DEFINE_TEST_SUITE(EffectAdvanceTests);
 

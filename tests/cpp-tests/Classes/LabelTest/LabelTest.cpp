@@ -1,6 +1,20 @@
 #include "LabelTest.h"
 #include "../testResource.h"
-#include "cocos2d.h"
+
+#include "2d/CCActionInstant.h"
+#include "2d/CCDrawNode.h"
+#include "2d/CCLabel.h"
+#include "2d/CCLabelAtlas.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "platform/CCFileUtils.h"
+#include "renderer/CCTextureAtlas.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCRenderer.h"
 
 using namespace cocos2d;
 

@@ -25,7 +25,7 @@
 #ifndef __DRAW_NODE_3D_H__
 #define __DRAW_NODE_3D_H__
 
-#include "cocos2d.h"
+#include "cocos2d.h" // TODO remove it
 
 namespace cocos2d {
 

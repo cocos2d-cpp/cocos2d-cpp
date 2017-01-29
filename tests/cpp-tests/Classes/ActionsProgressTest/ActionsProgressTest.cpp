@@ -26,6 +26,13 @@
 #include "ActionsProgressTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionProgressTimer.h"
+#include "2d/CCLabel.h"
+#include "2d/CCProgressTimer.h"
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 ActionsProgressTests::ActionsProgressTests()
@@ -44,11 +51,11 @@ ActionsProgressTests::ActionsProgressTests()
 // SpriteDemo
 //
 //------------------------------------------------------------------
-SpriteDemo::SpriteDemo(void)
+SpriteDemo::SpriteDemo()
 {
 }
 
-SpriteDemo::~SpriteDemo(void)
+SpriteDemo::~SpriteDemo()
 {
 }
 

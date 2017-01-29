@@ -8,6 +8,15 @@
 
 #include "Bug-Child.h"
 
+#include "2d/CCCamera.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
+#include <sstream>
+
 using namespace cocos2d;
 
 bool BugChild::init()

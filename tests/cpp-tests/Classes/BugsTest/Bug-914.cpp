@@ -9,6 +9,12 @@
 // Import the interfaces
 #include"Bug-914.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+
 using namespace cocos2d;
 
 // on "init" you need to initialize your instance

@@ -27,7 +27,6 @@
 #ifndef __NEWAUDIOENGINE_TEST_H_
 #define __NEWAUDIOENGINE_TEST_H_
 
-#include "cocos2d.h"
 #include "../BaseTest.h"
 
 #include "audio/include/AudioEngine.h"

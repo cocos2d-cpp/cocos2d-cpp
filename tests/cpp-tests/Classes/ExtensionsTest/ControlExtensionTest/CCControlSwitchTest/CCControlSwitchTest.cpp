@@ -26,6 +26,8 @@
 
 #include "CCControlSwitchTest.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
 #include "GUI/CCControlExtension/CCControlSwitch.h"
 #include "GUI/CCControlExtension/CCInvocation.h"
 #include "ui/UIScale9Sprite.h"

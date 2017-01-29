@@ -3,6 +3,9 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class MotionStreak;
+}
 
 DEFINE_TEST_SUITE(MotionStreakTests);
 

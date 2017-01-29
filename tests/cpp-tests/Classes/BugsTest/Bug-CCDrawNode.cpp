@@ -7,6 +7,11 @@
 
 #include "Bug-CCDrawNode.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCDrawNode.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 bool BugDrawNodeLayer::init()
