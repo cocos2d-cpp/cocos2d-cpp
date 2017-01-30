@@ -3,6 +3,11 @@
 #include "Paddle.h"
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 
 enum tagPlayer 

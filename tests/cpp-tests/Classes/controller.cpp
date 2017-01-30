@@ -4,6 +4,9 @@
 #include "BaseTest.h"
 #include "tests.h"
 
+#include "2d/CCTransition.h"
+#include "base/CCScheduler.h"
+
 using namespace cocos2d;
 
 #define TEST_TIME_OUT 50

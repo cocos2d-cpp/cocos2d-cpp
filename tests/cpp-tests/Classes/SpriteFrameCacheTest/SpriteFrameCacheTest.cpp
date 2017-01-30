@@ -25,6 +25,13 @@
 
 #include "SpriteFrameCacheTest.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCConfiguration.h"
+#include "base/CCDirector.h"
+#include "base/ccUTF8.h"
+#include "renderer/CCTextureCache.h"
+
 // enable log
 #define COCOS2D_DEBUG 1
 

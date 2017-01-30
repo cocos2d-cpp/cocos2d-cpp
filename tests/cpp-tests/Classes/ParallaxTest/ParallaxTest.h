@@ -3,6 +3,13 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class MotionStreak;
+class ParallaxNode;
+class TextureAtlas;
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(ParallaxTests);
 
 class ParallaxDemo : public TestCase

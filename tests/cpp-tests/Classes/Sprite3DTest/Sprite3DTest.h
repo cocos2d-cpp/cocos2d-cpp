@@ -26,16 +26,20 @@
 #define _SPRITE3D_TEST_H_
 
 #include "BaseTest.h"
+
+#include "3d/CCOBB.h"
+
 #include <string>
 
 namespace cocos2d {
     class Animate3D;
-    class Sprite3D;
     class Delay;
-    class Ray;
     class DrawNode3D;
     class GLProgramState;
+    class MenuItemFont;
     class MotionStreak3D;
+    class Ray;
+    class Sprite3D;
 }
 
 DEFINE_TEST_SUITE(Sprite3DTests);

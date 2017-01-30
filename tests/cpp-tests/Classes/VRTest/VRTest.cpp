@@ -25,6 +25,12 @@
 
 #include "VRTest.h"
 
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "vr/CCVRGenericRenderer.h"
+
 using namespace cocos2d;
 
 VRTests::VRTests()

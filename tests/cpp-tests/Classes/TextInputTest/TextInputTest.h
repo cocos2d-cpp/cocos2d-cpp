@@ -3,6 +3,13 @@
 
 #include "../BaseTest.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCCamera.h"
+#include "2d/CCTextFieldTTF.h"
+#include "base/CCDirector.h"
+#include "base/CCIMEDelegate.h"
+#include "base/CCEventDispatcher.h"
+
 class KeyboardNotificationLayer;
 
 DEFINE_TEST_SUITE(TextInputTests);

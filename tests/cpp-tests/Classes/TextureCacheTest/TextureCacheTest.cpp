@@ -1,5 +1,10 @@
 #include "TextureCacheTest.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "renderer/CCTextureCache.h"
+
 // enable log
 #define COCOS2D_DEBUG 1
 

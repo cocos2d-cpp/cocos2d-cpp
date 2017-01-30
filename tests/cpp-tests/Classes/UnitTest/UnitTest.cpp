@@ -1,4 +1,7 @@
 #include "UnitTest.h"
+
+#include "base/ccUTF8.h"
+#include "math/MathUtil.h"
 #include "ui/UIHelper.h"
 
 using namespace cocos2d;

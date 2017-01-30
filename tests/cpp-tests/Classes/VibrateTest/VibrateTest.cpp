@@ -22,10 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "platform/CCPlatformConfig.h"
-
 #include "VibrateTest.h"
+
+#include "base/CCEventDispatcher.h"
+#include "base/ccUTF8.h"
 #include "ui/CocosGUI.h"
+#include "platform/CCDevice.h"
+#include "platform/CCPlatformConfig.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;

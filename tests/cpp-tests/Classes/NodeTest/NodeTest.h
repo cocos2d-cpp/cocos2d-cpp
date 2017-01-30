@@ -28,6 +28,12 @@
 
 #include "../BaseTest.h"
 
+#include "base/CCDirector.h"
+
+namespace cocos2d {
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(CocosNodeTests);
 
 class TestCocosNodeDemo : public TestCase

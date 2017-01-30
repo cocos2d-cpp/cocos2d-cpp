@@ -9,6 +9,21 @@
 #include "NewEventDispatcherTest.h"
 #include "testResource.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCAutoreleasePool.h"
+#include "base/CCDirector.h"
+#include "base/CCEventCustom.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerAcceleration.h"
+#include "base/CCEventListenerCustom.h"
+#include "base/CCEventListenerKeyboard.h"
+#include "base/CCEventType.h"
+#include "platform/CCDevice.h"
+
 using namespace cocos2d;
 
 EventDispatcherTests::EventDispatcherTests()

@@ -26,6 +26,13 @@
 #include "TransitionsTest.h"
 #include "../testResource.h"
 
+#include "2d/CCTransition.h"
+#include "2d/CCTransitionPageTurn.h"
+#include "2d/CCTransitionProgress.h"
+#include "2d/CCLabel.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 #define TRANSITION_DURATION (1.2f)

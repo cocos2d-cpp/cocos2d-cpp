@@ -29,6 +29,10 @@
 #include "navmesh/CCNavMesh.h"
 #include <string>
 
+namespace cocos2d {
+class Animate3D;
+}
+
 DEFINE_TEST_SUITE(NavMeshTests);
 
 #if CC_USE_NAVMESH == 0

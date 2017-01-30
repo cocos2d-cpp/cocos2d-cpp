@@ -1,6 +1,19 @@
 #include "ParticleTest.h"
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
+#include "2d/CCLabelAtlas.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCParallaxNode.h"
+#include "2d/CCParticleBatchNode.h"
+#include "2d/CCParticleExamples.h"
+#include "2d/CCParticleSystemQuad.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 
 enum {

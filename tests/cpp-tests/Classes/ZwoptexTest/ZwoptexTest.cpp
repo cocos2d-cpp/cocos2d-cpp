@@ -1,6 +1,10 @@
 #include "ZwoptexTest.h"
 #include "../testResource.h"
 
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 ZwoptexTests::ZwoptexTests()

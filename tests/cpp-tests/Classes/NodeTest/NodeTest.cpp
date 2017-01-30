@@ -24,8 +24,24 @@
  ****************************************************************************/
 
 #include "NodeTest.h"
-#include <regex>
 #include "../testResource.h"
+
+#include "2d/CCActionCamera.h"
+#include "2d/CCActionEase.h"
+#include "2d/CCActionInstant.h"
+#include "2d/CCCamera.h"
+#include "2d/CCDrawNode.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCParticleExamples.h"
+#include "2d/CCSprite.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccUtils.h"
+#include "renderer/ccGLStateCache.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCTextureCache.h"
+
+#include <regex>
 
 using namespace cocos2d;
 

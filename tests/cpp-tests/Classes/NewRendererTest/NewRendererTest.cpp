@@ -24,6 +24,24 @@
 
 #include "NewRendererTest.h"
 
+#include "2d/CCCamera.h"
+#include "2d/CCClippingNode.h"
+#include "2d/CCLabel.h"
+#include "2d/CCLabelAtlas.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "2d/CCFastTMXTiledMap.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/ccUtils.h"
+#include "renderer/CCGLProgramState.h"
+#include "renderer/CCGroupCommand.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/ccShaders.h"
+#include "renderer/CCTextureCache.h"
+#include "platform/CCFileUtils.h"
+
 using namespace cocos2d;
 
 NewRendererTests::NewRendererTests()

@@ -4,8 +4,17 @@
 
 #include "../BaseTest.h"
 
-#if CC_USE_PHYSICS
+namespace cocos2d {
+class DrawNode;
+class Layer;
+class MenuItemFont;
+class PhysicsContact;
+class PhysicsRayCastInfo;
+class Sprite;
+class SpriteBatchNode;
+}
 
+#if CC_USE_PHYSICS
 
 DEFINE_TEST_SUITE(PhysicsTests);
 

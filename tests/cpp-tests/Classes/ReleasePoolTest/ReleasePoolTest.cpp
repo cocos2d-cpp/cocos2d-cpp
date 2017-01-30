@@ -1,5 +1,8 @@
 #include "ReleasePoolTest.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCAutoreleasePool.h"
+
 using namespace cocos2d;
 
 ReleasePoolTests::ReleasePoolTests()

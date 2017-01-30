@@ -24,10 +24,18 @@
  ****************************************************************************/
 
 #include "NavMeshTest.h"
+
+#include "2d/CCCamera.h"
+#include "2d/CCLabel.h"
+#include "2d/CCLight.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCBundle3D.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
 #include "physics3d/CCPhysics3DWorld.h"
 #include "physics3d/CCPhysics3D.h"
-#include "3d/CCBundle3D.h"
-#include "2d/CCLight.h"
 
 using namespace cocos2d::extension;
 using namespace cocos2d;

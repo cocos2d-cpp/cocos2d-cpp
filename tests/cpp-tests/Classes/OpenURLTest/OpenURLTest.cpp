@@ -1,5 +1,9 @@
 #include "OpenURLTest.h"
 
+#include "2d/CCLabel.h"
+#include "base/CCEventDispatcher.h"
+#include "platform/CCApplication.h"
+
 using namespace cocos2d;
 
 OpenURLTests::OpenURLTests()

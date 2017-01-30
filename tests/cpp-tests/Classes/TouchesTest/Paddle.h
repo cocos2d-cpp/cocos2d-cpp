@@ -1,7 +1,11 @@
 #ifndef _PADDLE_H_
 #define _PADDLE_H_
 
-#include "cocos2d.h" // TODO remove
+#include "2d/CCSprite.h"
+
+namespace cocos2d {
+class Event;
+}
 
 typedef enum tagPaddleState 
 {

@@ -25,9 +25,12 @@
 #ifndef __DRAW_NODE_3D_H__
 #define __DRAW_NODE_3D_H__
 
-#include "cocos2d.h" // TODO remove it
+#include "2d/CCNode.h"
+#include "renderer/CCCustomCommand.h"
 
 namespace cocos2d {
+
+class CustomCommand;
 
 /**
  * Copy DrawNode for 3D geometry drawing.

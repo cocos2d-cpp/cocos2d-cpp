@@ -25,10 +25,16 @@
 
 #include "Physics3DTest.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
 #include "3d/CCTerrain.h"
 #include "3d/CCBundle3D.h"
+#include "base/CCDirector.h"
 #include "physics3d/CCPhysics3D.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+
 using namespace cocos2d::extension;
 using namespace cocos2d;
 

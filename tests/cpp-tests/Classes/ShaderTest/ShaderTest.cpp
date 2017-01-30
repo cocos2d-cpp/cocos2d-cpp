@@ -1,6 +1,14 @@
 #include "ShaderTest.h"
 #include "../testResource.h"
 
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "base/CCDirector.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/ccShaders.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 using namespace cocos2d::extension;
 

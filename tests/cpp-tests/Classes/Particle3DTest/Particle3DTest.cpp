@@ -24,6 +24,16 @@
  ****************************************************************************/
 
 #include "Particle3DTest.h"
+
+#include "2d/CCCamera.h"
+#include "2d/CCLabel.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCBillBoard.h"
+#include "3d/CCSprite3D.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "platform/CCFileUtils.h"
 #include "Particle3D/CCParticleSystem3D.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
 

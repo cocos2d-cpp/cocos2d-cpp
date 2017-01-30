@@ -28,6 +28,10 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(Texture2DTests);
 
 class TextureDemo : public TestCase

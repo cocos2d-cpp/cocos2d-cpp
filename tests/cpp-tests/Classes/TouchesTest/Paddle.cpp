@@ -1,5 +1,9 @@
 #include "Paddle.h"
 
+#include "base/CCEventListenerTouch.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCTouch.h"
+
 using namespace cocos2d;
 
 Paddle::Paddle(void)

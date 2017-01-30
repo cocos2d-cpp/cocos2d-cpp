@@ -3,6 +3,12 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class ParticleBatchNode;
+class ParticleSystemQuad;
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(ParticleTests);
 
 class ParticleDemo : public TestCase

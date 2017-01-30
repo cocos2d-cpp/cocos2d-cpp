@@ -2,9 +2,22 @@
 
 #if CC_USE_PHYSICS
 
-#include <cmath>
 #include "ui/CocosGUI.h"
 #include "../testResource.h"
+
+#include "2d/CCDrawNode.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSpriteBatchNode.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerAcceleration.h"
+#include "physics/CCPhysicsContact.h"
+#include "physics/CCPhysicsJoint.h"
+#include "physics/CCPhysicsWorld.h"
+#include "platform/CCDevice.h"
+
+#include <cmath>
 
 using namespace cocos2d;
 

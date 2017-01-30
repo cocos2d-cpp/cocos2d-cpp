@@ -24,6 +24,12 @@
 
 #include "platform/CCPlatformConfig.h"
 #include "NewAudioEngineTest.h"
+
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCProfiling.h"
+#include "base/ccUtils.h"
+#include "platform/CCFileUtils.h"
 #include "ui/CocosGUI.h"
 
 using namespace cocos2d;

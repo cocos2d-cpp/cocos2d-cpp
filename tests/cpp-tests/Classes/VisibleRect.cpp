@@ -24,6 +24,8 @@
 
 #include "VisibleRect.h"
 
+#include "base/CCDirector.h"
+
 using namespace cocos2d;
 
 Rect VisibleRect::s_visibleRect;

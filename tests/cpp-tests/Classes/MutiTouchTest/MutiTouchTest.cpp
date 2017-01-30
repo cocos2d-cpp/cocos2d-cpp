@@ -1,5 +1,10 @@
 #include "MutiTouchTest.h"
 
+#include "2d/CCDrawNode.h"
+#include "2d/CCLabel.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+
 #include <unordered_map>
 
 using namespace cocos2d;

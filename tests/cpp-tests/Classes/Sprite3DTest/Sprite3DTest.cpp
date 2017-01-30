@@ -25,14 +25,39 @@
 
 #include "Sprite3DTest.h"
 #include "DrawNode3D.h"
-#include "2d/CCCameraBackgroundBrush.h"
-#include "3d/CCSprite3DMaterial.h"
-#include "3d/CCMotionStreak3D.h"
+#include "../testResource.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCCamera.h"
+#include "2d/CCCameraBackgroundBrush.h"
+#include "2d/CCClippingNode.h"
+#include "2d/CCLabel.h"
+#include "2d/CCLight.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCAttachNode.h"
+#include "3d/CCMesh.h"
+#include "3d/CCMotionStreak3D.h"
+#include "3d/CCOBB.h"
+#include "3d/CCRay.h"
+#include "3d/CCSkybox.h"
+#include "3d/CCSprite3D.h"
+#include "3d/CCSprite3DMaterial.h"
+#include "base/CCAsyncTaskPool.h"
+#include "base/CCDirector.h"
+#include "base/CCEventCustom.h"
+#include "base/CCEventDispatcher.h"
+#include "base/CCEventListenerCustom.h"
 #include "extensions/Particle3D/PU/CCPUParticleSystem3D.h"
+#include "platform/CCFileUtils.h"
+#include "renderer/CCGLProgramCache.h"
+#include "renderer/CCTextureCube.h"
+#include "renderer/CCTextureCache.h"
 
 #include <algorithm>
-#include "../testResource.h"
 
 using namespace cocos2d;
 

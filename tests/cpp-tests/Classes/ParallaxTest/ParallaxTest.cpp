@@ -1,6 +1,12 @@
 #include "ParallaxTest.h"
 #include "../testResource.h"
 
+#include "2d/CCParallaxNode.h"
+#include "2d/CCSprite.h"
+#include "2d/CCTileMapAtlas.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+
 using namespace cocos2d;
 
 enum 

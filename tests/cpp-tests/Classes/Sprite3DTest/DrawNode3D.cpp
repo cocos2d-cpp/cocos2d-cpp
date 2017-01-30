@@ -24,8 +24,14 @@
 
 #include "DrawNode3D.h"
 
-namespace cocos2d {
+#include "base/CCConfiguration.h"
+#include "base/CCDirector.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/ccGLStateCache.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCRenderState.h"
 
+namespace cocos2d {
 
 DrawNode3D::DrawNode3D()
 : _vao(0)

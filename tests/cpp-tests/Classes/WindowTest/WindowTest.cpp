@@ -1,5 +1,8 @@
 #include "WindowTest.h"
 
+#include "base/CCDirector.h"
+#include "platform/CCGLView.h"
+
 using namespace cocos2d;
 
 WindowTests::WindowTests() {

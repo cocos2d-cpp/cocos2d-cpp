@@ -3,6 +3,13 @@
 
 #include "../BaseTest.h"
 
+#include "2d/CCSprite.h"
+
+namespace cocos2d {
+class RenderTexture;
+class Sprite3D;
+}
+
 DEFINE_TEST_SUITE(RenderTextureTests);
 
 class RenderTextureTest : public TestCase

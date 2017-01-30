@@ -1,5 +1,9 @@
 #include "TerrainTest.h"
 
+#include "3d/CCBillBoard.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAnimation3D.h"
+#include "base/CCDirector.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
 
 using namespace cocos2d;

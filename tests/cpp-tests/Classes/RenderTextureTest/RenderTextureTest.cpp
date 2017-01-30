@@ -1,5 +1,18 @@
 #include "RenderTextureTest.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCRenderTexture.h"
+#include "2d/CCSpriteBatchNode.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "3d/CCSprite3D.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 using namespace cocos2d::ui;
 

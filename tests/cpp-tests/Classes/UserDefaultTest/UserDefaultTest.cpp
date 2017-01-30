@@ -1,6 +1,11 @@
 #include "UserDefaultTest.h"
-#include "stdio.h"
-#include "stdlib.h"
+
+#include "base/CCData.h"
+#include "base/CCDirector.h"
+#include "base/CCUserDefault.h"
+
+#include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <sstream>
 #include <iomanip>

@@ -1,6 +1,15 @@
 #include "TileMapTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionInstant.h"
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteBatchNode.h"
+#include "2d/CCTileMapAtlas.h"
+#include "2d/CCTMXLayer.h"
+#include "2d/CCTMXTiledMap.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "platform/CCFileUtils.h"
 
 using namespace cocos2d;
 

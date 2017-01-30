@@ -11,6 +11,10 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(EventDispatcherTests);
 
 class EventDispatcherTestDemo : public TestCase

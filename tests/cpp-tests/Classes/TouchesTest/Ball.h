@@ -1,7 +1,7 @@
 #ifndef _BALL_H_
 #define _BALL_H_
 
-#include "cocos2d.h" // TODO remove
+#include "2d/CCSprite.h"
 
 class Paddle;
 

@@ -24,10 +24,14 @@
  ******************************************************************************/
 
 #include "SpineTest.h"
-#include <iostream>
-#include <fstream>
-#include <string.h>
+
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
 #include "spine/spine.h"
+
+#include <fstream>
+#include <iostream>
+#include <string>
 
 using namespace cocos2d;
 using namespace std;

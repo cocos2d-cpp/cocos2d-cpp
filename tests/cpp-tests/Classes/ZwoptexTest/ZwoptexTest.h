@@ -3,6 +3,10 @@
 
 #include "../BaseTest.h"
 
+namespace cocos2d {
+class Sprite;
+}
+
 DEFINE_TEST_SUITE(ZwoptexTests);
 
 class ZwoptexTest : public TestCase

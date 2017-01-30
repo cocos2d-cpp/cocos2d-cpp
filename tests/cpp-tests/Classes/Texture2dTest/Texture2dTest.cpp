@@ -27,6 +27,16 @@
 #include "Texture2dTest.h"
 #include "../testResource.h"
 
+#include "2d/CCActionEase.h"
+#include "2d/CCLabel.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
+#include "base/CCDirector.h"
+#include "renderer/CCRenderer.h"
+#include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureCache.h"
+
 using namespace cocos2d;
 
 enum {

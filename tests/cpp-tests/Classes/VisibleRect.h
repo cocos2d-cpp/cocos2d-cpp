@@ -1,7 +1,8 @@
 #ifndef __VISIBLERECT_H__
 #define __VISIBLERECT_H__
 
-#include "cocos2d.h" // TODO remove
+#include "math/CCGeometry.h"
+#include "math/Vec2.h"
 
 class VisibleRect
 {

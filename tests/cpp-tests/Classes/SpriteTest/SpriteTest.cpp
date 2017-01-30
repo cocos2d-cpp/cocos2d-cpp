@@ -25,9 +25,19 @@
 
 #include "SpriteTest.h"
 
+#include "2d/CCActionCamera.h"
+#include "2d/CCActionInstant.h"
+#include "2d/CCAnimationCache.h"
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteBatchNode.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+#include "base/CCEventDispatcher.h"
+#include "renderer/CCGLProgram.h"
+#include "renderer/CCGLProgramCache.h"
 #include "renderer/CCTexture2D.h"
+#include "renderer/CCTextureCache.h"
+#include "platform/CCFileUtils.h"
 
 #include <vector>
 #include <cmath>
