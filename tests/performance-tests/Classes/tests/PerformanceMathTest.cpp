@@ -83,14 +83,14 @@ void PerformanceMathLayer::onEnter()
     
 }
 
-void PerformanceMathLayer::addLoopCount(Ref *sender)
+void PerformanceMathLayer::addLoopCount(Ref *)
 {
     _loopCount += _stepCount;
     CC_PROFILER_PURGE_ALL();
     updateLoopLabel();
 }
 
-void PerformanceMathLayer::subLoopCount(Ref *sender)
+void PerformanceMathLayer::subLoopCount(Ref *)
 {
     _loopCount -= _stepCount;
     _loopCount = std::max(_loopCount, 0);
@@ -107,7 +107,7 @@ void PerformanceMathLayer::updateLoopLabel()
     
 }
 
-void PerformanceMathLayer::dumpProfilerInfo(float dt)
+void PerformanceMathLayer::dumpProfilerInfo(float /*dt*/)
 {
     CC_PROFILER_DISPLAY_TIMERS();
     
@@ -121,8 +121,9 @@ void PerformanceMathLayer::dumpProfilerInfo(float dt)
         Profile::getInstance()->addTestResult(genStrVector(_profileName.c_str(), numStr.c_str(), nullptr),
                                               genStrVector(avgStr.c_str(), minStr.c_str(), maxStr.c_str(), nullptr));
 
-        auto testsSize = sizeof(autoTestLoopCounts)/sizeof(int);
-        if (autoTestIndex >= (testsSize - 1)) {
+        auto testsSize = sizeof(autoTestLoopCounts) / sizeof(int);
+        if (autoTestIndex + 1 >= testsSize)
+        {
             this->setAutoTesting(false);
             Profile::getInstance()->testCaseEnd();
         }
@@ -137,7 +138,7 @@ void PerformanceMathLayer::dumpProfilerInfo(float dt)
     }
 }
 
-void PerformanceMathLayer1::doPerformanceTest(float dt)
+void PerformanceMathLayer1::doPerformanceTest(float /*dt*/)
 {
     Mat4 dst = Mat4::IDENTITY;
     Mat4 src;
@@ -151,7 +152,7 @@ void PerformanceMathLayer1::doPerformanceTest(float dt)
     
 }
 
-void PerformanceMathLayer2::doPerformanceTest(float dt)
+void PerformanceMathLayer2::doPerformanceTest(float /*dt*/)
 {
     Vec4 dst(1,3,4,1);
     Mat4 src;

@@ -60,7 +60,7 @@ protected:
     cocos2d::MenuItemFont* _stopItem;
     cocos2d::MenuItemToggle* _toggle;
 
-    int autoTestCountIndex;
+    size_t autoTestCountIndex;
 };
 
 class TouchEventDispatchingPerfTest : public PerformanceEventDispatcherScene

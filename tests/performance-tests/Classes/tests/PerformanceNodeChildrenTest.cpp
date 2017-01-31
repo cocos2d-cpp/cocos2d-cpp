@@ -115,7 +115,7 @@ void NodeChildrenMainScene::onEnterTransitionDidFinish()
     sched->schedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this, 2, false);
 }
 
-void NodeChildrenMainScene::dumpProfilerInfo(float dt)
+void NodeChildrenMainScene::dumpProfilerInfo(float /*dt*/)
 {
     CC_PROFILER_DISPLAY_TIMERS();
     
@@ -130,7 +130,8 @@ void NodeChildrenMainScene::dumpProfilerInfo(float dt)
                                               genStrVector(avgStr.c_str(), minStr.c_str(), maxStr.c_str(), nullptr));
         
         auto testsSize = sizeof(autoTestNodesNums)/sizeof(int);
-        if (autoTestIndex >= (testsSize - 1)) {
+        if (autoTestIndex + 1 >= testsSize)
+        {
             // if it's the last one of auto test. End the auto test.
             this->setAutoTesting(false);
             Profile::getInstance()->testCaseEnd();
@@ -158,7 +159,7 @@ void NodeChildrenMainScene::initWithQuantityOfNodes(unsigned int nNodes)
     quantityOfNodes = nNodes;
 
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [&](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [&](Ref *) {
 		quantityOfNodes -= kNodesIncrease;
 		if( quantityOfNodes < 0 )
 			quantityOfNodes = 0;
@@ -170,7 +171,7 @@ void NodeChildrenMainScene::initWithQuantityOfNodes(unsigned int nNodes)
         std::srand(0);
 	});
     decrease->setColor(Color3B(0,200,20));
-    auto increase = MenuItemFont::create(" + ", [&](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [&](Ref *) {
 		quantityOfNodes += kNodesIncrease;
 		if( quantityOfNodes > kMaxNodes )
 			quantityOfNodes = kMaxNodes;
@@ -290,7 +291,7 @@ const char*  IterateSpriteSheet::testName()
 // IterateSpriteSheetForLoop
 //
 ////////////////////////////////////////////////////////
-void IterateSpriteSheetForLoop::update(float dt)
+void IterateSpriteSheetForLoop::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
     auto& children = batchNode->getChildren();
@@ -327,7 +328,7 @@ const char*  IterateSpriteSheetForLoop::testName()
 // IterateSpriteSheetIterator
 //
 ////////////////////////////////////////////////////////
-void IterateSpriteSheetIterator::update(float dt)
+void IterateSpriteSheetIterator::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
     auto& children = batchNode->getChildren();
@@ -364,7 +365,7 @@ const char*  IterateSpriteSheetIterator::testName()
 // IterateSpriteSheetForEach
 //
 ////////////////////////////////////////////////////////
-void IterateSpriteSheetForEach::update(float dt)
+void IterateSpriteSheetForEach::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
     auto & children = batchNode->getChildren();
@@ -402,7 +403,7 @@ const char*  IterateSpriteSheetForEach::testName()
 // CallFuncsSpriteSheetForEach
 //
 ////////////////////////////////////////////////////////
-void CallFuncsSpriteSheetForEach::update(float dt)
+void CallFuncsSpriteSheetForEach::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
     auto& children = batchNode->getChildren();
@@ -491,7 +492,7 @@ const char*  AddRemoveSpriteSheet::testName()
 // AddSprite
 //
 ////////////////////////////////////////////////////////
-void AddSprite::update(float dt)
+void AddSprite::update(float /*dt*/)
 {
     // reset seed
     //srandom(0);
@@ -554,7 +555,7 @@ const char*  AddSprite::testName()
 // AddSpriteSheet
 //
 ////////////////////////////////////////////////////////
-void AddSpriteSheet::update(float dt)
+void AddSpriteSheet::update(float /*dt*/)
 {
     // reset seed
     //srandom(0);
@@ -617,7 +618,7 @@ const char*  AddSpriteSheet::testName()
 // GetSpriteSheet
 //
 ////////////////////////////////////////////////////////
-void GetSpriteSheet::update(float dt)
+void GetSpriteSheet::update(float /*dt*/)
 {
     // reset seed
     //srandom(0);
@@ -683,7 +684,7 @@ const char*  GetSpriteSheet::testName()
 // RemoveSprite
 //
 ////////////////////////////////////////////////////////
-void RemoveSprite::update(float dt)
+void RemoveSprite::update(float /*dt*/)
 {
     //srandom(0);
 
@@ -738,7 +739,7 @@ const char*  RemoveSprite::testName()
 // RemoveSpriteSheet
 //
 ////////////////////////////////////////////////////////
-void RemoveSpriteSheet::update(float dt)
+void RemoveSpriteSheet::update(float /*dt*/)
 {
     //srandom(0);
 
@@ -793,7 +794,7 @@ const char*  RemoveSpriteSheet::testName()
 // ReorderSpriteSheet
 //
 ////////////////////////////////////////////////////////
-void ReorderSpriteSheet::update(float dt)
+void ReorderSpriteSheet::update(float /*dt*/)
 {
     //srandom(0);
 
@@ -856,7 +857,7 @@ const char*  ReorderSpriteSheet::testName()
 // SortAllChildrenSpriteSheet
 //
 ////////////////////////////////////////////////////////
-void SortAllChildrenSpriteSheet::update(float dt)
+void SortAllChildrenSpriteSheet::update(float /*dt*/)
 {
     //srandom(0);
 
@@ -930,8 +931,6 @@ void VisitSceneGraph::initWithQuantityOfNodes(unsigned int nodes)
 
 void VisitSceneGraph::updateQuantityOfNodes()
 {
-    auto s = Director::getInstance()->getWinSize();
-
     // increase nodes
     if( currentQuantityOfNodes < quantityOfNodes )
     {
@@ -956,7 +955,7 @@ void VisitSceneGraph::updateQuantityOfNodes()
 
     currentQuantityOfNodes = quantityOfNodes;
 }
-void VisitSceneGraph::update(float dt)
+void VisitSceneGraph::update(float /*dt*/)
 {
     CC_PROFILER_START( this->profilerName() );
     this->visit();

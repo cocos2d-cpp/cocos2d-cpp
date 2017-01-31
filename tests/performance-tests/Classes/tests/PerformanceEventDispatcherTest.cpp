@@ -86,7 +86,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     quantityOfNodes = nNodes;
     
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [&](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [&](Ref *) {
 		quantityOfNodes -= kNodesIncrease;
 		if( quantityOfNodes < 0 )
 			quantityOfNodes = 0;
@@ -100,7 +100,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     decrease->setColor(Color3B(0,200,20));
     _decrease = decrease;
     
-    auto increase = MenuItemFont::create(" + ", [&](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [&](Ref *) {
 		quantityOfNodes += kNodesIncrease;
 		if( quantityOfNodes > kMaxNodes )
 			quantityOfNodes = kMaxNodes;
@@ -148,7 +148,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     toggle->setPosition(VisibleRect::left());
     _toggle = toggle;
     
-    auto start = MenuItemFont::create("start", [this](Ref* sender){
+    auto start = MenuItemFont::create("start", [this](Ref*){
         auto director = Director::getInstance();
         auto sched = director->getScheduler();
         
@@ -167,7 +167,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     start->setPosition(VisibleRect::right() + Vec2(0, 40));
     _startItem = start;
     
-    auto stop = MenuItemFont::create("stop", [=](Ref* sender){
+    auto stop = MenuItemFont::create("stop", [=](Ref*){
         auto director = Director::getInstance();
         auto sched = director->getScheduler();
         
@@ -302,7 +302,7 @@ void PerformanceEventDispatcherScene::updateProfilerName()
     snprintf(_profilerName, sizeof(_profilerName)-1, "%s(%d)", testName(), quantityOfNodes);
 }
 
-void PerformanceEventDispatcherScene::dumpProfilerInfo(float dt)
+void PerformanceEventDispatcherScene::dumpProfilerInfo(float /*dt*/)
 {
 	CC_PROFILER_DISPLAY_TIMERS();
     
@@ -318,7 +318,7 @@ void PerformanceEventDispatcherScene::dumpProfilerInfo(float dt)
 
         auto testsSize = sizeof(autoTestNodesNums)/sizeof(int);
         auto typeSize = _testFunctions.size();
-        if (autoTestCountIndex >= (testsSize - 1) &&
+        if (autoTestCountIndex + 1 >= testsSize &&
             _type >= (typeSize - 1)) {
             // if it's the last one of auto test. End the auto test.
             this->setAutoTesting(false);
@@ -326,7 +326,7 @@ void PerformanceEventDispatcherScene::dumpProfilerInfo(float dt)
             return;
         }
 
-        if (autoTestCountIndex >= (testsSize - 1)) {
+        if (autoTestCountIndex + 1 >= testsSize) {
             autoTestCountIndex = 0;
             _type++;
         }
@@ -338,7 +338,7 @@ void PerformanceEventDispatcherScene::dumpProfilerInfo(float dt)
     }
 }
 
-void PerformanceEventDispatcherScene::update(float dt)
+void PerformanceEventDispatcherScene::update(float /*dt*/)
 {
     _testFunctions[_type].func();
 }
@@ -368,12 +368,12 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerTouchOneByOne::create();
-                listener->onTouchBegan = [](Touch* touch, Event* event){
+                listener->onTouchBegan = [](Touch*, Event*){
                     return false;
                 };
                 
-                listener->onTouchMoved = [](Touch* touch, Event* event){};
-                listener->onTouchEnded = [](Touch* touch, Event* event){};
+                listener->onTouchMoved = [](Touch*, Event*){};
+                listener->onTouchEnded = [](Touch*, Event*){};
 
                 // Create new touchable nodes
                 for (int i = 0; i < this->quantityOfNodes; ++i)
@@ -388,7 +388,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -412,12 +411,12 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerTouchOneByOne::create();
-                listener->onTouchBegan = [](Touch* touch, Event* event){
+                listener->onTouchBegan = [](Touch*, Event*){
                     return false;
                 };
                 
-                listener->onTouchMoved = [](Touch* touch, Event* event){};
-                listener->onTouchEnded = [](Touch* touch, Event* event){};
+                listener->onTouchMoved = [](Touch*, Event*){};
+                listener->onTouchEnded = [](Touch*, Event*){};
                 
                 for (int i = 0; i < this->quantityOfNodes; ++i)
                 {
@@ -429,7 +428,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -453,9 +451,9 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerTouchAllAtOnce::create();
-                listener->onTouchesBegan = [](const std::vector<Touch*> touches, Event* event){};
-                listener->onTouchesMoved = [](const std::vector<Touch*> touches, Event* event){};
-                listener->onTouchesEnded = [](const std::vector<Touch*> touches, Event* event){};
+                listener->onTouchesBegan = [](const std::vector<Touch*>, Event*){};
+                listener->onTouchesMoved = [](const std::vector<Touch*>, Event*){};
+                listener->onTouchesEnded = [](const std::vector<Touch*>, Event*){};
                 
                 // Create new touchable nodes
                 for (int i = 0; i < this->quantityOfNodes; ++i)
@@ -470,7 +468,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -494,9 +491,9 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerTouchAllAtOnce::create();
-                listener->onTouchesBegan = [](const std::vector<Touch*> touches, Event* event){};
-                listener->onTouchesMoved = [](const std::vector<Touch*> touches, Event* event){};
-                listener->onTouchesEnded = [](const std::vector<Touch*> touches, Event* event){};
+                listener->onTouchesBegan = [](const std::vector<Touch*>, Event*){};
+                listener->onTouchesMoved = [](const std::vector<Touch*>, Event*){};
+                listener->onTouchesEnded = [](const std::vector<Touch*>, Event*){};
                 
                 for (int i = 0; i < this->quantityOfNodes; ++i)
                 {
@@ -508,7 +505,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -532,17 +528,17 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listenerOneByOne = EventListenerTouchOneByOne::create();
-                listenerOneByOne->onTouchBegan = [](Touch* touch, Event* event){
+                listenerOneByOne->onTouchBegan = [](Touch*, Event*){
                     return false;
                 };
                 
-                listenerOneByOne->onTouchMoved = [](Touch* touch, Event* event){};
-                listenerOneByOne->onTouchEnded = [](Touch* touch, Event* event){};
+                listenerOneByOne->onTouchMoved = [](Touch*, Event*){};
+                listenerOneByOne->onTouchEnded = [](Touch*, Event*){};
                 
                 auto listenerAllAtOnce = EventListenerTouchAllAtOnce::create();
-                listenerAllAtOnce->onTouchesBegan = [](const std::vector<Touch*> touches, Event* event){};
-                listenerAllAtOnce->onTouchesMoved = [](const std::vector<Touch*> touches, Event* event){};
-                listenerAllAtOnce->onTouchesEnded = [](const std::vector<Touch*> touches, Event* event){};
+                listenerAllAtOnce->onTouchesBegan = [](const std::vector<Touch*>, Event*){};
+                listenerAllAtOnce->onTouchesMoved = [](const std::vector<Touch*>, Event*){};
+                listenerAllAtOnce->onTouchesEnded = [](const std::vector<Touch*>, Event*){};
                 
                 int i = 0;
                 // Create new touchable nodes
@@ -567,7 +563,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -591,17 +586,17 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listenerOneByOne = EventListenerTouchOneByOne::create();
-                listenerOneByOne->onTouchBegan = [](Touch* touch, Event* event){
+                listenerOneByOne->onTouchBegan = [](Touch*, Event*){
                     return false;
                 };
                 
-                listenerOneByOne->onTouchMoved = [](Touch* touch, Event* event){};
-                listenerOneByOne->onTouchEnded = [](Touch* touch, Event* event){};
+                listenerOneByOne->onTouchMoved = [](Touch*, Event*){};
+                listenerOneByOne->onTouchEnded = [](Touch*, Event*){};
                 
                 auto listenerAllAtOnce = EventListenerTouchAllAtOnce::create();
-                listenerAllAtOnce->onTouchesBegan = [](const std::vector<Touch*> touches, Event* event){};
-                listenerAllAtOnce->onTouchesMoved = [](const std::vector<Touch*> touches, Event* event){};
-                listenerAllAtOnce->onTouchesEnded = [](const std::vector<Touch*> touches, Event* event){};
+                listenerAllAtOnce->onTouchesBegan = [](const std::vector<Touch*>, Event*){};
+                listenerAllAtOnce->onTouchesMoved = [](const std::vector<Touch*>, Event*){};
+                listenerAllAtOnce->onTouchesEnded = [](const std::vector<Touch*>, Event*){};
                 
                 int i = 0;
 
@@ -622,7 +617,6 @@ void TouchEventDispatchingPerfTest::generateTestFunctions()
                 _lastRenderedCount = quantityOfNodes;
             }
             
-            Size size = Director::getInstance()->getWinSize();
             EventTouch touchEvent;
             touchEvent.setEventCode(EventTouch::EventCode::BEGAN);
             std::vector<Touch*> touches;
@@ -672,8 +666,8 @@ void KeyboardEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerKeyboard::create();
-                listener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event){};
-                listener->onKeyReleased = [](EventKeyboard::KeyCode keyCode, Event* event){};
+                listener->onKeyPressed = [](EventKeyboard::KeyCode, Event*){};
+                listener->onKeyReleased = [](EventKeyboard::KeyCode, Event*){};
                 
                 // Create new nodes listen to keyboard event
                 for (int i = 0; i < this->quantityOfNodes; ++i)
@@ -700,8 +694,8 @@ void KeyboardEventDispatchingPerfTest::generateTestFunctions()
             if (quantityOfNodes != _lastRenderedCount)
             {
                 auto listener = EventListenerKeyboard::create();
-                listener->onKeyPressed = [](EventKeyboard::KeyCode keyCode, Event* event){};
-                listener->onKeyReleased = [](EventKeyboard::KeyCode keyCode, Event* event){};
+                listener->onKeyPressed = [](EventKeyboard::KeyCode, Event*){};
+                listener->onKeyReleased = [](EventKeyboard::KeyCode, Event*){};
                 
                 for (int i = 0; i < this->quantityOfNodes; ++i)
                 {
@@ -749,7 +743,7 @@ void CustomEventDispatchingPerfTest::onEnter()
     
     for (int i = 0; i < 2000; i++)
     {
-        auto listener = EventListenerCustom::create(StringUtils::format("custom_event_%d", i), [](EventCustom* event){});
+        auto listener = EventListenerCustom::create(StringUtils::format("custom_event_%d", i), [](EventCustom*){});
         _eventDispatcher->addEventListenerWithFixedPriority(listener, i + 1);
         _customListeners.push_back(listener);
     }
@@ -771,7 +765,7 @@ void CustomEventDispatchingPerfTest::generateTestFunctions()
             auto dispatcher = Director::getInstance()->getEventDispatcher();
             if (quantityOfNodes != _lastRenderedCount)
             {
-                auto listener = EventListenerCustom::create("custom_event_test_scenegraph", [](EventCustom* event){});
+                auto listener = EventListenerCustom::create("custom_event_test_scenegraph", [](EventCustom*){});
                 
                 // Create new nodes listen to custom event
                 for (int i = 0; i < this->quantityOfNodes; ++i)
@@ -796,7 +790,7 @@ void CustomEventDispatchingPerfTest::generateTestFunctions()
             auto dispatcher = Director::getInstance()->getEventDispatcher();
             if (quantityOfNodes != _lastRenderedCount)
             {
-                auto listener = EventListenerCustom::create("custom_event_test_fixed", [](EventCustom* event){});
+                auto listener = EventListenerCustom::create("custom_event_test_fixed", [](EventCustom*){});
                 
                 for (int i = 0; i < this->quantityOfNodes; ++i)
                 {

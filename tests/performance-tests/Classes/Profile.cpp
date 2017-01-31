@@ -122,7 +122,7 @@ rapidjson::Value valueVectorToJson(cocos2d::ValueVector & theVector, rapidjson::
     rapidjson::Value ret(rapidjson::kArrayType);
     
     auto vectorSize = theVector.size();
-    for (int i = 0; i < vectorSize; i++) {
+    for (size_t i = 0; i < vectorSize; i++) {
         cocos2d::Value value = theVector[i];
         rapidjson::Value theJsonValue = convertToJsonValue(value, allocator);
         ret.PushBack(theJsonValue, allocator);
@@ -161,12 +161,12 @@ void Profile::testCaseBegin(std::string testName, std::vector<std::string> condH
     curTestName = testName;
 
     ValueVector conds;
-    for (int i = 0; i < condHeaders.size(); i++) {
+    for (size_t i = 0; i < condHeaders.size(); i++) {
         conds.push_back(Value(condHeaders[i]));
     }
     
     ValueVector rets;
-    for (int j = 0; j < retHeaders.size(); j++) {
+    for (size_t j = 0; j < retHeaders.size(); j++) {
         rets.push_back(Value(retHeaders[j]));
     }
     
@@ -196,11 +196,11 @@ void Profile::addTestResult(std::vector<std::string> conditions, std::vector<std
 {
     ValueVector curRet;
 
-    for (int i = 0; i < conditions.size(); i++) {
+    for (size_t i = 0; i < conditions.size(); i++) {
         curRet.push_back(Value(conditions[i]));
     }
     
-    for (int j = 0; j < results.size(); j++) {
+    for (size_t j = 0; j < results.size(); j++) {
         curRet.push_back(Value(results[j]));
     }
     curTestResults.push_back(Value(curRet));

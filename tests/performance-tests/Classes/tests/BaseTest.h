@@ -191,8 +191,8 @@ public:
     virtual cocos2d::Size tableCellSizeForIndex(cocos2d::extension::TableView *table, ssize_t idx) override;
     virtual ssize_t numberOfCellsInTableView(cocos2d::extension::TableView *table) override;
 
-    virtual void scrollViewDidScroll(cocos2d::extension::ScrollView* view) override{}
-    virtual void scrollViewDidZoom(cocos2d::extension::ScrollView* view) override{}
+    virtual void scrollViewDidScroll(cocos2d::extension::ScrollView*) override{}
+    virtual void scrollViewDidZoom(cocos2d::extension::ScrollView*) override{}
 
 private:
     std::vector<std::function<TestBase*()>> _testCallbacks;
@@ -222,9 +222,9 @@ public:
     virtual std::string title() const { return ""; }
     virtual std::string subtitle() const{ return ""; }
 
-    virtual void restartCallback(cocos2d::Ref* sender) {}
-    virtual void nextCallback(cocos2d::Ref* sender){}
-    virtual void backCallback(cocos2d::Ref* sender){}
+    virtual void restartCallback(cocos2d::Ref*) {}
+    virtual void nextCallback(cocos2d::Ref*){}
+    virtual void backCallback(cocos2d::Ref*){}
 
     virtual void onEnter() override{}
     virtual void onExit() override{}

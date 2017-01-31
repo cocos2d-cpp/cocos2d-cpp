@@ -179,7 +179,7 @@ void TestList::runThisTest()
     else
     {
         //Add close and "Start AutoTest" button.
-        auto closeItem = MenuItemImage::create(s_pathClose, s_pathClose, [](Ref* sender){
+        auto closeItem = MenuItemImage::create(s_pathClose, s_pathClose, [](Ref*){
             TestController::getInstance()->stopAutoTest();
             TestController::destroyInstance();
             Director::getInstance()->end();
@@ -190,7 +190,7 @@ void TestList::runThisTest()
         closeItem->setPosition(VisibleRect::right().x - 30, VisibleRect::top().y - 30);
 
         auto autoTestLabel = Label::createWithTTF("Start AutoTest","fonts/arial.ttf",25);
-        auto autoTestItem = MenuItemLabel::create(autoTestLabel, [&](Ref* sender){
+        auto autoTestItem = MenuItemLabel::create(autoTestLabel, [&](Ref*){
             TestController::getInstance()->startAutoTest();
         });
         autoTestItem->setPosition(Vec2(VisibleRect::left().x + 80, VisibleRect::bottom().y + 100));
@@ -247,12 +247,12 @@ TableViewCell* TestList::tableCellAtIndex(TableView *table, ssize_t idx)
     return cell;
 }
 
-Size TestList::tableCellSizeForIndex(TableView *table, ssize_t idx)
+Size TestList::tableCellSizeForIndex(TableView *, ssize_t)
 {
     return Size(400, 40);
 }
 
-ssize_t TestList::numberOfCellsInTableView(TableView *table)
+ssize_t TestList::numberOfCellsInTableView(TableView *)
 {
     return _childTestNames.size();
 }
@@ -452,7 +452,7 @@ void TestCase::onEnter()
     }
 }
 
-void TestCase::restartTestCallback(Ref* sender)
+void TestCase::restartTestCallback(Ref*)
 {
     if (_testSuite)
     {
@@ -460,7 +460,7 @@ void TestCase::restartTestCallback(Ref* sender)
     }
 }
 
-void TestCase::nextTestCallback(Ref* sender)
+void TestCase::nextTestCallback(Ref*)
 {
     if (_testSuite)
     {
@@ -468,7 +468,7 @@ void TestCase::nextTestCallback(Ref* sender)
     }
 }
 
-void TestCase::priorTestCallback(Ref* sender)
+void TestCase::priorTestCallback(Ref*)
 {
     if (_testSuite)
     {
@@ -476,7 +476,7 @@ void TestCase::priorTestCallback(Ref* sender)
     }
 }
 
-void TestCase::onBackCallback(Ref* sender)
+void TestCase::onBackCallback(Ref*)
 {
     if (_testSuite)
     {

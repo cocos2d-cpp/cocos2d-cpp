@@ -74,7 +74,7 @@ std::string PerformanceCallbackScene::subtitle() const
     return "";
 }
 
-void PerformanceCallbackScene::dumpProfilerInfo(float dt)
+void PerformanceCallbackScene::dumpProfilerInfo(float /*dt*/)
 {
 	CC_PROFILER_DISPLAY_TIMERS();
 

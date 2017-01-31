@@ -84,7 +84,7 @@ void ScenarioTest::performTests()
 
     // add decrease & increase menu item
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [&](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [&](Ref *) {
 		int idx = _itemToggle->getSelectedIndex();
         switch (idx) {
         case 0:
@@ -102,7 +102,7 @@ void ScenarioTest::performTests()
 	});
     decrease->setPosition(Vec2(origin.x + s.width / 2 - 80, origin.y + 80));
     decrease->setColor(Color3B(0,200,20));
-    auto increase = MenuItemFont::create(" + ", [&](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [&](Ref *) {
 		int idx = _itemToggle->getSelectedIndex();
         switch (idx) {
         case 0:
@@ -151,7 +151,7 @@ void ScenarioTest::performTests()
     addParticleSystem(_initParsysNum);
 }
 
-void ScenarioTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  *event)
+void ScenarioTest::onTouchesMoved(const std::vector<Touch*>& touches, Event  *)
 {
     auto touch = touches[0];
     
@@ -352,13 +352,13 @@ void ScenarioTest::update(float dt)
     }
 }
 
-void ScenarioTest::beginStat(float dt)
+void ScenarioTest::beginStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat));
     isStating = true;
 }
 
-void ScenarioTest::endStat(float dt)
+void ScenarioTest::endStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat));
     isStating = false;

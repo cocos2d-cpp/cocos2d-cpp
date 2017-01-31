@@ -24,12 +24,12 @@ public:
     void addLoopCount(cocos2d::Ref* sender);
     void subLoopCount(cocos2d::Ref* sender);
 protected:
-    virtual void doPerformanceTest(float dt) {};
+    virtual void doPerformanceTest(float /*dt*/) {}
     
     void dumpProfilerInfo(float dt);
     void updateLoopLabel();
 protected:
-    int autoTestIndex;
+    size_t autoTestIndex;
     int _loopCount;
     int _stepCount;
     std::string _profileName;

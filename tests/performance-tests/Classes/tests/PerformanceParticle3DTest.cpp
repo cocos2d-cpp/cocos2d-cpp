@@ -39,7 +39,7 @@ void Particle3DMainScene::initScene()
     _quantityParticles = 0;
 
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [=](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [=](Ref *) {
         _quantityParticles -= kNodesIncrease;
         if( _quantityParticles < 0 )
             _quantityParticles = 0;
@@ -48,7 +48,7 @@ void Particle3DMainScene::initScene()
         removeChildByTag(kTagParticleSystem + _quantityParticles, true);
     });
     decrease->setColor(Color3B(0,200,20));
-    auto increase = MenuItemFont::create(" + ", [=](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [=](Ref *) {
         _quantityParticles += kNodesIncrease;
         if( _quantityParticles > kMaxParticles )
             _quantityParticles = kMaxParticles;
@@ -137,13 +137,13 @@ void Particle3DMainScene::doAutoTest()
     schedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::endStat), DELAY_TIME + STAT_TIME);
 }
 
-void Particle3DMainScene::beginStat(float dt)
+void Particle3DMainScene::beginStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::beginStat));
     isStating = true;
 }
 
-void Particle3DMainScene::endStat(float dt)
+void Particle3DMainScene::endStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::endStat));
     isStating = false;

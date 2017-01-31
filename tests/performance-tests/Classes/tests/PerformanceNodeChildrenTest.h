@@ -32,7 +32,7 @@ protected:
     char   _profilerName[256];
     int    lastRenderedCount;
     int    currentQuantityOfNodes;
-    int    autoTestIndex;
+    size_t autoTestIndex;
 };
 
 class IterateSpriteSheet : public NodeChildrenMainScene

@@ -91,7 +91,7 @@ void PerformceAllocScene::initWithQuantityOfNodes(unsigned int nNodes)
     quantityOfNodes = nNodes;
 
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [&](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [&](Ref *) {
 		quantityOfNodes -= kNodesIncrease;
 		if( quantityOfNodes < 0 )
 			quantityOfNodes = 0;
@@ -103,7 +103,7 @@ void PerformceAllocScene::initWithQuantityOfNodes(unsigned int nNodes)
         std::srand(0);
 	});
     decrease->setColor(Color3B(0,200,20));
-    auto increase = MenuItemFont::create(" + ", [&](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [&](Ref *) {
 		quantityOfNodes += kNodesIncrease;
 		if( quantityOfNodes > kMaxNodes )
 			quantityOfNodes = kMaxNodes;
@@ -198,7 +198,7 @@ void PerformceAllocScene::onEnterTransitionDidFinish()
     sched->schedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this, 2, false);
 }
 
-void PerformceAllocScene::dumpProfilerInfo(float dt)
+void PerformceAllocScene::dumpProfilerInfo(float /*dt*/)
 {
 	CC_PROFILER_DISPLAY_TIMERS();
 
@@ -213,7 +213,8 @@ void PerformceAllocScene::dumpProfilerInfo(float dt)
                                               genStrVector(avgStr.c_str(), minStr.c_str(), maxStr.c_str(), nullptr));
         
         auto testsSize = sizeof(autoTestNodesNums)/sizeof(int);
-        if (autoTestIndex >= (testsSize - 1)) {
+        if (autoTestIndex + 1 >= testsSize - 1)
+        {
             // if it's the last one of auto test. End the auto test.
             this->setAutoTesting(false);
             Profile::getInstance()->testCaseEnd();
@@ -250,7 +251,7 @@ void NodeCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
     scheduleUpdate();
 }
 
-void NodeCreateTest::update(float dt)
+void NodeCreateTest::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
 
@@ -298,7 +299,7 @@ void NodeDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
     scheduleUpdate();
 }
 
-void NodeDeallocTest::update(float dt)
+void NodeDeallocTest::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
 
@@ -351,7 +352,7 @@ void SpriteCreateEmptyTest::initWithQuantityOfNodes(unsigned int nNodes)
     scheduleUpdate();
 }
 
-void SpriteCreateEmptyTest::update(float dt)
+void SpriteCreateEmptyTest::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
 
@@ -401,7 +402,7 @@ void SpriteCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
     scheduleUpdate();
 }
 
-void SpriteCreateTest::update(float dt)
+void SpriteCreateTest::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
 
@@ -451,7 +452,7 @@ void SpriteDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
     scheduleUpdate();
 }
 
-void SpriteDeallocTest::update(float dt)
+void SpriteDeallocTest::update(float /*dt*/)
 {
     // iterate using fast enumeration protocol
 

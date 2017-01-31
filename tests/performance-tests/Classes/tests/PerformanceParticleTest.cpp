@@ -72,7 +72,7 @@ void ParticleMainScene::initWithSubTest(int asubtest, int particles)
     quantityParticles = particles;
 
     MenuItemFont::setFontSize(65);
-    auto decrease = MenuItemFont::create(" - ", [&](Ref *sender) {
+    auto decrease = MenuItemFont::create(" - ", [&](Ref *) {
 		quantityParticles -= kNodesIncrease;
 		if( quantityParticles < 0 )
 			quantityParticles = 0;
@@ -81,7 +81,7 @@ void ParticleMainScene::initWithSubTest(int asubtest, int particles)
 		createParticleSystem();
 	});
     decrease->setColor(Color3B(0,200,20));
-    auto increase = MenuItemFont::create(" + ", [&](Ref *sender) {
+    auto increase = MenuItemFont::create(" + ", [&](Ref *) {
 		quantityParticles += kNodesIncrease;
 		if( quantityParticles > kMaxParticles )
 			quantityParticles = kMaxParticles;
@@ -182,13 +182,13 @@ void ParticleMainScene::doAutoTest()
     schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), DELAY_TIME + STAT_TIME);
 }
 
-void ParticleMainScene::beginStat(float dt)
+void ParticleMainScene::beginStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat));
     isStating = true;
 }
 
-void ParticleMainScene::endStat(float dt)
+void ParticleMainScene::endStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat));
     isStating = false;

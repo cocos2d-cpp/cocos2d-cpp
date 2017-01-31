@@ -130,7 +130,7 @@ void LabelMainScene::updateNodes()
     }
 }
 
-void LabelMainScene::onIncrease(Ref* sender)
+void LabelMainScene::onIncrease(Ref*)
 {    
     if( _quantityNodes >= kMaxNodes)
         return;
@@ -201,7 +201,7 @@ void LabelMainScene::onIncrease(Ref* sender)
     updateNodes();
 }
 
-void LabelMainScene::onDecrease(Ref* sender)
+void LabelMainScene::onDecrease(Ref*)
 {
     if( _quantityNodes <= 0 )
         return;
@@ -311,13 +311,13 @@ void LabelMainScene::doAutoTest()
     schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat), DELAY_TIME + STAT_TIME);
 }
 
-void LabelMainScene::beginStat(float dt)
+void LabelMainScene::beginStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::beginStat));
     isStating = true;
 }
 
-void LabelMainScene::endStat(float dt)
+void LabelMainScene::endStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat));
     isStating = false;

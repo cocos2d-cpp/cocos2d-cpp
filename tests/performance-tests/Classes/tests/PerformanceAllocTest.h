@@ -39,7 +39,7 @@ protected:
     int    lastRenderedCount;
     static int quantityOfNodes;
     int    currentQuantityOfNodes;
-    int    autoTestIndex;
+    size_t autoTestIndex;
 };
 
 class NodeCreateTest : public PerformceAllocScene

@@ -508,7 +508,7 @@ void SpriteMainScene::updateTitle()
     titleLabel->setString(this->title());
 }
 
-void SpriteMainScene::onIncrease(Ref* sender)
+void SpriteMainScene::onIncrease(Ref*)
 {    
     if( _quantityNodes >= kMaxNodes)
         return;
@@ -523,7 +523,7 @@ void SpriteMainScene::onIncrease(Ref* sender)
     updateNodes();
 }
 
-void SpriteMainScene::onDecrease(Ref* sender)
+void SpriteMainScene::onDecrease(Ref*)
 {
     
     if( _quantityNodes <= 0 )
@@ -580,13 +580,13 @@ void SpriteMainScene::update(float dt)
     }
 }
 
-void SpriteMainScene::beginStat(float dt)
+void SpriteMainScene::beginStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat));
     isStating = true;
 }
 
-void SpriteMainScene::endStat(float dt)
+void SpriteMainScene::endStat(float /*dt*/)
 {
     unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat));
     isStating = false;
