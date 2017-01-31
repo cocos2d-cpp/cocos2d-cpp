@@ -53,10 +53,10 @@ class LayoutComponent;
 
 /**
  *@brief Base class for all ui widgets.
- * This class inherent from `ProtectedNode` and `LayoutParameterProtocol`.
+ * This class inherent from `ProtectedNode`
  * If you want to implements your own ui widget, you should subclass it.
  */
-class CC_GUI_DLL Widget : public ProtectedNode, public LayoutParameterProtocol
+class CC_GUI_DLL Widget : public ProtectedNode
 {
 public:
     /**
@@ -497,7 +497,7 @@ public:
      * @see LayoutParameter
      * @return LayoutParameter
      */
-    LayoutParameter* getLayoutParameter()const override;
+    LayoutParameter* getLayoutParameter() const;
 
     /**
      * Toggle whether ignore user defined content size for widget.

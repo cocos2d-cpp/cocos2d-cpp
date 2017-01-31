@@ -201,27 +201,7 @@ protected:
     Margin _margin;
     Type _layoutParameterType;
 };
-    
-/**
- * Protocol for getting a LayoutParameter.
- * Every element want to have layout parameter should inherit from this class.
- */
-class CC_GUI_DLL LayoutParameterProtocol
-{
-public:
-    /**
-     * Default destructor.
-     */
-    virtual ~LayoutParameterProtocol(){}
 
-    /**
-     *
-     *@return A LayoutParameter and its descendant pointer.
-     */
-    virtual LayoutParameter* getLayoutParameter() const= 0;
-};
-
-    
 /**
  * @brief Linear layout parameter.
  * It is used by linear layout manager for arranging elements linearly.

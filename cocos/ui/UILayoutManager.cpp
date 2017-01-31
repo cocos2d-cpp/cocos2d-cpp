@@ -107,7 +107,7 @@ void LinearVerticalLayoutManager::doLayout(LayoutProtocol* layout)
     
     for (auto& subWidget : container)
     {
-        LayoutParameterProtocol* child = dynamic_cast<LayoutParameterProtocol*>(subWidget.get());
+        Widget* child = dynamic_cast<Widget*>(subWidget.get());
 
         if (child)
         {
