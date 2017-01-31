@@ -176,9 +176,9 @@ void Particle3DMainScene::step(float dt)
     {
          ParticleSystem3D *ps = static_cast<ParticleSystem3D *>(this->getChildByTag(kTagParticleSystem + i));
          if (ps){
-            auto children = ps->getChildren();
-            for (auto iter : children){
-                ParticleSystem3D *child = dynamic_cast<ParticleSystem3D *>(iter);
+            auto & children = ps->getChildren();
+            for (auto & iter : children){
+                ParticleSystem3D *child = dynamic_cast<ParticleSystem3D *>(iter.get());
                 if (child){
                     count += child->getAliveParticleCount();
                 }

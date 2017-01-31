@@ -136,7 +136,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     
     for (const auto& f : _testFunctions)
     {
-        toggleItems.push_back( cocos2d::to_node_ptr( MenuItemFont::create( f.name)));
+        toggleItems.push_back( cocos2d::to_node_ptr<MenuItem>( MenuItemFont::create( f.name)));
     }
 
     auto toggle = MenuItemToggle::createWithCallback([=](Ref* sender){
@@ -308,7 +308,7 @@ void PerformanceEventDispatcherScene::dumpProfilerInfo(float dt)
     
     if (this->isAutoTesting()) {
         // record the test result to class Profile
-        auto timer = Profiler::getInstance()->_activeTimers.at(_profilerName);
+        auto & timer = Profiler::getInstance()->_activeTimers.at(_profilerName);
         auto numStr = genStr("%d", quantityOfNodes);
         auto avgStr = genStr("%ldµ", timer->_averageTime2);
         auto minStr = genStr("%ldµ", timer->minTime);

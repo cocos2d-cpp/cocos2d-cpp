@@ -184,10 +184,10 @@ include_directories(
 )
 
 if(ANDROID)
-    add_library(${APP_NAME} SHARED ${TESTS_SRC} ${EXTENDED_TESTS_SRC})
-    IF(CMAKE_BUILD_TYPE MATCHES RELEASE)
-        ADD_CUSTOM_COMMAND(TARGET ${APP_NAME} POST_BUILD COMMAND ${CMAKE_STRIP} lib${APP_NAME}.so)
-    ENDIF()
+  add_library(${APP_NAME} SHARED ${TESTS_SRC} ${EXTENDED_TESTS_SRC})
+  if(CMAKE_BUILD_TYPE MATCHES RELEASE)
+    ADD_CUSTOM_COMMAND(TARGET ${APP_NAME} POST_BUILD COMMAND ${CMAKE_STRIP} lib${APP_NAME}.so)
+  endif()
 else()
     # add the executable
     add_executable(${APP_NAME} ${TESTS_SRC} ${EXTENDED_TESTS_SRC})
@@ -200,6 +200,7 @@ if(LINUX)
     cocos_use_pkg(${APP_NAME} ${_pkg})
   endforeach()
 endif()
+
 foreach(pkg FREETYPE CURL)
   cocos_use_pkg(${APP_NAME} ${pkg})
 endforeach()
@@ -208,8 +209,8 @@ if(MACOSX OR APPLE)
   set_target_properties(${APP_NAME} PROPERTIES
       MACOSX_BUNDLE 1
       RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-      )
-ELSEIF(ANDROID)
+  )
+elseif(ANDROID)
     set(APP_BIN_DIR "${CMAKE_BINARY_DIR}/bin/${APP_NAME}")
     set_target_properties(${APP_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${APP_BIN_DIR}")
 else()
@@ -218,6 +219,6 @@ else()
     
     pre_build(${APP_NAME}
       COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/Resources ${APP_BIN_DIR}${RES_PREFIX}
-      )
+    )
 endif()
 

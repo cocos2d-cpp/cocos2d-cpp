@@ -107,3 +107,7 @@ if(BUILD_CPP_TESTS)
   add_subdirectory(tests/cpp-tests)
 endif(BUILD_CPP_TESTS)
 
+# build performance-tests
+if(BUILD_CPP_TESTS)
+  add_subdirectory(tests/performance-tests)
+endif(BUILD_CPP_TESTS)

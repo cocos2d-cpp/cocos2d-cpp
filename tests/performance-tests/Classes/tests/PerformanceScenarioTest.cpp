@@ -72,11 +72,13 @@ void ScenarioTest::performTests()
 
     // add toggle menu item
     MenuItemFont::setFontSize(20);
-    _itemToggle = MenuItemToggle::createWithCallback(nullptr,
-                                                    MenuItemFont::create( "Add/Remove Sprite" ),
-                                                    MenuItemFont::create( "Add/Remove Particle"),
-                                                    MenuItemFont::create( "Add/Remove Particle System"),
-                                                    nullptr);
+    _itemToggle = MenuItemToggle::createWithCallback
+        (
+            nullptr,
+            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Sprite")),
+            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Particle")),
+            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Particle System"))
+        );
     _itemToggle->setAnchorPoint(Vec2(0.0f, 0.5f));
     _itemToggle->setPosition(Vec2(origin.x, origin.y + s.height / 2));
 
@@ -247,7 +249,7 @@ void ScenarioTest::removeSprites()
 
     size_t removeNum = MIN(number, _spriteStepNum);
     for (size_t i = 0; i < removeNum; ++i) {
-        auto rand_it = _spriteArray.begin() + RandomHelper::random_int(0, static_cast<int>(_data.size()) - 1);
+        auto rand_it = _spriteArray.begin() + RandomHelper::random_int(0, static_cast<int>(_spriteArray.size()) - 1);
         removeChild(rand_it->get());
         _spriteArray.erase(rand_it);
     }
@@ -305,7 +307,7 @@ void ScenarioTest::removeParticleSystem()
     
     ssize_t removeNum = MIN(number, _parsysStepNum);
     for (int i = 0; i < removeNum; ++i) {
-        auto rand_it = _parsysArray.begin() + RandomHelper::random_int(0, static_cast<int>(_data.size()) - 1);
+        auto rand_it = _parsysArray.begin() + RandomHelper::random_int(0, static_cast<int>(_parsysArray.size()) - 1);
         removeChild(rand_it->get());
         _parsysArray.erase(rand_it);
     }

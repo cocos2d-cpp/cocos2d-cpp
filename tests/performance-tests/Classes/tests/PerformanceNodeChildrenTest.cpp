@@ -121,7 +121,7 @@ void NodeChildrenMainScene::dumpProfilerInfo(float dt)
     
     if (this->isAutoTesting()) {
         // record the test result to class Profile
-        auto timer = Profiler::getInstance()->_activeTimers.at(_profilerName);
+        auto & timer = Profiler::getInstance()->_activeTimers.at(_profilerName);
         auto numStr = genStr("%d", quantityOfNodes);
         auto avgStr = genStr("%ldµ", timer->_averageTime2);
         auto minStr = genStr("%ldµ", timer->minTime);
@@ -297,10 +297,9 @@ void IterateSpriteSheetForLoop::update(float dt)
 
     CC_PROFILER_START(this->profilerName());
 
-    for( const auto &object : children )
+    for( auto & object : children )
     {
-        auto o = static_cast<Ref*>(object);
-        auto sprite = static_cast<Sprite*>(o);
+        auto sprite = dynamic_cast<Sprite*>(object.get());
         sprite->setVisible(false);
     }
 
@@ -337,7 +336,7 @@ void IterateSpriteSheetIterator::update(float dt)
 
     for( auto it=std::begin(children); it != std::end(children); ++it)
     {
-        auto sprite = static_cast<Sprite*>(*it);
+        auto sprite = dynamic_cast<Sprite*>(it->get());
         sprite->setVisible(false);
     }
 
@@ -368,14 +367,15 @@ const char*  IterateSpriteSheetIterator::testName()
 void IterateSpriteSheetForEach::update(float dt)
 {
     // iterate using fast enumeration protocol
-    auto& children = batchNode->getChildren();
+    auto & children = batchNode->getChildren();
 
     CC_PROFILER_START(this->profilerName());
 
-    std::for_each(std::begin(children), std::end(children), [](Node *child) {
-        auto sprite = static_cast<Sprite*>(child);
-        sprite->setVisible(false);
-    });
+    std::for_each(std::begin(children), std::end(children),
+                  [](node_ptr<Node> & child) {
+                      auto sprite = dynamic_cast<Sprite*>(child.get());
+                      sprite->setVisible(false);
+                  });
 
     CC_PROFILER_STOP(this->profilerName());
 }
@@ -409,9 +409,10 @@ void CallFuncsSpriteSheetForEach::update(float dt)
 
     CC_PROFILER_START(this->profilerName());
 
-    std::for_each(std::begin(children), std::end(children), [](Node* obj) {
-        obj->getPosition();
-    });
+    std::for_each(std::begin(children), std::end(children),
+                  [](node_ptr<Node> & obj) {
+                      obj->getPosition();
+                  });
 
     CC_PROFILER_STOP(this->profilerName());
 }

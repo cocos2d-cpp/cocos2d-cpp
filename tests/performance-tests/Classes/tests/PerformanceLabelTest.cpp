@@ -241,20 +241,20 @@ void LabelMainScene::updateText(float dt)
     switch (_curTestCase)
     {
     case kCaseLabelTTFUpdate:
-        for(const auto &child : children) {
-            Label* label = (Label*)child;
+        for(auto & child : children) {
+            Label* label = dynamic_cast<Label*>(child.get());
             label->setString(text);
         }
         break;
     case kCaseLabelBMFontUpdate:
-        for(const auto &child : children) {
-            auto label = (Label*)child;
+        for(auto &child : children) {
+            auto label = dynamic_cast<Label*>(child.get());
             label->setString(text);
         }
         break;
     case kCaseLabelUpdate:
         for(const auto &child : children) {
-            Label* label = (Label*)child;
+            Label* label = dynamic_cast<Label*>(child.get());
             label->setString(text);
         }
         break;

@@ -677,7 +677,7 @@ void performanceActions(Sprite* sprite)
     auto permanentScaleLoop = RepeatForever::create(
         Sequence::create(
             to_action_ptr(grow),
-            to_action_ptr(grow_reverse),
+            to_action_ptr(grow_reverse)
         )
     );
     sprite->runAction(permanentScaleLoop);

@@ -113,7 +113,7 @@ void PerformanceMathLayer::dumpProfilerInfo(float dt)
     
     if (this->isAutoTesting()) {
         // record the test result to class Profile
-        auto timer = Profiler::getInstance()->_activeTimers.at(_profileName);
+        auto & timer = Profiler::getInstance()->_activeTimers.at(_profileName);
         auto numStr = genStr("%d", _loopCount);
         auto avgStr = genStr("%ldµ", timer->_averageTime2);
         auto minStr = genStr("%ldµ", timer->minTime);
