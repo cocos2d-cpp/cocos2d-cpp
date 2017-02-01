@@ -23,7 +23,9 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIPageViewIndicator.h"
+
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "base/ccUtils.h"
 
 static const char* CIRCLE_IMAGE = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAA8ElEQVRIx62VyRGCQBBF+6gWRCEmYDIQkhiBCgHhSclC8YqWzOV5oVzKAYZp3r1/9fpbxAIBMTsKrjx5cqVgR0wgLhCRUWOjJiPqD56xoaGPhpRZV/iSEy6crHmw5oIrF9b/lVeMofrJgjlnxlIy/wik+JB+mme8BExbBhm+5CJC2LE2LtSEQoyGWDioBA5CoRIohJtK4CYDxzNEM4GAugR1E9VjVC+SZpXvhCJCrjomESLvc17pDGX7bWmlh6UtpjPVCWy9zaJ0TD7qfm3pwERMz2trRVZk3K3BD/L34AY+dEDCniMVBkPFkT2J/b2/AIV+dRpFLOYoAAAAAElFTkSuQmCC";
@@ -181,15 +183,19 @@ void PageViewIndicator::setIndexNodesTexture(const std::string& texName, Widget:
             for(auto& indexNode : _indexNodes) {
                 indexNode->setTexture(texName);
             }
-            break;
-        case Widget::TextureResType::PLIST:
-            _currentIndexNode->setSpriteFrame(texName);
+        break;
+
+        case Widget::TextureResType::PLIST: {
+            auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(texName);
+            _currentIndexNode->setSpriteFrame(frame);
             for(auto& indexNode : _indexNodes) {
-                indexNode->setSpriteFrame(texName);
+                indexNode->setSpriteFrame(frame);
             }
-            break;
+        }
+        break;
+
         default:
-            break;
+        break;
     }
     
     rearrange();
@@ -199,6 +205,8 @@ void PageViewIndicator::increaseNumberOfPages()
 {
     Sprite* indexNode;
     
+    auto cache = SpriteFrameCache::getInstance();
+
     if(_useDefaultTexture)
     {
         indexNode = utils::createSpriteFromBase64(CIRCLE_IMAGE);
@@ -211,7 +219,7 @@ void PageViewIndicator::increaseNumberOfPages()
                 indexNode = Sprite::create(_indexNodesTextureFile);
                 break;
             case Widget::TextureResType::PLIST:
-                indexNode = Sprite::createWithSpriteFrameName(_indexNodesTextureFile);
+                indexNode = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(_indexNodesTextureFile));
                 break;
             default:
                 break;

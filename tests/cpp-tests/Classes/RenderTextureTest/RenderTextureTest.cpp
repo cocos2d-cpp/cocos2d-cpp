@@ -241,18 +241,19 @@ RenderTextureZbuffer::RenderTextureZbuffer()
     label2->setPositionZ(0);
     label3->setPositionZ(-50);
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/bugs/circle.plist");
+    auto cache = SpriteFrameCache::getInstance();
+    cache->addSpriteFramesWithFile("Images/bugs/circle.plist");
     mgr = SpriteBatchNode::create("Images/bugs/circle.png", 9);
     this->addChild(mgr);
-    sp1 = Sprite::createWithSpriteFrameName("circle.png");
-    sp2 = Sprite::createWithSpriteFrameName("circle.png");
-    sp3 = Sprite::createWithSpriteFrameName("circle.png");
-    sp4 = Sprite::createWithSpriteFrameName("circle.png");
-    sp5 = Sprite::createWithSpriteFrameName("circle.png");
-    sp6 = Sprite::createWithSpriteFrameName("circle.png");
-    sp7 = Sprite::createWithSpriteFrameName("circle.png");
-    sp8 = Sprite::createWithSpriteFrameName("circle.png");
-    sp9 = Sprite::createWithSpriteFrameName("circle.png");
+    sp1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp3 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp4 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp5 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp6 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp7 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp8 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp9 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
 
     mgr->addChild(sp1, 9);
     mgr->addChild(sp2, 8);

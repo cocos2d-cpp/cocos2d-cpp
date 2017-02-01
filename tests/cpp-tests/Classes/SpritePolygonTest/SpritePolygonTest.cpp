@@ -763,7 +763,7 @@ void SpritePolygonTestFrameAnim::initSprites()
     for(int i=0;i<10;i++)
     {
         sprintf(str, "grossini_dance_%02d.png", i+1);
-        sprite = Sprite::createWithSpriteFrameName(str);
+        sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(str));
 
         sprite->setPosition(Vec2(screen.width/6*(i%5+1), screen.height*2/3 - screen.height*(i/5)/3));
 

@@ -62,22 +62,6 @@ public:
     virtual const std::string& getString() const = 0;
 };
 
-/** 
- * OpenGL projection protocol 
- */
-class CC_DLL DirectorDelegate
-{
-public:
-    virtual ~DirectorDelegate() {}
-
-    /**
-     * Will be called by Director when the projection is updated, and "custom" projection is used
-     * @js NA
-     * @lua NA
-     */
-    virtual void updateProjection() = 0;
-};
-
 /**
  * interface for playable items
  */

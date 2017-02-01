@@ -327,20 +327,22 @@ Sprite* SubTest::createSpriteWithTag(int tag)
         case 14:
         case 15:
         {
-            sprite = Sprite::createWithSpriteFrameName("grossini_dance_05.png");
+            auto frameCache = SpriteFrameCache::getInstance();
+            sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossini_dance_05.png"));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
         case 16:
         {
             int test = (CCRANDOM_0_1() * 2);
+            auto frameCache = SpriteFrameCache::getInstance();
             if(test==0) {
-                sprite = Sprite::createWithSpriteFrameName("grossinis_sister1.png");
+                sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossinis_sister1.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             else if(test==1)
             {
-                sprite = Sprite::createWithSpriteFrameName("grossinis_sister2.png");
+                sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossinis_sister2.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             break;

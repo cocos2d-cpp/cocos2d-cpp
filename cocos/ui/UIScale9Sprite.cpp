@@ -24,7 +24,6 @@
 
 #include "ui/UIScale9Sprite.h"
 #include "2d/CCSprite.h"
-#include "2d/CCSpriteFrameCache.h"
 #include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 #include "renderer/CCGLProgram.h"
@@ -102,32 +101,6 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame)
     return createWithSpriteFrame(spriteFrame, Rect::ZERO);
 }
 
-Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets)
-{
-    Scale9Sprite* ret = new (std::nothrow) Scale9Sprite();
-    if (ret && ret->initWithSpriteFrameName(spriteFrameName, capInsets))
-    {
-        ret->autorelease();
-        return ret;
-    }
-    CC_SAFE_DELETE(ret);
-    return nullptr;
-}
-
-Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
-{
-    Scale9Sprite* ret = new (std::nothrow) Scale9Sprite();
-    if (ret && ret->initWithSpriteFrameName(spriteFrameName, Rect::ZERO))
-    {
-        ret->autorelease();
-        return ret;
-    }
-    CC_SAFE_DELETE(ret);
-
-    log("Could not allocate Scale9Sprite()");
-    return nullptr;
-}
-
 Scale9Sprite::Scale9Sprite()
 : _isPatch9(false)
 , _previousCenterRectNormalized(Rect(0,0,1,1))
@@ -156,14 +129,6 @@ bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& cap
 {
     // calls super
     bool ret = Sprite::initWithSpriteFrame(spriteFrame);
-    setupSlice9(getTexture(), capInsets);
-    return ret;
-}
-
-bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets)
-{
-    // calls super
-    bool ret = Sprite::initWithSpriteFrameName(spriteFrameName);
     setupSlice9(getTexture(), capInsets);
     return ret;
 }

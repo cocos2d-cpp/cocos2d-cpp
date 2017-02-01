@@ -32,7 +32,6 @@ THE SOFTWARE.
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCAnimationCache.h"
 #include "2d/CCSpriteFrame.h"
-#include "2d/CCSpriteFrameCache.h"
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCTexture2D.h"
 #include "renderer/CCRenderer.h"
@@ -115,15 +114,6 @@ Sprite* Sprite::createWithSpriteFrame(SpriteFrame *spriteFrame)
     return nullptr;
 }
 
-Sprite* Sprite::createWithSpriteFrameName(const std::string& spriteFrameName)
-{
-    SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
-
-    CCASSERT(frame != nullptr, "Invalid spriteFrameName");
-
-    return createWithSpriteFrame(frame);
-}
-
 Sprite* Sprite::create()
 {
     Sprite *sprite = new (std::nothrow) Sprite();
@@ -200,18 +190,6 @@ bool Sprite::initWithFile(const std::string &filename, const Rect& rect)
     // when load texture failed, it's better to get a "transparent" sprite then a crashed program
     // this->release();
     return false;
-}
-
-bool Sprite::initWithSpriteFrameName(const std::string& spriteFrameName)
-{
-    CCASSERT(!spriteFrameName.empty(), "Invalid spriteFrameName");
-    if (spriteFrameName.empty())
-    {
-        return false;
-    }
-
-    SpriteFrame *frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(spriteFrameName);
-    return initWithSpriteFrame(frame);
 }
 
 bool Sprite::initWithSpriteFrame(SpriteFrame *spriteFrame)
@@ -1395,26 +1373,9 @@ bool Sprite::isOpacityModifyRGB(void) const
 
 // MARK: Frames
 
-void Sprite::setSpriteFrame(const std::string &spriteFrameName)
-{
-    CCASSERT(!spriteFrameName.empty(), "spriteFrameName must not be empty");
-    if (spriteFrameName.empty())
-    {
-        return;
-    }
-
-    SpriteFrameCache *cache = SpriteFrameCache::getInstance();
-    SpriteFrame *spriteFrame = cache->getSpriteFrameByName(spriteFrameName);
-
-    CCASSERT(spriteFrame, std::string("Invalid spriteFrameName :").append(spriteFrameName).c_str());
-
-    setSpriteFrame(spriteFrame);
-}
-
 void Sprite::setSpriteFrame(SpriteFrame *spriteFrame)
 {
     // retain the sprite frame
-    // do not removed by SpriteFrameCache::removeUnusedSpriteFrames
     if (_spriteFrame != spriteFrame)
     {
         CC_SAFE_RELEASE(_spriteFrame);

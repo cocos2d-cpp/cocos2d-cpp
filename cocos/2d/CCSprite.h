@@ -160,20 +160,8 @@ public:
      */
     static Sprite* createWithSpriteFrame(SpriteFrame *spriteFrame);
 
-    /**
-     * Creates a sprite with an sprite frame name.
-     *
-     * A SpriteFrame will be fetched from the SpriteFrameCache by spriteFrameName param.
-     * If the SpriteFrame doesn't exist it will raise an exception.
-     *
-     * @param   spriteFrameName A null terminated string which indicates the sprite frame name.
-     * @return  An autoreleased sprite object.
-     */
-    static Sprite* createWithSpriteFrameName(const std::string& spriteFrameName);
-
     //  end of creators group
     /// @}
-
 
     /// @{
     /// @name BatchNode methods
@@ -283,7 +271,6 @@ public:
     /** @{
      * Sets a new SpriteFrame to the Sprite.
      */
-    virtual void setSpriteFrame(const std::string &spriteFrameName);
     virtual void setSpriteFrame(SpriteFrame* newFrame);
     /** @} */
 
@@ -524,17 +511,6 @@ protected :
      * @return  True if the sprite is initialized properly, false otherwise.
      */
     virtual bool initWithSpriteFrame(SpriteFrame *spriteFrame);
-
-    /**
-     * Initializes a sprite with an sprite frame name.
-     *
-     * A SpriteFrame will be fetched from the SpriteFrameCache by name.
-     * If the SpriteFrame doesn't exist it will raise an exception.
-     *
-     * @param   spriteFrameName  A key string that can fetched a valid SpriteFrame from SpriteFrameCache.
-     * @return  True if the sprite is initialized properly, false otherwise.
-     */
-    virtual bool initWithSpriteFrameName(const std::string& spriteFrameName);
 
     /**
      * Initializes a sprite with an image filename.

@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "ui/UIScale9Sprite.h"
 #include "ui/UIHelper.h"
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 
 namespace cocos2d {
 
@@ -130,7 +131,9 @@ void ImageView::loadTexture(const std::string& fileName, TextureResType texType)
             _imageRenderer->initWithFile(fileName);
             break;
         case TextureResType::PLIST:
-            _imageRenderer->initWithSpriteFrameName(fileName);
+            _imageRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+            );
             break;
         default:
             break;

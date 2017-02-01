@@ -80,8 +80,10 @@ struct DownloaderTest : public TestCase
         Size viewSize(220, 120);
         float margin = 5;
         
+        auto cache = SpriteFrameCache::getInstance();
+
         // create background
-        auto bg = ui::Scale9Sprite::createWithSpriteFrameName("button_actived.png");
+        auto bg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("button_actived.png"));
         bg->setContentSize(viewSize);
         
         // add a titile on the top

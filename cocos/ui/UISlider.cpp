@@ -1,7 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017 Iakov Sergeev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +22,13 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UISlider.h"
+
+#include "2d/CCCamera.h"
+#include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
+#include "base/CCTouch.h"
 #include "ui/UIScale9Sprite.h"
 #include "ui/UIHelper.h"
-#include "2d/CCSprite.h"
-#include "2d/CCCamera.h"
-#include "base/CCTouch.h"
 
 namespace cocos2d {
 
@@ -165,7 +166,9 @@ void Slider::loadBarTexture(const std::string& fileName, TextureResType texType)
             _barRenderer->initWithFile(fileName);
             break;
         case TextureResType::PLIST:
-            _barRenderer->initWithSpriteFrameName(fileName);
+            _barRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+            );
             break;
         default:
             break;
@@ -208,7 +211,9 @@ void Slider::loadProgressBarTexture(const std::string& fileName, TextureResType 
             _progressBarRenderer->initWithFile(fileName);
             break;
         case TextureResType::PLIST:
-            _progressBarRenderer->initWithSpriteFrameName(fileName);
+            _progressBarRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+            );
             break;
         default:
             break;
@@ -331,7 +336,9 @@ void Slider::loadSlidBallTextureNormal(const std::string& normal,TextureResType 
             _slidBallNormalRenderer->setTexture(normal);
             break;
         case TextureResType::PLIST:
-            _slidBallNormalRenderer->setSpriteFrame(normal);
+            _slidBallNormalRenderer->setSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(normal)
+            );
             break;
         default:
             break;
@@ -358,7 +365,9 @@ void Slider::loadSlidBallTexturePressed(const std::string& pressed,TextureResTyp
             _slidBallPressedRenderer->setTexture(pressed);
             break;
         case TextureResType::PLIST:
-            _slidBallPressedRenderer->setSpriteFrame(pressed);
+            _slidBallPressedRenderer->setSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(pressed)
+            );
             break;
         default:
             break;
@@ -387,7 +396,9 @@ void Slider::loadSlidBallTextureDisabled(const std::string& disabled,TextureResT
             _slidBallDisabledRenderer->setTexture(disabled);
             break;
         case TextureResType::PLIST:
-            _slidBallDisabledRenderer->setSpriteFrame(disabled);
+            _slidBallDisabledRenderer->setSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(disabled)
+            );
             break;
         default:
             break;

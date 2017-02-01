@@ -107,21 +107,6 @@ PhysicsSprite* PhysicsSprite::createWithSpriteFrame(SpriteFrame *pSpriteFrame)
     return pRet;
 }
 
-PhysicsSprite* PhysicsSprite::createWithSpriteFrameName(const char *pszSpriteFrameName)
-{
-    PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();
-    if (pRet && pRet->initWithSpriteFrameName(pszSpriteFrameName))
-    {
-        pRet->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(pRet);
-    }
-
-    return pRet;
-}
-
 PhysicsSprite* PhysicsSprite::create(const char *pszFileName)
 {
     PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();

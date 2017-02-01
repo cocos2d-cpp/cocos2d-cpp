@@ -1,5 +1,6 @@
 /****************************************************************************
 Copyright (c) 2012 cocos2d-x.org
+Copyright (c) 2016 Iakov Sergeev
 
 http://www.cocos2d-x.org
 
@@ -24,12 +25,16 @@ THE SOFTWARE.
 
 #include "CCControlUtils.h"
 
+#include "2d/CCSpriteFrameCache.h"
+
 namespace cocos2d {
 namespace extension {
 
 Sprite* ControlUtils::addSpriteToTargetWithPosAndAnchor(const char* spriteName, Node * target, Vec2 pos, Vec2 anchor)
 {
-    Sprite *sprite =Sprite::createWithSpriteFrameName(spriteName);
+    auto cache = SpriteFrameCache::getInstance();
+
+    Sprite *sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(spriteName));
     
     if (!sprite)
         return nullptr;

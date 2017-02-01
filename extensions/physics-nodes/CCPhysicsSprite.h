@@ -67,13 +67,6 @@ public:
     /** Creates an sprite with an sprite frame. */
     static PhysicsSprite* createWithSpriteFrame(SpriteFrame *pSpriteFrame);
 
-    /** Creates an sprite with an sprite frame name.
-     An SpriteFrame will be fetched from the SpriteFrameCache by name.
-     If the SpriteFrame doesn't exist it will raise an exception.
-     @since v0.9
-     */
-    static PhysicsSprite* createWithSpriteFrameName(const char *pszSpriteFrameName);
-
     /** Creates an sprite with an image filename.
      The rect used will be the size of the image.
      The offset will be (0,0).

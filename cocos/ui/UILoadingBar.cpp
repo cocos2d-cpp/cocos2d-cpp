@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "ui/UIHelper.h"
 #include "ui/UIScale9Sprite.h"
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 
 namespace cocos2d {
 
@@ -125,7 +126,7 @@ LoadingBar::Direction LoadingBar::getDirection()const
 }
     
 
-void LoadingBar::loadTexture(const std::string& texture,TextureResType texType)
+void LoadingBar::loadTexture(const std::string& texture, TextureResType texType)
 {
     if (texture.empty())
     {
@@ -139,7 +140,9 @@ void LoadingBar::loadTexture(const std::string& texture,TextureResType texType)
             _barRenderer->initWithFile(texture);
             break;
         case TextureResType::PLIST:
-            _barRenderer->initWithSpriteFrameName(texture);
+            _barRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(texture)
+            );
             break;
         default:
             break;

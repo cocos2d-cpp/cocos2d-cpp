@@ -222,8 +222,6 @@ void Director::setDefaultValues(void)
         _projection = Projection::_3D;
     else if (projection == "2d")
         _projection = Projection::_2D;
-    else if (projection == "custom")
-        _projection = Projection::CUSTOM;
     else
         CCASSERT(false, "Invalid projection value");
 
@@ -662,11 +660,6 @@ void Director::setProjection(Projection projection)
             loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
             break;
         }
-
-        case Projection::CUSTOM:
-            // Projection Delegate is no longer needed
-            // since the event "PROJECTION CHANGED" is emitted
-            break;
 
         default:
             CCLOG("cocos2d: Director: unrecognized projection");

@@ -35,6 +35,7 @@ THE SOFTWARE.
 #include "2d/CCDrawNode.h"
 #include "2d/CCLayer.h"
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "base/CCEventFocus.h"
 #include "base/CCStencilStateManager.hpp"
 
@@ -586,7 +587,9 @@ void Layout::setBackGroundImage(const std::string& fileName,TextureResType texTy
             _backGroundImage->initWithFile(fileName);
             break;
         case TextureResType::PLIST:
-            _backGroundImage->initWithSpriteFrameName(fileName);
+            _backGroundImage->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+            );
             break;
         default:
             break;

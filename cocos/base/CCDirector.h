@@ -50,21 +50,16 @@ namespace cocos2d {
 
 /* Forward declarations. */
 class LabelAtlas;
-//class GLView;
-class DirectorDelegate;
 class Node;
 class Scheduler;
 class ActionManager;
 class EventDispatcher;
 class EventCustom;
-class EventListenerCustom;
 class TextureCache;
 class Renderer;
-class Camera;
-
 class Console;
-namespace experimental
-{
+
+namespace experimental {
     class FrameBuffer;
 }
 
@@ -121,9 +116,6 @@ public:
         
         /// Sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
         _3D,
-        
-        /// It calls "updateProjection" on the projection delegate.
-        CUSTOM,
         
         /// Default projection is 3D projection.
         DEFAULT = _3D,

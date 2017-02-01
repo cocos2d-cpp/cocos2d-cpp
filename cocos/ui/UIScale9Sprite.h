@@ -165,35 +165,9 @@ namespace ui {
          */
         static Scale9Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets);
 
-        /**
-         * Creates a 9-slice sprite with an sprite frame name.
-         * Once the sprite is created, you can then call its "setContentSize:" method
-         * to resize the sprite will all it's 9-slice goodness intract.
-         * It respects the anchorPoint too.
-         *
-         * @see initWithSpriteFrameName(const char *spriteFrameName)
-         * @param spriteFrameName A sprite frame name.
-         * @return A Scale9Sprite instance.
-         */
-        static Scale9Sprite* createWithSpriteFrameName(const std::string& spriteFrameName);
-
-        /**
-         * Creates a 9-slice sprite with an sprite frame name and the centre of its zone.
-         * Once the sprite is created, you can then call its "setContentSize:" method
-         * to resize the sprite will all it's 9-slice goodness intract.
-         * It respects the anchorPoint too.
-         *
-         * @see initWithSpriteFrameName(const char *spriteFrameName, const Rect& capInsets)
-         * @param spriteFrameName A sprite frame name.
-         * @param capInsets A delimitation zone.
-         * @return A Scale9Sprite instance.
-         */
-        static Scale9Sprite* createWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets);
-
         // overriden methods that takes different parameters
         using Sprite::initWithFile;
         using Sprite::initWithSpriteFrame;
-        using Sprite::initWithSpriteFrameName;
         using Sprite::setSpriteFrame;
 
         /**
@@ -237,19 +211,6 @@ namespace ui {
          * @return True if initializes success, false otherwise.
          */
         virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets);
-
-        /**
-         * Initializes a 9-slice sprite with an sprite frame name and with the specified
-         * cap insets.
-         * Once the sprite is created, you can then call its "setContentSize:" method
-         * to resize the sprite will all it's 9-slice goodness intract.
-         * It respects the anchorPoint too.
-         *
-         * @param spriteFrameName The sprite frame name.
-         * @param capInsets The values to use for the cap insets.
-         * @return True if initializes success, false otherwise.
-         */
-        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets);
 
         //override function
         virtual bool init() override;

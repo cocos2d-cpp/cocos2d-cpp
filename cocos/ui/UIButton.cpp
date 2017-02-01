@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "ui/UIScale9Sprite.h"
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "2d/CCActionInterval.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIHelper.h"
@@ -267,7 +268,9 @@ void Button::loadTextureNormal(const std::string& normal,TextureResType texType)
             _buttonNormalRenderer->initWithFile(normal);
             break;
         case TextureResType::PLIST:
-            _buttonNormalRenderer->initWithSpriteFrameName(normal);
+            _buttonNormalRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(normal)
+            );
             break;
         default:
             break;
@@ -325,7 +328,9 @@ void Button::loadTexturePressed(const std::string& selected,TextureResType texTy
             _buttonClickedRenderer->initWithFile(selected);
             break;
         case TextureResType::PLIST:
-            _buttonClickedRenderer->initWithSpriteFrameName(selected);
+            _buttonClickedRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(selected)
+            );
             break;
         default:
             break;
@@ -368,7 +373,9 @@ void Button::loadTextureDisabled(const std::string& disabled,TextureResType texT
             _buttonDisabledRenderer->initWithFile(disabled);
             break;
         case TextureResType::PLIST:
-            _buttonDisabledRenderer->initWithSpriteFrameName(disabled);
+            _buttonDisabledRenderer->initWithSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(disabled)
+            );
             break;
         default:
             break;

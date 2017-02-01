@@ -364,9 +364,11 @@ void SpriteProgressWithSpriteFrame::onEnter()
 
     auto to = Sequence::createWithTwoActions(ProgressTo::create(6, 100), ProgressTo::create(0, 0));
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("zwoptex/grossini.plist");
+    auto cache = SpriteFrameCache::getInstance();
 
-    auto left = ProgressTimer::create(Sprite::createWithSpriteFrameName("grossini_dance_01.png"));
+    cache->addSpriteFramesWithFile("zwoptex/grossini.plist");
+
+    auto left = ProgressTimer::create(Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini_dance_01.png")));
     left->setType(ProgressTimer::Type::BAR);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     left->setMidpoint(Vec2(0.5f, 0.5f));
@@ -376,7 +378,7 @@ void SpriteProgressWithSpriteFrame::onEnter()
     left->setPosition(100, s.height/2);
     left->runAction(RepeatForever::create(to->clone()));
 
-    auto middle = ProgressTimer::create(Sprite::createWithSpriteFrameName("grossini_dance_02.png"));
+    auto middle = ProgressTimer::create(Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini_dance_02.png")));
     middle->setType(ProgressTimer::Type::BAR);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     middle->setMidpoint(Vec2(0.5f, 0.5f));
@@ -386,7 +388,7 @@ void SpriteProgressWithSpriteFrame::onEnter()
     middle->setPosition(s.width/2, s.height/2);
     middle->runAction(RepeatForever::create(to->clone()));
 
-    auto right = ProgressTimer::create(Sprite::createWithSpriteFrameName("grossini_dance_03.png"));
+    auto right = ProgressTimer::create(Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini_dance_03.png")));
     right->setType(ProgressTimer::Type::RADIAL);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     right->setMidpoint(Vec2(0.5f, 0.5f));

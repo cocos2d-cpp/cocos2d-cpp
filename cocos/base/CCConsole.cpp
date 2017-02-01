@@ -1111,10 +1111,6 @@ void Console::commandProjection(int fd, const std::string& /*args*/)
         case cocos2d::Director::Projection::_3D:
             sprintf(buf,"3d");
             break;
-        case cocos2d::Director::Projection::CUSTOM:
-            sprintf(buf,"custom");
-            break;
-            
         default:
             sprintf(buf,"unknown");
             break;
