@@ -60,8 +60,8 @@ void HttpClient::networkThread()
             while (_requestQueue.empty()) {
                 _sleepCondition.wait(_requestQueueMutex);
             }
-            request = _requestQueue.at(0);
-            _requestQueue.erase( _requestQueue.begin() );
+            request = _requestQueue.front();
+            _requestQueue.pop_front();
         }
 
         if (!request)
@@ -455,8 +455,8 @@ void HttpClient::dispatchResponseCallbacks()
         std::lock_guard<std::mutex> lock(_responseQueueMutex);
         if (!_responseQueue.empty())
         {
-            response = _responseQueue.at(0);
-            _responseQueue.erase(_responseQueue.begin());
+            response = _responseQueue.front();
+            _responseQueue.pop_front();
         }
     }
 

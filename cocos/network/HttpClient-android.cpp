@@ -677,7 +677,7 @@ void HttpClient::processResponse(std::shared_ptr<HttpResponse> response, char* r
     if (HttpRequest::Type::POST == requestType ||
         HttpRequest::Type::PUT == requestType)
     {
-        urlConnection.sendRequest(request);
+        urlConnection.sendRequest(request.get());
     }
 
     responseCode = urlConnection.getResponseCode();
@@ -743,8 +743,8 @@ void HttpClient::networkThread()
             while (_requestQueue.empty()) {
                 _sleepCondition.wait(_requestQueueMutex);
             }
-            request.reset( _requestQueue.front().release() );
-            _requestQueue.erase( _requestQueue.begin() );
+            request = _requestQueue.front();
+            _requestQueue.pop_front();
         }
 
         if (!request)
@@ -955,15 +955,15 @@ void HttpClient::dispatchResponseCallbacks()
 {
     // log("CCHttpClient::dispatchResponseCallbacks is running");
     //occurs when cocos thread fires but the network thread has already quited
-    std::shared_ptr<HttpRequest> response;
+    std::shared_ptr<HttpResponse> response;
     
     {
         std::lock_guard<std::mutex> lock(_responseQueueMutex);
 
         if (!_responseQueue.empty())
         {
-            response = _responseQueue.at(0);
-            _responseQueue.erase( _responseQueue.begin() );
+            response = _responseQueue.front();
+            _responseQueue.pop_front();
         }
     }
     
