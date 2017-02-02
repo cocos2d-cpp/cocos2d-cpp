@@ -702,7 +702,7 @@ void VolatileTextureMgr::addImage(Texture2D *tt, Image *image)
     vt->_cashedImageType = VolatileTexture::kImage;
 }
 
-VolatileTexture* VolatileTextureMgr::findVolotileTexture(const Texture2D *tt)
+VolatileTexture* VolatileTextureMgr::findVolotileTexture(Texture2D *tt)
 {
     VolatileTexture *vt = nullptr;
     for (const auto& texture : _textures)
@@ -760,7 +760,7 @@ void VolatileTextureMgr::setHasMipmaps(Texture2D *t, bool hasMipmaps)
     vt->_hasMipmaps = hasMipmaps;
 }
 
-void VolatileTextureMgr::setTexParameters(const Texture2D *t, const Texture2D::TexParams &texParams)
+void VolatileTextureMgr::setTexParameters(Texture2D *t, const Texture2D::TexParams &texParams)
 {
     VolatileTexture *vt = findVolotileTexture(t);
 
