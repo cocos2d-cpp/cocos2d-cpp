@@ -1,13 +1,18 @@
 #include "ShaderTest.h"
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
 #include "2d/CCMenu.h"
 #include "2d/CCMenuItem.h"
 #include "base/CCDirector.h"
 #include "renderer/CCGLProgram.h"
 #include "renderer/CCRenderer.h"
 #include "renderer/ccShaders.h"
+#include "platform/CCFileUtils.h"
 #include "renderer/CCTextureCache.h"
+#include "ui/UISlider.h"
+
+#include "GUI/CCControlExtension/CCControlSlider.h"
 
 using namespace cocos2d;
 using namespace cocos2d::extension;

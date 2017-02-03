@@ -1,11 +1,18 @@
 #ifndef _SHADER_TEST_H_
 #define _SHADER_TEST_H_
 
-#include "ui/CocosGUI.h"
-
-#include "extensions/cocos-ext.h"
 #include "../BaseTest.h"
 
+#include "GUI/CCControlExtension/CCControl.h"
+
+namespace cocos2d {
+namespace extension {
+class ControlSlider;
+}
+namespace ui {
+class Slider;
+}
+}
 
 DEFINE_TEST_SUITE(ShaderTests);
 

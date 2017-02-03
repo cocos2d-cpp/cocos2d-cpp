@@ -1,5 +1,6 @@
 #include "Scene3DTest.h"
 
+#include "2d/CCLabel.h"
 #include "2d/CCMenu.h"
 #include "2d/CCMenuItem.h"
 #include "2d/CCSpriteFrameCache.h"
@@ -15,7 +16,13 @@
 #include "renderer/CCTextureCache.h"
 #include "renderer/CCTextureCube.h"
 #include "Particle3D/PU/CCPUParticleSystem3D.h"
-#include "ui/CocosGUI.h"
+#include "ui/UIButton.h"
+#include "ui/UICheckBox.h"
+#include "ui/UILayout.h"
+#include "ui/UIScale9Sprite.h"
+#include "ui/UISlider.h"
+#include "ui/UIText.h"
+#include "ui/UIWidget.h"
 
 #include "../testResource.h"
 #include "../TerrainTest/TerrainTest.h"
