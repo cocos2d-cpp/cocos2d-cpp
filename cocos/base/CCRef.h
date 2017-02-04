@@ -31,8 +31,6 @@ THE SOFTWARE.
 
 #include <memory> // unique_ptr
 
-#define CC_REF_LEAK_DETECTION 0
-
 /**
  * @addtogroup base
  * @{
@@ -86,7 +84,7 @@ public:
      * @js NA
      * @lua NA
      */
-    Ref* autorelease();
+    void autorelease();
 
     /**
      * Returns the Ref's current reference count.
@@ -119,12 +117,6 @@ protected:
     mutable unsigned int _referenceCount;
 
     friend class AutoreleasePool;
-
-    // Memory leak diagnostic data (only included when CC_REF_LEAK_DETECTION is defined and its value isn't zero)
-#if CC_REF_LEAK_DETECTION
-public:
-    static void printLeaks();
-#endif
 };
 
 class Node;
