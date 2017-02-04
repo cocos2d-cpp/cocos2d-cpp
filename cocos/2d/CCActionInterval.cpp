@@ -165,7 +165,7 @@ Sequence* Sequence::createWithTwoActions(FiniteTimeAction *actionOne, FiniteTime
     return nullptr;
 }
 
-Sequence* Sequence::create(actions_container && arrayOfActions)
+Sequence* Sequence::create(actions_container arrayOfActions)
 {
     Sequence* seq = new (std::nothrow) Sequence;
     
@@ -179,7 +179,7 @@ Sequence* Sequence::create(actions_container && arrayOfActions)
     return nullptr;
 }
 
-bool Sequence::init(actions_container && arrayOfActions)
+bool Sequence::init(actions_container arrayOfActions)
 {
     auto count = arrayOfActions.size();
 

@@ -130,10 +130,10 @@ public:
      * @param arrayOfActions An array of sequenceable actions.
      * @return An autoreleased Sequence object.
      */
-    static Sequence* create(actions_container && arrayOfActions);
+    static Sequence* create(actions_container arrayOfActions);
 
     template<typename ...Actions>
-    static Sequence* create(actions_container && arrayOfActions,
+    static Sequence* create(actions_container arrayOfActions,
                             actions_container::value_type action,
                             Actions ...actions)
     {
@@ -141,9 +141,7 @@ public:
         return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
     template<typename A, typename ...Actions>
-    static Sequence* create(actions_container && arrayOfActions,
-                            A action,
-                            Actions ...actions)
+    static Sequence* create(actions_container arrayOfActions, A action, Actions ...actions)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
@@ -154,15 +152,6 @@ public:
                       std::forward<Actions>(actions)...);
     }
 
-    template<typename ...Actions>
-    static Sequence* create(actions_container::value_type action,
-                            Actions ...actions)
-    {
-        actions_container arrayOfActions;
-        arrayOfActions.push_back(std::move(action));
-        return create(std::move(arrayOfActions),
-                      std::forward<Actions>(actions)...);
-    }
     template<typename A, typename ...Actions>
     static Sequence* create(A action, Actions ...actions)
     {
@@ -170,8 +159,9 @@ public:
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
             "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
-        return create(action_ptr<FiniteTimeAction>(action.release()),
-                      std::forward<Actions>(actions)...);
+        actions_container arrayOfActions;
+        arrayOfActions.push_back( action_ptr<FiniteTimeAction>(action.release()) );
+        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
 
     /** Creates the action.
@@ -199,7 +189,7 @@ protected:
 
     /** initializes the action */
     bool initWithTwoActions(FiniteTimeAction *pActionOne, FiniteTimeAction *pActionTwo);
-    bool init(actions_container && arrayOfActions);
+    bool init(actions_container arrayOfActions);
 
 protected:
     FiniteTimeAction *_actions[2];
