@@ -27,9 +27,9 @@
 
 #include "platform/CCPlatformConfig.h"
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && !defined(CC_PLATFORM_OS_TVOS)
-
-
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID && CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_TIZEN)
+#   error Unsupported platform. Only Android, iOS, Tizen are supported
+#endif
 
 #include "ui/UIWidget.h"
 #include "ui/GUIExport.h"
@@ -244,7 +244,6 @@ private:
    } // namespace experimental
 }//namespace cocos2d
 
-#endif
 // end group
 /// @}
 #endif //__COCOS2D_UI_WEBVIEW_H

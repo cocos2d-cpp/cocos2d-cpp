@@ -1,13 +1,15 @@
 #include "SpritePolygonTest.h"
 #include "../testResource.h"
 
+#include "2d/CCDrawNode.h"
+#include "2d/CCLabel.h"
 #include "2d/CCMenu.h"
 #include "2d/CCMenuItem.h"
+#include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "renderer/CCTextureCache.h"
-#include "ui/CocosGUI.h"
 
 using namespace cocos2d;
 

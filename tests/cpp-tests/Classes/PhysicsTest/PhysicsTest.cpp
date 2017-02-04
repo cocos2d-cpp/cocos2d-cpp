@@ -2,10 +2,10 @@
 
 #if CC_USE_PHYSICS
 
-#include "ui/CocosGUI.h"
 #include "../testResource.h"
 
 #include "2d/CCDrawNode.h"
+#include "2d/CCLabel.h"
 #include "2d/CCMenu.h"
 #include "2d/CCMenuItem.h"
 #include "2d/CCSpriteBatchNode.h"
@@ -16,6 +16,7 @@
 #include "physics/CCPhysicsJoint.h"
 #include "physics/CCPhysicsWorld.h"
 #include "platform/CCDevice.h"
+#include "ui/UIScale9Sprite.h"
 
 #include <cmath>
 

@@ -526,7 +526,6 @@
     <ClCompile Include="..\..\renderer\CCVertexIndexBuffer.cpp" />
     <ClCompile Include="..\..\renderer\CCVertexIndexData.cpp" />
     <ClCompile Include="..\..\storage\local-storage\LocalStorage.cpp" />
-    <ClCompile Include="..\..\ui\CocosGUI.cpp" />
     <ClCompile Include="..\..\ui\UIButton.cpp" />
     <ClCompile Include="..\..\ui\UIAbstractCheckButton.cpp" />
     <ClCompile Include="..\..\ui\UICheckBox.cpp" />
@@ -1037,7 +1036,6 @@
     <ClInclude Include="..\..\renderer\CCVertexIndexBuffer.h" />
     <ClInclude Include="..\..\renderer\CCVertexIndexData.h" />
     <ClInclude Include="..\..\storage\local-storage\LocalStorage.h" />
-    <ClInclude Include="..\..\ui\CocosGUI.h" />
     <ClInclude Include="..\..\ui\GUIExport.h" />
     <ClInclude Include="..\..\ui\UIButton.h" />
     <ClInclude Include="..\..\ui\UICheckBox.h" />

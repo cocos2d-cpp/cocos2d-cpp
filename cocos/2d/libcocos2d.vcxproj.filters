@@ -712,9 +712,6 @@
     <ClCompile Include="..\ui\UIVBox.cpp">
       <Filter>ui\Layouts</Filter>
     </ClCompile>
-    <ClCompile Include="..\ui\CocosGUI.cpp">
-      <Filter>ui\System</Filter>
-    </ClCompile>
     <ClCompile Include="..\ui\UIHelper.cpp">
       <Filter>ui\System</Filter>
     </ClCompile>
@@ -2100,9 +2097,6 @@
     </ClInclude>
     <ClInclude Include="..\ui\UIVBox.h">
       <Filter>ui\Layouts</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ui\CocosGUI.h">
-      <Filter>ui\System</Filter>
     </ClInclude>
     <ClInclude Include="..\ui\GUIExport.h">
       <Filter>ui\System</Filter>

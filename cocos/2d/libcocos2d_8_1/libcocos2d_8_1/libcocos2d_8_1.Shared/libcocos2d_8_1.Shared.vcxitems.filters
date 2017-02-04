@@ -225,9 +225,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\UILayout.h">
       <Filter>ui\Layouts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\CocosGUI.h">
-      <Filter>ui\System</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\GUIExport.h">
       <Filter>ui\System</Filter>
     </ClInclude>
@@ -1677,9 +1674,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\UILayout.cpp">
       <Filter>ui\Layouts</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\CocosGUI.cpp">
-      <Filter>ui\System</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\..\..\..\ui\UIHelper.cpp">
       <Filter>ui\System</Filter>

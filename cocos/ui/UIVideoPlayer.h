@@ -25,7 +25,11 @@
 #ifndef __COCOS2D_UI_VIDEOWEIGTH_H_
 #define __COCOS2D_UI_VIDEOWEIGTH_H_
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_TIZEN) && !defined(CC_PLATFORM_OS_TVOS)
+#include "platform/CCPlatformConfig.h"
+
+#if (CC_TARGET_PLATFORM != CC_PLATFORM_ANDROID && CC_TARGET_PLATFORM != CC_PLATFORM_IOS && CC_TARGET_PLATFORM != CC_PLATFORM_TIZEN)
+#   error Unsupported platform. Only Android, iOS, Tizen are supported
+#endif
 
 #include "ui/UIWidget.h"
 
@@ -213,5 +217,4 @@ namespace experimental{
 } // namespace cocos2d
 // end group
 /// @}
-#endif
 #endif

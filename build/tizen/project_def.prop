@@ -270,7 +270,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/renderer/ccShaders.cpp \
             ../../cocos/storage/local-storage/LocalStorage-android.cpp \
             ../../cocos/storage/local-storage/LocalStorage.cpp \
-            ../../cocos/ui/CocosGUI.cpp \
             ../../cocos/ui/UIAbstractCheckButton.cpp \
             ../../cocos/ui/UIButton.cpp \
             ../../cocos/ui/UICheckBox.cpp \

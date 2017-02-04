@@ -1044,8 +1044,6 @@
         "cocos/storage/local-storage/LocalStorage.h", 
         "cocos/ui/Android.mk", 
         "cocos/ui/CMakeLists.txt", 
-        "cocos/ui/CocosGUI.cpp", 
-        "cocos/ui/CocosGUI.h", 
         "cocos/ui/GUIDefine.h", 
         "cocos/ui/GUIExport.h", 
         "cocos/ui/UIAbstractCheckButton.cpp", 

@@ -24,11 +24,13 @@
 
 #include "VibrateTest.h"
 
+#include "2d/CCLabel.h"
 #include "base/CCEventDispatcher.h"
 #include "base/ccUTF8.h"
-#include "ui/CocosGUI.h"
 #include "platform/CCDevice.h"
 #include "platform/CCPlatformConfig.h"
+#include "ui/UIScale9Sprite.h"
+#include "ui/UISlider.h"
 
 using namespace cocos2d;
 using namespace cocos2d::ui;

@@ -33,7 +33,6 @@ endif()
 
 set(COCOS_UI_SRC
 
-  ui/CocosGUI.cpp
   ui/UIButton.cpp
   ui/UIAbstractCheckButton.cpp
   ui/UICheckBox.cpp

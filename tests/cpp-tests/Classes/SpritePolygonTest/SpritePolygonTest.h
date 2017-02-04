@@ -1,7 +1,13 @@
 #ifndef __cocos2d_tests__SpritePolygonTest__
 
 #include "../BaseTest.h"
-#include "ui/CocosGUI.h"
+
+#include "2d/CCSprite.h"
+#include "ui/UISlider.h"
+
+namespace cocos2d {
+class DrawNode;
+}
 
 DEFINE_TEST_SUITE(SpritePolygonTest);
 

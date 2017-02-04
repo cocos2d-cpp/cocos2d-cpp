@@ -1,5 +1,5 @@
 #include "HelloWorldScene.h"
-#include "ui/CocosGUI.h"
+#include "2d/CCLabel.h"
 
 using namespace cocos2d;
 

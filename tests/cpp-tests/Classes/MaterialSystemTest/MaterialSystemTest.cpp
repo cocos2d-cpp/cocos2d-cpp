@@ -26,7 +26,9 @@
 #include "MaterialSystemTest.h"
 #include "../testResource.h"
 
+#include "2d/CCLabel.h"
 #include "2d/CCLight.h"
+#include "2d/CCSprite.h"
 #include "3d/CCSprite3D.h"
 #include "base/CCDirector.h"
 #include "base/CCProperties.h"
@@ -34,7 +36,7 @@
 #include "renderer/CCMaterial.h"
 #include "renderer/CCRenderer.h"
 #include "spine/spine-cocos2dx.h"
-#include "ui/CocosGUI.h"
+#include "ui/UISlider.h"
 
 #include <ctime>
 
