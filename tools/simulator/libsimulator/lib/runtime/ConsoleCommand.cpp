@@ -74,7 +74,7 @@ void ConsoleCommand::init()
 
 void ConsoleCommand::onSendCommand(int fd, const std::string &args)
 {
-    Director::getInstance()->getScheduler()->performFunctionInCocosThread([=](){
+    Director::getInstance()->getScheduler().performFunctionInCocosThread([=](){
         rapidjson::Document dArgParse;
         dArgParse.Parse<0>(args.c_str());
         if (dArgParse.HasMember("cmd"))

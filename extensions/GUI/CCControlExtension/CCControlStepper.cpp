@@ -4,6 +4,8 @@
  *
  * Copyright 2012 Yannick Loriot. All rights reserved.
  * http://yannickloriot.com
+ *
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +28,8 @@
  */
 
 #include "CCControlStepper.h"
+
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 namespace extension {
@@ -60,7 +64,7 @@ ControlStepper::ControlStepper()
 
 ControlStepper::~ControlStepper()
 {
-    unscheduleAllCallbacks();
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     
     CC_SAFE_RELEASE(_minusSprite);
     CC_SAFE_RELEASE(_plusSprite);
@@ -222,13 +226,22 @@ void ControlStepper::startAutorepeat()
 {
     _autorepeatCount    = -1;
     
-    this->schedule(CC_SCHEDULE_SELECTOR(ControlStepper::update), kAutorepeatDeltaTime, CC_REPEAT_FOREVER, kAutorepeatDeltaTime * 3);
+    Director::getInstance()->getScheduler().schedule
+        (
+            CC_SCHEDULE_SELECTOR(ControlStepper::update),
+            this,
+            kAutorepeatDeltaTime,
+            CC_REPEAT_FOREVER,
+            kAutorepeatDeltaTime * 3,
+            !_running
+        );
 }
 
 /** Stop the autorepeat. */
 void ControlStepper::stopAutorepeat()
 {
-    this->unschedule(CC_SCHEDULE_SELECTOR(ControlStepper::update));
+    Director::getInstance()->getScheduler().
+        unschedule(CC_SCHEDULE_SELECTOR(ControlStepper::update), this);
 }
 
 void ControlStepper::update(float /*dt*/)

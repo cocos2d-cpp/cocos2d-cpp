@@ -135,7 +135,7 @@ bool PlayerTaskMac::run()
                   withArguments:[NSMutableArray arrayWithArray:[commandLine componentsSeparatedByString:@" "]]];
     _state = STATE_RUNNING;
     
-    cocos2d::Director::getInstance()->getScheduler()->scheduleUpdate(this, 0, false);
+    cocos2d::Director::getInstance()->getScheduler().scheduleUpdate(this, 0, false);
     return true;
 }
 
@@ -162,7 +162,7 @@ void PlayerTaskMac::update(float dt)
         return ;
     }
     
-    cocos2d::Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
+    cocos2d::Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     cleanup();
 }
 

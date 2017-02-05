@@ -3,8 +3,7 @@
  Copyright (c) 2010-2013 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +32,7 @@ THE SOFTWARE.
 #include <chrono>
 
 #include "platform/CCPlatformMacros.h"
-#include "base/CCRef.h"
+#include "base/CCScheduler.h"
 #include "2d/CCScene.h"
 #include "math/CCMath.h"
 #include "platform/CCGL.h"
@@ -51,7 +50,6 @@ namespace cocos2d {
 /* Forward declarations. */
 class LabelAtlas;
 class Node;
-class Scheduler;
 class ActionManager;
 class EventDispatcher;
 class EventCustom;
@@ -383,13 +381,8 @@ public:
     /** Gets the Scheduler associated with this director.
      * @since v2.0
      */
-    Scheduler* getScheduler() const { return _scheduler; }
+    Scheduler & getScheduler() { return _scheduler; }
     
-    /** Sets the Scheduler associated with this director.
-     * @since v2.0
-     */
-    void setScheduler(Scheduler* scheduler);
-
     /** Gets the ActionManager associated with this director.
      * @since v2.0
      */
@@ -581,7 +574,7 @@ protected:
     /** Scheduler associated with this director
      @since v2.0
      */
-    Scheduler *_scheduler;
+    Scheduler _scheduler;
     
     /** ActionManager associated with this director
      @since v2.0

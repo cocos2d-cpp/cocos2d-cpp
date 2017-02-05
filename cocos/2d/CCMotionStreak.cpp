@@ -132,7 +132,7 @@ bool MotionStreak::initWithFade(float fade, float minSeg, float stroke, const Co
 
     setTexture(texture);
     setColor(color);
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     return true;
 }

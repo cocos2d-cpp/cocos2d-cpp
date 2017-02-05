@@ -161,12 +161,12 @@ void PauseTest::onEnter()
     auto director = Director::getInstance();
     director->getActionManager()->addAction(action, grossini, true);
 
-    schedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause), 3); 
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PauseTest::unpause), this, 3, CC_REPEAT_FOREVER, 0.0f, !isRunning());
 }
 
 void PauseTest::unpause(float /*dt*/)
 {
-    unschedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause) );
+    Director::getInstance()->getScheduler().unschedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause), this );
     auto node = getChildByTag( kTagGrossini );
     auto director = Director::getInstance();
     director->getActionManager()->resumeTarget(node);
@@ -248,7 +248,7 @@ void StopAllActionsTest::onEnter()
     pChild->runAction(pRepeatMove);
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
-    this->scheduleOnce((SEL_SCHEDULE)&StopAllActionsTest::stopAction, 4);
+    Director::getInstance()->getScheduler().schedule((SEL_SCHEDULE)&StopAllActionsTest::stopAction, this, 0.0f, 0, 4, !_running);
 }
 
 void StopAllActionsTest::stopAction(float /*time*/)
@@ -291,12 +291,12 @@ void ResumeTest::onEnter()
     director->getActionManager()->pauseTarget(pGrossini);
     pGrossini->runAction(RotateBy::create(2, 360));
 
-    this->schedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), 3.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), this, 3.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void ResumeTest::resumeGrossini(float /*time*/)
 {
-    this->unschedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini));
+    Director::getInstance()->getScheduler().unschedule( CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), this );
 
     auto pGrossini = getChildByTag(kTagGrossini);
     auto director = Director::getInstance();
@@ -339,7 +339,7 @@ void StopActionsByFlagsTest::onEnter()
     pChild->runAction(pRepeatMove);
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
-    this->scheduleOnce((SEL_SCHEDULE)&StopActionsByFlagsTest::stopAction, 4);
+    Director::getInstance()->getScheduler().schedule((SEL_SCHEDULE)&StopActionsByFlagsTest::stopAction, this, 0.0f, 0, 4, !_running);
 }
 
 void StopActionsByFlagsTest::stopAction(float /*time*/)

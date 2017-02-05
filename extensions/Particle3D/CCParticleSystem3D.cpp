@@ -27,6 +27,8 @@
 #include "CCParticle3DAffector.h"
 #include "CCParticle3DRender.h"
 
+#include "base/CCDirector.h"
+
 namespace cocos2d {
 
 Particle3D::Particle3D()
@@ -71,7 +73,7 @@ void ParticleSystem3D::startParticleSystem()
         if (_render)
             _render->notifyStart();
         
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         _state = State::RUNNING;
     }
 }
@@ -83,7 +85,7 @@ void ParticleSystem3D::stopParticleSystem()
         if (_render)
             _render->notifyStop();
         
-        unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
         _state = State::STOP;
     }
 }

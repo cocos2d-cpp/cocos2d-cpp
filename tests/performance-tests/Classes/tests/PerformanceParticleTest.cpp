@@ -137,7 +137,7 @@ void ParticleMainScene::initWithSubTest(int asubtest, int particles)
     updateQuantityLabel();
     createParticleSystem();
 
-    schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::step));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::step), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void ParticleMainScene::onExitTransitionDidStart()
@@ -145,9 +145,9 @@ void ParticleMainScene::onExitTransitionDidStart()
     Scene::onExitTransitionDidStart();
     
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
+    auto & sched = director->getScheduler();
 
-    sched->unscheduleAllForTarget(this);
+    sched.unscheduleAllForTarget(this);
 }
 
 void ParticleMainScene::onEnterTransitionDidFinish()
@@ -178,19 +178,19 @@ void ParticleMainScene::doAutoTest()
     updateTitle();
     createParticleSystem();
 
-    schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat), DELAY_TIME);
-    schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), DELAY_TIME + STAT_TIME);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void ParticleMainScene::beginStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat), this);
     isStating = true;
 }
 
 void ParticleMainScene::endStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), this);
     isStating = false;
 
     // record test data

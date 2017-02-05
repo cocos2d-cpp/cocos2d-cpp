@@ -379,7 +379,7 @@ HttpClient::HttpClient()
 {
     CCLOG("In the constructor of HttpClient!");
     memset(_responseMessage, 0, sizeof(char) * RESPONSE_BUFFER_SIZE);
-    _scheduler = Director::getInstance()->getScheduler();
+    _scheduler = & Director::getInstance()->getScheduler();
     increaseThreadCount();
 }
 

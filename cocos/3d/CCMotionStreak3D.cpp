@@ -2,6 +2,7 @@
 Copyright (c) 2011      ForzeField Studios S.L.
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 http://www.cocos2d-x.org
 
@@ -131,7 +132,7 @@ bool MotionStreak3D::initWithFade(float fade, float minSeg, float stroke, const 
 
     setTexture(texture);
     setColor(color);
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     return true;
 }

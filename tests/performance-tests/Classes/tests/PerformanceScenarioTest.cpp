@@ -327,13 +327,13 @@ void ScenarioTest::onEnter()
                                               genStrVector("SpriteCount", "ParticleCount", "ParticleSystemCount", nullptr),
                                               genStrVector("Avg", "Min", "Max", nullptr));
         doAutoTest();
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     }
 }
 
 void ScenarioTest::onExit()
 {
-    Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     TestCase::onExit();
 }
 
@@ -354,13 +354,13 @@ void ScenarioTest::update(float dt)
 
 void ScenarioTest::beginStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this);
     isStating = true;
 }
 
 void ScenarioTest::endStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this);
     isStating = false;
     
     // record test data
@@ -409,8 +409,8 @@ void ScenarioTest::doAutoTest()
     addParticleSystem(caseInfo.particleSystemCount);
     addParticles(caseInfo.particleCount);
 
-    schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), DELAY_TIME);
-    schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), DELAY_TIME + STAT_TIME);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 std::string ScenarioTest::title() const

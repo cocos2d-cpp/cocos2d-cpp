@@ -72,7 +72,7 @@ void FileServer::readResFileFinfo()
     }
     
     //save file info to disk every five second
-    Director::getInstance()->getScheduler()->schedule([&](float){
+    Director::getInstance()->getScheduler().schedule([&](float){
         rapidjson::StringBuffer buffer;
         rapidjson::Writer< rapidjson::StringBuffer > writer(buffer);
         _filecfgjson.Accept(writer);

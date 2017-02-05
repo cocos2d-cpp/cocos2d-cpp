@@ -4,8 +4,7 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -135,6 +134,8 @@ node_ptr<T> to_node_ptr(T * ptr)
  - A Node is a "void" object. If you want to draw something on the screen, you should use a Sprite instead. Or subclass Node and override `draw`.
 
  */
+
+typedef void (Ref::*SEL_SCHEDULE)(float);
 
 class CC_DLL Node : public Ref
 {
@@ -1280,167 +1281,6 @@ public:
     /// @name Scheduler and Timer
 
     /**
-     * Sets a Scheduler object that is used to schedule all "updates" and timers.
-     *
-     * @warning If you set a new Scheduler, then previously created timers/update are going to be removed.
-     * @param scheduler     A Scheduler object that is used to schedule all "update" and timers.
-     */
-    virtual void setScheduler(Scheduler* scheduler);
-    /**
-     * Gets a Scheduler object.
-     *
-     * @see setScheduler(Scheduler*)
-     * @return A Scheduler object.
-     */
-    virtual Scheduler* getScheduler() { return _scheduler; }
-    virtual const Scheduler* getScheduler() const { return _scheduler; }
-
-
-    /**
-     * Checks whether a selector is scheduled.
-     *
-     * @param selector      A function selector
-     * @return Whether the function selector is scheduled.
-     */
-    bool isScheduled(SEL_SCHEDULE selector);
-
-    /**
-     * Checks whether a lambda function is scheduled.
-     *
-     * @param key      key of the callback
-     * @return Whether the lambda function selector is scheduled.
-     */
-    bool isScheduled(const std::string &key);
-
-    /**
-     * Schedules the "update" method.
-     *
-     * It will use the order number 0. This method will be called every frame.
-     * Scheduled methods with a lower order value will be called before the ones that have a higher order value.
-     * Only one "update" method could be scheduled per node.
-     */
-    void scheduleUpdate(void);
-
-    /**
-     * Schedules the "update" method with a custom priority.
-     *
-     * This selector will be called every frame.
-     * Scheduled methods with a lower priority will be called before the ones that have a higher value.
-     * Only one "update" selector could be scheduled per node (You can't have 2 'update' selectors).
-     *
-     * @param priority A given priority value.
-     */
-    void scheduleUpdateWithPriority(int priority);
-
-    /*
-     * Unschedules the "update" method.
-     * @see scheduleUpdate();
-     */
-    void unscheduleUpdate(void);
-
-    /**
-     * Schedules a custom selector.
-     *
-     * If the selector is already scheduled, then the interval parameter will be updated without scheduling it again.
-     @code
-     // firstly, implement a schedule function
-     void MyNode::TickMe(float dt);
-     // wrap this function into a selector via CC_SCHEDULE_SELECTOR macro.
-     this->schedule(CC_SCHEDULE_SELECTOR(MyNode::TickMe), 0, 0, 0);
-     @endcode
-     *
-     * @param selector  The SEL_SCHEDULE selector to be scheduled.
-     * @param interval  Tick interval in seconds. 0 means tick every frame. If interval = 0, it's recommended to use scheduleUpdate() instead.
-     * @param repeat    The selector will be executed (repeat + 1) times, you can use CC_REPEAT_FOREVER for tick infinitely.
-     * @param delay     The amount of time that the first tick will wait before execution.
-     */
-    void schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay);
-
-    /**
-     * Schedules a custom selector with an interval time in seconds.
-     * @see `schedule(SEL_SCHEDULE, float, unsigned int, float)`
-     *
-     * @param selector      The SEL_SCHEDULE selector to be scheduled.
-     * @param interval      Callback interval time in seconds. 0 means tick every frame,
-     */
-    void schedule(SEL_SCHEDULE selector, float interval);
-
-    /**
-     * Schedules a selector that runs only once, with a delay of 0 or larger
-     * @see `schedule(SEL_SCHEDULE, float, unsigned int, float)`
-     *
-     * @param selector      The SEL_SCHEDULE selector to be scheduled.
-     * @param delay         The amount of time that the first tick will wait before execution.
-     */
-    void scheduleOnce(SEL_SCHEDULE selector, float delay);
-
-    /**
-     * Schedules a lambda function that runs only once, with a delay of 0 or larger
-     *
-     * @param callback      The lambda function to be scheduled.
-     * @param delay         The amount of time that the first tick will wait before execution.
-     * @param key           The key of the lambda function. To be used if you want to unschedule it.
-     */
-    void scheduleOnce(const std::function<void(float)>& callback, float delay, const std::string &key);
-
-    /**
-     * Schedules a custom selector, the scheduled selector will be ticked every frame.
-     * @see schedule(SEL_SCHEDULE, float, unsigned int, float)
-     *
-     * @param selector      A function wrapped as a selector
-     */
-    void schedule(SEL_SCHEDULE selector);
-
-    /**
-     * Schedules a lambda function. The scheduled lambda function will be called every frame.
-     *
-     * @param callback      The lambda function to be scheduled.
-     * @param key           The key of the lambda function. To be used if you want to unschedule it.
-     */
-    void schedule(const std::function<void(float)>& callback, const std::string &key);
-
-    /**
-     * Schedules a lambda function. The scheduled lambda function will be called every "interval" seconds
-     *
-     * @param callback      The lambda function to be scheduled
-     * @param interval      Callback interval time in seconds. 0 means every frame,
-     * @param key           The key of the lambda function. To be used if you want to unschedule it
-     */
-    void schedule(const std::function<void(float)>& callback, float interval, const std::string &key);
-
-    /**
-     * Schedules a lambda function.
-     *
-     * @param callback  The lambda function to be schedule.
-     * @param interval  Tick interval in seconds. 0 means tick every frame.
-     * @param repeat    The selector will be executed (repeat + 1) times, you can use CC_REPEAT_FOREVER for tick infinitely.
-     * @param delay     The amount of time that the first tick will wait before execution.
-     * @param key       The key of the lambda function. To be used if you want to unschedule it.
-     */
-    void schedule(const std::function<void(float)>& callback, float interval, unsigned int repeat, float delay, const std::string &key);
-
-    /**
-     * Unschedules a custom selector.
-     * @see `schedule(SEL_SCHEDULE, float, unsigned int, float)`
-     *
-     * @param selector      A function wrapped as a selector.
-     */
-    void unschedule(SEL_SCHEDULE selector);
-
-    /**
-     * Unschedules a lambda function.
-     *
-     * @param key      The key of the lambda function to be unscheduled.
-     */
-    void unschedule(const std::string &key);
-
-    /**
-     * Unschedule all scheduled selectors and lambda functions: custom selectors, and the 'update' selector and lambda functions.
-     * Actions are not affected by this method.
-     */
-    void unscheduleAllCallbacks();
-
-    /**
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter.
      */
@@ -1452,7 +1292,6 @@ public:
     virtual void pause(void);
 
     /**
-     * Update method will be called automatically every frame if "scheduleUpdate" is called, and the node is "live".
      * @param delta In seconds.
      */
     virtual void update(float delta);
@@ -1876,8 +1715,6 @@ protected:
     Ref *_userObject;               ///< A user assigned Object
 
     GLProgramState *_glProgramState; ///< OpenGL Program State
-
-    Scheduler *_scheduler;          ///< scheduler used to schedule timers and updates
 
     ActionManager *_actionManager;  ///< a pointer to ActionManager singleton, which is used to handle all the actions
 

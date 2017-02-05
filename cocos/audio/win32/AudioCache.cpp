@@ -353,8 +353,8 @@ void AudioCache::addPlayCallback(const std::function<void()>& callback)
 
 void AudioCache::invokingLoadCallbacks()
 {
-    auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->performFunctionInCocosThread([&](){
+    auto & scheduler = Director::getInstance()->getScheduler();
+    scheduler.performFunctionInCocosThread([&](){
         auto count = _loadCallbacks.size();
         for (size_t index = 0; index < count; ++index) {
             _loadCallbacks[index](_alBufferReady);

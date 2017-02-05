@@ -255,7 +255,7 @@ bool AudioEngineImpl::init()
             // ================ Workaround end ================ //
             
             
-            _scheduler = Director::getInstance()->getScheduler();
+            _scheduler = & Director::getInstance()->getScheduler();
             ret = true;
             ALOGI("OpenAL was initialized successfully!");
         }

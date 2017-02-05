@@ -268,8 +268,8 @@ void LabelMainScene::onEnter()
     Scene::onEnter();
     
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
-    sched->schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::updateText), this, 0.0f, false);
+    auto & sched = director->getScheduler();
+    sched.schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::updateText), this, 0.0f, false);
 
     if (this->isAutoTesting()) {
         Profile::getInstance()->testCaseBegin("LabelTest",
@@ -283,8 +283,8 @@ void LabelMainScene::onEnter()
 void LabelMainScene::onExit()
 {
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
-    sched->unscheduleAllForTarget(this);
+    auto & sched = director->getScheduler();
+    sched.unscheduleAllForTarget(this);
 
     Scene::onExit();
 }
@@ -307,19 +307,19 @@ void LabelMainScene::doAutoTest()
         onIncrease(this);
     }
 
-    schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::beginStat), DELAY_TIME);
-    schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat), DELAY_TIME + STAT_TIME);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void LabelMainScene::beginStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::beginStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::beginStat), this);
     isStating = true;
 }
 
 void LabelMainScene::endStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(LabelMainScene::endStat), this);
     isStating = false;
     
     // record test data

@@ -170,9 +170,9 @@ void PerformceAllocScene::onExitTransitionDidStart()
     Scene::onExitTransitionDidStart();
     
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
+    auto & sched = director->getScheduler();
 
-    sched->unschedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this);
+    sched.unschedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this);
 }
 
 void PerformceAllocScene::onEnterTransitionDidFinish()
@@ -180,7 +180,7 @@ void PerformceAllocScene::onEnterTransitionDidFinish()
     Scene::onEnterTransitionDidFinish();
 
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
+    auto & sched = director->getScheduler();
 
     if (this->isAutoTesting()) {
         // Update the quantity of nodes if is auto testing.
@@ -195,7 +195,7 @@ void PerformceAllocScene::onEnterTransitionDidFinish()
     }
     
     CC_PROFILER_PURGE_ALL();
-    sched->schedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this, 2, false);
+    sched.schedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this, 2, false);
 }
 
 void PerformceAllocScene::dumpProfilerInfo(float /*dt*/)
@@ -248,7 +248,7 @@ void NodeCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Node: %lu\n", sizeof(Node));
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void NodeCreateTest::update(float /*dt*/)
@@ -296,7 +296,7 @@ void NodeDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Node: %lu\n", sizeof(Node));
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void NodeDeallocTest::update(float /*dt*/)
@@ -349,7 +349,7 @@ void SpriteCreateEmptyTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Sprite: %lu\n", sizeof(Sprite));
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void SpriteCreateEmptyTest::update(float /*dt*/)
@@ -399,7 +399,7 @@ void SpriteCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Sprite: %lu\n", sizeof(Sprite));
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void SpriteCreateTest::update(float /*dt*/)
@@ -449,7 +449,7 @@ void SpriteDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of sprite: %lu\n", sizeof(Sprite));
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void SpriteDeallocTest::update(float /*dt*/)

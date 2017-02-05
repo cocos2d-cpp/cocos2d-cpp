@@ -80,7 +80,7 @@ namespace network {
     // Worker thread
     void HttpClient::networkThread()
     {
-        auto scheduler = Director::getInstance()->getScheduler();
+        auto scheduler = & Director::getInstance()->getScheduler();
 
         while (true)
         {
@@ -133,7 +133,7 @@ namespace network {
         std::string errorStr;
         processHttpResponse(response, errorStr);
 
-        auto scheduler = Director::getInstance()->getScheduler();
+        auto scheduler = & Director::getInstance()->getScheduler();
 
         if (request->getCallback())
         {

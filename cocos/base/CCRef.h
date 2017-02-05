@@ -174,10 +174,6 @@ std::shared_ptr<T> to_retaining_shared_ptr(T * ptr)
     return std::shared_ptr<T>(ptr, retaining_ptr_deleter<T>{});
 }
 
-typedef void (Ref::*SEL_SCHEDULE)(float);
-
-#define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
-
 } // namespace cocos2d
 // end of base group
 /** @} */

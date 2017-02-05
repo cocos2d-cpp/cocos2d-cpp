@@ -247,7 +247,7 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
             to_action_ptr(scroll),
             to_action_ptr(expire)
         ));
-    this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void ScrollView::stopAnimatedContentOffset() {
@@ -424,7 +424,7 @@ void ScrollView::deaccelerateScrolling(float /*dt*/)
 {
     if (_dragging)
     {
-        this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling));
+        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this);
         return;
     }
     
@@ -455,14 +455,14 @@ void ScrollView::deaccelerateScrolling(float /*dt*/)
         ((_direction == Direction::BOTH || _direction == Direction::VERTICAL) && (newY >= maxInset.y || newY <= minInset.y)) ||
         ((_direction == Direction::BOTH || _direction == Direction::HORIZONTAL) && (newX >= maxInset.x || newX <= minInset.x)))
     {
-        this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling));
+        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this);
         this->relocateContainer(true);
     }
 }
 
 void ScrollView::stoppedAnimatedScroll(Node * /*node*/)
 {
-    this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this);
     // After the animation stopped, "scrollViewDidScroll" should be invoked, this could fix the bug of lack of tableview cells.
     if (_delegate != nullptr)
     {
@@ -474,7 +474,7 @@ void ScrollView::performedAnimatedScroll(float /*dt*/)
 {
     if (_dragging)
     {
-        this->unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll));
+        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this);
         return;
     }
 
@@ -832,7 +832,7 @@ void ScrollView::onTouchEnded(Touch* touch, Event* /*event*/)
     {
         if (_touches.size() == 1 && _touchMoved)
         {
-            this->schedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling));
+            Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
         }
         _touches.erase(touchIter);
     } 

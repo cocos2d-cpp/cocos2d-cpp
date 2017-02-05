@@ -89,15 +89,15 @@ bool NodeChildrenMainScene::init()
 void NodeChildrenMainScene::onExitTransitionDidStart()
 {
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
+    auto & sched = director->getScheduler();
 
-    sched->unschedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this);
+    sched.unschedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this);
 }
 
 void NodeChildrenMainScene::onEnterTransitionDidFinish()
 {
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
+    auto & sched = director->getScheduler();
 
     if (this->isAutoTesting()) {
         // Update the quantity of nodes if is auto testing.
@@ -112,7 +112,7 @@ void NodeChildrenMainScene::onEnterTransitionDidFinish()
     }
     
     CC_PROFILER_PURGE_ALL();
-    sched->schedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this, 2, false);
+    sched.schedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this, 2, false);
 }
 
 void NodeChildrenMainScene::dumpProfilerInfo(float /*dt*/)
@@ -278,7 +278,7 @@ void IterateSpriteSheet::initWithQuantityOfNodes(unsigned int nNodes)
     
     NodeChildrenMainScene::initWithQuantityOfNodes(nNodes);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 const char*  IterateSpriteSheet::testName()
@@ -451,7 +451,7 @@ void AddRemoveSpriteSheet::initWithQuantityOfNodes(unsigned int nNodes)
 
     NodeChildrenMainScene::initWithQuantityOfNodes(nNodes);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void AddRemoveSpriteSheet::updateQuantityOfNodes()
@@ -926,7 +926,7 @@ const char*  SortAllChildrenSpriteSheet::testName()
 void VisitSceneGraph::initWithQuantityOfNodes(unsigned int nodes)
 {
     NodeChildrenMainScene::initWithQuantityOfNodes(nodes);
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void VisitSceneGraph::updateQuantityOfNodes()

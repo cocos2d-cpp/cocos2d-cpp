@@ -207,8 +207,8 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
     if (_lazyInitLoop) {
         _lazyInitLoop = false;
         
-        auto scheduler = cocos2d::Director::getInstance()->getScheduler();
-        scheduler->schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.05f, false);
+        auto & scheduler = cocos2d::Director::getInstance()->getScheduler();
+        scheduler.schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.05f, false);
     }
     
     return _currentAudioID++;
@@ -493,8 +493,8 @@ void AudioEngineImpl::update(float dt)
     if(_audioPlayers.empty()){
         _lazyInitLoop = true;
         
-        auto scheduler = cocos2d::Director::getInstance()->getScheduler();
-        scheduler->unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+        auto & scheduler = cocos2d::Director::getInstance()->getScheduler();
+        scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
     }
 }
 

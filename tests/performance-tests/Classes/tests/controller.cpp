@@ -97,7 +97,7 @@ void TestController::traverseTestList(TestList* testList)
     }
     logEx("%s%sBegin traverse TestList:%s", LOG_TAG, _logIndentation.c_str(), testList->getTestName().c_str());
 
-    auto scheduler = _director->getScheduler();
+    auto & scheduler = _director->getScheduler();
     int testIndex = 0;
     for (auto& callback : testList->_testCallbacks)
     {
@@ -114,7 +114,7 @@ void TestController::traverseTestList(TestList* testList)
             test->setTestName(testList->_childTestNames[testIndex++]);
             if (test->isTestList())
             {
-                scheduler->performFunctionInCocosThread([&](){
+                scheduler.performFunctionInCocosThread([&](){
                     test->runThisTest();
                 });
 
@@ -136,7 +136,7 @@ void TestController::traverseTestList(TestList* testList)
         if (!_stopAutoTest)
         {
             //Backs up one level and release TestList object.
-            scheduler->performFunctionInCocosThread([&](){
+            scheduler.performFunctionInCocosThread([&](){
                 testList->_parentTest->runThisTest();
             });
             _sleepCondition.wait_for(*_sleepUniqueLock, std::chrono::milliseconds(500));
@@ -149,7 +149,7 @@ void TestController::traverseTestList(TestList* testList)
 
 void TestController::traverseTestSuite(TestSuite* testSuite)
 {
-    auto scheduler = _director->getScheduler();
+    auto & scheduler = _director->getScheduler();
     int testIndex = 0;
     float testCaseDuration = 0.0f;
     _logIndentation += LOG_INDENTATION;
@@ -175,7 +175,7 @@ void TestController::traverseTestSuite(TestSuite* testSuite)
             _sleepCondition.wait_for(*_sleepUniqueLock, std::chrono::milliseconds(500));
         }
         //Run test case in the cocos[GL] thread.
-        scheduler->performFunctionInCocosThread([&, logIndentation, testName](){
+        scheduler.performFunctionInCocosThread([&, logIndentation, testName](){
             if (_stopAutoTest) return;
             logEx("%s%sRun test:%s.", LOG_TAG, logIndentation.c_str(), testName.c_str());
 
@@ -261,7 +261,7 @@ void TestController::traverseTestSuite(TestSuite* testSuite)
     {
         //Backs up one level and release TestSuite object.
         auto parentTest = testSuite->_parentTest;
-        scheduler->performFunctionInCocosThread([parentTest](){
+        scheduler.performFunctionInCocosThread([parentTest](){
             parentTest->runThisTest();
         });
 

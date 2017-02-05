@@ -63,7 +63,7 @@ class CallerThreadUtils : public ICallerThreadUtils
 public:
     virtual void performFunctionInCallerThread(const std::function<void()>& func)
     {
-        Director::getInstance()->getScheduler()->performFunctionInCocosThread(func);
+        Director::getInstance()->getScheduler().performFunctionInCocosThread(func);
     };
 
     virtual std::thread::id getCallerThreadId()

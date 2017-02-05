@@ -546,7 +546,7 @@ void SpriteMainScene::onEnter()
     
     if (isAutoTesting())
     {
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         Profile::getInstance()->testCaseBegin("SpriteTest",
                                               genStrVector("SpriteCount", "Type", "SubTest", nullptr),
                                               genStrVector("Avg", "Min", "Max", nullptr));
@@ -561,8 +561,8 @@ void SpriteMainScene::onEnter()
 void SpriteMainScene::onExit()
 {
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
-    sched->unscheduleAllForTarget(this);
+    auto & sched = director->getScheduler();
+    sched.unscheduleAllForTarget(this);
     Scene::onExit();
 }
 
@@ -584,13 +584,13 @@ void SpriteMainScene::update(float dt)
 
 void SpriteMainScene::beginStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat), this);
     isStating = true;
 }
 
 void SpriteMainScene::endStat(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat), this);
     isStating = false;
     
     // record test data
@@ -648,8 +648,8 @@ void SpriteMainScene::doAutoTest()
     updateNodes();
     updateTitle();
 
-    schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat), DELAY_TIME);
-    schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat), DELAY_TIME + STAT_TIME);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 ////////////////////////////////////////////////////////

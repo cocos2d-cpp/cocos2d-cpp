@@ -78,8 +78,8 @@ void PerformanceMathLayer::onEnter()
     addChild(infoLabel, 1, K_INFO_LOOP_TAG);
     updateLoopLabel();
     
-    getScheduler()->schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::doPerformanceTest), this, 0.0f, false);
-    getScheduler()->schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::dumpProfilerInfo), this, 2, false);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::doPerformanceTest), this, 0.0f, false);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::dumpProfilerInfo), this, 2, false);
     
 }
 

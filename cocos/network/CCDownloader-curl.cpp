@@ -702,8 +702,7 @@ namespace cocos2d { namespace network {
     {
         DLLOG("Construct DownloaderCURL %p", this);
         _impl->hints = hints;
-        _scheduler = Director::getInstance()->getScheduler();
-        _scheduler->retain();
+        _scheduler = & Director::getInstance()->getScheduler();
 
         _transferDataToBuffer = [this](void *buf, int64_t len)->int64_t
         {
@@ -733,8 +732,6 @@ namespace cocos2d { namespace network {
     DownloaderCURL::~DownloaderCURL()
     {
         _scheduler->unschedule(_schedulerKey, this);
-        _scheduler->release();
-
         _impl->stop();
         DLLOG("Destruct DownloaderCURL %p", this);
     }

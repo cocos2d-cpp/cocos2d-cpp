@@ -149,8 +149,8 @@ void AudioCache::invokePlayCallbacks()
 
 void AudioCache::invokeLoadCallbacks()
 {
-    auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->performFunctionInCocosThread([&](){
+    auto & scheduler = Director::getInstance()->getScheduler();
+    scheduler.performFunctionInCocosThread([&](){
         auto cnt = _loadCallbacks.size();
         for (size_t ind = 0; ind < cnt; ind++)
         {

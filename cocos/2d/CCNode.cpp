@@ -4,8 +4,7 @@ Copyright (c) 2009      Valentin Milea
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -102,8 +101,6 @@ Node::Node()
     _director = Director::getInstance();
     _actionManager = _director->getActionManager();
     _actionManager->retain();
-    _scheduler = _director->getScheduler();
-    _scheduler->retain();
     _eventDispatcher = _director->getEventDispatcher();
     _eventDispatcher->retain();
     
@@ -145,9 +142,8 @@ Node::~Node()
     CC_SAFE_DELETE(_componentContainer);
     
     stopAllActions();
-    unscheduleAllCallbacks();
+    _director->getScheduler().unscheduleAllForTarget(this);
     CC_SAFE_RELEASE_NULL(_actionManager);
-    CC_SAFE_RELEASE_NULL(_scheduler);
     
     _eventDispatcher->removeEventListenersForTarget(this);
     
@@ -171,7 +167,7 @@ void Node::cleanup()
     // actions
     this->stopAllActions();
     // timers
-    this->unscheduleAllCallbacks();
+    _director->getScheduler().unscheduleAllForTarget(this);
     
     for (const auto & child : _children)
         child->cleanup();
@@ -1286,117 +1282,18 @@ ssize_t Node::getNumberOfRunningActionsByTag(int tag) const
     return _actionManager->getNumberOfRunningActionsInTargetByTag(this, tag);
 }
 
-
 // MARK: Callbacks
-
-void Node::setScheduler(Scheduler* scheduler)
-{
-    if( scheduler != _scheduler )
-    {
-        this->unscheduleAllCallbacks();
-        CC_SAFE_RETAIN(scheduler);
-        CC_SAFE_RELEASE(_scheduler);
-        _scheduler = scheduler;
-    }
-}
-
-bool Node::isScheduled(SEL_SCHEDULE selector)
-{
-    return _scheduler->isScheduled(selector, this);
-}
-
-bool Node::isScheduled(const std::string &key)
-{
-    return _scheduler->isScheduled(key, this);
-}
-
-void Node::scheduleUpdate()
-{
-    scheduleUpdateWithPriority(0);
-}
-
-void Node::scheduleUpdateWithPriority(int priority)
-{
-    _scheduler->scheduleUpdate(this, priority, !_running);
-}
-
-void Node::unscheduleUpdate()
-{
-    _scheduler->unscheduleUpdate(this);
-}
-
-void Node::schedule(SEL_SCHEDULE selector)
-{
-    this->schedule(selector, 0.0f, CC_REPEAT_FOREVER, 0.0f);
-}
-
-void Node::schedule(SEL_SCHEDULE selector, float interval)
-{
-    this->schedule(selector, interval, CC_REPEAT_FOREVER, 0.0f);
-}
-
-void Node::schedule(SEL_SCHEDULE selector, float interval, unsigned int repeat, float delay)
-{
-    CCASSERT( selector, "Argument must be non-nil");
-    CCASSERT( interval >=0, "Argument must be positive");
-
-    _scheduler->schedule(selector, this, interval , repeat, delay, !_running);
-}
-
-void Node::schedule(const std::function<void(float)> &callback, const std::string &key)
-{
-    _scheduler->schedule(callback, this, 0, !_running, key);
-}
-
-void Node::schedule(const std::function<void(float)> &callback, float interval, const std::string &key)
-{
-    _scheduler->schedule(callback, this, interval, !_running, key);
-}
-
-void Node::schedule(const std::function<void(float)>& callback, float interval, unsigned int repeat, float delay, const std::string &key)
-{
-    _scheduler->schedule(callback, this, interval, repeat, delay, !_running, key);
-}
-
-void Node::scheduleOnce(SEL_SCHEDULE selector, float delay)
-{
-    this->schedule(selector, 0.0f, 0, delay);
-}
-
-void Node::scheduleOnce(const std::function<void(float)> &callback, float delay, const std::string &key)
-{
-    _scheduler->schedule(callback, this, 0, 0, delay, !_running, key);
-}
-
-void Node::unschedule(SEL_SCHEDULE selector)
-{
-    // explicit null handling
-    if (selector == nullptr)
-        return;
-    
-    _scheduler->unschedule(selector, this);
-}
-
-void Node::unschedule(const std::string &key)
-{
-    _scheduler->unschedule(key, this);
-}
-
-void Node::unscheduleAllCallbacks()
-{
-    _scheduler->unscheduleAllForTarget(this);
-}
 
 void Node::resume()
 {
-    _scheduler->resumeTarget(this);
+    _director->getScheduler().resumeTarget(this);
     _actionManager->resumeTarget(this);
     _eventDispatcher->resumeEventListenersForTarget(this);
 }
 
 void Node::pause()
 {
-    _scheduler->pauseTarget(this);
+    _director->getScheduler().pauseTarget(this);
     _actionManager->pauseTarget(this);
     _eventDispatcher->pauseEventListenersForTarget(this);
 }
@@ -1701,8 +1598,8 @@ bool Node::addComponent(Component *component)
         _componentContainer = new (std::nothrow) ComponentContainer(this);
     
     // should enable schedule update, then all components can receive this call back
-    scheduleUpdate();
-    
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+
     return _componentContainer->add(component);
 }
 

@@ -888,7 +888,7 @@ HttpClient::HttpClient()
 {
     CCLOG("In the constructor of HttpClient!");
     increaseThreadCount();
-    _scheduler = Director::getInstance()->getScheduler();
+    _scheduler = & Director::getInstance()->getScheduler();
 }
 
 HttpClient::~HttpClient()

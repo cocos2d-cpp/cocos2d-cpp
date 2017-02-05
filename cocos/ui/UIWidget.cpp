@@ -231,7 +231,7 @@ void Widget::onEnter()
 
 void Widget::onExit()
 {
-    unscheduleUpdate();
+    Director::getInstance()->getScheduler().unscheduleUpdate(this);
     ProtectedNode::onExit();
 }
 

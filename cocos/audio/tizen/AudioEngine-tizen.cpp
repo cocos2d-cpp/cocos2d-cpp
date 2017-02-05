@@ -1,8 +1,6 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
 
- http://www.cocos2d-x.org
-
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -243,8 +241,8 @@ AudioEngineImpl::~AudioEngineImpl()
         delete _threadPool;
         _threadPool = nullptr;
     }
-    auto scheduler = Director::getInstance()->getScheduler();
-    scheduler->unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+    auto & scheduler = Director::getInstance()->getScheduler();
+    scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
 }
 
 bool AudioEngineImpl::init()
@@ -282,8 +280,8 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
         if (_lazyInitLoop) {
             _lazyInitLoop = false;
 
-            auto scheduler = Director::getInstance()->getScheduler();
-            scheduler->schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.03f, false);
+            auto & scheduler = Director::getInstance()->getScheduler();
+            scheduler.schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.03f, false);
         }
     } while (0);
 
@@ -341,8 +339,8 @@ void AudioEngineImpl::update(float dt)
     if(_audioPlayers.empty()){
         _lazyInitLoop = true;
 
-        auto scheduler = Director::getInstance()->getScheduler();
-        scheduler->unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+        auto & scheduler = Director::getInstance()->getScheduler();
+        scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
     }
 }
 

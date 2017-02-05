@@ -26,6 +26,7 @@ THE SOFTWARE.
 #include "2d/CCComponentContainer.h"
 #include "2d/CCComponent.h"
 #include "2d/CCNode.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 
@@ -113,7 +114,7 @@ void ComponentContainer::removeAll()
         }
         
         _componentMap.clear();
-        _owner->unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(_owner);
     }
 }
 

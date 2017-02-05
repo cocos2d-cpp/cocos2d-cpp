@@ -685,13 +685,13 @@ void TextFieldTTF::setCursorEnabled(bool enabled)
             {
                 _cursorPosition = _charCount;
 
-                scheduleUpdate();
+                Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
             }
             else
             {
                 _cursorPosition = 0;
 
-                unscheduleUpdate();
+                Director::getInstance()->getScheduler().unscheduleUpdate(this);
             }
         }
     }

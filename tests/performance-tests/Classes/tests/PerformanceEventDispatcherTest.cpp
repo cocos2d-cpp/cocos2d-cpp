@@ -150,13 +150,13 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     
     auto start = MenuItemFont::create("start", [this](Ref*){
         auto director = Director::getInstance();
-        auto sched = director->getScheduler();
+        auto & sched = director->getScheduler();
         
         CC_PROFILER_PURGE_ALL();
-        sched->schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
+        sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
         
-        this->unscheduleUpdate();
-        this->scheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         this->_startItem->setEnabled(false);
         this->_stopItem->setEnabled(true);
         this->_toggle->setEnabled(false);
@@ -169,11 +169,11 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     
     auto stop = MenuItemFont::create("stop", [=](Ref*){
         auto director = Director::getInstance();
-        auto sched = director->getScheduler();
+        auto & sched = director->getScheduler();
         
-        sched->unschedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this);
+        sched.unschedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this);
         
-        this->unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
         this->_startItem->setEnabled(true);
         this->_stopItem->setEnabled(false);
         this->_toggle->setEnabled(true);
@@ -218,10 +218,10 @@ void PerformanceEventDispatcherScene::onEnter()
                                               genStrVector("Avg", "Min", "Max", nullptr));
 
         auto director = Director::getInstance();
-        auto sched = director->getScheduler();
-        sched->schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
-        this->unscheduleUpdate();
-        this->scheduleUpdate();
+        auto & sched = director->getScheduler();
+        sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     }
 }
 
@@ -229,8 +229,8 @@ void PerformanceEventDispatcherScene::onExit()
 {
     TestCase::onExit();
     auto director = Director::getInstance();
-    auto sched = director->getScheduler();
-    sched->unscheduleAllForTarget(this);
+    auto & sched = director->getScheduler();
+    sched.unscheduleAllForTarget(this);
 }
 
 void PerformanceEventDispatcherScene::updateStatus()

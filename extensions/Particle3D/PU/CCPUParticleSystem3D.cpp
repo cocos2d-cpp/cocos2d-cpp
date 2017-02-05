@@ -36,6 +36,7 @@
 #include "extensions/Particle3D/PU/CCPUObserver.h"
 #include "extensions/Particle3D/PU/CCPUObserverManager.h"
 #include "extensions/Particle3D/PU/CCPUBehaviour.h"
+#include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
 namespace cocos2d {
@@ -335,7 +336,7 @@ void PUParticleSystem3D::startParticleSystem()
             affector->notifyStart();
         }
 
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         _state = State::RUNNING;
     }
 
@@ -1428,7 +1429,7 @@ void PUParticleSystem3D::forceStopParticleSystem()
         auto affector = static_cast<PUAffector*>(it);
         affector->notifyStop();
     }
-    unscheduleUpdate();
+    Director::getInstance()->getScheduler().unscheduleUpdate(this);
     unPrepared();
 }
 

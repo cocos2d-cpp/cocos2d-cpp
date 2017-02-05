@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2013 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -144,11 +143,11 @@ bool Director::init()
 
     _console = new (std::nothrow) Console;
 
-    // scheduler
-    _scheduler = new (std::nothrow) Scheduler();
     // action manager
     _actionManager = new (std::nothrow) ActionManager();
-    _scheduler->scheduleUpdate(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
+
+    // scheduler
+    _scheduler.scheduleUpdate(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
 
     _eventDispatcher = new (std::nothrow) EventDispatcher();
     _eventAfterDraw = new (std::nothrow) EventCustom(EVENT_AFTER_DRAW);
@@ -182,7 +181,7 @@ Director::~Director(void)
 
     _runningScene.reset();
     CC_SAFE_RELEASE(_notificationNode);
-    CC_SAFE_RELEASE(_scheduler);
+    _scheduler.unscheduleAll();
     CC_SAFE_RELEASE(_actionManager);
     CC_SAFE_RELEASE(_defaultFBO);
     
@@ -264,7 +263,7 @@ void Director::drawScene()
     if (! _paused)
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
-        _scheduler->update(_deltaTime);
+        _scheduler.update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
 
@@ -938,7 +937,7 @@ void Director::reset()
     _eventDispatcher->dispatchEvent(_eventResetDirector);
     
     // cleanup scheduler
-    getScheduler()->unscheduleAll();
+    getScheduler().unscheduleAll();
     
     // Remove all events
     if (_eventDispatcher)
@@ -1016,7 +1015,7 @@ void Director::restartDirector()
     initTextureCache();
     
     // Reschedule for action manager
-    getScheduler()->scheduleUpdate(getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
+    getScheduler().scheduleUpdate(getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
     
     // release the objects
     PoolManager::getInstance()->getCurrentPool()->clear();
@@ -1263,16 +1262,6 @@ void Director::setNotificationNode(Node *node)
 	_notificationNode->onEnter();
 	_notificationNode->onEnterTransitionDidFinish();
     CC_SAFE_RETAIN(_notificationNode);
-}
-
-void Director::setScheduler(Scheduler* scheduler)
-{
-    if (_scheduler != scheduler)
-    {
-        CC_SAFE_RETAIN(scheduler);
-        CC_SAFE_RELEASE(_scheduler);
-        _scheduler = scheduler;
-    }
 }
 
 void Director::setActionManager(ActionManager* actionManager)

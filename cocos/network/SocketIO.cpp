@@ -602,7 +602,7 @@ void SIOClientImpl::disconnect()
         _ws->send(s);
     }
 
-    Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 
     _ws->close();
 
@@ -727,7 +727,7 @@ void SIOClientImpl::onOpen(WebSocket* /*ws*/)
         _ws->send(s.data());
     }
 
-    Director::getInstance()->getScheduler()->schedule(CC_SCHEDULE_SELECTOR(SIOClientImpl::heartbeat), this, (_heartbeat * .9f), false);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SIOClientImpl::heartbeat), this, (_heartbeat * .9f), false);
 
     for (auto& client : _clients)
     {
@@ -979,7 +979,7 @@ void SIOClientImpl::onClose(WebSocket* /*ws*/)
         // discard this client
         _connected = false;
         if (Director::getInstance())
-            Director::getInstance()->getScheduler()->unscheduleAllForTarget(this);
+            Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
         
         SocketIO::getInstance()->removeSocket(_uri);
     }

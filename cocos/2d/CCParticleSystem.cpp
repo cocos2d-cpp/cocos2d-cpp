@@ -784,12 +784,12 @@ void ParticleSystem::onEnter()
     Node::onEnter();
     
     // update after action in run!
-    this->scheduleUpdateWithPriority(1);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 1, !_running);
 }
 
 void ParticleSystem::onExit()
 {
-    this->unscheduleUpdate();
+    Director::getInstance()->getScheduler().unscheduleUpdate(this);
     Node::onExit();
 }
 
@@ -872,7 +872,7 @@ void ParticleSystem::update(float dt)
                 --_particleCount;
                 if( _particleCount == 0 && _isAutoRemoveOnFinish )
                 {
-                    this->unscheduleUpdate();
+                    Director::getInstance()->getScheduler().unscheduleUpdate(this);
                     _parent->removeChild(this, true);
                     return;
                 }

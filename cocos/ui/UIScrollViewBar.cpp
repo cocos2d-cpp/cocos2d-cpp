@@ -1,7 +1,6 @@
 /****************************************************************************
 Copyright (c) 2015 Neo Kim (neo.kim@neofect.com)
-
-http://www.cocos2d-x.org
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +21,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "ui/UIScrollViewBar.h"
-#include "platform/CCImage.h"
 #include "2d/CCSprite.h"
+#include "base/CCDirector.h"
 #include "base/ccUtils.h"
+#include "platform/CCImage.h"
+#include "ui/UIScrollViewBar.h"
 
 namespace cocos2d {
 
@@ -170,7 +170,7 @@ void ScrollViewBar::updateLength(float length)
 void ScrollViewBar::onEnter()
 {
     ProtectedNode::onEnter();
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void ScrollViewBar::update(float deltaTime)

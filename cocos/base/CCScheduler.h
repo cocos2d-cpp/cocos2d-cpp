@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +27,7 @@ THE SOFTWARE.
 #ifndef __CCSCHEDULER_H__
 #define __CCSCHEDULER_H__
 
+#include "platform/CCPlatformDefine.h"
 #include "base/CCRef.h"
 #include "base/uthash.h"
 
@@ -36,7 +36,11 @@ THE SOFTWARE.
 #include <set>
 #include <vector>
 
+#define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
+
 namespace cocos2d {
+
+typedef void (Ref::*SEL_SCHEDULE)(float);
 
 class Scheduler;
 
@@ -139,7 +143,7 @@ There are 2 different types of callbacks (selectors):
 The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
 
 */
-class CC_DLL Scheduler : public Ref
+class CC_DLL Scheduler
 {
 public:
     /** Priority level reserved for system services. 

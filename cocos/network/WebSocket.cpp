@@ -213,7 +213,7 @@ void WsThreadHelper::wsThreadEntryFunc()
 
 void WsThreadHelper::sendMessageToCocosThread(const std::function<void()>& cb)
 {
-    Director::getInstance()->getScheduler()->performFunctionInCocosThread(cb);
+    Director::getInstance()->getScheduler().performFunctionInCocosThread(cb);
 }
 
 void WsThreadHelper::sendMessageToWebSocketThread(WsMessage *msg)
