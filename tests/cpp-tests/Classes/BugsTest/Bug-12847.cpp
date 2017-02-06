@@ -51,7 +51,7 @@ bool Bug12847Layer::init()
             this->addChild(sprite4, 1);
         }
         
-        this->scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         return true;
     }
     

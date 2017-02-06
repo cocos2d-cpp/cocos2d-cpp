@@ -435,7 +435,7 @@ void PhysicsDemoPyramidStack::onEnter()
     ball->setPosition(VisibleRect::bottom() + Vec2(0, 60));
     this->addChild(ball);
     
-    scheduleOnce(CC_SCHEDULE_SELECTOR(PhysicsDemoPyramidStack::updateOnce), 3.0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsDemoPyramidStack::updateOnce), this, 0.0, 0, 3.0f, !_running);
     
     for (int i = 0; i < 14; i++)
     {
@@ -487,7 +487,7 @@ void PhysicsDemoRayCast::onEnter()
     this->addChild(menu);
     menu->setPosition(Vec2(VisibleRect::left().x + 100, VisibleRect::top().y - 10));
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void PhysicsDemoRayCast::changeModeCallback(Ref* sender)
@@ -938,7 +938,7 @@ void PhysicsDemoPump::onEnter()
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoPump::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoPump::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     
     auto node = Node::create();
     auto nodeBody = PhysicsBody::create();
@@ -1628,7 +1628,7 @@ void PhysicsSetGravityEnableTest::onEnter()
     ballBody->setMass(50);
     addChild(ball);
     
-    scheduleOnce(CC_SCHEDULE_SELECTOR(PhysicsSetGravityEnableTest::onScheduleOnce), 1.0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsSetGravityEnableTest::onScheduleOnce), this, 0.0, 0, 1.0f, !_running);
 }
 
 void PhysicsSetGravityEnableTest::onScheduleOnce(float /*delta*/)
@@ -1731,7 +1731,7 @@ void PhysicsFixedUpdate::onEnter()
     
     addBall();
     
-    scheduleOnce(CC_SCHEDULE_SELECTOR(PhysicsFixedUpdate::updateStart), 2);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsFixedUpdate::updateStart), this, 0.0, 0, 2.0f, !_running);
 }
 
 void PhysicsFixedUpdate::addBall()

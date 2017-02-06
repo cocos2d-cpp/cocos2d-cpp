@@ -179,8 +179,8 @@ NodeTest4::NodeTest4()
     addChild(sp1, 0, 2);
     addChild(sp2, 0, 3);
     
-    schedule(CC_CALLBACK_1(NodeTest4::delay2, this), 2.0f, "delay2_key");
-    schedule(CC_CALLBACK_1(NodeTest4::delay4, this), 4.0f, "delay4_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest4::delay2, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "delay2_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest4::delay4, this), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "delay4_key");
 }
 
 void NodeTest4::delay2(float /*dt*/)
@@ -192,7 +192,7 @@ void NodeTest4::delay2(float /*dt*/)
 
 void NodeTest4::delay4(float /*dt*/)
 {
-    unschedule("delay4_key");
+    Director::getInstance()->getScheduler().unschedule("delay4_key", this);
     removeChildByTag(3, false);
 }
 
@@ -228,7 +228,7 @@ NodeTest5::NodeTest5()
     sp1->runAction(forever);
     sp2->runAction(forever2);
     
-    schedule(CC_CALLBACK_1(NodeTest5::addAndRemove, this), 2.0f, "add_and_remove_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest5::addAndRemove, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "add_and_remove_key");
 }
 
 void NodeTest5::addAndRemove(float /*dt*/)
@@ -288,7 +288,7 @@ NodeTest6::NodeTest6()
     sp2->runAction(forever2);
     sp21->runAction(forever21);
     
-    schedule(CC_CALLBACK_1(NodeTest6::addAndRemove, this), 2.0f, "add_and_remove_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest6::addAndRemove, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "add_and_remove_key");
 }
 
 void NodeTest6::addAndRemove(float /*dt*/)
@@ -330,12 +330,12 @@ StressTest1::StressTest1()
     
     sp1->setPosition( Vec2(s.width/2, s.height/2) );        
 
-    schedule(CC_CALLBACK_1(StressTest1::shouldNotCrash, this), 1.0f, "should_not_crash_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(StressTest1::shouldNotCrash, this), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "should_not_crash_key");
 }
 
 void StressTest1::shouldNotCrash(float /*dt*/)
 {
-    unschedule("should_not_crash_key");
+    Director::getInstance()->getScheduler().unschedule("should_not_crash_key", this);
 
     auto s = Director::getInstance()->getWinSize();
 
@@ -399,14 +399,14 @@ StressTest2::StressTest2()
     fire->runAction( RepeatForever::create(copy_seq3) );
     sublayer->addChild(fire, 2);
             
-    schedule(CC_CALLBACK_1(StressTest2::shouldNotLeak,this), 6.0f, "should_not_leak_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(StressTest2::shouldNotLeak,this), this, 6.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "should_not_leak_key");
     
     addChild(sublayer, 0, kTagSprite1);
 }
 
 void StressTest2::shouldNotLeak(float /*dt*/)
 {
-    unschedule("should_not_leak_key");
+    Director::getInstance()->getScheduler().unschedule("should_not_leak_key", this);
     auto sublayer = static_cast<Layer*>( getChildByTag(kTagSprite1) );
     sublayer->removeAllChildrenWithCleanup(true); 
 }
@@ -430,10 +430,10 @@ SchedulerTest1::SchedulerTest1()
     addChild(layer, 0);
     //CCLOG("retain count after addChild is %d", layer->getReferenceCount());      // 2
     
-    layer->schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), "do_something_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), layer, 0.0f, CC_REPEAT_FOREVER, 0.0f, !layer->isRunning(), "do_something_key");
     //CCLOG("retain count after schedule is %d", layer->getReferenceCount());      // 3 : (object-c viersion), but win32 version is still 2, because Timer class don't save target.
     
-    layer->unschedule("do_something_key");
+    Director::getInstance()->getScheduler().unschedule("do_something_key", layer);
     //CCLOG("retain count after unschedule is %d", layer->getReferenceCount());        // STILL 3!  (win32 is '2')
 }
 
@@ -459,21 +459,19 @@ SchedulerCallbackTest::SchedulerCallbackTest()
     node->setName("a node");
 
     _total = 0;
-    node->schedule([&](float dt) {
+    Director::getInstance()->getScheduler().schedule([this](float dt) {
         _total += dt;
         log("hello world: %f - total: %f", dt, _total);
-    }
-                   ,0.5
-                   ,"some_key");
+    },
+    node, 0.5, CC_REPEAT_FOREVER, 0.0f, !node->isRunning(), "some_key");
 
 
-    node->scheduleOnce([&](float /*dt*/) {
+    Director::getInstance()->getScheduler().schedule([this](float /*dt*/) {
         // the local variable "node" will go out of scope, so I have to get it from "this"
         auto anode = this->getChildByName("a node");
-        anode->unschedule("some_key");
-    }
-                       ,5
-                       ,"ignore_key");
+        Director::getInstance()->getScheduler().unschedule("some_key", anode);
+    },
+    node, 0.0f, 0, 5.0f, !node->isRunning(), "ignore_key");
 }
 
 void SchedulerCallbackTest::onEnter()
@@ -694,7 +692,7 @@ CameraZoomTest::CameraZoomTest()
     sprite->setPosition(Vec2(s.width/4*3, s.height/2));
 
     _z = 0;
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void CameraZoomTest::update(float dt)
@@ -941,7 +939,7 @@ NodeGlobalZValueTest::NodeGlobalZValueTest()
         sprite->setPosition(s.width/2 - w*0.7*(i-5), s.height/2);
     }
 
-    this->scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void NodeGlobalZValueTest::update(float dt)
@@ -1187,7 +1185,7 @@ NodeNormalizedPositionTest2::NodeNormalizedPositionTest2()
         sprites[i]->setPositionNormalized(positions[i]);
         addChild(sprites[i]);
     }
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     setContentSize( Director::getInstance()->getWinSize());
     _copyContentSize = getContentSize();
@@ -1236,7 +1234,7 @@ NodeNormalizedPositionBugTest::NodeNormalizedPositionBugTest()
     sprite->setPositionNormalized(position);
     addChild(sprite);
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 std::string NodeNormalizedPositionBugTest::title() const
@@ -1272,7 +1270,7 @@ void NodeNameTest::onEnter()
 {
     TestCocosNodeDemo::onEnter();
     
-    this->scheduleOnce(CC_CALLBACK_1(NodeNameTest::test, this), 0.05f, "test_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeNameTest::test, this), this, 0, 0, 0.05f, !_running, "test_key");
 }
 
 void NodeNameTest::onExit()

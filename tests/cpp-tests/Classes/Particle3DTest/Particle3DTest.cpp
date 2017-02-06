@@ -95,7 +95,7 @@ bool Particle3DTestDemo::init()
     _particleLab->setAnchorPoint(Vec2(0.0f, 0.0f));
     this->addChild(_particleLab);
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     return true;
 }
 

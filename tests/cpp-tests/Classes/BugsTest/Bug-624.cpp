@@ -38,7 +38,7 @@ bool Bug624Layer::init()
         auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(Bug624Layer::onAcceleration,  this));
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-        schedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), 5.0f);
+        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 
         return true;
     }
@@ -48,7 +48,7 @@ bool Bug624Layer::init()
 
 void Bug624Layer::switchLayer(float)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this);
 
     auto scene = Scene::create();    
     scene->addChild(Bug624Layer2::create(), 0);
@@ -85,7 +85,7 @@ bool Bug624Layer2::init()
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
         
         
-        schedule(CC_SCHEDULE_SELECTOR(Bug624Layer2::switchLayer), 5.0f);
+        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Bug624Layer2::switchLayer), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 
         return true;
     }
@@ -95,7 +95,7 @@ bool Bug624Layer2::init()
 
 void Bug624Layer2::switchLayer(float)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this);
 
     auto scene = Scene::create();    
     scene->addChild(Bug624Layer::create(), 0);

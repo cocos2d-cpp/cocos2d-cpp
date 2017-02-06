@@ -474,7 +474,7 @@ LayerTestBlend::LayerTestBlend()
     sister1->setPosition( Vec2( s.width*1/3, s.height/2) );
     sister2->setPosition( Vec2( s.width*2/3, s.height/2) );
 
-    schedule( CC_SCHEDULE_SELECTOR(LayerTestBlend::newBlend), 1.0f);
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(LayerTestBlend::newBlend), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void LayerTestBlend::newBlend(float /*dt*/)
@@ -807,7 +807,7 @@ void LayerBug3162A::onEnter()
     
     this->addChild(_layer[0]);
     
-    schedule(CC_SCHEDULE_SELECTOR(LayerBug3162A::step), 0.5, CC_REPEAT_FOREVER, 0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LayerBug3162A::step), this, 0.5, CC_REPEAT_FOREVER, 0, !_running);
 }
 
 void LayerBug3162A::step(float /*dt*/)
@@ -853,7 +853,7 @@ void LayerBug3162B::onEnter()
     _layer[1]->setCascadeColorEnabled(true);
     _layer[2]->setCascadeColorEnabled(true);
     
-    schedule(CC_SCHEDULE_SELECTOR(LayerBug3162B::step), 0.5, CC_REPEAT_FOREVER, 0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LayerBug3162B::step), this, 0.5, CC_REPEAT_FOREVER, 0, !_running);
 }
 
 void LayerBug3162B::step(float /*dt*/)

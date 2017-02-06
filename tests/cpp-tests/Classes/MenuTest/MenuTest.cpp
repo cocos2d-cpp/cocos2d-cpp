@@ -188,7 +188,7 @@ void MenuLayerMainMenu::menuCallbackConfig(Ref* )
 void MenuLayerMainMenu::allowTouches(float )
 {
     _eventDispatcher->setPriority(_touchListener, 1);
-    unscheduleAllCallbacks();
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     log("TOUCHES ALLOWED AGAIN");
 }
 
@@ -196,7 +196,7 @@ void MenuLayerMainMenu::menuCallbackDisabled(Ref* )
 {
     // hijack all touch events for 5 seconds
     _eventDispatcher->setPriority(_touchListener, -1);
-    schedule(CC_SCHEDULE_SELECTOR(MenuLayerMainMenu::allowTouches), 5.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(MenuLayerMainMenu::allowTouches), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     log("TOUCHES DISABLED FOR 5 SECONDS");
 }
 

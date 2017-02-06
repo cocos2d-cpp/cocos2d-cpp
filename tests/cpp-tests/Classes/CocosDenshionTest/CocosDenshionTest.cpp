@@ -2,7 +2,9 @@
 
 #include "2d/CCLabel.h"
 #include "audio/include/SimpleAudioEngine.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
+#include "base/CCScheduler.h"
 #include "extensions/GUI/CCControlExtension/CCControlSlider.h"
 
 // android effect only support ogg
@@ -231,7 +233,7 @@ _sliderMusicVolume(nullptr)
 {
     addButtons();
     addSliders();
-    schedule(CC_SCHEDULE_SELECTOR(CocosDenshionTest::updateVolumes));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(CocosDenshionTest::updateVolumes), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 
     // preload background music and effect
     SimpleAudioEngine::getInstance()->preloadBackgroundMusic( MUSIC_FILE );

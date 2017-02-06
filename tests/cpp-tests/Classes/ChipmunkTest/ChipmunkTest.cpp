@@ -66,7 +66,7 @@ ChipmunkTest::ChipmunkTest()
     this->addChild(menu);
     menu->setPosition(VisibleRect::right().x-100, VisibleRect::top().y-60);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 #else
     auto label = Label::createWithTTF("Should define CC_ENABLE_CHIPMUNK_INTEGRATION=1\n to run this test case",
                                             "fonts/arial.ttf",

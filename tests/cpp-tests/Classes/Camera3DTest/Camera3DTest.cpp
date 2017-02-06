@@ -149,7 +149,7 @@ CameraRotationTest::CameraRotationTest()
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_lis, this);
     
-    schedule(CC_SCHEDULE_SELECTOR(CameraRotationTest::update));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(CameraRotationTest::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 CameraRotationTest::~CameraRotationTest()
@@ -353,7 +353,7 @@ void Camera3DTestDemo::onEnter()
     menuItem2->setPosition(VisibleRect::left().x+100, VisibleRect::top().y -100);
     menuItem3->setPosition(VisibleRect::left().x+100, VisibleRect::top().y -150);
     addChild(menu, 0);
-    schedule(CC_SCHEDULE_SELECTOR(Camera3DTestDemo::updateCamera), 0.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Camera3DTestDemo::updateCamera), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     if (_camera == nullptr)
     {
         _camera=Camera::createPerspective(60, (GLfloat)s.width/s.height, 1, 1000);
@@ -735,7 +735,7 @@ void CameraCullingDemo::onEnter()
 {
     CameraBaseTest::onEnter();
 
-    schedule(CC_SCHEDULE_SELECTOR(CameraCullingDemo::update), 0.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(CameraCullingDemo::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     
     auto s = Director::getInstance()->getWinSize();
     /*auto listener = EventListenerTouchAllAtOnce::create();
@@ -1030,7 +1030,7 @@ void CameraArcBallDemo::onEnter()
 {
     CameraBaseTest::onEnter();
     _rotationQuat.set(0.0f, 0.0f, 0.0f, 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(CameraArcBallDemo::update), 0.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(CameraArcBallDemo::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     auto s = Director::getInstance()->getWinSize();
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(CameraArcBallDemo::onTouchsMoved, this);
@@ -1244,7 +1244,7 @@ std::string FogTestDemo::title() const
 void FogTestDemo::onEnter()
 {
     CameraBaseTest::onEnter();
-    schedule(CC_SCHEDULE_SELECTOR(FogTestDemo::update), 0.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(FogTestDemo::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->setClearColor(Color4F(0.5,0.5,0.5,1));
 
     auto s = Director::getInstance()->getWinSize();

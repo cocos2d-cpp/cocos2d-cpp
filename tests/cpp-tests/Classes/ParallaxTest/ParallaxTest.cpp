@@ -178,7 +178,7 @@ Issue2572::Issue2572()
     _paraNode = ParallaxNode::create();
     addChild(_paraNode, 0, kTagNode);
 
-    this->scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void Issue2572::update(float dt)
@@ -186,7 +186,7 @@ void Issue2572::update(float dt)
     _addTimer += dt;
     _moveTimer += dt;
     if (_moveTimer >= _wholeMoveTime) {
-        this->unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
         return;
     }
 

@@ -61,11 +61,11 @@ protected:
     float _wholeMoveTime;
     cocos2d::Vec2 _wholeMoveSize;
 
-    virtual void update(float dt) override;
-    
 public:
     CREATE_FUNC(Issue2572);
     Issue2572();
+    
+    virtual void update(float dt) override;
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

@@ -167,7 +167,7 @@ LabelAtlasTest::LabelAtlasTest()
     label2->setPosition( Vec2(10,200) );
     label2->setOpacity( 32 );
 
-    schedule(CC_CALLBACK_1(LabelAtlasTest::step, this), "step_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelAtlasTest::step, this), this, 0.0f, !_running, "step_key");
 }
 
 void LabelAtlasTest::step(float dt)
@@ -226,7 +226,7 @@ LabelAtlasColorTest::LabelAtlasColorTest()
 
     _time = 0;
     
-    schedule(CC_CALLBACK_1(LabelAtlasColorTest::step, this), "step_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelAtlasColorTest::step, this), this, 0.0f, !_running, "step_key");
 }
 
 void LabelAtlasColorTest::actionFinishCallback()
@@ -364,7 +364,7 @@ Atlas3::Atlas3()
     label2->setPosition( VisibleRect::center() );
     label3->setPosition( VisibleRect::rightTop() );
 
-    schedule(CC_CALLBACK_1(Atlas3::step, this), "step_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(Atlas3::step, this), this, 0.0f, !_running, "step_key");
 }
 
 void Atlas3::step(float dt)
@@ -466,7 +466,7 @@ Atlas4::Atlas4()
     auto lastChar = (Sprite*) label2->getLetter(3);
     lastChar->runAction( rot_4ever->clone() );
     
-    schedule(CC_CALLBACK_1(Atlas4::step, this), 0.1f, "step_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(Atlas4::step, this), this, 0.1f, !_running, "step_key");
 }
 
 void Atlas4::step(float dt)
@@ -752,7 +752,7 @@ LabelsEmpty::LabelsEmpty()
     addChild(label3, 0, kTagBitmapAtlas3);
     label3->setPosition(Vec2(s.width/2, 0+100));
 
-    schedule(CC_CALLBACK_1(LabelsEmpty::updateStrings, this), 1.0f, "update_strings_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelsEmpty::updateStrings, this), this, 1.0f, !_running, "update_strings_key");
 
     setEmpty = false;
 }

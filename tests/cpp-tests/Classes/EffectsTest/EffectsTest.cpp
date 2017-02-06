@@ -370,7 +370,7 @@ bool EffectBaseTest::init()
         auto sc2_back = sc2->reverse();
         tamara->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc2), to_action_ptr( sc2_back) )) );
         
-        schedule( CC_SCHEDULE_SELECTOR(EffectBaseTest::checkAnim) );
+        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(EffectBaseTest::checkAnim), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
         
         return true;
     }

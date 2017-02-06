@@ -282,7 +282,7 @@ void Material_setTechnique::onEnter()
     auto light2 = DirectionLight::create(Vec3(-1,1,0), Color3B::GREEN);
     addChild(light2);
 
-    this->schedule(CC_CALLBACK_1(Material_setTechnique::changeMaterial, this),  1, "cookie");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(Material_setTechnique::changeMaterial, this), this, 1.0f, !_running, "cookie");
     _techniqueState = 0;
 
     auto rot = RotateBy::create(5, Vec3(30,60,270));
@@ -405,13 +405,13 @@ void Material_parsePerformance::onEnter()
             {
                 label->setString("Testing start!");
             }
-            this->scheduleOnce(
+            Director::getInstance()->getScheduler().schedule(
                                [this, p, slider](float)
                                {
                                    this->parsingTesting(p * _maxParsingCoumt);
                                    slider->setTouchEnabled(true);
                                },
-                               1.0, "schedule test parsing");
+                               this, 0.0f, 0, 1.0, !_running, "schedule test parsing");
             
         }
     });

@@ -50,7 +50,7 @@ void MotionStreakTest1::onEnter()
     _streak = MotionStreak::create(2, 3, 32, Color3B::GREEN, s_streak);
     addChild(_streak);
     // schedule an update on each frame so we can syncronize the streak with the target
-    schedule(CC_SCHEDULE_SELECTOR(MotionStreakTest1::onUpdate));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(MotionStreakTest1::onUpdate), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
   
     auto a1 = RotateBy::create(2, 360);
 
@@ -148,7 +148,7 @@ void Issue1358::onEnter()
     _radius = size.width/3;
     _angle = 0.0f;
     
-    schedule(CC_SCHEDULE_SELECTOR(Issue1358::update), 0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Issue1358::update), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void Issue1358::update(float)
@@ -206,7 +206,7 @@ void Issue12226::onEnter()
         _streak->setPosition(position);
     };
 
-    outer->schedule(updateMotionStreak, 1 / 240.0f, CC_REPEAT_FOREVER, 0, "motion1scheduler");
+    Director::getInstance()->getScheduler().schedule(updateMotionStreak, outer, 1 / 240.0f, CC_REPEAT_FOREVER, 0, !outer->isRunning(), "motion1scheduler");
 
     auto rot = RotateBy::create(2, 360);
     auto forever = RepeatForever::create(rot);

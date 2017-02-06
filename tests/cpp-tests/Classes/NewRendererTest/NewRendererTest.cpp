@@ -604,7 +604,7 @@ BugAutoCulling::BugAutoCulling()
         label->setPosition(s.width/2 + s.width/10 * i, s.height/2);
         this->addChild(label);
     }
-    this->scheduleOnce([=](float){
+    Director::getInstance()->getScheduler().schedule([=](float){
         auto camera = Director::getInstance()->getRunningScene()->getCameras().front();
         auto move  = MoveBy::create(2.0, Vec2(2 * s.width, 0));
         auto move_reverse = move->reverse();
@@ -614,7 +614,7 @@ BugAutoCulling::BugAutoCulling()
                 to_action_ptr(move_reverse)
             )
         );
-    }, 1.0f, "lambda-autoculling-bug");
+    }, this, 0.0f, 0, 1.0f, !_running, "lambda-autoculling-bug");
 }
 
 std::string BugAutoCulling::title() const

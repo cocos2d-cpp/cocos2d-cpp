@@ -108,7 +108,7 @@ void DemoPause::onEnter()
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
     
     setEmitterPosition();
-    schedule(CC_SCHEDULE_SELECTOR(DemoPause::pauseEmitter), 2.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(DemoPause::pauseEmitter), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
 
 
 }
@@ -951,7 +951,7 @@ void Issue870::onEnter()
     _emitter->retain();
 
     _index = 0;
-    schedule(CC_SCHEDULE_SELECTOR(Issue870::updateQuads), 2.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Issue870::updateQuads), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
 }
 
 void Issue870::updateQuads(float /*dt*/)
@@ -1139,7 +1139,7 @@ void ParticleDemo::onEnter(void)
     _background->runAction( RepeatForever::create(seq) );
 
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 std::string ParticleDemo::title() const
@@ -1231,13 +1231,13 @@ void ParticleBatchHybrid::onEnter()
 
     addChild(batch, 10);
 
-     schedule(CC_SCHEDULE_SELECTOR(ParticleBatchHybrid::switchRender), 2.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleBatchHybrid::switchRender), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
 
-     auto node = Node::create();
-     addChild(node);
+    auto node = Node::create();
+    addChild(node);
 
-     _parent1 = batch;
-     _parent2 = node;
+    _parent1 = batch;
+    _parent2 = node;
 }
 
 void ParticleBatchHybrid::switchRender(float /*dt*/)
@@ -1317,7 +1317,7 @@ void ParticleReorder::onEnter()
     auto ignore = ParticleSystemQuad::create("Particles/SmallSun.plist");
     auto parent1 = Node::create();
     auto parent2 = ParticleBatchNode::createWithTexture(ignore->getTexture());
-    ignore->unscheduleUpdate();
+    Director::getInstance()->getScheduler().unscheduleUpdate(ignore);
 
     for( unsigned int i=0; i<2;i++)
     {
@@ -1348,7 +1348,7 @@ void ParticleReorder::onEnter()
         addChild(parent, 10, 1000+i);
     }
 
-    schedule(CC_SCHEDULE_SELECTOR(ParticleReorder::reorderParticles), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleReorder::reorderParticles), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
 }
 
 std::string ParticleReorder::title() const
@@ -1648,7 +1648,7 @@ void AddAndDeleteParticleSystems::onEnter()
 
     }
 
-    schedule(CC_SCHEDULE_SELECTOR(AddAndDeleteParticleSystems::removeSystem), 0.5f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(AddAndDeleteParticleSystems::removeSystem), this, 0.5f, CC_REPEAT_FOREVER, 0.0, !_running);
     _emitter = nullptr;
 
 }
@@ -1799,7 +1799,7 @@ void ReorderParticleSystems::onEnter()
 
     }
 
-    schedule(CC_SCHEDULE_SELECTOR(ReorderParticleSystems::reorderSystem), 2.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ReorderParticleSystems::reorderSystem), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
     _emitter = nullptr;
 
 }
@@ -1895,7 +1895,7 @@ void PremultipliedAlphaTest::onEnter()
     this->addChild(_emitter, 10);
     _hasEmitter = true;
     
-    schedule(CC_SCHEDULE_SELECTOR(PremultipliedAlphaTest::readdPaticle), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PremultipliedAlphaTest::readdPaticle), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
 }
 
 // PremultipliedAlphaTest2
@@ -1967,7 +1967,7 @@ void ParticleVisibleTest::onEnter()
     
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
     
-    schedule(CC_SCHEDULE_SELECTOR(ParticleVisibleTest::callback), 1);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleVisibleTest::callback), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
     
     setEmitterPosition();
 }

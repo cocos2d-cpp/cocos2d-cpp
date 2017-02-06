@@ -788,7 +788,7 @@ void DirectorEventTest::onEnter()
     _event3->retain();
     _event4->retain();
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void DirectorEventTest::update(float dt)
@@ -905,7 +905,7 @@ GlobalZTouchTest::GlobalZTouchTest()
         sprite->setPosition(VisibleRect::left().x + visibleSize.width / (SPRITE_COUNT - 1) * i, VisibleRect::center().y);
     }
     
-    this->scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 void GlobalZTouchTest::update(float dt)

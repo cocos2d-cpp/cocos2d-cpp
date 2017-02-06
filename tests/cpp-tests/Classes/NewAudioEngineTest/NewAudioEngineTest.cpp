@@ -244,9 +244,9 @@ bool AudioControlTest::init()
                     
                     _playOverLabel->setVisible(true);
                     
-                    scheduleOnce([&](float /*dt*/){
+                    Director::getInstance()->getScheduler().schedule([&](float /*dt*/){
                         _playOverLabel->setVisible(false);
-                    }, 2.0f, "hide_play_over_label");
+                    }, this, 0.0f, 0, 2.0f, !_running, "hide_play_over_label");
                     
                     assert(!_isStopped); // Stop audio should not trigger finshed callback
                     _audioID = AudioEngine::INVALID_AUDIO_ID;
@@ -354,7 +354,7 @@ bool AudioControlTest::init()
     timeLabel->setPosition(timeSliderPos.x - sliderSize.width / 2, timeSliderPos.y);
     addChild(timeLabel);
     
-    this->schedule(CC_CALLBACK_1(AudioControlTest::update, this), 0.1f, "update_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(AudioControlTest::update, this), this, 0.1f, CC_REPEAT_FOREVER, 0.0f, !_running, "update_key");
     
     return ret;
 }
@@ -559,7 +559,7 @@ bool AudioProfileTest::init()
     addChild(timeSlider);
     _timeSlider = timeSlider;
     
-    this->schedule(CC_CALLBACK_1(AudioProfileTest::update, this), 0.05f, "update_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(AudioProfileTest::update, this), this, 0.05f, CC_REPEAT_FOREVER, 0.0f, !_running, "update_key");
     
     return ret;
 }
@@ -664,10 +664,11 @@ bool AudioIssue11143Test::init()
             auto audioId = AudioEngine::play2d("audio/SoundEffectsFX009/FX082.mp3", true);
             char key[100] = {0};
             sprintf(key, "play another sound %d", audioId);
-            button->scheduleOnce([audioId](float /*dt*/){
-                AudioEngine::stop(audioId);
-                AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
-            }, 0.3f, key);
+            Director::getInstance()->getScheduler().schedule(
+                [audioId](float /*dt*/){
+                    AudioEngine::stop(audioId);
+                    AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
+                }, button, 0.0f, 0, 0.3f, !button->isRunning(), key);
 
         });
         playItem->setPosition(layerSize.width * 0.5f, layerSize.height * 0.5f);
@@ -744,20 +745,20 @@ bool AudioPerformanceTest::init()
             button->setEnabled(false);
             static_cast<TextButton*>(getChildByName("DisplayButton"))->setEnabled(true);
             
-            unschedule("test");
-            schedule([audioFiles](float /*dt*/){
+            Director::getInstance()->getScheduler().unschedule("test", this);
+            Director::getInstance()->getScheduler().schedule([audioFiles](float /*dt*/){
                 int index = cocos2d::random(0, (int)(audioFiles.size()-1));
                 CC_PROFILER_START("play2d");
                 AudioEngine::play2d(audioFiles[index]);
                 CC_PROFILER_STOP("play2d");
-            }, 0.25f, "test");
+            }, this, 0.25f, CC_REPEAT_FOREVER, 0.0f, !_running, "test");
         });
         playItem->setPosition(layerSize.width * 0.5f, layerSize.height * 2 / 3);
         playItem->setName("PlayButton");
         addChild(playItem);
         
         auto displayItem = TextButton::create("Display Result", [this, playItem](TextButton* button){
-            unschedule("test");
+            Director::getInstance()->getScheduler().unschedule("test", this);
             AudioEngine::stopAll();
             CC_PROFILER_DISPLAY_TIMERS();
             playItem->setEnabled(true);
@@ -790,15 +791,15 @@ bool AudioSwitchStateTest::init()
 {
     if (AudioEngineTestDemo::init())
     {
-        schedule([](float /*dt*/){
+        Director::getInstance()->getScheduler().schedule([](float /*dt*/){
             
             AudioEngine::uncacheAll();
             AudioEngine::preload("audio/SoundEffectsFX009/FX081.mp3");
             AudioEngine::play2d("audio/SoundEffectsFX009/FX082.mp3");
             AudioEngine::play2d("audio/LuckyDay.mp3");
             
-        }, 0.1f, "AudioSwitchStateTest");
-        
+        }, this, 0.1f, CC_REPEAT_FOREVER, 0.0f, !_running, "AudioSwitchStateTest");
+         
         return true;
     }
     

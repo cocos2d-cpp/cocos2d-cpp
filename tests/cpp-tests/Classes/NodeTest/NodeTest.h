@@ -299,10 +299,11 @@ public:
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
+    void update(float dt) override;
+
 protected:
     NodeNormalizedPositionTest2();
 
-    void update(float dt) override;
     cocos2d::Size _copyContentSize;
     float _accum;
 };
@@ -314,10 +315,11 @@ public:
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
+    void update(float dt) override;
+
 protected:
     NodeNormalizedPositionBugTest();
     
-    void update(float dt) override;
     float _accum;
     cocos2d::Sprite* sprite;
 };

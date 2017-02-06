@@ -208,7 +208,7 @@ BillBoardTest::BillBoardTest()
     this->addChild(menu, 10);
     menuCallback_orientedPoint(nullptr);
     
-    schedule(CC_SCHEDULE_SELECTOR(BillBoardTest::update));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(BillBoardTest::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void BillBoardTest::menuCallback_orientedPoint(Ref*)

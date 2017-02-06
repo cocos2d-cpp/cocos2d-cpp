@@ -43,38 +43,38 @@ IntervalTest::IntervalTest()
     _label3 = Label::createWithBMFont("fonts/bitmapFontTest4.fnt", "0");
     _label4 = Label::createWithBMFont("fonts/bitmapFontTest4.fnt", "0");
 
-    scheduleUpdate();
-    schedule([&](float dt){
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule([&](float dt){
         _time1 +=dt;
 
         char str[10] = {0};
         sprintf(str, "%2.1f", _time1);
         _label1->setString( str );
-    }, "step_1");
+    }, this, 0, !_running, "step_1");
 
-    schedule([&](float dt){
+    Director::getInstance()->getScheduler().schedule([&](float dt){
         _time2 +=dt;
 
         char str[10] = {0};
         sprintf(str, "%2.1f", _time2);
         _label2->setString( str );
-    }, 0.5, "step_2");
+    }, this, 0.5, !_running, "step_2");
 
-    schedule([&](float dt){
+    Director::getInstance()->getScheduler().schedule([&](float dt){
         _time3 +=dt;
 
         char str[10] = {0};
         sprintf(str, "%2.1f", _time3);
         _label3->setString( str );
-    }, 1, "step_3");
+    }, this, 1, !_running, "step_3");
 
-    schedule([&](float dt){
+    Director::getInstance()->getScheduler().schedule([&](float dt){
         _time4 +=dt;
 
         char str[10] = {0};
         sprintf(str, "%2.1f", _time4);
         _label4->setString( str );
-    }, 2, "step_4");
+    }, this, 2, !_running, "step_4");
 
     _label0->setPosition(s.width*1/6, s.height/2);
     _label1->setPosition(s.width*2/6, s.height/2);

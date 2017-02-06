@@ -48,7 +48,7 @@ SceneTestLayer1::SceneTestLayer1()
     auto repeat = RepeatForever::create(rotate);
     sprite->runAction(repeat);
 
-    schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer1::testDealloc) );
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer1::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 }
 
 void SceneTestLayer1::testDealloc(float /*dt*/)
@@ -116,7 +116,7 @@ SceneTestLayer2::SceneTestLayer2()
     auto repeat = RepeatForever::create(rotate);
     sprite->runAction(repeat);
 
-    schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer2::testDealloc) );
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer2::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 }
 
 void SceneTestLayer2::testDealloc(float /*dt*/)
@@ -166,7 +166,7 @@ bool SceneTestLayer3::init()
         this->addChild(menu);
         menu->alignItemsVertically();
 
-        this->schedule(CC_SCHEDULE_SELECTOR(SceneTestLayer3::testDealloc));
+        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SceneTestLayer3::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 
         auto sprite = Sprite::create(s_pathGrossini);
         addChild(sprite);

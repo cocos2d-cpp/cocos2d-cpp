@@ -13,9 +13,9 @@ public:
     CREATE_FUNC(Bug12847Layer);
     
     virtual bool init() override;
+    virtual void update(float dt) override;
     
 protected:
-    virtual void update(float dt) override;
     virtual void onEnter() override;
     virtual void onExit() override;
     
