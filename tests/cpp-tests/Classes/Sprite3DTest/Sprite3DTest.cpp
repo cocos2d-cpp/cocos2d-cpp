@@ -285,7 +285,7 @@ Sprite3DUVAnimationTest::Sprite3DUVAnimationTest()
     cylinder->setRotation3D(Vec3(-90,0,0));
 
     //the callback function update cylinder's texcoord
-    schedule(CC_SCHEDULE_SELECTOR(Sprite3DUVAnimationTest::cylinderUpdate));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Sprite3DUVAnimationTest::cylinderUpdate), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     _backToForegroundListener = EventListenerCustom::create(
@@ -388,7 +388,7 @@ Sprite3DFakeShadowTest::Sprite3DFakeShadowTest()
     layer->addChild(_camera);
     layer->setCameraMask(2);
 
-    schedule(CC_SCHEDULE_SELECTOR(Sprite3DFakeShadowTest::updateCamera), 0.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Sprite3DFakeShadowTest::updateCamera), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     _backToForegroundListener = EventListenerCustom::create(
@@ -1136,7 +1136,7 @@ Animate3DTest::Animate3DTest()
     listener->onTouchesEnded = CC_CALLBACK_2(Animate3DTest::onTouchesEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 
 Animate3DTest::~Animate3DTest()
@@ -1481,7 +1481,7 @@ Sprite3DWithOBBPerformanceTest::Sprite3DWithOBBPerformanceTest()
     addChild(_labelCubeCount);
     _hasCollider = false;
     addOBBCallback(nullptr);
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 std::string Sprite3DWithOBBPerformanceTest::title() const
 {
@@ -1781,7 +1781,7 @@ QuaternionTest::QuaternionTest()
 {
     auto s = Director::getInstance()->getWinSize();
     addNewSpriteWithCoords(Vec2(s.width / 2.f, s.height / 2.f));
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 std::string QuaternionTest::title() const
 {
@@ -1922,7 +1922,7 @@ void UseCaseSprite3D::switchCase()
         node->setTag(101);
         addChild(node);
         
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         update(0.f);
     }
     else if (_caseIdx == 1) // use case 2, ui - 3d - ui, last ui should on the top
@@ -2566,7 +2566,7 @@ MotionStreak3DTest::MotionStreak3DTest()
     
     _sprite = sprite;
     _streak = streak;
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 std::string MotionStreak3DTest::title() const
 {
@@ -2709,7 +2709,7 @@ Sprite3DPropertyTest::Sprite3DPropertyTest()
     pMenu1->setPosition(Vec2(0, 0));
     this->addChild(pMenu1, 10);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 }
 std::string Sprite3DPropertyTest::title() const
 {

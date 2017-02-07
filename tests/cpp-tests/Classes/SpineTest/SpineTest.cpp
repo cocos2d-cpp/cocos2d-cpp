@@ -91,7 +91,7 @@ bool SpineTestLayerNormal::init () {
 	skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
 	addChild(skeletonNode);
     
-	scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
@@ -128,7 +128,7 @@ bool SpineTestLayerFFD::init () {
 	skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
 	addChild(skeletonNode);
     
-	scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 	
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
@@ -155,7 +155,7 @@ void SpineTestLayerFFD::update (float /*deltaTime*/) {
 bool SpineTestPerformanceLayer::init () {
     if (!SpineTestLayer::init()) return false;
     
-	scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 	
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = [this] (Touch* touch, Event*) -> bool
@@ -193,7 +193,7 @@ bool SpineTestLayerRapor::init () {
     skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
     addChild(skeletonNode);
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
@@ -246,7 +246,7 @@ bool SpineTestLayerNormalBin::init () {
     skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
     addChild(skeletonNode);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
@@ -282,7 +282,7 @@ bool SpineTestLayerFFDBin::init () {
     skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
     addChild(skeletonNode);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [this] (Touch*, Event*) -> bool {
@@ -308,7 +308,7 @@ void SpineTestLayerFFDBin::update (float /*deltaTime*/) {
 bool SpineTestPerformanceLayerBin::init () {
     if (!SpineTestLayer::init()) return false;
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [this] (Touch* touch, Event*) -> bool
@@ -346,7 +346,7 @@ bool SpineTestLayerRaporBin::init () {
     skeletonNode->setPosition(Vec2(windowSize.width / 2, 20));
     addChild(skeletonNode);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = [this] (Touch*, Event*) -> bool {

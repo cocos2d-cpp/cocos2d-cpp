@@ -46,8 +46,8 @@ void SchedulerAutoremove::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::tick), 0.5f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::tick), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
     accum = 0;
 }
 
@@ -58,7 +58,7 @@ void SchedulerAutoremove::autoremove(float dt)
 
     if( accum > 3 )
     {
-        unschedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove));
+        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove), this);
         CCLOG("scheduler removed");
     }
 }
@@ -86,9 +86,9 @@ std::string SchedulerAutoremove::subtitle() const
 void SchedulerPauseResume::onEnter()
 {
     SchedulerTestLayer::onEnter();
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick2), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::pause), 3.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick2), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::pause), this, 3.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerPauseResume::tick1(float /*dt*/)
@@ -142,10 +142,10 @@ void SchedulerPauseResumeAll::onEnter()
     this->addChild(sprite);
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
     sprite->setTag(123);
-    scheduleUpdate();
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), 1.0f);
-    scheduleOnce(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), 3.0f);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 0.0f, 0, 3.0f, !_running);
 }
 
 void SchedulerPauseResumeAll::update(float /*delta*/)
@@ -175,24 +175,25 @@ void SchedulerPauseResumeAll::tick2(float /*dt*/)
 void SchedulerPauseResumeAll::pause(float /*dt*/)
 {
     log("Pausing, tick1 should be called six times and tick2 three times");
-    auto scheduler = Director::getInstance()->getScheduler();
-    _pausedTargets = scheduler->pauseAllTargets();
+    auto & scheduler = Director::getInstance()->getScheduler();
+    _pausedTargets = scheduler.pauseAllTargets();
 
     // should have only 2 items: ActionManager, self
     CCASSERT(_pausedTargets.size() == 2, "Error: pausedTargets should have only 2 items");
     
     // because target 'this' has been paused above, so use another node(tag:123) as target
-    getChildByTag(123)->scheduleOnce([this](float dt)
-                                     {
-                                         this->resume(dt);
-                                     }, 2.0f, "test resume");
+    auto child123 = getChildByTag(123);
+    Director::getInstance()->getScheduler().schedule(
+        [this](float dt) {
+            this->resume(dt);
+        }, child123, 0.0f, 0, 2.0f, !child123->isRunning(), "test resume");
 }
 
 void SchedulerPauseResumeAll::resume(float /*dt*/)
 {
     log("Resuming");
     auto director = Director::getInstance();
-    director->getScheduler()->resumeTargets(_pausedTargets);
+    director->getScheduler().resumeTargets(_pausedTargets);
     _pausedTargets.clear();
 }
 
@@ -234,9 +235,9 @@ void SchedulerPauseResumeAllUser::onEnter()
     this->addChild(sprite);
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick1), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick2), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::pause), 3.0f, false, 0);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick1), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::pause), this, 3.0f, 0, 0.0f, !_running);
 }
 
 void SchedulerPauseResumeAllUser::onExit()
@@ -262,18 +263,19 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 {
     log("Pausing, tick1 and tick2 should be called three times");
     auto director = Director::getInstance();
-    _pausedTargets = director->getScheduler()->pauseAllTargetsWithMinPriority(Scheduler::PRIORITY_NON_SYSTEM_MIN);
+    _pausedTargets = director->getScheduler().pauseAllTargetsWithMinPriority(Scheduler::PRIORITY_NON_SYSTEM_MIN);
     // because target 'this' has been paused above, so use another node(tag:123) as target
-    getChildByTag(123)->scheduleOnce([this](float dt)
-                                     {
-                                         this->resume(dt);
-                                     }, 2.0f, "test resume");
+    auto child123 = getChildByTag(123);
+    Director::getInstance()->getScheduler().schedule(
+        [this](float dt) {
+            this->resume(dt);
+        }, child123, 0.0f, 0, 2.0f, !child123->isRunning(), "test resume");
 }
 
 void SchedulerPauseResumeAllUser::resume(float /*dt*/)
 {
     log("Resuming");
-    getScheduler()->resumeTargets(_pausedTargets);
+    Director::getInstance()->getScheduler().resumeTargets(_pausedTargets);
     _pausedTargets.clear();
 }
 
@@ -297,11 +299,11 @@ void SchedulerUnscheduleAll::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick2), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick3), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick4), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::unscheduleAll), 4);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::unscheduleAll), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUnscheduleAll::tick1(float /*dt*/)
@@ -326,7 +328,7 @@ void SchedulerUnscheduleAll::tick4(float /*dt*/)
 
 void SchedulerUnscheduleAll::unscheduleAll(float /*dt*/)
 {
-    unscheduleAllCallbacks();
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 }
 
 std::string SchedulerUnscheduleAll::title() const
@@ -357,11 +359,11 @@ void SchedulerUnscheduleAllHard::onEnter()
 
     _actionManagerActive = true;
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick2), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick3), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick4), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::unscheduleAll), 4);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::unscheduleAll), this, 4, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUnscheduleAllHard::onExit()
@@ -369,7 +371,7 @@ void SchedulerUnscheduleAllHard::onExit()
     if(!_actionManagerActive) {
         // Restore the director's action manager.
         auto director = Director::getInstance();
-        director->getScheduler()->scheduleUpdate(director->getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
+        director->getScheduler().scheduleUpdate(director->getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
     }
     
     SchedulerTestLayer::onExit();
@@ -427,11 +429,11 @@ void SchedulerUnscheduleAllUserLevel::onEnter()
     this->addChild(sprite);
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick2), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick3), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick4), 1.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::unscheduleAll), 4);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::unscheduleAll), this, 4, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUnscheduleAllUserLevel::tick1(float /*dt*/)
@@ -478,9 +480,9 @@ void SchedulerSchedulesAndRemove::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1), 0.5f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule), 4.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerSchedulesAndRemove::tick1(float /*dt*/)
@@ -515,12 +517,12 @@ std::string SchedulerSchedulesAndRemove::subtitle() const
 
 void SchedulerSchedulesAndRemove::scheduleAndUnschedule(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1));
-    unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2));
-    unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1), this);
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2), this);
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule), this);
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick3), 1.0f);
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick4), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick3), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick4), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 //------------------------------------------------------------------
@@ -531,7 +533,7 @@ void SchedulerSchedulesAndRemove::scheduleAndUnschedule(float /*dt*/)
 void TestNode::initWithString(const std::string& str, int priority)
 {
     _string = str;
-    scheduleUpdateWithPriority(priority);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, priority, !_running);
 }
 
 TestNode::~TestNode()
@@ -582,7 +584,7 @@ void SchedulerUpdate::onEnter()
     addChild(f);
     f->release();
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdate::removeUpdates), 4.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdate::removeUpdates), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUpdate::removeUpdates(float /*dt*/)
@@ -598,7 +600,7 @@ void SchedulerUpdate::removeUpdates(float /*dt*/)
         {
             break;
         }
-        node->unscheduleAllCallbacks();
+        Director::getInstance()->getScheduler().unscheduleAllForTarget(node);
     }
 }
 
@@ -621,9 +623,9 @@ void SchedulerUpdateAndCustom::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    scheduleUpdate();
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick));
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), 0.4f);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.4f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUpdateAndCustom::update(float dt)
@@ -639,7 +641,7 @@ void SchedulerUpdateAndCustom::tick(float dt)
 void SchedulerUpdateAndCustom::stopSelectors(float /*dt*/)
 {
     log("SchedulerUpdateAndCustom::stopSelectors");
-    unscheduleAllCallbacks();
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 }
 
 std::string SchedulerUpdateAndCustom::title() const
@@ -661,7 +663,7 @@ void SchedulerUpdateFromCustom::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate), 2.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUpdateFromCustom::update(float dt)
@@ -671,15 +673,15 @@ void SchedulerUpdateFromCustom::update(float dt)
 
 void SchedulerUpdateFromCustom::schedUpdate(float /*dt*/)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate));
-    scheduleUpdate();
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), 2.0f);
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate), this);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUpdateFromCustom::stopUpdate(float /*dt*/)
 {
-    unscheduleUpdate();
-    unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate));
+    Director::getInstance()->getScheduler().unscheduleUpdate(this);
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this);
 }
 
 std::string SchedulerUpdateFromCustom::title() const
@@ -703,7 +705,7 @@ void RescheduleSelector::onEnter()
 
     _interval = 1.0f;
     _ticks    = 0;
-    schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), _interval);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), this, _interval, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 std::string RescheduleSelector::title() const
@@ -724,7 +726,7 @@ void RescheduleSelector::schedUpdate(float dt)
     if ( _ticks > 3 )
     {
         _interval += 1.0f;
-        schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), _interval);
+        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), this, _interval, CC_REPEAT_FOREVER, 0.0f, !_running);
         _ticks = 0;
     }
 }
@@ -734,7 +736,7 @@ void RescheduleSelector::schedUpdate(float dt)
 void SchedulerDelayAndRepeat::onEnter()
 {
     SchedulerTestLayer::onEnter();
-    schedule(CC_SCHEDULE_SELECTOR(SchedulerDelayAndRepeat::update), 0, 4 , 3.f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerDelayAndRepeat::update), this, 0, 4, 3.0f, !_running);
     CCLOG("update is scheduled should begin after 3 seconds");
 }
 
@@ -903,7 +905,7 @@ void TwoSchedulers::onEnter()
     grossini->setPosition(Vec2(s.width/2,100));
     grossini->runAction(action->clone());
 
-    auto defaultScheduler = Director::getInstance()->getScheduler();
+    auto & defaultScheduler = Director::getInstance()->getScheduler();
 
     //
     // Left:
@@ -912,7 +914,7 @@ void TwoSchedulers::onEnter()
     // Create a new scheduler, and link it to the main scheduler
     sched1 = new (std::nothrow) Scheduler();
 
-    defaultScheduler->scheduleUpdate(sched1, 0, false);
+    defaultScheduler.scheduleUpdate(sched1, 0, false);
 
     // Create a new ActionManager, and link it to the new scheudler
     actionManager1 = new (std::nothrow) ActionManager();
@@ -938,7 +940,7 @@ void TwoSchedulers::onEnter()
 
     // Create a new scheduler, and link it to the main scheduler
     sched2 = new (std::nothrow) Scheduler();
-    defaultScheduler->scheduleUpdate(sched2, 0, false);
+    defaultScheduler.scheduleUpdate(sched2, 0, false);
 
     // Create a new ActionManager, and link it to the new scheudler
     actionManager2 = new (std::nothrow) ActionManager();
@@ -970,15 +972,15 @@ void TwoSchedulers::onEnter()
 
 TwoSchedulers::~TwoSchedulers()
 {
-    auto defaultScheduler = Director::getInstance()->getScheduler();
-    defaultScheduler->unscheduleAllForTarget(sched1);
-    defaultScheduler->unscheduleAllForTarget(sched2);
+    auto & defaultScheduler = Director::getInstance()->getScheduler();
+    defaultScheduler.unscheduleAllForTarget(sched1);
+    defaultScheduler.unscheduleAllForTarget(sched2);
 
     sliderCtl1->release();
     sliderCtl2->release();
 
-    sched1->release();
-    sched2->release();
+    delete sched1;
+    delete sched2;
 
     actionManager1->release();
     actionManager2->release();
@@ -1001,7 +1003,7 @@ public:
 
 	~TestNode2() {
 		cocos2d::log("Delete TestNode (should not crash)");
-		this->unscheduleAllCallbacks();
+		Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 	}
 
 	void update(float /*dt*/) {
@@ -1014,11 +1016,11 @@ void SchedulerIssue2268::onEnter()
 
 	testNode = TestNode2::create();
 	testNode->retain();
-	testNode->schedule(SEL_SCHEDULE(&TestNode::update));
+	Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&TestNode::update), testNode, 0.0f, CC_REPEAT_FOREVER, 0.0f, !testNode->isRunning());
 	this->addChild(testNode);
 
 
-	this->scheduleOnce(SEL_SCHEDULE(&SchedulerIssue2268::update), 0.25f);
+	Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&SchedulerIssue2268::update), this, 0, 0, 0.25f, !_running);
 }
 
 void SchedulerIssue2268::update(float /*dt*/)
@@ -1030,7 +1032,7 @@ void SchedulerIssue2268::update(float /*dt*/)
 		testNode->removeFromParentAndCleanup(false);
 
 		// at some other point we are completely done with the node and want to clear it
-		testNode->unscheduleAllCallbacks();
+		Director::getInstance()->getScheduler().unscheduleAllForTarget(testNode);
 		testNode->release();
 		testNode = nullptr;
 
@@ -1081,13 +1083,13 @@ void ScheduleCallbackTest::onEnter()
 {
     SchedulerTestLayer::onEnter();
     
-    _scheduler->schedule([](float dt){
+    Director::getInstance()->getScheduler().schedule([](float dt){
         log("In the callback of schedule(lambda, ...), dt = %f", dt);
     }, this, 1.0f, false, "lambda");
     
-    _scheduler->schedule(CC_CALLBACK_1(ScheduleCallbackTest::callback, this), this, 1.0f, false, "member_function");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(ScheduleCallbackTest::callback, this), this, 1.0f, false, "member_function");
     
-    _scheduler->schedule(ScheduleCallbackTest_global_callback, this, 1.0f, false, "global_function");
+    Director::getInstance()->getScheduler().schedule(ScheduleCallbackTest_global_callback, this, 1.0f, false, "global_function");
 }
 
 void ScheduleCallbackTest::callback(float dt)
@@ -1112,7 +1114,7 @@ bool ScheduleUpdatePriority::onTouchBegan(Touch* /*touch*/, Event* /*event*/)
 {
     int priority = static_cast<int>(CCRANDOM_0_1() * 11) - 5;  // -5 ~ 5
     CCLOG("change update priority to %d", priority);
-    scheduleUpdateWithPriority(priority);
+    Director::getInstance()->getScheduler().scheduleUpdate(this, priority, !_running);
     return true;
 }
 
@@ -1120,7 +1122,7 @@ void ScheduleUpdatePriority::onEnter()
 {
     SchedulerTestLayer::onEnter();
     
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(ScheduleUpdatePriority::onTouchBegan, this);
@@ -1130,7 +1132,7 @@ void ScheduleUpdatePriority::onEnter()
 void ScheduleUpdatePriority::onExit()
 {
     Node::onExit();
-    unscheduleUpdate();
+    Director::getInstance()->getScheduler().unscheduleUpdate(this);
 }
 
 void ScheduleUpdatePriority::update(float /*dt*/)
@@ -1141,11 +1143,12 @@ void SchedulerIssue10232::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    this->scheduleOnce(SEL_SCHEDULE(&SchedulerIssue2268::update), 0.25f);
+    Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&SchedulerIssue2268::update), this, 0, 0, 0.25f, !_running);
 
-    this->scheduleOnce([](float /*dt*/){
-        log("SchedulerIssue10232:Schedules a lambda function");
-    }, 0.25f,"SchedulerIssue10232");
+    Director::getInstance()->getScheduler().schedule(
+        [](float /*dt*/){
+            log("SchedulerIssue10232:Schedules a lambda function");
+        }, this, 0, 0, 0.25f, !_running, "SchedulerIssue10232");
 }
 
 void SchedulerIssue10232::update(float /*dt*/)

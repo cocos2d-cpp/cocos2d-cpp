@@ -145,7 +145,7 @@ TileMapEditTestNew::TileMapEditTestNew()
     // If you are not going to use the Map, you can free it now
     // [tilemap releaseMap);
     // And if you are going to use, it you can access the data with:
-    schedule(CC_SCHEDULE_SELECTOR(TileMapEditTestNew::updateMap), 0.2f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TileMapEditTestNew::updateMap), this, 0.2f, CC_REPEAT_FOREVER, 0.0f, !_running);
     
     addChild(map, 0, kTagTileMap);
     
@@ -312,13 +312,13 @@ TMXOrthoTest4New::TMXOrthoTest4New()
     sprite = layer->getTileAt(Vec2(s.width-1,s.height-1));
     sprite->setScale(2);
 
-    schedule( CC_SCHEDULE_SELECTOR(TMXOrthoTest4New::removeSprite), 2 );
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXOrthoTest4New::removeSprite), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 
 }
 
 void TMXOrthoTest4New::removeSprite(float)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(TMXOrthoTest4New::removeSprite));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXOrthoTest4New::removeSprite), this);
 
     auto map = static_cast<cocos2d::experimental::TMXTiledMap*>( getChildByTag(kTagTileMap) );
     auto layer = map->getLayer("Layer 0");
@@ -401,9 +401,9 @@ TMXReadWriteTestNew::TMXReadWriteTestNew()
     
     _gid = layer->getTileGIDAt(Vec2(0,63));
 
-    schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::updateCol), 2.0f); 
-    schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::repaintWithGID), 2.05f);
-    schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles), 1.0f); 
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::updateCol), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running); 
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::repaintWithGID), this, 2.05f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running); 
     _gid2 = 0;
 }
 
@@ -450,7 +450,7 @@ void TMXReadWriteTestNew::repaintWithGID(float)
 
 void TMXReadWriteTestNew::removeTiles(float)
 {
-    unschedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTestNew::removeTiles), this);
 
     auto map = (cocos2d::experimental::TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (cocos2d::experimental::TMXLayer*)map->getChildByTag(0);
@@ -788,7 +788,7 @@ TMXIsoZorderNew::TMXIsoZorderNew()
     auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq) );
     
-    schedule( CC_SCHEDULE_SELECTOR(TMXIsoZorderNew::repositionSprite) );
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXIsoZorderNew::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 }
 
 TMXIsoZorderNew::~TMXIsoZorderNew()
@@ -798,7 +798,7 @@ TMXIsoZorderNew::~TMXIsoZorderNew()
 
 void TMXIsoZorderNew::onExit()
 {
-    unschedule(CC_SCHEDULE_SELECTOR(TMXIsoZorderNew::repositionSprite));
+    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXIsoZorderNew::repositionSprite), this);
     TileDemoNew::onExit();
 }
 
@@ -854,7 +854,7 @@ TMXOrthoZorderNew::TMXOrthoZorderNew()
     auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq));
     
-    schedule( CC_SCHEDULE_SELECTOR(TMXOrthoZorderNew::repositionSprite));
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXOrthoZorderNew::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 }
 
 TMXOrthoZorderNew::~TMXOrthoZorderNew()
@@ -916,7 +916,7 @@ TMXIsoVertexZNew::TMXIsoVertexZNew()
     auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq) );
     
-    schedule( CC_SCHEDULE_SELECTOR(TMXIsoVertexZNew::repositionSprite));
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXIsoVertexZNew::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
     
 }
 
@@ -988,7 +988,7 @@ TMXOrthoVertexZNew::TMXOrthoVertexZNew()
     auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
     _tamara->runAction( RepeatForever::create(seq));
     
-    schedule(CC_SCHEDULE_SELECTOR(TMXOrthoVertexZNew::repositionSprite));
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXOrthoVertexZNew::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
     
 }
 
@@ -1154,7 +1154,7 @@ TMXOrthoFlipRunTimeTestNew::TMXOrthoFlipRunTimeTestNew()
     auto action = ScaleBy::create(2, 0.5f);
     map->runAction(action);
 
-    schedule(CC_SCHEDULE_SELECTOR(TMXOrthoFlipRunTimeTestNew::flipIt), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXOrthoFlipRunTimeTestNew::flipIt), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 std::string TMXOrthoFlipRunTimeTestNew::title() const

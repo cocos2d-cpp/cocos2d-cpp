@@ -81,7 +81,7 @@ bool ShaderNode::initWithVertex(const std::string &vert, const std::string &frag
     _time = 0;
     _resolution = Vec2(SIZE_X, SIZE_Y);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     setContentSize(Size(SIZE_X, SIZE_Y));
     setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -571,7 +571,7 @@ bool ShaderRetroEffect::init()
 
         addChild(_label);
 
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         return true;
     }
 

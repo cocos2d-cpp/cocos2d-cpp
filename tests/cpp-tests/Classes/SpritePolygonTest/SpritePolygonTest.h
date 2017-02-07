@@ -90,12 +90,12 @@ class SpritePolygonTest5 : public SpritePolygonTestCase
 public:
     CREATE_FUNC(SpritePolygonTest5);
     SpritePolygonTest5();
+    void update(float dt) override;
 protected:
     virtual bool init() override;
     void initTouch();
     void loadDefaultSprites();
     void addSpritePolygon(const cocos2d::Vec2& pos);
-    void update(float dt)override;
 private:
     cocos2d::PolygonInfo _polygonInfo;
     int _tagIndex;
@@ -106,6 +106,7 @@ class SpritePolygonPerformance : public SpritePolygonTestCase
 public:
     CREATE_FUNC(SpritePolygonPerformance);
     SpritePolygonPerformance();
+    virtual void update(float dt) override;
 protected:
     int _spriteCount;
     int _vertCount;
@@ -131,7 +132,6 @@ protected:
     unsigned int _incPix;
 
     void updateLabel();
-    virtual void update(float dt)override;
     virtual bool init() override;
     virtual Node* makeSprite();
     void incrementStats();

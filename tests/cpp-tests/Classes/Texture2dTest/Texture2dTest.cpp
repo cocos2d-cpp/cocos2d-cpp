@@ -1580,7 +1580,7 @@ void TextureAsync::onEnter()
     );
     label->runAction(RepeatForever::create(seq));
 
-    scheduleOnce(CC_SCHEDULE_SELECTOR(TextureAsync::loadImages), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TextureAsync::loadImages), this, 0.0f, 0, 1.0f, !_running);
 }
 
 TextureAsync::~TextureAsync()

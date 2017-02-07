@@ -88,7 +88,7 @@ PongLayer::PongLayer()
         addChild(paddle.get());
     }
 
-    schedule( CC_SCHEDULE_SELECTOR(PongLayer::doStep) );
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(PongLayer::doStep), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
 }
 
 PongLayer::~PongLayer()

@@ -448,7 +448,7 @@ SpriteColorOpacity::SpriteColorOpacity()
     addChild(sprite7, 0, kTagSprite7);
     addChild(sprite8, 0, kTagSprite8);
     
-    schedule( CC_CALLBACK_1(SpriteColorOpacity::removeAndAddSprite, this), 2, "remove_add_key" );
+    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteColorOpacity::removeAndAddSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "remove_add_key");
 }
 
 // this function test if remove and add works as expected:
@@ -541,7 +541,7 @@ SpriteBatchNodeColorOpacity::SpriteBatchNodeColorOpacity()
     batch->addChild(sprite8, 0, kTagSprite8);
     
     
-    schedule( CC_CALLBACK_1(SpriteBatchNodeColorOpacity::removeAndAddSprite, this), 2, "remove_add_key");
+    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteBatchNodeColorOpacity::removeAndAddSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "remove_add_key");
 }
 
 // this function test if remove and add works as expected:
@@ -603,7 +603,7 @@ SpriteZOrder::SpriteZOrder()
     sprite->setScaleX( 6 );
     sprite->setColor(Color3B::RED);
     
-    schedule( CC_CALLBACK_1(SpriteZOrder::reorderSprite, this), 1, "reorder_key");
+    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteZOrder::reorderSprite, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "reorder_key");
 }
 
 void SpriteZOrder::reorderSprite(float)
@@ -671,7 +671,7 @@ SpriteBatchNodeZOrder::SpriteBatchNodeZOrder()
     sprite->setScaleX( 6 );
     sprite->setColor(Color3B::RED);
     
-    schedule( CC_CALLBACK_1(SpriteBatchNodeZOrder::reorderSprite, this), 1, "reorder_key");
+    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteBatchNodeZOrder::reorderSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "reorder_key");
 }
 
 void SpriteBatchNodeZOrder::reorderSprite(float)
@@ -828,7 +828,7 @@ Sprite* SpriteBatchNodeReorderIssue766::makeSpriteZ(int aZ)
 
 void SpriteBatchNodeReorderIssue766::reorderSprite(float)
 {
-    unschedule("issue_766_key");
+    Director::getInstance()->getScheduler().unschedule("issue_766_key", this);
 
     batchNode->reorderChild(sprite1, 4);
 }
@@ -848,7 +848,7 @@ SpriteBatchNodeReorderIssue766::SpriteBatchNodeReorderIssue766()
     sprite3 = makeSpriteZ(4);
     sprite3->setPosition(Vec2(328,160));
 
-    schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue766::reorderSprite, this), 2, "issue_766_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue766::reorderSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "issue_766_key");
 }
 
 std::string SpriteBatchNodeReorderIssue766::title() const
@@ -926,7 +926,7 @@ SpriteBatchNodeReorderIssue767::SpriteBatchNodeReorderIssue767()
     l3b2->setPosition(Vec2(0+l2bSize.width/2,+50+l2bSize.height/2));
     l2b->addChild(l3b2, 1);
 
-    schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue767::reorderSprites, this), 1, "issue_767_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue767::reorderSprites, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "issue_767_key");
 }
 
 std::string SpriteBatchNodeReorderIssue767::title() const
@@ -1384,7 +1384,7 @@ SpriteFlip::SpriteFlip()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     addChild(sprite2, 0, kTagSprite2);
     
-    schedule( CC_CALLBACK_1(SpriteFlip::flipSprites,this), 1, "sprite_flip_key");
+    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteFlip::flipSprites,this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "sprite_flip_key");
 }
 
 void SpriteFlip::flipSprites(float)
@@ -1432,7 +1432,7 @@ SpriteBatchNodeFlip::SpriteBatchNodeFlip()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     batch->addChild(sprite2, 0, kTagSprite2);
     
-    schedule(CC_CALLBACK_1(SpriteBatchNodeFlip::flipSprites, this), 1, "flip_sprites_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeFlip::flipSprites, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "flip_sprites_key");
 }
 
 void SpriteBatchNodeFlip::flipSprites(float)
@@ -1854,7 +1854,7 @@ void SpriteFrameTest::onEnter()
     _sprite2->setFlippedX(false);
     _sprite2->setFlippedY(false);
 
-    schedule(CC_CALLBACK_1(SpriteFrameTest::startIn05Secs, this), 0.5f, "in_05_secs_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteFrameTest::startIn05Secs, this), this, 0.5f, CC_REPEAT_FOREVER, 0, !_running, "in_05_secs_key");
     _counter = 0;
 }
 
@@ -1879,8 +1879,8 @@ std::string SpriteFrameTest::subtitle() const
 
 void SpriteFrameTest::startIn05Secs(float)
 {
-    unschedule("in_05_secs_key");
-    schedule(CC_CALLBACK_1(SpriteFrameTest::flipSprites, this), 1.0f, "flip_sprites_key");
+    Director::getInstance()->getScheduler().unschedule("in_05_secs_key", this);
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteFrameTest::flipSprites, this), this, 1.0f, CC_REPEAT_FOREVER, 0, !_running, "flip_sprites_key");
 }
 
 void SpriteFrameTest::flipSprites(float)
@@ -2526,7 +2526,7 @@ SpriteHybrid::SpriteHybrid()
     
     _usingSpriteBatchNode = false;
     
-    schedule(CC_CALLBACK_1(SpriteHybrid::reparentSprite, this), 2, "reparent_sprite_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteHybrid::reparentSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "reparent_sprite_key");
 }
 
 void SpriteHybrid::reparentSprite(float)
@@ -4505,7 +4505,7 @@ NodeSort::NodeSort()
     _sprite5->setPosition(Vec2(356, 160));
     _node->addChild(_sprite5, -3, 5);
 
-    schedule(CC_CALLBACK_1(NodeSort::reorderSprite, this), "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeSort::reorderSprite, this), this, 0, CC_REPEAT_FOREVER, 0, !_running, "reorder_sprite_key");
 }
 
 std::string NodeSort::title() const
@@ -4520,7 +4520,7 @@ std::string NodeSort::subtitle() const
 
 void NodeSort::reorderSprite(float)
 {
-    unschedule("reorder_sprite_key");
+    Director::getInstance()->getScheduler().unschedule("reorder_sprite_key", this);
 
     log("Before reorder--");
     
@@ -4567,7 +4567,7 @@ SpriteBatchNodeReorderSameIndex::SpriteBatchNodeReorderSameIndex()
     _batchNode->addChild(_sprite5, 6, 5);
 
 
-    scheduleOnce(CC_CALLBACK_1(SpriteBatchNodeReorderSameIndex::reorderSprite, this), 2, "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderSameIndex::reorderSprite, this), this, 0, 0, 2, !_running, "reorder_sprite_key");
 }
 
 std::string SpriteBatchNodeReorderSameIndex::title() const
@@ -4666,7 +4666,7 @@ SpriteBatchNodeReorderOneChild::SpriteBatchNodeReorderOneChild()
     l3b2->setPosition(Vec2(0+l2bSize.width/2,+50+l2bSize.height/2));
     l2b->addChild(l3b2);
 
-    scheduleOnce(CC_CALLBACK_1(SpriteBatchNodeReorderOneChild::reorderSprite, this), 2.0f, "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderOneChild::reorderSprite, this), this, 0, 0, 2.0f, !_running, "reorder_sprite_key");
 }
 
 void SpriteBatchNodeReorderOneChild::reorderSprite(float)
@@ -5267,11 +5267,11 @@ Sprite3DRotationTest::Sprite3DRotationTest()
     
     addChild(sprite2);
     
-    schedule([&](float) {
+    Director::getInstance()->getScheduler().schedule([&](float) {
         rotation.y += 1;
         sprite1->setRotation3D(rotation);
         sprite2->setRotation3D(rotation);
-    }, "update_key");
+    }, this, 0, CC_REPEAT_FOREVER, 0, !_running, "update_key");
 }
 
 //------------------------------------------------------------------
@@ -5616,7 +5616,7 @@ SpriteSlice9Test5::SpriteSlice9Test5()
     s3->setCenterRectNormalized(Rect(0,0,1,1));
     _sprites[2] = s3;
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     _elapsed = 0;
 }
@@ -5689,7 +5689,7 @@ SpriteSlice9Test6::SpriteSlice9Test6()
     s3->setCenterRectNormalized(Rect(0,0,1,1));
     _sprites[2] = s3;
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
 
     _elapsed = 0;
 }

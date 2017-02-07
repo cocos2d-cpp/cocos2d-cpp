@@ -301,7 +301,7 @@ TestLayer1::TestLayer1(const std::string& transitionName)
     label->setPosition( Vec2(x/2,y/2));    
     addChild( label);
 
-    schedule( CC_SCHEDULE_SELECTOR(TestLayer1::step), 1.0f); 
+    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TestLayer1::step), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running ); 
 }
 
 TestLayer1::~TestLayer1()
@@ -377,7 +377,7 @@ TestLayer2::TestLayer2(const std::string& transitionName)
     label->setPosition( Vec2(x/2,y/2));    
     addChild( label);
 
-    schedule(CC_SCHEDULE_SELECTOR(TestLayer2::step), 1.0f);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TestLayer2::step), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 TestLayer2::~TestLayer2()

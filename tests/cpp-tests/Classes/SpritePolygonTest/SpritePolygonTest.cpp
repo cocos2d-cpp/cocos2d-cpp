@@ -419,7 +419,7 @@ bool SpritePolygonTest5::init()
         _polygonInfo = AutoPolygon::generatePolygon(s_pathGrossini);
         loadDefaultSprites();
         initTouch();
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         return true;
     }
     return false;
@@ -535,7 +535,7 @@ bool SpritePolygonPerformance::init()
 {
     if (SpritePolygonTestCase::init()) {
         initIncrementStats();
-        scheduleUpdate();
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         return true;
     }
     return false;
@@ -598,7 +598,7 @@ void SpritePolygonPerformance::update(float dt)
     else if(_continuousHighDtTime >= .5 || _waitingTime > 3.0){
         // its now 1 seconds with high DT time, time to end
         ended = true;
-        unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
         _perfLabel->setString("Test ended in " + Value(_elapsedTime).asString() + " seconds\nNodes: " + Value(_spriteCount).asString() + "   Triangles: " + Value(_triCount).asString() + "\nPixels: " + Value(_pixelCount).asString() + "   Vertices: " + Value(_vertCount).asString());
         _subtitleLabel->setString("Test ended");
     }
