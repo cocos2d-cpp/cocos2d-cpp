@@ -34,6 +34,7 @@ THE SOFTWARE.
 #include <functional>
 #include <mutex>
 #include <set>
+#include <unordered_map>
 #include <vector>
 
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
@@ -402,7 +403,6 @@ protected:
      */
     void schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused);
     
-    void removeHashElement(struct _hashSelectorEntry *element);
     void removeUpdateFromHash(struct _listEntry *entry);
 
     // update specific
@@ -421,9 +421,19 @@ protected:
     struct _listEntry *_updatesPosList;        // list priority > 0
     struct _hashUpdateEntry *_hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
 
+    // Hash Element used for "selectors with interval"
+    typedef struct _hashSelectorEntry
+    {
+        std::vector<retaining_ptr<Timer>> timers;
+        int                               timerIndex;
+        retaining_ptr<Timer>              currentTimer;
+        bool                              currentTimerSalvaged;
+        bool                              paused;
+    } tHashTimerEntry;
     // Used for "selectors with interval"
-    struct _hashSelectorEntry *_hashForTimers;
-    struct _hashSelectorEntry *_currentTarget;
+    std::unordered_map<void*,std::unique_ptr<tHashTimerEntry>> _hashForTimers;
+
+    void* _currentTarget;
     bool _currentTargetSalvaged;
     // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
     bool _updateHashLocked;
