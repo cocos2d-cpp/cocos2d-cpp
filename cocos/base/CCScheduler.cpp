@@ -512,19 +512,23 @@ void Scheduler::unscheduleAllWithMinPriority(int minPriority)
 {
     // Custom Selectors
 
+    std::unique_ptr<tHashTimerEntry> currentTargetValue;
+
     auto it = _hashForTimers.find(_currentTarget);
 
     if (it != _hashForTimers.end())
     {
-        std::unique_ptr<tHashTimerEntry> tmp = std::move(it->second);
+        currentTargetValue = std::move(it->second);
         _hashForTimers.erase(it);
-        _hashForTimers.clear();
-        _hashForTimers[_currentTarget] = std::move(tmp);
-        unscheduleAllForTarget(_currentTarget);
     }
-    else
+
+    while (_hashForTimers.size())
+        unscheduleAllForTarget(_hashForTimers.begin()->first);
+
+    if (currentTargetValue)
     {
-        _hashForTimers.clear();
+        _hashForTimers[_currentTarget] = std::move(currentTargetValue);
+        unscheduleAllForTarget(_currentTarget);
     }
 
     // Updates selectors
@@ -566,32 +570,31 @@ void Scheduler::unscheduleAllForTarget(void *target)
     }
 
     auto it = _hashForTimers.find(target);
-    if (_hashForTimers.end() == it)
-    {
-        return;
-    }
 
-    // Custom Selectors
-    if (_currentTarget != target)
+    if (_hashForTimers.end() != it)
     {
-        _hashForTimers.erase(it);
-    }
-    else
-    {
-        auto & timers = it->second->timers;
-
-        if (! it->second->currentTimerSalvaged)
+        // Custom Selectors
+        if (_currentTarget != target)
         {
-            auto currentTimer_it = std::find(timers.begin(), timers.end(), it->second->currentTimer);
-            if (currentTimer_it !=  timers.end())
-            {
-                it->second->currentTimerSalvaged = true;
-            }
+            _hashForTimers.erase(it);
         }
+        else
+        {
+            auto & timers = it->second->timers;
 
-        timers.clear();
+            if (! it->second->currentTimerSalvaged)
+            {
+                auto currentTimer_it = std::find(timers.begin(), timers.end(), it->second->currentTimer);
+                if (currentTimer_it !=  timers.end())
+                {
+                    it->second->currentTimerSalvaged = true;
+                }
+            }
 
-        _currentTargetSalvaged = true;
+            timers.clear();
+
+            _currentTargetSalvaged = true;
+        }
     }
 
     // update selector
@@ -794,7 +797,7 @@ void Scheduler::update(float dt)
             }
         }
 
-        it = _hashForTimers.find(_currentTarget);
+        it = _hashForTimers.find(target);
 
         CC_ASSERT(it != _hashForTimers.end());
 
