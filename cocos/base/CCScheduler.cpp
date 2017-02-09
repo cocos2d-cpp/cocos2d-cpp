@@ -35,6 +35,76 @@ namespace cocos2d {
 
 // data structures
 
+class CC_DLL Timer
+{
+protected:
+    Timer();
+public:
+    /** get interval in seconds */
+    float getInterval() const { return _interval; }
+    /** set interval in seconds */
+    void setInterval(float interval) { _interval = interval; }
+    
+    void setupTimerWithInterval(float seconds, unsigned int repeat, float delay);
+    
+    virtual void trigger(float dt) = 0;
+    virtual void cancel() = 0;
+    
+    /** triggers the timer */
+    void update(float dt);
+    
+protected:
+    
+    Scheduler* _scheduler; // weak ref
+    float _elapsed;
+    bool _runForever;
+    bool _useDelay;
+    unsigned int _timesExecuted;
+    unsigned int _repeat; //0 = once, 1 is 2 x executed
+    float _delay;
+    float _interval;
+};
+
+
+class CC_DLL TimerTargetSelector : public Timer
+{
+public:
+    TimerTargetSelector();
+
+    /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
+    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, float seconds, unsigned int repeat, float delay);
+    
+    SEL_SCHEDULE getSelector() const { return _selector; }
+    
+    virtual void trigger(float dt) override;
+    virtual void cancel() override;
+    
+protected:
+    Ref* _target;
+    SEL_SCHEDULE _selector;
+};
+
+
+class CC_DLL TimerTargetCallback : public Timer
+{
+public:
+    TimerTargetCallback();
+    
+    // Initializes a timer with a target, a lambda and an interval in seconds, repeat in number of times to repeat, delay in seconds.
+    bool initWithCallback(Scheduler* scheduler, const ccSchedulerFunc& callback, void *target, const std::string& key, float seconds, unsigned int repeat, float delay);
+    
+    const ccSchedulerFunc& getCallback() const { return _callback; }
+    const std::string& getKey() const { return _key; }
+    
+    virtual void trigger(float dt) override;
+    virtual void cancel() override;
+    
+protected:
+    void* _target;
+    ccSchedulerFunc _callback;
+    std::string _key;
+};
+
 // implementation Timer
 
 Timer::Timer()
@@ -234,9 +304,47 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
         }        
     }
 
-    auto timer = to_retaining_ptr(new (std::nothrow) TimerTargetCallback());
+    auto timer = std::unique_ptr<TimerTargetCallback>(new TimerTargetCallback);
     timer->initWithCallback(this, callback, target, key, interval, repeat, delay);
-    element->timers.push_back( retaining_ptr<Timer>( timer.release()));
+    element->timers.push_back( std::unique_ptr<Timer>( timer.release()));
+}
+
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
+{
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    auto & element = _hashForTimers[target];
+
+    if (!element)
+    {
+        element.reset(new tHashTimerEntry);
+        element->paused = paused;
+    }
+    else
+    {
+        CCASSERT(element->paused == paused, "element's paused should be paused!");
+    }
+
+    for (auto & t : element->timers)
+    {
+        TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(t.get());
+
+        if (timer && selector == timer->getSelector())
+        {
+            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", timer->getInterval(), interval);
+            timer->setInterval(interval);
+            return;
+        }        
+    }
+
+    auto timer = std::unique_ptr<TimerTargetSelector>(new TimerTargetSelector);
+    timer->initWithSelector(this, selector, target, interval, repeat, delay);
+    element->timers.push_back( std::unique_ptr<Timer>( timer.release()));
+}
+
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
+{
+    this->schedule(selector, target, interval, CC_REPEAT_FOREVER, 0.0f, paused);
 }
 
 template<typename F>
@@ -260,7 +368,7 @@ void Scheduler::unschedule(void *target, F compareTimers)
     }
 
     if ((! element.currentTimerSalvaged)
-        && timer_it->get() == element.currentTimer.get())
+        && timer_it->get() == element.currentTimer)
     {
         element.currentTimerSalvaged = true;
     }
@@ -295,7 +403,7 @@ void Scheduler::unschedule(const std::string &key, void *target)
         return;
     }
     unschedule(target,
-               [&key](const retaining_ptr<Timer> & p) {
+               [&key](const std::unique_ptr<Timer> & p) {
                    auto timer = dynamic_cast<const TimerTargetCallback*>(p.get());
                    return timer && key == timer->getKey();
                });
@@ -309,7 +417,7 @@ void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
     }
 
     unschedule(target,
-               [&selector](const retaining_ptr<Timer> & p) {
+               [&selector](const std::unique_ptr<Timer> & p) {
                    auto timer = dynamic_cast<const TimerTargetSelector*>(p.get());
                    return timer && selector == timer->getSelector();
                });
@@ -584,7 +692,10 @@ void Scheduler::unscheduleAllForTarget(void *target)
 
             if (! it->second->currentTimerSalvaged)
             {
-                auto currentTimer_it = std::find(timers.begin(), timers.end(), it->second->currentTimer);
+                auto currentTimer_it = std::find_if(timers.begin(), timers.end(),
+                                                    [it](const std::unique_ptr<Timer> & p) {
+                                                        return p.get() == it->second->currentTimer;
+                                                    });
                 if (currentTimer_it !=  timers.end())
                 {
                     it->second->currentTimerSalvaged = true;
@@ -790,10 +901,10 @@ void Scheduler::update(float dt)
             // The 'timers' array may change while inside this loop
             for (elt->timerIndex = 0; elt->timerIndex < static_cast<int>(elt->timers.size()); elt->timerIndex++)
             {
-                elt->currentTimer = to_retaining_ptr<Timer>(elt->timers[elt->timerIndex].get());
+                auto & currentTimer = elt->timers[elt->timerIndex];
+                elt->currentTimer = currentTimer.get();
                 elt->currentTimerSalvaged = false;
-                elt->currentTimer->update(dt);
-                elt->currentTimer.reset();
+                currentTimer->update(dt);
             }
         }
 
@@ -861,44 +972,6 @@ void Scheduler::update(float dt)
         }
         
     }
-}
-
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
-{
-    CCASSERT(target, "Argument target must be non-nullptr");
-    
-    auto & element = _hashForTimers[target];
-
-    if (!element)
-    {
-        element.reset(new tHashTimerEntry);
-        element->paused = paused;
-    }
-    else
-    {
-        CCASSERT(element->paused == paused, "element's paused should be paused!");
-    }
-
-    for (auto & t : element->timers)
-    {
-        TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(t.get());
-
-        if (timer && selector == timer->getSelector())
-        {
-            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", timer->getInterval(), interval);
-            timer->setInterval(interval);
-            return;
-        }        
-    }
-
-    auto timer = to_retaining_ptr(new (std::nothrow) TimerTargetSelector());
-    timer->initWithSelector(this, selector, target, interval, repeat, delay);
-    element->timers.push_back( retaining_ptr<Timer>( timer.release()));
-}
-
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
-{
-    this->schedule(selector, target, interval, CC_REPEAT_FOREVER, 0.0f, paused);
 }
 
 bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref *target)

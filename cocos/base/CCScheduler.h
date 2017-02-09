@@ -28,10 +28,10 @@ THE SOFTWARE.
 #define __CCSCHEDULER_H__
 
 #include "platform/CCPlatformDefine.h"
-#include "base/CCRef.h"
 #include "base/uthash.h"
 
 #include <functional>
+#include <memory>
 #include <mutex>
 #include <set>
 #include <unordered_map>
@@ -41,93 +41,12 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
+class Ref;
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
-class Scheduler;
+class Timer;
 
 typedef std::function<void(float)> ccSchedulerFunc;
-
-/**
- * @cond
- */
-class CC_DLL Timer : public Ref
-{
-protected:
-    Timer();
-public:
-    /** get interval in seconds */
-    float getInterval() const { return _interval; }
-    /** set interval in seconds */
-    void setInterval(float interval) { _interval = interval; }
-    
-    void setupTimerWithInterval(float seconds, unsigned int repeat, float delay);
-    
-    virtual void trigger(float dt) = 0;
-    virtual void cancel() = 0;
-    
-    /** triggers the timer */
-    void update(float dt);
-    
-protected:
-    
-    Scheduler* _scheduler; // weak ref
-    float _elapsed;
-    bool _runForever;
-    bool _useDelay;
-    unsigned int _timesExecuted;
-    unsigned int _repeat; //0 = once, 1 is 2 x executed
-    float _delay;
-    float _interval;
-};
-
-
-class CC_DLL TimerTargetSelector : public Timer
-{
-public:
-    TimerTargetSelector();
-
-    /** Initializes a timer with a target, a selector and an interval in seconds, repeat in number of times to repeat, delay in seconds. */
-    bool initWithSelector(Scheduler* scheduler, SEL_SCHEDULE selector, Ref* target, float seconds, unsigned int repeat, float delay);
-    
-    SEL_SCHEDULE getSelector() const { return _selector; }
-    
-    virtual void trigger(float dt) override;
-    virtual void cancel() override;
-    
-protected:
-    Ref* _target;
-    SEL_SCHEDULE _selector;
-};
-
-
-class CC_DLL TimerTargetCallback : public Timer
-{
-public:
-    TimerTargetCallback();
-    
-    // Initializes a timer with a target, a lambda and an interval in seconds, repeat in number of times to repeat, delay in seconds.
-    bool initWithCallback(Scheduler* scheduler, const ccSchedulerFunc& callback, void *target, const std::string& key, float seconds, unsigned int repeat, float delay);
-    
-    const ccSchedulerFunc& getCallback() const { return _callback; }
-    const std::string& getKey() const { return _key; }
-    
-    virtual void trigger(float dt) override;
-    virtual void cancel() override;
-    
-protected:
-    void* _target;
-    ccSchedulerFunc _callback;
-    std::string _key;
-};
-
-/**
- * @endcond
- */
-
-/**
- * @addtogroup base
- * @{
- */
 
 struct _listEntry;
 struct _hashSelectorEntry;
@@ -443,11 +362,11 @@ protected:
     // Hash Element used for "selectors with interval"
     typedef struct _hashSelectorEntry
     {
-        std::vector<retaining_ptr<Timer>> timers;
-        int                               timerIndex;
-        retaining_ptr<Timer>              currentTimer;
-        bool                              currentTimerSalvaged;
-        bool                              paused;
+        std::vector<std::unique_ptr<Timer>> timers;
+        int                                 timerIndex;
+        const void*                         currentTimer;
+        bool                                currentTimerSalvaged;
+        bool                                paused;
     } tHashTimerEntry;
     // Used for "selectors with interval"
     std::unordered_map<void*,std::unique_ptr<tHashTimerEntry>> _hashForTimers;
@@ -463,7 +382,7 @@ protected:
 
 private:
     template<typename F>
-        void unschedule(void *target, F compareTimers);
+    void unschedule(void *target, F compareTimers);
 };
 
 // end of base group
