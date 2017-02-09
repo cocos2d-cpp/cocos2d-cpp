@@ -382,7 +382,10 @@ protected:
 
 private:
     template<typename F>
-    void unschedule(void *target, F compareTimers);
+        void unschedule(void *target, F compareTimers);
+
+    template<typename TimerT, typename F, typename Target, typename ...Args>
+        void schedule_impl(F match, Target target, bool paused, float interval, Args... args);
 };
 
 // end of base group
