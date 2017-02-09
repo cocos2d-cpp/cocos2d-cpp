@@ -249,7 +249,6 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
 void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
 {
     CCASSERT(target, "Argument target must be non-nullptr");
-    CCASSERT(!key.empty(), "key should not be empty!");
 
     schedule_impl<TimerTargetCallback>(
         [&key] (const TimerTargetCallback *timer) {
@@ -325,7 +324,7 @@ void Scheduler::unschedule(void *target, F compareTimers)
 void Scheduler::unschedule(const std::string &key, void *target)
 {
     // explicit handle nil arguments when removing an object
-    if (target == nullptr || key.empty())
+    if (target == nullptr)
     {
         return;
     }
@@ -476,7 +475,6 @@ void Scheduler::schedulePerFrame(const ccSchedulerFunc& callback, void *target, 
 
 bool Scheduler::isScheduled(const std::string& key, void *target)
 {
-    CCASSERT(!key.empty(), "Argument key must not be empty");
     CCASSERT(target, "Argument target must be non-nullptr");
     
     auto element_it = _hashForTimers.find(target);
