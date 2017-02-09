@@ -131,7 +131,6 @@ protected:
 
 struct _listEntry;
 struct _hashSelectorEntry;
-struct _hashUpdateEntry;
 
 /** @brief Scheduler is responsible for triggering the scheduled callbacks.
 You should not use system timer for your game logic. Instead, use this class.
@@ -394,6 +393,16 @@ public:
     
 protected:
     
+    typedef struct _listEntry
+    {
+        struct _listEntry   *prev, *next;
+        ccSchedulerFunc     callback;
+        void                *target;
+        int                 priority;
+        bool                paused;
+        bool                markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
+    } tListEntry;
+
     /** Schedules the 'callback' function for a given target with a given priority.
      The 'callback' selector will be called every frame.
      The lower the priority, the earlier it is called.
@@ -403,12 +412,12 @@ protected:
      */
     void schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused);
     
-    void removeUpdateFromHash(struct _listEntry *entry);
+    void removeUpdateFromHash(tListEntry *entry);
 
     // update specific
 
-    void priorityIn(struct _listEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused);
-    void appendIn(struct _listEntry **list, const ccSchedulerFunc& callback, void *target, bool paused);
+    void priorityIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused);
+    void appendIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, bool paused);
 
 
     float _timeScale;
@@ -416,9 +425,19 @@ protected:
     //
     // "updates with priority" stuff
     //
-    struct _listEntry *_updatesNegList;        // list of priority < 0
-    struct _listEntry *_updates0List;            // list priority == 0
-    struct _listEntry *_updatesPosList;        // list priority > 0
+    tListEntry *_updatesNegList;        // list of priority < 0
+    tListEntry *_updates0List;            // list priority == 0
+    tListEntry *_updatesPosList;        // list priority > 0
+
+    // A list double-linked list used for "updates with priority"
+    typedef struct _hashUpdateEntry
+    {
+        tListEntry          **list; // Which list does it belong to ?
+        tListEntry          *entry; // entry in the list
+        void                *target;
+        ccSchedulerFunc     callback;
+        UT_hash_handle      hh;
+    } tHashUpdateEntry;
     struct _hashUpdateEntry *_hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
 
     // Hash Element used for "selectors with interval"
@@ -441,6 +460,10 @@ protected:
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
     std::mutex _performMutex;
+
+private:
+    template<typename F>
+        void unschedule(void *target, F compareTimers);
 };
 
 // end of base group

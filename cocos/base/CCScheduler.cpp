@@ -35,26 +35,6 @@ namespace cocos2d {
 
 // data structures
 
-// A list double-linked list used for "updates with priority"
-typedef struct _listEntry
-{
-    struct _listEntry   *prev, *next;
-    ccSchedulerFunc     callback;
-    void                *target;
-    int                 priority;
-    bool                paused;
-    bool                markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
-} tListEntry;
-
-typedef struct _hashUpdateEntry
-{
-    tListEntry          **list;        // Which list does it belong to ?
-    tListEntry          *entry;        // entry in the list
-    void                *target;
-    ccSchedulerFunc     callback;
-    UT_hash_handle      hh;
-} tHashUpdateEntry;
-
 // implementation Timer
 
 Timer::Timer()
@@ -259,14 +239,9 @@ void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float in
     element->timers.push_back( retaining_ptr<Timer>( timer.release()));
 }
 
-void Scheduler::unschedule(const std::string &key, void *target)
+template<typename F>
+void Scheduler::unschedule(void *target, F compareTimers)
 {
-    // explicit handle nil arguments when removing an object
-    if (target == nullptr || key.empty())
-    {
-        return;
-    }
-
     auto element_it = _hashForTimers.find(target);
 
     if (_hashForTimers.end() == element_it)
@@ -277,12 +252,7 @@ void Scheduler::unschedule(const std::string &key, void *target)
     auto & element = *element_it->second;
     auto & timers = element.timers;
 
-    auto timer_it = std::find_if(
-        timers.begin(), timers.end(),
-        [&key](const retaining_ptr<Timer> & p) {
-            auto timer = dynamic_cast<const TimerTargetCallback*>(p.get());
-            return timer && key == timer->getKey();
-        });
+    auto timer_it = std::find_if( timers.begin(), timers.end(), compareTimers );
 
     if (timer_it == timers.end())
     {
@@ -311,9 +281,38 @@ void Scheduler::unschedule(const std::string &key, void *target)
         }
         else
         {
+            CC_ASSERT(element_it == _hashForTimers.find(target));
             _hashForTimers.erase(element_it);
         }
     }
+}
+
+void Scheduler::unschedule(const std::string &key, void *target)
+{
+    // explicit handle nil arguments when removing an object
+    if (target == nullptr || key.empty())
+    {
+        return;
+    }
+    unschedule(target,
+               [&key](const retaining_ptr<Timer> & p) {
+                   auto timer = dynamic_cast<const TimerTargetCallback*>(p.get());
+                   return timer && key == timer->getKey();
+               });
+}
+
+void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
+{
+    if (target == nullptr || selector == nullptr)
+    {
+        return;
+    }
+
+    unschedule(target,
+               [&selector](const retaining_ptr<Timer> & p) {
+                   auto timer = dynamic_cast<const TimerTargetSelector*>(p.get());
+                   return timer && selector == timer->getSelector();
+               });
 }
 
 void Scheduler::priorityIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused)
@@ -373,7 +372,7 @@ void Scheduler::priorityIn(tListEntry **list, const ccSchedulerFunc& callback, v
     HASH_ADD_PTR(_hashForUpdates, target, hashElement);
 }
 
-void Scheduler::appendIn(_listEntry **list, const ccSchedulerFunc& callback, void *target, bool paused)
+void Scheduler::appendIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, bool paused)
 {
     tListEntry *listElement = new (std::nothrow) tListEntry();
 
@@ -465,7 +464,7 @@ bool Scheduler::isScheduled(const std::string& key, void *target)
     return false;
 }
 
-void Scheduler::removeUpdateFromHash(struct _listEntry *entry)
+void Scheduler::removeUpdateFromHash(tListEntry *entry)
 {
     tHashUpdateEntry *element = nullptr;
 
@@ -777,6 +776,7 @@ void Scheduler::update(float dt)
     // Iterate over all the custom selectors
     for (auto it = _hashForTimers.begin(), end = _hashForTimers.end(); it != end; )
     {
+        auto target = it->first;
         _currentTarget = it->first;
         _currentTargetSalvaged = false;
 
@@ -801,6 +801,7 @@ void Scheduler::update(float dt)
         // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
         if (_currentTargetSalvaged && elt->timers.empty())
         {
+            CC_ASSERT(it == _hashForTimers.find(target));
             it = _hashForTimers.erase(it);
         }
         else
@@ -920,57 +921,6 @@ bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref *target)
     }
 
     return false;
-}
-
-void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
-{
-    // explicit handle nil arguments when removing an object
-    if (target == nullptr || selector == nullptr)
-    {
-        return;
-    }
-    
-    auto element_it = _hashForTimers.find(target);
-
-    if (_hashForTimers.end() != element_it)
-    {
-        auto & timers = element_it->second->timers;
-
-        for (auto it = timers.begin(), end = timers.end(); it != end; it++)
-        {
-            TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(it->get());
-
-            if (timer && selector == timer->getSelector())
-            {
-                if (timer == element_it->second->currentTimer.get() && (! element_it->second->currentTimerSalvaged))
-                {
-                    element_it->second->currentTimerSalvaged = true;
-                }
-
-                // update timerIndex in case we are in tick:, looping over the actions
-                if (element_it->second->timerIndex >= std::distance(timers.begin(), it))
-                {
-                    element_it->second->timerIndex--;
-                }
-
-                timers.erase(it);
-
-                if (timers.empty())
-                {
-                    if (_currentTarget == target)
-                    {
-                        _currentTargetSalvaged = true;
-                    }
-                    else
-                    {
-                        _hashForTimers.erase(target);
-                    }
-                }
-
-                return;
-            }
-        }
-    }
 }
 
 } // namespace cocos2d
