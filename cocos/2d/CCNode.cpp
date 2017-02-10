@@ -582,10 +582,10 @@ void Node::setContentSize(const Size & size)
     }
 }
 
-// isRunning getter
-bool Node::isRunning() const
+// isPaused getter
+bool Node::isPaused() const
 {
-    return _running;
+    return ! _running;
 }
 
 /// parent setter

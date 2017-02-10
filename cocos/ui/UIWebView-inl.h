@@ -137,7 +137,7 @@ namespace experimental{
         void WebView::setVisible(bool visible)
         {
             Node::setVisible(visible);
-            if (!visible || isRunning())
+            if (!visible || ! isPaused())
             {
                 _impl->setVisible(visible);
             }

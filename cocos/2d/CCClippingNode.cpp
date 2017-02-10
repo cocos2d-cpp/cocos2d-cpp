@@ -261,7 +261,7 @@ void ClippingNode::setStencil(Node *stencil)
         return;
     
     //cleanup current stencil
-    if(_stencil != nullptr && _stencil->isRunning())
+    if(_stencil != nullptr && ! _stencil->isPaused())
     {
         _stencil->onExitTransitionDidStart();
         _stencil->onExit();
@@ -271,7 +271,7 @@ void ClippingNode::setStencil(Node *stencil)
     //initialise new stencil
     _stencil = stencil;
     CC_SAFE_RETAIN(_stencil);
-    if(_stencil != nullptr && this->isRunning())
+    if(_stencil != nullptr && ! this->isPaused())
     {
         _stencil->onEnter();
         if(this->_isTransitionFinished)

@@ -209,7 +209,7 @@ void VideoPlayer::setVisible(bool visible)
 {
     cocos2d::ui::Widget::setVisible(visible);
 
-    if (!visible || isRunning())
+    if (!visible || ! isPaused())
     {
         JniHelper::callStaticVoidMethod(videoHelperClassName, "setVideoVisible", _videoPlayerIndex, visible);
     }

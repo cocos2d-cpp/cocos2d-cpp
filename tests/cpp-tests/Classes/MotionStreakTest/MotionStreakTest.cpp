@@ -206,7 +206,7 @@ void Issue12226::onEnter()
         _streak->setPosition(position);
     };
 
-    Director::getInstance()->getScheduler().schedule(updateMotionStreak, outer, 1 / 240.0f, CC_REPEAT_FOREVER, 0, !outer->isRunning(), "motion1scheduler");
+    Director::getInstance()->getScheduler().schedule(updateMotionStreak, outer, 1 / 240.0f, CC_REPEAT_FOREVER, 0, outer->isPaused(), "motion1scheduler");
 
     auto rot = RotateBy::create(2, 360);
     auto forever = RepeatForever::create(rot);

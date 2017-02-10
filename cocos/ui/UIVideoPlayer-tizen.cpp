@@ -366,7 +366,7 @@ void VideoPlayer::setVisible(bool visible)
     {
         player_set_display_visible(impl->_player, false);
     }
-    else if(isRunning())
+    else if(!isPaused())
     {
         player_set_display_visible(impl->_player, true);
     }

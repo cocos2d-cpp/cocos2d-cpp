@@ -1078,7 +1078,7 @@ public:
      *
      * @return Whether or not the node is running.
      */
-    virtual bool isRunning() const;
+    bool isPaused() const;
 
     /// @}  end Script Bindings
 

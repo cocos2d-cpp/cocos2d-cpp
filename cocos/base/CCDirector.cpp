@@ -838,7 +838,7 @@ void Director::replaceScene(Scene *scene)
     
     if (_scenesStack.back())
     {
-        if (_scenesStack.back()->isRunning())
+        if (!_scenesStack.back()->isPaused())
         {
             _scenesStack.back()->onExit();
         }
@@ -902,7 +902,7 @@ void Director::popToSceneStackLevel(size_t level)
     {
         if (_scenesStack.back())
         {
-            if (_scenesStack.back()->isRunning())
+            if (!_scenesStack.back()->isPaused())
             {
                 _scenesStack.back()->onExit();
             }

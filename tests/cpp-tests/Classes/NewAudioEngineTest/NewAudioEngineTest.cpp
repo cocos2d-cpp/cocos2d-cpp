@@ -668,7 +668,7 @@ bool AudioIssue11143Test::init()
                 [audioId](float /*dt*/){
                     AudioEngine::stop(audioId);
                     AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
-                }, button, 0.0f, 0, 0.3f, !button->isRunning(), key);
+                }, button, 0.0f, 0, 0.3f, button->isPaused(), key);
 
         });
         playItem->setPosition(layerSize.width * 0.5f, layerSize.height * 0.5f);

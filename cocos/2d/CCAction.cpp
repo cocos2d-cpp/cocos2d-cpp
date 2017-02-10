@@ -300,7 +300,7 @@ void Follow::step(float /*dt*/)
 
 bool Follow::isDone() const
 {
-    return ( !_followedNode->isRunning() );
+    return ( _followedNode->isPaused() );
 }
 
 void Follow::stop()

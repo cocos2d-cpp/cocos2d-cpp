@@ -161,7 +161,7 @@ void PauseTest::onEnter()
     auto director = Director::getInstance();
     director->getActionManager()->addAction(action, grossini, true);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PauseTest::unpause), this, 3, CC_REPEAT_FOREVER, 0.0f, !isRunning());
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PauseTest::unpause), this, 3, CC_REPEAT_FOREVER, 0.0f, isPaused());
 }
 
 void PauseTest::unpause(float /*dt*/)

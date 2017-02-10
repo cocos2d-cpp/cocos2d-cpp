@@ -430,7 +430,7 @@ SchedulerTest1::SchedulerTest1()
     addChild(layer, 0);
     //CCLOG("retain count after addChild is %d", layer->getReferenceCount());      // 2
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), layer, 0.0f, CC_REPEAT_FOREVER, 0.0f, !layer->isRunning(), "do_something_key");
+    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), layer, 0.0f, CC_REPEAT_FOREVER, 0.0f, layer->isPaused(), "do_something_key");
     //CCLOG("retain count after schedule is %d", layer->getReferenceCount());      // 3 : (object-c viersion), but win32 version is still 2, because Timer class don't save target.
     
     Director::getInstance()->getScheduler().unschedule("do_something_key", layer);
@@ -463,7 +463,7 @@ SchedulerCallbackTest::SchedulerCallbackTest()
         _total += dt;
         log("hello world: %f - total: %f", dt, _total);
     },
-    node, 0.5, CC_REPEAT_FOREVER, 0.0f, !node->isRunning(), "some_key");
+    node, 0.5, CC_REPEAT_FOREVER, 0.0f, node->isPaused(), "some_key");
 
 
     Director::getInstance()->getScheduler().schedule([this](float /*dt*/) {
@@ -471,7 +471,7 @@ SchedulerCallbackTest::SchedulerCallbackTest()
         auto anode = this->getChildByName("a node");
         Director::getInstance()->getScheduler().unschedule("some_key", anode);
     },
-    node, 0.0f, 0, 5.0f, !node->isRunning(), "ignore_key");
+    node, 0.0f, 0, 5.0f, node->isPaused(), "ignore_key");
 }
 
 void SchedulerCallbackTest::onEnter()

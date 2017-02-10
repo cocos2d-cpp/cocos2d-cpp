@@ -410,7 +410,7 @@ void VideoPlayer::setVisible(bool visible)
     {
         [((UIVideoViewWrapperIos*)_videoView) setVisible:NO];
     }
-    else if(isRunning())
+    else if(!isPaused())
     {
         [((UIVideoViewWrapperIos*)_videoView) setVisible:YES];
     }

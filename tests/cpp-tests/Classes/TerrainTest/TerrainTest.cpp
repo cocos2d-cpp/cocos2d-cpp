@@ -317,7 +317,7 @@ Player * Player::create(const char * file,Camera * cam,Terrain * terrain)
         sprite->_cam = cam;
         sprite->_terrain = terrain;
         sprite->autorelease();
-        Director::getInstance()->getScheduler().scheduleUpdate(sprite, 0, !sprite->isRunning());
+        Director::getInstance()->getScheduler().scheduleUpdate(sprite, 0, sprite->isPaused());
         return sprite;
     }
     CC_SAFE_DELETE(sprite);
