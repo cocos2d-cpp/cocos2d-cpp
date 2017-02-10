@@ -48,7 +48,14 @@ void ZwoptexGenericTest::onEnter()
     sprite2->setFlippedX(false);
     sprite2->setFlippedY(false);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::startIn05Secs), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        Timer([=](float dt){ startIn05Secs(dt); })
+            .target( this )
+            .interval( 1.0f )
+            .delay( 5.0f )
+            .paused( !_running )
+            .key("startIn05Secs")
+    );
     
     sprite1->retain();
     sprite2->retain();
@@ -58,7 +65,7 @@ void ZwoptexGenericTest::onEnter()
 
 void ZwoptexGenericTest::startIn05Secs(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::startIn05Secs), this);
+    Director::getInstance()->getScheduler().unschedule("startIn05Secs", this);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::flipSprites), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 

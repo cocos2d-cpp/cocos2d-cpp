@@ -27,7 +27,9 @@ THE SOFTWARE.
 #ifndef __CCSCHEDULER_H__
 #define __CCSCHEDULER_H__
 
-#include "platform/CCPlatformDefine.h"
+#include "platform/CCPlatformDefine.h" // CC_DLL
+#include "platform/CCPlatformMacros.h" // CC_DEPRECATED_ATTRIBUTE
+#include "base/ccMacros.h" // CC_REPEAT_FOREVER
 #include "base/uthash.h"
 
 #include <functional>
@@ -41,12 +43,68 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
+class Timer {
+public:
+    explicit Timer(std::function<void(float)> callback)
+        : _callback(callback)
+        , _target(nullptr)
+        , _interval(0.0f)
+        , _repeat(CC_REPEAT_FOREVER)
+        , _delay(0.0f)
+        , _paused(false)
+        , _key()
+        {}
+
+    Timer & callback(std::function<void(float)> v)
+    {
+        _callback = v;
+        return *this;
+    }
+    Timer & target(void* v)
+    {
+        _target = v;
+        return *this;
+    }
+    Timer & interval(float v)
+    {
+        _interval = v;
+        return *this;
+    }
+    Timer & repeat(unsigned int v)
+    {
+        _repeat = v;
+        return *this;
+    }
+    Timer & delay(float v)
+    {
+        _delay = v;
+        return *this;
+    }
+    Timer & paused(bool v)
+    {
+        _paused = v;
+        return *this;
+    }
+    Timer & key(std::string v)
+    {
+        _key = v;
+        return *this;
+    }
+
+public:
+    std::function<void(float)> _callback;
+    void* _target;
+    float _interval;
+    unsigned int _repeat;
+    float _delay;
+    bool  _paused;
+    std::string _key;
+};
+
 class Ref;
 typedef void (Ref::*SEL_SCHEDULE)(float);
 
-class Timer;
-
-typedef std::function<void(float)> ccSchedulerFunc;
+class TimerInt;
 
 struct _listEntry;
 struct _hashSelectorEntry;
@@ -117,6 +175,19 @@ public:
     /////////////////////////////////////
     
     // schedule
+    void schedule(Timer timer)
+    {
+        CC_ASSERT(timer._callback);
+        schedule(
+            timer._callback,
+            timer._target,
+            timer._interval,
+            timer._repeat,
+            timer._delay,
+            timer._paused,
+            timer._key
+        );
+    }
     
     /** The scheduled method will be called every 'interval' seconds.
      If paused is true, then it won't be called until it is resumed.
@@ -134,7 +205,8 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
+    // TODO CC_DEPRECATED_ATTRIBUTE
+    void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
 
     /** The scheduled method will be called every 'interval' seconds for ever.
      @param callback The callback function.
@@ -144,7 +216,7 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    void schedule(const ccSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, bool paused, const std::string& key);
     
     
     /** The scheduled method will be called every `interval` seconds.
@@ -163,7 +235,7 @@ public:
      @param paused Whether or not to pause the schedule.
      @since v3.0
      */
-    void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
+    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
     
     /** The scheduled method will be called every `interval` seconds for ever.
      @param selector The callback function.
@@ -171,7 +243,7 @@ public:
      @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
      @param paused Whether or not to pause the schedule.
      */
-    void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
+    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
     
     /** Schedules the 'update' selector for a given target with a given priority.
      The 'update' selector will be called every frame.
@@ -205,7 +277,7 @@ public:
      @param target The target of the unscheduled selector.
      @since v3.0
      */
-    void unschedule(SEL_SCHEDULE selector, Ref *target);
+    CC_DEPRECATED_ATTRIBUTE void unschedule(SEL_SCHEDULE selector, Ref *target);
     
     /** Unschedules the update selector for a given target
      @param target The target to be unscheduled.
@@ -253,7 +325,7 @@ public:
      @return True if the specified selector is invoked, false if not.
      @since v3.0
      */
-    bool isScheduled(SEL_SCHEDULE selector, Ref *target);
+    CC_DEPRECATED_ATTRIBUTE bool isScheduled(SEL_SCHEDULE selector, Ref *target);
     
     /////////////////////////////////////
     
@@ -315,11 +387,11 @@ protected:
     typedef struct _listEntry
     {
         struct _listEntry   *prev, *next;
-        ccSchedulerFunc     callback;
-        void                *target;
-        int                 priority;
-        bool                paused;
-        bool                markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
+        std::function<void(float)> callback;
+        void* target;
+        int   priority;
+        bool  paused;
+        bool  markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
     } tListEntry;
 
     /** Schedules the 'callback' function for a given target with a given priority.
@@ -329,14 +401,14 @@ protected:
      @since v3.0
      @js _schedulePerFrame
      */
-    void schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused);
+    void schedulePerFrame(std::function<void(float)>, void *target, int priority, bool paused);
     
     void removeUpdateFromHash(tListEntry *entry);
 
     // update specific
 
-    void priorityIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused);
-    void appendIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, bool paused);
+    void priorityIn(tListEntry **list, std::function<void(float)>, void *target, int priority, bool paused);
+    void appendIn(tListEntry **list, std::function<void(float)>, void *target, bool paused);
 
 
     float _timeScale;
@@ -354,7 +426,7 @@ protected:
         tListEntry          **list; // Which list does it belong to ?
         tListEntry          *entry; // entry in the list
         void                *target;
-        ccSchedulerFunc     callback;
+        std::function<void(float)> callback;
         UT_hash_handle      hh;
     } tHashUpdateEntry;
     struct _hashUpdateEntry *_hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
@@ -362,7 +434,7 @@ protected:
     // Hash Element used for "selectors with interval"
     typedef struct _hashSelectorEntry
     {
-        std::vector<std::unique_ptr<Timer>> timers;
+        std::vector<std::unique_ptr<TimerInt>> timers;
         int                                 timerIndex;
         const void*                         currentTimer;
         bool                                currentTimerSalvaged;

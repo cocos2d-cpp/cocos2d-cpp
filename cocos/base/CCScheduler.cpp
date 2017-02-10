@@ -35,10 +35,10 @@ namespace cocos2d {
 
 // data structures
 
-class CC_DLL Timer
+class CC_DLL TimerInt
 {
 protected:
-    Timer(Scheduler* scheduler, float interval_in_seconds, unsigned int repeat, float delay)
+    TimerInt(Scheduler* scheduler, float interval_in_seconds, unsigned int repeat, float delay)
         : _scheduler(scheduler)
         , _elapsed(-1)
         , _runForever(repeat == CC_REPEAT_FOREVER)
@@ -123,11 +123,11 @@ protected:
 };
 
 
-class CC_DLL TimerTargetSelector : public Timer
+class CC_DLL TimerTargetSelector : public TimerInt
 {
 public:
     TimerTargetSelector(Ref* target, float interval, Scheduler* scheduler, SEL_SCHEDULE selector, unsigned int repeat, float delay)
-        : Timer(scheduler, interval, repeat, delay)
+        : TimerInt(scheduler, interval, repeat, delay)
         , _target(target)
         , _selector(selector)
         {}
@@ -149,17 +149,17 @@ protected:
     SEL_SCHEDULE _selector;
 };
 
-class CC_DLL TimerTargetCallback : public Timer
+class CC_DLL TimerTargetCallback : public TimerInt
 {
 public:
-    TimerTargetCallback(void *target, float interval, Scheduler* scheduler, const ccSchedulerFunc& callback, const std::string& key, unsigned int repeat, float delay)
-        : Timer(scheduler, interval, repeat, delay)
+    TimerTargetCallback(void *target, float interval, Scheduler* scheduler, std::function<void(float)> callback, const std::string& key, unsigned int repeat, float delay)
+        : TimerInt(scheduler, interval, repeat, delay)
         , _target(target)
         , _callback(callback)
         , _key(key)
         {}
     
-    const ccSchedulerFunc& getCallback() const { return _callback; }
+    const std::function<void(float)>& getCallback() const { return _callback; }
     const std::string& getKey() const { return _key; }
     
     virtual void trigger(float dt) override
@@ -175,7 +175,7 @@ public:
   
 protected:
     void* _target;
-    ccSchedulerFunc _callback;
+    std::function<void(float)> _callback;
     std::string _key;
 };
 
@@ -241,12 +241,12 @@ void Scheduler::schedule_impl(F match, Target target, bool paused, float interva
             )));
 }
 
-void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key)
+void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& key)
 {
     this->schedule(callback, target, interval, CC_REPEAT_FOREVER, 0.0f, paused, key);
 }
 
-void Scheduler::schedule(const ccSchedulerFunc& callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
+void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
 {
     CCASSERT(target, "Argument target must be non-nullptr");
 
@@ -329,7 +329,7 @@ void Scheduler::unschedule(const std::string &key, void *target)
         return;
     }
     unschedule(target,
-               [&key](const std::unique_ptr<Timer> & p) {
+               [&key](const std::unique_ptr<TimerInt> & p) {
                    auto timer = dynamic_cast<const TimerTargetCallback*>(p.get());
                    return timer && key == timer->getKey();
                });
@@ -343,13 +343,13 @@ void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
     }
 
     unschedule(target,
-               [&selector](const std::unique_ptr<Timer> & p) {
+               [&selector](const std::unique_ptr<TimerInt> & p) {
                    auto timer = dynamic_cast<const TimerTargetSelector*>(p.get());
                    return timer && selector == timer->getSelector();
                });
 }
 
-void Scheduler::priorityIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, int priority, bool paused)
+void Scheduler::priorityIn(tListEntry **list, std::function<void(float)> callback, void *target, int priority, bool paused)
 {
     tListEntry *listElement = new (std::nothrow) tListEntry();
 
@@ -406,7 +406,7 @@ void Scheduler::priorityIn(tListEntry **list, const ccSchedulerFunc& callback, v
     HASH_ADD_PTR(_hashForUpdates, target, hashElement);
 }
 
-void Scheduler::appendIn(tListEntry **list, const ccSchedulerFunc& callback, void *target, bool paused)
+void Scheduler::appendIn(tListEntry **list, std::function<void(float)> callback, void *target, bool paused)
 {
     tListEntry *listElement = new (std::nothrow) tListEntry();
 
@@ -426,7 +426,7 @@ void Scheduler::appendIn(tListEntry **list, const ccSchedulerFunc& callback, voi
     HASH_ADD_PTR(_hashForUpdates, target, hashElement);
 }
 
-void Scheduler::schedulePerFrame(const ccSchedulerFunc& callback, void *target, int priority, bool paused)
+void Scheduler::schedulePerFrame(std::function<void(float)> callback, void *target, int priority, bool paused)
 {
     tHashUpdateEntry *hashElement = nullptr;
     HASH_FIND_PTR(_hashForUpdates, &target, hashElement);
@@ -618,7 +618,7 @@ void Scheduler::unscheduleAllForTarget(void *target)
             if (! it->second->currentTimerSalvaged)
             {
                 auto currentTimer_it = std::find_if(timers.begin(), timers.end(),
-                                                    [it](const std::unique_ptr<Timer> & p) {
+                                                    [it](const std::unique_ptr<TimerInt> & p) {
                                                         return p.get() == it->second->currentTimer;
                                                     });
                 if (currentTimer_it !=  timers.end())
