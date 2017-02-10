@@ -114,29 +114,28 @@ void TransitionPageTurn::onEnter()
     ActionInterval *action  = this->actionWithSize(Size(x,y));
 
     NodeGrid* grid;
-    action_ptr<FiniteTimeAction> firstAction;
+    std::vector<action_ptr<FiniteTimeAction>> sequence_actions;
 
     if (! _back )
     {
         grid = _outSceneProxy;
-        // dummy first action
-        firstAction.reset(CallFunc::create([]{}));
     }
     else
     {
         grid = _inSceneProxy;
         grid->setVisible(false);
-        firstAction.reset(Show::create());
+        sequence_actions.push_back(
+            to_action_ptr<FiniteTimeAction>(Show::create())
+        );
     }
 
-    grid->runAction(
-        Sequence::create(
-            std::move(firstAction),
-            to_action_ptr(action),
-            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))),
-            to_action_ptr(StopGrid::create())
-        )
-    );
+    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(action) );
+    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(
+            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
+    ));
+    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(StopGrid::create()) );
+
+    grid->runAction( Sequence::create( std::move( sequence_actions)));
 }
 
 void TransitionPageTurn::onExit()
