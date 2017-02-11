@@ -10,7 +10,7 @@ using namespace cocos2d;
 
 QuestionContainerSprite::QuestionContainerSprite()
 {
-    if (Sprite::init())
+    if (!Sprite::init())
     {
         throw std::runtime_error("QuestionContainerSprite: Cannot init Sprite");
     }
