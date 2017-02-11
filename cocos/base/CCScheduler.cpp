@@ -26,10 +26,7 @@ THE SOFTWARE.
 
 #include "base/CCScheduler.h"
 
-#include "base/ccCArray.h"
-#include "base/CCDirector.h"
-#include "base/utlist.h"
-#include "base/ccMacros.h"
+#include <algorithm>
 
 namespace cocos2d {
 
@@ -109,27 +106,6 @@ void TimedJob::cancel()
   
 // implementation of Scheduler
 
-// Priority level reserved for system services.
-const int Scheduler::PRIORITY_SYSTEM = INT_MIN;
-
-// Minimum priority level for user scheduling.
-const int Scheduler::PRIORITY_NON_SYSTEM_MIN = PRIORITY_SYSTEM + 1;
-
-Scheduler::Scheduler(void)
-: _timeScale(1.0f)
-, _updatesNegList(nullptr)
-, _updates0List(nullptr)
-, _updatesPosList(nullptr)
-, _hashForUpdates(nullptr)
-, _hashForTimers()
-, _currentTarget(nullptr)
-, _currentTargetSalvaged(false)
-, _updateHashLocked(false)
-{
-    // I don't expect to have more than 30 functions to all per frame
-    _functionsToPerform.reserve(30);
-}
-
 Scheduler::~Scheduler(void)
 {
     unscheduleAll();
@@ -145,7 +121,7 @@ void Scheduler::schedule(TimedJob job)
 
     if (!element)
     {
-        element.reset(new tHashTimerEntry);
+        element.reset(new HashTimerEntry);
         element->paused = job._paused;
     }
     else
@@ -158,6 +134,7 @@ void Scheduler::schedule(TimedJob job)
     {
         if (j->_key == job._key)
         {
+            // FIXME should not update but add the new one
             CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", j->_interval, job._interval);
             j->interval(job._interval);
             return;
@@ -307,179 +284,73 @@ void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
     unschedule(target, to_key(selector));
 }
 
-void Scheduler::priorityIn(tListEntry **list, std::function<void(float)> callback, void *target, int priority, bool paused)
-{
-    tListEntry *listElement = new (std::nothrow) tListEntry();
-
-    listElement->callback = callback;
-    listElement->target = target;
-    listElement->priority = priority;
-    listElement->paused = paused;
-    listElement->next = listElement->prev = nullptr;
-    listElement->markedForDeletion = false;
-
-    // empty list ?
-    if (! *list)
-    {
-        DL_APPEND(*list, listElement);
-    }
-    else
-    {
-        bool added = false;
-
-        for (tListEntry *element = *list; element; element = element->next)
-        {
-            if (priority < element->priority)
-            {
-                if (element == *list)
-                {
-                    DL_PREPEND(*list, listElement);
-                }
-                else
-                {
-                    listElement->next = element;
-                    listElement->prev = element->prev;
-
-                    element->prev->next = listElement;
-                    element->prev = listElement;
-                }
-
-                added = true;
-                break;
-            }
-        }
-
-        // Not added? priority has the higher value. Append it.
-        if (! added)
-        {
-            DL_APPEND(*list, listElement);
-        }
-    }
-
-    // update hash entry for quick access
-    tHashUpdateEntry *hashElement = (tHashUpdateEntry *)calloc(sizeof(*hashElement), 1);
-    hashElement->target = target;
-    hashElement->list = list;
-    hashElement->entry = listElement;
-    HASH_ADD_PTR(_hashForUpdates, target, hashElement);
-}
-
-void Scheduler::appendIn(tListEntry **list, std::function<void(float)> callback, void *target, bool paused)
-{
-    tListEntry *listElement = new (std::nothrow) tListEntry();
-
-    listElement->callback = callback;
-    listElement->target = target;
-    listElement->paused = paused;
-    listElement->priority = 0;
-    listElement->markedForDeletion = false;
-
-    DL_APPEND(*list, listElement);
-
-    // update hash entry for quicker access
-    tHashUpdateEntry *hashElement = (tHashUpdateEntry *)calloc(sizeof(*hashElement), 1);
-    hashElement->target = target;
-    hashElement->list = list;
-    hashElement->entry = listElement;
-    HASH_ADD_PTR(_hashForUpdates, target, hashElement);
-}
-
 void Scheduler::schedulePerFrame(std::function<void(float)> callback, void *target, int priority, bool paused)
 {
-    tHashUpdateEntry *hashElement = nullptr;
-    HASH_FIND_PTR(_hashForUpdates, &target, hashElement);
-    if (hashElement)
+    auto hash_it = _hashForUpdates.find(target);
+
+    if (hash_it != _hashForUpdates.end())
     {
         // check if priority has changed
-        if ((*hashElement->list)->priority != priority)
+        if (hash_it->second->priority != priority)
         {
             if (_updateHashLocked)
             {
+                CC_ASSERT(false);
                 CCLOG("warning: you CANNOT change update priority in scheduled function");
-                hashElement->entry->markedForDeletion = false;
-                hashElement->entry->paused = paused;
+                hash_it->second->markedForDeletion = false;
+                hash_it->second->paused = paused;
                 return;
             }
             else
             {
             	// will be added again outside if (hashElement).
-                unscheduleUpdate(target);
+                unscheduleUpdate(hash_it);
             }
         }
         else
         {
-            hashElement->entry->markedForDeletion = false;
-            hashElement->entry->paused = paused;
+            hash_it->second->markedForDeletion = false;
+            hash_it->second->paused = paused;
             return;
         }
     }
 
-    // most of the updates are going to be 0, that's way there
-    // is an special list for updates with priority 0
-    if (priority == 0)
-    {
-        appendIn(&_updates0List, callback, target, paused);
-    }
-    else if (priority < 0)
-    {
-        priorityIn(&_updatesNegList, callback, target, priority, paused);
-    }
-    else
-    {
-        // priority > 0
-        priorityIn(&_updatesPosList, callback, target, priority, paused);
-    }
-}
+    auto list_it = std::find_if(_updatesList.begin(), _updatesList.end(),
+                                [priority](const ListEntry& e) {
+                                    return priority < e.priority;
+                                });
 
-void Scheduler::removeUpdateFromHash(tListEntry *entry)
-{
-    tHashUpdateEntry *element = nullptr;
-
-    HASH_FIND_PTR(_hashForUpdates, &entry->target, element);
-    if (element)
-    {
-        // list entry
-        DL_DELETE(*element->list, element->entry);
-        CC_SAFE_DELETE(element->entry);
-
-        // hash entry
-        HASH_DEL(_hashForUpdates, element);
-        free(element);
-    }
+    _hashForUpdates[target] = _updatesList.insert(list_it, {callback, target, priority, paused, false});
 }
 
 void Scheduler::unscheduleUpdate(void *target)
 {
-    if (target == nullptr)
-    {
-        return;
-    }
+    auto hash_it = _hashForUpdates.find(target);
 
-    tHashUpdateEntry *element = nullptr;
-    HASH_FIND_PTR(_hashForUpdates, &target, element);
-    if (element)
+    if (hash_it != _hashForUpdates.end())
     {
-        if (_updateHashLocked)
-        {
-            element->entry->markedForDeletion = true;
-        }
-        else
-        {
-            this->removeUpdateFromHash(element->entry);
-        }
+        unscheduleUpdate(hash_it);
     }
 }
 
-void Scheduler::unscheduleAll(void)
+void Scheduler::unscheduleUpdate(updates_hash_t::iterator hash_it)
 {
-    unscheduleAllWithMinPriority(PRIORITY_SYSTEM);
+    if (_updateHashLocked)
+    {
+        hash_it->second->markedForDeletion = true;
+    }
+    else
+    {
+        _updatesList.erase( hash_it->second );
+        _hashForUpdates.erase(hash_it);
+    }
 }
 
-void Scheduler::unscheduleAllWithMinPriority(int minPriority)
+void Scheduler::unscheduleAll()
 {
     // Custom Selectors
 
-    std::unique_ptr<tHashTimerEntry> currentTargetValue;
+    std::unique_ptr<HashTimerEntry> currentTargetValue;
 
     auto it = _hashForTimers.find(_currentTarget);
 
@@ -499,32 +370,15 @@ void Scheduler::unscheduleAllWithMinPriority(int minPriority)
     }
 
     // Updates selectors
-    tListEntry *entry, *tmp;
-    if(minPriority < 0)
+    if (_updateHashLocked)
     {
-        DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
-        {
-            if(entry->priority >= minPriority)
-            {
-                unscheduleUpdate(entry->target);
-            }
-        }
+        for (auto & l : _updatesList)
+            l.markedForDeletion = true;
     }
-
-    if(minPriority <= 0)
+    else
     {
-        DL_FOREACH_SAFE(_updates0List, entry, tmp)
-        {
-            unscheduleUpdate(entry->target);
-        }
-    }
-
-    DL_FOREACH_SAFE(_updatesPosList, entry, tmp)
-    {
-        if(entry->priority >= minPriority)
-        {
-            unscheduleUpdate(entry->target);
-        }
+        _hashForUpdates.clear();
+        _updatesList.clear();
     }
 }
 
@@ -572,135 +426,85 @@ void Scheduler::unscheduleAllForTarget(void *target)
     unscheduleUpdate(target);
 }
 
-void Scheduler::resumeTarget(void *target)
+void Scheduler::updatePausedState(void *target, bool paused)
 {
     CCASSERT(target != nullptr, "target can't be nullptr!");
 
     // custom selectors
-    auto it = _hashForTimers.find(target);
-    if (_hashForTimers.end() != it)
+    auto timers_hash_it = _hashForTimers.find(target);
+    if (_hashForTimers.end() != timers_hash_it)
     {
-        it->second->paused = false;
+        timers_hash_it->second->paused = paused;
     }
 
-    // update selector
-    tHashUpdateEntry *elementUpdate = nullptr;
-    HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
-    if (elementUpdate)
+    auto updates_hash_it = _hashForUpdates.find(target);
+    if (_hashForUpdates.end() != updates_hash_it)
     {
-        CCASSERT(elementUpdate->entry != nullptr, "elementUpdate's entry can't be nullptr!");
-        elementUpdate->entry->paused = false;
+        updates_hash_it->second->paused = paused;
     }
 }
 
 void Scheduler::pauseTarget(void *target)
 {
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-
-    // custom selectors
-    auto it = _hashForTimers.find(target);
-    if (_hashForTimers.end() != it)
-    {
-        it->second->paused = true;
-    }
-
-    // update selector
-    tHashUpdateEntry *elementUpdate = nullptr;
-    HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
-    if (elementUpdate)
-    {
-        CCASSERT(elementUpdate->entry != nullptr, "elementUpdate's entry can't be nullptr!");
-        elementUpdate->entry->paused = true;
-    }
+    updatePausedState(target, true);
 }
 
-bool Scheduler::isTargetPaused(void *target)
+void Scheduler::resumeTarget(void *target)
+{
+    updatePausedState(target, false);
+}
+
+bool Scheduler::isTargetPaused(void *target) const
 {
     CCASSERT( target != nullptr, "target must be non nil" );
 
     // Custom selectors
-    auto it = _hashForTimers.find(target);
-    if (_hashForTimers.end() != it)
+    auto timers_hash_it = _hashForTimers.find(target);
+    if (_hashForTimers.end() != timers_hash_it)
     {
-        return it->second->paused;
+        return timers_hash_it->second->paused;
     }
     
     // We should check update selectors if target does not have custom selectors
-	tHashUpdateEntry *elementUpdate = nullptr;
-	HASH_FIND_PTR(_hashForUpdates, &target, elementUpdate);
-	if ( elementUpdate )
+    auto updates_hash_it = _hashForUpdates.find(target);
+    if (updates_hash_it != _hashForUpdates.end())
     {
-		return elementUpdate->entry->paused;
+        return updates_hash_it->second->paused;
     }
     
-    return false;  // should never get here
+    CC_ASSERT(false);
+    return false;
 }
 
-std::set<void*> Scheduler::pauseAllTargets()
+void Scheduler::updatePausedState(bool paused)
 {
-    return pauseAllTargetsWithMinPriority(PRIORITY_SYSTEM);
-}
-
-std::set<void*> Scheduler::pauseAllTargetsWithMinPriority(int minPriority)
-{
-    std::set<void*> idsWithSelectors;
-
     // Custom Selectors
     for (auto & pair : _hashForTimers)
     {
-        pair.second->paused = true;
-        idsWithSelectors.insert(pair.first);
+        pair.second->paused = paused;
     }
 
     // Updates selectors
-    tListEntry *entry, *tmp;
-    if(minPriority < 0)
+    for (auto & entry : _updatesList) 
     {
-        DL_FOREACH_SAFE( _updatesNegList, entry, tmp ) 
-        {
-            if(entry->priority >= minPriority)
-            {
-                entry->paused = true;
-                idsWithSelectors.insert(entry->target);
-            }
-        }
+        entry.paused = paused;
     }
-
-    if(minPriority <= 0)
-    {
-        DL_FOREACH_SAFE( _updates0List, entry, tmp )
-        {
-            entry->paused = true;
-            idsWithSelectors.insert(entry->target);
-        }
-    }
-
-    DL_FOREACH_SAFE( _updatesPosList, entry, tmp ) 
-    {
-        if(entry->priority >= minPriority) 
-        {
-            entry->paused = true;
-            idsWithSelectors.insert(entry->target);
-        }
-    }
-
-    return idsWithSelectors;
 }
 
-void Scheduler::resumeTargets(const std::set<void*>& targetsToResume)
+void Scheduler::pauseAllTargets()
 {
-    for(const auto &obj : targetsToResume) {
-        this->resumeTarget(obj);
-    }
+    updatePausedState(true);
+}
+
+void Scheduler::resumeAllTargets()
+{
+    updatePausedState(false);
 }
 
 void Scheduler::performFunctionInCocosThread(const std::function<void ()> &function)
 {
-    _performMutex.lock();
-
+    std::lock_guard<std::mutex> locker(_performMutex);
     _functionsToPerform.push_back(function);
-
-    _performMutex.unlock();
 }
 
 // main loop
@@ -717,33 +521,12 @@ void Scheduler::update(float dt)
     // Selector callbacks
     //
 
-    // Iterate over all the Updates' selectors
-    tListEntry *entry, *tmp;
-
     // updates with priority < 0
-    DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
+    for (auto & entry : _updatesList)
     {
-        if ((! entry->paused) && (! entry->markedForDeletion))
+        if (!entry.paused && !entry.markedForDeletion)
         {
-            entry->callback(dt);
-        }
-    }
-
-    // updates with priority == 0
-    DL_FOREACH_SAFE(_updates0List, entry, tmp)
-    {
-        if ((! entry->paused) && (! entry->markedForDeletion))
-        {
-            entry->callback(dt);
-        }
-    }
-
-    // updates with priority > 0
-    DL_FOREACH_SAFE(_updatesPosList, entry, tmp)
-    {
-        if ((! entry->paused) && (! entry->markedForDeletion))
-        {
-            entry->callback(dt);
+            entry.callback(dt);
         }
     }
 
@@ -784,53 +567,45 @@ void Scheduler::update(float dt)
         }
     }
 
-    // delete all updates that are marked for deletion
-    // updates with priority < 0
-    DL_FOREACH_SAFE(_updatesNegList, entry, tmp)
+    for (auto it = _updatesList.begin(), end = _updatesList.end(); it != end; )
     {
-        if (entry->markedForDeletion)
+        if (it->markedForDeletion)
         {
-            this->removeUpdateFromHash(entry);
+            auto hash_it = _hashForUpdates.find(it->target);
+            if (hash_it != _hashForUpdates.end())
+            {
+                // hash can contain a new element, see schedulePerFrame
+                if (hash_it->second->markedForDeletion)
+                {
+                    _hashForUpdates.erase(hash_it);
+                }
+            }
+            it = _updatesList.erase(it);
         }
-    }
-
-    // updates with priority == 0
-    DL_FOREACH_SAFE(_updates0List, entry, tmp)
-    {
-        if (entry->markedForDeletion)
+        else
         {
-            this->removeUpdateFromHash(entry);
-        }
-    }
-
-    // updates with priority > 0
-    DL_FOREACH_SAFE(_updatesPosList, entry, tmp)
-    {
-        if (entry->markedForDeletion)
-        {
-            this->removeUpdateFromHash(entry);
+            it++;
         }
     }
 
     _updateHashLocked = false;
     _currentTarget = nullptr;
 
-    //
     // Functions allocated from another thread
-    //
 
-    // Testing size is faster than locking / unlocking.
-    // And almost never there will be functions scheduled to be called.
-    if( !_functionsToPerform.empty() ) {
-        _performMutex.lock();
-        // fixed #4123: Save the callback functions, they must be invoked after '_performMutex.unlock()', otherwise if new functions are added in callback, it will cause thread deadlock.
-        auto temp = _functionsToPerform;
-        _functionsToPerform.clear();
-        _performMutex.unlock();
-        for( const auto &function : temp ) {
+    if( !_functionsToPerform.empty() )
+    {
+        std::vector<std::function<void()>> tmp;
+        {
+            std::lock_guard<std::mutex> locker(_performMutex);
+            // if new functions are added in callback,
+            // it will cause thread deadlock.
+            tmp = std::move(_functionsToPerform);
+        }
+        for(auto function : tmp)
+        {
             function();
         }
-        
     }
 }
 

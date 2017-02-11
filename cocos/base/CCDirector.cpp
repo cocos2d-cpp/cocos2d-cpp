@@ -146,9 +146,6 @@ bool Director::init()
     // action manager
     _actionManager = new (std::nothrow) ActionManager();
 
-    // scheduler
-    _scheduler.scheduleUpdate(_actionManager, Scheduler::PRIORITY_SYSTEM, false);
-
     _eventDispatcher = new (std::nothrow) EventDispatcher();
     _eventAfterDraw = new (std::nothrow) EventCustom(EVENT_AFTER_DRAW);
     _eventAfterDraw->setUserData(this);
@@ -263,6 +260,7 @@ void Director::drawScene()
     if (! _paused)
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
+        _actionManager->update(_deltaTime);
         _scheduler.update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
@@ -937,7 +935,7 @@ void Director::reset()
     _eventDispatcher->dispatchEvent(_eventResetDirector);
     
     // cleanup scheduler
-    getScheduler().unscheduleAll();
+    _scheduler.unscheduleAll();
     
     // Remove all events
     if (_eventDispatcher)
@@ -1013,9 +1011,6 @@ void Director::restartDirector()
 
     // Texture cache need to be reinitialized
     initTextureCache();
-    
-    // Reschedule for action manager
-    getScheduler().scheduleUpdate(getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
     
     // release the objects
     PoolManager::getInstance()->getCurrentPool()->clear();

@@ -30,22 +30,19 @@ THE SOFTWARE.
 #include "platform/CCPlatformDefine.h" // CC_DLL
 #include "platform/CCPlatformMacros.h" // CC_DEPRECATED_ATTRIBUTE
 #include "base/ccMacros.h" // CC_REPEAT_FOREVER
-#include "base/uthash.h"
 
 #include <functional>
+#include <list>
 #include <memory>
 #include <mutex>
-#include <set>
 #include <unordered_map>
 #include <vector>
-
-#define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
 
 namespace cocos2d {
 
 class Scheduler;
 
-class TimedJob {
+class CC_DLL TimedJob {
 public:
     explicit TimedJob(std::function<void(float)> callback)
         : _callback(callback)
@@ -137,10 +134,9 @@ private:
     bool _useDelay;
 };
 
+// deprecated
 class Ref;
 typedef void (Ref::*SEL_SCHEDULE)(float);
-
-class TimerInt;
 
 struct _listEntry;
 struct _hashSelectorEntry;
@@ -156,327 +152,129 @@ There are 2 different types of callbacks (selectors):
 The 'custom selectors' should be avoided when possible. It is faster, and consumes less memory to use the 'update selector'.
 
 */
-class CC_DLL Scheduler
+class CC_DLL Scheduler final
 {
 public:
-    /** Priority level reserved for system services. 
-     * @lua NA
-     * @js NA
-     */
-    static const int PRIORITY_SYSTEM;
-    
-    /** Minimum priority level for user scheduling. 
-     * Priority level of user scheduling should bigger then this value.
-     *
-     * @lua NA
-     * @js NA
-     */
-    static const int PRIORITY_NON_SYSTEM_MIN;
-    
-    /**
-     * Constructor
-     *
-     * @js ctor
-     */
-    Scheduler();
-    
-    /**
-     * Destructor
-     *
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Scheduler();
+    Scheduler() = default;
+    ~Scheduler();
 
-    /**
-     * Gets the time scale of schedule callbacks.
-     * @see Scheduler::setTimeScale()
-     */
-    float getTimeScale() { return _timeScale; }
+    Scheduler(Scheduler const&) = delete;
+    Scheduler & operator=(Scheduler const&) = delete;
+
     /** Modifies the time of all scheduled callbacks.
     You can use this property to create a 'slow motion' or 'fast forward' effect.
     Default is 1.0. To create a 'slow motion' effect, use values below 1.0.
     To create a 'fast forward' effect, use values higher than 1.0.
-    @since v0.8
-    @warning It will affect EVERY scheduled selector / action.
     */
+    float getTimeScale() { return _timeScale; }
     void setTimeScale(float timeScale) { _timeScale = timeScale; }
-
-    /** 'update' the scheduler.
-     * You should NEVER call this method, unless you know what you are doing.
-     * @lua NA
-     */
-    void update(float dt);
 
     void schedule(TimedJob timer);
     void unschedule(void* target, size_t key);
     bool isScheduled(void* target, size_t key) const;
 
-    /////////////////////////////////////
-    
-    // schedule
-    
-    /** The scheduled method will be called every 'interval' seconds.
-     If paused is true, then it won't be called until it is resumed.
-     If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdate' instead.
-     If the 'callback' is already scheduled, then only the interval parameter will be updated without re-scheduling it again.
-     repeat let the action be repeated repeat + 1 times, use CC_REPEAT_FOREVER to let the action run continuously
-     delay is the amount of time the action will wait before it'll start.
-     @param callback The callback function.
-     @param target The target of the callback function.
-     @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
-     @param repeat repeat+1 times to schedule the callback.
-     @param delay Schedule call back after `delay` seconds. If the value is not 0, the first schedule will happen after `delay` seconds.
-            But it will only affect first schedule. After first schedule, the delay time is determined by `interval`.
-     @param paused Whether or not to pause the schedule.
-     @param key The key to identify the callback function, because there is not way to identify a std::function<>.
-     @since v3.0
+    /* updates per frame
+     * The lower the priority, the earlier it is called.
      */
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
-
-    /** The scheduled method will be called every 'interval' seconds for ever.
-     @param callback The callback function.
-     @param target The target of the callback function.
-     @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
-     @param paused Whether or not to pause the schedule.
-     @param key The key to identify the callback function, because there is not way to identify a std::function<>.
-     @since v3.0
-     */
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, bool paused, const std::string& key);
-    
-    
-    /** The scheduled method will be called every `interval` seconds.
-     If paused is true, then it won't be called until it is resumed.
-     If 'interval' is 0, it will be called every frame, but if so, it's recommended to use 'scheduleUpdate' instead.
-     If the selector is already scheduled, then only the interval parameter will be updated without re-scheduling it again.
-     repeat let the action be repeated repeat + 1 times, use CC_REPEAT_FOREVER to let the action run continuously
-     delay is the amount of time the action will wait before it'll start
-     
-     @param selector The callback function.
-     @param target The target of the callback function.
-     @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
-     @param repeat repeat+1 times to schedule the callback.
-     @param delay Schedule call back after `delay` seconds. If the value is not 0, the first schedule will happen after `delay` seconds.
-     But it will only affect first schedule. After first schedule, the delay time is determined by `interval`.
-     @param paused Whether or not to pause the schedule.
-     @since v3.0
-     */
-    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
-    
-    /** The scheduled method will be called every `interval` seconds for ever.
-     @param selector The callback function.
-     @param target The target of the callback function.
-     @param interval The interval to schedule the callback. If the value is 0, then the callback will be scheduled every frame.
-     @param paused Whether or not to pause the schedule.
-     */
-    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
-    
-    /** Schedules the 'update' selector for a given target with a given priority.
-     The 'update' selector will be called every frame.
-     The lower the priority, the earlier it is called.
-     @since v3.0
-     @lua NA
-     */
-    template <class T>
+    template<typename T>
     void scheduleUpdate(T *target, int priority, bool paused)
     {
         this->schedulePerFrame([target](float dt){
             target->update(dt);
         }, target, priority, paused);
     }
-
-    /////////////////////////////////////
-    
-    // unschedule
-
-    /** Unschedules a callback for a key and a given target.
-     If you want to unschedule the 'callbackPerFrame', use unscheduleUpdate.
-     @param key The key to identify the callback function, because there is not way to identify a std::function<>.
-     @param target The target to be unscheduled.
-     @since v3.0
-     */
-    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& key, void *target);
-
-    /** Unschedules a selector for a given target.
-     If you want to unschedule the "update", use `unscheudleUpdate()`.
-     @param selector The selector that is unscheduled.
-     @param target The target of the unscheduled selector.
-     @since v3.0
-     */
-    CC_DEPRECATED_ATTRIBUTE void unschedule(SEL_SCHEDULE selector, Ref *target);
-    
-    /** Unschedules the update selector for a given target
-     @param target The target to be unscheduled.
-     @since v0.99.3
-     */
     void unscheduleUpdate(void *target);
-    
-    /** Unschedules all selectors for a given target.
-     This also includes the "update" selector.
-     @param target The target to be unscheduled.
-     @since v0.99.3
-     @lua NA
-     */
+
+    // for both timed jobs and updates per frame
     void unscheduleAllForTarget(void *target);
-    
-    /** Unschedules all selectors from all targets.
-     You should NEVER call this method, unless you know what you are doing.
-     @since v0.99.3
-     */
     void unscheduleAll();
-    
-    /** Unschedules all selectors from all targets with a minimum priority.
-     You should only call this with `PRIORITY_NON_SYSTEM_MIN` or higher.
-     @param minPriority The minimum priority of selector to be unscheduled. Which means, all selectors which
-            priority is higher than minPriority will be unscheduled.
-     @since v2.0.0
-     */
-    void unscheduleAllWithMinPriority(int minPriority);
-    
-    /////////////////////////////////////
-    
-    // isScheduled
-    
-    /** Checks whether a callback associated with 'key' and 'target' is scheduled.
-     @param key The key to identify the callback function, because there is not way to identify a std::function<>.
-     @param target The target of the callback.
-     @return True if the specified callback is invoked, false if not.
-     @since v3.0.0
-     */
-    CC_DEPRECATED_ATTRIBUTE bool isScheduled(const std::string& key, void *target);
-    
-    /** Checks whether a selector for a given target is scheduled.
-     @param selector The selector to be checked.
-     @param target The target of the callback.
-     @return True if the specified selector is invoked, false if not.
-     @since v3.0
-     */
-    CC_DEPRECATED_ATTRIBUTE bool isScheduled(SEL_SCHEDULE selector, Ref *target);
-    
-    /////////////////////////////////////
-    
-    /** Pauses the target.
-     All scheduled selectors/update for a given target won't be 'ticked' until the target is resumed.
-     If the target is not present, nothing happens.
-     @param target The target to be paused.
-     @since v0.99.3
-     */
+
     void pauseTarget(void *target);
-
-    /** Resumes the target.
-     The 'target' will be unpaused, so all schedule selectors/update will be 'ticked' again.
-     If the target is not present, nothing happens.
-     @param target The target to be resumed.
-     @since v0.99.3
-     */
     void resumeTarget(void *target);
+    
+    bool isTargetPaused(void *target) const;
 
-    /** Returns whether or not the target is paused.
-     * @param target The target to be checked.
-     * @return True if the target is paused, false if not.
-     * @since v1.0.0
-     * @lua NA
-     */
-    bool isTargetPaused(void *target);
-
-    /** Pause all selectors from all targets.
-      You should NEVER call this method, unless you know what you are doing.
-     @since v2.0.0
-      */
-    std::set<void*> pauseAllTargets();
-
-    /** Pause all selectors from all targets with a minimum priority.
-      You should only call this with PRIORITY_NON_SYSTEM_MIN or higher.
-      @param minPriority The minimum priority of selector to be paused. Which means, all selectors which
-            priority is higher than minPriority will be paused.
-      @since v2.0.0
-      */
-    std::set<void*> pauseAllTargetsWithMinPriority(int minPriority);
-
-    /** Resume selectors on a set of targets.
-     This can be useful for undoing a call to pauseAllSelectors.
-     @param targetsToResume The set of targets to be resumed.
-     @since v2.0.0
-      */
-    void resumeTargets(const std::set<void*>& targetsToResume);
+    void pauseAllTargets();
+    void resumeAllTargets();
 
     /** Calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
      This function is thread safe.
-     @param function The function to be run in cocos2d thread.
-     @since v3.0
-     @js NA
      */
-    void performFunctionInCocosThread( const std::function<void()> &function);
+    void performFunctionInCocosThread(const std::function<void()> &function);
     
-protected:
-    
-    typedef struct _listEntry
+    /** 'update' the scheduler.
+     * You should NEVER call this method, unless you know what you are doing.
+     */
+    void update(float dt);
+
+private:
+    // data types
+    struct ListEntry
     {
-        struct _listEntry   *prev, *next;
         std::function<void(float)> callback;
         void* target;
         int   priority;
         bool  paused;
         bool  markedForDeletion; // selector will no longer be called and entry will be removed at end of the next tick
-    } tListEntry;
+    };
+
+    using updates_list_t = std::list<ListEntry>;
+    using updates_hash_t = std::unordered_map<void*, updates_list_t::iterator>;
+
+    // Hash Element used for "selectors with interval"
+    struct HashTimerEntry {
+        std::vector<std::unique_ptr<TimedJob>> timedJobs;
+        int         timerIndex = -1;
+        const void* currentJob = nullptr;
+        bool        currentJobSalvaged = false;
+        bool        paused;
+    };
+
+    using timedjobs_hash_t = std::unordered_map<void*,std::unique_ptr<HashTimerEntry>>;
+
+private:
+    // member helpers
+    void updatePausedState(bool paused);
+    void updatePausedState(void* target, bool paused);
+    void unscheduleUpdate(updates_hash_t::iterator);
 
     /** Schedules the 'callback' function for a given target with a given priority.
      The 'callback' selector will be called every frame.
      The lower the priority, the earlier it is called.
      @note This method is only for internal use.
-     @since v3.0
-     @js _schedulePerFrame
      */
     void schedulePerFrame(std::function<void(float)>, void *target, int priority, bool paused);
     
-    void removeUpdateFromHash(tListEntry *entry);
+private:
+    float _timeScale = 1.0f;
 
-    // update specific
-
-    void priorityIn(tListEntry **list, std::function<void(float)>, void *target, int priority, bool paused);
-    void appendIn(tListEntry **list, std::function<void(float)>, void *target, bool paused);
-
-
-    float _timeScale;
-
-    //
+    // TODO make a separate class for PriorityList
     // "updates with priority" stuff
-    //
-    tListEntry *_updatesNegList;        // list of priority < 0
-    tListEntry *_updates0List;            // list priority == 0
-    tListEntry *_updatesPosList;        // list priority > 0
+    updates_list_t _updatesList; // list sorted by priority
+    updates_hash_t _hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
 
-    // A list double-linked list used for "updates with priority"
-    typedef struct _hashUpdateEntry
-    {
-        tListEntry          **list; // Which list does it belong to ?
-        tListEntry          *entry; // entry in the list
-        void                *target;
-        std::function<void(float)> callback;
-        UT_hash_handle      hh;
-    } tHashUpdateEntry;
-    struct _hashUpdateEntry *_hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
-
-    // Hash Element used for "selectors with interval"
-    typedef struct _hashSelectorEntry
-    {
-        std::vector<std::unique_ptr<TimedJob>> timedJobs;
-        int         timerIndex;
-        const void* currentJob;
-        bool        currentJobSalvaged;
-        bool        paused;
-    } tHashTimerEntry;
     // Used for "selectors with interval"
-    std::unordered_map<void*,std::unique_ptr<tHashTimerEntry>> _hashForTimers;
+    timedjobs_hash_t _hashForTimers;
 
-    void* _currentTarget;
-    bool _currentTargetSalvaged;
-    // If true unschedule will not remove anything from a hash. Elements will only be marked for deletion.
-    bool _updateHashLocked;
+    // TODO get rid of them
+    void* _currentTarget = nullptr;
+    bool _currentTargetSalvaged = false;
+    bool _updateHashLocked = false;
     
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
     std::mutex _performMutex;
+
+public: // deprecated
+#define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, bool paused, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
+    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
+    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& key, void *target);
+    CC_DEPRECATED_ATTRIBUTE void unschedule(SEL_SCHEDULE selector, Ref *target);
+    CC_DEPRECATED_ATTRIBUTE bool isScheduled(const std::string& key, void *target);
+    CC_DEPRECATED_ATTRIBUTE bool isScheduled(SEL_SCHEDULE selector, Ref *target);
 };
 
 // end of base group

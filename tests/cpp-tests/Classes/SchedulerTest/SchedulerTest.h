@@ -60,8 +60,6 @@ public:
     void pause(float dt);
     using SchedulerTestLayer::resume;
     void resume(float dt);
-private:
-    std::set<void*> _pausedTargets;
 };
 
 class SchedulerPauseResumeAllUser : public SchedulerTestLayer
@@ -82,8 +80,6 @@ public:
     void pause(float dt);
     using SchedulerTestLayer::resume;
     void resume(float dt);
-private:
-    std::set<void*> _pausedTargets;
 };
 
 class SchedulerUnscheduleAll : public SchedulerTestLayer
@@ -117,8 +113,6 @@ public:
     void tick3(float dt);
     void tick4(float dt);
     void unscheduleAll(float dt);
-private:
-    bool _actionManagerActive;
 };
 
 class SchedulerUnscheduleAllUserLevel : public SchedulerTestLayer

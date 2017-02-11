@@ -155,10 +155,7 @@ void SchedulerPauseResumeAll::update(float /*delta*/)
 
 void SchedulerPauseResumeAll::onExit()
 {
-    if (!_pausedTargets.empty())
-    {
-        Director::getInstance()->getScheduler().resumeTargets(_pausedTargets);
-    }
+    Director::getInstance()->getScheduler().resumeAllTargets();
     SchedulerTestLayer::onExit();
 }
 
@@ -176,11 +173,8 @@ void SchedulerPauseResumeAll::pause(float /*dt*/)
 {
     log("Pausing, tick1 should be called six times and tick2 three times");
     auto & scheduler = Director::getInstance()->getScheduler();
-    _pausedTargets = scheduler.pauseAllTargets();
+    scheduler.pauseAllTargets();
 
-    // should have only 2 items: ActionManager, self
-    CCASSERT(_pausedTargets.size() == 2, "Error: pausedTargets should have only 2 items");
-    
     // because target 'this' has been paused above, so use another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
@@ -193,8 +187,7 @@ void SchedulerPauseResumeAll::resume(float /*dt*/)
 {
     log("Resuming");
     auto director = Director::getInstance();
-    director->getScheduler().resumeTargets(_pausedTargets);
-    _pausedTargets.clear();
+    director->getScheduler().resumeAllTargets();
 }
 
 std::string SchedulerPauseResumeAll::title() const
@@ -235,17 +228,26 @@ void SchedulerPauseResumeAllUser::onEnter()
     this->addChild(sprite);
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick1), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAllUser::pause), this, 3.0f, 0, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick1)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick2)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAllUser::pause)
+            .interval(3.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerPauseResumeAllUser::onExit()
 {
-    if (!_pausedTargets.empty())
-    {
-        Director::getInstance()->getScheduler().resumeTargets(_pausedTargets);
-    }
+    Director::getInstance()->getScheduler().resumeAllTargets();
     SchedulerTestLayer::onExit();
 }
 
@@ -263,7 +265,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 {
     log("Pausing, tick1 and tick2 should be called three times");
     auto director = Director::getInstance();
-    _pausedTargets = director->getScheduler().pauseAllTargetsWithMinPriority(Scheduler::PRIORITY_NON_SYSTEM_MIN);
+    director->getScheduler().pauseAllTargets();
     // because target 'this' has been paused above, so use another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
@@ -275,8 +277,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 void SchedulerPauseResumeAllUser::resume(float /*dt*/)
 {
     log("Resuming");
-    Director::getInstance()->getScheduler().resumeTargets(_pausedTargets);
-    _pausedTargets.clear();
+    Director::getInstance()->getScheduler().resumeAllTargets();
 }
 
 std::string SchedulerPauseResumeAllUser::title() const
@@ -357,8 +358,6 @@ void SchedulerUnscheduleAllHard::onEnter()
     this->addChild(sprite);
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
-    _actionManagerActive = true;
-
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllHard::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
@@ -368,12 +367,6 @@ void SchedulerUnscheduleAllHard::onEnter()
 
 void SchedulerUnscheduleAllHard::onExit()
 {
-    if(!_actionManagerActive) {
-        // Restore the director's action manager.
-        auto director = Director::getInstance();
-        director->getScheduler().scheduleUpdate(director->getActionManager(), Scheduler::PRIORITY_SYSTEM, false);
-    }
-    
     SchedulerTestLayer::onExit();
 }
 
@@ -400,7 +393,6 @@ void SchedulerUnscheduleAllHard::tick4(float /*dt*/)
 void SchedulerUnscheduleAllHard::unscheduleAll(float /*dt*/)
 {
     Director::getInstance()->getScheduler().unscheduleAll();
-    _actionManagerActive = false;
 }
 
 std::string SchedulerUnscheduleAllHard::title() const
@@ -458,7 +450,7 @@ void SchedulerUnscheduleAllUserLevel::tick4(float /*dt*/)
 
 void SchedulerUnscheduleAllUserLevel::unscheduleAll(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unscheduleAllWithMinPriority(Scheduler::PRIORITY_NON_SYSTEM_MIN);
+    Director::getInstance()->getScheduler().unscheduleAll();
 }
 
 std::string SchedulerUnscheduleAllUserLevel::title() const
