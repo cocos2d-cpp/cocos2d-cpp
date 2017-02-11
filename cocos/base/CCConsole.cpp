@@ -283,7 +283,11 @@ ssize_t Console::Utility::mydprintf(int sock, const char *format, ...)
 void Console::Utility::sendPrompt(int fd)
 {
     const char* prompt = _prompt.c_str();
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+    send(fd, prompt, strlen(prompt), MSG_NOSIGNAL);
+#else
     send(fd, prompt, strlen(prompt), 0);
+#endif
 }
 
 void Console::Utility::setPrompt(const std::string &prompt)
