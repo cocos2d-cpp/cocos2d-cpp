@@ -43,9 +43,11 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-class Timer {
+class Scheduler;
+
+class TimedJob {
 public:
-    explicit Timer(std::function<void(float)> callback)
+    explicit TimedJob(std::function<void(float)> callback)
         : _callback(callback)
         , _target(nullptr)
         , _interval(0.0f)
@@ -53,43 +55,70 @@ public:
         , _delay(0.0f)
         , _paused(false)
         , _key()
+        , _scheduler(nullptr)
+        , _elapsed(-1)
+        , _timesExecuted(0)
+        , _runForever(true)
+        , _useDelay(false)
         {}
 
-    Timer & callback(std::function<void(float)> v)
+    template<typename T>
+    TimedJob(T* t, void (T::*f)(float))
+        : TimedJob( [t,f](float dt){ (t->*f)(dt); } )
+        {}
+
+    TimedJob(TimedJob const&) = default;
+    TimedJob& operator=(TimedJob const&) = default;
+    TimedJob(TimedJob &&) = default;
+    TimedJob& operator=(TimedJob &&) = default;
+
+    TimedJob & callback(std::function<void(float)> v)
     {
         _callback = v;
         return *this;
     }
-    Timer & target(void* v)
+    TimedJob & target(void* v)
     {
         _target = v;
         return *this;
     }
-    Timer & interval(float v)
+    TimedJob & interval(float v)
     {
         _interval = v;
         return *this;
     }
-    Timer & repeat(unsigned int v)
+    TimedJob & repeat(unsigned int v)
     {
         _repeat = v;
+        _runForever = (_repeat == CC_REPEAT_FOREVER);
         return *this;
     }
-    Timer & delay(float v)
+    TimedJob & delay(float v)
     {
         _delay = v;
+        _useDelay = (0.0f < _delay);
         return *this;
     }
-    Timer & paused(bool v)
+    TimedJob & paused(bool v)
     {
         _paused = v;
         return *this;
     }
-    Timer & key(std::string v)
+    TimedJob & key(size_t v)
     {
         _key = v;
         return *this;
     }
+    void scheduler(Scheduler* v)
+    {
+        _scheduler = v;
+    }
+
+    void update(float dt);
+
+private:
+    void trigger(float dt);
+    void cancel();
 
 public:
     std::function<void(float)> _callback;
@@ -97,8 +126,15 @@ public:
     float _interval;
     unsigned int _repeat;
     float _delay;
-    bool  _paused;
-    std::string _key;
+    bool _paused;
+    size_t _key;
+
+private:
+    Scheduler* _scheduler;
+    float _elapsed;
+    unsigned int _timesExecuted;
+    bool _runForever;
+    bool _useDelay;
 };
 
 class Ref;
@@ -172,22 +208,13 @@ public:
      */
     void update(float dt);
 
+    void schedule(TimedJob timer);
+    void unschedule(void* target, size_t key);
+    bool isScheduled(void* target, size_t key) const;
+
     /////////////////////////////////////
     
     // schedule
-    void schedule(Timer timer)
-    {
-        CC_ASSERT(timer._callback);
-        schedule(
-            timer._callback,
-            timer._target,
-            timer._interval,
-            timer._repeat,
-            timer._delay,
-            timer._paused,
-            timer._key
-        );
-    }
     
     /** The scheduled method will be called every 'interval' seconds.
      If paused is true, then it won't be called until it is resumed.
@@ -205,8 +232,7 @@ public:
      @param key The key to identify the callback function, because there is not way to identify a std::function<>.
      @since v3.0
      */
-    // TODO CC_DEPRECATED_ATTRIBUTE
-    void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
 
     /** The scheduled method will be called every 'interval' seconds for ever.
      @param callback The callback function.
@@ -269,7 +295,7 @@ public:
      @param target The target to be unscheduled.
      @since v3.0
      */
-    void unschedule(const std::string& key, void *target);
+    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& key, void *target);
 
     /** Unschedules a selector for a given target.
      If you want to unschedule the "update", use `unscheudleUpdate()`.
@@ -317,7 +343,7 @@ public:
      @return True if the specified callback is invoked, false if not.
      @since v3.0.0
      */
-    bool isScheduled(const std::string& key, void *target);
+    CC_DEPRECATED_ATTRIBUTE bool isScheduled(const std::string& key, void *target);
     
     /** Checks whether a selector for a given target is scheduled.
      @param selector The selector to be checked.
@@ -434,11 +460,11 @@ protected:
     // Hash Element used for "selectors with interval"
     typedef struct _hashSelectorEntry
     {
-        std::vector<std::unique_ptr<TimerInt>> timers;
-        int                                 timerIndex;
-        const void*                         currentTimer;
-        bool                                currentTimerSalvaged;
-        bool                                paused;
+        std::vector<std::unique_ptr<TimedJob>> timedJobs;
+        int         timerIndex;
+        const void* currentJob;
+        bool        currentJobSalvaged;
+        bool        paused;
     } tHashTimerEntry;
     // Used for "selectors with interval"
     std::unordered_map<void*,std::unique_ptr<tHashTimerEntry>> _hashForTimers;
@@ -451,13 +477,6 @@ protected:
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
     std::mutex _performMutex;
-
-private:
-    template<typename F>
-        void unschedule(void *target, F compareTimers);
-
-    template<typename TimerT, typename F, typename Target, typename ...Args>
-        void schedule_impl(F match, Target target, bool paused, float interval, Args... args);
 };
 
 // end of base group

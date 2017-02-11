@@ -49,12 +49,13 @@ void ZwoptexGenericTest::onEnter()
     sprite2->setFlippedY(false);
 
     Director::getInstance()->getScheduler().schedule(
-        Timer([=](float dt){ startIn05Secs(dt); })
+        TimedJob(this, &ZwoptexGenericTest::startIn05Secs)
             .target( this )
             .interval( 1.0f )
+            .repeat(0)
             .delay( 5.0f )
             .paused( !_running )
-            .key("startIn05Secs")
+            .key(1)
     );
     
     sprite1->retain();
@@ -65,8 +66,13 @@ void ZwoptexGenericTest::onEnter()
 
 void ZwoptexGenericTest::startIn05Secs(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule("startIn05Secs", this);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ZwoptexGenericTest::flipSprites), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ZwoptexGenericTest::flipSprites)
+            .target( this )
+            .interval( 0.5f )
+            .paused( isPaused() )
+            .key(2)
+    );
 }
 
 static int spriteFrameIndex = 0;

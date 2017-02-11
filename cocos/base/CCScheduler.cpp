@@ -33,152 +33,80 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-// data structures
-
-class CC_DLL TimerInt
-{
-protected:
-    TimerInt(Scheduler* scheduler, float interval_in_seconds, unsigned int repeat, float delay)
-        : _scheduler(scheduler)
-        , _elapsed(-1)
-        , _runForever(repeat == CC_REPEAT_FOREVER)
-        , _useDelay(delay > 0.0f)
-        , _timesExecuted(0)
-        , _repeat(repeat)
-        , _delay(delay)
-        , _interval(interval_in_seconds)
-        {}
-public:
-    /** get interval in seconds */
-    float getInterval() const { return _interval; }
-    /** set interval in seconds */
-    void setInterval(float interval) { _interval = interval; }
-    
-    virtual void trigger(float dt) = 0;
-    virtual void cancel() = 0;
-    
-    /** triggers the timer */
-    void update(float dt)
+namespace {
+    size_t to_key(SEL_SCHEDULE selector)
     {
-        if (_elapsed == -1)
+        return reinterpret_cast<size_t>(reinterpret_cast<void*>(selector));
+    }
+    size_t to_key(std::string const& key)
+    {
+        return std::hash<std::string>()(key);
+    }
+}
+
+void TimedJob::update(float dt)
+{
+    if (_elapsed == -1)
+    {
+        _elapsed = 0;
+        _timesExecuted = 0;
+        return;
+    }
+
+    // accumulate elapsed time
+    _elapsed += dt;
+
+    // deal with delay
+    if (_useDelay)
+    {
+        if (_elapsed < _delay)
         {
-            _elapsed = 0;
-            _timesExecuted = 0;
             return;
         }
-
-        // accumulate elapsed time
-        _elapsed += dt;
-
-        // deal with delay
-        if (_useDelay)
-        {
-            if (_elapsed < _delay)
-            {
-                return;
-            }
-            trigger(_delay);
-            _elapsed = _elapsed - _delay;
-            _timesExecuted++;
-            _useDelay = false;
-            // after delay, the rest time should compare with interval
-            if (!_runForever && _timesExecuted > _repeat)
-            {    //unschedule timer
-                cancel();
-                return;
-            }
-        }
-
-        // if _interval == 0, should trigger once every frame
-        float interval = (_interval > 0) ? _interval : _elapsed;
-        while (_elapsed >= interval)
-        {
-            trigger(interval);
-            _elapsed -= interval;
-            _timesExecuted++;
-
-            if (!_runForever && _timesExecuted > _repeat)
-            {
-                cancel();
-                break;
-            }
-
-            if (_elapsed <= 0.f)
-            {
-                break;
-            }
+        trigger(_delay);
+        _elapsed = _elapsed - _delay;
+        _timesExecuted++;
+        _useDelay = false;
+        // after delay, the rest time should compare with interval
+        if (!_runForever && _timesExecuted > _repeat)
+        {    //unschedule timer
+            cancel();
+            return;
         }
     }
 
-protected:
-    
-    Scheduler* _scheduler; // weak ref
-    float _elapsed;
-    bool _runForever;
-    bool _useDelay;
-    unsigned int _timesExecuted;
-    unsigned int _repeat; //0 = once, 1 is 2 x executed
-    float _delay;
-    float _interval;
-};
+    // if _interval == 0, should trigger once every frame
+    float interval = (_interval > 0) ? _interval : _elapsed;
+    while (_elapsed >= interval)
+    {
+        trigger(interval);
+        _elapsed -= interval;
+        _timesExecuted++;
 
+        if (!_runForever && _timesExecuted > _repeat)
+        {
+            cancel();
+            break;
+        }
 
-class CC_DLL TimerTargetSelector : public TimerInt
+        if (_elapsed <= 0.f)
+        {
+            break;
+        }
+    }
+}
+
+void TimedJob::trigger(float dt)
 {
-public:
-    TimerTargetSelector(Ref* target, float interval, Scheduler* scheduler, SEL_SCHEDULE selector, unsigned int repeat, float delay)
-        : TimerInt(scheduler, interval, repeat, delay)
-        , _target(target)
-        , _selector(selector)
-        {}
-    
-    SEL_SCHEDULE getSelector() const { return _selector; }
-    
-    virtual void trigger(float dt) override
-    {
-        if (_target && _selector)
-            (_target->*_selector)(dt);
-    }
-    virtual void cancel() override
-    {
-        _scheduler->unschedule(_selector, _target);
-    }
-    
-protected:
-    Ref* _target;
-    SEL_SCHEDULE _selector;
-};
+    if (_callback)
+        _callback(dt);
+}
 
-class CC_DLL TimerTargetCallback : public TimerInt
+void TimedJob::cancel()
 {
-public:
-    TimerTargetCallback(void *target, float interval, Scheduler* scheduler, std::function<void(float)> callback, const std::string& key, unsigned int repeat, float delay)
-        : TimerInt(scheduler, interval, repeat, delay)
-        , _target(target)
-        , _callback(callback)
-        , _key(key)
-        {}
-    
-    const std::function<void(float)>& getCallback() const { return _callback; }
-    const std::string& getKey() const { return _key; }
-    
-    virtual void trigger(float dt) override
-    {
-        if (_callback)
-            _callback(dt);
-    }
-
-    virtual void cancel() override
-    {
-        _scheduler->unschedule(_key, _target);
-    }
+    _scheduler->unschedule(_target, _key);
+}
   
-protected:
-    void* _target;
-    std::function<void(float)> _callback;
-    std::string _key;
-};
-
 // implementation of Scheduler
 
 // Priority level reserved for system services.
@@ -207,74 +135,118 @@ Scheduler::~Scheduler(void)
     unscheduleAll();
 }
 
-template<typename TimerT, typename F, typename Target, typename ...Args>
-void Scheduler::schedule_impl(F match, Target target, bool paused, float interval, Args... args)
+void Scheduler::schedule(TimedJob job)
 {
-    auto & element = _hashForTimers[target];
+    CC_ASSERT(job._callback);
+
+    job.scheduler(this);
+
+    auto & element = _hashForTimers[job._target];
 
     if (!element)
     {
         element.reset(new tHashTimerEntry);
-        element->paused = paused;
+        element->paused = job._paused;
     }
     else
     {
-        CCASSERT(element->paused == paused, "element's paused should be paused!");
+        CCASSERT(element->paused == job._paused,
+                 "element's paused should be paused!");
     }
 
-    for (auto & t : element->timers)
+    for (auto & j : element->timedJobs)
     {
-        TimerT *timer = dynamic_cast<TimerT*>(t.get());
-
-        if ( match(timer) )
+        if (j->_key == job._key)
         {
-            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", timer->getInterval(), interval);
-            timer->setInterval(interval);
+            CCLOG("CCScheduler#scheduleSelector. Selector already scheduled. Updating interval from: %.4f to %.4f", j->_interval, job._interval);
+            j->interval(job._interval);
             return;
         }        
     }
 
-    element->timers.push_back(
-        std::unique_ptr<TimerT>(
-            new TimerT(
-                target, interval, std::forward<Args>(args)...
-            )));
+    element->timedJobs.push_back(
+        std::unique_ptr<TimedJob>(
+            new TimedJob(job)
+        ));
 }
 
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& key)
 {
-    this->schedule(callback, target, interval, CC_REPEAT_FOREVER, 0.0f, paused, key);
+    schedule(
+        TimedJob(callback)
+            .target(target)
+            .interval(interval)
+            .paused(paused)
+            .key(to_key(key))
+    );
 }
 
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key)
 {
-    CCASSERT(target, "Argument target must be non-nullptr");
-
-    schedule_impl<TimerTargetCallback>(
-        [&key] (const TimerTargetCallback *timer) {
-            return timer && key == timer->getKey();
-        },
-        target, paused, interval, this, callback, key, repeat, delay);
+    schedule(
+        TimedJob(callback)
+            .target(target)
+            .interval(interval)
+            .repeat(repeat)
+            .delay(delay)
+            .paused(paused)
+            .key(to_key(key))
+    );
 }
 
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
 {
     CCASSERT(target, "Argument target must be non-nullptr");
     
-    schedule_impl<TimerTargetSelector>(
-        [&selector] (const TimerTargetSelector *timer) {
-            return timer && selector == timer->getSelector();
-        },
-        target, paused, interval, this, selector, repeat, delay);
+    schedule(
+        TimedJob(target, selector)
+            .target(target)
+            .interval(interval)
+            .repeat(repeat)
+            .delay(delay)
+            .paused(paused)
+            .key(to_key(selector))
+    );
 }
 
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
 {
-    this->schedule(selector, target, interval, CC_REPEAT_FOREVER, 0.0f, paused);
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    schedule(
+        TimedJob(target, selector)
+            .target(target)
+            .interval(interval)
+            .paused(paused)
+            .key(to_key(selector))
+    );
 }
 
-template<typename F>
-void Scheduler::unschedule(void *target, F compareTimers)
+bool Scheduler::isScheduled(void* target, size_t key) const
+{
+    CCASSERT(target, "Argument target must be non-nullptr");
+    
+    auto it = _hashForTimers.find(target);
+
+    return _hashForTimers.end() != it
+        && it->second->timedJobs.end() != std::find_if(it->second->timedJobs.begin(),
+                                                    it->second->timedJobs.end(),
+                                                    [key] (const std::unique_ptr<TimedJob> & p) {
+                                                        return p->_key = key;
+                                                    });
+}
+
+bool Scheduler::isScheduled(const std::string& key, void *target)
+{
+    return isScheduled(target, to_key(key));
+}
+
+bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref *target)
+{
+    return isScheduled(target, to_key(selector));
+}
+
+void Scheduler::unschedule(void *target, size_t key)
 {
     auto element_it = _hashForTimers.find(target);
 
@@ -284,30 +256,34 @@ void Scheduler::unschedule(void *target, F compareTimers)
     }
 
     auto & element = *element_it->second;
-    auto & timers = element.timers;
+    auto & timedJobs = element.timedJobs;
 
-    auto timer_it = std::find_if( timers.begin(), timers.end(), compareTimers );
+    auto job_it = std::find_if(
+        timedJobs.begin(), timedJobs.end(),
+        [key](const std::unique_ptr<TimedJob> & p) {
+            return key == p->_key;
+        });
 
-    if (timer_it == timers.end())
+    if (job_it == timedJobs.end())
     {
         return;
     }
 
-    if ((! element.currentTimerSalvaged)
-        && timer_it->get() == element.currentTimer)
+    if ((! element.currentJobSalvaged)
+        && job_it->get() == element.currentJob)
     {
-        element.currentTimerSalvaged = true;
+        element.currentJobSalvaged = true;
     }
 
     // update timerIndex in case we are in tick:, looping over the actions
-    if (element.timerIndex >= std::distance(timers.begin(), timer_it))
+    if (element.timerIndex >= std::distance(timedJobs.begin(), job_it))
     {
         element.timerIndex--;
     }
 
-    timers.erase(timer_it);
+    timedJobs.erase(job_it);
 
-    if (timers.empty())
+    if (timedJobs.empty())
     {
         if (_currentTarget == target)
         {
@@ -323,30 +299,12 @@ void Scheduler::unschedule(void *target, F compareTimers)
 
 void Scheduler::unschedule(const std::string &key, void *target)
 {
-    // explicit handle nil arguments when removing an object
-    if (target == nullptr)
-    {
-        return;
-    }
-    unschedule(target,
-               [&key](const std::unique_ptr<TimerInt> & p) {
-                   auto timer = dynamic_cast<const TimerTargetCallback*>(p.get());
-                   return timer && key == timer->getKey();
-               });
+    unschedule(target, to_key(key));
 }
 
 void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
 {
-    if (target == nullptr || selector == nullptr)
-    {
-        return;
-    }
-
-    unschedule(target,
-               [&selector](const std::unique_ptr<TimerInt> & p) {
-                   auto timer = dynamic_cast<const TimerTargetSelector*>(p.get());
-                   return timer && selector == timer->getSelector();
-               });
+    unschedule(target, to_key(selector));
 }
 
 void Scheduler::priorityIn(tListEntry **list, std::function<void(float)> callback, void *target, int priority, bool paused)
@@ -473,30 +431,6 @@ void Scheduler::schedulePerFrame(std::function<void(float)> callback, void *targ
     }
 }
 
-bool Scheduler::isScheduled(const std::string& key, void *target)
-{
-    CCASSERT(target, "Argument target must be non-nullptr");
-    
-    auto element_it = _hashForTimers.find(target);
-
-    if (_hashForTimers.end() != element_it)
-    {
-        auto & timers = element_it->second->timers;
-
-        for (auto it = timers.begin(), end = timers.end(); it != end; it++)
-        {
-            TimerTargetCallback *timer = dynamic_cast<TimerTargetCallback*>(it->get());
-
-            if (timer && key == timer->getKey())
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
 void Scheduler::removeUpdateFromHash(tListEntry *entry)
 {
     tHashUpdateEntry *element = nullptr;
@@ -613,21 +547,22 @@ void Scheduler::unscheduleAllForTarget(void *target)
         }
         else
         {
-            auto & timers = it->second->timers;
+            auto & timedJobs = it->second->timedJobs;
 
-            if (! it->second->currentTimerSalvaged)
+            if (! it->second->currentJobSalvaged)
             {
-                auto currentTimer_it = std::find_if(timers.begin(), timers.end(),
-                                                    [it](const std::unique_ptr<TimerInt> & p) {
-                                                        return p.get() == it->second->currentTimer;
-                                                    });
-                if (currentTimer_it !=  timers.end())
+                auto currentJob_it = std::find_if(
+                    timedJobs.begin(), timedJobs.end(),
+                    [it](const std::unique_ptr<TimedJob> & p) {
+                        return p.get() == it->second->currentJob;
+                    });
+                if (currentJob_it !=  timedJobs.end())
                 {
-                    it->second->currentTimerSalvaged = true;
+                    it->second->currentJobSalvaged = true;
                 }
             }
 
-            timers.clear();
+            timedJobs.clear();
 
             _currentTargetSalvaged = true;
         }
@@ -823,13 +758,13 @@ void Scheduler::update(float dt)
 
         if (! elt->paused)
         {
-            // The 'timers' array may change while inside this loop
-            for (elt->timerIndex = 0; elt->timerIndex < static_cast<int>(elt->timers.size()); elt->timerIndex++)
+            // The 'timedJobs' array may change while inside this loop
+            for (elt->timerIndex = 0; elt->timerIndex < static_cast<int>(elt->timedJobs.size()); elt->timerIndex++)
             {
-                auto & currentTimer = elt->timers[elt->timerIndex];
-                elt->currentTimer = currentTimer.get();
-                elt->currentTimerSalvaged = false;
-                currentTimer->update(dt);
+                auto & currentJob = elt->timedJobs[elt->timerIndex];
+                elt->currentJob = currentJob.get();
+                elt->currentJobSalvaged = false;
+                currentJob->update(dt);
             }
         }
 
@@ -838,7 +773,7 @@ void Scheduler::update(float dt)
         CC_ASSERT(it != _hashForTimers.end());
 
         // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
-        if (_currentTargetSalvaged && elt->timers.empty())
+        if (_currentTargetSalvaged && elt->timedJobs.empty())
         {
             CC_ASSERT(it == _hashForTimers.find(target));
             it = _hashForTimers.erase(it);
@@ -897,31 +832,6 @@ void Scheduler::update(float dt)
         }
         
     }
-}
-
-bool Scheduler::isScheduled(SEL_SCHEDULE selector, Ref *target)
-{
-    CCASSERT(selector, "Argument selector must be non-nullptr");
-    CCASSERT(target, "Argument target must be non-nullptr");
-    
-    auto element_it = _hashForTimers.find(target);
-
-    if (_hashForTimers.end() != element_it)
-    {
-        auto & timers = element_it->second->timers;
-
-        for (auto it = timers.begin(), end = timers.end(); it != end; it++)
-        {
-            TimerTargetSelector *timer = dynamic_cast<TimerTargetSelector*>(it->get());
-
-            if (timer && selector == timer->getSelector())
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 } // namespace cocos2d

@@ -425,16 +425,12 @@ std::string StressTest2::subtitle() const
 SchedulerTest1::SchedulerTest1()
 {
     auto layer = Layer::create();
-    //CCLOG("retain count after init is %d", layer->getReferenceCount());                // 1
     
     addChild(layer, 0);
-    //CCLOG("retain count after addChild is %d", layer->getReferenceCount());      // 2
     
     Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), layer, 0.0f, CC_REPEAT_FOREVER, 0.0f, layer->isPaused(), "do_something_key");
-    //CCLOG("retain count after schedule is %d", layer->getReferenceCount());      // 3 : (object-c viersion), but win32 version is still 2, because Timer class don't save target.
     
     Director::getInstance()->getScheduler().unschedule("do_something_key", layer);
-    //CCLOG("retain count after unschedule is %d", layer->getReferenceCount());        // STILL 3!  (win32 is '2')
 }
 
 void SchedulerTest1::doSomething(float /*dt*/)

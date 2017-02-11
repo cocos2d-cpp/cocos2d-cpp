@@ -1278,7 +1278,7 @@ public:
     /// @} end of Actions
 
     /// @{
-    /// @name Scheduler and Timer
+    /// @name Scheduler
 
     /**
      * Resumes all scheduled selectors, actions and event listeners.
@@ -1296,7 +1296,7 @@ public:
      */
     virtual void update(float delta);
 
-    /// @} end of Scheduler and Timer
+    /// @} end of Scheduler
 
     /// @{
     /// @name Transformations
