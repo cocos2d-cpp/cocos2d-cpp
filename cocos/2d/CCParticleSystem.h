@@ -27,7 +27,6 @@ THE SOFTWARE.
 #ifndef __CCPARTICLE_SYSTEM_H__
 #define __CCPARTICLE_SYSTEM_H__
 
-#include "base/CCProtocols.h"
 #include "2d/CCNode.h"
 #include "base/CCValue.h"
 
@@ -194,7 +193,7 @@ emitter.startSpin = 0;
 #endif
 #endif
 
-class CC_DLL ParticleSystem : public Node, public PlayableProtocol
+class CC_DLL ParticleSystem : public Node
 {
 public:
     /** Mode
@@ -762,11 +761,8 @@ public:
 
     const std::string& getResourceFile() const { return _plistFile; }
 
-    /// @{
-    /// @name implement Playable Protocol
-    virtual void start() override;
-    virtual void stop() override;
-    /// @} end of PlaybleProtocol
+    void start();
+    void stop();
 
     /** Are the emissions paused
      @return True if the emissions are paused, else false

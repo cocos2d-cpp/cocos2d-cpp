@@ -486,7 +486,6 @@ void Scheduler::update(float dt)
     // Selector callbacks
     //
 
-    // updates with priority < 0
     for (auto & entry : _updatesList)
     {
         if (!entry.paused && !entry.markedForDeletion)
