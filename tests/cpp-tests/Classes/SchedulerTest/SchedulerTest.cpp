@@ -229,17 +229,17 @@ void SchedulerPauseResumeAllUser::onEnter()
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::tick1)
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick1, 1)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::tick2)
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick2, 2)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::pause)
+        TimedJob(this, &SchedulerPauseResumeAllUser::pause, 0)
             .interval(3.0f)
             .paused(isPaused())
     );
@@ -247,7 +247,6 @@ void SchedulerPauseResumeAllUser::onEnter()
 
 void SchedulerPauseResumeAllUser::onExit()
 {
-    Director::getInstance()->getScheduler().resumeAllTargets();
     SchedulerTestLayer::onExit();
 }
 

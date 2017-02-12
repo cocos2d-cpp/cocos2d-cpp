@@ -53,8 +53,7 @@ namespace cocos2d { namespace network
 
         // scheduler for update processing and finished task in main schedule
         void _onSchedule(float);
-        std::string             _schedulerKey;
-        Scheduler*              _scheduler;
+        Scheduler* _scheduler;
     };
 
 }}  // namespace cocos2d::network

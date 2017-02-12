@@ -38,7 +38,11 @@
 // member function with suffix "Proc" designed called in DownloaderCURL::_threadProc
 // member function without suffix designed called in main thread
 
-namespace cocos2d { namespace network {
+namespace cocos2d {
+namespace network {
+
+static constexpr size_t SCHED_JOB_ID = 0;
+
     using namespace std;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -718,20 +722,16 @@ namespace cocos2d { namespace network {
             return dataLen;
         };
 
-        char key[128];
-        sprintf(key, "DownloaderCURL(%p)", this);
-        _schedulerKey = key;
-
-        _scheduler->schedule(bind(&DownloaderCURL::_onSchedule, this, placeholders::_1),
-                             this,
-                             0.1f,
-                             true,
-                             _schedulerKey);
+        _scheduler->schedule(
+            TimedJob(this, &DownloaderCURL::_onSchedule, SCHED_JOB_ID)
+                .interval(0.1f)
+                .paused(true)
+        );
     }
 
     DownloaderCURL::~DownloaderCURL()
     {
-        _scheduler->unschedule(_schedulerKey, this);
+        _scheduler->unschedule(this, SCHED_JOB_ID);
         _impl->stop();
         DLLOG("Destruct DownloaderCURL %p", this);
     }
@@ -849,5 +849,6 @@ namespace cocos2d { namespace network {
         }
     }
 
-}}  //  namespace cocos2d::network
+} //  namespace network
+} //  namespace cocos2d
 

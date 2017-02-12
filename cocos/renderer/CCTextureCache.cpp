@@ -41,15 +41,11 @@ THE SOFTWARE.
 #include "base/ccUtils.h"
 #include "base/CCNinePatchImageParser.h"
 
-
-
-using namespace std;
-
 namespace cocos2d {
 
 std::string TextureCache::s_etc1AlphaFileSuffix = "@alpha";
 
-// implementation TextureCache
+// implementation TextureCach
 
 void TextureCache::setETC1AlphaFileSuffix(const std::string& suffix)
 {
@@ -149,10 +145,10 @@ void TextureCache::addImageAsync(const std::string &path, const std::function<vo
 
     if (0 == _asyncRefCount)
     {
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TextureCache::addImageAsyncCallBack), this, 0, false);
+        Director::getInstance()->getScheduler().scheduleUpdate(this, 1, false);
     }
 
-    ++_asyncRefCount;
+    _asyncRefCount++;
 
     // generate async struct
     AsyncStruct *data = new (std::nothrow) AsyncStruct(fullpath, callback);
@@ -237,7 +233,12 @@ void TextureCache::loadImage()
     }
 }
 
-void TextureCache::addImageAsyncCallBack(float /*dt*/)
+void TextureCache::update(float /*dt*/)
+{
+    addImageAsyncCallBack();
+}
+
+void TextureCache::addImageAsyncCallBack()
 {
     Texture2D *texture = nullptr;
     AsyncStruct *asyncStruct = nullptr;
@@ -319,7 +320,7 @@ void TextureCache::addImageAsyncCallBack(float /*dt*/)
 
     if (0 == _asyncRefCount)
     {
-        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TextureCache::addImageAsyncCallBack), this);
+        Director::getInstance()->getScheduler().unscheduleUpdate(this);
     }
 }
 

@@ -727,7 +727,11 @@ void SIOClientImpl::onOpen(WebSocket* /*ws*/)
         _ws->send(s.data());
     }
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SIOClientImpl::heartbeat), this, (_heartbeat * .9f), false);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SIOClientImpl::heartbeat, 0)
+            .interval(_heartbeat * 0.9f)
+            .paused(false)
+    );
 
     for (auto& client : _clients)
     {

@@ -189,9 +189,10 @@ public:
     */
     void renameTextureWithKey(const std::string& srcName, const std::string& dstName);
 
+    void update(float dt);
 
 private:
-    void addImageAsyncCallBack(float dt);
+    void addImageAsyncCallBack();
     void loadImage();
     void parseNinePatchImage(Image* image, Texture2D* texture, const std::string& path);
 public:

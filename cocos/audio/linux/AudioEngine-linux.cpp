@@ -108,7 +108,11 @@ bool AudioEngineImpl::init()
     mapSound.clear();
 
     auto & scheduler = Director::getInstance()->getScheduler();
-    scheduler.schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.05f, false);
+    scheduler.schedule(
+        TimedJob(this, &AudioEngineImpl::update, 0)
+            .interval(0.05f)
+            .paused(false)
+    );
 
     g_AudioEngineImpl = this;
 

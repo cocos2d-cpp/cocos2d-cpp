@@ -133,7 +133,11 @@ void TransitionScene::finish()
     _outScene->setAdditionalTransform(nullptr);
 
     //[self schedule:@selector(setNewScene:) interval:0];
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TransitionScene::setNewScene), this, 0, 0, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TransitionScene::setNewScene, 0)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void TransitionScene::setNewScene(float /*dt*/)

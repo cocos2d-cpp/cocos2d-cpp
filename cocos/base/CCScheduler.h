@@ -44,24 +44,20 @@ class Scheduler;
 
 class CC_DLL TimedJob {
 public:
-    explicit TimedJob(std::function<void(float)> callback)
-        : _callback(callback)
-        , _target(nullptr)
-        , _interval(0.0f)
-        , _repeat(CC_REPEAT_FOREVER)
-        , _delay(0.0f)
-        , _paused(false)
-        , _key()
-        , _scheduler(nullptr)
-        , _elapsed(-1)
-        , _timesExecuted(0)
-        , _runForever(true)
-        , _useDelay(false)
-        {}
+    TimedJob(void* target, std::function<void(float)> callback, size_t id)
+        : _target(target)
+        , _callback(callback)
+        , _id(id)
+        {
+            CC_ASSERT(_target);
+            CC_ASSERT(_callback);
+        }
 
     template<typename T>
-    TimedJob(T* t, void (T::*f)(float))
-        : TimedJob( [t,f](float dt){ (t->*f)(dt); } )
+    TimedJob(T* target, void (T::*func)(float), size_t id)
+        : TimedJob(target,
+                   [target,func](float dt){ (target->*func)(dt); },
+                   id)
         {}
 
     TimedJob(TimedJob const&) = default;
@@ -69,16 +65,10 @@ public:
     TimedJob(TimedJob &&) = default;
     TimedJob& operator=(TimedJob &&) = default;
 
-    TimedJob & callback(std::function<void(float)> v)
-    {
-        _callback = v;
-        return *this;
-    }
-    TimedJob & target(void* v)
-    {
-        _target = v;
-        return *this;
-    }
+    void* target() const { return _target; }
+    size_t id() const { return _id; }
+    bool paused() const { return _paused; }
+
     TimedJob & interval(float v)
     {
         _interval = v;
@@ -101,11 +91,6 @@ public:
         _paused = v;
         return *this;
     }
-    TimedJob & key(size_t v)
-    {
-        _key = v;
-        return *this;
-    }
     void scheduler(Scheduler* v)
     {
         _scheduler = v;
@@ -117,21 +102,20 @@ private:
     void trigger(float dt);
     void cancel();
 
-public:
-    std::function<void(float)> _callback;
-    void* _target;
-    float _interval;
-    unsigned int _repeat;
-    float _delay;
-    bool _paused;
-    size_t _key;
-
 private:
-    Scheduler* _scheduler;
-    float _elapsed;
-    unsigned int _timesExecuted;
-    bool _runForever;
-    bool _useDelay;
+    void* _target;
+    std::function<void(float)> _callback;
+    size_t _id;
+    float _interval  = 0.0f;
+    unsigned _repeat = CC_REPEAT_FOREVER;
+    float _delay     = 0.0f;
+    bool _paused     = false;
+
+    Scheduler* _scheduler = nullptr;
+    float _elapsed        = -1;
+    unsigned _timesExecuted = 0;
+    bool _runForever      = true;
+    bool _useDelay        = false;
 };
 
 // deprecated
@@ -170,8 +154,7 @@ public:
     void setTimeScale(float timeScale) { _timeScale = timeScale; }
 
     void schedule(TimedJob timer);
-    void unschedule(void* target, size_t key);
-    bool isScheduled(void* target, size_t key) const;
+    void unschedule(void* target, size_t id);
 
     /* updates per frame
      * The lower the priority, the earlier it is called.
@@ -253,6 +236,7 @@ private:
     updates_list_t _updatesList; // list sorted by priority
     updates_hash_t _hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
 
+    // TODO store all TimedJobs in a single vector (might be based on PriorityList)
     // Used for "selectors with interval"
     timedjobs_hash_t _hashForTimers;
 
@@ -267,14 +251,12 @@ private:
 
 public: // deprecated
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& key);
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, bool paused, const std::string& key);
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id);
+    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)>, void *target, float interval, bool paused, const std::string& id);
     CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
     CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
-    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& key, void *target);
+    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& id, void *target);
     CC_DEPRECATED_ATTRIBUTE void unschedule(SEL_SCHEDULE selector, Ref *target);
-    CC_DEPRECATED_ATTRIBUTE bool isScheduled(const std::string& key, void *target);
-    CC_DEPRECATED_ATTRIBUTE bool isScheduled(SEL_SCHEDULE selector, Ref *target);
 };
 
 // end of base group
