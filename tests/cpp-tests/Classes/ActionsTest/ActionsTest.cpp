@@ -2048,7 +2048,7 @@ void Issue1305_2::onEnter()
     );
 
     //    [spr runAction:actF);
-    Director::getInstance()->getActionManager()->addAction(actF ,spr, false);
+    Director::getInstance()->getActionManager().addAction(actF ,spr, false);
 
 }
 
@@ -2438,7 +2438,7 @@ void PauseResumeActions::onEnter()
         [&](float /*dt*/){
             log("Pausing");
             auto director = Director::getInstance();
-            _pausedTargets = director->getActionManager()->pauseAllRunningActions();
+            _pausedTargets = director->getActionManager().pauseAllRunningActions();
         },
         this, 3, false, 0, !_running,"pause_key");
 
@@ -2446,7 +2446,7 @@ void PauseResumeActions::onEnter()
         [&](float /*dt*/) {
             log("Resuming");
             auto director = Director::getInstance();
-            director->getActionManager()->resumeTargets(_pausedTargets);
+            director->getActionManager().resumeTargets(_pausedTargets);
             _pausedTargets.clear();
         },
         this, 5, false, 0, !_running, "resume_key");

@@ -1181,22 +1181,6 @@ public:
     /// @name Actions
 
     /**
-     * Sets the ActionManager object that is used by all actions.
-     *
-     * @warning If you set a new ActionManager, then previously created actions will be removed.
-     *
-     * @param actionManager     A ActionManager object that is used by all actions.
-     */
-    virtual void setActionManager(ActionManager* actionManager);
-    /**
-     * Gets the ActionManager object that is used by all actions.
-     * @see setActionManager(ActionManager*)
-     * @return A ActionManager object.
-     */
-    virtual ActionManager* getActionManager() { return _actionManager; }
-    virtual const ActionManager* getActionManager() const { return _actionManager; }
-
-    /**
      * Executes an action, and returns the action that is executed.
      *
      * This node becomes the action's target. Refer to Action::getTarget().
@@ -1715,8 +1699,6 @@ protected:
     Ref *_userObject;               ///< A user assigned Object
 
     GLProgramState *_glProgramState; ///< OpenGL Program State
-
-    ActionManager *_actionManager;  ///< a pointer to ActionManager singleton, which is used to handle all the actions
 
     EventDispatcher* _eventDispatcher;  ///< event dispatcher used to dispatch all kinds of events
 

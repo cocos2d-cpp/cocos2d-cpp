@@ -30,7 +30,6 @@ THE SOFTWARE.
 #define __ACTION_CCACTION_MANAGER_H__
 
 #include "2d/CCAction.h"
-#include "base/CCRef.h"
 
 namespace cocos2d {
 
@@ -54,7 +53,7 @@ struct _hashElement;
  
  @since v0.8
  */
-class CC_DLL ActionManager : public Ref
+class CC_DLL ActionManager final
 {
 public:
     ActionManager();

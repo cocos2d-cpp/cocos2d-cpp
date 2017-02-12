@@ -203,7 +203,7 @@ void Effect4::onEnter()
     this->addChild(pTarget);
     //gridNode->addChild(pTarget);
 
-    director->getActionManager()->addAction(seq, pTarget, false);
+    director->getActionManager().addAction(seq, pTarget, false);
     
     _bgNode->runAction( lens );
 }

@@ -31,12 +31,13 @@ THE SOFTWARE.
 #include <thread>
 #include <chrono>
 
-#include "platform/CCPlatformMacros.h"
-#include "base/CCScheduler.h"
+#include "2d/CCActionManager.h"
 #include "2d/CCScene.h"
+#include "base/CCScheduler.h"
 #include "math/CCMath.h"
 #include "platform/CCGL.h"
 #include "platform/CCGLView.h"
+#include "platform/CCPlatformMacros.h"
 
 #include <vector>
 
@@ -50,7 +51,6 @@ namespace cocos2d {
 /* Forward declarations. */
 class LabelAtlas;
 class Node;
-class ActionManager;
 class EventDispatcher;
 class EventCustom;
 class TextureCache;
@@ -386,7 +386,7 @@ public:
     /** Gets the ActionManager associated with this director.
      * @since v2.0
      */
-    ActionManager* getActionManager() const { return _actionManager; }
+    ActionManager & getActionManager() { return _actionManager; }
     
     /** Sets the ActionManager associated with this director.
      * @since v2.0
@@ -579,7 +579,7 @@ protected:
     /** ActionManager associated with this director
      @since v2.0
      */
-    ActionManager *_actionManager;
+    ActionManager _actionManager;
     
     /** EventDispatcher associated with this director
      @since v3.0

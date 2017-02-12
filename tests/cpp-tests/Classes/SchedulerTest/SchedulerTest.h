@@ -240,27 +240,6 @@ public:
     cocos2d::extension::ControlSlider* _sliderCtl;
 };
 
-
-class TwoSchedulers : public SchedulerTestLayer
-{
-public:
-    CREATE_FUNC(TwoSchedulers);
-
-    virtual ~TwoSchedulers();
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-    void onEnter() override;
-    cocos2d::extension::ControlSlider* sliderCtl();
-    void sliderAction(cocos2d::Ref* sender, cocos2d::extension::Control::EventType controlEvent);
-    cocos2d::Scheduler* sched1;
-    cocos2d::Scheduler* sched2;
-    cocos2d::ActionManager* actionManager1;
-    cocos2d::ActionManager* actionManager2;
-
-    cocos2d::extension::ControlSlider* sliderCtl1;
-    cocos2d::extension::ControlSlider* sliderCtl2;
-};
-
 class SchedulerIssue2268 : public SchedulerTestLayer
 {
 public:

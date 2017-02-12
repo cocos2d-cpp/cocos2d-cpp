@@ -159,7 +159,7 @@ void PauseTest::onEnter()
     auto action = MoveBy::create(1, Vec2(150,0));
 
     auto director = Director::getInstance();
-    director->getActionManager()->addAction(action, grossini, true);
+    director->getActionManager().addAction(action, grossini, true);
 
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PauseTest::unpause), this, 3, CC_REPEAT_FOREVER, 0.0f, isPaused());
 }
@@ -169,7 +169,7 @@ void PauseTest::unpause(float /*dt*/)
     Director::getInstance()->getScheduler().unschedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause), this );
     auto node = getChildByTag( kTagGrossini );
     auto director = Director::getInstance();
-    director->getActionManager()->resumeTarget(node);
+    director->getActionManager().resumeTarget(node);
 }
 
 std::string PauseTest::subtitle() const
@@ -288,7 +288,7 @@ void ResumeTest::onEnter()
     pGrossini->runAction(ScaleBy::create(2, 2));
 
     auto director = Director::getInstance();
-    director->getActionManager()->pauseTarget(pGrossini);
+    director->getActionManager().pauseTarget(pGrossini);
     pGrossini->runAction(RotateBy::create(2, 360));
 
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), this, 3.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
@@ -300,7 +300,7 @@ void ResumeTest::resumeGrossini(float /*time*/)
 
     auto pGrossini = getChildByTag(kTagGrossini);
     auto director = Director::getInstance();
-    director->getActionManager()->resumeTarget(pGrossini);
+    director->getActionManager().resumeTarget(pGrossini);
 }
 
 //------------------------------------------------------------------

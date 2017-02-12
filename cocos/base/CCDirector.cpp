@@ -143,9 +143,6 @@ bool Director::init()
 
     _console = new (std::nothrow) Console;
 
-    // action manager
-    _actionManager = new (std::nothrow) ActionManager();
-
     _eventDispatcher = new (std::nothrow) EventDispatcher();
     _eventAfterDraw = new (std::nothrow) EventCustom(EVENT_AFTER_DRAW);
     _eventAfterDraw->setUserData(this);
@@ -179,7 +176,6 @@ Director::~Director(void)
     _runningScene.reset();
     CC_SAFE_RELEASE(_notificationNode);
     _scheduler.unscheduleAll();
-    CC_SAFE_RELEASE(_actionManager);
     CC_SAFE_RELEASE(_defaultFBO);
     
     delete _eventBeforeUpdate;
@@ -260,7 +256,7 @@ void Director::drawScene()
     if (! _paused)
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
-        _actionManager->update(_deltaTime);
+        _actionManager.update(_deltaTime);
         _scheduler.update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
@@ -1257,16 +1253,6 @@ void Director::setNotificationNode(Node *node)
 	_notificationNode->onEnter();
 	_notificationNode->onEnterTransitionDidFinish();
     CC_SAFE_RETAIN(_notificationNode);
-}
-
-void Director::setActionManager(ActionManager* actionManager)
-{
-    if (_actionManager != actionManager)
-    {
-        CC_SAFE_RETAIN(actionManager);
-        CC_SAFE_RELEASE(_actionManager);
-        _actionManager = actionManager;
-    }    
 }
 
 void Director::setEventDispatcher(EventDispatcher* dispatcher)
