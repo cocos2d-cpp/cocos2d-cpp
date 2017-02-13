@@ -49,6 +49,10 @@ public:
     TimedJob(void* target, std::function<void(float)> callback, size_t id)
         : _target(target)
         , _id(id)
+        , _interval(0.0f)
+        , _paused(false)
+        , _repeat(CC_REPEAT_FOREVER)
+        , _leftover(-std::numeric_limits<float>::epsilon())
         , _callback(callback)
         {
             CC_ASSERT(_target);
@@ -76,7 +80,7 @@ public:
         _interval = v;
         return *this;
     }
-    TimedJob & repeat(unsigned int v)
+    TimedJob & repeat(uint32_t v)
     {
         _repeat = v;
         return *this;
@@ -105,10 +109,10 @@ private:
     void* _target;
     size_t _id;
 
-    float    _interval = 0.0f;
-    uint32_t _repeat   = CC_REPEAT_FOREVER;
-    float    _leftover = -std::numeric_limits<float>::epsilon();
-    bool     _paused   = false;
+    float    _interval;
+    uint32_t _paused:1;
+    uint32_t _repeat:31;
+    float    _leftover;
 
     std::function<void(float)> _callback;
 };

@@ -32,7 +32,8 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-const uint32_t CC_REPEAT_FOREVER = static_cast<uint32_t>(-1);
+const uint32_t CC_REPEAT_FOREVER = static_cast<uint32_t>(-1) >> 1;
+
 
 namespace {
     size_t to_id(SEL_SCHEDULE selector)
@@ -47,6 +48,9 @@ namespace {
 
 void TimedJob::update(Scheduler & scheduler, float dt)
 {
+    CC_ASSERT(!_paused);
+    CC_ASSERT(_repeat <= CC_REPEAT_FOREVER);
+
     if (_leftover < 0.0f)
     {
         if (_leftover + dt < 0.0f)
@@ -389,6 +393,11 @@ void Scheduler::updatePausedState(void *target, bool paused)
     if (_hashForTimers.end() != timers_hash_it)
     {
         timers_hash_it->second->paused = paused;
+        std::for_each(timers_hash_it->second->timedJobs.begin(),
+                      timers_hash_it->second->timedJobs.end(),
+                      [paused](std::unique_ptr<TimedJob> & p){
+                          p->paused(paused);
+                      });
     }
 
     auto updates_hash_it = _hashForUpdates.find(target);
@@ -436,6 +445,11 @@ void Scheduler::updatePausedState(bool paused)
     for (auto & pair : _hashForTimers)
     {
         pair.second->paused = paused;
+        std::for_each(pair.second->timedJobs.begin(),
+                      pair.second->timedJobs.end(),
+                      [paused](std::unique_ptr<TimedJob> & p){
+                          p->paused(paused);
+                      });
     }
 
     // Updates selectors
