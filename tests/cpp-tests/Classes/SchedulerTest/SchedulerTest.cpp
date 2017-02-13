@@ -179,7 +179,7 @@ void SchedulerPauseResumeAll::pause(float /*dt*/)
     Director::getInstance()->getScheduler().schedule(
         [this](float dt) {
             this->resume(dt);
-        }, child123, 0.0f, 0, 2.0f, child123->isPaused(), "test resume");
+        }, child123, 0.0f, 0, 2.0f, true, "test resume");
 }
 
 void SchedulerPauseResumeAll::resume(float /*dt*/)

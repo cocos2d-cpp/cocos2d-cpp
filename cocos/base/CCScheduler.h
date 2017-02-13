@@ -29,7 +29,6 @@ THE SOFTWARE.
 
 #include "platform/CCPlatformDefine.h" // CC_DLL
 #include "platform/CCPlatformMacros.h" // CC_DEPRECATED_ATTRIBUTE
-#include "base/ccMacros.h" // CC_REPEAT_FOREVER
 
 #include <functional>
 #include <list>
@@ -39,6 +38,8 @@ THE SOFTWARE.
 #include <vector>
 
 namespace cocos2d {
+
+extern const uint32_t CC_REPEAT_FOREVER;
 
 class Scheduler;
 
@@ -77,7 +78,6 @@ public:
     TimedJob & repeat(unsigned int v)
     {
         _repeat = v;
-        _runForever = (_repeat == CC_REPEAT_FOREVER);
         return *this;
     }
     TimedJob & delay(float v)
@@ -91,30 +91,23 @@ public:
         _paused = v;
         return *this;
     }
-    void scheduler(Scheduler* v)
-    {
-        _scheduler = v;
-    }
 
-    void update(float dt);
+    void update(Scheduler &, float dt);
 
 private:
     void trigger(float dt);
-    void cancel();
+    void cancel(Scheduler &);
 
 private:
     void* _target;
     std::function<void(float)> _callback;
     size_t _id;
     float _interval  = 0.0f;
-    unsigned _repeat = CC_REPEAT_FOREVER;
+    uint32_t _repeat = CC_REPEAT_FOREVER;
     float _delay     = 0.0f;
     bool _paused     = false;
 
-    Scheduler* _scheduler = nullptr;
     float _elapsed        = -1;
-    unsigned _timesExecuted = 0;
-    bool _runForever      = true;
     bool _useDelay        = false;
 };
 

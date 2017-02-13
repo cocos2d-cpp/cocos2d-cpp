@@ -68,8 +68,6 @@ THE SOFTWARE.
  */
 #define CC_RADIANS_TO_DEGREES(__ANGLE__) ((__ANGLE__) * 57.29577951f) // PI * 180
 
-#define CC_REPEAT_FOREVER (UINT_MAX -1)
-
 /** @def CC_CONTENT_SCALE_FACTOR
 On Mac it returns 1;
 On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1

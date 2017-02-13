@@ -26,9 +26,13 @@ THE SOFTWARE.
 
 #include "base/CCScheduler.h"
 
+#include "base/ccMacros.h"
+
 #include <algorithm>
 
 namespace cocos2d {
+
+const uint32_t CC_REPEAT_FOREVER = static_cast<uint32_t>(-1);
 
 namespace {
     size_t to_id(SEL_SCHEDULE selector)
@@ -41,12 +45,11 @@ namespace {
     }
 }
 
-void TimedJob::update(float dt)
+void TimedJob::update(Scheduler & scheduler, float dt)
 {
-    if (_elapsed == -1)
+    if (_elapsed < -1)
     {
         _elapsed = 0;
-        _timesExecuted = 0;
         return;
     }
 
@@ -62,12 +65,12 @@ void TimedJob::update(float dt)
         }
         trigger(_delay);
         _elapsed = _elapsed - _delay;
-        _timesExecuted++;
+        _repeat--;
         _useDelay = false;
         // after delay, the rest time should compare with interval
-        if (!_runForever && _timesExecuted > _repeat)
+        if (!_repeat)
         {    //unschedule timer
-            cancel();
+            cancel(scheduler);
             return;
         }
     }
@@ -78,11 +81,11 @@ void TimedJob::update(float dt)
     {
         trigger(interval);
         _elapsed -= interval;
-        _timesExecuted++;
+        _repeat--;
 
-        if (!_runForever && _timesExecuted > _repeat)
+        if (!_repeat)
         {
-            cancel();
+            cancel(scheduler);
             break;
         }
 
@@ -99,9 +102,9 @@ void TimedJob::trigger(float dt)
         _callback(dt);
 }
 
-void TimedJob::cancel()
+void TimedJob::cancel(Scheduler & scheduler)
 {
-    _scheduler->unschedule(_target, _id);
+    scheduler.unschedule(_target, _id);
 }
   
 // implementation of Scheduler
@@ -113,8 +116,6 @@ Scheduler::~Scheduler(void)
 
 void Scheduler::schedule(TimedJob job)
 {
-    job.scheduler(this);
-
     auto & element = _hashForTimers[job.target()];
 
     if (!element)
@@ -511,7 +512,7 @@ void Scheduler::update(float dt)
                 auto & currentJob = elt->timedJobs[elt->timerIndex];
                 elt->currentJob = currentJob.get();
                 elt->currentJobSalvaged = false;
-                currentJob->update(dt);
+                currentJob->update(*this, dt);
             }
         }
 
