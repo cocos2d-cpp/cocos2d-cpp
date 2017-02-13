@@ -16,7 +16,7 @@ enum {
 
 SchedulerTests::SchedulerTests()
 {
-    ADD_TEST_CASE(SchedulerTimeScale);
+    ADD_TEST_CASE(SchedulerSpeedup);
     ADD_TEST_CASE(SchedulerAutoremove);
     ADD_TEST_CASE(SchedulerPauseResume);
     ADD_TEST_CASE(SchedulerPauseResumeAll);
@@ -615,7 +615,7 @@ void SchedulerUpdateAndCustom::onEnter()
 
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.4f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.0f, CC_REPEAT_FOREVER, 0.4f, !_running);
 }
 
 void SchedulerUpdateAndCustom::update(float dt)
@@ -641,7 +641,7 @@ std::string SchedulerUpdateAndCustom::title() const
 
 std::string SchedulerUpdateAndCustom::subtitle() const
 {
-    return "Update + custom selector at the same time. Stops in 4s. See console";
+    return "Update + custom selector at the same time. Stops in 0.4 s. See console";
 }
 
 //------------------------------------------------------------------
@@ -745,31 +745,36 @@ void SchedulerDelayAndRepeat::update(float dt)
     log("update called:%f", dt);
 }
 
-// SchedulerTimeScale
+// SchedulerSpeedup
 
-ControlSlider* SchedulerTimeScale::sliderCtl()
+ControlSlider* SchedulerSpeedup::sliderCtl()
 {
     ControlSlider * slider = ControlSlider::create("extensions/sliderTrack2.png","extensions/sliderProgress2.png" ,"extensions/sliderThumb.png");
 
-    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(SchedulerTimeScale::sliderAction), Control::EventType::VALUE_CHANGED);
+    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(SchedulerSpeedup::sliderAction), Control::EventType::VALUE_CHANGED);
 
-    slider->setMinimumValue(-3.0f);
-    slider->setMaximumValue(3.0f);
-    slider->setValue(1.0f);
+    slider->setMinimumValue(-9.01f); // 10x slower
+    slider->setMaximumValue(9.0f);   // 10x faster
+    slider->setValue(0.0f);
 
     return slider;
 }
 
-void SchedulerTimeScale::sliderAction(Ref* sender, Control::EventType /*controlEvent*/)
+void SchedulerSpeedup::sliderAction(Ref* sender, Control::EventType /*controlEvent*/)
 {
     ControlSlider* pSliderCtl = static_cast<ControlSlider*>(sender);
     float scale;
     scale = pSliderCtl->getValue();
+    if (scale < 0.0f) {
+        scale = 1.0f / (-scale + 1.0f);
+    } else {
+        scale += 1.0f;
+    }
 
-    Director::getInstance()->getScheduler().setTimeScale(scale);
+    Director::getInstance()->getScheduler().setSpeedup(scale);
 }
 
-void SchedulerTimeScale::onEnter()
+void SchedulerSpeedup::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
@@ -821,19 +826,19 @@ void SchedulerTimeScale::onEnter()
     addChild(_sliderCtl);
 }
 
-void SchedulerTimeScale::onExit()
+void SchedulerSpeedup::onExit()
 {
     // restore scale
-    Director::getInstance()->getScheduler().setTimeScale(1);
+    Director::getInstance()->getScheduler().setSpeedup(1);
     SchedulerTestLayer::onExit();
 }
 
-std::string SchedulerTimeScale::title() const
+std::string SchedulerSpeedup::title() const
 {
     return "Scheduler timeScale Test";
 }
 
-std::string SchedulerTimeScale::subtitle() const
+std::string SchedulerSpeedup::subtitle() const
 {
     return "Fast-forward and rewind using scheduler.timeScale";
 }

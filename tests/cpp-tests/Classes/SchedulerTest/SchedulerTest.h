@@ -226,10 +226,10 @@ public:
     void update(float dt) override;
 };
 
-class SchedulerTimeScale : public SchedulerTestLayer
+class SchedulerSpeedup : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerTimeScale);
+    CREATE_FUNC(SchedulerSpeedup);
 
     void onEnter() override;
     void onExit() override;

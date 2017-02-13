@@ -47,51 +47,39 @@ namespace {
 
 void TimedJob::update(Scheduler & scheduler, float dt)
 {
-    if (_elapsed < -1)
+    if (_leftover < 0.0f)
     {
-        _elapsed = 0;
-        return;
-    }
-
-    // accumulate elapsed time
-    _elapsed += dt;
-
-    // deal with delay
-    if (_useDelay)
-    {
-        if (_elapsed < _delay)
+        if (_leftover + dt < 0.0f)
         {
+            _leftover += dt;
             return;
         }
-        trigger(_delay);
-        _elapsed = _elapsed - _delay;
-        _repeat--;
-        _useDelay = false;
-        // after delay, the rest time should compare with interval
+        
+        // first run after delay
+        trigger(0.0f);
+
         if (!_repeat)
-        {    //unschedule timer
+        {
             cancel(scheduler);
             return;
+        }
+
+        if (_interval <= 0.0f)
+        {
+            _leftover = 0.0f;
         }
     }
 
     // if _interval == 0, should trigger once every frame
-    float interval = (_interval > 0) ? _interval : _elapsed;
-    while (_elapsed >= interval)
+    float interval = (_interval > 0.0f) ? _interval : dt;
+
+    for (_leftover += dt; interval <= _leftover; _leftover -= interval)
     {
         trigger(interval);
-        _elapsed -= interval;
-        _repeat--;
-
-        if (!_repeat)
+        if (!--_repeat)
         {
             cancel(scheduler);
-            break;
-        }
-
-        if (_elapsed <= 0.f)
-        {
-            break;
+            return;
         }
     }
 }
@@ -473,15 +461,24 @@ void Scheduler::performFunctionInCocosThread(const std::function<void ()> &funct
     _functionsToPerform.push_back(function);
 }
 
+float Scheduler::getSpeedup() const
+{
+    return _speedup;
+}
+
+void Scheduler::setSpeedup(float speedup)
+{
+    CCASSERT(speedup > std::numeric_limits<float>::epsilon(),
+             "speedup must be positive");
+    _speedup = speedup;
+}
+
 // main loop
 void Scheduler::update(float dt)
 {
     _updateHashLocked = true;
 
-    if (_timeScale != 1.0f)
-    {
-        dt *= _timeScale;
-    }
+    dt *= _speedup;
 
     //
     // Selector callbacks

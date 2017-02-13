@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformMacros.h" // CC_DEPRECATED_ATTRIBUTE
 
 #include <functional>
+#include <limits>
 #include <list>
 #include <memory>
 #include <mutex>
@@ -47,8 +48,8 @@ class CC_DLL TimedJob {
 public:
     TimedJob(void* target, std::function<void(float)> callback, size_t id)
         : _target(target)
-        , _callback(callback)
         , _id(id)
+        , _callback(callback)
         {
             CC_ASSERT(_target);
             CC_ASSERT(_callback);
@@ -82,8 +83,10 @@ public:
     }
     TimedJob & delay(float v)
     {
-        _delay = v;
-        _useDelay = (0.0f < _delay);
+        if (v == 0.0f)
+            _leftover = -std::numeric_limits<float>::epsilon();
+        else
+            _leftover = -v;
         return *this;
     }
     TimedJob & paused(bool v)
@@ -100,15 +103,14 @@ private:
 
 private:
     void* _target;
-    std::function<void(float)> _callback;
     size_t _id;
-    float _interval  = 0.0f;
-    uint32_t _repeat = CC_REPEAT_FOREVER;
-    float _delay     = 0.0f;
-    bool _paused     = false;
 
-    float _elapsed        = -1;
-    bool _useDelay        = false;
+    float    _interval = 0.0f;
+    uint32_t _repeat   = CC_REPEAT_FOREVER;
+    float    _leftover = -std::numeric_limits<float>::epsilon();
+    bool     _paused   = false;
+
+    std::function<void(float)> _callback;
 };
 
 // deprecated
@@ -138,13 +140,8 @@ public:
     Scheduler(Scheduler const&) = delete;
     Scheduler & operator=(Scheduler const&) = delete;
 
-    /** Modifies the time of all scheduled callbacks.
-    You can use this property to create a 'slow motion' or 'fast forward' effect.
-    Default is 1.0. To create a 'slow motion' effect, use values below 1.0.
-    To create a 'fast forward' effect, use values higher than 1.0.
-    */
-    float getTimeScale() { return _timeScale; }
-    void setTimeScale(float timeScale) { _timeScale = timeScale; }
+    float getSpeedup() const;
+    void setSpeedup(float speedup);
 
     void schedule(TimedJob timer);
     void unschedule(void* target, size_t id);
@@ -222,7 +219,7 @@ private:
     void schedulePerFrame(std::function<void(float)>, void *target, int priority, bool paused);
     
 private:
-    float _timeScale = 1.0f;
+    float _speedup = 1.0f;
 
     // TODO make a separate class for PriorityList
     // "updates with priority" stuff
