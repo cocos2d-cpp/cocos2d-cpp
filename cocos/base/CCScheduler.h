@@ -41,8 +41,6 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-constexpr uint32_t CC_REPEAT_FOREVER = ~(uint32_t(1) << 31);
-
 class Scheduler;
 
 class CC_DLL Job {
@@ -64,6 +62,7 @@ public:
     }
     void repeat(uint32_t v)
     {
+        CC_ASSERT(v <= REPEAT_FOREVER);
         _repeat = v;
     }
     void delay(float v)
@@ -75,7 +74,7 @@ public:
     }
     void paused(bool v)
     {
-        _repeat = ((_repeat & CC_REPEAT_FOREVER) | (uint32_t(v) << 31));
+        _repeat = ((_repeat & REPEAT_FOREVER) | (uint32_t(v) << 31));
     }
 
     bool operator<(Job const& j) const
@@ -84,18 +83,35 @@ public:
             || (_properties == j._properties && _target < j._target);
     }
 
-protected:
-    enum Type : uint32_t {
-        ACTION = (uint32_t(0) << 30),
-        UPDATE = (uint32_t(1) << 30),
-        TIMED  = (uint32_t(2) << 30)
+public:
+    // encoded in properties
+
+    // for properties
+    static constexpr uint32_t TO_DELETE_BIT = (uint32_t(1) << 31);
+
+    enum Type : uint32_t
+    {
+        ACTION = (uint32_t(0) << 29),
+        UPDATE = (uint32_t(1) << 29),
+        TIMED  = (uint32_t(2) << 29),
+        TYPE_BITMASK = (uint32_t(3) << 29)
     };
+
+    static_assert(TO_DELETE_BIT > TYPE_BITMASK);
+
+    // for repeat
+    static constexpr uint32_t PAUSED_BIT     = (uint32_t(1) << 31);
+    static constexpr uint32_t REPEAT_FOREVER = ~PAUSED_BIT;
+
+    static_assert(PAUSED_BIT > REPEAT_FOREVER);
+
+protected:
 
     Job(uint32_t properties, void* target, std::function<void(float)> callback)
         : _properties(properties)
         , _target(target)
         , _interval(0.0f)
-        , _repeat(CC_REPEAT_FOREVER)
+        , _repeat(REPEAT_FOREVER)
         , _leftover(-std::numeric_limits<float>::epsilon())
         , _callback(callback)
         {
@@ -118,10 +134,9 @@ private:
     float    _leftover;
 
     std::function<void(float)> _callback;
-
-private:
-    static constexpr uint32_t PAUSED_BIT = ~CC_REPEAT_FOREVER;
 };
+
+constexpr uint32_t CC_REPEAT_FOREVER = Job::REPEAT_FOREVER;
 
 template<typename J>
 class JobBuilder : public Job {
