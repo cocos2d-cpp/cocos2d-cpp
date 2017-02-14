@@ -1,10 +1,6 @@
 /*
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2012 Yannick Loriot. All rights reserved.
- * http://yannickloriot.com
- *
  * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -33,6 +29,8 @@
 
 namespace cocos2d {
 namespace extension {
+
+static TimedJob::id_t UPDATE_JOBID = 0;
 
 #define ControlStepperLabelColorEnabled   Color3B(55, 55, 55)
 #define ControlStepperLabelColorDisabled  Color3B(147, 147, 147)
@@ -228,20 +226,17 @@ void ControlStepper::startAutorepeat()
     
     Director::getInstance()->getScheduler().schedule
         (
-            CC_SCHEDULE_SELECTOR(ControlStepper::update),
-            this,
-            kAutorepeatDeltaTime,
-            CC_REPEAT_FOREVER,
-            kAutorepeatDeltaTime * 3,
-            !_running
+            TimedJob(UPDATE_JOBID, this, &ControlStepper::update)
+                .interval(kAutorepeatDeltaTime)
+                .delay(kAutorepeatDeltaTime * 3)
+                .paused(!_running)
         );
 }
 
 /** Stop the autorepeat. */
 void ControlStepper::stopAutorepeat()
 {
-    Director::getInstance()->getScheduler().
-        unschedule(CC_SCHEDULE_SELECTOR(ControlStepper::update), this);
+    Director::getInstance()->getScheduler().unschedule(this, UPDATE_JOBID);
 }
 
 void ControlStepper::update(float /*dt*/)

@@ -85,9 +85,24 @@ std::string SchedulerAutoremove::subtitle() const
 void SchedulerPauseResume::onEnter()
 {
     SchedulerTestLayer::onEnter();
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::tick2), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResume::pause), this, 3.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerPauseResume::tick1)
+            .interval(0.5f)
+            .delay(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerPauseResume::tick2)
+            .interval(0.5f)
+            .delay(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerPauseResume::tick1)
+            .interval(0.0f)
+            .delay(3.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerPauseResume::tick1(float /*dt*/)
@@ -228,17 +243,17 @@ void SchedulerPauseResumeAllUser::onEnter()
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::tick1, 1)
+        TimedJob(1, this, &SchedulerPauseResumeAllUser::tick1)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::tick2, 2)
+        TimedJob(2, this, &SchedulerPauseResumeAllUser::tick2)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerPauseResumeAllUser::pause, 0)
+        TimedJob(3, this, &SchedulerPauseResumeAllUser::pause)
             .interval(3.0f)
             .paused(isPaused())
     );

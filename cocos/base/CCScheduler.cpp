@@ -32,23 +32,22 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-const uint32_t CC_REPEAT_FOREVER = static_cast<uint32_t>(-1) >> 1;
-
-
 namespace {
-    size_t to_id(SEL_SCHEDULE selector)
+    uint16_t to_id(SEL_SCHEDULE selector)
     {
         return reinterpret_cast<size_t>(reinterpret_cast<void*>(selector));
     }
-    size_t to_id(std::string const& id)
+    uint16_t to_id(std::string const& id)
     {
         return std::hash<std::string>()(id);
     }
 }
 
-void TimedJob::update(Scheduler & scheduler, float dt)
+static_assert(sizeof(Job) == sizeof(TimedJob));
+
+void Job::update(Scheduler & scheduler, float dt)
 {
-    CC_ASSERT(!_paused);
+    CC_ASSERT(!paused());
     CC_ASSERT(_repeat <= CC_REPEAT_FOREVER);
 
     if (_leftover < 0.0f)
@@ -88,15 +87,16 @@ void TimedJob::update(Scheduler & scheduler, float dt)
     }
 }
 
-void TimedJob::trigger(float dt)
+void Job::trigger(float dt)
 {
     if (_callback)
         _callback(dt);
 }
 
-void TimedJob::cancel(Scheduler & scheduler)
+void Job::cancel(Scheduler & scheduler)
 {
-    scheduler.unschedule(_target, _id);
+    // TODO Fix
+    scheduler.unschedule(_target, static_cast<TimedJob*>(this)->id());
 }
   
 // implementation of Scheduler
@@ -113,20 +113,20 @@ void Scheduler::schedule(TimedJob job)
     if (!element)
     {
         element.reset(new HashTimerEntry);
-        element->paused = job.paused();
+        element->paused = static_cast<Job&>(job).paused();
     }
     else
     {
-        CCASSERT(element->paused == job.paused(),
+        CCASSERT(element->paused == static_cast<Job&>(job).paused(),
                  "element's paused should be paused!");
     }
 
     for (auto & j : element->timedJobs)
     {
-        if (j->id() == job.id())
+        if (static_cast<TimedJob*>(j.get())->id() == job.id())
         {
             CCLOG("CCScheduler#schedule. TimedJob already scheduled. Updating");
-            *j = job;
+            *j = std::move(static_cast<Job&&>(job));
             return;
         }        
     }
@@ -140,7 +140,7 @@ void Scheduler::schedule(TimedJob job)
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(target, callback, to_id(id))
+        TimedJob(to_id(id), target, callback)
             .interval(interval)
             .paused(paused)
     );
@@ -149,7 +149,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(target, callback, to_id(id))
+        TimedJob(to_id(id), target, callback)
             .interval(interval)
             .repeat(repeat)
             .delay(delay)
@@ -162,7 +162,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, uns
     CCASSERT(target, "Argument target must be non-nullptr");
     
     schedule(
-        TimedJob(target, selector, to_id(selector))
+        TimedJob(to_id(selector), target, selector)
             .interval(interval)
             .repeat(repeat)
             .delay(delay)
@@ -175,7 +175,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, boo
     CCASSERT(target, "Argument target must be non-nullptr");
     
     schedule(
-        TimedJob(target, selector, to_id(selector))
+        TimedJob(to_id(selector), target, selector)
             .interval(interval)
             .paused(paused)
     );
@@ -195,8 +195,8 @@ void Scheduler::unschedule(void *target, size_t id)
 
     auto job_it = std::find_if(
         timedJobs.begin(), timedJobs.end(),
-        [id](const std::unique_ptr<TimedJob> & p) {
-            return id == p->id();
+        [id](const std::unique_ptr<Job> & p) {
+            return id == static_cast<const TimedJob*>(p.get())->id();
         });
 
     if (job_it == timedJobs.end())
@@ -365,7 +365,7 @@ void Scheduler::unscheduleAllForTarget(void *target)
             {
                 auto currentJob_it = std::find_if(
                     timedJobs.begin(), timedJobs.end(),
-                    [it](const std::unique_ptr<TimedJob> & p) {
+                    [it](const std::unique_ptr<Job> & p) {
                         return p.get() == it->second->currentJob;
                     });
                 if (currentJob_it !=  timedJobs.end())
@@ -395,7 +395,7 @@ void Scheduler::updatePausedState(void *target, bool paused)
         timers_hash_it->second->paused = paused;
         std::for_each(timers_hash_it->second->timedJobs.begin(),
                       timers_hash_it->second->timedJobs.end(),
-                      [paused](std::unique_ptr<TimedJob> & p){
+                      [paused](std::unique_ptr<Job> & p){
                           p->paused(paused);
                       });
     }
@@ -447,7 +447,7 @@ void Scheduler::updatePausedState(bool paused)
         pair.second->paused = paused;
         std::for_each(pair.second->timedJobs.begin(),
                       pair.second->timedJobs.end(),
-                      [paused](std::unique_ptr<TimedJob> & p){
+                      [paused](std::unique_ptr<Job> & p){
                           p->paused(paused);
                       });
     }

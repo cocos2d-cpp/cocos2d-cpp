@@ -134,7 +134,7 @@ void TransitionScene::finish()
 
     //[self schedule:@selector(setNewScene:) interval:0];
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &TransitionScene::setNewScene, 0)
+        TimedJob(0, this, &TransitionScene::setNewScene)
             .repeat(0)
             .paused(isPaused())
     );

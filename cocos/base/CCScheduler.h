@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "platform/CCPlatformDefine.h" // CC_DLL
 #include "platform/CCPlatformMacros.h" // CC_DEPRECATED_ATTRIBUTE
 
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <list>
@@ -40,17 +41,60 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-extern const uint32_t CC_REPEAT_FOREVER;
+constexpr uint32_t CC_REPEAT_FOREVER = ~(uint32_t(1) << 31);
 
 class Scheduler;
 
-class CC_DLL TimedJob {
+class CC_DLL Job {
 public:
-    TimedJob(void* target, std::function<void(float)> callback, size_t id)
-        : _target(target)
-        , _id(id)
+
+    Job(Job const&) = default;
+    Job& operator=(Job const&) = default;
+    Job(Job &&) = default;
+    Job& operator=(Job &&) = default;
+
+    void* target() const { return _target; }
+    bool paused() const { return (_repeat & PAUSED_BIT); }
+
+    void update(Scheduler &, float dt);
+
+    void interval(float v)
+    {
+        _interval = v;
+    }
+    void repeat(uint32_t v)
+    {
+        _repeat = v;
+    }
+    void delay(float v)
+    {
+        if (v <= 0.0f)
+            _leftover = -std::numeric_limits<float>::epsilon();
+        else
+            _leftover = -v;
+    }
+    void paused(bool v)
+    {
+        _repeat = ((_repeat & CC_REPEAT_FOREVER) | (uint32_t(v) << 31));
+    }
+
+    bool operator<(Job const& j) const
+    {
+        return _properties < j._properties
+            || (_properties == j._properties && _target < j._target);
+    }
+
+protected:
+    enum Type : uint32_t {
+        ACTION = (uint32_t(0) << 30),
+        UPDATE = (uint32_t(1) << 30),
+        TIMED  = (uint32_t(2) << 30)
+    };
+
+    Job(uint32_t properties, void* target, std::function<void(float)> callback)
+        : _properties(properties)
+        , _target(target)
         , _interval(0.0f)
-        , _paused(false)
         , _repeat(CC_REPEAT_FOREVER)
         , _leftover(-std::numeric_limits<float>::epsilon())
         , _callback(callback)
@@ -59,11 +103,73 @@ public:
             CC_ASSERT(_callback);
         }
 
+private:
+    void trigger(float dt);
+    void cancel(Scheduler &);
+
+protected:
+    uint32_t _properties;
+
+private:
+    void*    _target;
+
+    float    _interval;
+    uint32_t _repeat;
+    float    _leftover;
+
+    std::function<void(float)> _callback;
+
+private:
+    static constexpr uint32_t PAUSED_BIT = ~CC_REPEAT_FOREVER;
+};
+
+template<typename J>
+class JobBuilder : public Job {
+public:
+    JobBuilder(uint32_t properties, void* target, std::function<void(float)> callback)
+        : Job(properties, target, callback)
+        {}
+
+    JobBuilder(JobBuilder const&) = default;
+    JobBuilder& operator=(JobBuilder const&) = default;
+    JobBuilder(JobBuilder &&) = default;
+    JobBuilder& operator=(JobBuilder &&) = default;
+
+    J & interval(float v)
+    {
+        Job::interval(v);
+        return static_cast<J&>(*this);
+    }
+    J & repeat(uint32_t v)
+    {
+        Job::repeat(v);
+        return static_cast<J&>(*this);
+    }
+    J & delay(float v)
+    {
+        Job::delay(v);
+        return static_cast<J&>(*this);
+    }
+    J & paused(bool v)
+    {
+        Job::paused(v);
+        return static_cast<J&>(*this);
+    }
+};
+
+class TimedJob : public JobBuilder<TimedJob> {
+public:
+    using id_t = uint16_t;
+    static constexpr uint32_t ID_BITMASK = uint32_t(id_t(-1));
+
+public:
+    TimedJob(id_t id, void* target, std::function<void(float)> callback)
+        : JobBuilder((Type::TIMED | uint32_t(id)), target, callback)
+        {}
+
     template<typename T>
-    TimedJob(T* target, void (T::*func)(float), size_t id)
-        : TimedJob(target,
-                   [target,func](float dt){ (target->*func)(dt); },
-                   id)
+    TimedJob(id_t id, T* target, void (T::*func)(float))
+        : TimedJob(id, target, [target,func](float dt){ (target->*func)(dt); })
         {}
 
     TimedJob(TimedJob const&) = default;
@@ -71,50 +177,7 @@ public:
     TimedJob(TimedJob &&) = default;
     TimedJob& operator=(TimedJob &&) = default;
 
-    void* target() const { return _target; }
-    size_t id() const { return _id; }
-    bool paused() const { return _paused; }
-
-    TimedJob & interval(float v)
-    {
-        _interval = v;
-        return *this;
-    }
-    TimedJob & repeat(uint32_t v)
-    {
-        _repeat = v;
-        return *this;
-    }
-    TimedJob & delay(float v)
-    {
-        if (v == 0.0f)
-            _leftover = -std::numeric_limits<float>::epsilon();
-        else
-            _leftover = -v;
-        return *this;
-    }
-    TimedJob & paused(bool v)
-    {
-        _paused = v;
-        return *this;
-    }
-
-    void update(Scheduler &, float dt);
-
-private:
-    void trigger(float dt);
-    void cancel(Scheduler &);
-
-private:
-    void* _target;
-    size_t _id;
-
-    float    _interval;
-    uint32_t _paused:1;
-    uint32_t _repeat:31;
-    float    _leftover;
-
-    std::function<void(float)> _callback;
+    id_t id() const { return  (ID_BITMASK & _properties); }
 };
 
 // deprecated
@@ -200,7 +263,7 @@ private:
 
     // Hash Element used for "selectors with interval"
     struct HashTimerEntry {
-        std::vector<std::unique_ptr<TimedJob>> timedJobs;
+        std::vector<std::unique_ptr<Job>> timedJobs;
         int         timerIndex = -1;
         const void* currentJob = nullptr;
         bool        currentJobSalvaged = false;
