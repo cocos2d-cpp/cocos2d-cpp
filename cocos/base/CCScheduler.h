@@ -48,9 +48,9 @@ public:
 
     Job(Job const&) = default;
     Job& operator=(Job const&) = default;
-    Job(Job &&) = default;
-    Job& operator=(Job &&) = default;
 
+    bool unscheduled() const { return (_properties & TO_DELETE_BIT); }
+    uint32_t properties() const { return _properties; }
     void* target() const { return _target; }
     bool paused() const { return (_repeat & PAUSED_BIT); }
 
@@ -77,13 +77,18 @@ public:
         _repeat = ((_repeat & REPEAT_FOREVER) | (uint32_t(v) << 31));
     }
 
+    void unschedule()
+    {
+        _properties |= TO_DELETE_BIT;
+    }
+
     bool operator<(Job const& j) const
     {
         return _properties < j._properties
             || (_properties == j._properties && _target < j._target);
     }
 
-public:
+protected:
     // encoded in properties
 
     // for properties
@@ -101,6 +106,7 @@ public:
 
     // for repeat
     static constexpr uint32_t PAUSED_BIT     = (uint32_t(1) << 31);
+public:
     static constexpr uint32_t REPEAT_FOREVER = ~PAUSED_BIT;
 
     static_assert(PAUSED_BIT > REPEAT_FOREVER);
@@ -117,6 +123,7 @@ protected:
         {
             CC_ASSERT(_target);
             CC_ASSERT(_callback);
+            CC_ASSERT(!(properties & TO_DELETE_BIT));
         }
 
 private:
@@ -179,7 +186,7 @@ public:
 
 public:
     TimedJob(id_t id, void* target, std::function<void(float)> callback)
-        : JobBuilder((Type::TIMED | uint32_t(id)), target, callback)
+        : JobBuilder(make_properties(id), target, callback)
         {}
 
     template<typename T>
@@ -192,7 +199,12 @@ public:
     TimedJob(TimedJob &&) = default;
     TimedJob& operator=(TimedJob &&) = default;
 
-    id_t id() const { return  (ID_BITMASK & _properties); }
+    id_t id() const { return  (ID_BITMASK & properties()); }
+
+    static uint32_t make_properties(id_t id)
+    {
+        return (Type::TIMED | uint32_t(id));
+    }
 };
 
 // deprecated
@@ -226,7 +238,7 @@ public:
     void setSpeedup(float speedup);
 
     void schedule(TimedJob timer);
-    void unschedule(void* target, size_t id);
+    void unscheduleTimedJob(TimedJob::id_t id, void* target);
 
     /* updates per frame
      * The lower the priority, the earlier it is called.
@@ -247,15 +259,13 @@ public:
     void pauseTarget(void *target);
     void resumeTarget(void *target);
     
-    bool isTargetPaused(void *target) const;
-
     void pauseAllTargets();
     void resumeAllTargets();
 
     /** Calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
      This function is thread safe.
      */
-    void performFunctionInCocosThread(const std::function<void()> &function);
+    void performFunctionInCocosThread(std::function<void()> function);
     
     /** 'update' the scheduler.
      * You should NEVER call this method, unless you know what you are doing.
@@ -276,21 +286,10 @@ private:
     using updates_list_t = std::list<ListEntry>;
     using updates_hash_t = std::unordered_map<void*, updates_list_t::iterator>;
 
-    // Hash Element used for "selectors with interval"
-    struct HashTimerEntry {
-        std::vector<std::unique_ptr<Job>> timedJobs;
-        int         timerIndex = -1;
-        const void* currentJob = nullptr;
-        bool        currentJobSalvaged = false;
-        bool        paused;
-    };
-
-    using timedjobs_hash_t = std::unordered_map<void*,std::unique_ptr<HashTimerEntry>>;
-
 private:
     // member helpers
-    void updatePausedState(bool paused);
-    void updatePausedState(void* target, bool paused);
+    void updatePausedStateForTarget(void* target, bool paused);
+    void updatePausedStateForAll(bool paused);
     void unscheduleUpdate(updates_hash_t::iterator);
 
     /** Schedules the 'callback' function for a given target with a given priority.
@@ -308,9 +307,9 @@ private:
     updates_list_t _updatesList; // list sorted by priority
     updates_hash_t _hashForUpdates; // hash used to fetch quickly the list entries for pause,delete,etc
 
-    // TODO store all TimedJobs in a single vector (might be based on PriorityList)
     // Used for "selectors with interval"
-    timedjobs_hash_t _hashForTimers;
+    std::vector<Job> _jobs;
+    std::vector<Job> _jobsToAdd;
 
     // TODO get rid of them
     void* _currentTarget = nullptr;

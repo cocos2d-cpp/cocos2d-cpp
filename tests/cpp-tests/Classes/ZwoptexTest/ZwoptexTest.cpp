@@ -67,6 +67,7 @@ void ZwoptexGenericTest::startIn05Secs(float /*dt*/)
     Director::getInstance()->getScheduler().schedule(
         TimedJob(2, this, &ZwoptexGenericTest::flipSprites)
             .interval( 0.5f )
+            .delay( 0.5f )
             .paused( isPaused() )
     );
 }

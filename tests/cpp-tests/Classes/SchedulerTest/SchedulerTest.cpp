@@ -41,35 +41,45 @@ SchedulerTests::SchedulerTests()
 // SchedulerAutoremove
 //
 //------------------------------------------------------------------
+static TimedJob::id_t SchedulerAutoremove_autoremove_JOBID = 0;
+static TimedJob::id_t SchedulerAutoremove_tick_JOBID       = 1;
+
 void SchedulerAutoremove::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::tick), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    accum = 0;
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(SchedulerAutoremove_autoremove_JOBID, this, &SchedulerAutoremove::autoremove)
+            .interval(0.5f)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(SchedulerAutoremove_tick_JOBID, this, &SchedulerAutoremove::tick)
+            .interval(0.5f)
+    );
+
+    accum = 0.0f;
 }
 
 void SchedulerAutoremove::autoremove(float dt)
 {
     accum += dt;
-    CCLOG("Time: %f", accum);
+    CCLOG("Message 1 should be stopped in %f sec. Time: %f", 3.0f - accum, accum);
 
-    if( accum > 3 )
+    if( accum >= 3 )
     {
-        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerAutoremove::autoremove), this);
-        CCLOG("scheduler removed");
+        Director::getInstance()->getScheduler().unscheduleTimedJob(SchedulerAutoremove_autoremove_JOBID, this);
+        CCLOG("Message 1 has been stopped");
     }
 }
 
 void SchedulerAutoremove::tick(float /*dt*/)
 {
-    CCLOG("This scheduler should not be removed");
+    CCLOG("Messsage 2 message should never be stopped");
 }
 
 std::string SchedulerAutoremove::title() const
 {
-    return "Self-remove an scheduler";
+    return "Self-removed scheduler";
 }
 
 std::string SchedulerAutoremove::subtitle() const
@@ -92,13 +102,13 @@ void SchedulerPauseResume::onEnter()
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &SchedulerPauseResume::tick2)
+        TimedJob(1, this, &SchedulerPauseResume::tick2)
             .interval(0.5f)
             .delay(0.5f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &SchedulerPauseResume::tick1)
+        TimedJob(2, this, &SchedulerPauseResume::pause)
             .interval(0.0f)
             .delay(3.0f)
             .paused(isPaused())
@@ -115,9 +125,9 @@ void SchedulerPauseResume::tick2(float /*dt*/)
     CCLOG("tick2");
 }
 
-void SchedulerPauseResume::pause(float /*dt*/)
+void SchedulerPauseResume::pause(float dt)
 {
-    CCLOG("paused, tick1 and tick2 should called six times");
+    CCLOG("paused. tick1 and tick2 should have been called six times. Time %f", dt);
     Director::getInstance()->getScheduler().pauseTarget(this);
 }
 
@@ -157,8 +167,8 @@ void SchedulerPauseResumeAll::onEnter()
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
     sprite->setTag(123);
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.5f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 1.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 0.0f, 0, 3.0f, !_running);
 }
 
@@ -255,6 +265,7 @@ void SchedulerPauseResumeAllUser::onEnter()
     Director::getInstance()->getScheduler().schedule(
         TimedJob(3, this, &SchedulerPauseResumeAllUser::pause)
             .interval(3.0f)
+            .delay(3.0f)
             .paused(isPaused())
     );
 }

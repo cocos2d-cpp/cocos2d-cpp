@@ -33,11 +33,11 @@ THE SOFTWARE.
 namespace cocos2d {
 
 namespace {
-    uint16_t to_id(SEL_SCHEDULE selector)
+    TimedJob::id_t to_id(SEL_SCHEDULE selector)
     {
         return reinterpret_cast<size_t>(reinterpret_cast<void*>(selector));
     }
-    uint16_t to_id(std::string const& id)
+    TimedJob::id_t to_id(std::string const& id)
     {
         return std::hash<std::string>()(id);
     }
@@ -49,6 +49,15 @@ void Job::update(Scheduler & scheduler, float dt)
 {
     CC_ASSERT(!paused());
     CC_ASSERT(_repeat <= CC_REPEAT_FOREVER);
+    CC_ASSERT(0.0f <= dt);
+
+    if (dt < std::numeric_limits<float>::epsilon())
+    {
+        return;
+    }
+
+    // if _interval == 0, should trigger once every frame
+    float interval = (_interval > 0.0f) ? _interval : dt;
 
     if (_leftover < 0.0f)
     {
@@ -67,14 +76,9 @@ void Job::update(Scheduler & scheduler, float dt)
             return;
         }
 
-        if (_interval <= 0.0f)
-        {
-            _leftover = 0.0f;
-        }
+        dt += _leftover;
+        _leftover = 0.0f;
     }
-
-    // if _interval == 0, should trigger once every frame
-    float interval = (_interval > 0.0f) ? _interval : dt;
 
     for (_leftover += dt; interval <= _leftover; _leftover -= interval)
     {
@@ -96,7 +100,7 @@ void Job::trigger(float dt)
 void Job::cancel(Scheduler & scheduler)
 {
     // TODO Fix
-    scheduler.unschedule(_target, static_cast<TimedJob*>(this)->id());
+    scheduler.unscheduleTimedJob(static_cast<TimedJob*>(this)->id(), _target);
 }
   
 // implementation of Scheduler
@@ -108,33 +112,8 @@ Scheduler::~Scheduler(void)
 
 void Scheduler::schedule(TimedJob job)
 {
-    auto & element = _hashForTimers[job.target()];
-
-    if (!element)
-    {
-        element.reset(new HashTimerEntry);
-        element->paused = static_cast<Job&>(job).paused();
-    }
-    else
-    {
-        CCASSERT(element->paused == static_cast<Job&>(job).paused(),
-                 "element's paused should be paused!");
-    }
-
-    for (auto & j : element->timedJobs)
-    {
-        if (static_cast<TimedJob*>(j.get())->id() == job.id())
-        {
-            CCLOG("CCScheduler#schedule. TimedJob already scheduled. Updating");
-            *j = std::move(static_cast<Job&&>(job));
-            return;
-        }        
-    }
-
-    element->timedJobs.push_back(
-        std::unique_ptr<TimedJob>(
-            new TimedJob(job)
-        ));
+    auto ub = std::upper_bound(_jobsToAdd.begin(), _jobsToAdd.end(), static_cast<Job&>(job));
+    _jobsToAdd.insert(ub, job);
 }
 
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
@@ -181,65 +160,23 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, boo
     );
 }
 
-void Scheduler::unschedule(void *target, size_t id)
+void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 {
-    auto element_it = _hashForTimers.find(target);
-
-    if (_hashForTimers.end() == element_it)
-    {
-        return;
-    }
-
-    auto & element = *element_it->second;
-    auto & timedJobs = element.timedJobs;
-
-    auto job_it = std::find_if(
-        timedJobs.begin(), timedJobs.end(),
-        [id](const std::unique_ptr<Job> & p) {
-            return id == static_cast<const TimedJob*>(p.get())->id();
-        });
-
-    if (job_it == timedJobs.end())
-    {
-        return;
-    }
-
-    if ((! element.currentJobSalvaged)
-        && job_it->get() == element.currentJob)
-    {
-        element.currentJobSalvaged = true;
-    }
-
-    // update timerIndex in case we are in tick:, looping over the actions
-    if (element.timerIndex >= std::distance(timedJobs.begin(), job_it))
-    {
-        element.timerIndex--;
-    }
-
-    timedJobs.erase(job_it);
-
-    if (timedJobs.empty())
-    {
-        if (_currentTarget == target)
-        {
-            _currentTargetSalvaged = true;
-        }
-        else
-        {
-            CC_ASSERT(element_it == _hashForTimers.find(target));
-            _hashForTimers.erase(element_it);
-        }
+    TimedJob tmp(id, target, [](float){});
+    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), tmp);
+    if (!(*lb < tmp)) {
+        lb->unschedule();
     }
 }
 
 void Scheduler::unschedule(const std::string &id, void *target)
 {
-    unschedule(target, to_id(id));
+    unscheduleTimedJob(to_id(id), target);
 }
 
 void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
 {
-    unschedule(target, to_id(selector));
+    unscheduleTimedJob(to_id(selector), target);
 }
 
 void Scheduler::schedulePerFrame(std::function<void(float)> callback, void *target, int priority, bool paused)
@@ -306,26 +243,11 @@ void Scheduler::unscheduleUpdate(updates_hash_t::iterator hash_it)
 
 void Scheduler::unscheduleAll()
 {
-    // Custom Selectors
+    for (auto & job : _jobs)
+        job.unschedule();
 
-    std::unique_ptr<HashTimerEntry> currentTargetValue;
-
-    auto it = _hashForTimers.find(_currentTarget);
-
-    if (it != _hashForTimers.end())
-    {
-        currentTargetValue = std::move(it->second);
-        _hashForTimers.erase(it);
-    }
-
-    while (_hashForTimers.size())
-        unscheduleAllForTarget(_hashForTimers.begin()->first);
-
-    if (currentTargetValue)
-    {
-        _hashForTimers[_currentTarget] = std::move(currentTargetValue);
-        unscheduleAllForTarget(_currentTarget);
-    }
+    for (auto & job : _jobsToAdd)
+        job.unschedule();
 
     // Updates selectors
     if (_updateHashLocked)
@@ -342,63 +264,29 @@ void Scheduler::unscheduleAll()
 
 void Scheduler::unscheduleAllForTarget(void *target)
 {
-    // explicit nullptr handling
-    if (target == nullptr)
-    {
-        return;
-    }
+    for (auto & job : _jobs)
+        if (job.target() == target)
+            job.unschedule();
 
-    auto it = _hashForTimers.find(target);
-
-    if (_hashForTimers.end() != it)
-    {
-        // Custom Selectors
-        if (_currentTarget != target)
-        {
-            _hashForTimers.erase(it);
-        }
-        else
-        {
-            auto & timedJobs = it->second->timedJobs;
-
-            if (! it->second->currentJobSalvaged)
-            {
-                auto currentJob_it = std::find_if(
-                    timedJobs.begin(), timedJobs.end(),
-                    [it](const std::unique_ptr<Job> & p) {
-                        return p.get() == it->second->currentJob;
-                    });
-                if (currentJob_it !=  timedJobs.end())
-                {
-                    it->second->currentJobSalvaged = true;
-                }
-            }
-
-            timedJobs.clear();
-
-            _currentTargetSalvaged = true;
-        }
-    }
+    for (auto & job : _jobsToAdd)
+        if (job.target() == target)
+            job.unschedule();
 
     // update selector
     unscheduleUpdate(target);
 }
 
-void Scheduler::updatePausedState(void *target, bool paused)
+void Scheduler::updatePausedStateForTarget(void *target, bool paused)
 {
     CCASSERT(target != nullptr, "target can't be nullptr!");
 
-    // custom selectors
-    auto timers_hash_it = _hashForTimers.find(target);
-    if (_hashForTimers.end() != timers_hash_it)
-    {
-        timers_hash_it->second->paused = paused;
-        std::for_each(timers_hash_it->second->timedJobs.begin(),
-                      timers_hash_it->second->timedJobs.end(),
-                      [paused](std::unique_ptr<Job> & p){
-                          p->paused(paused);
-                      });
-    }
+    for (auto & job : _jobs)
+        if (job.target() == target)
+            job.paused(paused);
+
+    for (auto & job : _jobsToAdd)
+        if (job.target() == target)
+            job.paused(paused);
 
     auto updates_hash_it = _hashForUpdates.find(target);
     if (_hashForUpdates.end() != updates_hash_it)
@@ -409,48 +297,19 @@ void Scheduler::updatePausedState(void *target, bool paused)
 
 void Scheduler::pauseTarget(void *target)
 {
-    updatePausedState(target, true);
+    updatePausedStateForTarget(target, true);
 }
 
 void Scheduler::resumeTarget(void *target)
 {
-    updatePausedState(target, false);
+    updatePausedStateForTarget(target, false);
 }
 
-bool Scheduler::isTargetPaused(void *target) const
-{
-    CCASSERT( target != nullptr, "target must be non nil" );
-
-    // Custom selectors
-    auto timers_hash_it = _hashForTimers.find(target);
-    if (_hashForTimers.end() != timers_hash_it)
-    {
-        return timers_hash_it->second->paused;
-    }
-    
-    // We should check update selectors if target does not have custom selectors
-    auto updates_hash_it = _hashForUpdates.find(target);
-    if (updates_hash_it != _hashForUpdates.end())
-    {
-        return updates_hash_it->second->paused;
-    }
-    
-    CC_ASSERT(false);
-    return false;
-}
-
-void Scheduler::updatePausedState(bool paused)
+void Scheduler::updatePausedStateForAll(bool paused)
 {
     // Custom Selectors
-    for (auto & pair : _hashForTimers)
-    {
-        pair.second->paused = paused;
-        std::for_each(pair.second->timedJobs.begin(),
-                      pair.second->timedJobs.end(),
-                      [paused](std::unique_ptr<Job> & p){
-                          p->paused(paused);
-                      });
-    }
+    for (auto & job : _jobs)
+        job.paused(paused);
 
     // Updates selectors
     for (auto & entry : _updatesList) 
@@ -461,15 +320,15 @@ void Scheduler::updatePausedState(bool paused)
 
 void Scheduler::pauseAllTargets()
 {
-    updatePausedState(true);
+    updatePausedStateForAll(true);
 }
 
 void Scheduler::resumeAllTargets()
 {
-    updatePausedState(false);
+    updatePausedStateForAll(false);
 }
 
-void Scheduler::performFunctionInCocosThread(const std::function<void ()> &function)
+void Scheduler::performFunctionInCocosThread(std::function<void()> function)
 {
     std::lock_guard<std::mutex> locker(_performMutex);
     _functionsToPerform.push_back(function);
@@ -506,40 +365,18 @@ void Scheduler::update(float dt)
         }
     }
 
-    // Iterate over all the custom selectors
-    for (auto it = _hashForTimers.begin(), end = _hashForTimers.end(); it != end; )
+    size_t n_unscheduled = 0;
+
+    for (auto & job : _jobs)
     {
-        auto target = it->first;
-        _currentTarget = it->first;
-        _currentTargetSalvaged = false;
-
-        auto elt = it->second.get();
-
-        if (! elt->paused)
+        // TODO remove_if can be implemented here
+        if (job.unscheduled())
         {
-            // The 'timedJobs' array may change while inside this loop
-            for (elt->timerIndex = 0; elt->timerIndex < static_cast<int>(elt->timedJobs.size()); elt->timerIndex++)
-            {
-                auto & currentJob = elt->timedJobs[elt->timerIndex];
-                elt->currentJob = currentJob.get();
-                elt->currentJobSalvaged = false;
-                currentJob->update(*this, dt);
-            }
+            n_unscheduled++;
         }
-
-        it = _hashForTimers.find(target);
-
-        CC_ASSERT(it != _hashForTimers.end());
-
-        // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
-        if (_currentTargetSalvaged && elt->timedJobs.empty())
+        else if (!job.paused())
         {
-            CC_ASSERT(it == _hashForTimers.find(target));
-            it = _hashForTimers.erase(it);
-        }
-        else
-        {
-            it++;
+            job.update(*this, dt);
         }
     }
 
@@ -563,6 +400,32 @@ void Scheduler::update(float dt)
             it++;
         }
     }
+
+    if (n_unscheduled)
+    {
+        _jobs.erase
+            (
+                std::remove_if(_jobs.begin(), _jobs.end(),
+                               [](const Job & j){ return j.unscheduled(); }),
+                _jobs.end()
+            );
+    }
+
+    _jobs.reserve(_jobs.size() + _jobsToAdd.size());
+
+    auto begin = _jobs.begin();
+
+    for (auto & job : _jobsToAdd)
+    {
+        begin = std::lower_bound(begin, _jobs.end(), job);
+
+        if (begin == _jobs.end() || job < *begin)
+            begin = _jobs.insert(begin, job);
+        else
+            *begin = job;
+    }
+
+    _jobsToAdd.clear();
 
     _updateHashLocked = false;
     _currentTarget = nullptr;

@@ -111,6 +111,7 @@ bool AudioEngineImpl::init()
     scheduler.schedule(
         TimedJob(0, this, &AudioEngineImpl::update)
             .interval(0.05f)
+            .delay(0.05f)
             .paused(false)
     );
 

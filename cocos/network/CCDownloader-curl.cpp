@@ -725,13 +725,14 @@ static constexpr TimedJob::id_t SCHED_JOB_ID = 0;
         _scheduler->schedule(
             TimedJob(SCHED_JOB_ID, this, &DownloaderCURL::_onSchedule)
                 .interval(0.1f)
+                .delay(0.1f)
                 .paused(true)
         );
     }
 
     DownloaderCURL::~DownloaderCURL()
     {
-        _scheduler->unschedule(this, SCHED_JOB_ID);
+        _scheduler->unscheduleTimedJob(SCHED_JOB_ID, this);
         _impl->stop();
         DLLOG("Destruct DownloaderCURL %p", this);
     }

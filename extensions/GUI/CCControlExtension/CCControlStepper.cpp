@@ -236,7 +236,7 @@ void ControlStepper::startAutorepeat()
 /** Stop the autorepeat. */
 void ControlStepper::stopAutorepeat()
 {
-    Director::getInstance()->getScheduler().unschedule(this, UPDATE_JOBID);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(UPDATE_JOBID, this);
 }
 
 void ControlStepper::update(float /*dt*/)
