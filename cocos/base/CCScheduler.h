@@ -145,48 +145,54 @@ private:
 
 constexpr uint32_t CC_REPEAT_FOREVER = Job::REPEAT_FOREVER;
 
-template<typename J>
-class JobBuilder : public Job {
+class UpdateJob : public Job {
 public:
-    JobBuilder(uint32_t properties, void* target, std::function<void(float)> callback)
-        : Job(properties, target, callback)
+
+    static constexpr uint32_t PRIORITY_BITMASK = 0x00FFFFFF;
+    static constexpr uint32_t MAX_PRIORITY = PRIORITY_BITMASK;
+    using priority_t = uint32_t;
+
+    static_assert(TYPE_BITMASK > PRIORITY_BITMASK);
+
+public:
+    template<typename T>
+    UpdateJob(priority_t priority, T* target)
+        : UpdateJob(make_properties(priority),
+                    target,
+                    [target](float dt){ target->update(dt); })
         {}
 
-    JobBuilder(JobBuilder const&) = default;
-    JobBuilder& operator=(JobBuilder const&) = default;
-    JobBuilder(JobBuilder &&) = default;
-    JobBuilder& operator=(JobBuilder &&) = default;
+    UpdateJob(UpdateJob const&) = default;
+    UpdateJob& operator=(UpdateJob const&) = default;
+    UpdateJob(UpdateJob &&) = default;
+    UpdateJob& operator=(UpdateJob &&) = default;
 
-    J & interval(float v)
+    priority_t priority() const
     {
-        Job::interval(v);
-        return static_cast<J&>(*this);
+        return  (PRIORITY_BITMASK & properties());
     }
-    J & repeat(uint32_t v)
+
+    static uint32_t make_properties(priority_t priority)
     {
-        Job::repeat(v);
-        return static_cast<J&>(*this);
+        CC_ASSERT(priority <= MAX_PRIORITY);
+        return (Type::UPDATE | priority);
     }
-    J & delay(float v)
-    {
-        Job::delay(v);
-        return static_cast<J&>(*this);
-    }
-    J & paused(bool v)
+
+    UpdateJob & paused(bool v)
     {
         Job::paused(v);
-        return static_cast<J&>(*this);
+        return *this;
     }
 };
 
-class TimedJob : public JobBuilder<TimedJob> {
+class TimedJob : public Job {
 public:
     using id_t = uint16_t;
     static constexpr uint32_t ID_BITMASK = uint32_t(id_t(-1));
 
 public:
     TimedJob(id_t id, void* target, std::function<void(float)> callback)
-        : JobBuilder(make_properties(id), target, callback)
+        : Job(make_properties(id), target, callback)
         {}
 
     template<typename T>
@@ -204,6 +210,27 @@ public:
     static uint32_t make_properties(id_t id)
     {
         return (Type::TIMED | uint32_t(id));
+    }
+
+    TimedJob & interval(float v)
+    {
+        Job::interval(v);
+        return *this;
+    }
+    TimedJob & repeat(uint32_t v)
+    {
+        Job::repeat(v);
+        return *this;
+    }
+    TimedJob & delay(float v)
+    {
+        Job::delay(v);
+        return *this;
+    }
+    TimedJob & paused(bool v)
+    {
+        Job::paused(v);
+        return *this;
     }
 };
 
