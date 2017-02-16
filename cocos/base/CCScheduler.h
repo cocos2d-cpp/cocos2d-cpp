@@ -88,6 +88,7 @@ public:
     static_assert(REPEAT_BITMASK > FOREVER_BIT);
 
 public:
+
     Job(Job const&) = default;
     Job& operator=(Job const&) = default;
     Job(Job &&) = default;
@@ -120,6 +121,28 @@ public:
 
     void update(Scheduler &, float dt);
 
+    void unschedule()
+    {
+        _repeat |= (TO_DELETE_BIT | PAUSED_BIT);
+    }
+    void paused(bool v)
+    {
+        _repeat = ((_repeat & ~PAUSED_BIT) | (uint32_t(v) << PAUSED_OFFSET));
+    }
+
+protected:
+
+    Job(uint32_t properties, void* target, std::function<void(float)> callback)
+        : JobId{properties, target}
+        , _interval(0.0f)
+        , _repeat(FOREVER_BIT)
+        , _leftover(-std::numeric_limits<float>::epsilon())
+        , _callback(callback)
+        {
+            CC_ASSERT(_target);
+            CC_ASSERT(_callback);
+        }
+
     void delay(float v)
     {
         if (v <= 0.0f)
@@ -136,28 +159,6 @@ public:
         CC_ASSERT(v <= FOREVER_BIT);
         _repeat = ((_repeat & ~REPEAT_BITMASK) | v);
     }
-    void paused(bool v)
-    {
-        _repeat = ((_repeat & ~PAUSED_BIT) | (uint32_t(v) << PAUSED_OFFSET));
-    }
-
-    void unschedule()
-    {
-        _repeat |= (TO_DELETE_BIT | PAUSED_BIT);
-    }
-
-protected:
-
-    Job(uint32_t properties, void* target, std::function<void(float)> callback)
-        : JobId{properties, target}
-        , _interval(0.0f)
-        , _repeat(FOREVER_BIT)
-        , _leftover(-std::numeric_limits<float>::epsilon())
-        , _callback(callback)
-        {
-            CC_ASSERT(_target);
-            CC_ASSERT(_callback);
-        }
 
 private:
     void trigger(float dt);
@@ -293,8 +294,6 @@ class CC_DLL Scheduler final
 {
 public:
     Scheduler() = default;
-    ~Scheduler();
-
     Scheduler(Scheduler const&) = delete;
     Scheduler & operator=(Scheduler const&) = delete;
 

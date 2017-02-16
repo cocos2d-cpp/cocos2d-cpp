@@ -93,11 +93,6 @@ void Job::cancel(Scheduler & scheduler)
   
 // implementation of Scheduler
 
-Scheduler::~Scheduler(void)
-{
-    unscheduleAll();
-}
-
 void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 {
     JobId jobId(TimedJob::make_properties(id), target);
