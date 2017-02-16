@@ -224,12 +224,15 @@ void Scheduler::update(float dt)
 
     for (auto & job : _jobsToAdd)
     {
-        begin = std::lower_bound(begin, _jobs.end(), job);
+        if (!job.unscheduled())
+        {
+            begin = std::lower_bound(begin, _jobs.end(), job);
 
-        if (begin == _jobs.end() || job < *begin)
-            begin = _jobs.insert(begin, job);
-        else
-            *begin = job;
+            if (begin == _jobs.end() || job < *begin)
+                begin = _jobs.insert(begin, job);
+            else
+                *begin = job;
+        }
     }
 
     _jobsToAdd.clear();
