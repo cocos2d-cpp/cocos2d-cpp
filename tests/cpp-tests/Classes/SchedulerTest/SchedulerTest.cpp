@@ -327,11 +327,26 @@ void SchedulerUnscheduleAll::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAll::unscheduleAll), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerUnscheduleAll::tick1)
+            .interval(0.5f)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(1, this, &SchedulerUnscheduleAll::tick2)
+            .interval(1.0f)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(2, this, &SchedulerUnscheduleAll::tick3)
+            .interval(1.5f)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(3, this, &SchedulerUnscheduleAll::tick4)
+            .interval(1.5f)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(4, this, &SchedulerUnscheduleAll::unscheduleAll)
+            .delay(4.0f)
+    );
 }
 
 void SchedulerUnscheduleAll::tick1(float /*dt*/)

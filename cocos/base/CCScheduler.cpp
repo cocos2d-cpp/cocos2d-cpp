@@ -63,6 +63,11 @@ void Job::update(Scheduler & scheduler, float dt)
             return;
         }
 
+        if (_leftover == std::numeric_limits<float>::epsilon())
+        {
+            _leftover = 0.0;
+        }
+
         dt += _leftover;
         _leftover = 0.0f;
     }
@@ -97,9 +102,11 @@ void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 {
     JobId jobId(TimedJob::make_properties(id), target);
 
-    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), jobId);
+    auto begin = _jobs.begin() + first_timed_idx;
+    auto end   = _jobs.end();
+    auto lb = std::lower_bound(begin, end, jobId);
     
-    if (!(*lb < jobId))
+    if (lb != end && !(jobId < *lb))
     {
         lb->unschedule();
     }
@@ -107,17 +114,16 @@ void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 
 void Scheduler::unscheduleUpdate(void *target)
 {
-    auto low = [](Job const& j, Job::Type type) {
-        return j.type() < type;
-    };
-    auto up = [](Job::Type type, Job const& j) {
-        return type < j.type();
-    };
-    // property is unknown :-(
-    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), Job::UPDATE, low);
-    auto ub = std::upper_bound(lb, _jobs.end(), Job::UPDATE, up);
-    auto it = std::find_if(lb, ub, [target](Job const& j) { return target == j.target(); });
-    if (it != ub) it->unschedule();
+    auto begin = _jobs.begin() + first_update_idx;
+    auto end   = _jobs.begin() + first_timed_idx;
+    auto it = std::find_if(begin, end,
+                           [target](Job const& j) {
+                               return target == j.target();
+                           });
+    if (it != end)
+    {
+        it->unschedule();
+    }
 }
 
 void Scheduler::unscheduleAll()
@@ -193,46 +199,90 @@ void Scheduler::update(float dt)
 {
     dt *= _speedup;
 
-    size_t n_unscheduled = 0;
+    auto move_to = _jobs.begin();
+    auto end     = _jobs.end();
 
-    for (auto & job : _jobs)
+    for (auto curr = move_to; curr != end; curr++)
     {
-        // TODO remove_if can be implemented here
-        if (job.unscheduled())
+        if (!curr->unscheduled())
         {
-            n_unscheduled++;
+            if (!curr->paused())
+                curr->update(*this, dt);
+
+            if (move_to != curr)
+                *move_to = std::move(*curr);
+
+            move_to++;
         }
-        else if (!job.paused())
+        else
         {
-            job.update(*this, dt);
+            first_update_idx -= (curr->type() == Job::ACTION);
+            first_timed_idx  -= (curr->type() == Job::ACTION
+                                 || curr->type() == Job::UPDATE);
         }
     }
 
-    if (n_unscheduled)
-    {
-        _jobs.erase
-            (
-                std::remove_if(_jobs.begin(), _jobs.end(),
-                               [](const Job & j){ return j.unscheduled(); }),
-                _jobs.end()
-            );
-    }
+    _jobs.erase(move_to, end);
 
     _jobs.reserve(_jobs.size() + _jobsToAdd.size());
 
     auto begin = _jobs.begin();
 
-    for (auto & job : _jobsToAdd)
-    {
-        if (!job.unscheduled())
-        {
-            begin = std::lower_bound(begin, _jobs.end(), job);
+    auto add_it = _jobsToAdd.begin();
+    auto add_end = _jobsToAdd.end();
 
-            if (begin == _jobs.end() || job < *begin)
-                begin = _jobs.insert(begin, job);
-            else
-                *begin = job;
+    for (; add_it != add_end && Job::ACTION == add_it->type(); add_it++)
+    {
+        CC_ASSERT(false); // not implemented yet
+
+        if (add_it->unscheduled())
+            continue;
+
+        //first_update_idx--++;
+        //first_timed_idx--++;
+    }
+
+    for (; add_it != add_end && Job::UPDATE == add_it->type(); add_it++)
+    {
+        if (add_it->unscheduled())
+            continue;
+
+        auto target = add_it->target();
+        begin = _jobs.begin() + first_update_idx;
+        end   = _jobs.begin() + first_timed_idx;
+
+        auto it = std::find_if(begin, end,
+                               [target](Job const j) {
+                                   return target == j.target();
+                               });
+
+        if (it != end)
+        {
+            _jobs.erase(it);
+            first_timed_idx--;
+            begin = _jobs.begin() + first_update_idx;
+            end   = _jobs.begin() + first_timed_idx;
         }
+
+        _jobs.insert(std::upper_bound(begin, end, *add_it),
+                     std::move(*add_it));
+        first_timed_idx++;
+    }
+
+    begin = _jobs.begin() + first_timed_idx;
+
+    for (; add_it != add_end; add_it++)
+    {
+        if (add_it->unscheduled())
+            continue;
+
+        end = _jobs.end();
+
+        begin = std::lower_bound(begin, end, *add_it);
+        if (begin == end || *add_it < *begin)
+            begin = _jobs.insert(begin, *add_it);
+        else
+            *begin = *add_it;
     }
 
     _jobsToAdd.clear();

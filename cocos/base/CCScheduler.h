@@ -358,6 +358,8 @@ private:
     float _speedup = 1.0f;
 
     std::vector<Job> _jobs;
+    size_t first_update_idx = 0;
+    size_t first_timed_idx  = 0;
     std::vector<Job> _jobsToAdd;
 
     // Used for "perform Function"
