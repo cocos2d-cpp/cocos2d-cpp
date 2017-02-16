@@ -254,11 +254,13 @@ void SchedulerPauseResumeAllUser::onEnter()
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(1, this, &SchedulerPauseResumeAllUser::tick1)
+            .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
         TimedJob(2, this, &SchedulerPauseResumeAllUser::tick2)
+            .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
     );
@@ -290,12 +292,13 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
     log("Pausing, tick1 and tick2 should be called three times");
     auto director = Director::getInstance();
     director->getScheduler().pauseAllTargets();
-    // because target 'this' has been paused above, so use another node(tag:123) as target
+    // using another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
-        [this](float dt) {
-            this->resume(dt);
-        }, child123, 0.0f, 0, 2.0f, child123->isPaused(), "test resume");
+        TimedJob(4, child123, [this](float dt) { this->resume(dt); })
+            .delay(2.0f)
+            .repeat(0)
+    );
 }
 
 void SchedulerPauseResumeAllUser::resume(float /*dt*/)
@@ -576,17 +579,17 @@ void SchedulerUpdate::onEnter()
     d->release();
 
     auto b = new (std::nothrow) TestNode();
-    b->initWithString("3rd", 0);
+    b->initWithString("3rd", 8);
     addChild(b);
     b->release();
 
     auto a = new (std::nothrow) TestNode();
-    a->initWithString("1st", -10);
+    a->initWithString("1st", 0);
     addChild(a);
     a->release();
 
     auto c = new (std::nothrow) TestNode();
-    c->initWithString("4th", 10);
+    c->initWithString("4th", 9);
     addChild(c);
     c->release();
 
@@ -596,11 +599,14 @@ void SchedulerUpdate::onEnter()
     e->release();
 
     auto f = new (std::nothrow) TestNode();
-    f->initWithString("2nd", -5);
+    f->initWithString("2nd", 5);
     addChild(f);
     f->release();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdate::removeUpdates), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerUpdate::removeUpdates)
+            .delay(4.0)
+    );
 }
 
 void SchedulerUpdate::removeUpdates(float /*dt*/)
@@ -618,6 +624,7 @@ void SchedulerUpdate::removeUpdates(float /*dt*/)
         }
         Director::getInstance()->getScheduler().unscheduleAllForTarget(node);
     }
+    Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 }
 
 std::string SchedulerUpdate::title() const
@@ -679,7 +686,12 @@ void SchedulerUpdateFromCustom::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &SchedulerUpdateFromCustom::schedUpdate)
+            .repeat(0)
+            .delay(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerUpdateFromCustom::update(float dt)
@@ -689,9 +701,8 @@ void SchedulerUpdateFromCustom::update(float dt)
 
 void SchedulerUpdateFromCustom::schedUpdate(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::schedUpdate), this);
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this, 2.0f, CC_REPEAT_FOREVER, 2.0f, !_running);
 }
 
 void SchedulerUpdateFromCustom::stopUpdate(float /*dt*/)
@@ -985,7 +996,7 @@ std::string ScheduleUpdatePriority::subtitle() const
 
 bool ScheduleUpdatePriority::onTouchBegan(Touch* /*touch*/, Event* /*event*/)
 {
-    int priority = static_cast<int>(CCRANDOM_0_1() * 11) - 5;  // -5 ~ 5
+    int priority = static_cast<int>(CCRANDOM_0_1() * 11);
     CCLOG("change update priority to %d", priority);
     Director::getInstance()->getScheduler().scheduleUpdate(this, priority, !_running);
     return true;

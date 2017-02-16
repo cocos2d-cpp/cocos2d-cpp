@@ -28,27 +28,14 @@ THE SOFTWARE.
 
 #include "base/ccMacros.h"
 
-#include <algorithm>
-
 namespace cocos2d {
-
-namespace {
-    TimedJob::id_t to_id(SEL_SCHEDULE selector)
-    {
-        return reinterpret_cast<size_t>(reinterpret_cast<void*>(selector));
-    }
-    TimedJob::id_t to_id(std::string const& id)
-    {
-        return std::hash<std::string>()(id);
-    }
-}
 
 static_assert(sizeof(Job) == sizeof(TimedJob));
 
 void Job::update(Scheduler & scheduler, float dt)
 {
     CC_ASSERT(!paused());
-    CC_ASSERT(_repeat <= CC_REPEAT_FOREVER);
+    CC_ASSERT(!unscheduled());
     CC_ASSERT(0.0f <= dt);
 
     if (dt < std::numeric_limits<float>::epsilon())
@@ -83,7 +70,8 @@ void Job::update(Scheduler & scheduler, float dt)
     for (_leftover += dt; interval <= _leftover; _leftover -= interval)
     {
         trigger(interval);
-        if (!--_repeat)
+
+        if (!forever() && !--_repeat)
         {
             cancel(scheduler);
             return;
@@ -99,7 +87,7 @@ void Job::trigger(float dt)
 
 void Job::cancel(Scheduler & scheduler)
 {
-    // TODO Fix
+    // Only TimedJobs can be cancelled here
     scheduler.unscheduleTimedJob(static_cast<TimedJob*>(this)->id(), _target);
 }
   
@@ -110,135 +98,31 @@ Scheduler::~Scheduler(void)
     unscheduleAll();
 }
 
-void Scheduler::schedule(TimedJob job)
-{
-    auto ub = std::upper_bound(_jobsToAdd.begin(), _jobsToAdd.end(), static_cast<Job&>(job));
-    _jobsToAdd.insert(ub, job);
-}
-
-void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
-{
-    schedule(
-        TimedJob(to_id(id), target, callback)
-            .interval(interval)
-            .paused(paused)
-    );
-}
-
-void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)
-{
-    schedule(
-        TimedJob(to_id(id), target, callback)
-            .interval(interval)
-            .repeat(repeat)
-            .delay(delay)
-            .paused(paused)
-    );
-}
-
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
-{
-    CCASSERT(target, "Argument target must be non-nullptr");
-    
-    schedule(
-        TimedJob(to_id(selector), target, selector)
-            .interval(interval)
-            .repeat(repeat)
-            .delay(delay)
-            .paused(paused)
-    );
-}
-
-void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
-{
-    CCASSERT(target, "Argument target must be non-nullptr");
-    
-    schedule(
-        TimedJob(to_id(selector), target, selector)
-            .interval(interval)
-            .paused(paused)
-    );
-}
-
 void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 {
-    TimedJob tmp(id, target, [](float){});
-    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), tmp);
-    if (!(*lb < tmp)) {
+    JobId jobId(TimedJob::make_properties(id), target);
+
+    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), jobId);
+    
+    if (!(*lb < jobId))
+    {
         lb->unschedule();
     }
 }
 
-void Scheduler::unschedule(const std::string &id, void *target)
-{
-    unscheduleTimedJob(to_id(id), target);
-}
-
-void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
-{
-    unscheduleTimedJob(to_id(selector), target);
-}
-
-void Scheduler::schedulePerFrame(std::function<void(float)> callback, void *target, int priority, bool paused)
-{
-    auto hash_it = _hashForUpdates.find(target);
-
-    if (hash_it != _hashForUpdates.end())
-    {
-        // check if priority has changed
-        if (hash_it->second->priority != priority)
-        {
-            if (_updateHashLocked)
-            {
-                CC_ASSERT(false);
-                CCLOG("warning: you CANNOT change update priority in scheduled function");
-                hash_it->second->markedForDeletion = false;
-                hash_it->second->paused = paused;
-                return;
-            }
-            else
-            {
-            	// will be added again outside if (hashElement).
-                unscheduleUpdate(hash_it);
-            }
-        }
-        else
-        {
-            hash_it->second->markedForDeletion = false;
-            hash_it->second->paused = paused;
-            return;
-        }
-    }
-
-    auto list_it = std::find_if(_updatesList.begin(), _updatesList.end(),
-                                [priority](const ListEntry& e) {
-                                    return priority < e.priority;
-                                });
-
-    _hashForUpdates[target] = _updatesList.insert(list_it, {callback, target, priority, paused, false});
-}
-
 void Scheduler::unscheduleUpdate(void *target)
 {
-    auto hash_it = _hashForUpdates.find(target);
-
-    if (hash_it != _hashForUpdates.end())
-    {
-        unscheduleUpdate(hash_it);
-    }
-}
-
-void Scheduler::unscheduleUpdate(updates_hash_t::iterator hash_it)
-{
-    if (_updateHashLocked)
-    {
-        hash_it->second->markedForDeletion = true;
-    }
-    else
-    {
-        _updatesList.erase( hash_it->second );
-        _hashForUpdates.erase(hash_it);
-    }
+    auto low = [](Job const& j, Job::Type type) {
+        return j.type() < type;
+    };
+    auto up = [](Job::Type type, Job const& j) {
+        return type < j.type();
+    };
+    // property is unknown :-(
+    auto lb = std::lower_bound(_jobs.begin(), _jobs.end(), Job::UPDATE, low);
+    auto ub = std::upper_bound(lb, _jobs.end(), Job::UPDATE, up);
+    auto it = std::find_if(lb, ub, [target](Job const& j) { return target == j.target(); });
+    if (it != ub) it->unschedule();
 }
 
 void Scheduler::unscheduleAll()
@@ -248,18 +132,6 @@ void Scheduler::unscheduleAll()
 
     for (auto & job : _jobsToAdd)
         job.unschedule();
-
-    // Updates selectors
-    if (_updateHashLocked)
-    {
-        for (auto & l : _updatesList)
-            l.markedForDeletion = true;
-    }
-    else
-    {
-        _hashForUpdates.clear();
-        _updatesList.clear();
-    }
 }
 
 void Scheduler::unscheduleAllForTarget(void *target)
@@ -271,9 +143,6 @@ void Scheduler::unscheduleAllForTarget(void *target)
     for (auto & job : _jobsToAdd)
         if (job.target() == target)
             job.unschedule();
-
-    // update selector
-    unscheduleUpdate(target);
 }
 
 void Scheduler::updatePausedStateForTarget(void *target, bool paused)
@@ -287,12 +156,6 @@ void Scheduler::updatePausedStateForTarget(void *target, bool paused)
     for (auto & job : _jobsToAdd)
         if (job.target() == target)
             job.paused(paused);
-
-    auto updates_hash_it = _hashForUpdates.find(target);
-    if (_hashForUpdates.end() != updates_hash_it)
-    {
-        updates_hash_it->second->paused = paused;
-    }
 }
 
 void Scheduler::pauseTarget(void *target)
@@ -307,15 +170,11 @@ void Scheduler::resumeTarget(void *target)
 
 void Scheduler::updatePausedStateForAll(bool paused)
 {
-    // Custom Selectors
     for (auto & job : _jobs)
         job.paused(paused);
 
-    // Updates selectors
-    for (auto & entry : _updatesList) 
-    {
-        entry.paused = paused;
-    }
+    for (auto & job : _jobsToAdd)
+        job.paused(paused);
 }
 
 void Scheduler::pauseAllTargets()
@@ -334,36 +193,10 @@ void Scheduler::performFunctionInCocosThread(std::function<void()> function)
     _functionsToPerform.push_back(function);
 }
 
-float Scheduler::getSpeedup() const
-{
-    return _speedup;
-}
-
-void Scheduler::setSpeedup(float speedup)
-{
-    CCASSERT(speedup > std::numeric_limits<float>::epsilon(),
-             "speedup must be positive");
-    _speedup = speedup;
-}
-
 // main loop
 void Scheduler::update(float dt)
 {
-    _updateHashLocked = true;
-
     dt *= _speedup;
-
-    //
-    // Selector callbacks
-    //
-
-    for (auto & entry : _updatesList)
-    {
-        if (!entry.paused && !entry.markedForDeletion)
-        {
-            entry.callback(dt);
-        }
-    }
 
     size_t n_unscheduled = 0;
 
@@ -377,27 +210,6 @@ void Scheduler::update(float dt)
         else if (!job.paused())
         {
             job.update(*this, dt);
-        }
-    }
-
-    for (auto it = _updatesList.begin(), end = _updatesList.end(); it != end; )
-    {
-        if (it->markedForDeletion)
-        {
-            auto hash_it = _hashForUpdates.find(it->target);
-            if (hash_it != _hashForUpdates.end())
-            {
-                // hash can contain a new element, see schedulePerFrame
-                if (hash_it->second->markedForDeletion)
-                {
-                    _hashForUpdates.erase(hash_it);
-                }
-            }
-            it = _updatesList.erase(it);
-        }
-        else
-        {
-            it++;
         }
     }
 
@@ -427,9 +239,6 @@ void Scheduler::update(float dt)
 
     _jobsToAdd.clear();
 
-    _updateHashLocked = false;
-    _currentTarget = nullptr;
-
     // Functions allocated from another thread
 
     if( !_functionsToPerform.empty() )
@@ -446,6 +255,69 @@ void Scheduler::update(float dt)
             function();
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//************************ DEPRECATED ****************************************//
+////////////////////////////////////////////////////////////////////////////////
+
+static TimedJob::id_t to_id(SEL_SCHEDULE selector)
+{
+    return
+        TimedJob::ID_BITMASK &
+            static_cast<TimedJob::id_t>(
+                reinterpret_cast<size_t>(
+                    reinterpret_cast<void*>(selector)
+                ));
+}
+static TimedJob::id_t to_id(std::string const& id)
+{
+    return TimedJob::ID_BITMASK & static_cast<TimedJob::id_t>(std::hash<std::string>()(id));
+}
+
+void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)
+{
+    schedule(
+        TimedJob(to_id(id), target, callback)
+            .interval(interval)
+            .repeat(repeat)
+            .delay(delay)
+            .paused(paused)
+    );
+}
+void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
+{
+    schedule(
+        TimedJob(to_id(id), target, callback)
+            .interval(interval)
+            .paused(paused)
+    );
+}
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
+{
+    schedule(
+        TimedJob(to_id(selector), target, selector)
+            .interval(interval)
+            .repeat(repeat)
+            .delay(delay)
+            .paused(paused)
+    );
+}
+void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
+{
+    schedule(
+        TimedJob(to_id(selector), target, selector)
+            .interval(interval)
+            .paused(paused)
+    );
+}
+void Scheduler::unschedule(const std::string& id, void *target)
+{
+    unscheduleTimedJob(to_id(id), target);
+}
+void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
+{
+    unscheduleTimedJob(to_id(selector), target);
 }
 
 } // namespace cocos2d
