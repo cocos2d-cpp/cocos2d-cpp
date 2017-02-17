@@ -43,9 +43,6 @@ void Job::update(Scheduler & scheduler, float dt)
         return;
     }
 
-    // if _interval == 0, should trigger once every frame
-    float interval = (_interval > 0.0f) ? _interval : dt;
-
     if (_leftover < 0.0f)
     {
         if (_leftover + dt < 0.0f)
@@ -63,6 +60,12 @@ void Job::update(Scheduler & scheduler, float dt)
             return;
         }
 
+        if (_interval == 0.0f)
+        {
+            _leftover = 0.0f;
+            return;
+        }
+
         if (_leftover == std::numeric_limits<float>::epsilon())
         {
             _leftover = 0.0;
@@ -71,6 +74,9 @@ void Job::update(Scheduler & scheduler, float dt)
         dt += _leftover;
         _leftover = 0.0f;
     }
+
+    // if _interval == 0, should trigger once every frame
+    float interval = (0.0f < _interval) ? _interval : dt;
 
     for (_leftover += dt; interval <= _leftover; _leftover -= interval)
     {

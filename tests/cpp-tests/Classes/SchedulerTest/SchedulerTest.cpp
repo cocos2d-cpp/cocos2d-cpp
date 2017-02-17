@@ -663,7 +663,7 @@ void SchedulerUpdateAndCustom::onEnter()
 
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.0f, CC_REPEAT_FOREVER, 0.4f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.0f, CC_REPEAT_FOREVER, 0.1, !_running);
 }
 
 void SchedulerUpdateAndCustom::update(float dt)
@@ -689,7 +689,7 @@ std::string SchedulerUpdateAndCustom::title() const
 
 std::string SchedulerUpdateAndCustom::subtitle() const
 {
-    return "Update + custom selector at the same time. Stops in 0.4 s. See console";
+    return "Update + custom selector at the same time. Stops in 0.1 s. See console";
 }
 
 //------------------------------------------------------------------

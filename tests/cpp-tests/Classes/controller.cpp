@@ -104,10 +104,10 @@ public:
         addTest("UserDefault", []() { return new UserDefaultTests(); });
         addTest("Vibrate", []() { return new VibrateTests(); });
         addTest("VR Test", []() { return new VRTests(); });
-        addTest("Window Test", []() { return new WindowTests(); });
-        addTest("Zwoptex", []() { return new ZwoptexTests(); });
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WIN32 || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+        addTest("Window Test", []() { return new WindowTests(); });
 #endif
+        addTest("Zwoptex", []() { return new ZwoptexTests(); });
     }
 };
 
