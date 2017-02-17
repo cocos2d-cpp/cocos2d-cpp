@@ -1,7 +1,7 @@
 cocos2d-cpp
 ===========
 
-cocos2d-cpp is a 2D game engine written in C++11. cocos2d-cpp was originally cloned from cocos2d-x game engine with an attempt to refactor some basic deficiencies of the original.
+cocos2d-cpp is a 2D game engine written in C++11. cocos2d-cpp was originally cloned from cocos2d-x game engine with an attempt to refactor some legacy features.
 
 Since then, it turned into a complete re-write of the engine. Hence, though cocos2d-cpp is based on cocos2d-x, it is not compatible with it.
 
@@ -21,7 +21,7 @@ The main objectives of cocos2d-cpp:
 
 3.  Make it clear and simple
 
-    The original aim to make the engine simple to use ironically resulted in an engine itself being unnecessarily complicated. Which in turn inevitably makes the engine vulnerable to bugs and hard to maintain. Moreover, it eventually leads to ambiguity and complexity in usage patterns. cocos2d-cpp is trying to follow the KISS principle.
+    The aim for cocos2d to make the engine simple in use ironically resulted in an engine itself being unnecessarily complicated. Which in turn inevitably makes the engine vulnerable to bugs and hard to maintain. Moreover, it eventually leads to ambiguity and complexity in usage patterns. cocos2d-cpp is trying to follow the KISS principle.
 
 4.  Increase performance
 
