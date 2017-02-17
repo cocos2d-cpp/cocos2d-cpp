@@ -31,7 +31,6 @@ THE SOFTWARE.
 #include <thread>
 #include <chrono>
 
-#include "2d/CCActionManager.h"
 #include "2d/CCScene.h"
 #include "base/CCScheduler.h"
 #include "math/CCMath.h"
@@ -49,6 +48,7 @@ namespace cocos2d {
  */
 
 /* Forward declarations. */
+class ActionManager;
 class LabelAtlas;
 class Node;
 class EventDispatcher;
@@ -386,12 +386,7 @@ public:
     /** Gets the ActionManager associated with this director.
      * @since v2.0
      */
-    ActionManager & getActionManager() { return _actionManager; }
-    
-    /** Sets the ActionManager associated with this director.
-     * @since v2.0
-     */
-    void setActionManager(ActionManager* actionManager);
+    ActionManager & getActionManager() { return *_actionManager; }
     
     /** Gets the EventDispatcher associated with this director.
      * @since v3.0
@@ -579,7 +574,7 @@ protected:
     /** ActionManager associated with this director
      @since v2.0
      */
-    ActionManager _actionManager;
+    std::unique_ptr<ActionManager> _actionManager;
     
     /** EventDispatcher associated with this director
      @since v3.0

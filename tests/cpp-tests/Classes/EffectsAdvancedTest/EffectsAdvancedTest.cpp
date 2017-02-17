@@ -1,7 +1,6 @@
 #include "EffectsAdvancedTest.h"
 
 #include "2d/CCActionGrid3D.h"
-#include "2d/CCActionManager.h"
 #include "2d/CCActionTiledGrid.h"
 #include "2d/CCNodeGrid.h"
 #include "2d/CCSprite.h"
@@ -199,11 +198,11 @@ void Effect4::onEnter()
 
     auto director = Director::getInstance();
     auto pTarget = Lens3DTarget::create(lens);
+
     // Please make sure the target been added to its parent.
     this->addChild(pTarget);
-    //gridNode->addChild(pTarget);
 
-    director->getActionManager().addAction(seq, pTarget, false);
+    pTarget->runAction( seq );
     
     _bgNode->runAction( lens );
 }

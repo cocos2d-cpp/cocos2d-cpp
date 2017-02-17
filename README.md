@@ -9,9 +9,9 @@ cocos2d-cpp is C++11 and C++11 only. It wouldn't be practical to attempt a re-wr
 
 cocos2d-cpp is targeted for Android, iOS, MacOS and Linux. Portability with Windows is being kept, but it might occasionally be broken.
 
-The main objectives for the re-write:
+The main objectives of cocos2d-cpp:
 
-1.  Fix the memory model
+1.  Clean memory model
 
     cocos2d::Ref intrusive pointer - a base of all classes - is to be removed and substituted with C++11-standard smart pointers - std::unique_ptr, std::shared_ptr, etc.
 

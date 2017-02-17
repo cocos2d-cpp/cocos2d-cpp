@@ -104,6 +104,7 @@ Director::Director()
 , _isStatusLabelUpdated(true)
 , _invalid(true)
 {
+    _actionManager.reset(new ActionManager);
 }
 
 bool Director::init()
@@ -256,7 +257,7 @@ void Director::drawScene()
     if (! _paused)
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
-        _actionManager.update(_deltaTime);
+        _actionManager->update(_deltaTime);
         _scheduler.update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }

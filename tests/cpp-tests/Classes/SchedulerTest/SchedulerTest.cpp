@@ -1,7 +1,6 @@
 #include "SchedulerTest.h"
 #include "../testResource.h"
 
-#include "2d/CCActionManager.h"
 #include "2d/CCParticleExamples.h"
 #include "base/CCDirector.h"
 #include "base/CCScheduler.h"

@@ -30,7 +30,6 @@
 #include "2d/CCActionCatmullRom.h"
 #include "2d/CCActionInstant.h"
 #include "2d/CCAnimationCache.h"
-#include "2d/CCActionManager.h"
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
 #include "base/CCDirector.h"
@@ -2010,24 +2009,6 @@ void Issue1305_2::onEnter()
     addChild(spr);
 
     auto act1 = MoveBy::create(2 ,Vec2(0, 100));
-    /* c++ can't support block, so we use CallFuncN instead.
-    id act2 = [CallBlock actionWithBlock:^{
-        NSLog(@"1st block");
-    });
-    id act3 = [MoveBy create:2, Vec2(0, -100));
-    id act4 = [CallBlock actionWithBlock:^{
-        NSLog(@"2nd block");
-    });
-    id act5 = [MoveBy create:2, Vec2(100, -100));
-    id act6 = [CallBlock actionWithBlock:^{
-        NSLog(@"3rd block");
-    });
-    id act7 = [MoveBy create:2, Vec2(-100, 0));
-    id act8 = [CallBlock actionWithBlock:^{
-        NSLog(@"4th block");
-    });
-    */
-
     auto act2 = CallFunc::create( std::bind( &Issue1305_2::printLog1, this));
     auto act3 = MoveBy::create(2, Vec2(0, -100));
     auto act4 = CallFunc::create( std::bind( &Issue1305_2::printLog2, this));
@@ -2047,9 +2028,7 @@ void Issue1305_2::onEnter()
         to_action_ptr(act8)
     );
 
-    //    [spr runAction:actF);
-    Director::getInstance()->getActionManager().addAction(actF ,spr, false);
-
+    spr->runAction(actF);
 }
 
 void Issue1305_2::printLog1()
@@ -2437,19 +2416,20 @@ void PauseResumeActions::onEnter()
     Director::getInstance()->getScheduler().schedule(
         [&](float /*dt*/){
             log("Pausing");
-            auto director = Director::getInstance();
-            _pausedTargets = director->getActionManager().pauseAllRunningActions();
+            _tamara->pause();
+            _grossini->pause();
+            _kathia->pause();
         },
-        this, 3, false, 0, !_running,"pause_key");
+        this, 0, 0, 3, !_running,"pause_key");
 
     Director::getInstance()->getScheduler().schedule(
         [&](float /*dt*/) {
             log("Resuming");
-            auto director = Director::getInstance();
-            director->getActionManager().resumeTargets(_pausedTargets);
-            _pausedTargets.clear();
+            _tamara->resume();
+            _grossini->resume();
+            _kathia->resume();
         },
-        this, 5, false, 0, !_running, "resume_key");
+        this, 0, 0, 5, !_running, "resume_key");
 }
 
 std::string PauseResumeActions::title() const

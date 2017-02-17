@@ -34,6 +34,8 @@ THE SOFTWARE.
 namespace cocos2d {
 
 class Action;
+class Director;
+class Node;
 
 struct _hashElement;
 
@@ -55,9 +57,15 @@ struct _hashElement;
  */
 class CC_DLL ActionManager final
 {
+    friend class Director;
+    friend class Node;
+
 public:
-    ActionManager();
+
     ~ActionManager();
+
+private:
+    ActionManager();
 
     // actions
     
@@ -177,14 +185,12 @@ public:
      */
     void update(float dt);
     
-protected:
     // declared in ActionManager.m
 
     void removeActionAtIndex(ssize_t index, struct _hashElement *element);
     void deleteHashElement(struct _hashElement *element);
     void actionAllocWithHashElement(struct _hashElement *element);
 
-protected:
     struct _hashElement    *_targets;
     struct _hashElement    *_currentTarget;
     bool            _currentTargetSalvaged;
