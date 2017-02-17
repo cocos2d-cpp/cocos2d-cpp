@@ -448,19 +448,8 @@ void ActionManager::update(float dt)
 
                 _currentTarget->currentActionSalvaged = false;
 
-                _currentTarget->currentAction->step(dt);
-
-                if (_currentTarget->currentActionSalvaged)
+                if (_currentTarget->currentAction->last_step(dt))
                 {
-                    // The currentAction told the node to remove it. To prevent the action from
-                    // accidentally deallocating itself before finishing its step, we retained
-                    // it. Now that step is done, it's safe to release it.
-                    _currentTarget->currentAction->release();
-                } else
-                if (_currentTarget->currentAction->isDone())
-                {
-                    _currentTarget->currentAction->stop();
-
                     Action *action = _currentTarget->currentAction;
                     // Make currentAction nil to prevent removeAction from salvaging it.
                     _currentTarget->currentAction = nullptr;

@@ -50,6 +50,19 @@ enum {
 class CC_DLL Action : public Ref
 {
 public:
+    bool last_step(float dt)
+    {
+        step(dt);
+
+        if (isDone())
+        {
+            stop();
+            return true;
+        }
+
+        return false;
+    }
+
     /** Default tag used for all the actions. */
     static const int INVALID_TAG = -1;
 

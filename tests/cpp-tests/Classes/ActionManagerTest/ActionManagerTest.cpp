@@ -143,7 +143,7 @@ void PauseTest::onEnter()
     ActionManagerTest::onEnter();
     
 
-    auto l = Label::createWithTTF("After 5 seconds grossini should move", "fonts/Thonburi.ttf", 16.0f);
+    auto l = Label::createWithTTF("After 3 seconds grossini should move", "fonts/Thonburi.ttf", 16.0f);
     addChild(l);
     l->setPosition(VisibleRect::center().x, VisibleRect::top().y-75);
     
@@ -157,17 +157,20 @@ void PauseTest::onEnter()
     
     auto action = MoveBy::create(1, Vec2(150,0));
 
-    auto director = Director::getInstance();
     grossini->runAction(action);
+    grossini->pause();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PauseTest::unpause), this, 3, CC_REPEAT_FOREVER, 0.0f, isPaused());
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &PauseTest::unpause)
+            .repeat(0)
+            .delay(3.0f)
+            .paused(isPaused())
+    );
 }
 
 void PauseTest::unpause(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule( CC_SCHEDULE_SELECTOR(PauseTest::unpause), this );
     auto node = getChildByTag( kTagGrossini );
-    auto director = Director::getInstance();
     node->resume();
 }
 
@@ -247,7 +250,12 @@ void StopAllActionsTest::onEnter()
     pChild->runAction(pRepeatMove);
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
-    Director::getInstance()->getScheduler().schedule((SEL_SCHEDULE)&StopAllActionsTest::stopAction, this, 0.0f, 0, 4, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &StopAllActionsTest::stopAction)
+            .repeat(0)
+            .delay(4)
+            .paused(isPaused())
+    );
 }
 
 void StopAllActionsTest::stopAction(float /*time*/)
@@ -286,19 +294,20 @@ void ResumeTest::onEnter()
 
     pGrossini->runAction(ScaleBy::create(2, 2));
 
-    auto director = Director::getInstance();
     pGrossini->pause();
     pGrossini->runAction(RotateBy::create(2, 360));
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), this, 3.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &ResumeTest::resumeGrossini)
+            .delay(3.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void ResumeTest::resumeGrossini(float /*time*/)
 {
-    Director::getInstance()->getScheduler().unschedule( CC_SCHEDULE_SELECTOR(ResumeTest::resumeGrossini), this );
-
     auto pGrossini = getChildByTag(kTagGrossini);
-    auto director = Director::getInstance();
     pGrossini->resume();
 }
 
@@ -338,7 +347,12 @@ void StopActionsByFlagsTest::onEnter()
     pChild->runAction(pRepeatMove);
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
-    Director::getInstance()->getScheduler().schedule((SEL_SCHEDULE)&StopActionsByFlagsTest::stopAction, this, 0.0f, 0, 4, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(0, this, &StopActionsByFlagsTest::stopAction)
+            .delay(4)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void StopActionsByFlagsTest::stopAction(float /*time*/)
