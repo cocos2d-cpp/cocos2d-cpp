@@ -13,11 +13,11 @@ The main objectives of cocos2d-cpp:
 
 1.  Clean memory model
 
-    cocos2d::Ref intrusive pointer - a base of all classes - is to be removed and substituted with C++11-standard smart pointers - std::unique_ptr, std::shared_ptr, etc.
+    cocos2d::Ref intrusive pointer - a base of all classes - is to be removed and substituted with C++11 standard smart pointers - std::unique_ptr, std::shared_ptr, etc.
 
 2.  Make it really C++11
 
-    The original codebase suffered badly from its objective-C origin. cocos2d-cpp is moving towards a classic C++11 implementation.
+    The original engine badly suffered from its objective-C origin. cocos2d-cpp is an uncompromised C++11 implementation.
 
 3.  Make it clear and simple
 
@@ -29,4 +29,4 @@ The main objectives of cocos2d-cpp:
 
 5.  Testability
 
-    As cocos2d-cpp's units' interfaces become mature and stable, they are to be covered with unit and performance tests. For now, the engine is being made to be unit-testable. For example, singletons are being removed.
+    As cocos2d-cpp's units' interfaces become mature and stable, they are to be covered with unit and performance tests. For now, the engine is prepared to be unit-testable. For example, singletons are being removed.
