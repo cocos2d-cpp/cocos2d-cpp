@@ -784,7 +784,9 @@ void ParticleSystem::onEnter()
     Node::onEnter();
     
     // update after action in run!
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 1, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        UpdateJob(1, this).paused( isPaused() )
+    );
 }
 
 void ParticleSystem::onExit()

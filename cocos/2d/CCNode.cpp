@@ -1584,7 +1584,9 @@ bool Node::addComponent(Component *component)
         _componentContainer = new (std::nothrow) ComponentContainer(this);
     
     // should enable schedule update, then all components can receive this call back
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        UpdateJob(0, this).paused( isPaused() )
+    );
 
     return _componentContainer->add(component);
 }
