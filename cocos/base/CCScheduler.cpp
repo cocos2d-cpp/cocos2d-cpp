@@ -120,15 +120,23 @@ void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
 
 void Scheduler::unscheduleUpdate(void *target)
 {
-    auto begin = _jobs.begin() + first_update_idx;
-    auto end   = _jobs.begin() + first_timed_idx;
-    auto it = std::find_if(begin, end,
-                           [target](Job const& j) {
-                               return target == j.target();
-                           });
-    if (it != end)
+    auto prop_it = _update_target_to_properties.find(target);
+
+    if (prop_it != _update_target_to_properties.end())
     {
-        it->unschedule();
+        JobId jobId{ prop_it->second, target };
+
+        _update_target_to_properties.erase( prop_it );
+
+        auto begin = _jobs.begin() + first_update_idx;
+        auto end   = _jobs.begin() + first_timed_idx;
+
+        auto it = std::lower_bound(begin, end, jobId);
+
+        if (it != end && !(jobId < *it))
+        {
+            it->unschedule();
+        }
     }
 }
 
@@ -254,25 +262,34 @@ void Scheduler::update(float dt)
             continue;
 
         auto target = add_it->target();
+
+        static_assert(Job::UPDATE);
+        auto & old_properties = _update_target_to_properties[target];
+
+        if (old_properties)
+        {
+            JobId jobId{ old_properties, target };
+
+            begin = _jobs.begin() + first_update_idx;
+            end   = _jobs.begin() + first_timed_idx;
+
+            auto it = std::lower_bound(begin, end, jobId);
+
+            if (it != end && !(jobId < *it))
+            {
+                _jobs.erase(it);
+                first_timed_idx--;
+            }
+        }
+
         begin = _jobs.begin() + first_update_idx;
         end   = _jobs.begin() + first_timed_idx;
 
-        auto it = std::find_if(begin, end,
-                               [target](Job const j) {
-                                   return target == j.target();
-                               });
-
-        if (it != end)
-        {
-            _jobs.erase(it);
-            first_timed_idx--;
-            begin = _jobs.begin() + first_update_idx;
-            end   = _jobs.begin() + first_timed_idx;
-        }
-
         _jobs.insert(std::upper_bound(begin, end, *add_it),
                      std::move(*add_it));
+
         first_timed_idx++;
+        old_properties = add_it->properties();
     }
 
     begin = _jobs.begin() + first_timed_idx;

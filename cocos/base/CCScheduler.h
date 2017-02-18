@@ -360,6 +360,9 @@ private:
     std::vector<Job> _jobs;
     size_t first_update_idx = 0;
     size_t first_timed_idx  = 0;
+
+    std::unordered_map<void*,UpdateJob::priority_t> _update_target_to_properties;
+
     std::vector<Job> _jobsToAdd;
 
     // Used for "perform Function"
