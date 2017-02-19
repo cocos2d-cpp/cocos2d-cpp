@@ -66,7 +66,7 @@ void Job::update(Scheduler & scheduler, float dt)
             return;
         }
 
-        if (_leftover == std::numeric_limits<float>::epsilon())
+        if (_leftover == -std::numeric_limits<float>::epsilon())
         {
             _leftover = 0.0;
         }
@@ -92,8 +92,7 @@ void Job::update(Scheduler & scheduler, float dt)
 
 void Job::trigger(float dt)
 {
-    if (_callback)
-        _callback(dt);
+    _callback(dt);
 }
 
 void Job::cancel(Scheduler & scheduler)
@@ -244,6 +243,9 @@ void Scheduler::update(float dt)
 
     auto add_it = _jobsToAdd.begin();
     auto add_end = _jobsToAdd.end();
+
+    static_assert(Job::ACTION < Job::UPDATE);
+    static_assert(Job::UPDATE < Job::TIMED);
 
     for (; add_it != add_end && Job::ACTION == add_it->type(); add_it++)
     {

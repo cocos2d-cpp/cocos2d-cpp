@@ -182,8 +182,8 @@ class UpdateJob : public Job {
 public:
 
     using priority_t = uint32_t;
-    static constexpr priority_t PRIORITY_BITMASK = 0x1FFFFFFF;
-    static constexpr priority_t MAX_PRIORITY = PRIORITY_BITMASK;
+    static constexpr priority_t MAX_PRIORITY     = ~TYPE_BITMASK;
+    static constexpr priority_t PRIORITY_BITMASK = MAX_PRIORITY;
 
 public:
     template<typename T>
@@ -193,7 +193,6 @@ public:
               [target](float dt){ target->update(dt); })
         {
             CC_ASSERT(target);
-            CC_ASSERT(priority <= MAX_PRIORITY);
         }
 
     UpdateJob(UpdateJob const&) = default;
@@ -208,6 +207,7 @@ public:
 
     static uint32_t make_properties(priority_t priority)
     {
+        CC_ASSERT(priority <= MAX_PRIORITY);
         return (Type::UPDATE | (PRIORITY_BITMASK & priority));
     }
 
@@ -220,15 +220,15 @@ public:
 
 /*
  * Executed by INTERVAL after DELAY for REPEAT times, but within a
- * frame always after ActionJob and UpdateJob
+ * frame always after UpdateJob
  * Unique per (target + id)
  */
 class TimedJob : public Job {
 public:
     // can be enlarged to 0x1FFFFFFF, see Job::_properties
     using id_t = uint32_t;
-    static constexpr id_t ID_BITMASK = 0x1FFFFFFF;
-    static constexpr id_t MAX_ID = 0x1FFFFFFF;
+    static constexpr id_t MAX_ID     = ~TYPE_BITMASK;
+    static constexpr id_t ID_BITMASK = MAX_ID;
 
 public:
     TimedJob(id_t id, void* target, std::function<void(float)> callback)
@@ -240,7 +240,6 @@ public:
         : TimedJob(id, target, [target,func](float dt){ (target->*func)(dt); })
         {
             CC_ASSERT(target);
-            CC_ASSERT(id <= MAX_ID);
         }
 
     TimedJob(TimedJob const&) = default;
@@ -252,6 +251,7 @@ public:
 
     static uint32_t make_properties(id_t id)
     {
+        CC_ASSERT(id <= MAX_ID);
         return (Type::TIMED | (ID_BITMASK & id));
     }
 
@@ -325,8 +325,8 @@ public:
             );
         }
 
-    void unscheduleUpdate(void *target);
-    void unscheduleTimedJob(TimedJob::id_t id, void* target);
+    void unscheduleUpdate(void * target);
+    void unscheduleTimedJob(TimedJob::id_t id, void * target);
 
     void unscheduleAllForTarget(void *target);
     void unscheduleAll();

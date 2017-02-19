@@ -51,7 +51,6 @@ class Touch;
 class Action;
 class LabelProtocol;
 class Scheduler;
-class ActionManager;
 class Component;
 class ComponentContainer;
 class EventDispatcher;
