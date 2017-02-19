@@ -46,8 +46,8 @@ class Scheduler;
 
 class JobId {
 protected:
-    uint32_t _properties;
     void*    _target;
+    uint32_t _properties;
 
 public:
 
