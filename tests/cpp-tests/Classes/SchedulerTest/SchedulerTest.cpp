@@ -168,7 +168,7 @@ void SchedulerPauseResumeAll::onEnter()
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.5f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 1.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 0.0f, 0, 3.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 3.0f, 0, 3.0f, !_running);
 }
 
 void SchedulerPauseResumeAll::update(float /*delta*/)
@@ -195,22 +195,20 @@ void SchedulerPauseResumeAll::tick2(float /*dt*/)
 void SchedulerPauseResumeAll::pause(float /*dt*/)
 {
     log("Pausing, tick1 should be called six times and tick2 three times");
-    auto & scheduler = Director::getInstance()->getScheduler();
-    scheduler.pauseAllTargets();
+    Director::getInstance()->getScheduler().pauseAllTargets();
 
     // because target 'this' has been paused above, so use another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
         [this](float dt) {
             this->resume(dt);
-        }, child123, 0.0f, 0, 2.0f, true, "test resume");
+        }, child123, 0.0f, 0, 2.0f, false, "test resume");
 }
 
 void SchedulerPauseResumeAll::resume(float /*dt*/)
 {
     log("Resuming");
-    auto director = Director::getInstance();
-    director->getScheduler().resumeAllTargets();
+    Director::getInstance()->getScheduler().resumeAllTargets();
 }
 
 std::string SchedulerPauseResumeAll::title() const

@@ -104,7 +104,6 @@ Director::Director()
 , _isStatusLabelUpdated(true)
 , _invalid(true)
 {
-    _actionManager.reset(new ActionManager);
 }
 
 bool Director::init()
@@ -143,6 +142,14 @@ bool Director::init()
     _contentScaleFactor = 1.0f;
 
     _console = new (std::nothrow) Console;
+
+    _actionManager.reset(new ActionManager);
+
+    _scheduler.schedule(
+        UpdateJob(_actionManager.get(),
+                  std::numeric_limits<UpdateJob::priority_type>::min())
+            .paused(false)
+    );
 
     _eventDispatcher = new (std::nothrow) EventDispatcher();
     _eventAfterDraw = new (std::nothrow) EventCustom(EVENT_AFTER_DRAW);
@@ -257,7 +264,6 @@ void Director::drawScene()
     if (! _paused)
     {
         _eventDispatcher->dispatchEvent(_eventBeforeUpdate);
-        _actionManager->update(_deltaTime);
         _scheduler.update(_deltaTime);
         _eventDispatcher->dispatchEvent(_eventAfterUpdate);
     }
@@ -1009,6 +1015,12 @@ void Director::restartDirector()
     // Texture cache need to be reinitialized
     initTextureCache();
     
+    _scheduler.schedule(
+        UpdateJob(_actionManager.get(),
+                  std::numeric_limits<UpdateJob::priority_type>::min())
+            .paused(false)
+    );
+
     // release the objects
     PoolManager::getInstance()->getCurrentPool()->clear();
 

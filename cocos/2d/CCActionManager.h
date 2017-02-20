@@ -4,6 +4,7 @@ Copyright (c) 2009      Valentin Milea
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
+CopyRight (c) 2017      Iakov Sergeev <yahont@github>
 
 http://www.cocos2d-x.org
 
@@ -64,6 +65,8 @@ public:
 
     ~ActionManager();
 
+    void update(float dt);
+    
 private:
     ActionManager();
 
@@ -179,11 +182,6 @@ private:
      * @param targetsToResume   A set of targets need to be resumed.
      */
     void resumeTargets(const std::vector<Node *> & targetsToResume);
-    
-    /** Main loop of ActionManager.
-     * @param dt    In seconds.
-     */
-    void update(float dt);
     
     // declared in ActionManager.m
 

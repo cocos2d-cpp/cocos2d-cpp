@@ -534,7 +534,7 @@ public:
      */
     bool isValid() const { return !_invalid; }
 
-protected:
+private:
     void reset();
     
     void purgeDirector();
@@ -559,6 +559,8 @@ protected:
 
     void initMatrixStack();
 
+private:
+
     std::stack<Mat4> _modelViewMatrixStack;
     /** In order to support GL MultiView features, we need to use the matrix array,
         but we don't know the number of MultiView, so using the vector instead.
@@ -566,14 +568,8 @@ protected:
     std::vector< std::stack<Mat4> > _projectionMatrixStackList;
     std::stack<Mat4> _textureMatrixStack;
 
-    /** Scheduler associated with this director
-     @since v2.0
-     */
     Scheduler _scheduler;
     
-    /** ActionManager associated with this director
-     @since v2.0
-     */
     std::unique_ptr<ActionManager> _actionManager;
     
     /** EventDispatcher associated with this director
