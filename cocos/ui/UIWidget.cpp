@@ -1,7 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -231,7 +230,7 @@ void Widget::onEnter()
 
 void Widget::onExit()
 {
-    Director::getInstance()->getScheduler().unscheduleUpdate(this);
+    Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
     ProtectedNode::onExit();
 }
 

@@ -1243,32 +1243,6 @@ void PUParticleSystem3D::processParticle( ParticlePool &pool, bool &firstActiveP
             // Keep latest position
             particle->latestPosition = particle->position;
 
-            //if (_maxVelocitySet && particle->calculateVelocity() > _maxVelocity)
-            //{
-            //    particle->direction *= (_maxVelocity / particle->direction.length());
-            //}
-
-            //// Update the position with the direction.
-            //particle->position += (particle->direction * _particleSystemScaleVelocity * elapsedTime);
-            //particle->positionInWorld = particle->position;
-            //particle->orientationInWorld = particle->orientation;
-            //particle->widthInWorld = particle->width;
-            //particle->heightInWorld = particle->height;
-            //particle->depthInWorld = particle->depth;
-
-            //bool keepLocal = _keepLocal;
-            //PUParticleSystem3D *parent = dynamic_cast<PUParticleSystem3D *>(getParent());
-            //if (parent) keepLocal = keepLocal || parent->isKeepLocal();
-
-            //if (keepLocal){
-            //    ltow.transformPoint(particle->positionInWorld, &particle->positionInWorld);
-            //    Vec3 ori;
-            //    ltow.transformVector(Vec3(particle->orientation.x, particle->orientation.y, particle->orientation.z), &ori);
-            //    particle->orientationInWorld.x = ori.x; particle->orientationInWorld.y = ori.y; particle->orientationInWorld.z = ori.z;
-            //    particle->widthInWorld = scl.x * particle->width;
-            //    particle->heightInWorld = scl.y * particle->height;
-            //    particle->depthInWorld = scl.z * particle->depth;
-            //}
             processMotion(particle, elapsedTime, scale, firstActiveParticle);
         }
         else{
@@ -1429,7 +1403,7 @@ void PUParticleSystem3D::forceStopParticleSystem()
         auto affector = static_cast<PUAffector*>(it);
         affector->notifyStop();
     }
-    Director::getInstance()->getScheduler().unscheduleUpdate(this);
+    Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
     unPrepared();
 }
 

@@ -41,7 +41,7 @@
 namespace cocos2d {
 namespace network {
 
-static constexpr TimedJob::id_t SCHED_JOB_ID = 0;
+static constexpr TimedJob::id_type SCHED_JOB_ID = 0;
 
     using namespace std;
 
@@ -723,7 +723,7 @@ static constexpr TimedJob::id_t SCHED_JOB_ID = 0;
         };
 
         _scheduler->schedule(
-            TimedJob(SCHED_JOB_ID, this, &DownloaderCURL::_onSchedule)
+            TimedJob(this, SCHED_JOB_ID, &DownloaderCURL::_onSchedule)
                 .interval(0.1f)
                 .delay(0.1f)
                 .paused(true)
@@ -732,7 +732,7 @@ static constexpr TimedJob::id_t SCHED_JOB_ID = 0;
 
     DownloaderCURL::~DownloaderCURL()
     {
-        _scheduler->unscheduleTimedJob(SCHED_JOB_ID, this);
+        _scheduler->unscheduleTimedJob(this, SCHED_JOB_ID);
         _impl->stop();
         DLLOG("Destruct DownloaderCURL %p", this);
     }

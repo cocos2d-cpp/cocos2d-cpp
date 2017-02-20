@@ -1585,7 +1585,7 @@ bool Node::addComponent(Component *component)
     
     // should enable schedule update, then all components can receive this call back
     Director::getInstance()->getScheduler().schedule(
-        UpdateJob(0, this).paused( isPaused() )
+        UpdateJob(this, 0).paused( isPaused() )
     );
 
     return _componentContainer->add(component);

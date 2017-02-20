@@ -598,7 +598,7 @@ void SpritePolygonPerformance::update(float dt)
     else if(_continuousHighDtTime >= .5 || _waitingTime > 3.0){
         // its now 1 seconds with high DT time, time to end
         ended = true;
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         _perfLabel->setString("Test ended in " + Value(_elapsedTime).asString() + " seconds\nNodes: " + Value(_spriteCount).asString() + "   Triangles: " + Value(_triCount).asString() + "\nPixels: " + Value(_pixelCount).asString() + "   Vertices: " + Value(_vertCount).asString());
         _subtitleLabel->setString("Test ended");
     }

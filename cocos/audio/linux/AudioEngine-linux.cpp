@@ -109,7 +109,7 @@ bool AudioEngineImpl::init()
 
     auto & scheduler = Director::getInstance()->getScheduler();
     scheduler.schedule(
-        TimedJob(0, this, &AudioEngineImpl::update)
+        TimedJob(this, 0, &AudioEngineImpl::update)
             .interval(0.05f)
             .delay(0.05f)
             .paused(false)

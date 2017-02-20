@@ -114,7 +114,7 @@ void ComponentContainer::removeAll()
         }
         
         _componentMap.clear();
-        Director::getInstance()->getScheduler().unscheduleUpdate(_owner);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(_owner);
     }
 }
 

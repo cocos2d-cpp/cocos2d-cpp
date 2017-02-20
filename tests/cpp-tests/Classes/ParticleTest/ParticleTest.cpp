@@ -1317,7 +1317,7 @@ void ParticleReorder::onEnter()
     auto ignore = ParticleSystemQuad::create("Particles/SmallSun.plist");
     auto parent1 = Node::create();
     auto parent2 = ParticleBatchNode::createWithTexture(ignore->getTexture());
-    Director::getInstance()->getScheduler().unscheduleUpdate(ignore);
+    Director::getInstance()->getScheduler().unscheduleUpdateJob(ignore);
 
     for( unsigned int i=0; i<2;i++)
     {

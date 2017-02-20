@@ -30,7 +30,7 @@
 namespace cocos2d {
 namespace extension {
 
-static TimedJob::id_t UPDATE_JOBID = 0;
+static TimedJob::id_type UPDATE_JOBID = 0;
 
 #define ControlStepperLabelColorEnabled   Color3B(55, 55, 55)
 #define ControlStepperLabelColorDisabled  Color3B(147, 147, 147)
@@ -226,7 +226,7 @@ void ControlStepper::startAutorepeat()
     
     Director::getInstance()->getScheduler().schedule
         (
-            TimedJob(UPDATE_JOBID, this, &ControlStepper::update)
+            TimedJob(this, UPDATE_JOBID, &ControlStepper::update)
                 .interval(kAutorepeatDeltaTime)
                 .delay(kAutorepeatDeltaTime * 3)
                 .paused(!_running)
@@ -236,7 +236,7 @@ void ControlStepper::startAutorepeat()
 /** Stop the autorepeat. */
 void ControlStepper::stopAutorepeat()
 {
-    Director::getInstance()->getScheduler().unscheduleTimedJob(UPDATE_JOBID, this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, UPDATE_JOBID);
 }
 
 void ControlStepper::update(float /*dt*/)

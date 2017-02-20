@@ -581,8 +581,7 @@ bool ParticleSystem::initWithTotalParticles(int numberOfParticles)
 ParticleSystem::~ParticleSystem()
 {
     // Since the scheduler retains the "target (in this case the ParticleSystem)
-	// it is not needed to call "unscheduleUpdate" here. In fact, it will be called in "cleanup"
-    //unscheduleUpdate();
+	// it is not needed to call "unscheduleUpdateJob" here. In fact, it will be called in "cleanup"
     _particleData.release();
     CC_SAFE_RELEASE(_texture);
 }
@@ -785,13 +784,13 @@ void ParticleSystem::onEnter()
     
     // update after action in run!
     Director::getInstance()->getScheduler().schedule(
-        UpdateJob(1, this).paused( isPaused() )
+        UpdateJob(this, 1).paused( isPaused() )
     );
 }
 
 void ParticleSystem::onExit()
 {
-    Director::getInstance()->getScheduler().unscheduleUpdate(this);
+    Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
     Node::onExit();
 }
 
@@ -874,7 +873,7 @@ void ParticleSystem::update(float dt)
                 --_particleCount;
                 if( _particleCount == 0 && _isAutoRemoveOnFinish )
                 {
-                    Director::getInstance()->getScheduler().unscheduleUpdate(this);
+                    Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
                     _parent->removeChild(this, true);
                     return;
                 }

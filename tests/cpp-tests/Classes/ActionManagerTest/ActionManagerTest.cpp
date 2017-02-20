@@ -161,7 +161,7 @@ void PauseTest::onEnter()
     grossini->pause();
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &PauseTest::unpause)
+        TimedJob(this, 0, &PauseTest::unpause)
             .repeat(0)
             .delay(3.0f)
             .paused(isPaused())
@@ -251,7 +251,7 @@ void StopAllActionsTest::onEnter()
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &StopAllActionsTest::stopAction)
+        TimedJob(this, 0, &StopAllActionsTest::stopAction)
             .repeat(0)
             .delay(4)
             .paused(isPaused())
@@ -298,7 +298,7 @@ void ResumeTest::onEnter()
     pGrossini->runAction(RotateBy::create(2, 360));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &ResumeTest::resumeGrossini)
+        TimedJob(this, 0, &ResumeTest::resumeGrossini)
             .delay(3.0f)
             .repeat(0)
             .paused(isPaused())
@@ -348,7 +348,7 @@ void StopActionsByFlagsTest::onEnter()
     pChild->runAction(pRepeatScale);
     pChild->runAction(pRepeatRotate);
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &StopActionsByFlagsTest::stopAction)
+        TimedJob(this, 0, &StopActionsByFlagsTest::stopAction)
             .delay(4)
             .repeat(0)
             .paused(isPaused())

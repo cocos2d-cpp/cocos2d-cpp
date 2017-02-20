@@ -186,7 +186,7 @@ void Issue2572::update(float dt)
     _addTimer += dt;
     _moveTimer += dt;
     if (_moveTimer >= _wholeMoveTime) {
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         return;
     }
 

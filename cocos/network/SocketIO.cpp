@@ -728,7 +728,7 @@ void SIOClientImpl::onOpen(WebSocket* /*ws*/)
     }
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(0, this, &SIOClientImpl::heartbeat)
+        TimedJob(this, 0, &SIOClientImpl::heartbeat)
             .interval(_heartbeat * 0.9f)
             .delay(_heartbeat * 0.9f)
             .paused(false)

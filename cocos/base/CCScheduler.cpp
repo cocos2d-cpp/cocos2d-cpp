@@ -1,8 +1,4 @@
 /****************************************************************************
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,9 +26,7 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-static_assert(sizeof(Job) == sizeof(TimedJob));
-
-void Job::update(Scheduler & scheduler, float dt)
+void TimedJob::update(float dt)
 {
     CC_ASSERT(!paused());
     CC_ASSERT(!unscheduled());
@@ -52,11 +46,11 @@ void Job::update(Scheduler & scheduler, float dt)
         }
         
         // first run after delay
-        trigger(0.0f);
+        _callback(0.0f);
 
         if (!_repeat)
         {
-            cancel(scheduler);
+            unschedule();
             return;
         }
 
@@ -80,96 +74,155 @@ void Job::update(Scheduler & scheduler, float dt)
 
     for (_leftover += dt; interval <= _leftover; _leftover -= interval)
     {
-        trigger(interval);
+        _callback(interval);
 
         if (!forever() && !--_repeat)
         {
-            cancel(scheduler);
+            unschedule();
             return;
         }
     }
 }
 
-void Job::trigger(float dt)
-{
-    _callback(dt);
-}
-
-void Job::cancel(Scheduler & scheduler)
-{
-    // Only TimedJobs can be cancelled here
-    scheduler.unscheduleTimedJob(static_cast<TimedJob*>(this)->id(), _target);
-}
-  
 // implementation of Scheduler
 
-void Scheduler::unscheduleTimedJob(TimedJob::id_t id, void *target)
-{
-    JobId jobId(TimedJob::make_properties(id), target);
+using update_map       = std::unordered_map<void*,int32_t>;
+using update_vector    = std::vector<UpdateJob>;
+using update_iterators = std::pair<update_map::iterator,update_vector::iterator>;
 
-    auto begin = _jobs.begin() + first_timed_idx;
-    auto end   = _jobs.end();
-    auto lb = std::lower_bound(begin, end, jobId);
-    
-    if (lb != end && !(jobId < *lb))
+inline
+static update_iterators findUpdateJob(update_map & m, update_vector & v, void* target)
+{
+    update_iterators iterators{ m.find(target), v.end() };
+
+    if (iterators.first != m.end())
     {
-        lb->unschedule();
+        const UpdateJobId jobId{ target, iterators.first->second };
+
+        iterators.second = std::lower_bound(v.begin(), v.end(), jobId);
+        
+        // UpdateJobs are unique per target
+        CC_ASSERT(iterators.second != v.end());
+        CC_ASSERT(iterators.second->target() == target);
+    }
+
+    return iterators;
+}
+
+using timed_vector   = std::vector<TimedJob>;
+using timed_iterator = timed_vector::iterator;
+
+inline
+static timed_iterator findFirstTimedJobForTarget(timed_vector & v, void * target,
+                                                 int32_t id = std::numeric_limits<TimedJob::id_type>::min())
+{
+    return std::lower_bound( v.begin(), v.end(), TimedJobId{ target, id});
+}
+
+void Scheduler::unscheduleUpdateJob(void *target)
+{
+    auto iterators = findUpdateJob(_update_target_to_priority, _updateJobs, target);
+
+    if (iterators.second != _updateJobs.end())
+    {
+        _update_target_to_priority.erase( iterators.first);
+        iterators.second->unschedule();
     }
 }
 
-void Scheduler::unscheduleUpdate(void *target)
+void Scheduler::unscheduleTimedJob(void *target, int32_t id)
 {
-    auto prop_it = _update_target_to_properties.find(target);
-
-    if (prop_it != _update_target_to_properties.end())
+    auto lower_bound = findFirstTimedJobForTarget(_timedJobs, target, id);
+    
+    if ( lower_bound != _timedJobs.end()
+         && lower_bound->target() == target
+         && lower_bound->id()     == id )
     {
-        JobId jobId{ prop_it->second, target };
-
-        _update_target_to_properties.erase( prop_it );
-
-        auto begin = _jobs.begin() + first_update_idx;
-        auto end   = _jobs.begin() + first_timed_idx;
-
-        auto it = std::lower_bound(begin, end, jobId);
-
-        if (it != end && !(jobId < *it))
-        {
-            it->unschedule();
-        }
+        lower_bound->unschedule();
     }
+}
+
+template<typename V>
+static void unscheduleAllHelper(V & v)
+{
+    for (auto & job : v)
+        job.unschedule();
 }
 
 void Scheduler::unscheduleAll()
 {
-    for (auto & job : _jobs)
-        job.unschedule();
+    unscheduleAllHelper( _updateJobs);
+    _update_target_to_priority.clear();
+    unscheduleAllHelper( _updateJobsToAdd);
+    unscheduleAllHelper( _timedJobs);
+    unscheduleAllHelper( _timedJobsToAdd);
+}
 
-    for (auto & job : _jobsToAdd)
-        job.unschedule();
+template<typename V>
+static void unscheduleAllForTargetHelper(V & v, void const* const target)
+{
+   for (auto & job : v)
+        if (job.target() == target)
+            job.unschedule();
 }
 
 void Scheduler::unscheduleAllForTarget(void *target)
 {
-    for (auto & job : _jobs)
-        if (job.target() == target)
-            job.unschedule();
+    unscheduleUpdateJob(target);
 
-    for (auto & job : _jobsToAdd)
+    unscheduleAllForTargetHelper( _updateJobsToAdd, target);
+
+    auto it = findFirstTimedJobForTarget( _timedJobs, target);
+    for (; it != _timedJobs.end() && it->target() == target; it++)
+        it->unschedule();
+
+    unscheduleAllForTargetHelper( _timedJobsToAdd,  target);
+}
+
+template<typename V>
+static void updatePausedStateForAll(V & v, bool paused)
+{
+    for (auto & job : v)
+        job.paused(paused);
+}
+
+void Scheduler::pauseAllTargets()
+{
+    updatePausedStateForAll( _updateJobs,      true);
+    updatePausedStateForAll( _updateJobsToAdd, true);
+    updatePausedStateForAll( _timedJobs,       true);
+    updatePausedStateForAll( _timedJobsToAdd,  true);
+}
+
+void Scheduler::resumeAllTargets()
+{
+    updatePausedStateForAll( _updateJobs,      false);
+    updatePausedStateForAll( _updateJobsToAdd, false);
+    updatePausedStateForAll( _timedJobs,       false);
+    updatePausedStateForAll( _timedJobsToAdd,  false);
+}
+
+template<typename V>
+static void updatePausedStateForTargetHelper(V & v, void const* const target, bool paused)
+{
+    for (auto & job : v)
         if (job.target() == target)
-            job.unschedule();
+            job.paused(paused);
 }
 
 void Scheduler::updatePausedStateForTarget(void *target, bool paused)
 {
-    CCASSERT(target != nullptr, "target can't be nullptr!");
+    auto iterators = findUpdateJob(_update_target_to_priority, _updateJobs, target);
+    if (iterators.second != _updateJobs.end())
+        iterators.second->paused(paused);
 
-    for (auto & job : _jobs)
-        if (job.target() == target)
-            job.paused(paused);
+    updatePausedStateForTargetHelper(_updateJobsToAdd, target, paused);
 
-    for (auto & job : _jobsToAdd)
-        if (job.target() == target)
-            job.paused(paused);
+    auto it = findFirstTimedJobForTarget( _timedJobs, target);
+    for (; it != _timedJobs.end() && it->target() == target; it++)
+        it->paused(paused);
+
+    updatePausedStateForTargetHelper(_timedJobsToAdd,  target, paused);
 }
 
 void Scheduler::pauseTarget(void *target)
@@ -182,29 +235,34 @@ void Scheduler::resumeTarget(void *target)
     updatePausedStateForTarget(target, false);
 }
 
-void Scheduler::updatePausedStateForAll(bool paused)
-{
-    for (auto & job : _jobs)
-        job.paused(paused);
-
-    for (auto & job : _jobsToAdd)
-        job.paused(paused);
-}
-
-void Scheduler::pauseAllTargets()
-{
-    updatePausedStateForAll(true);
-}
-
-void Scheduler::resumeAllTargets()
-{
-    updatePausedStateForAll(false);
-}
-
 void Scheduler::performFunctionInCocosThread(std::function<void()> function)
 {
     std::lock_guard<std::mutex> locker(_performMutex);
     _functionsToPerform.push_back(function);
+}
+
+template<typename V>
+static void run_and_erase_unscheduled(V & v, float dt)
+{
+    size_t move_to_idx = 0;
+
+    const size_t size  = v.size();
+
+    for (size_t i = 0; i < size; i++)
+    {
+        if (! v[i].unscheduled())
+        {
+            if (! v[i].paused())
+                v[i].update(dt);
+
+            if (move_to_idx != i)
+                v[move_to_idx] = std::move( v[i]);
+
+            move_to_idx++;
+        }
+    }
+
+    v.erase(v.begin() + move_to_idx, v.end());
 }
 
 // main loop
@@ -212,105 +270,58 @@ void Scheduler::update(float dt)
 {
     dt *= _speedup;
 
-    auto move_to = _jobs.begin();
-    auto end     = _jobs.end();
+    run_and_erase_unscheduled( _updateJobs, dt);
+    run_and_erase_unscheduled( _timedJobs, dt);
 
-    for (auto curr = move_to; curr != end; curr++)
+    _updateJobs.reserve(_updateJobs.size() + _updateJobsToAdd.size());
+
+    for (auto & job : _updateJobsToAdd)
     {
-        if (!curr->unscheduled())
+        if (job.unscheduled())
+            continue;
+
+        auto iterators = findUpdateJob(_update_target_to_priority, _updateJobs, job.target());
+
+        if (iterators.second != _updateJobs.end())
         {
-            if (!curr->paused())
-                curr->update(*this, dt);
-
-            if (move_to != curr)
-                *move_to = std::move(*curr);
-
-            move_to++;
+            iterators.first->second = job.priority();
+            _updateJobs.erase( iterators.second);
         }
         else
         {
-            first_update_idx -= (curr->type() == Job::ACTION);
-            first_timed_idx  -= (curr->type() == Job::ACTION
-                                 || curr->type() == Job::UPDATE);
-        }
-    }
-
-    _jobs.erase(move_to, end);
-
-    _jobs.reserve(_jobs.size() + _jobsToAdd.size());
-
-    auto begin = _jobs.begin();
-
-    auto add_it = _jobsToAdd.begin();
-    auto add_end = _jobsToAdd.end();
-
-    static_assert(Job::ACTION < Job::UPDATE);
-    static_assert(Job::UPDATE < Job::TIMED);
-
-    for (; add_it != add_end && Job::ACTION == add_it->type(); add_it++)
-    {
-        CC_ASSERT(false); // not implemented yet
-
-        if (add_it->unscheduled())
-            continue;
-
-        //first_update_idx--++;
-        //first_timed_idx--++;
-    }
-
-    for (; add_it != add_end && Job::UPDATE == add_it->type(); add_it++)
-    {
-        if (add_it->unscheduled())
-            continue;
-
-        auto target = add_it->target();
-
-        static_assert(Job::UPDATE);
-        auto & old_properties = _update_target_to_properties[target];
-
-        if (old_properties)
-        {
-            JobId jobId{ old_properties, target };
-
-            begin = _jobs.begin() + first_update_idx;
-            end   = _jobs.begin() + first_timed_idx;
-
-            auto it = std::lower_bound(begin, end, jobId);
-
-            if (it != end && !(jobId < *it))
-            {
-                _jobs.erase(it);
-                first_timed_idx--;
-            }
+            _update_target_to_priority[ job.target() ] = job.priority();
         }
 
-        begin = _jobs.begin() + first_update_idx;
-        end   = _jobs.begin() + first_timed_idx;
-
-        _jobs.insert(std::upper_bound(begin, end, *add_it),
-                     std::move(*add_it));
-
-        first_timed_idx++;
-        old_properties = add_it->properties();
+        _updateJobs.insert(
+            std::upper_bound(_updateJobs.begin(), _updateJobs.end(), job),
+            std::move(job)
+        );
     }
 
-    begin = _jobs.begin() + first_timed_idx;
+    _updateJobsToAdd.clear();
 
-    for (; add_it != add_end; add_it++)
+    // Timed
+
+    _timedJobs.reserve(_timedJobs.size() + _timedJobsToAdd.size());
+
+    auto begin = _timedJobs.begin();
+
+    for (auto & job : _timedJobsToAdd)
     {
-        if (add_it->unscheduled())
+        if (job.unscheduled())
             continue;
 
-        end = _jobs.end();
+        const auto end = _timedJobs.end();
 
-        begin = std::lower_bound(begin, end, *add_it);
-        if (begin == end || *add_it < *begin)
-            begin = _jobs.insert(begin, *add_it);
+        begin = std::lower_bound(begin, end, job);
+
+        if (begin == end || job < *begin)
+            begin = _timedJobs.insert(begin, job);
         else
-            *begin = *add_it;
+            *begin = job;
     }
 
-    _jobsToAdd.clear();
+    _timedJobsToAdd.clear();
 
     // Functions allocated from another thread
 
@@ -334,24 +345,19 @@ void Scheduler::update(float dt)
 //************************ DEPRECATED ****************************************//
 ////////////////////////////////////////////////////////////////////////////////
 
-static TimedJob::id_t to_id(SEL_SCHEDULE selector)
+static int32_t to_id(SEL_SCHEDULE selector)
 {
-    return
-        TimedJob::ID_BITMASK &
-            static_cast<TimedJob::id_t>(
-                reinterpret_cast<size_t>(
-                    reinterpret_cast<void*>(selector)
-                ));
+    return static_cast<int32_t>(std::hash<void*>()(reinterpret_cast<void*>(selector)));
 }
-static TimedJob::id_t to_id(std::string const& id)
+static int32_t to_id(std::string const& id)
 {
-    return TimedJob::ID_BITMASK & static_cast<TimedJob::id_t>(std::hash<std::string>()(id));
+    return static_cast<int32_t>(std::hash<std::string>()(id));
 }
 
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(to_id(id), target, callback)
+        TimedJob(target, to_id(id), callback)
             .interval(interval)
             .repeat(repeat)
             .delay(delay)
@@ -361,7 +367,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(to_id(id), target, callback)
+        TimedJob(target, to_id(id), callback)
             .interval(interval)
             .paused(paused)
     );
@@ -369,7 +375,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
 {
     schedule(
-        TimedJob(to_id(selector), target, selector)
+        TimedJob(target, to_id(selector), selector)
             .interval(interval)
             .repeat(repeat)
             .delay(delay)
@@ -379,18 +385,18 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, uns
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
 {
     schedule(
-        TimedJob(to_id(selector), target, selector)
+        TimedJob(target, to_id(selector), selector)
             .interval(interval)
             .paused(paused)
     );
 }
 void Scheduler::unschedule(const std::string& id, void *target)
 {
-    unscheduleTimedJob(to_id(id), target);
+    unscheduleTimedJob(target, to_id(id));
 }
 void Scheduler::unschedule(SEL_SCHEDULE selector, Ref *target)
 {
-    unscheduleTimedJob(to_id(selector), target);
+    unscheduleTimedJob(target, to_id(selector));
 }
 
 } // namespace cocos2d

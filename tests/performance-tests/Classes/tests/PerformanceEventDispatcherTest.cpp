@@ -155,7 +155,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
         CC_PROFILER_PURGE_ALL();
         sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
         
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
         this->_startItem->setEnabled(false);
         this->_stopItem->setEnabled(true);
@@ -173,7 +173,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
         
         sched.unschedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this);
         
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         this->_startItem->setEnabled(true);
         this->_stopItem->setEnabled(false);
         this->_toggle->setEnabled(true);
@@ -220,8 +220,11 @@ void PerformanceEventDispatcherScene::onEnter()
         auto director = Director::getInstance();
         auto & sched = director->getScheduler();
         sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
+        Director::getInstance()->getScheduler().schedule(
+            UpdateJob(this, 0)
+                .paused(isPaused())
+        );
     }
 }
 

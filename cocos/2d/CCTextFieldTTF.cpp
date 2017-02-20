@@ -686,14 +686,14 @@ void TextFieldTTF::setCursorEnabled(bool enabled)
                 _cursorPosition = _charCount;
 
                 Director::getInstance()->getScheduler().schedule(
-                    UpdateJob(0, this).paused( isPaused() )
+                    UpdateJob(this, 0).paused( isPaused() )
                 );
             }
             else
             {
                 _cursorPosition = 0;
 
-                Director::getInstance()->getScheduler().unscheduleUpdate(this);
+                Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
             }
         }
     }

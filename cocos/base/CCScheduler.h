@@ -1,8 +1,4 @@
 /****************************************************************************
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -44,38 +40,116 @@ namespace cocos2d {
 
 class Scheduler;
 
-class JobId {
+/* Updates per frame
+ * The lower the priority, the earlier it is called.
+ * Unique per target
+ */
+class CC_DLL UpdateJobId {
 protected:
-    void*    _target;
-    uint32_t _properties;
+    void*   _target;
+    int32_t _priority;
 
 public:
 
-    JobId(uint32_t properties, void* target)
-        : _properties(properties)
-        , _target(target)
+    UpdateJobId(void* target, int32_t priority)
+        : _target(target)
+        , _priority(priority)
         {}
-
-    bool operator<(JobId const& a) const
+    bool operator<(UpdateJobId const& a) const
     {
-        return _properties < a._properties
-            || (_properties == a._properties
+        return _priority < a._priority
+            || (_priority == a._priority
                 && _target < a._target);
     }
 };
 
-class CC_DLL Job : public JobId {
+class UpdateJob : public UpdateJobId {
+public:
+    using priority_type = int32_t;
+
+public:
+    template<typename T>
+        UpdateJob(T* target, int32_t priority)
+            : UpdateJobId{target, priority}
+            , _callback([target](float dt){ target->update(dt); })
+        {
+            CC_ASSERT(target);
+        }
+
+    UpdateJob(UpdateJob const&) = default;
+    UpdateJob& operator=(UpdateJob const&) = default;
+    UpdateJob(UpdateJob &&) = default;
+    UpdateJob& operator=(UpdateJob &&) = default;
+
+    UpdateJob & paused(bool v)
+    {
+        _paused = v;
+        return *this;
+    }
+    void unschedule()
+    {
+        _unscheduled = true;
+    }
+    void update(float dt)
+    {
+        _callback(dt);
+    }
+
 public:
 
-    // for _properties
-    enum Type : uint32_t
+    void* target() const
     {
-        ACTION = (uint32_t(0) << 30),
-        UPDATE = (uint32_t(1) << 30),
-        TIMED  = (uint32_t(2) << 30),
-        TYPE_BITMASK = (uint32_t(3) << 30)
-    };
+        return _target;
+    }
+    int32_t priority() const
+    {
+        return _priority;
+    }
+    bool unscheduled() const
+    {
+        return _unscheduled;
+    }
+    bool paused() const
+    {
+        return _paused;
+    }
 
+private:
+
+    bool _unscheduled = false;
+    bool _paused = false;
+    std::function<void(float)> _callback;
+};
+
+/*
+ * Executed by INTERVAL after DELAY for REPEAT times, but within a
+ * frame always after UpdateJob
+ * Unique per (target + id)
+ */
+class CC_DLL TimedJobId {
+protected:
+    void*   _target;
+    int32_t _id;
+
+public:
+
+    TimedJobId(void* target, int32_t id)
+        : _target(target)
+        , _id(id)
+        {}
+    bool operator<(TimedJobId const& a) const
+    {
+        return _target < a._target
+            || (_target == a._target
+                && _id < a._id);
+    }
+};
+
+class CC_DLL TimedJob : public TimedJobId {
+public:
+    using id_type = int32_t;
+
+public:
     // for _repeat
     static constexpr uint32_t TO_DELETE_BIT  = (uint32_t(1) << 31);
     static constexpr uint32_t PAUSED_OFFSET  = 30;
@@ -83,28 +157,73 @@ public:
     static constexpr uint32_t FOREVER_BIT    = (uint32_t(1) << 29);
     static constexpr uint32_t REPEAT_BITMASK = (FOREVER_BIT | (FOREVER_BIT - 1));
 
-    static_assert(TO_DELETE_BIT  > PAUSED_BIT);
-    static_assert(PAUSED_BIT     > REPEAT_BITMASK);
-    static_assert(REPEAT_BITMASK > FOREVER_BIT);
+    static_assert(TO_DELETE_BIT > PAUSED_BIT);
+    static_assert(PAUSED_BIT    > FOREVER_BIT);
 
 public:
 
-    Job(Job const&) = default;
-    Job& operator=(Job const&) = default;
-    Job(Job &&) = default;
-    Job& operator=(Job &&) = default;
+    TimedJob(void* target, int32_t id, std::function<void(float)> callback)
+        : TimedJobId{target, id}
+        , _callback(callback)
+        {
+            CC_ASSERT(_target);
+            CC_ASSERT(_callback);
+        }
 
-    uint32_t properties() const
+    template<typename T>
+    TimedJob(T* target, int32_t id, void (T::*func)(float))
+        : TimedJob(target, id, [target,func](float dt){ (target->*func)(dt); })
+        {}
+
+
+    TimedJob(TimedJob const&) = default;
+    TimedJob& operator=(TimedJob const&) = default;
+    TimedJob(TimedJob &&) = default;
+    TimedJob& operator=(TimedJob &&) = default;
+
+public:
+
+    TimedJob & delay(float v)
     {
-        return _properties;
+        CC_ASSERT(v >= 0.0f);
+
+        if (v <= 0.0f)
+            _leftover = -std::numeric_limits<float>::epsilon();
+        else
+            _leftover = -v;
+
+        return *this;
     }
-    Type type() const
+    TimedJob & interval(float v)
     {
-        return static_cast<Type>(properties() & TYPE_BITMASK);
+        _interval = v;
+        return *this;
     }
+    TimedJob & repeat(uint32_t v)
+    {
+        CC_ASSERT(v <= FOREVER_BIT);
+        _repeat = ((_repeat & ~REPEAT_BITMASK) | v);
+        return *this;
+    }
+    TimedJob & paused(bool v)
+    {
+        _repeat = ((_repeat & ~PAUSED_BIT) | (uint32_t(v) << PAUSED_OFFSET));
+        return *this;
+    }
+    void unschedule()
+    {
+        _repeat |= (TO_DELETE_BIT | PAUSED_BIT);
+    }
+
+public:
+
     void* target() const
     {
         return _target;
+    }
+    int32_t id() const
+    {
+        return _id;
     }
     bool unscheduled() const
     {
@@ -119,163 +238,18 @@ public:
         return (_repeat & FOREVER_BIT);
     }
 
-    void update(Scheduler &, float dt);
-
-    void unschedule()
-    {
-        _repeat |= (TO_DELETE_BIT | PAUSED_BIT);
-    }
-    void paused(bool v)
-    {
-        _repeat = ((_repeat & ~PAUSED_BIT) | (uint32_t(v) << PAUSED_OFFSET));
-    }
-
-protected:
-
-    Job(uint32_t properties, void* target, std::function<void(float)> callback)
-        : JobId{properties, target}
-        , _interval(0.0f)
-        , _repeat(FOREVER_BIT)
-        , _leftover(-std::numeric_limits<float>::epsilon())
-        , _callback(callback)
-        {
-            CC_ASSERT(_target);
-            CC_ASSERT(_callback);
-        }
-
-    void delay(float v)
-    {
-        if (v <= 0.0f)
-            _leftover = -std::numeric_limits<float>::epsilon();
-        else
-            _leftover = -v;
-    }
-    void interval(float v)
-    {
-        _interval = v;
-    }
-    void repeat(uint32_t v)
-    {
-        CC_ASSERT(v <= FOREVER_BIT);
-        _repeat = ((_repeat & ~REPEAT_BITMASK) | v);
-    }
+    void update(float dt);
 
 private:
-    void trigger(float dt);
-    void cancel(Scheduler &);
 
-private:
-    float    _interval;
-    uint32_t _repeat;
-    float    _leftover;
+    float    _interval = 0.0f;
+    uint32_t _repeat   = FOREVER_BIT;
+    float    _leftover = -std::numeric_limits<float>::epsilon();
 
     std::function<void(float)> _callback;
 };
 
-constexpr uint32_t CC_REPEAT_FOREVER = Job::FOREVER_BIT;
-
-/* Updates per frame
- * The lower the priority, the earlier it is called.
- * Unique per target
- */
-class UpdateJob : public Job {
-public:
-
-    using priority_t = uint32_t;
-    static constexpr priority_t MAX_PRIORITY     = ~TYPE_BITMASK;
-    static constexpr priority_t PRIORITY_BITMASK = MAX_PRIORITY;
-
-public:
-    template<typename T>
-    UpdateJob(priority_t priority, T* target)
-        : Job(make_properties(priority),
-              target,
-              [target](float dt){ target->update(dt); })
-        {
-            CC_ASSERT(target);
-        }
-
-    UpdateJob(UpdateJob const&) = default;
-    UpdateJob& operator=(UpdateJob const&) = default;
-    UpdateJob(UpdateJob &&) = default;
-    UpdateJob& operator=(UpdateJob &&) = default;
-
-    priority_t priority() const
-    {
-        return  (PRIORITY_BITMASK & properties());
-    }
-
-    static uint32_t make_properties(priority_t priority)
-    {
-        CC_ASSERT(priority <= MAX_PRIORITY);
-        return (Type::UPDATE | (PRIORITY_BITMASK & priority));
-    }
-
-    UpdateJob & paused(bool v)
-    {
-        Job::paused(v);
-        return *this;
-    }
-};
-
-/*
- * Executed by INTERVAL after DELAY for REPEAT times, but within a
- * frame always after UpdateJob
- * Unique per (target + id)
- */
-class TimedJob : public Job {
-public:
-    // can be enlarged to 0x1FFFFFFF, see Job::_properties
-    using id_t = uint32_t;
-    static constexpr id_t MAX_ID     = ~TYPE_BITMASK;
-    static constexpr id_t ID_BITMASK = MAX_ID;
-
-public:
-    TimedJob(id_t id, void* target, std::function<void(float)> callback)
-        : Job(make_properties(id), target, callback)
-        {}
-
-    template<typename T>
-    TimedJob(id_t id, T* target, void (T::*func)(float))
-        : TimedJob(id, target, [target,func](float dt){ (target->*func)(dt); })
-        {
-            CC_ASSERT(target);
-        }
-
-    TimedJob(TimedJob const&) = default;
-    TimedJob& operator=(TimedJob const&) = default;
-    TimedJob(TimedJob &&) = default;
-    TimedJob& operator=(TimedJob &&) = default;
-
-    id_t id() const { return  (ID_BITMASK & properties()); }
-
-    static uint32_t make_properties(id_t id)
-    {
-        CC_ASSERT(id <= MAX_ID);
-        return (Type::TIMED | (ID_BITMASK & id));
-    }
-
-    TimedJob & interval(float v)
-    {
-        Job::interval(v);
-        return *this;
-    }
-    TimedJob & repeat(uint32_t v)
-    {
-        Job::repeat(v);
-        return *this;
-    }
-    TimedJob & delay(float v)
-    {
-        Job::delay(v);
-        return *this;
-    }
-    TimedJob & paused(bool v)
-    {
-        Job::paused(v);
-        return *this;
-    }
-};
+constexpr uint32_t CC_REPEAT_FOREVER = TimedJob::FOREVER_BIT;
 
 // deprecated
 class Ref;
@@ -307,26 +281,22 @@ public:
         _speedup = speedup;
     }
 
-    template<typename JobType>
-        void schedule(JobType job)
-        {
-            static_assert(std::is_base_of<Job,JobType>::value);
-            CC_ASSERT(!job.unscheduled());
+private:
 
-            _jobsToAdd.insert
-            (
-                std::upper_bound
-                (
-                    _jobsToAdd.begin(),
-                    _jobsToAdd.end(),
-                    job
-                ),
-                job
-            );
+    template<typename Vector, typename Job>
+        void schedule(Vector & v, Job job)
+        {
+            v.insert( std::upper_bound( v.begin(), v.end(), job),
+                      job);
         }
 
-    void unscheduleUpdate(void * target);
-    void unscheduleTimedJob(TimedJob::id_t id, void * target);
+public:
+
+    void schedule(UpdateJob job) { schedule( _updateJobsToAdd, job); }
+    void schedule(TimedJob job)  { schedule( _timedJobsToAdd,  job); }
+
+    void unscheduleUpdateJob(void * target);
+    void unscheduleTimedJob(void * target, int32_t id);
 
     void unscheduleAllForTarget(void *target);
     void unscheduleAll();
@@ -349,21 +319,19 @@ public:
 
 private:
 
-    // member helpers
     void updatePausedStateForTarget(void* target, bool paused);
-    void updatePausedStateForAll(bool paused);
 
 private:
 
     float _speedup = 1.0f;
 
-    std::vector<Job> _jobs;
-    size_t first_update_idx = 0;
-    size_t first_timed_idx  = 0;
+    std::vector<UpdateJob> _updateJobs;
+    std::vector<UpdateJob> _updateJobsToAdd;
 
-    std::unordered_map<void*,UpdateJob::priority_t> _update_target_to_properties;
+    std::vector<TimedJob> _timedJobs;
+    std::vector<TimedJob> _timedJobsToAdd;
 
-    std::vector<Job> _jobsToAdd;
+    std::unordered_map<void*,int32_t> _update_target_to_priority;
 
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
@@ -373,10 +341,10 @@ public: // deprecated
 
     template<typename T>
     CC_DEPRECATED_ATTRIBUTE
-    void scheduleUpdate(T *target, uint32_t priority, bool paused)
+    void scheduleUpdate(T *target, int32_t priority, bool paused)
     {
         schedule(
-            UpdateJob(priority, target)
+            UpdateJob(target, priority)
                 .paused(paused)
         );
     }

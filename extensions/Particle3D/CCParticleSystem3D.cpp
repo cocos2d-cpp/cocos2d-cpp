@@ -85,7 +85,7 @@ void ParticleSystem3D::stopParticleSystem()
         if (_render)
             _render->notifyStop();
         
-        Director::getInstance()->getScheduler().unscheduleUpdate(this);
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         _state = State::STOP;
     }
 }

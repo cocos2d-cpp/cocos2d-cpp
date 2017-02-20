@@ -439,12 +439,15 @@ bool SkeletonRenderer::getDebugBonesEnabled () const {
 
 void SkeletonRenderer::onEnter () {
 	Node::onEnter();
-	Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+	Director::getInstance()->getScheduler().schedule(
+        UpdateJob(this, 0)
+            .paused(isPaused())
+    );
 }
 
 void SkeletonRenderer::onExit () {
 	Node::onExit();
-	Director::getInstance()->getScheduler().unscheduleUpdate(this);
+	Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
 }
 
 const BlendFunc& SkeletonRenderer::getBlendFunc () const {
