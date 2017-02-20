@@ -746,7 +746,7 @@ static constexpr TimedJob::id_type SCHED_JOB_ID = 0;
 
         _impl->addTask(task, coTask);
         _impl->run();
-        _scheduler->resumeTarget(this);
+        _scheduler->resumeJobsForTarget(this);
         return coTask;
     }
 
@@ -780,7 +780,7 @@ static constexpr TimedJob::id_type SCHED_JOB_ID = 0;
         _impl->getFinishedTasks(tasks);
         if (_impl->stoped())
         {
-            _scheduler->pauseTarget(this);
+            _scheduler->pauseJobsForTarget(this);
         }
 
         for (auto& wrapper : tasks)

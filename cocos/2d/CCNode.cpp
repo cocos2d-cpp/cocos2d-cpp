@@ -1272,15 +1272,15 @@ ssize_t Node::getNumberOfRunningActionsByTag(int tag) const
 
 void Node::resume()
 {
-    _director->getScheduler().resumeTarget(this);
-    _director->getActionManager().resumeTarget(this);
+    _director->getScheduler().resumeJobsForTarget(this);
+    _director->getActionManager().resumeActionsForTarget(this);
     _eventDispatcher->resumeEventListenersForTarget(this);
 }
 
 void Node::pause()
 {
-    _director->getScheduler().pauseTarget(this);
-    _director->getActionManager().pauseTarget(this);
+    _director->getScheduler().pauseJobsForTarget(this);
+    _director->getActionManager().pauseActionsForTarget(this);
     _eventDispatcher->pauseEventListenersForTarget(this);
 }
 

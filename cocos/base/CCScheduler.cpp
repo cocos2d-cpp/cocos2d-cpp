@@ -149,7 +149,7 @@ static void unscheduleAllHelper(V & v)
         job.unschedule();
 }
 
-void Scheduler::unscheduleAll()
+void Scheduler::unscheduleAllJobs()
 {
     unscheduleAllHelper( _updateJobs);
     _update_target_to_priority.clear();
@@ -186,7 +186,7 @@ static void updatePausedStateForAll(V & v, bool paused)
         job.paused(paused);
 }
 
-void Scheduler::pauseAllTargets()
+void Scheduler::pauseAllJobs()
 {
     updatePausedStateForAll( _updateJobs,      true);
     updatePausedStateForAll( _updateJobsToAdd, true);
@@ -194,7 +194,7 @@ void Scheduler::pauseAllTargets()
     updatePausedStateForAll( _timedJobsToAdd,  true);
 }
 
-void Scheduler::resumeAllTargets()
+void Scheduler::resumeAllJobs()
 {
     updatePausedStateForAll( _updateJobs,      false);
     updatePausedStateForAll( _updateJobsToAdd, false);
@@ -225,12 +225,12 @@ void Scheduler::updatePausedStateForTarget(void *target, bool paused)
     updatePausedStateForTargetHelper(_timedJobsToAdd,  target, paused);
 }
 
-void Scheduler::pauseTarget(void *target)
+void Scheduler::pauseJobsForTarget(void *target)
 {
     updatePausedStateForTarget(target, true);
 }
 
-void Scheduler::resumeTarget(void *target)
+void Scheduler::resumeJobsForTarget(void *target)
 {
     updatePausedStateForTarget(target, false);
 }

@@ -299,13 +299,13 @@ public:
     void unscheduleTimedJob(void * target, int32_t id);
 
     void unscheduleAllForTarget(void *target);
-    void unscheduleAll();
+    void unscheduleAllJobs();
 
-    void pauseTarget(void *target);
-    void resumeTarget(void *target);
+    void pauseJobsForTarget(void *target);
+    void resumeJobsForTarget(void *target);
     
-    void pauseAllTargets();
-    void resumeAllTargets();
+    void pauseAllJobs();
+    void resumeAllJobs();
 
     /** Calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
      This function is thread safe.

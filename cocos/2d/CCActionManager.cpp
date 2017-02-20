@@ -4,9 +4,8 @@ Copyright (c) 2009      Valentin Milea
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
+CopyRight (c) 2017      Iakov Sergeev <yahont@github>
  
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -121,7 +120,7 @@ void ActionManager::removeActionAtIndex(ssize_t index, tHashElement *element)
 
 // pause / resume
 
-void ActionManager::pauseTarget(Node *target)
+void ActionManager::pauseActionsForTarget(Node *target)
 {
     tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
@@ -131,7 +130,7 @@ void ActionManager::pauseTarget(Node *target)
     }
 }
 
-void ActionManager::resumeTarget(Node * target)
+void ActionManager::resumeActionsForTarget(Node * target)
 {
     tHashElement *element = nullptr;
     HASH_FIND_PTR(_targets, &target, element);
@@ -159,11 +158,11 @@ std::vector<Node *> ActionManager::pauseAllRunningActions()
     return idsWithActions;
 }
 
-void ActionManager::resumeTargets(const std::vector<Node *> & targetsToResume)
+void ActionManager::resumeActionsForTargets(const std::vector<Node *> & targetsToResume)
 {
     for(const auto & node : targetsToResume)
     {
-        this->resumeTarget(node);
+        this->resumeActionsForTarget(node);
     }
 }
 

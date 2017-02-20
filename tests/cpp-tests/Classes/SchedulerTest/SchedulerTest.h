@@ -95,7 +95,7 @@ public:
     void tick2(float dt);
     void tick3(float dt);
     void tick4(float dt);
-    void unscheduleAll(float dt);
+    void unscheduleAllJobs(float dt);
 };
 
 class SchedulerUnscheduleAllHard : public SchedulerTestLayer
@@ -112,7 +112,7 @@ public:
     void tick2(float dt);
     void tick3(float dt);
     void tick4(float dt);
-    void unscheduleAll(float dt);
+    void unscheduleAllJobs(float dt);
 };
 
 class SchedulerUnscheduleAllUserLevel : public SchedulerTestLayer
@@ -128,7 +128,7 @@ public:
     void tick2(float dt);
     void tick3(float dt);
     void tick4(float dt);
-    void unscheduleAll(float dt);
+    void unscheduleAllJobs(float dt);
 };
 
 class SchedulerSchedulesAndRemove : public SchedulerTestLayer

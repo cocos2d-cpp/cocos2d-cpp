@@ -6,8 +6,6 @@ Copyright (c) 2011      Zynga Inc.
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
 CopyRight (c) 2017      Iakov Sergeev <yahont@github>
 
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -163,13 +161,13 @@ private:
      *
      * @param target    A certain target.
      */
-    void pauseTarget(Node *target);
+    void pauseActionsForTarget(Node *target);
 
     /** Resumes the target. All queued actions will be resumed.
      *
      * @param target    A certain target.
      */
-    void resumeTarget(Node *target);
+    void resumeActionsForTarget(Node *target);
     
     /** Pauses all running actions, returning a list of targets whose actions were paused.
      *
@@ -181,7 +179,7 @@ private:
      *
      * @param targetsToResume   A set of targets need to be resumed.
      */
-    void resumeTargets(const std::vector<Node *> & targetsToResume);
+    void resumeActionsForTargets(const std::vector<Node *> & targetsToResume);
     
     // declared in ActionManager.m
 

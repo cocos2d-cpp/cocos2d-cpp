@@ -127,7 +127,7 @@ void SchedulerPauseResume::tick2(float /*dt*/)
 void SchedulerPauseResume::pause(float dt)
 {
     CCLOG("paused. tick1 and tick2 should have been called six times. Time %f", dt);
-    Director::getInstance()->getScheduler().pauseTarget(this);
+    Director::getInstance()->getScheduler().pauseJobsForTarget(this);
 }
 
 std::string SchedulerPauseResume::title() const
@@ -178,7 +178,7 @@ void SchedulerPauseResumeAll::update(float /*delta*/)
 
 void SchedulerPauseResumeAll::onExit()
 {
-    Director::getInstance()->getScheduler().resumeAllTargets();
+    Director::getInstance()->getScheduler().resumeAllJobs();
     SchedulerTestLayer::onExit();
 }
 
@@ -195,7 +195,7 @@ void SchedulerPauseResumeAll::tick2(float /*dt*/)
 void SchedulerPauseResumeAll::pause(float /*dt*/)
 {
     log("Pausing, tick1 should be called six times and tick2 three times");
-    Director::getInstance()->getScheduler().pauseAllTargets();
+    Director::getInstance()->getScheduler().pauseAllJobs();
 
     // because target 'this' has been paused above, so use another node(tag:123) as target
     auto child123 = getChildByTag(123);
@@ -208,7 +208,7 @@ void SchedulerPauseResumeAll::pause(float /*dt*/)
 void SchedulerPauseResumeAll::resume(float /*dt*/)
 {
     log("Resuming");
-    Director::getInstance()->getScheduler().resumeAllTargets();
+    Director::getInstance()->getScheduler().resumeAllJobs();
 }
 
 std::string SchedulerPauseResumeAll::title() const
@@ -288,7 +288,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 {
     log("Pausing, tick1 and tick2 should be called three times");
     auto director = Director::getInstance();
-    director->getScheduler().pauseAllTargets();
+    director->getScheduler().pauseAllJobs();
     // using another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
@@ -301,7 +301,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 void SchedulerPauseResumeAllUser::resume(float /*dt*/)
 {
     log("Resuming");
-    Director::getInstance()->getScheduler().resumeAllTargets();
+    Director::getInstance()->getScheduler().resumeAllJobs();
 }
 
 std::string SchedulerPauseResumeAllUser::title() const
@@ -341,7 +341,7 @@ void SchedulerUnscheduleAll::onEnter()
             .interval(1.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 4, &SchedulerUnscheduleAll::unscheduleAll)
+        TimedJob(this, 4, &SchedulerUnscheduleAll::unscheduleAllJobs)
             .delay(4.0f)
     );
 }
@@ -366,7 +366,7 @@ void SchedulerUnscheduleAll::tick4(float /*dt*/)
     CCLOG("tick4");
 }
 
-void SchedulerUnscheduleAll::unscheduleAll(float /*dt*/)
+void SchedulerUnscheduleAll::unscheduleAllJobs(float /*dt*/)
 {
     Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 }
@@ -418,7 +418,7 @@ void SchedulerUnscheduleAllHard::onEnter()
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 4, &SchedulerUnscheduleAllHard::unscheduleAll)
+        TimedJob(this, 4, &SchedulerUnscheduleAllHard::unscheduleAllJobs)
             .delay(4.0f)
             .paused(isPaused())
     );
@@ -449,9 +449,9 @@ void SchedulerUnscheduleAllHard::tick4(float /*dt*/)
     CCLOG("tick4");
 }
 
-void SchedulerUnscheduleAllHard::unscheduleAll(float /*dt*/)
+void SchedulerUnscheduleAllHard::unscheduleAllJobs(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unscheduleAll();
+    Director::getInstance()->getScheduler().unscheduleAllJobs();
 }
 
 std::string SchedulerUnscheduleAllHard::title() const
@@ -484,7 +484,7 @@ void SchedulerUnscheduleAllUserLevel::onEnter()
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::unscheduleAll), this, 4, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::unscheduleAllJobs), this, 4, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void SchedulerUnscheduleAllUserLevel::tick1(float /*dt*/)
@@ -507,9 +507,9 @@ void SchedulerUnscheduleAllUserLevel::tick4(float /*dt*/)
     CCLOG("tick4");
 }
 
-void SchedulerUnscheduleAllUserLevel::unscheduleAll(float /*dt*/)
+void SchedulerUnscheduleAllUserLevel::unscheduleAllJobs(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unscheduleAll();
+    Director::getInstance()->getScheduler().unscheduleAllJobs();
 }
 
 std::string SchedulerUnscheduleAllUserLevel::title() const

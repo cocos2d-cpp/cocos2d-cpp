@@ -183,7 +183,7 @@ Director::~Director(void)
 
     _runningScene.reset();
     CC_SAFE_RELEASE(_notificationNode);
-    _scheduler.unscheduleAll();
+    _scheduler.unscheduleAllJobs();
     CC_SAFE_RELEASE(_defaultFBO);
     
     delete _eventBeforeUpdate;
@@ -938,7 +938,7 @@ void Director::reset()
     _eventDispatcher->dispatchEvent(_eventResetDirector);
     
     // cleanup scheduler
-    _scheduler.unscheduleAll();
+    _scheduler.unscheduleAllJobs();
     
     // Remove all events
     if (_eventDispatcher)
