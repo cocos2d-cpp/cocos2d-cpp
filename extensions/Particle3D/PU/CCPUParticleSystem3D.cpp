@@ -336,7 +336,9 @@ void PUParticleSystem3D::startParticleSystem()
             affector->notifyStart();
         }
 
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(
+            UpdateJob(this, 0).paused(isPaused())
+        );
         _state = State::RUNNING;
     }
 

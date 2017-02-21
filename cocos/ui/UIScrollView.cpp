@@ -102,7 +102,10 @@ ScrollView* ScrollView::create()
 void ScrollView::onEnter()
 {
     Layout::onEnter();
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        UpdateJob(this, 0)
+            .paused(isPaused())
+    );
 }
 
 bool ScrollView::init()

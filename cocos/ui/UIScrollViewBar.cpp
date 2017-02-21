@@ -170,7 +170,10 @@ void ScrollViewBar::updateLength(float length)
 void ScrollViewBar::onEnter()
 {
     ProtectedNode::onEnter();
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        UpdateJob(this, 0)
+            .paused(isPaused())
+    );
 }
 
 void ScrollViewBar::update(float deltaTime)

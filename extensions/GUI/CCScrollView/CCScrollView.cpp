@@ -51,6 +51,12 @@ static float convertDistanceFromPointToInch(float pointDis)
     return pointDis * factor / Device::getDPI();
 }
 
+namespace {
+enum JOBID {
+    performedAnimatedScroll_JOBID,
+    deaccelerateScrolling_JOBID,
+};
+}
 
 ScrollView::ScrollView()
 : _delegate(nullptr)
@@ -247,7 +253,10 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
             to_action_ptr(scroll),
             to_action_ptr(expire)
         ));
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, performedAnimatedScroll_JOBID, &ScrollView::performedAnimatedScroll)
+            .paused(isPaused())
+    );
 }
 
 void ScrollView::stopAnimatedContentOffset() {
@@ -424,7 +433,7 @@ void ScrollView::deaccelerateScrolling(float /*dt*/)
 {
     if (_dragging)
     {
-        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this);
+        Director::getInstance()->getScheduler().unscheduleTimedJob(this, deaccelerateScrolling_JOBID);
         return;
     }
     
@@ -455,14 +464,14 @@ void ScrollView::deaccelerateScrolling(float /*dt*/)
         ((_direction == Direction::BOTH || _direction == Direction::VERTICAL) && (newY >= maxInset.y || newY <= minInset.y)) ||
         ((_direction == Direction::BOTH || _direction == Direction::HORIZONTAL) && (newX >= maxInset.x || newX <= minInset.x)))
     {
-        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this);
+        Director::getInstance()->getScheduler().unscheduleTimedJob(this, deaccelerateScrolling_JOBID);
         this->relocateContainer(true);
     }
 }
 
 void ScrollView::stoppedAnimatedScroll(Node * /*node*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, performedAnimatedScroll_JOBID);
     // After the animation stopped, "scrollViewDidScroll" should be invoked, this could fix the bug of lack of tableview cells.
     if (_delegate != nullptr)
     {
@@ -474,7 +483,7 @@ void ScrollView::performedAnimatedScroll(float /*dt*/)
 {
     if (_dragging)
     {
-        Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScrollView::performedAnimatedScroll), this);
+        Director::getInstance()->getScheduler().unscheduleTimedJob(this, performedAnimatedScroll_JOBID);
         return;
     }
 
@@ -832,7 +841,10 @@ void ScrollView::onTouchEnded(Touch* touch, Event* /*event*/)
     {
         if (_touches.size() == 1 && _touchMoved)
         {
-            Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScrollView::deaccelerateScrolling), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+            Director::getInstance()->getScheduler().schedule(
+                TimedJob(this, deaccelerateScrolling_JOBID, &ScrollView::deaccelerateScrolling)
+                    .paused(isPaused())
+            );
         }
         _touches.erase(touchIter);
     } 
