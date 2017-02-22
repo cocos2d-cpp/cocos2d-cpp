@@ -28,6 +28,8 @@
 
 #include "../BaseTest.h"
 
+#include "2d/CCNode.h"
+
 namespace cocos2d {
 class Sprite;
 }
@@ -470,7 +472,7 @@ public:
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 private:
-    cocos2d::Sprite* _spriteTmp;
+    cocos2d::node_ptr<cocos2d::Sprite> _spriteTmp;
 };
 
 class Issue1305_2 : public ActionsDemo

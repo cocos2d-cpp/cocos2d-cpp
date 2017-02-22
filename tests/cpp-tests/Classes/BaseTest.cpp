@@ -364,16 +364,13 @@ TestCase::TestCase()
     Director::getInstance()->getTextureCache()->removeUnusedTextures();
     SpriteFrameCache::getInstance()->removeUnusedSpriteFrames();
 
-    Director::getInstance()->getScheduler().schedule
-        (
-            [&](float dt){
-                _runTime += dt;
-            },
-            this,
-            0,
-            !_running,
-            "AccumulatedTimeUse"
-        );
+    auto accumulateRuntime = [=](float dt){
+        _runTime += dt;
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, accumulateRuntime)
+            .paused(isPaused())
+    );
 }
 
 TestCase::~TestCase()

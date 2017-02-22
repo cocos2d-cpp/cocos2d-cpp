@@ -53,7 +53,6 @@ public:
     BillBoardTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
-    virtual void update(float dt) override;
     void addNewBillBoradWithCoords(cocos2d::Vec3 p);
     void addNewAniBillBoradWithCoords(cocos2d::Vec3 p);
     void rotateCameraCallback(cocos2d::Ref* sender,float value);

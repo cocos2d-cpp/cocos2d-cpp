@@ -207,8 +207,6 @@ BillBoardTest::BillBoardTest()
     menu->setPosition(Vec2(0,0));
     this->addChild(menu, 10);
     menuCallback_orientedPoint(nullptr);
-    
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(BillBoardTest::update), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 void BillBoardTest::menuCallback_orientedPoint(Ref*)
@@ -279,9 +277,6 @@ void BillBoardTest::addNewAniBillBoradWithCoords(Vec3 p)
         billboardAni->setOpacity(CCRANDOM_0_1() * 128 + 128);
         _billboards.push_back(billboardAni);
     }
-}
-void BillBoardTest::update(float)
-{
 }
 
 void BillBoardTest::onTouchesMoved(const std::vector<Touch*>& touches, Event*)

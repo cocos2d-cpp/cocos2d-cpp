@@ -125,13 +125,17 @@ void SpriteEase::onEnter()
     auto a = _kathia->runAction(RepeatForever::create(seq3));
     a->setTag(1);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpriteEase::testStopAction), this, 6.25f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &SpriteEase::testStopAction)
+            .delay(6.25f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 
 void SpriteEase::testStopAction(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SpriteEase::testStopAction), this);
     _tamara->stopActionByTag(1);
     _kathia->stopActionByTag(1);
     _grossini->stopActionByTag(1);
@@ -1248,7 +1252,12 @@ void SpeedTest::onEnter()
     _tamara->runAction(action3);
     _kathia->runAction(action);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpeedTest::altertime), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running); //:@selector(altertime:) interval:1.0f];
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &SpeedTest::altertime)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpeedTest::altertime(float /*dt*/)

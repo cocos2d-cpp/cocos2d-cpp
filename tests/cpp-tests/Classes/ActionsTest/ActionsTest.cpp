@@ -1958,22 +1958,18 @@ void Issue1305::onEnter()
     ActionsDemo::onEnter();
     centerSprites(0);
 
-    _spriteTmp = Sprite::create("Images/grossini.png");
-    _spriteTmp->runAction(CallFunc::create(std::bind(&Issue1305::log, this, _spriteTmp)));
-    _spriteTmp->retain();
+    _spriteTmp = to_node_ptr<Sprite>(Sprite::create("Images/grossini.png"));
+    _spriteTmp->runAction(CallFunc::create(std::bind(&Issue1305::log, this, _spriteTmp.get())));
 
-    Director::getInstance()->getScheduler().schedule
-    (
-        [&](float /*dt*/) {
-            _spriteTmp->setPosition(250,250);
-            addChild(_spriteTmp);
-        },
-        this,
-        0,
-        0,
-        2,
-        !_running,
-        "update_key"
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0,
+                 [=](float /*dt*/) {
+                     _spriteTmp->setPosition(250,250);
+                     addChild(_spriteTmp.get());
+                 })
+            .repeat(0)
+            .delay(2.0f)
+            .paused(isPaused())
     );
 }
 
@@ -1985,7 +1981,7 @@ void Issue1305::log(Node* /*sender*/)
 void Issue1305::onExit()
 {
     _spriteTmp->stopAllActions();
-    _spriteTmp->release();
+    _spriteTmp.reset();
     ActionsDemo::onExit();
 }
 
@@ -2413,23 +2409,31 @@ void PauseResumeActions::onEnter()
     _grossini->runAction(RepeatForever::create(RotateBy::create(3, -360)));
     _kathia->runAction(RepeatForever::create(RotateBy::create(3, 360)));
     
-    Director::getInstance()->getScheduler().schedule(
-        [&](float /*dt*/){
-            log("Pausing");
-            _tamara->pause();
-            _grossini->pause();
-            _kathia->pause();
-        },
-        this, 0, 0, 3, !_running,"pause_key");
+    auto pause = [=](float){
+        log("Pausing");
+        _tamara->pause();
+        _grossini->pause();
+        _kathia->pause();
+    };
+    auto resume = [=](float){
+        log("Resuming");
+        _tamara->resume();
+        _grossini->resume();
+        _kathia->resume();
+    };
 
     Director::getInstance()->getScheduler().schedule(
-        [&](float /*dt*/) {
-            log("Resuming");
-            _tamara->resume();
-            _grossini->resume();
-            _kathia->resume();
-        },
-        this, 0, 0, 5, !_running, "resume_key");
+        TimedJob(this, 0, pause)
+            .delay(3)
+            .repeat(0)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 1, resume)
+            .delay(5)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 std::string PauseResumeActions::title() const
