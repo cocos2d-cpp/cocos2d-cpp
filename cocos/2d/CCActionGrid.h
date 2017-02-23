@@ -76,6 +76,8 @@ protected:
     
     void cacheTargetAsGridNode();
 
+    virtual void at_stop() override;
+
 private:
     GridAction(const GridAction &) = delete;
     const GridAction & operator=(const GridAction &) = delete;
@@ -185,7 +187,7 @@ public:
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual AccelDeccelAmplitude* clone() const override;
     virtual AccelDeccelAmplitude* reverse() const override;
     
@@ -200,6 +202,8 @@ protected:
     @return If the initialization success, return true; otherwise, return false.
     */
     bool initWithAction(Action *action, float duration);
+
+    virtual void at_stop() override;
 
 protected:
     float _rate;
@@ -237,7 +241,7 @@ public:
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual AccelAmplitude* clone() const override;
     virtual AccelAmplitude* reverse() const override;
     
@@ -246,6 +250,8 @@ protected:
     virtual ~AccelAmplitude();
 
     bool initWithAction(Action *action, float duration);
+
+    virtual void at_stop() override;
 
 protected:
     float _rate;
@@ -283,7 +289,7 @@ public:
 
     // overrides
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual DeccelAmplitude* clone() const override;
     virtual DeccelAmplitude* reverse() const override;
     
@@ -298,6 +304,8 @@ protected:
     @return If the initialization success, return true; otherwise, return false.
     */
     bool initWithAction(Action *action, float duration);
+
+    virtual void at_stop() override;
 
 protected:
     float _rate;

@@ -86,7 +86,7 @@ void ActionCamera::updateTransform()
     Mat4 lookupMatrix;
     Mat4::createLookAt(_eye.x, _eye.y, _eye.z, _center.x, _center.y, _center.z, _up.x, _up.y, _up.z, &lookupMatrix);
 
-    Vec2 anchorPoint = _target->getAnchorPointInPoints();
+    Vec2 anchorPoint = getTarget()->getAnchorPointInPoints();
 
     bool needsTranslation = !anchorPoint.isZero();
 
@@ -114,7 +114,7 @@ void ActionCamera::updateTransform()
     // But that operation needs to be done after all the 'updates'.
     // So the Director should emit an 'director_after_update' event.
     // And this object should listen to it
-    _target->setAdditionalTransform(&mv);
+    getTarget()->setAdditionalTransform(&mv);
 }
 
 //
@@ -175,6 +175,10 @@ bool OrbitCamera::initWithDuration(float t, float radius, float deltaRadius, flo
     return false;
 }
 
+void OrbitCamera::at_stop()
+{
+}
+
 void OrbitCamera::startWithTarget(Node *target)
 {
     ActionCamera::startWithTarget(target);
@@ -192,7 +196,7 @@ void OrbitCamera::startWithTarget(Node *target)
     _radX = (float)CC_DEGREES_TO_RADIANS(_angleX);
 }
 
-void OrbitCamera::update(float dt)
+void OrbitCamera::step(float dt)
 {
     float r = (_radius + _deltaRadius * dt) * FLT_EPSILON;
     float za = _radZ + _radDeltaZ * dt;

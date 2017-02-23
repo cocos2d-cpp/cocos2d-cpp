@@ -83,13 +83,11 @@ public:
     //
     // Overrides
     //
-    virtual void stop() override;
-    virtual void step(float dt) override;
     virtual void startWithTarget(Node *target) override;
     virtual Animate3D* reverse() const override;
     Animate3D *clone() const;
     
-    virtual void update(float t) override;
+    virtual void step(float t) override;
     
     /**get & set speed, negative speed means playing reverse */
     float getSpeed() const;
@@ -140,6 +138,8 @@ protected:
     bool init(Animation3D* animation, float fromTime, float duration);
     bool initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate);
     
+    virtual void at_stop() override;
+
 protected:
     
     enum class Animate3DState

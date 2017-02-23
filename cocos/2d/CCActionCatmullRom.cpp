@@ -279,7 +279,7 @@ CardinalSplineTo* CardinalSplineTo::clone() const
     return a;
 }
 
-void CardinalSplineTo::update(float time)
+void CardinalSplineTo::step(float time)
 {
     ssize_t p;
     float lt;
@@ -309,7 +309,7 @@ void CardinalSplineTo::update(float time)
 
 #if CC_ENABLE_STACKABLE_ACTIONS
     // Support for stacked actions
-    Node *node = _target;
+    Node *node = getTarget();
     Vec2 diff = node->getPosition() - _previousPosition;
     if( diff.x !=0 || diff.y != 0 )
     {
@@ -323,7 +323,7 @@ void CardinalSplineTo::update(float time)
 
 void CardinalSplineTo::updatePosition(cocos2d::Vec2 &newPos)
 {
-    _target->setPosition(newPos);
+    getTarget()->setPosition(newPos);
     _previousPosition = newPos;
 }
 
@@ -332,6 +332,10 @@ CardinalSplineTo* CardinalSplineTo::reverse() const
     PointArray *pReverse = _points->reverse();
     
     return CardinalSplineTo::create(_duration, pReverse, _tension);
+}
+
+void CardinalSplineTo::at_stop()
+{
 }
 
 /* CardinalSplineBy
@@ -362,7 +366,7 @@ CardinalSplineBy::CardinalSplineBy() : _startPosition(0,0)
 void CardinalSplineBy::updatePosition(cocos2d::Vec2 &newPos)
 {
     Vec2 p = newPos + _startPosition;
-    _target->setPosition(p);
+    getTarget()->setPosition(p);
     _previousPosition = p;
 }
 
@@ -421,6 +425,10 @@ CardinalSplineBy* CardinalSplineBy::clone() const
     a->initWithDuration(this->_duration, this->_points->clone(), this->_tension);
     a->autorelease();
     return a;
+}
+
+void CardinalSplineBy::at_stop()
+{
 }
 
 /* CatmullRomTo

@@ -145,7 +145,7 @@ Node* findChildByNameRecursively(Node* node, const std::string &childName)
 //! called before the action start. It will also set the target.
 void Animate3D::startWithTarget(Node *target)
 {
-    bool needReMap = (_target != target);
+    bool needReMap = (getTarget() != target);
     ActionInterval::startWithTarget(target);
     
     if (needReMap)
@@ -269,17 +269,9 @@ void Animate3D::startWithTarget(Node *target)
     }
 }
 
-void Animate3D::stop()
+void Animate3D::at_stop()
 {
     removeFromMap();
-    
-    ActionInterval::stop();
-}
-
-//! called every frame with it's delta time. DON'T override unless you know what you are doing.
-void Animate3D::step(float dt)
-{
-    ActionInterval::step(dt);
 }
 
 bool cmpEventInfoAsc(Animate3D::Animate3DDisplayedEventInfo* info1, Animate3D::Animate3DDisplayedEventInfo* info2)
@@ -292,9 +284,9 @@ bool cmpEventInfoDes(Animate3D::Animate3DDisplayedEventInfo* info1, Animate3D::A
     return info1->frame > info2->frame;
 }
 
-void Animate3D::update(float t)
+void Animate3D::step(float t)
 {
-    if (_target)
+    if (getTarget())
     {
         if (_state == Animate3D::Animate3DState::FadeIn && _lastTime > 0.f)
         {
@@ -306,8 +298,8 @@ void Animate3D::update(float t)
                 _accTransTime = _transTime;
                 _weight = 1.0f;
                 _state = Animate3D::Animate3DState::Running;
-                s_fadeInAnimates.erase(_target);
-                s_runningAnimates[_target] = this;
+                s_fadeInAnimates.erase(getTarget());
+                s_runningAnimates[getTarget()] = this;
             }
         }
         else if (_state == Animate3D::Animate3DState::FadeOut && _lastTime > 0.f)
@@ -320,8 +312,8 @@ void Animate3D::update(float t)
                 _accTransTime = _transTime;
                 _weight = 0.0f;
                 
-                s_fadeOutAnimates.erase(_target);
-                _target->stopAction(this);
+                s_fadeOutAnimates.erase(getTarget());
+                getTarget()->stopAction(this);
                 return;
             }
         }
@@ -399,7 +391,7 @@ void Animate3D::update(float t)
                                 if (frameEvent == nullptr)
                                     frameEvent = new (std::nothrow) EventCustom(Animate3DDisplayedNotification);
                                 auto eventInfo = &_displayedEventInfo[keyFrame.first];
-                                eventInfo->target = _target;
+                                eventInfo->target = getTarget();
                                 eventInfo->frame = keyFrame.first;
                                 eventInfo->userInfo = &_keyFrameUserInfos[keyFrame.first];
                                 eventInfos.push_back(eventInfo);
@@ -513,17 +505,17 @@ Animate3D::~Animate3D()
 void Animate3D::removeFromMap()
 {
     //remove this action from map
-    if (_target)
+    if (getTarget())
     {
-        auto it = s_fadeInAnimates.find(_target);
+        auto it = s_fadeInAnimates.find(getTarget());
         if (it != s_fadeInAnimates.end() && it->second == this)
             s_fadeInAnimates.erase(it);
         
-        it = s_fadeOutAnimates.find(_target);
+        it = s_fadeOutAnimates.find(getTarget());
         if (it != s_fadeOutAnimates.end() && it->second == this)
             s_fadeOutAnimates.erase(it);
         
-        it = s_runningAnimates.find(_target);
+        it = s_runningAnimates.find(getTarget());
         if (it != s_runningAnimates.end() && it->second == this)
             s_runningAnimates.erase(it);
     }

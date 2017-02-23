@@ -64,7 +64,7 @@ GridBase* PageTurn3D::getGrid()
  * Update each tick
  * Time is the percentage of the way through the duration
  */
-void PageTurn3D::update(float time)
+void PageTurn3D::step(float time)
 {
     float tt = MAX(0, time - 0.25f);
     float deltaAy = (tt * tt * 500);

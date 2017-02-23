@@ -26,10 +26,9 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "2d/CCAction.h"
-#include "2d/CCActionInterval.h"
-#include "2d/CCNode.h"
 #include "base/CCDirector.h"
-#include "base/ccUTF8.h"
+
+#include <string>
 
 namespace cocos2d {
 //
@@ -51,7 +50,7 @@ Action::~Action()
 
 std::string Action::description() const
 {
-    return StringUtils::format("<Action | Tag = %d", _tag);
+    return "Action | Tag = " + std::to_string(_tag);
 }
 
 void Action::startWithTarget(Node *aTarget)
@@ -61,119 +60,8 @@ void Action::startWithTarget(Node *aTarget)
 
 void Action::stop()
 {
+    at_stop();
     _target = nullptr;
-}
-
-bool Action::isDone() const
-{
-    return true;
-}
-
-void Action::step(float /*dt*/)
-{
-    CCLOG("[Action step]. override me");
-}
-
-void Action::update(float /*time*/)
-{
-    CCLOG("[Action update]. override me");
-}
-
-//
-// Speed
-//
-Speed::Speed()
-: _speed(0.0)
-, _innerAction(nullptr)
-{
-}
-
-Speed::~Speed()
-{
-    CC_SAFE_RELEASE(_innerAction);
-}
-
-Speed* Speed::create(ActionInterval* action, float speed)
-{
-    Speed *ret = new (std::nothrow) Speed();
-    if (ret && ret->initWithAction(action, speed))
-    {
-        ret->autorelease();
-        return ret;
-    }
-    CC_SAFE_DELETE(ret);
-    return nullptr;
-}
-
-bool Speed::initWithAction(ActionInterval *action, float speed)
-{
-    CCASSERT(action != nullptr, "action must not be NULL");
-    if (action == nullptr)
-    {
-        log("Speed::initWithAction error: action is nullptr!");
-        return false;
-    }
-    
-    action->retain();
-    _innerAction = action;
-    _speed = speed;
-    return true;
-}
-
-Speed *Speed::clone() const
-{
-    // no copy constructor
-    if (_innerAction)
-        return Speed::create(_innerAction->clone(), _speed);
-    
-    return nullptr;
-}
-
-void Speed::startWithTarget(Node* target)
-{
-    if (target && _innerAction)
-    {
-        Action::startWithTarget(target);
-        _innerAction->startWithTarget(target);
-    }
-    else
-        log("Speed::startWithTarget error: target(%p) or _innerAction(%p) is nullptr!", target, _innerAction);
-}
-
-void Speed::stop()
-{
-    if (_innerAction)
-        _innerAction->stop();
-    
-    Action::stop();
-}
-
-void Speed::step(float dt)
-{
-    _innerAction->step(dt * _speed);
-}
-
-bool Speed::isDone() const
-{
-    return _innerAction->isDone();
-}
-
-Speed *Speed::reverse() const
-{
-    if (_innerAction)
-        return Speed::create(_innerAction->reverse(), _speed);
-    
-    return nullptr;
-}
-
-void Speed::setInnerAction(ActionInterval *action)
-{
-    if (_innerAction != action)
-    {
-        CC_SAFE_RELEASE(_innerAction);
-        _innerAction = action;
-        CC_SAFE_RETAIN(_innerAction);
-    }
 }
 
 //
@@ -277,7 +165,7 @@ bool Follow::initWithTarget(Node *followedNode, const Rect& rect /*= Rect::ZERO*
     return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
     
 }
-void Follow::step(float /*dt*/)
+void Follow::update(float /*dt*/)
 {
     if(_boundarySet)
     {
@@ -289,12 +177,12 @@ void Follow::step(float /*dt*/)
 
         Vec2 tempPos = _halfScreenSize - _followedNode->getPosition();
 
-        _target->setPosition(clampf(tempPos.x, _leftBoundary, _rightBoundary),
+        getTarget()->setPosition(clampf(tempPos.x, _leftBoundary, _rightBoundary),
                                    clampf(tempPos.y, _bottomBoundary, _topBoundary));
     }
     else
     {
-        _target->setPosition(_halfScreenSize - _followedNode->getPosition());
+        getTarget()->setPosition(_halfScreenSize - _followedNode->getPosition());
     }
 }
 
@@ -303,10 +191,12 @@ bool Follow::isDone() const
     return ( _followedNode->isPaused() );
 }
 
-void Follow::stop()
+void Follow::step(float)
 {
-    _target = nullptr;
-    Action::stop();
+}
+
+void Follow::at_stop()
+{
 }
 
 } // namespace cocos2d

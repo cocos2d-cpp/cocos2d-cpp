@@ -56,7 +56,7 @@ public:
 
     // Override
     virtual ShakyTiles3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ShakyTiles3D() {}
@@ -102,7 +102,7 @@ public:
 
     // Override
     virtual ShatteredTiles3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ShatteredTiles3D() {}
@@ -153,7 +153,7 @@ public:
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual ShuffleTiles* clone() const override;
     
 protected:
@@ -223,7 +223,7 @@ public:
     virtual void transformTile(const Vec2& pos, float distance);
 
     // Overrides
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual FadeOutTRTiles* clone() const override;
 
 protected:
@@ -366,7 +366,7 @@ public:
     // Overrides
     virtual TurnOffTiles* clone() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     TurnOffTiles() {}
@@ -432,7 +432,7 @@ public:
 
     // Override
     virtual WavesTiles3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     WavesTiles3D() {}
@@ -499,7 +499,7 @@ public:
 
     // Override
     virtual JumpTiles3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     JumpTiles3D() {}
@@ -543,7 +543,7 @@ public :
 
     // Overrides
     virtual SplitRows* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual void startWithTarget(Node *target) override;
     
 protected:
@@ -589,7 +589,7 @@ public:
     /**
      * @param time in seconds
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual void startWithTarget(Node *target) override;
     
 protected:

@@ -79,7 +79,7 @@ void GridAction::startWithTarget(Node *target)
 
 void GridAction::cacheTargetAsGridNode()
 {
-    _gridNodeTarget = dynamic_cast<NodeGrid*> (_target);
+    _gridNodeTarget = dynamic_cast<NodeGrid*> (getTarget());
     CCASSERT(_gridNodeTarget, "GridActions can only used on NodeGrid");
 }
 
@@ -95,6 +95,10 @@ GridBase* GridAction::getGrid()
     CCASSERT(0, "Subclass should implement this method!");
 
     return nullptr;
+}
+
+void GridAction::at_stop()
+{
 }
 
 // implementation of Grid3DAction
@@ -202,7 +206,7 @@ void AccelDeccelAmplitude::startWithTarget(Node *target)
     _other->startWithTarget(target);
 }
 
-void AccelDeccelAmplitude::update(float time)
+void AccelDeccelAmplitude::step(float time)
 {
     float f = time * 2;
 
@@ -221,6 +225,10 @@ AccelDeccelAmplitude* AccelDeccelAmplitude::reverse() const
         return AccelDeccelAmplitude::create(_other->reverse(), _duration);
     
     return nullptr;
+}
+
+void AccelDeccelAmplitude::at_stop()
+{
 }
 
 // implementation of AccelAmplitude
@@ -272,10 +280,10 @@ void AccelAmplitude::startWithTarget(Node *target)
     _other->startWithTarget(target);
 }
 
-void AccelAmplitude::update(float time)
+void AccelAmplitude::step(float time)
 {
     ((AccelAmplitude*)(_other))->setAmplitudeRate(powf(time, _rate));
-    _other->update(time);
+    _other->step(time);
 }
 
 AccelAmplitude* AccelAmplitude::reverse() const
@@ -284,6 +292,10 @@ AccelAmplitude* AccelAmplitude::reverse() const
         return AccelAmplitude::create(_other->reverse(), _duration);
     
     return nullptr;
+}
+
+void AccelAmplitude::at_stop()
+{
 }
 
 // DeccelAmplitude
@@ -326,10 +338,10 @@ void DeccelAmplitude::startWithTarget(Node *target)
     _other->startWithTarget(target);
 }
 
-void DeccelAmplitude::update(float time)
+void DeccelAmplitude::step(float time)
 {
     ((DeccelAmplitude*)(_other))->setAmplitudeRate(powf((1 - time), _rate));
-    _other->update(time);
+    _other->step(time);
 }
 
 DeccelAmplitude* DeccelAmplitude::clone() const
@@ -344,6 +356,10 @@ DeccelAmplitude* DeccelAmplitude::clone() const
 DeccelAmplitude* DeccelAmplitude::reverse() const
 {
     return DeccelAmplitude::create(_other->reverse(), _duration);
+}
+
+void DeccelAmplitude::at_stop()
+{
 }
 
 // implementation of StopGrid
@@ -361,7 +377,7 @@ void StopGrid::startWithTarget(Node *target)
 
 void StopGrid::cacheTargetAsGridNode()
 {
-    _gridNodeTarget = dynamic_cast<NodeGrid*> (_target);
+    _gridNodeTarget = dynamic_cast<NodeGrid*> (getTarget());
     CCASSERT(_gridNodeTarget, "GridActions can only used on NodeGrid");
 }
 
@@ -424,7 +440,7 @@ void ReuseGrid::startWithTarget(Node *target)
 
 void ReuseGrid::cacheTargetAsGridNode()
 {
-    _gridNodeTarget = dynamic_cast<NodeGrid*> (_target);
+    _gridNodeTarget = dynamic_cast<NodeGrid*> (getTarget());
     CCASSERT(_gridNodeTarget, "GridActions can only used on NodeGrid");
 }
 

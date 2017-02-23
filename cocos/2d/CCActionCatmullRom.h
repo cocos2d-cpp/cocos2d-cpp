@@ -170,7 +170,10 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
+
+protected:
+    virtual void at_stop() override;
 
 protected:
     /** Array of control points */
@@ -209,6 +212,9 @@ public:
     virtual void updatePosition(Vec2 &newPos) override;
     virtual CardinalSplineBy *clone() const override;
     virtual CardinalSplineBy* reverse() const override;
+
+protected:
+    virtual void at_stop() override;
 
 protected:
     Vec2 _startPosition;

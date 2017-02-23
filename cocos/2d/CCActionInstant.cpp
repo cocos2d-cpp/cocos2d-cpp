@@ -39,15 +39,19 @@ bool ActionInstant::isDone() const
     return true;
 }
 
-void ActionInstant::step(float /*dt*/)
+void ActionInstant::update(float /*dt*/)
 {
     float updateDt = 1;
-    update(updateDt);
+    step(updateDt);
 }
 
-void ActionInstant::update(float /*time*/)
+void ActionInstant::step(float /*time*/)
 {
     // nothing
+}
+
+void ActionInstant::at_stop()
+{
 }
 
 //
@@ -66,9 +70,9 @@ Show* Show::create()
     return ret;
 }
 
-void Show::update(float /*time*/)
+void Show::step(float /*time*/)
 {
-    _target->setVisible(true);
+    getTarget()->setVisible(true);
 }
 
 ActionInstant* Show::reverse() const
@@ -97,9 +101,9 @@ Hide * Hide::create()
     return ret;
 }
 
-void Hide::update(float /*time*/)
+void Hide::step(float /*time*/)
 {
-    _target->setVisible(false);
+    getTarget()->setVisible(false);
 }
 
 ActionInstant *Hide::reverse() const
@@ -128,9 +132,9 @@ ToggleVisibility * ToggleVisibility::create()
     return ret;
 }
 
-void ToggleVisibility::update(float /*time*/)
+void ToggleVisibility::step(float /*time*/)
 {
-    _target->setVisible(!_target->isVisible());
+    getTarget()->setVisible(!getTarget()->isVisible());
 }
 
 ToggleVisibility * ToggleVisibility::reverse() const
@@ -165,9 +169,9 @@ bool RemoveSelf::init(bool isNeedCleanUp)
     return true;
 }
 
-void RemoveSelf::update(float /*time*/)
+void RemoveSelf::step(float /*time*/)
 {
-    _target->removeFromParentAndCleanup(_isNeedCleanUp);
+    getTarget()->removeFromParentAndCleanup(_isNeedCleanUp);
 }
 
 RemoveSelf *RemoveSelf::reverse() const
@@ -205,9 +209,9 @@ bool FlipX::initWithFlipX(bool x)
     return true;
 }
 
-void FlipX::update(float /*time*/)
+void FlipX::step(float /*time*/)
 {
-    static_cast<Sprite*>(_target)->setFlippedX(_flipX);
+    static_cast<Sprite*>(getTarget())->setFlippedX(_flipX);
 }
 
 FlipX* FlipX::reverse() const
@@ -244,9 +248,9 @@ bool FlipY::initWithFlipY(bool y)
     return true;
 }
 
-void FlipY::update(float /*time*/)
+void FlipY::step(float /*time*/)
 {
-    static_cast<Sprite*>(_target)->setFlippedY(_flipY);
+    static_cast<Sprite*>(getTarget())->setFlippedY(_flipY);
 }
 
 FlipY* FlipY::reverse() const
@@ -296,9 +300,9 @@ Place * Place::reverse() const
     return this->clone();
 }
 
-void Place::update(float /*time*/)
+void Place::step(float /*time*/)
 {
-    _target->setPosition(_position);
+    getTarget()->setPosition(_position);
 }
 
 //
@@ -350,7 +354,7 @@ CallFunc * CallFunc::reverse() const
     return this->clone();
 }
 
-void CallFunc::update(float /*time*/)
+void CallFunc::step(float /*time*/)
 {
     this->execute();
 }
@@ -385,7 +389,7 @@ void CallFuncN::execute()
 {
     if (_functionN)
     {
-        _functionN(_target);
+        _functionN(getTarget());
     }
 }
 

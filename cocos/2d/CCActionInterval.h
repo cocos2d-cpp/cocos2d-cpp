@@ -84,16 +84,16 @@ public:
      *
      * @return  The amplitude rate.
      */
-    float getAmplitudeRate(void);
+    float getAmplitudeRate();
 
     //
     // Overrides
     //
-    virtual bool isDone(void) const override;
+    virtual bool isDone() const override;
     /**
      * @param dt in seconds
      */
-    virtual void step(float dt) override;
+    virtual void update(float dt) override;
     virtual void startWithTarget(Node *target) override;
     virtual ActionInterval* reverse() const override
     {
@@ -110,6 +110,72 @@ protected:
 protected:
     float _elapsed;
     bool   _firstTick;
+};
+
+/** @class Speed
+ * @brief Changes the speed of an action, making it take longer (speed>1)
+ * or shorter (speed<1) time.
+ * Useful to simulate 'slow motion' or 'fast forward' effect.
+ * @warning This action can't be Sequenceable because it is not an IntervalAction.
+ */
+class CC_DLL Speed : public Action
+{
+public:
+    /** Create the action and set the speed.
+     *
+     * @param action An action.
+     * @param speed The action speed.
+     */
+    static Speed* create(ActionInterval* action, float speed);
+    /** Return the speed.
+     *
+     * @return The action speed.
+     */
+    float getSpeed() const { return _speed; }
+    /** Alter the speed of the inner function in runtime. 
+     *
+     * @param speed Alter the speed of the inner function in runtime.
+     */
+    void setSpeed(float speed) { _speed = speed; }
+
+    /** Replace the interior action.
+     *
+     * @param action The new action, it will replace the running action.
+     */
+    void setInnerAction(ActionInterval *action);
+    /** Return the interior action.
+     *
+     * @return The interior action.
+     */
+    ActionInterval* getInnerAction() const { return _innerAction; }
+
+    //
+    // Override
+    //
+    virtual Speed* clone() const override;
+    virtual Speed* reverse() const override;
+    virtual void startWithTarget(Node* target) override;
+
+    virtual void update(float dt) override;
+    virtual void step(float time) override;
+    virtual bool isDone() const override;
+    
+protected:
+
+    virtual void at_stop() override;
+
+    Speed();
+    virtual ~Speed(void);
+    /** Initializes the action. */
+    bool initWithAction(ActionInterval *action, float speed);
+
+protected:
+    float _speed;
+    ActionInterval *_innerAction;
+
+private:
+    Speed(const Speed &) = delete;
+    const Speed & operator=(const Speed &) = delete;
 };
 
 /** @class Sequence
@@ -177,11 +243,10 @@ public:
     virtual Sequence* clone() const override;
     virtual Sequence* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param t In seconds.
      */
-    virtual void update(float t) override;
+    virtual void step(float time) override;
     
 protected:
     Sequence();
@@ -190,6 +255,8 @@ protected:
     /** initializes the action */
     bool initWithTwoActions(FiniteTimeAction *pActionOne, FiniteTimeAction *pActionTwo);
     bool init(actions_container arrayOfActions);
+
+    virtual void at_stop() override;
 
 protected:
     FiniteTimeAction *_actions[2];
@@ -245,12 +312,11 @@ public:
     virtual Repeat* clone() const override;
     virtual Repeat* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param dt In seconds.
      */
-    virtual void update(float dt) override;
-    virtual bool isDone(void) const override;
+    virtual void step(float time) override;
+    virtual bool isDone() const override;
     
 protected:
     Repeat() {}
@@ -259,10 +325,12 @@ protected:
     /** initializes a Repeat action. Times is an unsigned integer between 1 and pow(2,30) */
     bool initWithAction(FiniteTimeAction *pAction, unsigned int times);
 
+    virtual void at_stop() override;
+
 protected:
     unsigned int _times;
     unsigned int _total;
-    float _nextDt;
+    float _nextTime;
     bool _actionInstant;
     /** Inner action */
     FiniteTimeAction *_innerAction;
@@ -314,13 +382,14 @@ public:
     // Overrides
     //
     virtual RepeatForever* clone() const override;
-    virtual RepeatForever* reverse(void) const override;
+    virtual RepeatForever* reverse() const override;
     virtual void startWithTarget(Node* target) override;
     /**
      * @param dt In seconds.
      */
-    virtual void step(float dt) override;
-    virtual bool isDone(void) const override;
+    virtual void update(float dt) override;
+    virtual void step(float time) override;
+    virtual bool isDone() const override;
     
 protected:
     RepeatForever()
@@ -330,6 +399,8 @@ protected:
 
     /** initializes the action */
     bool initWithAction(ActionInterval *action);
+
+    virtual void at_stop() override;
 
 protected:
     /** Inner action */
@@ -404,13 +475,12 @@ public:
     // Overrides
     //
     virtual Spawn* clone() const override;
-    virtual Spawn* reverse(void) const override;
+    virtual Spawn* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Spawn();
@@ -419,6 +489,8 @@ protected:
     /** initializes the Spawn action with the 2 actions to spawn */
     bool initWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
     bool init(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions);
+
+    virtual void at_stop() override;
 
 protected:
     FiniteTimeAction *_one;
@@ -472,7 +544,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     RotateTo();
@@ -497,6 +569,8 @@ protected:
      */
     void calculateAngles(float &startAngle, float &diffAngle, float dstAngle);
     
+    virtual void at_stop() override;
+
 protected:
     bool _is3D;
     Vec3 _dstAngle;
@@ -544,12 +618,12 @@ public:
     // Override
     //
     virtual RotateBy* clone() const override;
-    virtual RotateBy* reverse(void) const override;
+    virtual RotateBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     RotateBy();
@@ -565,6 +639,8 @@ protected:
     bool initWithDuration(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
     bool initWithDuration(float duration, const Vec3& deltaAngle3D);
     
+    virtual void at_stop() override;
+
 protected:
     bool _is3D;
     Vec3 _deltaAngle;
@@ -606,12 +682,12 @@ public:
     // Overrides
     //
     virtual MoveBy* clone() const override;
-    virtual MoveBy* reverse(void) const  override;
+    virtual MoveBy* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time in seconds
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     MoveBy():_is3D(false) {}
@@ -620,6 +696,8 @@ protected:
     /** initializes the action */
     bool initWithDuration(float duration, const Vec2& deltaPosition);
     bool initWithDuration(float duration, const Vec3& deltaPosition);
+
+    virtual void at_stop() override;
 
 protected:
     bool _is3D;
@@ -706,12 +784,12 @@ public:
     // Overrides
     //
     virtual SkewTo* clone() const override;
-    virtual SkewTo* reverse(void) const override;
+    virtual SkewTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     SkewTo();
@@ -720,6 +798,8 @@ protected:
      * @param t In seconds.
      */
     bool initWithDuration(float t, float sx, float sy);
+
+    virtual void at_stop() override;
 
 protected:
     float _skewX;
@@ -757,7 +837,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual SkewBy* clone() const override;
-    virtual SkewBy* reverse(void) const override;
+    virtual SkewBy* reverse() const override;
     
 protected:
     SkewBy() {}
@@ -792,7 +872,7 @@ public:
     //
     virtual ResizeTo* clone() const override;
     void startWithTarget(cocos2d::Node* target) override;
-    void update(float time) override;
+    void step(float time) override;
 
 protected:
     ResizeTo() {}
@@ -804,6 +884,8 @@ protected:
     * @param final_size in Size type
     */
     bool initWithDuration(float duration, const cocos2d::Size& final_size);
+
+    virtual void at_stop() override;
 
 protected:
     cocos2d::Size _initialSize;
@@ -835,12 +917,12 @@ public:
     // Overrides
     //
     virtual ResizeBy* clone() const override;
-    virtual ResizeBy* reverse(void) const  override;
+    virtual ResizeBy* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
     /**
     * @param time in seconds
     */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
 
 protected:
     ResizeBy() {}
@@ -848,6 +930,8 @@ protected:
     
     /** initializes the action */
     bool initWithDuration(float duration, const cocos2d::Size& deltaSize);
+
+    virtual void at_stop() override;
 
 protected:
     cocos2d::Size _sizeDelta;
@@ -880,12 +964,12 @@ public:
     // Overrides
     //
     virtual JumpBy* clone() const override;
-    virtual JumpBy* reverse(void) const override;
+    virtual JumpBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     JumpBy() {}
@@ -896,6 +980,8 @@ protected:
      * @param duration in seconds
      */
     bool initWithDuration(float duration, const Vec2& position, float height, int jumps);
+
+    virtual void at_stop() override;
 
 protected:
     Vec2           _startPosition;
@@ -930,7 +1016,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual JumpTo* clone() const override;
-    virtual JumpTo* reverse(void) const override;
+    virtual JumpTo* reverse() const override;
 
 protected:
     JumpTo() {}
@@ -983,12 +1069,12 @@ public:
     // Overrides
     //
     virtual BezierBy* clone() const override;
-    virtual BezierBy* reverse(void) const override;
+    virtual BezierBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     BezierBy() {}
@@ -999,6 +1085,8 @@ protected:
      * @param t in seconds
      */
     bool initWithDuration(float t, const ccBezierConfig& c);
+
+    virtual void at_stop() override;
 
 protected:
     ccBezierConfig _config;
@@ -1034,7 +1122,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual BezierTo* clone() const override;
-    virtual BezierTo* reverse(void) const override;
+    virtual BezierTo* reverse() const override;
     
 protected:
     BezierTo() {}
@@ -1091,12 +1179,12 @@ public:
     // Overrides
     //
     virtual ScaleTo* clone() const override;
-    virtual ScaleTo* reverse(void) const override;
+    virtual ScaleTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ScaleTo() {}
@@ -1117,6 +1205,8 @@ protected:
      * @param duration in seconds
      */
     bool initWithDuration(float duration, float sx, float sy, float sz);
+
+    virtual void at_stop() override;
 
 protected:
     float _scaleX;
@@ -1176,7 +1266,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual ScaleBy* clone() const override;
-    virtual ScaleBy* reverse(void) const override;
+    virtual ScaleBy* reverse() const override;
 
 protected:
     ScaleBy() {}
@@ -1209,9 +1299,8 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop() override;
     
 protected:
     Blink() {}
@@ -1223,6 +1312,8 @@ protected:
      */
     bool initWithDuration(float duration, int blinks);
     
+    virtual void at_stop() override;
+
 protected:
     int _times;
     bool _originalState;
@@ -1239,6 +1330,8 @@ private:
  */
 class CC_DLL FadeTo : public ActionInterval
 {
+    friend class FadeIn;
+    friend class FadeOut;
 public:
     /** 
      * Creates an action with duration and opacity.
@@ -1252,12 +1345,12 @@ public:
     // Overrides
     //
     virtual FadeTo* clone() const override;
-    virtual FadeTo* reverse(void) const override;
+    virtual FadeTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     FadeTo() {}
@@ -1269,11 +1362,12 @@ protected:
      */
     bool initWithDuration(float duration, GLubyte opacity);
 
-protected:
+    virtual void at_stop() override;
+
+private:
     GLubyte _toOpacity;
     GLubyte _fromOpacity;
-    friend class FadeOut;
-    friend class FadeIn;
+
 private:
     FadeTo(const FadeTo &) = delete;
     const FadeTo & operator=(const FadeTo &) = delete;
@@ -1298,7 +1392,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual FadeIn* clone() const override;
-    virtual FadeTo* reverse(void) const override;
+    virtual FadeTo* reverse() const override;
 
     /**
      * @js NA
@@ -1333,7 +1427,7 @@ public:
     //
     virtual void startWithTarget(Node *target) override;
     virtual FadeOut* clone() const override;
-    virtual FadeTo* reverse(void) const override;
+    virtual FadeTo* reverse() const override;
 
     /**
      * @js NA
@@ -1343,10 +1437,13 @@ public:
 protected:
     FadeOut():_reverseAction(nullptr) {}
     virtual ~FadeOut() {}
+
+private:
+    FadeTo* _reverseAction;
+
 private:
     FadeOut(const FadeOut &) = delete;
     const FadeOut & operator=(const FadeOut &) = delete;
-    FadeTo* _reverseAction;
 };
 
 /** @class TintTo
@@ -1378,12 +1475,12 @@ public:
     // Overrides
     //
     virtual TintTo* clone() const override;
-    virtual TintTo* reverse(void) const override;
+    virtual TintTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     TintTo() {}
@@ -1391,6 +1488,8 @@ protected:
 
     /** initializes the action with duration and color */
     bool initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue);
+
+    virtual void at_stop() override;
 
 protected:
     Color3B _to;
@@ -1427,7 +1526,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     TintBy() {}
@@ -1435,6 +1534,8 @@ protected:
 
     /** initializes the action with duration and color */
     bool initWithDuration(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
+
+    virtual void at_stop() override;
 
 protected:
     GLshort _deltaR;
@@ -1469,13 +1570,15 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual DelayTime* reverse() const override;
     virtual DelayTime* clone() const override;
 
 protected:
     DelayTime() {}
     virtual ~DelayTime() {}
+
+    virtual void at_stop() override;
 
 private:
     DelayTime(const DelayTime &) = delete;
@@ -1506,18 +1609,19 @@ public:
     virtual ReverseTime* reverse() const override;
     virtual ReverseTime* clone() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ReverseTime();
-    virtual ~ReverseTime(void);
+    virtual ~ReverseTime();
 
     /** initializes the action */
     bool initWithAction(FiniteTimeAction *action);
+
+    virtual void at_stop() override;
 
 protected:
     FiniteTimeAction *_other;
@@ -1564,11 +1668,10 @@ public:
     virtual Animate* clone() const override;
     virtual Animate* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param t In seconds.
      */
-    virtual void update(float t) override;
+    virtual void step(float t) override;
     
 protected:
     Animate();
@@ -1576,6 +1679,8 @@ protected:
 
     /** initializes the action with an Animation and will restore the original frame when the animation is over */
     bool initWithAnimation(std::unique_ptr<Animation>);
+
+    virtual void at_stop() override;
 
 protected:
     std::vector<float>* _splitTimes;
@@ -1625,11 +1730,10 @@ public:
     virtual TargetedAction* clone() const override;
     virtual TargetedAction* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
-    virtual void stop(void) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     TargetedAction();
@@ -1637,6 +1741,8 @@ protected:
 
     /** Init an action with the specified action and forced target */
     bool initWithTarget(Node* target, FiniteTimeAction* action);
+
+    virtual void at_stop() override;
 
 protected:
     FiniteTimeAction* _action;
@@ -1675,7 +1781,7 @@ public:
      * Overridden ActionInterval methods
      */
     void startWithTarget(Node* target) override;
-    void update(float delta) override;
+    void step(float delta) override;
     ActionFloat* reverse() const override;
     virtual ActionFloat* clone() const override;
 
@@ -1684,6 +1790,8 @@ protected:
     virtual ~ActionFloat() {};
 
     bool initWithDuration(float duration, float from, float to, ActionFloatCallback callback);
+
+    virtual void at_stop() override;
 
 protected:
     /* From value */

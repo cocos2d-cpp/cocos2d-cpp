@@ -50,9 +50,27 @@ enum {
 class CC_DLL Action : public Ref
 {
 public:
-    bool last_step(float dt)
+
+    /** Default tag used for all the actions. */
+    static const int INVALID_TAG = -1;
+
+    /** Called before the action start. It will also set the target. 
+     *
+     * @param target A certain target.
+     */
+    virtual void startWithTarget(Node *target);
+
+    virtual Action* clone() const = 0;
+
+    virtual Action* reverse() const = 0;
+
+    virtual std::string description() const;
+
+public:
+
+    bool last_update(float dt)
     {
-        step(dt);
+        update(dt);
 
         if (isDone())
         {
@@ -63,46 +81,11 @@ public:
         return false;
     }
 
-    /** Default tag used for all the actions. */
-    static const int INVALID_TAG = -1;
-
-    virtual std::string description() const;
-
-    virtual Action* clone() const = 0;
-
-    /** Returns a new action that performs the exact reverse of the action. 
-     *
-     * @return A new action that performs the exact reverse of the action.
-     */
-    virtual Action* reverse() const
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
-
-    /** Return true if the action has finished. 
-     * 
-     * @return Is true if the action has finished.
-     */
-    virtual bool isDone() const;
-
-    /** Called before the action start. It will also set the target. 
-     *
-     * @param target A certain target.
-     */
-    virtual void startWithTarget(Node *target);
-
-    /** 
-     * Called after the action has finished. It will set the 'target' to nil.
-     * IMPORTANT: You should never call "Action::stop()" manually. Instead, use: "target->stopAction(action);".
-     */
-    virtual void stop();
-
     /** Called every frame with it's delta time, dt in seconds. DON'T override unless you know what you are doing. 
      *
      * @param dt In seconds.
      */
-    virtual void step(float dt);
+    virtual void update(float dt) = 0;
 
     /** 
      * Called once per frame. time a value between 0 and 1.
@@ -114,57 +97,37 @@ public:
      *
      * @param time A value between 0 and 1.
      */
-    virtual void update(float time);
-    /** Return certain target.
-     *
-     * @return A certain target.
-     */
-    Node* getTarget() const { return _target; }
-    /** The action will modify the target properties. 
-     *
-     * @param target A certain target.
-     */
-    void setTarget(Node *target) { _target = target; }
-    /** Return a original Target. 
-     *
-     * @return A original Target.
-     */
-    Node* getOriginalTarget() const { return _originalTarget; }
-    /** 
-     * Set the original target, since target can be nil.
-     * Is the target that were used to run the action. Unless you are doing something complex, like ActionManager, you should NOT call this method.
-     * The target is 'assigned', it is not 'retained'.
-     * @since v0.8.2
-     *
-     * @param originalTarget Is 'assigned', it is not 'retained'.
-     */
-    void setOriginalTarget(Node *originalTarget) { _originalTarget = originalTarget; }
-    /** Returns a tag that is used to identify the action easily. 
-     *
-     * @return A tag.
-     */
-    int getTag() const { return _tag; }
-    /** Changes the tag that is used to identify the action easily. 
-     *
-     * @param tag Used to identify the action easily.
-     */
-    void setTag(int tag) { _tag = tag; }
-    /** Returns a flag field that is used to group the actions easily.
-     *
-     * @return A tag.
-     */
-    unsigned int getFlags() const { return _flags; }
-    /** Changes the flag field that is used to group the actions easily.
-     *
-     * @param flags Used to group the actions easily.
-     */
-    void setFlags(unsigned int flags) { _flags = flags; }
+    virtual void step(float time) = 0;
+
+    virtual bool isDone() const = 0;
+
+    void stop();
+
+    bool hasStopped() const { return _target == nullptr; }
 
 protected:
+
+    virtual void at_stop() = 0;
+
+public:
+
+    Node* getOriginalTarget() const { return _originalTarget; }
+
+    Node* getTarget() const { return _target; }
+    void  setTarget(Node *target) { _target = target; }
+
+    int  getTag() const { return _tag; }
+    void setTag(int tag) { _tag = tag; }
+
+    uint32_t getFlags() const { return _flags; }
+    void     setFlags(uint32_t flags) { _flags = flags; }
+
+protected:
+
     Action();
     virtual ~Action();
 
-protected:
+private:
     Node    *_originalTarget;
     /** 
      * The "target".
@@ -176,7 +139,7 @@ protected:
     /** The action tag. An identifier of the action. */
     int     _tag;
     /** The action flag field. To categorize action into certain groups.*/
-    unsigned int _flags;
+    uint32_t _flags;
 
 private:
     Action(const Action &) = delete;
@@ -260,75 +223,6 @@ private:
 class ActionInterval;
 class RepeatForever;
 
-/** @class Speed
- * @brief Changes the speed of an action, making it take longer (speed>1)
- * or shorter (speed<1) time.
- * Useful to simulate 'slow motion' or 'fast forward' effect.
- * @warning This action can't be Sequenceable because it is not an IntervalAction.
- */
-class CC_DLL Speed : public Action
-{
-public:
-    /** Create the action and set the speed.
-     *
-     * @param action An action.
-     * @param speed The action speed.
-     */
-    static Speed* create(ActionInterval* action, float speed);
-    /** Return the speed.
-     *
-     * @return The action speed.
-     */
-    float getSpeed() const { return _speed; }
-    /** Alter the speed of the inner function in runtime. 
-     *
-     * @param speed Alter the speed of the inner function in runtime.
-     */
-    void setSpeed(float speed) { _speed = speed; }
-
-    /** Replace the interior action.
-     *
-     * @param action The new action, it will replace the running action.
-     */
-    void setInnerAction(ActionInterval *action);
-    /** Return the interior action.
-     *
-     * @return The interior action.
-     */
-    ActionInterval* getInnerAction() const { return _innerAction; }
-
-    //
-    // Override
-    //
-    virtual Speed* clone() const override;
-    virtual Speed* reverse() const override;
-    virtual void startWithTarget(Node* target) override;
-    virtual void stop() override;
-    /**
-     * @param dt in seconds.
-     */
-    virtual void step(float dt) override;
-    /** Return true if the action has finished.
-     *
-     * @return Is true if the action has finished.
-     */
-    virtual bool isDone() const  override;
-    
-protected:
-    Speed();
-    virtual ~Speed(void);
-    /** Initializes the action. */
-    bool initWithAction(ActionInterval *action, float speed);
-
-protected:
-    float _speed;
-    ActionInterval *_innerAction;
-
-private:
-    Speed(const Speed &) = delete;
-    const Speed & operator=(const Speed &) = delete;
-};
-
 /** @class Follow
  * @brief Follow is an action that "follows" a node.
  * Eg:
@@ -338,7 +232,7 @@ private:
  * Instead of using Camera as a "follower", use this action instead.
  * @since v0.99.2
  */
-class CC_DLL Follow : public Action
+class CC_DLL Follow final : public Action
 {
 public:
     /**
@@ -387,9 +281,11 @@ public:
     /**
      * @param dt in seconds.
      */
-    virtual void step(float dt) override;
+    virtual void update(float dt) override;
     virtual bool isDone() const override;
-    virtual void stop() override;
+
+    virtual void step(float time) override;
+    virtual void at_stop() override;
 
 protected:
 

@@ -145,7 +145,7 @@ public:
     // Overrides
     virtual OrbitCamera *clone() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     /**
@@ -160,6 +160,8 @@ protected:
     
     /** Initializes a OrbitCamera action with radius, delta-radius,  z, deltaZ, x, deltaX. */
     bool initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX);
+
+    virtual void at_stop() override;
 
 protected:
     float _radius;

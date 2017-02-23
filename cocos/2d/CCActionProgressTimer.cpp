@@ -75,9 +75,13 @@ void ProgressTo::startWithTarget(Node *target)
     _from = ((kProgressTimerCast)(target))->getPercentage();
 }
 
-void ProgressTo::update(float time)
+void ProgressTo::step(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    ((kProgressTimerCast)(getTarget()))->setPercentage(_from + (_to - _from) * time);
+}
+
+void ProgressTo::at_stop()
+{
 }
 
 // implementation of ProgressFromTo
@@ -124,9 +128,13 @@ void ProgressFromTo::startWithTarget(Node *target)
     ActionInterval::startWithTarget(target);
 }
 
-void ProgressFromTo::update(float time)
+void ProgressFromTo::step(float time)
 {
-    ((kProgressTimerCast)(_target))->setPercentage(_from + (_to - _from) * time);
+    ((kProgressTimerCast)(getTarget()))->setPercentage(_from + (_to - _from) * time);
+}
+
+void ProgressFromTo::at_stop()
+{
 }
 
 } // namespace cocos2d

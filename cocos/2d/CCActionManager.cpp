@@ -447,7 +447,7 @@ void ActionManager::update(float dt)
 
                 _currentTarget->currentActionSalvaged = false;
 
-                if (_currentTarget->currentAction->last_step(dt))
+                if (_currentTarget->currentAction->last_update(dt))
                 {
                     Action *action = _currentTarget->currentAction;
                     // Make currentAction nil to prevent removeAction from salvaging it.

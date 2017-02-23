@@ -73,7 +73,7 @@ ShakyTiles3D* ShakyTiles3D::clone() const
     return ShakyTiles3D::create(_duration, _gridSize, _randrange, _shakeZ);
 }
 
-void ShakyTiles3D::update(float /*time*/)
+void ShakyTiles3D::step(float /*time*/)
 {
     int i, j;
 
@@ -144,7 +144,7 @@ ShatteredTiles3D* ShatteredTiles3D::clone() const
     return ShatteredTiles3D::create(_duration, _gridSize, _randrange, _shatterZ);
 }
 
-void ShatteredTiles3D::update(float /*time*/)
+void ShatteredTiles3D::step(float /*time*/)
 {
     int i, j;
 
@@ -307,7 +307,7 @@ void ShuffleTiles::startWithTarget(Node *target)
     }
 }
 
-void ShuffleTiles::update(float time)
+void ShuffleTiles::step(float time)
 {
     Tile *tileArray = (Tile*)_tiles;
 
@@ -387,7 +387,7 @@ void FadeOutTRTiles::transformTile(const Vec2& pos, float distance)
     setTile(pos, coords);
 }
 
-void FadeOutTRTiles::update(float time)
+void FadeOutTRTiles::step(float time)
 {
     for (int i = 0; i < _gridSize.width; ++i)
     {
@@ -614,7 +614,7 @@ void TurnOffTiles::startWithTarget(Node *target)
     shuffle(_tilesOrder, _tilesCount);
 }
 
-void TurnOffTiles::update(float time)
+void TurnOffTiles::step(float time)
 {
     unsigned int l = (unsigned int)(time * (float)_tilesCount);
 
@@ -671,7 +671,7 @@ WavesTiles3D* WavesTiles3D::clone() const
     return WavesTiles3D::create(_duration, _gridSize, _waves, _amplitude);
 }
 
-void WavesTiles3D::update(float time)
+void WavesTiles3D::step(float time)
 {
     for (int i = 0; i < _gridSize.width; i++ )
     {
@@ -726,7 +726,7 @@ JumpTiles3D* JumpTiles3D::clone() const
     return JumpTiles3D::create(_duration, _gridSize, _jumps, _amplitude);
 }
 
-void JumpTiles3D::update(float time)
+void JumpTiles3D::step(float time)
 {
     float sinz =  (sinf((float)M_PI * time * _jumps * 2) * _amplitude * _amplitudeRate );
     float sinz2 = (sinf((float)M_PI * (time * _jumps * 2 + 1)) * _amplitude * _amplitudeRate );
@@ -792,7 +792,7 @@ void SplitRows::startWithTarget(Node *target)
     _winSize = Director::getInstance()->getWinSizeInPixels();
 }
 
-void SplitRows::update(float time)
+void SplitRows::step(float time)
 {
     for (unsigned int j = 0; j < _gridSize.height; ++j)
     {
@@ -847,7 +847,7 @@ void SplitCols::startWithTarget(Node *target)
     _winSize = Director::getInstance()->getWinSizeInPixels();
 }
 
-void SplitCols::update(float time)
+void SplitCols::step(float time)
 {
     for (unsigned int i = 0; i < _gridSize.width; ++i)
     {

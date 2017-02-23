@@ -78,7 +78,7 @@ public:
 
     // Overrides
     virtual Waves3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Waves3D() {}
@@ -120,7 +120,7 @@ public:
 
     // Override
     virtual FlipX3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     FlipX3D() {}
@@ -161,7 +161,7 @@ public:
     static FlipY3D* create(float duration);
 
     // Overrides
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual FlipY3D* clone() const override;
 
 protected:
@@ -224,7 +224,7 @@ public:
 
     // Overrides
     virtual Lens3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Lens3D() {}
@@ -313,7 +313,7 @@ public:
 
     // Override
     virtual Ripple3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
 
 protected:
     Ripple3D() {}
@@ -365,7 +365,7 @@ public:
 
     // Overrides
     virtual Shaky3D* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Shaky3D() {}
@@ -433,7 +433,7 @@ public:
 
     // Overrides
     virtual Liquid* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Liquid() {}
@@ -505,7 +505,7 @@ public:
 
     // Overrides
     virtual Waves* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Waves() {}
@@ -591,7 +591,7 @@ public:
 
     // Overrides
     virtual Twirl* clone() const override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     Twirl() {}

@@ -96,7 +96,7 @@ public:
 
     // Overrides
     void startWithTarget(Node *target) override;
-    void update(float dt) override;
+    void step(float dt) override;
     ActionTween* reverse() const override;
     virtual ActionTween *clone() const override;
     
@@ -110,6 +110,8 @@ protected:
      * @return If the initialization success, return true; otherwise, return false.
      */
     bool initWithDuration(float duration, const std::string& key, float from, float to);
+
+    virtual void at_stop() override;
 
 protected:
     std::string       _key;

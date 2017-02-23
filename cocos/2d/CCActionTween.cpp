@@ -66,9 +66,9 @@ void ActionTween::startWithTarget(Node *target)
     _delta = _to - _from;
 }
 
-void ActionTween::update(float dt)
+void ActionTween::step(float dt)
 {
-    dynamic_cast<ActionTweenDelegate*>(_target)->updateTweenAction(_to  - _delta * (1 - dt), _key);
+    dynamic_cast<ActionTweenDelegate*>(getTarget())->updateTweenAction(_to  - _delta * (1 - dt), _key);
 }
 
 ActionTween* ActionTween::reverse() const
@@ -76,5 +76,8 @@ ActionTween* ActionTween::reverse() const
     return ActionTween::create(_duration, _key, _to, _from);
 }
 
+void ActionTween::at_stop()
+{
+}
 
 } // namespace cocos2d

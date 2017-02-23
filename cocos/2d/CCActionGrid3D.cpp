@@ -63,7 +63,7 @@ Waves3D* Waves3D::clone() const
     return Waves3D::create(_duration, _gridSize, _waves, _amplitude);
 }
 
-void Waves3D::update(float time)
+void Waves3D::step(float time)
 {
     int i, j;
     for (i = 0; i < _gridSize.width + 1; ++i)
@@ -121,7 +121,7 @@ FlipX3D* FlipX3D::clone() const
     return a;
 }
 
-void FlipX3D::update(float time)
+void FlipX3D::step(float time)
 {
     float angle = (float)M_PI * time; // 180 degrees
     float mz = sinf(angle);
@@ -215,7 +215,7 @@ FlipY3D* FlipY3D::create(float duration)
     return action;
 }
 
-void FlipY3D::update(float time)
+void FlipY3D::step(float time)
 {
     float angle = (float)M_PI * time; // 180 degrees
     float mz = sinf( angle );
@@ -336,7 +336,7 @@ void Lens3D::setPosition(const Vec2& pos)
     }
 }
 
-void Lens3D::update(float /*time*/)
+void Lens3D::step(float /*time*/)
 {
     if (_dirty)
     {
@@ -430,7 +430,7 @@ Ripple3D* Ripple3D::clone() const
     return a;
 }
 
-void Ripple3D::update(float time)
+void Ripple3D::step(float time)
 {
     int i, j;
 
@@ -497,7 +497,7 @@ Shaky3D* Shaky3D::clone() const
     return a;
 }
 
-void Shaky3D::update(float /*time*/)
+void Shaky3D::step(float /*time*/)
 {
     int i, j;
 
@@ -562,7 +562,7 @@ Liquid* Liquid::clone() const
     return a;
 }
 
-void Liquid::update(float time)
+void Liquid::step(float time)
 {
     int i, j;
 
@@ -624,7 +624,7 @@ Waves* Waves::clone() const
     return a;
 }
 
-void Waves::update(float time)
+void Waves::step(float time)
 {
     int i, j;
 
@@ -699,7 +699,7 @@ Twirl *Twirl::clone() const
     return a;
 }
 
-void Twirl::update(float time)
+void Twirl::step(float time)
 {
     int i, j;
     Vec2    c = _position;

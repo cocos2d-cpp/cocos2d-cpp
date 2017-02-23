@@ -73,7 +73,7 @@ void ActionEase::startWithTarget(Node *target)
     if (target && _inner)
     {
         ActionInterval::startWithTarget(target);
-        _inner->startWithTarget(_target);
+        _inner->startWithTarget(getTarget());
     }
     else
     {
@@ -81,17 +81,15 @@ void ActionEase::startWithTarget(Node *target)
     }
 }
 
-void ActionEase::stop(void)
+void ActionEase::at_stop()
 {
     if (_inner)
         _inner->stop();
-    
-    ActionInterval::stop();
 }
 
-void ActionEase::update(float time)
+void ActionEase::step(float time)
 {
-    _inner->update(time);
+    _inner->step(time);
 }
 
 ActionInterval* ActionEase::getInnerAction()
@@ -136,8 +134,8 @@ CLASSNAME* CLASSNAME::clone() const \
     if(_inner) return CLASSNAME::create(_inner->clone()); \
     return nullptr; \
 } \
-void CLASSNAME::update(float time) { \
-    _inner->update(TWEEN_FUNC(time)); \
+void CLASSNAME::step(float time) { \
+    _inner->step(TWEEN_FUNC(time)); \
 } \
 ActionEase* CLASSNAME::reverse() const { \
     return REVERSE_CLASSNAME::create(_inner->reverse()); \
@@ -193,8 +191,8 @@ CLASSNAME* CLASSNAME::clone() const \
     if(_inner) return CLASSNAME::create(_inner->clone(), _rate); \
     return nullptr; \
 } \
-void CLASSNAME::update(float time) { \
-    _inner->update(TWEEN_FUNC(time, _rate)); \
+void CLASSNAME::step(float time) { \
+    _inner->step(TWEEN_FUNC(time, _rate)); \
 } \
 EaseRateAction* CLASSNAME::reverse() const { \
     return CLASSNAME::create(_inner->reverse(), 1.f / _rate); \
@@ -242,8 +240,8 @@ CLASSNAME* CLASSNAME::clone() const \
     if(_inner) return CLASSNAME::create(_inner->clone(), _period); \
     return nullptr; \
 } \
-void CLASSNAME::update(float time) { \
-    _inner->update(TWEEN_FUNC(time, _period)); \
+void CLASSNAME::step(float time) { \
+    _inner->step(TWEEN_FUNC(time, _period)); \
 } \
 EaseElastic* CLASSNAME::reverse() const { \
     return REVERSE_CLASSNAME::create(_inner->reverse(), _period); \
@@ -294,9 +292,9 @@ EaseBezierAction* EaseBezierAction::clone() const
     return nullptr;
 }
 
-void EaseBezierAction::update(float time)
+void EaseBezierAction::step(float time)
 {
-    _inner->update(tweenfunc::bezieratFunction(_p0,_p1,_p2,_p3,time));
+    _inner->step(tweenfunc::bezieratFunction(_p0,_p1,_p2,_p3,time));
 }
 
 EaseBezierAction* EaseBezierAction::reverse() const

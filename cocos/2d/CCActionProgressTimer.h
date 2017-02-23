@@ -58,7 +58,7 @@ public:
     virtual ProgressTo* clone() const override;
     virtual ProgressTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ProgressTo() {}
@@ -71,6 +71,8 @@ protected:
      * @return If the creation success, return true; otherwise, return false.
      */
     bool initWithDuration(float duration, float percent);
+
+    virtual void at_stop() override;
 
 protected:
     float _to;
@@ -103,7 +105,7 @@ public:
     virtual ProgressFromTo* clone() const override;
     virtual ProgressFromTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     
 protected:
     ProgressFromTo() {}
@@ -117,6 +119,8 @@ protected:
      * @return If the creation success, return true; otherwise, return false.
      */
     bool initWithDuration(float duration, float fromPercentage, float toPercentage);
+
+    virtual void at_stop() override;
 
 protected:
     float _to;

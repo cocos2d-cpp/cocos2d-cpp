@@ -57,8 +57,7 @@ public:
     // Overrides
     //
     virtual void startWithTarget(Node *target) override;
-    virtual void stop() override;
-    virtual void update(float time) override;
+    virtual void step(float time) override;
 
 protected:
     ActionEase()
@@ -71,6 +70,8 @@ protected:
      @return Return true when the initialization success, otherwise return false.
     */
     bool initWithAction(ActionInterval *action);
+
+    virtual void at_stop() override;
 
 protected:
     /** The inner action */
@@ -132,7 +133,7 @@ protected: \
 public: \
     static CLASSNAME* create(ActionInterval* action); \
     virtual CLASSNAME* clone() const override; \
-    virtual void update(float time) override; \
+    virtual void step(float time) override; \
     virtual ActionEase* reverse() const override; \
 private: \
     CLASSNAME(const CLASSNAME &) = delete; \
@@ -382,7 +383,7 @@ protected: \
 public: \
     static CLASSNAME* create(ActionInterval* action, float rate); \
     virtual CLASSNAME* clone() const override; \
-    virtual void update(float time) override; \
+    virtual void step(float time) override; \
     virtual EaseRateAction* reverse() const override; \
 private: \
     CLASSNAME(const CLASSNAME &) = delete; \
@@ -471,7 +472,7 @@ protected: \
 public: \
     static CLASSNAME* create(ActionInterval* action, float rate = 0.3f); \
     virtual CLASSNAME* clone() const override; \
-    virtual void update(float time) override; \
+    virtual void step(float time) override; \
     virtual EaseElastic* reverse() const override; \
 private: \
     CLASSNAME(const CLASSNAME &) = delete; \
@@ -531,7 +532,7 @@ public:
     */
     static EaseBezierAction* create(cocos2d::ActionInterval* action);
 
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual EaseBezierAction* clone() const override;
     virtual EaseBezierAction* reverse() const override;
 

@@ -57,11 +57,13 @@ public:
     /**
      * @param dt In seconds.
      */
-    virtual void step(float dt) override;
+    virtual void update(float dt) override;
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
+
+    virtual void at_stop() override;
 };
 
 /** @class Show
@@ -82,7 +84,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual ActionInstant* reverse() const override;
     virtual Show* clone() const override;
 
@@ -113,7 +115,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual ActionInstant* reverse() const override;
     virtual Hide* clone() const override;
 
@@ -144,7 +146,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual ToggleVisibility* reverse() const override;
     virtual ToggleVisibility* clone() const override;
 
@@ -176,7 +178,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual RemoveSelf* clone() const override;
     virtual RemoveSelf* reverse() const override;
     
@@ -215,7 +217,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual FlipX* reverse() const override;
     virtual FlipX* clone() const override;
     
@@ -254,7 +256,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual FlipY* reverse() const override;
     virtual FlipY* clone() const override;
     
@@ -293,7 +295,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual Place* reverse() const override;
     virtual Place* clone() const override;
     
@@ -341,7 +343,7 @@ public:
     /**
      * @param time In seconds.
      */
-    virtual void update(float time) override;
+    virtual void step(float time) override;
     virtual CallFunc* reverse() const override;
     virtual CallFunc* clone() const override;
     
