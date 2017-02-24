@@ -113,10 +113,15 @@ using timed_vector   = std::vector<TimedJob>;
 using timed_iterator = timed_vector::iterator;
 
 inline
-static timed_iterator findFirstTimedJobForTarget(timed_vector & v, void * target,
-                                                 int32_t id = std::numeric_limits<TimedJob::id_type>::min())
+static timed_iterator findTimedJob(timed_vector & vec, void * target, int32_t id)
 {
-    return std::lower_bound( v.begin(), v.end(), TimedJobId{ target, id});
+    return std::lower_bound( vec.begin(), vec.end(), TimedJobId{ target, id});
+}
+
+inline
+static timed_iterator findFirstTimedJobForTarget(timed_vector & vec, void * target)
+{
+    return findTimedJob(vec, target, std::numeric_limits<TimedJob::id_type>::min());
 }
 
 void Scheduler::unscheduleUpdateJob(void *target)
@@ -128,18 +133,31 @@ void Scheduler::unscheduleUpdateJob(void *target)
         _update_target_to_priority.erase( iterators.first);
         iterators.second->unschedule();
     }
+
+    for (auto & j : _updateJobsToAdd)
+    {
+        if (j.target() == target)
+        {
+            j.unschedule();
+            break;
+        }
+    }
 }
 
 void Scheduler::unscheduleTimedJob(void *target, int32_t id)
 {
-    auto lower_bound = findFirstTimedJobForTarget(_timedJobs, target, id);
-    
-    if ( lower_bound != _timedJobs.end()
-         && lower_bound->target() == target
-         && lower_bound->id()     == id )
-    {
-        lower_bound->unschedule();
-    }
+    auto helper = [=](auto & vec) {
+        auto lower_bound = findTimedJob(vec, target, id);
+        if ( lower_bound != vec.end()
+             && lower_bound->target() == target
+             && lower_bound->id()     == id )
+        {
+            lower_bound->unschedule();
+        }
+    };
+
+    helper(_timedJobs);
+    helper(_timedJobsToAdd);
 }
 
 template<typename V>
