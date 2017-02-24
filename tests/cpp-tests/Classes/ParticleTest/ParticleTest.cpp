@@ -108,7 +108,12 @@ void DemoPause::onEnter()
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
     
     setEmitterPosition();
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(DemoPause::pauseEmitter), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &DemoPause::pauseEmitter)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 
 
 }
@@ -951,7 +956,12 @@ void Issue870::onEnter()
     _emitter->retain();
 
     _index = 0;
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Issue870::updateQuads), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &Issue870::updateQuads)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void Issue870::updateQuads(float /*dt*/)
@@ -1139,7 +1149,9 @@ void ParticleDemo::onEnter(void)
     _background->runAction( RepeatForever::create(seq) );
 
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        UpdateJob(this, 0).paused(isPaused())
+    );
 }
 
 std::string ParticleDemo::title() const
@@ -1231,7 +1243,12 @@ void ParticleBatchHybrid::onEnter()
 
     addChild(batch, 10);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleBatchHybrid::switchRender), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &ParticleBatchHybrid::switchRender)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 
     auto node = Node::create();
     addChild(node);
@@ -1348,7 +1365,12 @@ void ParticleReorder::onEnter()
         addChild(parent, 10, 1000+i);
     }
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleReorder::reorderParticles), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &ParticleReorder::reorderParticles)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 std::string ParticleReorder::title() const
@@ -1648,7 +1670,13 @@ void AddAndDeleteParticleSystems::onEnter()
 
     }
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(AddAndDeleteParticleSystems::removeSystem), this, 0.5f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &AddAndDeleteParticleSystems::removeSystem)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
+
     _emitter = nullptr;
 
 }
@@ -1799,7 +1827,12 @@ void ReorderParticleSystems::onEnter()
 
     }
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ReorderParticleSystems::reorderSystem), this, 2.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &ReorderParticleSystems::reorderSystem)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
     _emitter = nullptr;
 
 }
@@ -1895,7 +1928,12 @@ void PremultipliedAlphaTest::onEnter()
     this->addChild(_emitter, 10);
     _hasEmitter = true;
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PremultipliedAlphaTest::readdPaticle), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &PremultipliedAlphaTest::readdPaticle)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 // PremultipliedAlphaTest2
@@ -1967,7 +2005,12 @@ void ParticleVisibleTest::onEnter()
     
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleVisibleTest::callback), this, 1.0f, CC_REPEAT_FOREVER, 0.0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &ParticleVisibleTest::callback)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
     
     setEmitterPosition();
 }

@@ -300,16 +300,9 @@ TestLayer1::TestLayer1(const std::string& transitionName)
     label->setColor( Color3B(16,16,255));
     label->setPosition( Vec2(x/2,y/2));    
     addChild( label);
-
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TestLayer1::step), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running ); 
 }
 
 TestLayer1::~TestLayer1()
-{
-
-}
-
-void TestLayer1::step(float /*dt*/)
 {
 
 }
@@ -376,16 +369,9 @@ TestLayer2::TestLayer2(const std::string& transitionName)
     label->setColor( Color3B(16,16,255));
     label->setPosition( Vec2(x/2,y/2));    
     addChild( label);
-
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TestLayer2::step), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
 }
 
 TestLayer2::~TestLayer2()
-{
-
-}
-
-void TestLayer2::step(float /*dt*/)
 {
 
 }

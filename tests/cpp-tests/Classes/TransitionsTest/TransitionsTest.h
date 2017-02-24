@@ -45,8 +45,6 @@ public:
     TestLayer1(const std::string& transitionName);
     ~TestLayer1();
 
-    void step(float dt);
-
     virtual void onEnter() override;
     virtual void onEnterTransitionDidFinish() override;
     virtual void onExitTransitionDidStart() override;
@@ -60,8 +58,6 @@ public:
 
     TestLayer2(const std::string& transitionName);
     ~TestLayer2();
-
-    void step(float dt);
 
     virtual void onEnter() override;
     virtual void onEnterTransitionDidFinish() override;

@@ -233,7 +233,9 @@ _sliderMusicVolume(nullptr)
 {
     addButtons();
     addSliders();
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(CocosDenshionTest::updateVolumes), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, 0, &CocosDenshionTest::updateVolumes).paused(isPaused())
+    );
 
     // preload background music and effect
     SimpleAudioEngine::getInstance()->preloadBackgroundMusic( MUSIC_FILE );
