@@ -139,25 +139,27 @@ void Scheduler::unscheduleUpdateJob(void *target)
         if (j.target() == target)
         {
             j.unschedule();
-            break;
         }
     }
 }
 
 void Scheduler::unscheduleTimedJob(void *target, int32_t id)
 {
-    auto helper = [=](auto & vec) {
-        auto lower_bound = findTimedJob(vec, target, id);
-        if ( lower_bound != vec.end()
-             && lower_bound->target() == target
-             && lower_bound->id()     == id )
-        {
-            lower_bound->unschedule();
-        }
+    auto found = [=](auto & vec, auto lower_bound) {
+        return lower_bound != vec.end()
+            && lower_bound->target() == target
+            && lower_bound->id() == id;
     };
 
-    helper(_timedJobs);
-    helper(_timedJobsToAdd);
+    auto lower_bound = findTimedJob(_timedJobs, target, id);
+    
+    if (found(_timedJobs, lower_bound))
+        lower_bound->unschedule();
+
+    lower_bound = findTimedJob(_timedJobsToAdd, target, id);
+    
+    for ( ; found(_timedJobsToAdd, lower_bound); lower_bound++)
+        lower_bound->unschedule();
 }
 
 template<typename V>
