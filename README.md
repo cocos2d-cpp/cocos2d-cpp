@@ -1,13 +1,13 @@
 cocos2d-cpp
 ===========
 
-cocos2d-cpp is a 2D game engine written in C++11. cocos2d-cpp was originally cloned from cocos2d-x game engine with an attempt to refactor some legacy features.
+cocos2d-cpp is a 2D game engine written in C++14. cocos2d-cpp was originally cloned from cocos2d-x game engine with an attempt to refactor some legacy features.
 
 Since then, it turned into a complete re-write of the engine. Hence, though cocos2d-cpp is based on cocos2d-x, it is not compatible with it.
 
-cocos2d-cpp is C++11 and C++11 only. It wouldn't be practical to attempt a re-write in such scale keeping lua and javascript bindings, so those bindings were erased.
+cocos2d-cpp is C++ and C++ only. It wouldn't be practical to attempt a re-write in such scale keeping lua and javascript bindings, so those bindings were erased.
 
-cocos2d-cpp is targeted for Android, iOS, MacOS and Linux. Portability with Windows is being kept, but it might occasionally be broken.
+cocos2d-cpp is targeted for Android, iOS, Linux, MacOS and Windows. As cocos2d-cpp is in active development now that includes re-write of essential components, the portability for some platforms might occasionally be broken. Linux is currently the main platform for development.
 
 The main objectives of cocos2d-cpp:
 
