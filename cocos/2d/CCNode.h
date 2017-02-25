@@ -1187,7 +1187,7 @@ public:
      *
      * @param action An Action pointer.
      */
-    virtual Action* runAction(Action* action);
+    virtual Action* runAction(Action * action);
 
     /**
      * Stops and removes all actions from the running action list .
@@ -1195,18 +1195,11 @@ public:
     void stopAllActions();
 
     /**
-     * Stops and removes an action from the running action list.
-     *
-     * @param action    The action object to be removed.
-     */
-    void stopAction(Action* action);
-
-    /**
      * Removes an action from the running action list by its tag.
      *
      * @param tag   A tag that indicates the action to be removed.
      */
-    void stopActionByTag(int tag);
+    size_t stopActionByTag(int tag);
     
     /**
      * Removes all actions from the running action list by its tag.
@@ -1241,22 +1234,6 @@ public:
      * @return The number of actions that are running plus the ones that are schedule to run.
      */
     ssize_t getNumberOfRunningActions() const;
-
-    /**
-     * Returns the numbers of actions that are running plus the ones that are
-     * schedule to run (actions in actionsToAdd and actions arrays) with a
-     * specific tag.
-     *
-     * Composable actions are counted as 1 action. Example:
-     *    If you are running 1 Sequence of 7 actions, it will return 1.
-     *    If you are running 7 Sequences of 2 actions, it will return 7.
-     *
-     * @param  tag The tag that will be searched.
-     *
-     * @return The number of actions that are running plus the
-     *         ones that are schedule to run with specific tag.
-     */
-    ssize_t getNumberOfRunningActionsByTag(int tag) const;
 
     /// @} end of Actions
 

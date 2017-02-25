@@ -197,12 +197,10 @@ void ControlButton::setHighlighted(bool enabled)
     
     Control::setHighlighted(enabled);
 
-    Action *action = getActionByTag(kZoomActionTag);
-    if (action)
-    {
-        stopAction(action);        
-    }
+    stopAllActionsByTag(kZoomActionTag);
+    
     needsLayout();
+
     if( _zoomOnTouchDown )
     {
         float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio : 1.0f;

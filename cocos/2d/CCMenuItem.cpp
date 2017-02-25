@@ -209,12 +209,8 @@ void MenuItemLabel::selected()
     {
         MenuItem::selected();
         
-        Action *action = getActionByTag(kZoomActionTag);
-        if (action)
-        {
-            this->stopAction(action);
-        }
-        else
+        
+        if (! stopActionByTag(kZoomActionTag))
         {
             _originalScale = this->getScale();
         }

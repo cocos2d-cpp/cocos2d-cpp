@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,8 +35,7 @@ namespace cocos2d {
 //
 
 Action::Action()
-:_originalTarget(nullptr)
-,_target(nullptr)
+:_target(nullptr)
 ,_tag(Action::INVALID_TAG)
 ,_flags(0)
 {
@@ -55,7 +53,7 @@ std::string Action::description() const
 
 void Action::startWithTarget(Node *aTarget)
 {
-    _originalTarget = _target = aTarget;
+    _target = aTarget;
 }
 
 void Action::stop()

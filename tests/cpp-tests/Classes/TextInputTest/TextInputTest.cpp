@@ -245,7 +245,7 @@ bool TextFieldTTFActionTest::onTextFieldDetachWithIME(TextFieldTTF *)
 {
     if (_action)
     {
-        _textField->stopAction(_textFieldAction);
+        _textFieldAction->stop();
         _textField->setOpacity(255);
         _action = false;
     }

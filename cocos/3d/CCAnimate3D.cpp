@@ -313,7 +313,7 @@ void Animate3D::step(float t)
                 _weight = 0.0f;
                 
                 s_fadeOutAnimates.erase(getTarget());
-                getTarget()->stopAction(this);
+                Action::stop();
                 return;
             }
         }

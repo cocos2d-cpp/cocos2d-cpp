@@ -1217,55 +1217,47 @@ void Node::setEventDispatcher(EventDispatcher* dispatcher)
 
 Action * Node::runAction(Action* action)
 {
-    CCASSERT( action != nullptr, "Argument must be non-nil");
-    _director->getActionManager().addAction(action, this, !_running);
-    return action;
+    auto rv = action;
+    CC_ASSERT( action );
+    action->startWithTarget(this);
+    _director->getActionManager().runAction( to_action_ptr( action));
+    return rv;
 }
 
 void Node::stopAllActions()
 {
-    _director->getActionManager().removeAllActionsFromTarget(this);
+    _director->getActionManager().stopActionsForTarget(this);
 }
 
-void Node::stopAction(Action* action)
-{
-    _director->getActionManager().removeAction(action);
-}
-
-void Node::stopActionByTag(int tag)
+size_t Node::stopActionByTag(int32_t tag)
 {
     CCASSERT( tag != Action::INVALID_TAG, "Invalid tag");
-    _director->getActionManager().removeActionByTag(tag, this);
+    return _director->getActionManager().stopActionsForTargetWithTag(this, tag);
 }
 
-void Node::stopAllActionsByTag(int tag)
+void Node::stopAllActionsByTag(int32_t tag)
 {
     CCASSERT( tag != Action::INVALID_TAG, "Invalid tag");
-    _director->getActionManager().removeAllActionsByTag(tag, this);
+    _director->getActionManager().stopActionsForTargetWithTag(this, tag);
 }
 
-void Node::stopActionsByFlags(unsigned int flags)
+void Node::stopActionsByFlags(uint32_t flags)
 {
     if (flags > 0)
     {
-        _director->getActionManager().removeActionsByFlags(flags, this);
+        _director->getActionManager().stopActionsForTargetWithFlags(this, flags);
     }
 }
 
-Action * Node::getActionByTag(int tag)
+Action * Node::getActionByTag(int32_t tag)
 {
     CCASSERT( tag != Action::INVALID_TAG, "Invalid tag");
-    return _director->getActionManager().getActionByTag(tag, this);
+    return _director->getActionManager().getFirstActionForTargetWithTag(this, tag);
 }
 
 ssize_t Node::getNumberOfRunningActions() const
 {
-    return _director->getActionManager().getNumberOfRunningActionsInTarget(this);
-}
-
-ssize_t Node::getNumberOfRunningActionsByTag(int tag) const
-{
-    return _director->getActionManager().getNumberOfRunningActionsInTargetByTag(this, tag);
+    return _director->getActionManager().nOfActionsForTarget(this);
 }
 
 // MARK: Callbacks
@@ -1273,14 +1265,12 @@ ssize_t Node::getNumberOfRunningActionsByTag(int tag) const
 void Node::resume()
 {
     _director->getScheduler().resumeJobsForTarget(this);
-    _director->getActionManager().resumeActionsForTarget(this);
     _eventDispatcher->resumeEventListenersForTarget(this);
 }
 
 void Node::pause()
 {
     _director->getScheduler().pauseJobsForTarget(this);
-    _director->getActionManager().pauseActionsForTarget(this);
     _eventDispatcher->pauseEventListenersForTarget(this);
 }
 

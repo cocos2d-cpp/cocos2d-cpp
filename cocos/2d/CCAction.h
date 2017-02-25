@@ -1,8 +1,5 @@
 /****************************************************************************
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
 http://www.cocos2d-x.org
 
@@ -51,8 +48,15 @@ class CC_DLL Action : public Ref
 {
 public:
 
+    using tag_t   = int32_t;
+    using flags_t = uint32_t;
+
+public:
+
+    virtual ~Action();
+
     /** Default tag used for all the actions. */
-    static const int INVALID_TAG = -1;
+    static constexpr tag_t INVALID_TAG = -1;
 
     /** Called before the action start. It will also set the target. 
      *
@@ -111,35 +115,23 @@ protected:
 
 public:
 
-    Node* getOriginalTarget() const { return _originalTarget; }
-
     Node* getTarget() const { return _target; }
     void  setTarget(Node *target) { _target = target; }
 
-    int  getTag() const { return _tag; }
-    void setTag(int tag) { _tag = tag; }
+    tag_t getTag() const    { return _tag; }
+    void  setTag(tag_t tag) { _tag = tag; }
 
-    uint32_t getFlags() const { return _flags; }
-    void     setFlags(uint32_t flags) { _flags = flags; }
+    flags_t getFlags() const        { return _flags; }
+    void    setFlags(flags_t flags) { _flags = flags; }
 
 protected:
 
     Action();
-    virtual ~Action();
 
 private:
-    Node    *_originalTarget;
-    /** 
-     * The "target".
-     * The target will be set with the 'startWithTarget' method.
-     * When the 'stop' method is called, target will be set to nil.
-     * The target is 'assigned', it is not 'retained'.
-     */
-    Node    *_target;
-    /** The action tag. An identifier of the action. */
-    int     _tag;
-    /** The action flag field. To categorize action into certain groups.*/
-    uint32_t _flags;
+    Node*   _target;
+    tag_t   _tag;
+    flags_t _flags;
 
 private:
     Action(const Action &) = delete;

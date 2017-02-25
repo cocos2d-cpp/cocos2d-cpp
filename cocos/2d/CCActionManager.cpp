@@ -1,9 +1,4 @@
 /****************************************************************************
-Copyright (c) 2008-2010 Ricardo Quesada
-Copyright (c) 2009      Valentin Milea
-Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-CopyRight (c) 2013-2016 Chukong Technologies Inc.
 CopyRight (c) 2017      Iakov Sergeev <yahont@github>
  
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,458 +20,223 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include "2d/CCAction.h"
 #include "2d/CCActionManager.h"
 #include "2d/CCNode.h"
-#include "2d/CCAction.h"
-#include "base/CCScheduler.h"
-#include "base/ccMacros.h"
-#include "base/ccCArray.h"
-#include "base/uthash.h"
+#include "base/ccMacros.h" // CC_ASSERT
+
+#include <algorithm>
 
 namespace cocos2d {
-//
-// singleton stuff
-//
-typedef struct _hashElement
-{
-    struct _ccArray     *actions;
-    Node                *target;
-    int                 actionIndex;
-    Action              *currentAction;
-    bool                currentActionSalvaged;
-    bool                paused;
-    UT_hash_handle      hh;
-} tHashElement;
 
-ActionManager::ActionManager()
-: _targets(nullptr),
-  _currentTarget(nullptr),
-  _currentTargetSalvaged(false)
-{
+static auto cmp_tt1_tt2 = [](auto const target1, auto const tag1,
+                             auto const target2, auto const tag2) {
+    return (target1 < target2
+            || (target1 == target2
+                || tag1 < tag2));
+};
 
-}
+static auto cmp_action_pair = [](auto const& a, auto const& p) {
+    return cmp_tt1_tt2( a->getTarget(), a->getTag(), p.first, p.second);
+};
+
+static auto cmp_pair_action = [](auto const& p, auto const& a) {
+    return cmp_tt1_tt2( p.first, p.second, a->getTarget(), a->getTag());
+};
+
+static auto cmp_action_action = [](auto const& a, auto const& b) {
+    return cmp_tt1_tt2( a->getTarget(), a->getTag(),  b->getTarget(), b->getTag());
+};
+
+static auto cmp_action_target = [](auto const& a, auto const t) {
+    return a->getTarget() < t;
+};
+
+static auto cmp_target_action = [](auto const t, auto const& a) {
+    return t < a->getTarget();
+};
 
 ActionManager::~ActionManager()
-{
-    CCLOGINFO("deallocing ActionManager: %p", this);
+{}
 
-    removeAllActions();
+void ActionManager::runAction(action_ptr<Action> action)
+{
+    CC_ASSERT(action);
+    CC_ASSERT(action->getTarget());
+
+    _actionsToAdd.insert
+        (
+            std::upper_bound
+            (
+                _actionsToAdd.begin(),
+                _actionsToAdd.end(),
+                action,
+                cmp_action_action
+            ),
+            std::move(action)
+        );
 }
 
-// private
-
-void ActionManager::deleteHashElement(tHashElement *element)
+Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action::tag_t tag) const
 {
-    ccArrayFree(element->actions);
-    HASH_DEL(_targets, element);
-    element->target->release();
-    free(element);
-}
+    auto find = [target,tag](auto & vec) -> Action* {
+        auto lb = std::lower_bound
+            (
+                vec.begin(),
+                vec.end(),
+                std::make_pair(target, tag),
+                cmp_action_pair
+            );
 
-void ActionManager::actionAllocWithHashElement(tHashElement *element)
-{
-    // 4 actions per Node by default
-    if (element->actions == nullptr)
-    {
-        element->actions = ccArrayNew(4);
-    }else 
-    if (element->actions->num == element->actions->max)
-    {
-        ccArrayDoubleCapacity(element->actions);
-    }
-
-}
-
-void ActionManager::removeActionAtIndex(ssize_t index, tHashElement *element)
-{
-    Action *action = static_cast<Action*>(element->actions->arr[index]);
-
-    if (action == element->currentAction && (! element->currentActionSalvaged))
-    {
-        element->currentAction->retain();
-        element->currentActionSalvaged = true;
-    }
-
-    ccArrayRemoveObjectAtIndex(element->actions, index, true);
-
-    // update actionIndex in case we are in tick. looping over the actions
-    if (element->actionIndex >= index)
-    {
-        element->actionIndex--;
-    }
-
-    if (element->actions->num == 0)
-    {
-        if (_currentTarget == element)
+        if (lb != vec.end()
+            && (*lb)->getTarget() == target
+            && (*lb)->getTag() == tag)
         {
-            _currentTargetSalvaged = true;
-        }
-        else
-        {
-            deleteHashElement(element);
-        }
-    }
-}
-
-// pause / resume
-
-void ActionManager::pauseActionsForTarget(Node *target)
-{
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-    if (element)
-    {
-        element->paused = true;
-    }
-}
-
-void ActionManager::resumeActionsForTarget(Node * target)
-{
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-    if (element)
-    {
-        element->paused = false;
-    }
-}
-
-std::vector<Node *> ActionManager::pauseAllRunningActions()
-{
-    std::vector<Node *> idsWithActions;
-    
-    for (tHashElement *element = _targets;
-         element != nullptr;
-         element = static_cast<tHashElement*>(element->hh.next)) 
-    {
-        if (! element->paused) 
-        {
-            element->paused = true;
-            idsWithActions.push_back(element->target);
-        }
-    }    
-    
-    return idsWithActions;
-}
-
-void ActionManager::resumeActionsForTargets(const std::vector<Node *> & targetsToResume)
-{
-    for(const auto & node : targetsToResume)
-    {
-        this->resumeActionsForTarget(node);
-    }
-}
-
-// run
-
-void ActionManager::addAction(Action *action, Node *target, bool paused)
-{
-    CCASSERT(action != nullptr, "action can't be nullptr!");
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if(action == nullptr || target == nullptr)
-        return;
-
-    tHashElement *element = nullptr;
-    // we should convert it to Ref*, because we save it as Ref*
-    Ref *tmp = target;
-    HASH_FIND_PTR(_targets, &tmp, element);
-    if (! element)
-    {
-        element = (tHashElement*)calloc(sizeof(*element), 1);
-        element->paused = paused;
-        target->retain();
-        element->target = target;
-        HASH_ADD_PTR(_targets, target, element);
-    }
-
-     actionAllocWithHashElement(element);
- 
-     CCASSERT(! ccArrayContainsObject(element->actions, action), "action already be added!");
-     ccArrayAppendObject(element->actions, action);
- 
-     action->startWithTarget(target);
-}
-
-// remove
-
-void ActionManager::removeAllActions()
-{
-    for (tHashElement *element = _targets; element != nullptr; )
-    {
-        auto target = element->target;
-        element = (tHashElement*)element->hh.next;
-        removeAllActionsFromTarget(target);
-    }
-}
-
-void ActionManager::removeAllActionsFromTarget(Node *target)
-{
-    // explicit null handling
-    if (target == nullptr)
-    {
-        return;
-    }
-
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-    if (element)
-    {
-        if (ccArrayContainsObject(element->actions, element->currentAction) && (! element->currentActionSalvaged))
-        {
-            element->currentAction->retain();
-            element->currentActionSalvaged = true;
+            return lb->get();
         }
 
-        ccArrayRemoveAllObjects(element->actions);
-        if (_currentTarget == element)
-        {
-            _currentTargetSalvaged = true;
-        }
-        else
-        {
-            deleteHashElement(element);
-        }
-    }
+        return nullptr;
+    };
+
+    auto rv = find(_actions);
+
+    if (rv)
+        return rv;
+
+    return find(_actionsToAdd);
 }
 
-void ActionManager::removeAction(Action *action)
+static auto get_n_for = [](auto const& vec, auto const& v,
+                           auto lb_cmp, auto ub_cmp,
+                           auto match_cmp)
 {
-    // explicit null handling
-    if (action == nullptr)
-    {
-        return;
-    }
+    size_t rv = 0;
 
-    tHashElement *element = nullptr;
-    Ref *target = action->getOriginalTarget();
-    HASH_FIND_PTR(_targets, &target, element);
-    if (element)
-    {
-        auto i = ccArrayGetIndexOfObject(element->actions, action);
-        if (i != CC_INVALID_INDEX)
-        {
-            removeActionAtIndex(i, element);
-        }
-    }
+    auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
+    for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
+        rv += match_cmp(*lb);
+
+    return rv;
+};
+
+size_t ActionManager::nOfActionsForTarget(const Node *target) const
+{
+    auto match_cmp = [](auto const&) -> bool { return true; };
+
+    return get_n_for(_actions,      target, cmp_action_target, cmp_target_action, match_cmp) 
+        +  get_n_for(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
 }
 
-void ActionManager::removeActionByTag(int tag, Node *target)
+size_t ActionManager::nOfActionsForTargetWithTag(const Node *target, tag_t tag) const
 {
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (target == nullptr)
-    {
-        return;
-    }
+    auto pair = std::make_pair(target, tag);
+    auto match_cmp = [](auto const&) -> bool { return true; };
 
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-
-    if (element)
-    {
-        auto limit = element->actions->num;
-        for (int i = 0; i < limit; ++i)
-        {
-            Action *action = static_cast<Action*>(element->actions->arr[i]);
-
-            if (action->getTag() == (int)tag && action->getOriginalTarget() == target)
-            {
-                removeActionAtIndex(i, element);
-                break;
-            }
-        }
-    }
+    return get_n_for(_actions     , pair, cmp_action_pair, cmp_pair_action, match_cmp) 
+        +  get_n_for(_actionsToAdd, pair, cmp_action_pair, cmp_pair_action, match_cmp);
 }
 
-void ActionManager::removeAllActionsByTag(int tag, Node *target)
+size_t ActionManager::nOfActionsForTargetWithFlags(const Node* target, flags_t flags) const
 {
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (target == nullptr)
-    {
-        return;
-    }
-    
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-    
-    if (element)
-    {
-        auto limit = element->actions->num;
-        for (int i = 0; i < limit;)
-        {
-            Action *action = static_cast<Action*>(element->actions->arr[i]);
+    auto match_cmp = [flags](auto const& a) -> bool { return flags | a->getFlags(); };
 
-            if (action->getTag() == (int)tag && action->getOriginalTarget() == target)
-            {
-                removeActionAtIndex(i, element);
-                --limit;
-            }
-            else
-            {
-                ++i;
-            }
+    return get_n_for(_actions,      target, cmp_action_target, cmp_target_action, match_cmp) 
+        +  get_n_for(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
+}
+
+size_t ActionManager::stopAllActions()
+{
+    for (auto& a : _actions)
+        a->stop();
+    for (auto& a : _actionsToAdd)
+        a->stop();
+    return _actions.size() + _actionsToAdd.size();
+}
+
+static auto stop = [](auto const& vec, auto const& v,
+                      auto lb_cmp, auto ub_cmp,
+                      auto match_cmp)
+{
+    size_t rv = 0;
+    auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
+    for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
+    {
+        if (match_cmp(*lb))
+        {
+            (*lb)->stop();
+            rv++;
         }
     }
-}
+    return rv;
+};
 
-void ActionManager::removeActionsByFlags(unsigned int flags, Node *target)
+size_t ActionManager::stopActionsForTarget(const Node *target)
 {
-    if (flags == 0)
-    {
-        return;
-    }
-    CCASSERT(target != nullptr, "target can't be nullptr!");
-    if (target == nullptr)
-    {
-        return;
-    }
+    auto match_cmp = [](auto const&) -> bool { return true; };
 
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-
-    if (element)
-    {
-        auto limit = element->actions->num;
-        for (int i = 0; i < limit;)
-        {
-            Action *action = static_cast<Action*>(element->actions->arr[i]);
-
-            if ((action->getFlags() & flags) != 0 && action->getOriginalTarget() == target)
-            {
-                removeActionAtIndex(i, element);
-                --limit;
-            }
-            else
-            {
-                ++i;
-            }
-        }
-    }
+    return stop(_actions,      target, cmp_action_target, cmp_target_action, match_cmp)
+        +  stop(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
 }
 
-// get
-
-// FIXME: Passing "const O *" instead of "const O&" because HASH_FIND_IT requires the address of a pointer
-// and, it is not possible to get the address of a reference
-Action* ActionManager::getActionByTag(int tag, const Node *target) const
+size_t ActionManager::stopActionsForTargetWithTag(const Node *target, tag_t tag)
 {
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
+    auto pair = std::make_pair(target, tag);
+    auto match_cmp = [](auto const&) -> bool { return true; };
 
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-
-    if (element)
-    {
-        if (element->actions != nullptr)
-        {
-            auto limit = element->actions->num;
-            for (int i = 0; i < limit; ++i)
-            {
-                Action *action = static_cast<Action*>(element->actions->arr[i]);
-
-                if (action->getTag() == (int)tag)
-                {
-                    return action;
-                }
-            }
-        }
-    }
-
-    return nullptr;
+    return stop(_actions,      pair, cmp_action_pair, cmp_pair_action, match_cmp)
+        +  stop(_actionsToAdd, pair, cmp_action_pair, cmp_pair_action, match_cmp);
 }
 
-// FIXME: Passing "const O *" instead of "const O&" because HASH_FIND_IT requires the address of a pointer
-// and, it is not possible to get the address of a reference
-ssize_t ActionManager::getNumberOfRunningActionsInTarget(const Node *target) const
+size_t ActionManager::stopActionsForTargetWithFlags(const Node* target, flags_t flags)
 {
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-    if (element)
-    {
-        return element->actions ? element->actions->num : 0;
-    }
+    auto match_cmp = [flags](auto const& a) -> bool { return flags | a->getFlags(); };
 
-    return 0;
+    return stop(_actions,      target, cmp_action_target, cmp_target_action, match_cmp)
+        +  stop(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
 }
 
-// FIXME: Passing "const O *" instead of "const O&" because HASH_FIND_IT requires the address of a pointer
-// and, it is not possible to get the address of a reference
-size_t ActionManager::getNumberOfRunningActionsInTargetByTag(const Node *target,
-                                                             int tag)
-{
-    CCASSERT(tag != Action::INVALID_TAG, "Invalid tag value!");
-
-    tHashElement *element = nullptr;
-    HASH_FIND_PTR(_targets, &target, element);
-
-    if(!element || !element->actions)
-        return 0;
-
-    int count = 0;
-    auto limit = element->actions->num;
-    for(int i = 0; i < limit; ++i)
-    {
-        auto action = static_cast<Action*>(element->actions->arr[i]);
-        if(action->getTag() == tag)
-            ++count;
-    }
-
-    return count;
-}
-
-
-// main loop
 void ActionManager::update(float dt)
 {
-    for (tHashElement *elt = _targets; elt != nullptr; )
+    size_t move_to = 0;
+    const size_t size = _actions.size();
+
+    for (size_t i = 0; i < size; i++)
     {
-        _currentTarget = elt;
-        _currentTargetSalvaged = false;
+        auto & a = _actions[i];
 
-        if (! _currentTarget->paused)
+        if (!a->hasStopped() && (a->getTarget()->isPaused() || !a->last_update(dt)))
         {
-            // The 'actions' MutableArray may change while inside this loop.
-            for (_currentTarget->actionIndex = 0; _currentTarget->actionIndex < _currentTarget->actions->num;
-                _currentTarget->actionIndex++)
+            if (i != move_to)
             {
-                _currentTarget->currentAction = static_cast<Action*>(_currentTarget->actions->arr[_currentTarget->actionIndex]);
-                if (_currentTarget->currentAction == nullptr)
-                {
-                    continue;
-                }
-
-                _currentTarget->currentActionSalvaged = false;
-
-                if (_currentTarget->currentAction->last_update(dt))
-                {
-                    Action *action = _currentTarget->currentAction;
-                    // Make currentAction nil to prevent removeAction from salvaging it.
-                    _currentTarget->currentAction = nullptr;
-                    removeAction(action);
-                }
-
-                _currentTarget->currentAction = nullptr;
+                _actions[move_to] = std::move(a);
             }
-        }
-
-        // elt, at this moment, is still valid
-        // so it is safe to ask this here (issue #490)
-        elt = (tHashElement*)(elt->hh.next);
-
-        // only delete currentTarget if no actions were scheduled during the cycle (issue #481)
-        if (_currentTargetSalvaged && _currentTarget->actions->num == 0)
-        {
-            deleteHashElement(_currentTarget);
-        }
-        //if some node reference 'target', it's reference count >= 2 (issues #14050)
-        else if (_currentTarget->target->getReferenceCount() == 1)
-        {
-            deleteHashElement(_currentTarget);
+            move_to++;
         }
     }
 
-    // issue #635
-    _currentTarget = nullptr;
+    _actions.erase( _actions.begin() + move_to, _actions.end());
+
+    auto begin = _actions.begin();
+
+    for (auto& a : _actionsToAdd)
+    {
+        if (!a->hasStopped() && (a->getTarget()->isPaused() || !a->last_update(dt)))
+        {
+            begin = ++_actions.insert
+                (
+                    std::upper_bound
+                    (
+                        begin,
+                        _actions.end(),
+                        a,
+                        cmp_action_action
+                    ),
+                    std::move(a)
+                );
+        }
+    }
+
+    _actionsToAdd.clear();
 }
 
 } // namespace cocos2d

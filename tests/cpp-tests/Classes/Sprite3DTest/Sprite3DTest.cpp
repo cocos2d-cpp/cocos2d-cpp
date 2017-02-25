@@ -1164,7 +1164,7 @@ void Animate3DTest::update(float dt)
         
         if (_elapseTransTime >= Animate3D::getTransitionTime())
         {
-            _sprite->stopAction(_hurt);
+            _hurt->stop();
             _state = State::SWIMMING;
         }
     }
@@ -1173,7 +1173,7 @@ void Animate3DTest::update(float dt)
         _elapseTransTime += dt;
         if (_elapseTransTime >= Animate3D::getTransitionTime())
         {
-            _sprite->stopAction(_swim);
+            _swim->stop();
             _state = State::HURT;
         }
     }
@@ -1253,7 +1253,7 @@ void Animate3DTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
                 {
                     _elapseTransTime = 0.0f;
                     _state = State::SWIMMING_TO_HURT;
-                    _sprite->stopAction(_hurt);
+                    _hurt->stop();
                     _sprite->runAction(_hurt);
                     auto delay = DelayTime::create(_hurt->getDuration() - Animate3D::getTransitionTime());
                     auto seq = Sequence::create(
