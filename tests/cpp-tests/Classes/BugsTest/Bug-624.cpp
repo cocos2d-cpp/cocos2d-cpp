@@ -38,7 +38,12 @@ bool Bug624Layer::init()
         auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(Bug624Layer::onAcceleration,  this));
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+        Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, 0, &Bug624Layer::switchLayer)
+                .delay(5.0f)
+                .interval(5.0f)
+                .paused(isPaused())
+        );
 
         return true;
     }
@@ -48,7 +53,7 @@ bool Bug624Layer::init()
 
 void Bug624Layer::switchLayer(float)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     auto scene = Scene::create();    
     scene->addChild(Bug624Layer2::create(), 0);
@@ -84,8 +89,12 @@ bool Bug624Layer2::init()
         auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(Bug624Layer2::onAcceleration, this));
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
         
-        
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Bug624Layer2::switchLayer), this, 5.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+        Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, 0, &Bug624Layer2::switchLayer)
+                .delay(5.0f)
+                .interval(5.0f)
+                .paused(isPaused())
+        );
 
         return true;
     }
@@ -95,7 +104,7 @@ bool Bug624Layer2::init()
 
 void Bug624Layer2::switchLayer(float)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Bug624Layer::switchLayer), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     auto scene = Scene::create();    
     scene->addChild(Bug624Layer::create(), 0);
