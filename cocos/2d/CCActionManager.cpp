@@ -220,7 +220,7 @@ void ActionManager::update(float dt)
 
     for (auto& a : _actionsToAdd)
     {
-        if (!a->hasStopped() && (a->getTarget()->isPaused() || !a->last_update(dt)))
+        if (!a->hasStopped())
         {
             begin = ++_actions.insert
                 (
