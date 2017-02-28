@@ -1795,12 +1795,6 @@
     <ClInclude Include="..\base\TGAlib.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="..\base\uthash.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\base\utlist.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="..\base\ZipUtils.h">
       <Filter>base</Filter>
     </ClInclude>

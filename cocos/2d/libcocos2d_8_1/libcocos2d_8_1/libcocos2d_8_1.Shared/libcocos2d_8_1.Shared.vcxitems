@@ -303,8 +303,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\pvr.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\s3tc.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\TGAlib.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\uthash.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\utlist.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\base\ZipUtils.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\cocos2d.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\..\..\..\math\CCAffineTransform.h" />

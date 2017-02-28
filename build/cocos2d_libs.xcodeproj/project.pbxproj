@@ -2520,7 +2520,6 @@
 		507B3EDC1C31BDD30067B53E /* CCPUSlaveEmitterTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1CF1AA80A6500DDB1C5 /* CCPUSlaveEmitterTranslator.h */; };
 		507B3EDD1C31BDD30067B53E /* CCPUDoAffectorEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0FD1AA80A6500DDB1C5 /* CCPUDoAffectorEventHandler.h */; };
 		507B3EDE1C31BDD30067B53E /* btMultiBodyPoint2Point.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1281AF9AA1900B9B856 /* btMultiBodyPoint2Point.h */; };
-		507B3EDF1C31BDD30067B53E /* uthash.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1B1925AB6F00A911A9 /* uthash.h */; };
 		507B3EE01C31BDD30067B53E /* CCPURandomiserTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1A91AA80A6500DDB1C5 /* CCPURandomiserTranslator.h */; };
 		507B3EE21C31BDD30067B53E /* CCTransitionPageTurn.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A5701DB180BCB8C0088DEC7 /* CCTransitionPageTurn.h */; };
 		507B3EE31C31BDD30067B53E /* CCTransitionProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A5701DD180BCB8C0088DEC7 /* CCTransitionProgress.h */; };
@@ -2749,7 +2748,6 @@
 		507B3FC91C31BDD30067B53E /* SpuConvexPenetrationDepthSolver.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1A01AF9AA1A00B9B856 /* SpuConvexPenetrationDepthSolver.h */; };
 		507B3FCA1C31BDD30067B53E /* CCPUBaseForceAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E0DD1AA80A6500DDB1C5 /* CCPUBaseForceAffectorTranslator.h */; };
 		507B3FCC1C31BDD30067B53E /* CCPUSphereColliderTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1D51AA80A6500DDB1C5 /* CCPUSphereColliderTranslator.h */; };
-		507B3FCD1C31BDD30067B53E /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1C1925AB6F00A911A9 /* utlist.h */; };
 		507B3FCE1C31BDD30067B53E /* unzip.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A570353180BD0B00088DEC7 /* unzip.h */; };
 		507B3FCF1C31BDD30067B53E /* btThreadSupportInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1451AF9AA1900B9B856 /* btThreadSupportInterface.h */; };
 		507B3FD01C31BDD30067B53E /* btMultiBody.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB11A1AF9AA1900B9B856 /* btMultiBody.h */; };
@@ -3395,10 +3393,6 @@
 		50ABBED01925AB6F00A911A9 /* TGAlib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE191925AB6F00A911A9 /* TGAlib.cpp */; };
 		50ABBED11925AB6F00A911A9 /* TGAlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1A1925AB6F00A911A9 /* TGAlib.h */; };
 		50ABBED21925AB6F00A911A9 /* TGAlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1A1925AB6F00A911A9 /* TGAlib.h */; };
-		50ABBED31925AB6F00A911A9 /* uthash.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1B1925AB6F00A911A9 /* uthash.h */; };
-		50ABBED41925AB6F00A911A9 /* uthash.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1B1925AB6F00A911A9 /* uthash.h */; };
-		50ABBED51925AB6F00A911A9 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1C1925AB6F00A911A9 /* utlist.h */; };
-		50ABBED61925AB6F00A911A9 /* utlist.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1C1925AB6F00A911A9 /* utlist.h */; };
 		50ABBED71925AB6F00A911A9 /* ZipUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE1D1925AB6F00A911A9 /* ZipUtils.cpp */; };
 		50ABBED81925AB6F00A911A9 /* ZipUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBE1D1925AB6F00A911A9 /* ZipUtils.cpp */; };
 		50ABBED91925AB6F00A911A9 /* ZipUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBE1E1925AB6F00A911A9 /* ZipUtils.h */; };
@@ -6270,8 +6264,6 @@
 		50ABBE181925AB6F00A911A9 /* s3tc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = s3tc.h; path = ../base/s3tc.h; sourceTree = "<group>"; };
 		50ABBE191925AB6F00A911A9 /* TGAlib.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TGAlib.cpp; path = ../base/TGAlib.cpp; sourceTree = "<group>"; };
 		50ABBE1A1925AB6F00A911A9 /* TGAlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TGAlib.h; path = ../base/TGAlib.h; sourceTree = "<group>"; };
-		50ABBE1B1925AB6F00A911A9 /* uthash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uthash.h; path = ../base/uthash.h; sourceTree = "<group>"; };
-		50ABBE1C1925AB6F00A911A9 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utlist.h; path = ../base/utlist.h; sourceTree = "<group>"; };
 		50ABBE1D1925AB6F00A911A9 /* ZipUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ZipUtils.cpp; path = ../base/ZipUtils.cpp; sourceTree = "<group>"; };
 		50ABBE1E1925AB6F00A911A9 /* ZipUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipUtils.h; path = ../base/ZipUtils.h; sourceTree = "<group>"; };
 		50ABBF1B1926664700A911A9 /* CCFileUtils-apple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCFileUtils-apple.h"; sourceTree = "<group>"; };
@@ -7562,8 +7554,6 @@
 				50ABBE181925AB6F00A911A9 /* s3tc.h */,
 				50ABBE191925AB6F00A911A9 /* TGAlib.cpp */,
 				50ABBE1A1925AB6F00A911A9 /* TGAlib.h */,
-				50ABBE1B1925AB6F00A911A9 /* uthash.h */,
-				50ABBE1C1925AB6F00A911A9 /* utlist.h */,
 				50ABBE1D1925AB6F00A911A9 /* ZipUtils.cpp */,
 				50ABBE1E1925AB6F00A911A9 /* ZipUtils.h */,
 				298C75D31C0465D0006BAE63 /* CCStencilStateManager.cpp */,
@@ -10392,7 +10382,6 @@
 				15AE1A5C19AAD40300C27E9E /* b2Timer.h in Headers */,
 				B665E1FC1AA80A6500DDB1C5 /* CCPUAffectorTranslator.h in Headers */,
 				50864CBB1C7BC1B000B3BAB1 /* cpPinJoint.h in Headers */,
-				50ABBED31925AB6F00A911A9 /* uthash.h in Headers */,
 				B6CAB4B51AF9AA1A00B9B856 /* SpuDoubleBuffer.h in Headers */,
 				46A170E91807CECA005B8026 /* CCPhysicsContact.h in Headers */,
 				15AE1A2219AAD3D500C27E9E /* Box2D.h in Headers */,
@@ -10867,7 +10856,6 @@
 				501216961AC47393009A4BEA /* CCPass.h in Headers */,
 				5020A1AD1D49912500E80C72 /* IkConstraint.h in Headers */,
 				50ABC01B1926664800A911A9 /* CCSAXParser.h in Headers */,
-				50ABBED51925AB6F00A911A9 /* utlist.h in Headers */,
 				1A5702F4180BCE750088DEC7 /* CCTMXObjectGroup.h in Headers */,
 				B6CAB1EF1AF9AA1A00B9B856 /* btBroadphaseProxy.h in Headers */,
 				B6CAB3871AF9AA1A00B9B856 /* btPersistentManifold.h in Headers */,
@@ -11692,7 +11680,6 @@
 				507B3EDC1C31BDD30067B53E /* CCPUSlaveEmitterTranslator.h in Headers */,
 				507B3EDD1C31BDD30067B53E /* CCPUDoAffectorEventHandler.h in Headers */,
 				507B3EDE1C31BDD30067B53E /* btMultiBodyPoint2Point.h in Headers */,
-				507B3EDF1C31BDD30067B53E /* uthash.h in Headers */,
 				507B3EE01C31BDD30067B53E /* CCPURandomiserTranslator.h in Headers */,
 				507B3EE21C31BDD30067B53E /* CCTransitionPageTurn.h in Headers */,
 				507B3EE31C31BDD30067B53E /* CCTransitionProgress.h in Headers */,
@@ -11938,7 +11925,6 @@
 				503341A11D9DC7B400770EC7 /* SkeletonBinary.h in Headers */,
 				507B3FCC1C31BDD30067B53E /* CCPUSphereColliderTranslator.h in Headers */,
 				50864CBD1C7BC1B000B3BAB1 /* cpPinJoint.h in Headers */,
-				507B3FCD1C31BDD30067B53E /* utlist.h in Headers */,
 				507B3FCE1C31BDD30067B53E /* unzip.h in Headers */,
 				507B3FCF1C31BDD30067B53E /* btThreadSupportInterface.h in Headers */,
 				507B3FD01C31BDD30067B53E /* btMultiBody.h in Headers */,
@@ -12711,7 +12697,6 @@
 				B665E3F91AA80A6600DDB1C5 /* CCPUSlaveEmitterTranslator.h in Headers */,
 				B665E2551AA80A6500DDB1C5 /* CCPUDoAffectorEventHandler.h in Headers */,
 				B6CAB4161AF9AA1A00B9B856 /* btMultiBodyPoint2Point.h in Headers */,
-				50ABBED41925AB6F00A911A9 /* uthash.h in Headers */,
 				B665E3AD1AA80A6500DDB1C5 /* CCPURandomiserTranslator.h in Headers */,
 				1A5701ED180BCB8C0088DEC7 /* CCTransitionPageTurn.h in Headers */,
 				1A5701F1180BCB8C0088DEC7 /* CCTransitionProgress.h in Headers */,
@@ -12921,7 +12906,6 @@
 				294D7D971D0E67B4002CE7B7 /* CCDevice-apple.h in Headers */,
 				B665E4051AA80A6600DDB1C5 /* CCPUSphereColliderTranslator.h in Headers */,
 				50864CBC1C7BC1B000B3BAB1 /* cpPinJoint.h in Headers */,
-				50ABBED61925AB6F00A911A9 /* utlist.h in Headers */,
 				1A57035B180BD0B00088DEC7 /* unzip.h in Headers */,
 				B6CAB44A1AF9AA1A00B9B856 /* btThreadSupportInterface.h in Headers */,
 				B6CAB3FA1AF9AA1A00B9B856 /* btMultiBody.h in Headers */,

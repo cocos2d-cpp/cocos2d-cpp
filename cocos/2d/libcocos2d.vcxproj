@@ -924,8 +924,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClInclude Include="..\base\pvr.h" />
     <ClInclude Include="..\base\s3tc.h" />
     <ClInclude Include="..\base\TGAlib.h" />
-    <ClInclude Include="..\base\uthash.h" />
-    <ClInclude Include="..\base\utlist.h" />
     <ClInclude Include="..\base\ZipUtils.h" />
     <ClInclude Include="..\cocos2d.h" />
     <ClInclude Include="..\math\CCAffineTransform.h" />
