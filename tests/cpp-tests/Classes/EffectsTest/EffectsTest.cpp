@@ -59,10 +59,10 @@ cocos2d::ActionInterval* Waves3DDemo::createEffect(float t)
 
 cocos2d::ActionInterval* FlipX3DDemo::createEffect(float t)
 {
-    auto flipx  = FlipX3D::create(t);
-    auto flipx_back = flipx->reverse();
-    auto delay = DelayTime::create(2);
-    return Sequence::create( to_action_ptr(flipx), to_action_ptr( delay), to_action_ptr( flipx_back) );
+    auto flipx  = std::make_unique<FlipX3D>(t);
+    auto flipx_back = std::unique_ptr<FlipX3D>(flipx->reverse());
+    auto delay = std::make_unique<DelayTime>(2);
+    return Sequence::create( std::move(flipx), std::move(delay), std::move(flipx_back) );
 }
 
 FlipX3DDemo::FlipX3DDemo()

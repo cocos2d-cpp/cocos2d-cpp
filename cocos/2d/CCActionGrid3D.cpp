@@ -3,8 +3,6 @@ Copyright (c) 2009      On-Core
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
  
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -23,44 +21,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 #include "2d/CCActionGrid3D.h"
 #include "base/CCDirector.h"
 
 namespace cocos2d {
+
 // implementation of Waves3D
 
-Waves3D* Waves3D::create(float duration, const Size& gridSize, unsigned int waves, float amplitude)
-{
-    Waves3D *action = new (std::nothrow) Waves3D();
-
-    if (action && action->initWithDuration(duration, gridSize, waves, amplitude))
-    {
-        action->autorelease();
-        return action;
-    }
-
-    delete action;
-    return nullptr;
-}
-
-bool Waves3D::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        _waves = waves;
-        _amplitude = amplitude;
-        _amplitudeRate = 1.0f;
-
-        return true;
-    }
-
-    return false;
-}
+Waves3D::Waves3D(float duration, Size gridSize, unsigned int waves, float amplitude)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _waves( waves )
+    , _amplitude( amplitude )
+    , _amplitudeRate( 1.0f )
+{}
 
 Waves3D* Waves3D::clone() const
 {
-    // no copy constructor
-    return Waves3D::create(_duration, _gridSize, _waves, _amplitude);
+    return new Waves3D(_duration, _gridSize, _waves, _amplitude);
 }
 
 void Waves3D::step(float time)
@@ -72,7 +50,6 @@ void Waves3D::step(float time)
         {
             Vec3 v = getOriginalVertex(Vec2(i ,j));
             v.z += (sinf((float)M_PI * time * _waves * 2 + (v.y+v.x) * 0.01f) * _amplitude * _amplitudeRate);
-            //CCLOG("v.z offset is %f\n", (sinf((float)M_PI * time * _waves * 2 + (v.y+v.x) * .01f) * _amplitude * _amplitudeRate));
             setVertex(Vec2(i, j), v);
         }
     }
@@ -80,45 +57,14 @@ void Waves3D::step(float time)
 
 // implementation of FlipX3D
 
-FlipX3D* FlipX3D::create(float duration)
+FlipX3D::FlipX3D(float duration)
+    : Grid3DAction(duration, Size(1,1))
 {
-    FlipX3D *action = new (std::nothrow) FlipX3D();
-
-    if (action && action->initWithDuration(duration))
-    {
-        action->autorelease();
-        return action;
-    }
-
-    delete action;
-    return nullptr;
-}
-
-bool FlipX3D::initWithDuration(float duration)
-{
-    return Grid3DAction::initWithDuration(duration, Size(1, 1));
-}
-
-bool FlipX3D::initWithSize(const Size& gridSize, float duration)
-{
-    if (gridSize.width != 1 || gridSize.height != 1)
-    {
-        // Grid size must be (1,1)
-        CCASSERT(0, "Grid size must be (1,1)");
-
-        return false;
-    }
-
-    return Grid3DAction::initWithDuration(duration, gridSize);
 }
 
 FlipX3D* FlipX3D::clone() const
 {
-    // no copy constructor    
-    auto a = new (std::nothrow) FlipX3D();
-    a->initWithSize(_gridSize, _duration);
-    a->autorelease();
-    return a;
+    return new FlipX3D(_duration);
 }
 
 void FlipX3D::step(float time)
@@ -187,32 +133,14 @@ void FlipX3D::step(float time)
 
 // implementation of FlipY3D
 
-FlipY3D* FlipY3D::clone() const
+FlipY3D::FlipY3D(float duration)
+    : Grid3DAction(duration, Size(1,1))
 {
-    // no copy constructor
-    auto a = new (std::nothrow) FlipY3D();
-    a->initWithSize(_gridSize, _duration);
-    a->autorelease();
-    return a;
 }
 
-FlipY3D* FlipY3D::create(float duration)
+FlipY3D* FlipY3D::clone() const
 {
-    FlipY3D *action = new (std::nothrow) FlipY3D();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
+    return new FlipY3D(_duration);
 }
 
 void FlipY3D::step(float time)
@@ -282,58 +210,29 @@ void FlipY3D::step(float time)
 
 // implementation of Lens3D
 
-Lens3D* Lens3D::create(float duration, const Size& gridSize, const Vec2& position, float radius)
+Lens3D::Lens3D(float duration, Size gridSize, Vec2 position, float radius)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _position(position)
+    , _radius(radius)
+    , _lensEffect(0.7f)
+    , _concave( false )
+    , _dirty(true)
 {
-    Lens3D *action = new (std::nothrow) Lens3D();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, position, radius))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Lens3D::initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        _position.set(-1.0f, -1.0f);
-        setPosition(position);
-        _radius = radius;
-        _lensEffect = 0.7f;
-        _concave = false;
-        _dirty = true;
-
-        return true;
-    }
-
-    return false;
 }
 
 Lens3D* Lens3D::clone() const
 {
     // no copy constructor
-    auto a = new (std::nothrow) Lens3D();
-    a->initWithDuration(_duration, _gridSize, _position, _radius);
-    a->autorelease();
+    auto a = new Lens3D(_duration, _gridSize, _position, _radius);
+    a->_lensEffect = _lensEffect;
+    a->_concave = _concave;
     return a;
 }
 
 void Lens3D::setPosition(const Vec2& pos)
 {
-    if( !pos.equals(_position))
-    {
-        _position = pos;
-        _dirty = true;
-    }
+    _position = pos;
+    _dirty = true;
 }
 
 void Lens3D::step(float /*time*/)
@@ -380,39 +279,14 @@ void Lens3D::step(float /*time*/)
 
 // implementation of Ripple3D
 
-Ripple3D* Ripple3D::create(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
+Ripple3D::Ripple3D(float duration, Size gridSize, Vec2 position, float radius, unsigned int waves, float amplitude)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _position(position)
+    , _radius(radius)
+    , _waves(waves)
+    , _amplitude(amplitude)
+    , _amplitudeRate(1.0f)
 {
-    Ripple3D *action = new (std::nothrow) Ripple3D();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, position, radius, waves, amplitude))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Ripple3D::initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        setPosition(position);
-        _radius = radius;
-        _waves = waves;
-        _amplitude = amplitude;
-        _amplitudeRate = 1.0f;
-
-        return true;
-    }
-
-    return false;
 }
 
 void Ripple3D::setPosition(const Vec2& position)
@@ -420,13 +294,10 @@ void Ripple3D::setPosition(const Vec2& position)
     _position = position;
 }
 
-
 Ripple3D* Ripple3D::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) Ripple3D();
-    a->initWithDuration(_duration, _gridSize, _position, _radius, _waves, _amplitude);
-    a->autorelease();
+    auto a = new Ripple3D(_duration, _gridSize, _position, _radius, _waves, _amplitude);
+    a->_amplitudeRate = _amplitudeRate;
     return a;
 }
 
@@ -456,45 +327,16 @@ void Ripple3D::step(float time)
 
 // implementation of Shaky3D
 
-Shaky3D* Shaky3D::create(float duration, const Size& gridSize, int range, bool shakeZ)
+Shaky3D::Shaky3D(float duration, Size gridSize, int range, bool shakeZ)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _randrange( range )
+    , _shakeZ( shakeZ )
 {
-    Shaky3D *action = new (std::nothrow) Shaky3D();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, range, shakeZ))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Shaky3D::initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        _randrange = range;
-        _shakeZ = shakeZ;
-
-        return true;
-    }
-
-    return false;
 }
 
 Shaky3D* Shaky3D::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) Shaky3D();
-    a->initWithDuration(_duration, _gridSize, _randrange, _shakeZ);
-    a->autorelease();
-    return a;
+    return new Shaky3D(_duration, _gridSize, _randrange, _shakeZ);
 }
 
 void Shaky3D::step(float /*time*/)
@@ -520,46 +362,17 @@ void Shaky3D::step(float /*time*/)
 
 // implementation of Liquid
 
-Liquid* Liquid::create(float duration, const Size& gridSize, unsigned int waves, float amplitude)
+Liquid::Liquid(float duration, Size gridSize, unsigned int waves, float amplitude)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _waves( waves )
+    , _amplitude( amplitude )
+    , _amplitudeRate( 1.0f )
 {
-    Liquid *action = new (std::nothrow) Liquid();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, waves, amplitude))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Liquid::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        _waves = waves;
-        _amplitude = amplitude;
-        _amplitudeRate = 1.0f;
-
-        return true;
-    }
-
-    return false;
 }
 
 Liquid* Liquid::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) Liquid();
-    a->initWithDuration(_duration, _gridSize, _waves, _amplitude);
-    a->autorelease();
-    return a;
+    return new Liquid(_duration, _gridSize, _waves, _amplitude);
 }
 
 void Liquid::step(float time)
@@ -580,48 +393,19 @@ void Liquid::step(float time)
 
 // implementation of Waves
 
-Waves* Waves::create(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
+Waves::Waves(float duration, Size gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _waves( waves )
+    , _amplitude( amplitude )
+    , _amplitudeRate( 1.0f )
+    , _vertical( vertical )
+    , _horizontal( horizontal )
 {
-    Waves *action = new (std::nothrow) Waves();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, waves, amplitude, horizontal, vertical))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Waves::initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        _waves = waves;
-        _amplitude = amplitude;
-        _amplitudeRate = 1.0f;
-        _horizontal = horizontal;
-        _vertical = vertical;
-
-        return true;
-    }
-
-    return false;
 }
 
 Waves* Waves::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) Waves();
-    a->initWithDuration(_duration, _gridSize, _waves, _amplitude, _horizontal, _vertical);
-    a->autorelease();
-    return a;
+    return new Waves(_duration, _gridSize, _waves, _amplitude, _horizontal, _vertical);
 }
 
 void Waves::step(float time)
@@ -651,38 +435,13 @@ void Waves::step(float time)
 
 // implementation of Twirl
 
-Twirl* Twirl::create(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
+Twirl::Twirl(float duration, Size gridSize, const Vec2& position, unsigned int twirls, float amplitude)
+    : Grid3DAction(duration, std::move(gridSize))
+    , _position( position )
+    , _twirls( twirls )
+    , _amplitude( amplitude )
+    , _amplitudeRate( 1.0f )
 {
-    Twirl *action = new (std::nothrow) Twirl();
-
-    if (action)
-    {
-        if (action->initWithDuration(duration, gridSize, position, twirls, amplitude))
-        {
-            action->autorelease();
-        }
-        else
-        {
-            CC_SAFE_RELEASE_NULL(action);
-        }
-    }
-
-    return action;
-}
-
-bool Twirl::initWithDuration(float duration, const Size& gridSize, const Vec2& position, unsigned int twirls, float amplitude)
-{
-    if (Grid3DAction::initWithDuration(duration, gridSize))
-    {
-        setPosition(position);
-        _twirls = twirls;
-        _amplitude = amplitude;
-        _amplitudeRate = 1.0f;
-
-        return true;
-    }
-
-    return false;
 }
 
 void Twirl::setPosition(const Vec2& position)
@@ -692,17 +451,15 @@ void Twirl::setPosition(const Vec2& position)
 
 Twirl *Twirl::clone() const
 {
-    // no copy constructor    
-    auto a = new (std::nothrow) Twirl();
-    a->initWithDuration(_duration, _gridSize, _position, _twirls, _amplitude);
-    a->autorelease();
+    auto a = new Twirl(_duration, _gridSize, _position, _twirls, _amplitude);
+    a->_amplitudeRate = _amplitudeRate;
     return a;
 }
 
 void Twirl::step(float time)
 {
     int i, j;
-    Vec2    c = _position;
+    Vec2 c = _position;
     
     for (i = 0; i < (_gridSize.width+1); ++i)
     {

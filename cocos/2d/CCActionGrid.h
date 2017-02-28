@@ -60,6 +60,10 @@ protected:
 class CC_DLL Grid3DAction : public GridAction
 {
 public:
+    Grid3DAction(float duration, Size gridSize)
+        : GridAction(duration, std::move(gridSize))
+    {}
+
     virtual GridBase* getGrid() override;
 
     // The vertex will be used on the certain position of grid.
