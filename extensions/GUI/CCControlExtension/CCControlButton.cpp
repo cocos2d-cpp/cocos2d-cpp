@@ -204,9 +204,9 @@ void ControlButton::setHighlighted(bool enabled)
     if( _zoomOnTouchDown )
     {
         float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio : 1.0f;
-        Action *zoomAction = ScaleTo::create(0.05f, scaleValue);
+        auto zoomAction = std::unique_ptr<ScaleTo>( ScaleTo::create(0.05f, scaleValue) );
         zoomAction->setTag(kZoomActionTag);
-        runAction(zoomAction);
+        runAction( std::move( zoomAction));
     }
 }
 

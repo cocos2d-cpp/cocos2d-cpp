@@ -2,8 +2,7 @@
 Copyright (c) 2009      lhunath (Maarten Billemont)
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,40 +27,18 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-ActionTween* ActionTween::create(float duration, const std::string& key, float from, float to)
+ActionTween::ActionTween(float duration, std::string key, float from, float to)
+    : _key( std::move(key) )
+    , _from( from )
+    , _to( to )
+    , _delta( _to - _from )
 {
-    ActionTween* ret = new (std::nothrow) ActionTween();
-    if (ret && ret->initWithDuration(duration, key, from, to))
-    {
-        ret->autorelease();
-        return ret;
-    }
-    
-    delete ret;
-    return nullptr;
-}
-
-bool ActionTween::initWithDuration(float duration, const std::string& key, float from, float to)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _key    = key;
-        _to       = to;
-        _from     = from;
-        return true;
-    }
-
-    return false;
-}
-
-ActionTween *ActionTween::clone() const
-{
-    return ActionTween::create(_duration, _key, _from, _to);
+    ActionInterval::initWithDuration(duration);
 }
 
 void ActionTween::startWithTarget(Node *target)
 {
-    CCASSERT(dynamic_cast<ActionTweenDelegate*>(target), "target must implement ActionTweenDelegate");
+    CC_ASSERT(dynamic_cast<ActionTweenDelegate*>(target));
     ActionInterval::startWithTarget(target);
     _delta = _to - _from;
 }
@@ -71,9 +48,14 @@ void ActionTween::step(float dt)
     dynamic_cast<ActionTweenDelegate*>(getTarget())->updateTweenAction(_to  - _delta * (1 - dt), _key);
 }
 
+ActionTween *ActionTween::clone() const
+{
+    return new ActionTween(_duration, _key, _from, _to);
+}
+
 ActionTween* ActionTween::reverse() const
 {
-    return ActionTween::create(_duration, _key, _to, _from);
+    return new ActionTween(_duration, _key, _to, _from);
 }
 
 void ActionTween::at_stop()

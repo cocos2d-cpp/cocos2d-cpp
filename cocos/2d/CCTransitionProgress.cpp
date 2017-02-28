@@ -91,12 +91,12 @@ void TransitionProgress::onEnter()
     ProgressTimer *node = progressTimerNodeWithRenderTexture(texture);
 
     // create the blend action
-    auto layerAction = Sequence::create(
+    auto layerAction = std::unique_ptr<Sequence>( Sequence::create(
         to_action_ptr(ProgressFromTo::create(_duration, _from, _to)),
         to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-    );
+    ));
     // run the blend action
-    node->runAction(layerAction);
+    node->runAction( std::move( layerAction));
 
     // add the layer (which contains our two rendertextures) to the scene
     addChild(node, 2, kSceneRadial);

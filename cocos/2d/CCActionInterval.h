@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -121,39 +120,19 @@ protected:
 class CC_DLL Speed : public Action
 {
 public:
-    /** Create the action and set the speed.
-     *
-     * @param action An action.
-     * @param speed The action speed.
-     */
-    static Speed* create(ActionInterval* action, float speed);
-    /** Return the speed.
-     *
-     * @return The action speed.
-     */
+    Speed(std::unique_ptr<ActionInterval> action, float speed);
+
+    /*
     float getSpeed() const { return _speed; }
-    /** Alter the speed of the inner function in runtime. 
-     *
-     * @param speed Alter the speed of the inner function in runtime.
-     */
     void setSpeed(float speed) { _speed = speed; }
 
-    /** Replace the interior action.
-     *
-     * @param action The new action, it will replace the running action.
-     */
     void setInnerAction(ActionInterval *action);
-    /** Return the interior action.
-     *
-     * @return The interior action.
-     */
     ActionInterval* getInnerAction() const { return _innerAction; }
+    */
 
-    //
-    // Override
-    //
     virtual Speed* clone() const override;
     virtual Speed* reverse() const override;
+
     virtual void startWithTarget(Node* target) override;
 
     virtual void update(float dt) override;
@@ -164,14 +143,9 @@ protected:
 
     virtual void at_stop() override;
 
-    Speed();
-    virtual ~Speed(void);
-    /** Initializes the action. */
-    bool initWithAction(ActionInterval *action, float speed);
-
 protected:
     float _speed;
-    ActionInterval *_innerAction;
+    std::unique_ptr<ActionInterval> _innerAction;
 
 private:
     Speed(const Speed &) = delete;
@@ -184,49 +158,39 @@ private:
 class CC_DLL Sequence : public ActionInterval
 {
 public:
-    using actions_container = std::vector<action_ptr<FiniteTimeAction>>;
+    using actions_container = std::vector<std::unique_ptr<FiniteTimeAction>>;
 
-    /** Helper constructor to create an array of sequenceable actions given an array.
-     * @code
-     * When this function bound to the js or lua,the input params changed
-     * in js  :var   create(var   object1,var   object2, ...)
-     * in lua :local create(local object1,local object2, ...)
-     * @endcode
-     *
-     * @param arrayOfActions An array of sequenceable actions.
-     * @return An autoreleased Sequence object.
-     */
-    static Sequence* create(actions_container arrayOfActions);
+    static std::unique_ptr<Sequence> create(actions_container arrayOfActions);
 
     template<typename ...Actions>
-    static Sequence* create(actions_container arrayOfActions,
-                            actions_container::value_type action,
-                            Actions ...actions)
+    static std::unique_ptr<Sequence> create(actions_container arrayOfActions,
+                                            actions_container::value_type action,
+                                            Actions ...actions)
     {
         arrayOfActions.push_back(std::move(action));
         return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
     template<typename A, typename ...Actions>
-    static Sequence* create(actions_container arrayOfActions, A action, Actions ...actions)
+    static std::unique_ptr<Sequence> create(actions_container arrayOfActions, A action, Actions ...actions)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
             "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
         return create(std::move(arrayOfActions),
-                      action_ptr<FiniteTimeAction>(action.release()),
+                      std::unique_ptr<FiniteTimeAction>(action.release()),
                       std::forward<Actions>(actions)...);
     }
 
     template<typename A, typename ...Actions>
-    static Sequence* create(A action, Actions ...actions)
+    static std::unique_ptr<Sequence> create(A action, Actions ...actions)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
             "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
         actions_container arrayOfActions;
-        arrayOfActions.push_back( action_ptr<FiniteTimeAction>(action.release()) );
+        arrayOfActions.push_back( std::unique_ptr<FiniteTimeAction>(action.release()) );
         return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
 
@@ -235,7 +199,8 @@ public:
      * @param actionTwo The second sequenceable action.
      * @return An autoreleased Sequence object.
      */
-    static Sequence* createWithTwoActions(FiniteTimeAction *actionOne, FiniteTimeAction *actionTwo);
+    static std::unique_ptr<Sequence> createWithTwoActions(std::unique_ptr<FiniteTimeAction> actionOne,
+                                                          std::unique_ptr<FiniteTimeAction> actionTwo);
 
     //
     // Overrides
@@ -250,16 +215,17 @@ public:
     
 protected:
     Sequence();
-    virtual ~Sequence();
 
     /** initializes the action */
-    bool initWithTwoActions(FiniteTimeAction *pActionOne, FiniteTimeAction *pActionTwo);
+    bool initWithTwoActions(std::unique_ptr<FiniteTimeAction> actionOne,
+                            std::unique_ptr<FiniteTimeAction> actionTwo);
+
     bool init(actions_container arrayOfActions);
 
     virtual void at_stop() override;
 
 protected:
-    FiniteTimeAction *_actions[2];
+    std::unique_ptr<FiniteTimeAction> _actions[2];
     float _split;
     int _last;
 
@@ -275,40 +241,8 @@ private:
 class CC_DLL Repeat : public ActionInterval
 {
 public:
-    /** Creates a Repeat action. Times is an unsigned integer between 1 and pow(2,30).
-     *
-     * @param action The action needs to repeat.
-     * @param times The repeat times.
-     * @return An autoreleased Repeat object.
-     */
-    static Repeat* create(FiniteTimeAction *action, unsigned int times);
+    Repeat(std::unique_ptr<FiniteTimeAction> action, unsigned int times);
 
-    /** Sets the inner action.
-     *
-     * @param action The inner action.
-     */
-    void setInnerAction(FiniteTimeAction *action)
-    {
-        if (_innerAction != action)
-        {
-            CC_SAFE_RETAIN(action);
-            CC_SAFE_RELEASE(_innerAction);
-            _innerAction = action;
-        }
-    }
-
-    /** Gets the inner action.
-     *
-     * @return The inner action.
-     */
-    FiniteTimeAction* getInnerAction()
-    {
-        return _innerAction;
-    }
-
-    //
-    // Overrides
-    //
     virtual Repeat* clone() const override;
     virtual Repeat* reverse() const override;
     virtual void startWithTarget(Node *target) override;
@@ -319,21 +253,15 @@ public:
     virtual bool isDone() const override;
     
 protected:
-    Repeat() {}
-    virtual ~Repeat();
-
-    /** initializes a Repeat action. Times is an unsigned integer between 1 and pow(2,30) */
-    bool initWithAction(FiniteTimeAction *pAction, unsigned int times);
 
     virtual void at_stop() override;
 
 protected:
+    std::unique_ptr<FiniteTimeAction> _innerAction;
     unsigned int _times;
     unsigned int _total;
     float _nextTime;
     bool _actionInstant;
-    /** Inner action */
-    FiniteTimeAction *_innerAction;
 
 private:
     Repeat(const Repeat &) = delete;
@@ -348,35 +276,7 @@ private:
 class CC_DLL RepeatForever : public ActionInterval
 {
 public:
-    /** Creates the action.
-     *
-     * @param action The action need to repeat forever.
-     * @return An autoreleased RepeatForever object.
-     */
-    static RepeatForever* create(ActionInterval *action);
-
-    /** Sets the inner action.
-     *
-     * @param action The inner action.
-     */
-    void setInnerAction(ActionInterval *action)
-    {
-        if (_innerAction != action)
-        {
-            CC_SAFE_RELEASE(_innerAction);
-            _innerAction = action;
-            CC_SAFE_RETAIN(_innerAction);
-        }
-    }
-
-    /** Gets the inner action.
-     *
-     * @return The inner action.
-     */
-    ActionInterval* getInnerAction()
-    {
-        return _innerAction;
-    }
+    RepeatForever(std::unique_ptr<ActionInterval>);
 
     //
     // Overrides
@@ -395,7 +295,6 @@ protected:
     RepeatForever()
     : _innerAction(nullptr)
     {}
-    virtual ~RepeatForever();
 
     /** initializes the action */
     bool initWithAction(ActionInterval *action);
@@ -404,7 +303,7 @@ protected:
 
 protected:
     /** Inner action */
-    ActionInterval *_innerAction;
+    std::unique_ptr<ActionInterval> _innerAction;
 
 private:
     RepeatForever(const RepeatForever &) = delete;
@@ -417,59 +316,44 @@ private:
 class CC_DLL Spawn : public ActionInterval
 {
 public:
-    /** Helper constructor to create an array of spawned actions.
-     * @code
-     * When this function bound to the js or lua, the input params changed.
-     * in js  :var   create(var   object1,var   object2, ...)
-     * in lua :local create(local object1,local object2, ...)
-     * @endcode
-     *
-     * @return An autoreleased Spawn object.
-     */
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
-    // VS2013 does not support nullptr in variable args lists and variadic templates are also not supported.
-    typedef FiniteTimeAction* M;
-    static Spawn* create(M m1, std::nullptr_t listEnd) { return variadicCreate(m1, NULL); }
-    static Spawn* create(M m1, M m2, std::nullptr_t listEnd) { return variadicCreate(m1, m2, NULL); }
-    static Spawn* create(M m1, M m2, M m3, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, NULL); }
-    static Spawn* create(M m1, M m2, M m3, M m4, M m5, M m6, M m7, M m8, M m9, M m10, std::nullptr_t listEnd) { return variadicCreate(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10,  NULL); }
+    using actions_container = std::vector<std::unique_ptr<FiniteTimeAction>>;
 
-    // On WP8 for variable argument lists longer than 10 items, use the other create functions or createSpawn with NULL as the last argument.
-    static Spawn* variadicCreate(FiniteTimeAction* item, ...);
-#else
-    static Spawn* create(FiniteTimeAction *action1, ...) CC_REQUIRES_NULL_TERMINATION;
-#endif
+    static std::unique_ptr<Spawn> create(actions_container arrayOfActions);
 
-    /** Helper constructor to create an array of spawned actions. 
-     *
-     * @param action1   The first sequenceable action.
-     * @param args  The va_list variable.
-     * @return  An autoreleased Spawn object.
-     * @js NA
-     */
-    static Spawn* createWithVariableList(FiniteTimeAction *action1, va_list args);
+    template<typename ...Actions>
+    static std::unique_ptr<Spawn> create(actions_container arrayOfActions,
+                                         actions_container::value_type action,
+                                         Actions ...actions)
+    {
+        arrayOfActions.push_back(std::move(action));
+        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
+    }
+    template<typename A, typename ...Actions>
+    static std::unique_ptr<Spawn> create(actions_container arrayOfActions, A action, Actions ...actions)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Spawn::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+        return create(std::move(arrayOfActions),
+                      std::unique_ptr<FiniteTimeAction>(action.release()),
+                      std::forward<Actions>(actions)...);
+    }
 
-    /** Helper constructor to create an array of spawned actions given an array.
-     *
-     * @param arrayOfActions    An array of spawned actions.
-     * @return  An autoreleased Spawn object.
-     */
-    static Spawn* create(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions);
+    template<typename A, typename ...Actions>
+    static std::unique_ptr<Spawn> create(A action, Actions ...actions)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Spawn::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+        actions_container arrayOfActions;
+        arrayOfActions.push_back( std::unique_ptr<FiniteTimeAction>(action.release()) );
+        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
+    }
 
-    /** Creates the Spawn action.
-     *
-     * @param action1   The first spawned action.
-     * @param action2   The second spawned action.
-     * @return An autoreleased Spawn object.
-     * @js NA
-     */
-    static Spawn* createWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
+    static std::unique_ptr<Spawn> createWithTwoActions(std::unique_ptr<FiniteTimeAction> action1,
+                                                       std::unique_ptr<FiniteTimeAction> action2);
 
     //
     // Overrides
@@ -483,18 +367,18 @@ public:
     virtual void step(float time) override;
     
 protected:
-    Spawn();
-    virtual ~Spawn();
+    Spawn() = default;
 
-    /** initializes the Spawn action with the 2 actions to spawn */
-    bool initWithTwoActions(FiniteTimeAction *action1, FiniteTimeAction *action2);
-    bool init(std::vector<action_ptr<FiniteTimeAction>> && arrayOfActions);
+    bool init(actions_container arrayOfActions);
+
+    bool initWithTwoActions(std::unique_ptr<FiniteTimeAction> action1,
+                            std::unique_ptr<FiniteTimeAction> action2);
 
     virtual void at_stop() override;
 
 protected:
-    FiniteTimeAction *_one;
-    FiniteTimeAction *_two;
+    std::unique_ptr<FiniteTimeAction> _one;
+    std::unique_ptr<FiniteTimeAction> _two;
 
 private:
     Spawn(const Spawn &) = delete;
@@ -508,6 +392,7 @@ private:
 class CC_DLL RotateTo : public ActionInterval
 {
 public:
+    virtual ~RotateTo() {}
     /** 
      * Creates the action with separate rotation angles.
      *
@@ -516,7 +401,7 @@ public:
      * @param dstAngleY In degreesCW.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, float dstAngleX, float dstAngleY);
+    static std::unique_ptr<RotateTo> create(float duration, float dstAngleX, float dstAngleY);
 
     /** 
      * Creates the action.
@@ -525,7 +410,7 @@ public:
      * @param dstAngle In degreesCW.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, float dstAngle);
+    static std::unique_ptr<RotateTo> create(float duration, float dstAngle);
 
     /** 
      * Creates the action with 3D rotation angles.
@@ -533,7 +418,7 @@ public:
      * @param dstAngle3D A Vec3 angle.
      * @return An autoreleased RotateTo object.
      */
-    static RotateTo* create(float duration, const Vec3& dstAngle3D);
+    static std::unique_ptr<RotateTo> create(float duration, const Vec3& dstAngle3D);
 
     //
     // Overrides
@@ -548,7 +433,6 @@ public:
     
 protected:
     RotateTo();
-    virtual ~RotateTo() {}
 
     /** 
      * initializes the action
@@ -588,6 +472,7 @@ private:
 class CC_DLL RotateBy : public ActionInterval
 {
 public:
+    virtual ~RotateBy() {}
     /** 
      * Creates the action.
      *
@@ -595,7 +480,7 @@ public:
      * @param deltaAngle In degreesCW.
      * @return An autoreleased RotateBy object.
      */
-    static RotateBy* create(float duration, float deltaAngle);
+    static std::unique_ptr<RotateBy> create(float duration, float deltaAngle);
     /**
      * Creates the action with separate rotation angles.
      *
@@ -605,14 +490,14 @@ public:
      * @return An autoreleased RotateBy object.
      * @warning The physics body contained in Node doesn't support rotate with different x and y angle.
      */
-    static RotateBy* create(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
+    static std::unique_ptr<RotateBy> create(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
     /** Creates the action with 3D rotation angles.
      *
      * @param duration Duration time, in seconds.
      * @param deltaAngle3D A Vec3 angle.
      * @return An autoreleased RotateBy object.
      */
-    static RotateBy* create(float duration, const Vec3& deltaAngle3D);
+    static std::unique_ptr<RotateBy> create(float duration, const Vec3& deltaAngle3D);
 
     //
     // Override
@@ -627,7 +512,6 @@ public:
     
 protected:
     RotateBy();
-    virtual ~RotateBy() {}
 
     /** initializes the action */
     bool initWithDuration(float duration, float deltaAngle);
@@ -661,6 +545,7 @@ private:
 class CC_DLL MoveBy : public ActionInterval
 {
 public:
+    virtual ~MoveBy() {}
     /** 
      * Creates the action.
      *
@@ -668,7 +553,7 @@ public:
      * @param deltaPosition The delta distance in 2d, it's a Vec2 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, const Vec2& deltaPosition);
+    static std::unique_ptr<MoveBy> create(float duration, const Vec2& deltaPosition);
     /**
      * Creates the action.
      *
@@ -676,7 +561,7 @@ public:
      * @param deltaPosition The delta distance in 3d, it's a Vec3 type.
      * @return An autoreleased MoveBy object.
      */
-    static MoveBy* create(float duration, const Vec3& deltaPosition);
+    static std::unique_ptr<MoveBy> create(float duration, const Vec3& deltaPosition);
 
     //
     // Overrides
@@ -691,7 +576,6 @@ public:
     
 protected:
     MoveBy():_is3D(false) {}
-    virtual ~MoveBy() {}
 
     /** initializes the action */
     bool initWithDuration(float duration, const Vec2& deltaPosition);
@@ -719,20 +603,21 @@ private:
 class CC_DLL MoveTo : public MoveBy
 {
 public:
+    virtual ~MoveTo() {}
     /** 
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param position The destination position in 2d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, const Vec2& position);
+    static std::unique_ptr<MoveTo> create(float duration, const Vec2& position);
     /**
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param position The destination position in 3d.
      * @return An autoreleased MoveTo object.
      */
-    static MoveTo* create(float duration, const Vec3& position);
+    static std::unique_ptr<MoveTo> create(float duration, const Vec3& position);
 
     //
     // Overrides
@@ -743,7 +628,6 @@ public:
     
 protected:
     MoveTo() {}
-    virtual ~MoveTo() {}
 
     /** 
      * initializes the action
@@ -771,6 +655,7 @@ private:
 class CC_DLL SkewTo : public ActionInterval
 {
 public:
+    virtual ~SkewTo() {}
     /** 
      * Creates the action.
      * @param t Duration time, in seconds.
@@ -778,7 +663,7 @@ public:
      * @param sy Skew y angle.
      * @return An autoreleased SkewTo object.
      */
-    static SkewTo* create(float t, float sx, float sy);
+    static std::unique_ptr<SkewTo> create(float t, float sx, float sy);
 
     //
     // Overrides
@@ -793,7 +678,6 @@ public:
     
 protected:
     SkewTo();
-    virtual ~SkewTo() {}
     /**
      * @param t In seconds.
      */
@@ -823,6 +707,7 @@ private:
 class CC_DLL SkewBy : public SkewTo
 {
 public:
+    virtual ~SkewBy() {}
     /** 
      * Creates the action.
      * @param t Duration time, in seconds.
@@ -830,7 +715,7 @@ public:
      * @param deltaSkewY Skew y delta angle.
      * @return An autoreleased SkewBy object.
      */
-    static SkewBy* create(float t, float deltaSkewX, float deltaSkewY);
+    static std::unique_ptr<SkewBy> create(float t, float deltaSkewX, float deltaSkewY);
 
     //
     // Overrides
@@ -841,7 +726,6 @@ public:
     
 protected:
     SkewBy() {}
-    virtual ~SkewBy() {}
     /**
      * @param t In seconds.
      */
@@ -858,6 +742,7 @@ private:
 class  CC_DLL ResizeTo : public ActionInterval 
 {
 public:
+    virtual ~ResizeTo() {}
     /**
     * Creates the action.
     * @brief Resize a Node object to the final size by modifying it's Size attribute. Works on all nodes where setContentSize is effective. But it's mostly useful for nodes where 9-slice is enabled
@@ -865,7 +750,7 @@ public:
     * @param final_size The target size to reach
     * @return An autoreleased RotateTo object.
     */
-    static ResizeTo* create(float duration, const cocos2d::Size& final_size);
+    static std::unique_ptr<ResizeTo> create(float duration, const cocos2d::Size& final_size);
 
     //
     // Overrides
@@ -876,7 +761,6 @@ public:
 
 protected:
     ResizeTo() {}
-    virtual ~ResizeTo() {}
     
     /**
     * initializes the action
@@ -904,6 +788,7 @@ private:
 class CC_DLL ResizeBy : public ActionInterval 
 {
 public:
+    virtual ~ResizeBy() {}
     /**
     * Creates the action.
     *
@@ -911,7 +796,7 @@ public:
     * @param deltaSize The delta size.
     * @return An autoreleased ResizeBy object.
     */
-    static ResizeBy* create(float duration, const cocos2d::Size& deltaSize);
+    static std::unique_ptr<ResizeBy> create(float duration, const cocos2d::Size& deltaSize);
     
     //
     // Overrides
@@ -926,7 +811,6 @@ public:
 
 protected:
     ResizeBy() {}
-    virtual ~ResizeBy() {}
     
     /** initializes the action */
     bool initWithDuration(float duration, const cocos2d::Size& deltaSize);
@@ -950,6 +834,7 @@ private:
 class CC_DLL JumpBy : public ActionInterval
 {
 public:
+    virtual ~JumpBy() {}
     /** 
      * Creates the action.
      * @param duration Duration time, in seconds.
@@ -958,7 +843,7 @@ public:
      * @param jumps The jumping times.
      * @return An autoreleased JumpBy object.
      */
-    static JumpBy* create(float duration, const Vec2& position, float height, int jumps);
+    static std::unique_ptr<JumpBy> create(float duration, const Vec2& position, float height, int jumps);
 
     //
     // Overrides
@@ -973,7 +858,6 @@ public:
     
 protected:
     JumpBy() {}
-    virtual ~JumpBy() {}
 
     /** 
      * initializes the action
@@ -1001,6 +885,7 @@ private:
 class CC_DLL JumpTo : public JumpBy
 {
 public:
+    virtual ~JumpTo() {}
     /** 
      * Creates the action.
      * @param duration Duration time, in seconds.
@@ -1009,7 +894,7 @@ public:
      * @param jumps The jumping times.
      * @return An autoreleased JumpTo object.
      */
-    static JumpTo* create(float duration, const Vec2& position, float height, int jumps);
+    static std::unique_ptr<JumpTo> create(float duration, const Vec2& position, float height, int jumps);
 
     //
     // Override
@@ -1020,7 +905,6 @@ public:
 
 protected:
     JumpTo() {}
-    virtual ~JumpTo() {}
 
     /** 
      * initializes the action
@@ -1053,6 +937,7 @@ typedef struct _ccBezierConfig {
 class CC_DLL BezierBy : public ActionInterval
 {
 public:
+    virtual ~BezierBy() {}
     /** Creates the action with a duration and a bezier configuration.
      * @param t Duration time, in seconds.
      * @param c Bezier config.
@@ -1063,7 +948,7 @@ public:
      * in lua: local create(local t, local table)
      * @endcode
      */
-    static BezierBy* create(float t, const ccBezierConfig& c);
+    static std::unique_ptr<BezierBy> create(float t, const ccBezierConfig& c);
 
     //
     // Overrides
@@ -1078,7 +963,6 @@ public:
     
 protected:
     BezierBy() {}
-    virtual ~BezierBy() {}
 
     /** 
      * initializes the action with a duration and a bezier configuration
@@ -1105,6 +989,7 @@ private:
 class CC_DLL BezierTo : public BezierBy
 {
 public:
+    virtual ~BezierTo() {}
     /** Creates the action with a duration and a bezier configuration.
      * @param t Duration time, in seconds.
      * @param c Bezier config.
@@ -1115,7 +1000,7 @@ public:
      * in lua: local create(local t, local table)
      * @endcode
      */
-    static BezierTo* create(float t, const ccBezierConfig& c);
+    static std::unique_ptr<BezierTo> create(float t, const ccBezierConfig& c);
 
     //
     // Overrides
@@ -1126,7 +1011,6 @@ public:
     
 protected:
     BezierTo() {}
-    virtual ~BezierTo() {}
     /**
      * @param t In seconds.
      */
@@ -1148,13 +1032,15 @@ private:
 class CC_DLL ScaleTo : public ActionInterval
 {
 public:
+    virtual ~ScaleTo() {}
+
     /** 
      * Creates the action with the same scale factor for X and Y.
      * @param duration Duration time, in seconds.
      * @param s Scale factor of x and y.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float s);
+    static std::unique_ptr<ScaleTo> create(float duration, float s);
 
     /** 
      * Creates the action with and X factor and a Y factor.
@@ -1163,7 +1049,7 @@ public:
      * @param sy Scale factor of y.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float sx, float sy);
+    static std::unique_ptr<ScaleTo> create(float duration, float sx, float sy);
 
     /** 
      * Creates the action with X Y Z factor.
@@ -1173,7 +1059,7 @@ public:
      * @param sz Scale factor of z.
      * @return An autoreleased ScaleTo object.
      */
-    static ScaleTo* create(float duration, float sx, float sy, float sz);
+    static std::unique_ptr<ScaleTo> create(float duration, float sx, float sy, float sz);
 
     //
     // Overrides
@@ -1188,7 +1074,6 @@ public:
     
 protected:
     ScaleTo() {}
-    virtual ~ScaleTo() {}
 
     /** 
      * initializes the action with the same scale factor for X and Y
@@ -1234,22 +1119,15 @@ private:
 class CC_DLL ScaleBy : public ScaleTo
 {
 public:
+    virtual ~ScaleBy() {}
+
     /** 
      * Creates the action with the same scale factor for X and Y.
      * @param duration Duration time, in seconds.
      * @param s Scale factor of x and y.
      * @return An autoreleased ScaleBy object.
      */
-    static ScaleBy* create(float duration, float s);
-
-    /** 
-     * Creates the action with and X factor and a Y factor.
-     * @param duration Duration time, in seconds.
-     * @param sx Scale factor of x.
-     * @param sy Scale factor of y.
-     * @return An autoreleased ScaleBy object.
-     */
-    static ScaleBy* create(float duration, float sx, float sy);
+    static std::unique_ptr<ScaleBy> create(float duration, float s);
 
     /** 
      * Creates the action with X Y Z factor.
@@ -1259,7 +1137,7 @@ public:
      * @param sz Scale factor of z.
      * @return An autoreleased ScaleBy object.
      */
-    static ScaleBy* create(float duration, float sx, float sy, float sz);
+    static std::unique_ptr<ScaleBy> create(float duration, float sx, float sy, float sz = 1.0f);
 
     //
     // Overrides
@@ -1270,7 +1148,6 @@ public:
 
 protected:
     ScaleBy() {}
-    virtual ~ScaleBy() {}
 
 private:
     ScaleBy(const ScaleBy &) = delete;
@@ -1283,13 +1160,14 @@ private:
 class CC_DLL Blink : public ActionInterval
 {
 public:
+    virtual ~Blink() {}
     /** 
      * Creates the action.
      * @param duration Duration time, in seconds.
      * @param blinks Blink times.
      * @return An autoreleased Blink object.
      */
-    static Blink* create(float duration, int blinks);
+    static std::unique_ptr<Blink> create(float duration, int blinks);
 
     //
     // Overrides
@@ -1304,7 +1182,6 @@ public:
     
 protected:
     Blink() {}
-    virtual ~Blink() {}
 
     /** 
      * initializes the action 
@@ -1333,13 +1210,14 @@ class CC_DLL FadeTo : public ActionInterval
     friend class FadeIn;
     friend class FadeOut;
 public:
+    virtual ~FadeTo() {}
     /** 
      * Creates an action with duration and opacity.
      * @param duration Duration time, in seconds.
      * @param opacity A certain opacity, the range is from 0 to 255.
      * @return An autoreleased FadeTo object.
      */
-    static FadeTo* create(float duration, GLubyte opacity);
+    static std::unique_ptr<FadeTo> create(float duration, GLubyte opacity);
 
     //
     // Overrides
@@ -1354,7 +1232,6 @@ public:
     
 protected:
     FadeTo() {}
-    virtual ~FadeTo() {}
 
     /** 
      * initializes the action with duration and opacity 
@@ -1373,19 +1250,23 @@ private:
     const FadeTo & operator=(const FadeTo &) = delete;
 };
 
+
 /** @class FadeIn
  * @brief Fades In an object that implements the RGBAProtocol protocol. It modifies the opacity from 0 to 255.
  The "reverse" of this action is FadeOut
  */
+class CC_DLL FadeOut;
+
 class CC_DLL FadeIn : public FadeTo
 {
 public:
+    virtual ~FadeIn() {}
     /** 
      * Creates the action.
      * @param d Duration time, in seconds.
      * @return An autoreleased FadeIn object.
      */
-    static FadeIn* create(float d);
+    static std::unique_ptr<FadeIn> create(float d);
 
     //
     // Overrides
@@ -1397,16 +1278,17 @@ public:
     /**
      * @js NA
      */
-    void setReverseAction(FadeTo* ac);
+    void setReverseAction(std::unique_ptr<FadeOut> ac);
 
 protected:
-    FadeIn():_reverseAction(nullptr) {}
-    virtual ~FadeIn() {}
+    FadeIn() = default;
 
 private:
     FadeIn(const FadeIn &) = delete;
     const FadeIn & operator=(const FadeIn &) = delete;
-    FadeTo* _reverseAction;
+
+private:
+    std::unique_ptr<FadeOut> _reverseAction;
 };
 
 /** @class FadeOut
@@ -1416,11 +1298,12 @@ private:
 class CC_DLL FadeOut : public FadeTo
 {
 public:
+    virtual ~FadeOut() {}
     /** 
      * Creates the action.
      * @param d Duration time, in seconds.
      */
-    static FadeOut* create(float d);
+    static std::unique_ptr<FadeOut> create(float d);
 
     //
     // Overrides
@@ -1432,14 +1315,13 @@ public:
     /**
      * @js NA
      */
-    void setReverseAction(FadeTo* ac);
+    void setReverseAction(std::unique_ptr<FadeIn> ac);
 
 protected:
-    FadeOut():_reverseAction(nullptr) {}
-    virtual ~FadeOut() {}
+    FadeOut() = default;
 
 private:
-    FadeTo* _reverseAction;
+    std::unique_ptr<FadeIn> _reverseAction;
 
 private:
     FadeOut(const FadeOut &) = delete;
@@ -1454,6 +1336,7 @@ private:
 class CC_DLL TintTo : public ActionInterval
 {
 public:
+    virtual ~TintTo() {}
     /** 
      * Creates an action with duration and color.
      * @param duration Duration time, in seconds.
@@ -1462,14 +1345,14 @@ public:
      * @param blue Blue Color, from 0 to 255.
      * @return An autoreleased TintTo object.
      */
-    static TintTo* create(float duration, GLubyte red, GLubyte green, GLubyte blue);
+    static std::unique_ptr<TintTo> create(float duration, GLubyte red, GLubyte green, GLubyte blue);
     /**
      * Creates an action with duration and color.
      * @param duration Duration time, in seconds.
      * @param color It's a Color3B type.
      * @return An autoreleased TintTo object.
      */
-    static TintTo* create(float duration, const Color3B& color);
+    static std::unique_ptr<TintTo> create(float duration, const Color3B& color);
 
     //
     // Overrides
@@ -1484,7 +1367,6 @@ public:
     
 protected:
     TintTo() {}
-    virtual ~TintTo() {}
 
     /** initializes the action with duration and color */
     bool initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue);
@@ -1507,6 +1389,7 @@ private:
 class CC_DLL TintBy : public ActionInterval
 {
 public:
+    virtual ~TintBy() {}
     /** 
      * Creates an action with duration and color.
      * @param duration Duration time, in seconds.
@@ -1515,7 +1398,7 @@ public:
      * @param deltaBlue Delta blue color.
      * @return An autoreleased TintBy object.
      */
-    static TintBy* create(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
+    static std::unique_ptr<TintBy> create(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
 
     //
     // Overrides
@@ -1530,7 +1413,6 @@ public:
     
 protected:
     TintBy() {}
-    virtual ~TintBy() {}
 
     /** initializes the action with duration and color */
     bool initWithDuration(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
@@ -1557,12 +1439,13 @@ private:
 class CC_DLL DelayTime : public ActionInterval
 {
 public:
+    virtual ~DelayTime() {}
     /** 
      * Creates the action.
      * @param d Duration time, in seconds.
      * @return An autoreleased DelayTime object.
      */
-    static DelayTime* create(float d);
+    static std::unique_ptr<DelayTime> create(float d);
 
     //
     // Overrides
@@ -1576,7 +1459,6 @@ public:
 
 protected:
     DelayTime() {}
-    virtual ~DelayTime() {}
 
     virtual void at_stop() override;
 
@@ -1596,12 +1478,7 @@ private:
 class CC_DLL ReverseTime : public ActionInterval
 {
 public:
-    /** Creates the action.
-     *
-     * @param action a certain action.
-     * @return An autoreleased ReverseTime object.
-     */
-    static ReverseTime* create(FiniteTimeAction *action);
+    static std::unique_ptr<ReverseTime> create(std::unique_ptr<FiniteTimeAction> action);
 
     //
     // Overrides
@@ -1615,16 +1492,14 @@ public:
     virtual void step(float time) override;
     
 protected:
-    ReverseTime();
-    virtual ~ReverseTime();
+    ReverseTime() = default;
 
-    /** initializes the action */
-    bool initWithAction(FiniteTimeAction *action);
+    bool initWithAction(std::unique_ptr<FiniteTimeAction> action);
 
     virtual void at_stop() override;
 
 protected:
-    FiniteTimeAction *_other;
+    std::unique_ptr<FiniteTimeAction> _other;
 
 private:
     ReverseTime(const ReverseTime &) = delete;
@@ -1638,12 +1513,13 @@ class Texture2D;
 class CC_DLL Animate : public ActionInterval
 {
 public:
+    virtual ~Animate();
     /** Creates the action with an Animation and will restore the original frame when the animation is over.
      *
      * @param animation A certain animation.
      * @return An autoreleased Animate object.
      */
-    static Animate* create(std::unique_ptr<Animation>);
+    static std::unique_ptr<Animate> create(std::unique_ptr<Animation>);
 
     /** Sets the Animation object to be animated 
      * 
@@ -1675,7 +1551,6 @@ public:
     
 protected:
     Animate();
-    virtual ~Animate();
 
     /** initializes the action with an Animation and will restore the original frame when the animation is over */
     bool initWithAnimation(std::unique_ptr<Animation>);
@@ -1692,6 +1567,7 @@ protected:
 
     EventCustom*    _frameDisplayedEvent;
     AnimationFrame::DisplayedEventInfo _frameDisplayedEventInfo;
+
 private:
     Animate(const Animate &) = delete;
     const Animate & operator=(const Animate &) = delete;
@@ -1704,13 +1580,14 @@ private:
 class CC_DLL TargetedAction : public ActionInterval
 {
 public:
+    virtual ~TargetedAction();
     /** Create an action with the specified action and forced target.
      * 
      * @param target The target needs to override.
      * @param action The action needs to override.
      * @return An autoreleased TargetedAction object.
      */
-    static TargetedAction* create(Node* target, FiniteTimeAction* action);
+    static std::unique_ptr<TargetedAction> create(Node* target, std::unique_ptr<FiniteTimeAction> action);
 
     /** Sets the target that the action will be forced to run with.
      *
@@ -1737,15 +1614,14 @@ public:
     
 protected:
     TargetedAction();
-    virtual ~TargetedAction();
 
     /** Init an action with the specified action and forced target */
-    bool initWithTarget(Node* target, FiniteTimeAction* action);
+    bool initWithTarget(Node* target, std::unique_ptr<FiniteTimeAction> action);
 
     virtual void at_stop() override;
 
 protected:
-    FiniteTimeAction* _action;
+    std::unique_ptr<FiniteTimeAction> _action;
     Node* _forcedTarget;
 
 private:
@@ -1760,6 +1636,7 @@ private:
 class CC_DLL ActionFloat : public ActionInterval
 {
 public:
+    virtual ~ActionFloat() {};
     /**
      *  Callback function used to report back result
      */
@@ -1775,7 +1652,7 @@ public:
      *
      * @return An autoreleased ActionFloat object
      */
-    static ActionFloat* create(float duration, float from, float to, ActionFloatCallback callback);
+    static std::unique_ptr<ActionFloat> create(float duration, float from, float to, ActionFloatCallback callback);
 
     /**
      * Overridden ActionInterval methods
@@ -1787,7 +1664,6 @@ public:
 
 protected:
     ActionFloat() {};
-    virtual ~ActionFloat() {};
 
     bool initWithDuration(float duration, float from, float to, ActionFloatCallback callback);
 

@@ -141,7 +141,7 @@ public:
      *
      * @return An Action pointer
      */
-    virtual Action* runAction(Action* action) override;
+    virtual void runAction(std::unique_ptr<Action>) override;
     
     /**
      * Force to write to depth buffer, this is useful if you want to achieve effects like fading.

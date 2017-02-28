@@ -258,7 +258,7 @@ void TransitionRotoZoom:: onEnter()
     _inScene->setAnchorPoint(Vec2(0.5f, 0.5f));
     _outScene->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-    auto rotozoom = Sequence::create
+    auto rotozoom = std::unique_ptr<Sequence>(Sequence::create
     (
         to_action_ptr(
             Spawn::create
@@ -269,17 +269,18 @@ void TransitionRotoZoom:: onEnter()
             )
         ),
         to_action_ptr( DelayTime::create(_duration/2) )
-    );
+    ));
+
     auto rotozoom_reverse = rotozoom->reverse();
 
-    _outScene->runAction(rotozoom);
+    _outScene->runAction( std::move( rotozoom));
     _inScene->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(rotozoom_reverse),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        )
+        ))
     );
 }
 
@@ -319,20 +320,20 @@ void TransitionJumpZoom::onEnter()
     ActionInterval *scaleIn = ScaleTo::create(_duration/4, 1.0f);
     ActionInterval *scaleOut = ScaleTo::create(_duration/4, 0.5f);
 
-    auto jumpZoomOut = Sequence::create(to_action_ptr(scaleOut), to_action_ptr(jump));
+    auto jumpZoomOut = std::unique_ptr<Sequence>( Sequence::create(to_action_ptr(scaleOut), to_action_ptr(jump)));
     auto jumpZoomIn = Sequence::create(to_action_ptr(jump), to_action_ptr(scaleIn));
 
     ActionInterval *delay = DelayTime::create(_duration/2);
 
-    _outScene->runAction(jumpZoomOut);
+    _outScene->runAction( std::move( jumpZoomOut));
     _inScene->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(delay),
             to_action_ptr(jumpZoomIn),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        )
+        ))
     );
 }
 
@@ -368,11 +369,11 @@ void TransitionMoveInL::onEnter()
 
     _inScene->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(this->easeActionWithAction(a)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        )
+        ))
     );
 }
  
@@ -503,14 +504,14 @@ void TransitionSlideInL::onEnter()
     ActionInterval *in = this->action();
     ActionInterval *out = this->action();
 
-    ActionInterval* inAction = easeActionWithAction(in);
-    ActionInterval* outAction = Sequence::create
+    auto inAction = std::unique_ptr<ActionInterval>( easeActionWithAction( in));
+    auto outAction = std::unique_ptr<Sequence>( Sequence::create
     (
         to_action_ptr(easeActionWithAction(out)),
         to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-    );
-    _inScene->runAction(inAction);
-    _outScene->runAction(outAction);
+    ));
+    _inScene->runAction( std::move( inAction));
+    _outScene->runAction( std::move( outAction));
 }
 
 void TransitionSlideInL::sceneOrder()
@@ -703,20 +704,19 @@ void TransitionShrinkGrow::onEnter()
     ActionInterval* scaleOut = ScaleTo::create(_duration, 0.01f);
     ActionInterval* scaleIn = ScaleTo::create(_duration, 1.0f);
 
-    _inScene->runAction(this->easeActionWithAction(scaleIn));
+    _inScene->runAction( std::unique_ptr<ActionInterval>( this->easeActionWithAction( scaleIn)));
     _outScene->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(this->easeActionWithAction(scaleOut)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        )
+        ))
     );
 }
 ActionInterval* TransitionShrinkGrow:: easeActionWithAction(ActionInterval* action)
 {
     return EaseOut::create(action, 2.0f);
-//    return [EaseElasticOut actionWithAction:action period:0.3f];
 }
 
 //
@@ -753,23 +753,23 @@ void TransitionFlipX::onEnter()
         outAngleZ = 0;
     }
 
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(Show::create()),
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 0, 0)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        );
+        ));
 
-    auto outA = Sequence::create
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 0, 0)),
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 }
 
 TransitionFlipX* TransitionFlipX::create(float t, Scene* s, Orientation o)
@@ -820,22 +820,22 @@ void TransitionFlipY::onEnter()
         outAngleZ = 0;
     }
 
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(Show::create()),
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, 90, 0)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        );
-    auto outA = Sequence::create
+        ));
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 90, 0)),
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 
 }
 
@@ -888,22 +888,22 @@ void TransitionFlipAngular::onEnter()
         outAngleZ = 0;
     }
 
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(Show::create()),
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, inAngleZ, inDeltaZ, -45, 0)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        );
-    auto outA = Sequence::create
+        ));
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(OrbitCamera::create(_duration/2, 1, 0, outAngleZ, outDeltaZ, 45, 0)),
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 }
 
 TransitionFlipAngular* TransitionFlipAngular::create(float t, Scene* s, Orientation o)
@@ -952,7 +952,7 @@ void TransitionZoomFlipX::onEnter()
         outDeltaZ = -90;
         outAngleZ = 0;
     }
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(
@@ -967,8 +967,8 @@ void TransitionZoomFlipX::onEnter()
             to_action_ptr(
                 CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
             )
-        );
-    auto outA = Sequence::create
+        ));
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(
                 Spawn::create
@@ -980,11 +980,11 @@ void TransitionZoomFlipX::onEnter()
             ),
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
     _inScene->setScale(0.5f);
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 }
 
 TransitionZoomFlipX* TransitionZoomFlipX::create(float t, Scene* s, Orientation o)
@@ -1033,7 +1033,7 @@ void TransitionZoomFlipY::onEnter()
         outAngleZ = 0;
     }
 
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(
@@ -1048,9 +1048,9 @@ void TransitionZoomFlipY::onEnter()
             to_action_ptr(
                 CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
             )
-        );
+        ));
 
-    auto outA = Sequence::create
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(
                 Spawn::create
@@ -1062,11 +1062,11 @@ void TransitionZoomFlipY::onEnter()
             ),                            
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
     _inScene->setScale(0.5f);
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 }
 
 TransitionZoomFlipY* TransitionZoomFlipY::create(float t, Scene* s, Orientation o)
@@ -1117,7 +1117,7 @@ void TransitionZoomFlipAngular::onEnter()
         outAngleZ = 0;
     }
 
-    auto inA = Sequence::create
+    auto inA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(DelayTime::create(_duration/2)),
             to_action_ptr(
@@ -1131,8 +1131,8 @@ void TransitionZoomFlipAngular::onEnter()
             ),
             to_action_ptr(Show::create()),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        );
-    auto outA = Sequence::create
+        ));
+    auto outA = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(
                 Spawn::create
@@ -1144,11 +1144,11 @@ void TransitionZoomFlipAngular::onEnter()
             ),
             to_action_ptr(Hide::create()),
             to_action_ptr(DelayTime::create(_duration/2))
-        );
+        ));
 
     _inScene->setScale(0.5f);
-    _inScene->runAction(inA);
-    _outScene->runAction(outA);
+    _inScene->runAction( std::move( inA));
+    _outScene->runAction( std::move( outA));
 }
 
 TransitionZoomFlipAngular* TransitionZoomFlipAngular::create(float t, Scene* s, Orientation o)
@@ -1216,14 +1216,14 @@ void TransitionFade :: onEnter()
     addChild(l, 2, kSceneFade);
     Node* f = getChildByTag(kSceneFade);
 
-    auto a = Sequence::create
+    auto a = std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr(FadeIn::create(_duration/2)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this))),
             to_action_ptr(FadeOut::create(_duration/2)),
             to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        );
-    f->runAction(a);
+        ));
+    f->runAction( std::move( a));
 }
 
 void TransitionFade::onExit()
@@ -1315,16 +1315,16 @@ void TransitionCrossFade::onEnter()
     outTexture->getSprite()->setOpacity(255);
 
     // create the blend action
-    Action* layerAction = Sequence::create
+    auto layerAction = std::unique_ptr<Sequence>( Sequence::create
     (
         to_action_ptr(FadeTo::create(_duration, 0)),
         to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this))),
         to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-    );
+    ));
 
 
     // run the blend action
-    outTexture->getSprite()->runAction( layerAction );
+    outTexture->getSprite()->runAction( std::move( layerAction));
 
     // add the layer (which contains our two rendertextures) to the scene
     addChild(layer, 2, kSceneFade);
@@ -1385,7 +1385,7 @@ void TransitionTurnOffTiles::onEnter()
     ActionInterval* action = easeActionWithAction(toff);
     _outSceneProxy->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr<FiniteTimeAction>(action),
             to_action_ptr<FiniteTimeAction>(
@@ -1394,7 +1394,7 @@ void TransitionTurnOffTiles::onEnter()
             to_action_ptr<FiniteTimeAction>(
                 StopGrid::create()
             )
-        )
+        ))
     );
 }
 
@@ -1473,7 +1473,7 @@ void TransitionSplitCols::onEnter()
 
     _gridProxy->runAction
     ( 
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr<FiniteTimeAction>(
                 easeActionWithAction(seq)
@@ -1483,7 +1483,7 @@ void TransitionSplitCols::onEnter()
                                                this))
             ),
             to_action_ptr<FiniteTimeAction>(StopGrid::create())
-        )
+        ))
     );
 }
 
@@ -1591,7 +1591,7 @@ void TransitionFadeTR::onEnter()
 
     _outSceneProxy->runAction
     (
-        Sequence::create
+        std::unique_ptr<Sequence>( Sequence::create
         (
             to_action_ptr<FiniteTimeAction>(
                 easeActionWithAction(action)
@@ -1603,7 +1603,7 @@ void TransitionFadeTR::onEnter()
             to_action_ptr<FiniteTimeAction>(
                 StopGrid::create()
             )
-        )
+        ))
     );
 }
 

@@ -70,7 +70,7 @@ ScrollView::ScrollView()
 , _maxScale(0.0f)
 , _scissorRestored(false)
 , _touchListener(nullptr)
-, _animatedScrollAction(nullptr)
+, _animatedScrollActionActive(false)
 {
 
 }
@@ -242,25 +242,31 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
 {
     FiniteTimeAction *scroll, *expire;
     
-    if (_animatedScrollAction) {
+    if (_animatedScrollActionActive) {
         stopAnimatedContentOffset();
     }
     scroll = MoveTo::create(dt, offset);
     expire = CallFuncN::create(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll,this));
-    _animatedScrollAction = _container->runAction(
+
+    std::unique_ptr<Sequence> animatedScrollAction(
         Sequence::create(
             to_action_ptr(scroll),
             to_action_ptr(expire)
         ));
+    animatedScrollAction->setTag(_animatedScrollActionTag);
+    _container->runAction( std::move( animatedScrollAction));
+    _animatedScrollActionActive = true;
+
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &ScrollView::performedAnimatedScroll, performedAnimatedScroll_JOBID)
             .paused(isPaused())
     );
 }
 
-void ScrollView::stopAnimatedContentOffset() {
-    _animatedScrollAction->stop();
-    _animatedScrollAction = nullptr;
+void ScrollView::stopAnimatedContentOffset()
+{
+    _container->stopActionByTag(_animatedScrollActionTag);
+    _animatedScrollActionActive = false;
     stoppedAnimatedScroll(this);
 }
 
@@ -322,9 +328,10 @@ void ScrollView::setZoomScaleInDuration(float s, float dt)
     {
         if (_container->getScale() != s)
         {
-            ActionTween *scaleAction;
-            scaleAction = ActionTween::create(dt, "zoomScale", _container->getScale(), s);
-            this->runAction(scaleAction);
+            this->runAction(
+                std::unique_ptr<ActionTween>(
+                    ActionTween::create(dt, "zoomScale", _container->getScale(), s)
+                ));
         }
     }
     else

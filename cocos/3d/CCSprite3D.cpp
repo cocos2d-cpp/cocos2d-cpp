@@ -33,6 +33,7 @@
 #include "base/CCDirector.h"
 #include "base/CCAsyncTaskPool.h"
 #include "base/ccUTF8.h"
+#include "2d/CCAction.h"
 #include "2d/CCLight.h"
 #include "2d/CCCamera.h"
 #include "base/ccMacros.h"
@@ -871,10 +872,10 @@ const AABB& Sprite3D::getAABB() const
     return _aabb;
 }
 
-Action* Sprite3D::runAction(Action *action)
+void Sprite3D::runAction(std::unique_ptr<Action> action)
 {
     setForceDepthWrite(true);
-    return Node::runAction(action);
+    Node::runAction( std::move( action));
 }
 
 Rect Sprite3D::getBoundingBox() const

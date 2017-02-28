@@ -1187,7 +1187,7 @@ public:
      *
      * @param action An Action pointer.
      */
-    virtual Action* runAction(Action * action);
+    virtual void runAction(std::unique_ptr<Action> action);
 
     /**
      * Stops and removes all actions from the running action list .

@@ -215,9 +215,9 @@ void MenuItemLabel::selected()
             _originalScale = this->getScale();
         }
         
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale * 1.2f);
+        std::unique_ptr<ScaleTo> zoomAction( ScaleTo::create( 0.1f, _originalScale * 1.2f));
         zoomAction->setTag(kZoomActionTag);
-        this->runAction(zoomAction);
+        this->runAction( std::move( zoomAction));
     }
 }
 
@@ -228,9 +228,9 @@ void MenuItemLabel::unselected()
     {
         MenuItem::unselected();
         this->stopActionByTag(kZoomActionTag);
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale);
+        std::unique_ptr<ScaleTo> zoomAction( ScaleTo::create( 0.1f, _originalScale));
         zoomAction->setTag(kZoomActionTag);
-        this->runAction(zoomAction);
+        this->runAction( std::move( zoomAction));
     }
 }
 

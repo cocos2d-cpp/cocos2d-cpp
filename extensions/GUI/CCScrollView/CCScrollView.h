@@ -374,7 +374,8 @@ protected:
     /**
      * Action created with setContentOffsetInDuration(), saved so it can be halted
      */
-    Action* _animatedScrollAction;
+    static constexpr Action::tag_t _animatedScrollActionTag = 1;
+    bool _animatedScrollActionActive;
 };
 
 

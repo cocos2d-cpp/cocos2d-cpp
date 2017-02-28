@@ -2,8 +2,7 @@
 Copyright (c) 2008-2009 Jason Booth
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,92 +31,24 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-/**
- * @addtogroup actions
- * @{
- */
+// Ease actions are created from other interval actions.
+// The ease action will change the timeline of the inner action.
 
-/**
- @class ActionEase
- @brief Base class for Easing actions.
- @details Ease actions are created from other interval actions.
- The ease action will change the timeline of the inner action.
- @ingroup Actions
- */
 class CC_DLL ActionEase : public ActionInterval
 {
 public:
-    /**
-     @brief Get the pointer of the inner action.
-     @return The pointer of the inner action.
-    */
+    ActionEase(std::unique_ptr<ActionInterval>);
+    
     virtual ActionInterval* getInnerAction();
-
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual void step(float time) override;
 
 protected:
-    ActionEase()
-    : _inner(nullptr)
-    {}
-    
-    virtual ~ActionEase();
-    /**
-     @brief Initializes the action.
-     @return Return true when the initialization success, otherwise return false.
-    */
-    bool initWithAction(ActionInterval *action);
 
     virtual void at_stop() override;
 
 protected:
-    /** The inner action */
-    ActionInterval *_inner;
-private:
-    ActionEase(const ActionEase &) = delete;
-    const ActionEase & operator=(const ActionEase &) = delete;
-};
-
-/**
- @class EaseRateAction
- @brief Base class for Easing actions with rate parameters
- @details Ease the inner action with specified rate.
- @ingroup Actions
- */
-class CC_DLL EaseRateAction : public ActionEase
-{
-public:
-    /**
-    @brief Set the rate value for the ease rate action.
-    @param rate The value will be set.
-    */
-    void setRate(float rate) { _rate = rate; }
-    /**
-    @brief Get the rate value of the ease rate action.
-    @return Return the rate value of the ease rate action.
-    */
-    float getRate() const { return _rate; }
-
-protected:
-    EaseRateAction() {}
-    virtual ~EaseRateAction() {}
-    /**
-     @brief Initializes the action with the inner action and the rate parameter.
-     @param pAction The pointer of the inner action.
-     @param fRate The value of the rate parameter.
-     @return Return true when the initialization success, otherwise return false.
-    */
-    bool initWithAction(ActionInterval *pAction, float fRate);
-
-protected:
-    float _rate;
-
-private:
-    EaseRateAction(const EaseRateAction &) = delete;
-    const EaseRateAction & operator=(const EaseRateAction &) = delete;
+    std::unique_ptr<ActionInterval> _inner;
 };
 
 //
@@ -127,247 +58,110 @@ private:
 #define EASE_TEMPLATE_DECL_CLASS(CLASSNAME) \
 class CC_DLL CLASSNAME : public ActionEase \
 { \
-protected: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
 public: \
-    static CLASSNAME* create(ActionInterval* action); \
+    CLASSNAME(std::unique_ptr<ActionInterval> action)\
+        : ActionEase(std::move(action)) \
+    {} \
+    \
     virtual CLASSNAME* clone() const override; \
     virtual void step(float time) override; \
     virtual ActionEase* reverse() const override; \
-private: \
-    CLASSNAME(const CLASSNAME &) = delete; \
-    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
-/**
- @class EaseExponentialIn
- @brief Ease Exponential In action.
- @details The timeline of inner action will be changed by:
- \f${ 2 }^{ 10*(time-1) }-1*0.001\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// { 2 }^{ 10*(time-1) }-1*0.001
 EASE_TEMPLATE_DECL_CLASS(EaseExponentialIn);
 
-/**
- @class EaseExponentialOut
- @brief Ease Exponential Out
- @details The timeline of inner action will be changed by:
- \f$1-{ 2 }^{ -10*(time-1) }\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// 1-{ 2 }^{ -10*(time-1) }
 EASE_TEMPLATE_DECL_CLASS(EaseExponentialOut);
 
-/**
- @class EaseExponentialInOut
- @brief Ease Exponential InOut
- @details If time * 2 < 1, the timeline of inner action will be changed by:
- \f$0.5*{ 2 }^{ 10*(time-1) }\f$.
- else, the timeline of inner action will be changed by:
- \f$0.5*(2-{ 2 }^{ -10*(time-1) })\f$.
- @ingroup Actions
- */
+// If time * 2 < 1, the timeline of inner action will be changed by:
+// 0.5*{ 2 }^{ 10*(time-1) }.
+// else, the timeline of inner action will be changed by:
+// 0.5*(2-{ 2 }^{ -10*(time-1) })
 EASE_TEMPLATE_DECL_CLASS(EaseExponentialInOut);
 
-/**
- @class EaseSineIn
- @brief Ease Sine In
- @details The timeline of inner action will be changed by:
- \f$1-cos(time*\frac { \pi  }{ 2 } )\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// 1-cos(time*\frac { \pi  }{ 2 } )
 EASE_TEMPLATE_DECL_CLASS(EaseSineIn);
 
-/**
- @class EaseSineOut
- @brief Ease Sine Out
- @details The timeline of inner action will be changed by:
- \f$sin(time*\frac { \pi  }{ 2 } )\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// sin(time*\frac { \pi  }{ 2 } )
 EASE_TEMPLATE_DECL_CLASS(EaseSineOut);
 
-/**
- @class EaseSineInOut
- @brief Ease Sine InOut
- @details The timeline of inner action will be changed by:
- \f$-0.5*(cos(\pi *time)-1)\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// -0.5*(cos(\pi *time)-1)
 EASE_TEMPLATE_DECL_CLASS(EaseSineInOut);
 
-/**
- @class EaseBounce
- @brief EaseBounce abstract class.
- @since v0.8.2
- @ingroup Actions
- */
-class CC_DLL EaseBounce : public ActionEase {};
-
-/**
- @class EaseBounceIn
- @brief EaseBounceIn action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+//  Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBounceIn);
 
-/**
- @class EaseBounceOut
- @brief EaseBounceOut action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBounceOut);
 
-/**
- @class EaseBounceInOut
- @brief EaseBounceInOut action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBounceInOut);
 
-/**
- @class EaseBackIn
- @brief EaseBackIn action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBackIn);
 
-/**
- @class EaseBackOut
- @brief EaseBackOut action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBackOut);
 
-/**
- @class EaseBackInOut
- @brief EaseBackInOut action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASE_TEMPLATE_DECL_CLASS(EaseBackInOut);
 
-/**
- @class EaseQuadraticActionIn
- @brief Ease Quadratic In
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionIn);
 
-/**
- @class EaseQuadraticActionOut
- @brief Ease Quadratic Out
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionOut);
 
-/**
- @class EaseQuadraticActionInOut
- @brief Ease Quadratic InOut
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuadraticActionInOut);
 
-/**
- @class EaseQuarticActionIn
- @brief Ease Quartic In
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionIn);
 
-/**
- @class EaseQuarticActionOut
- @brief Ease Quartic Out
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionOut);
 
-/**
- @class EaseQuarticActionInOut
- @brief Ease Quartic InOut
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuarticActionInOut);
 
-/**
- @class EaseQuinticActionIn
- @brief Ease Quintic In
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionIn);
 
-/**
- @class EaseQuinticActionOut
- @brief Ease Quintic Out
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionOut);
 
-/**
- @class EaseQuinticActionInOut
- @brief Ease Quintic InOut
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseQuinticActionInOut);
 
-/**
- @class EaseCircleActionIn
- @brief Ease Circle In
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCircleActionIn);
 
-/**
- @class EaseCircleActionOut
- @brief Ease Circle Out
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCircleActionOut);
 
-/**
- @class EaseCircleActionInOut
- @brief Ease Circle InOut
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCircleActionInOut);
 
-/**
- @class EaseCubicActionIn
- @brief Ease Cubic In
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCubicActionIn);
 
-/**
- @class EaseCubicActionOut
- @brief Ease Cubic Out
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCubicActionOut);
 
-/**
- @class EaseCubicActionInOut
- @brief Ease Cubic InOut
- @ingroup Actions
- */
 EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
+
+// Base class for Easing actions with rate parameters
+// Ease the inner action with specified rate.
+
+class CC_DLL EaseRateAction : public ActionEase
+{
+public:
+    EaseRateAction(std::unique_ptr<ActionInterval> action, float rate)
+        : ActionEase( std::move( action))
+        , _rate(rate)
+        {}
+
+protected:
+    float _rate;
+};
 
 //
 // NOTE: Converting these macros into Templates is desirable, but please see
@@ -377,86 +171,42 @@ EASE_TEMPLATE_DECL_CLASS(EaseCubicActionInOut);
 #define EASERATE_TEMPLATE_DECL_CLASS(CLASSNAME) \
 class CC_DLL CLASSNAME : public EaseRateAction \
 { \
-protected: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
 public: \
-    static CLASSNAME* create(ActionInterval* action, float rate); \
-    virtual CLASSNAME* clone() const override; \
+    CLASSNAME(std::unique_ptr<ActionInterval> action, float rate) \
+        : EaseRateAction(std::move(action), rate) \
+    {} \
+    \
     virtual void step(float time) override; \
+    virtual CLASSNAME* clone() const override; \
     virtual EaseRateAction* reverse() const override; \
-private: \
-    CLASSNAME(const CLASSNAME &) = delete; \
-    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
-/**
- @class EaseIn
- @brief EaseIn action with a rate.
- @details The timeline of inner action will be changed by:
- \f${ time }^{ rate }\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// { time }^{ rate }
 EASERATE_TEMPLATE_DECL_CLASS(EaseIn);
 
-/**
- @class EaseOut
- @brief EaseOut action with a rate.
- @details The timeline of inner action will be changed by:
- \f${ time }^ { (1/rate) }\f$.
- @ingroup Actions
- */
+// The timeline of inner action will be changed by:
+// { time }^ { (1/rate) }
 EASERATE_TEMPLATE_DECL_CLASS(EaseOut);
 
-/**
- @class EaseInOut
- @brief EaseInOut action with a rate
- @details If time * 2 < 1, the timeline of inner action will be changed by:
- \f$0.5*{ time }^{ rate }\f$.
- Else, the timeline of inner action will be changed by:
- \f$1.0-0.5*{ 2-time }^{ rate }\f$.
- @ingroup Actions
- */
+// If time * 2 < 1, the timeline of inner action will be changed by:
+// 0.5*{ time }^{ rate }
+// Else, the timeline of inner action will be changed by:
+// 1.0-0.5*{ 2-time }^{ rate }
 EASERATE_TEMPLATE_DECL_CLASS(EaseInOut);
 
-/**
- @class EaseElastic
- @brief Ease Elastic abstract class
- @since v0.8.2
- @ingroup Actions
- */
+// *** EaseElastic ***
+
 class CC_DLL EaseElastic : public ActionEase
 {
 public:
-
-    /**
-     @brief Get period of the wave in radians. Default value is 0.3.
-     @return Return the period of the wave in radians.
-    */
-    float getPeriod() const { return _period; }
-    /**
-     @brief Set period of the wave in radians.
-     @param fPeriod The value will be set.
-    */
-    void setPeriod(float fPeriod) { _period = fPeriod; }
-
-protected:
-    EaseElastic() {}
-    virtual ~EaseElastic() {}
-    /**
-     @brief Initializes the action with the inner action and the period in radians.
-     @param action The pointer of the inner action.
-     @param period Period of the wave in radians. Default is 0.3.
-     @return Return true when the initialization success, otherwise return false.
-    */
-    bool initWithAction(ActionInterval *action, float period = 0.3f);
+    EaseElastic(std::unique_ptr<ActionInterval> action, float period = 0.3f)
+        : ActionEase( std::move( action))
+        , _period(period)
+    {}
 
 protected:
     float _period;
-
-private:
-    EaseElastic(const EaseElastic &) = delete;
-    const EaseElastic & operator=(const EaseElastic &) = delete;
 };
 
 //
@@ -466,98 +216,50 @@ private:
 #define EASEELASTIC_TEMPLATE_DECL_CLASS(CLASSNAME) \
 class CC_DLL CLASSNAME : public EaseElastic \
 { \
-protected: \
-    virtual ~CLASSNAME() { } \
-    CLASSNAME() { } \
 public: \
-    static CLASSNAME* create(ActionInterval* action, float rate = 0.3f); \
-    virtual CLASSNAME* clone() const override; \
+    explicit CLASSNAME(std::unique_ptr<ActionInterval> action, float rate = 0.3f) \
+        : EaseElastic(std::move(action), rate) \
+    {} \
+    \
     virtual void step(float time) override; \
+    virtual CLASSNAME* clone() const override; \
     virtual EaseElastic* reverse() const override; \
-private: \
-    CLASSNAME(const CLASSNAME &) = delete; \
-    const CLASSNAME & operator=(const CLASSNAME &) = delete; \
 };
 
-/**
- @class EaseElasticIn
- @brief Ease Elastic In action.
- @details If time == 0 or time == 1, the timeline of inner action will not be changed.
- Else, the timeline of inner action will be changed by:
- \f$-{ 2 }^{ 10*(time-1) }*sin((time-1-\frac { period }{ 4 } )*\pi *2/period)\f$.
-
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// If time == 0 or time == 1, the timeline of inner action will not be changed.
+// Else, the timeline of inner action will be changed by:
+// -{ 2 }^{ 10*(time-1) }*sin((time-1-\frac { period }{ 4 } )*\pi * 2 / period)
 EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticIn);
 
-/**
- @class EaseElasticOut
- @brief Ease Elastic Out action.
- @details If time == 0 or time == 1, the timeline of inner action will not be changed.
- Else, the timeline of inner action will be changed by:
- \f${ 2 }^{ -10*time }*sin((time-\frac { period }{ 4 } )*\pi *2/period)+1\f$.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// If time == 0 or time == 1, the timeline of inner action will not be changed.
+// Else, the timeline of inner action will be changed by:
+// { 2 }^{ -10*time }*sin((time-\frac { period }{ 4 } )*\pi *2/period)+1
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticOut);
 
-/**
- @class EaseElasticInOut
- @brief Ease Elastic InOut action.
- @warning This action doesn't use a bijective function.
- Actions like Sequence might have an unexpected result when used with this action.
- @since v0.8.2
- @ingroup Actions
- */
+// This action doesn't use a bijective function.
+// Actions like Sequence might have an unexpected result when used with this action.
 EASEELASTIC_TEMPLATE_DECL_CLASS(EaseElasticInOut);
 
 
-/**
- @class EaseBezierAction
- @brief Ease Bezier
- @ingroup Actions
- */
 class CC_DLL EaseBezierAction : public cocos2d::ActionEase
 {
 public:
-    /**
-     @brief Create the action with the inner action.
-     @param action The pointer of the inner action.
-     @return A pointer of EaseBezierAction action. If creation failed, return nil.
-    */
-    static EaseBezierAction* create(cocos2d::ActionInterval* action);
+    explicit EaseBezierAction(std::unique_ptr<ActionInterval>);
 
     virtual void step(float time) override;
     virtual EaseBezierAction* clone() const override;
     virtual EaseBezierAction* reverse() const override;
 
-    /**
-     @brief Set the bezier parameters.
-    */
-    virtual void setBezierParamer( float p0, float p1, float p2, float p3);
+    void setBezierParamer(float p0, float p1, float p2, float p3);
 
-protected:
-    EaseBezierAction() {}
-    virtual ~EaseBezierAction() {}
-
-protected:
+private:
     float _p0;
     float _p1;
     float _p2;
     float _p3;
-
-private:
-    EaseBezierAction(const EaseBezierAction &) = delete;
-    const EaseBezierAction & operator=(const EaseBezierAction &) = delete;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 

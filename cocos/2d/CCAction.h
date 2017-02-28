@@ -1,8 +1,10 @@
 /****************************************************************************
+Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -44,7 +46,7 @@ enum {
 /** 
  * @brief Base class for Action objects.
  */
-class CC_DLL Action : public Ref
+class CC_DLL Action
 {
 public:
 
@@ -138,33 +140,6 @@ private:
     const Action & operator=(const Action &) = delete;
 };
 
-template<typename T>
-struct action_ptr_deleter {
-public:
-    void operator()(T * p) const
-    {
-        static_assert(std::is_base_of<Action, T>::value,
-                      "action_ptr is for Action-derived types only");
-        p->release();
-    }
-};
-
-template<typename T>
-using action_ptr = std::unique_ptr<T, action_ptr_deleter<T>>;
-
-template<typename T>
-action_ptr<T> to_action_ptr(T * ptr)
-{
-    static_assert(std::is_base_of<Action, T>::value,
-                  "action_ptr is for Action-derived types only");
-    
-    if (ptr)
-    {
-        ptr->retain();
-    }
-    return action_ptr<T>(ptr);
-}
-
 /** @class FiniteTimeAction
  * @brief
  * Base class actions that do have a finite time duration.
@@ -176,6 +151,8 @@ action_ptr<T> to_action_ptr(T * ptr)
 class CC_DLL FiniteTimeAction : public Action
 {
 public:
+    virtual ~FiniteTimeAction(){}
+
     /** Get duration in seconds of the action. 
      *
      * @return The duration in seconds of the action.
@@ -202,7 +179,6 @@ protected:
     FiniteTimeAction()
     : _duration(0)
     {}
-    virtual ~FiniteTimeAction(){}
 
 protected:
     //! Duration in seconds.
@@ -227,7 +203,22 @@ class RepeatForever;
 class CC_DLL Follow final : public Action
 {
 public:
-    /**
+    Follow()
+    : _followedNode(nullptr)
+    , _boundarySet(false)
+    , _boundaryFullyCovered(false)
+    , _leftBoundary(0.0)
+    , _rightBoundary(0.0)
+    , _topBoundary(0.0)
+    , _bottomBoundary(0.0)
+    , _offsetX(0.0)
+    , _offsetY(0.0)
+    , _worldRect(Rect::ZERO)
+    {}
+
+    virtual ~Follow();
+
+     /**
      * Creates the action with a set boundary or with no boundary.
      *
      * @param followedNode  The node to be followed.
@@ -235,7 +226,7 @@ public:
      *              with no boundary.
     */
     
-    static Follow* create(Node *followedNode, const Rect& rect = Rect::ZERO);
+    static std::unique_ptr<Follow> create(Node *followedNode, const Rect& rect = Rect::ZERO);
     
     /**
      * Creates the action with a set boundary or with no boundary with offsets.
@@ -252,7 +243,7 @@ public:
      *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
      */
 
-    static Follow* createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
+    static std::unique_ptr<Follow> createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
     
     /** Return boundarySet.
      *
@@ -281,21 +272,6 @@ public:
 
 protected:
 
-    Follow()
-    : _followedNode(nullptr)
-    , _boundarySet(false)
-    , _boundaryFullyCovered(false)
-    , _leftBoundary(0.0)
-    , _rightBoundary(0.0)
-    , _topBoundary(0.0)
-    , _bottomBoundary(0.0)
-    , _offsetX(0.0)
-    , _offsetY(0.0)
-    , _worldRect(Rect::ZERO)
-    {}
-
-    virtual ~Follow();
-    
     /**
      * Initializes the action with a set boundary or with no boundary.
      *

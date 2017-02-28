@@ -70,15 +70,15 @@ Follow::~Follow()
     CC_SAFE_RELEASE(_followedNode);
 }
 
-Follow* Follow::create(Node *followedNode, const Rect& rect/* = Rect::ZERO*/)
+std::unique_ptr<Follow> Follow::create(Node *followedNode, const Rect& rect/* = Rect::ZERO*/)
 {
     return createWithOffset(followedNode, 0.0, 0.0,rect);
 }
 
-Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect/*= Rect::ZERO*/){
+std::unique_ptr<Follow> Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect/*= Rect::ZERO*/){
     
     
-    Follow *follow = new (std::nothrow) Follow();
+    auto follow = std::unique_ptr<Follow>(new Follow);
     
     bool valid;
     
@@ -86,18 +86,16 @@ Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,
 
     if (follow && valid)
     {
-        follow->autorelease();
         return follow;
     }
     
-    delete follow;
-    return nullptr;
-    
+    return std::unique_ptr<Follow>();
 }
+
 Follow* Follow::clone() const
 {
     // no copy constructor
-    return Follow::createWithOffset(_followedNode, _offsetX,_offsetY,_worldRect);
+    return Follow::createWithOffset(_followedNode, _offsetX,_offsetY,_worldRect).release();
     
 }
 

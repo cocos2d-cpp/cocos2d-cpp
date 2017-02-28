@@ -2,8 +2,7 @@
 Copyright (c) 2009      lhunath (Maarten Billemont)
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,33 +30,18 @@ THE SOFTWARE.
 namespace cocos2d {
 
 /**
- * @addtogroup actions
- * @{
- */
-
-/**
-@brief The delegate class for ActionTween.
-@details If you want to use ActionTween on a node.
-        You should implement the node follow these steps:
-        1. The node should be inherit from ActionTweenDelegate.
-        2. Override the virtual method updateTweenAction in the node.
-
-        Then once you running ActionTween on the node, the method updateTweenAction will be invoked.
+If you want to use ActionTween on a node.
+You should implement the node follow these steps:
+1. The node should be inherit from ActionTweenDelegate.
+2. Override the virtual method updateTweenAction in the node.
+Then once you running ActionTween on the node, the method updateTweenAction will be invoked.
 */
 class CC_DLL ActionTweenDelegate
 {
 public:
-    /**
-     * @js NA
-     * @lua NA
-     */
     virtual ~ActionTweenDelegate() {}
 
-    /**
-    @brief The callback function when ActionTween is running.
-    @param value The new value of the specified key.
-    @param key The key of property which should be updated.
-    */
+    // The callback function when ActionTween is running.
     virtual void updateTweenAction(float value, const std::string& key) = 0;
 };
 
@@ -79,48 +63,28 @@ public:
      auto scaleB = ActionTween::create(2, "scale", 1, 3); // (duration, key, from, to)
  @endcode
 
- @since v0.99.2
  */
 class CC_DLL ActionTween : public ActionInterval
 {
 public:
-    /** 
-     * @brief Create and initializes the action with the property name (key), and the from and to parameters.
-     * @param duration The duration of the ActionTween. It's a value in seconds.
-     * @param key The key of property which should be updated.
-     * @param from The value of the specified property when the action begin.
-     * @param to The value of the specified property when the action end.
-     * @return If the creation success, return a pointer of ActionTween; otherwise, return nil.
-     */
-    static ActionTween* create(float duration, const std::string& key, float from, float to);
+    ActionTween(float duration, std::string key, float from, float to);
 
     // Overrides
-    void startWithTarget(Node *target) override;
-    void step(float dt) override;
-    ActionTween* reverse() const override;
+    virtual void startWithTarget(Node *target) override;
+    virtual void step(float dt) override;
+    virtual ActionTween* reverse() const override;
     virtual ActionTween *clone() const override;
     
 protected:
-    /** 
-     * @brief Initializes the action with the property name (key), and the from and to parameters.
-     * @param duration The duration of the ActionTween. It's a value in seconds.
-     * @param key The key of property which should be updated.
-     * @param from The value of the specified property when the action begin.
-     * @param to The value of the specified property when the action end.
-     * @return If the initialization success, return true; otherwise, return false.
-     */
-    bool initWithDuration(float duration, const std::string& key, float from, float to);
 
     virtual void at_stop() override;
 
-protected:
-    std::string       _key;
-    float            _from, _to;
-    float            _delta;
+private:
+    std::string _key;
+    float       _from;
+    float       _to;
+    float       _delta;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 

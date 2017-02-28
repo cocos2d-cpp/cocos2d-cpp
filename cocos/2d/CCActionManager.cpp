@@ -59,7 +59,7 @@ static auto cmp_target_action = [](auto const t, auto const& a) {
 ActionManager::~ActionManager()
 {}
 
-void ActionManager::runAction(action_ptr<Action> action)
+void ActionManager::runAction(std::unique_ptr<Action> action)
 {
     CC_ASSERT(action);
     CC_ASSERT(action->getTarget());

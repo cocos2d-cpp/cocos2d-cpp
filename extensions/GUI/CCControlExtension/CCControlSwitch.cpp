@@ -369,13 +369,13 @@ void ControlSwitch::setOn(bool isOn, bool animated)
     if (animated) {
         _switchSprite->runAction
         (
-            ActionTween::create
+            std::unique_ptr<ActionTween>( ActionTween::create
                 (
                     0.2f,
                     "sliderXPosition",
                     _switchSprite->getSliderXPosition(),
                     (_on) ? _switchSprite->getOnPosition() : _switchSprite->getOffPosition()
-                )
+                ))
          );
     }
     else {

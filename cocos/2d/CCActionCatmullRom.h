@@ -3,7 +3,7 @@
  * Copyright (c) 2011 Vit Valentin
  * Copyright (c) 2012 cocos2d-x.org
  * Copyright (c) 2013-2016 Chukong Technologies Inc.
- *
+ * Copyright (c) 2017      Iakov Sergeev <yahont@github>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,132 +44,23 @@ namespace cocos2d {
 
 class Node;
 
-/**
- * @addtogroup actions
- * @{
- */
+// Cardinal Spline path.
+// http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline
 
-/** An Array that contain control points.
- * Used by CardinalSplineTo and (By) and CatmullRomTo (and By) actions.
- * @ingroup Actions
- */
-class CC_DLL PointArray : public Ref
-{
-public:
-
-    /* Creates and initializes a Points array with capacity */
-    static PointArray* create(ssize_t capacity);
-
-    virtual ~PointArray();
-
-    PointArray();
-
-    /* Initializes a Catmull Rom config with a capacity hint */
-    bool initWithCapacity(ssize_t capacity);
-
-    /* Appends a control point */
-    void addControlPoint(const Vec2& controlPoint);
-
-    /* Inserts a controlPoint at index */
-    void insertControlPoint(Vec2 &controlPoint, ssize_t index);
-
-    /* Replaces an existing controlPoint at index */
-    void replaceControlPoint(Vec2 &controlPoint, ssize_t index);
-
-    /* Get the value of a controlPoint at a given index */
-    Vec2 getControlPointAtIndex(ssize_t index);
-
-    /* Deletes a control point at a given index */
-    void removeControlPointAtIndex(ssize_t index);
-
-    /* Returns the number of objects of the control point array */
-    ssize_t count() const;
-
-    /* Returns a new copy of the array reversed. User is responsible for releasing this copy */
-    PointArray* reverse() const;
-
-    /* Reverse the current control point array inline, without generating a new one */
-    void reverseInline();
-
-    PointArray* clone() const;
-
-    const std::vector<Vec2*>* getControlPoints() const;
-
-    void setControlPoints(std::vector<Vec2*> *controlPoints);
-
-private:
-    /** Array that contains the control points. */
-    std::vector<Vec2*> *_controlPoints;
-};
-
-/** @class CardinalSplineTo
- * Cardinal Spline path.
- * http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline
- * @ingroup Actions
- */
 class CC_DLL CardinalSplineTo : public ActionInterval
 {
 public:
 
-    /** Creates an action with a Cardinal Spline array of points and tension.
-     * @param duration In seconds.
-     * @param points An PointArray.
-     * @param tension Goodness of fit.
-     * @code
-     * When this function bound to js or lua,the input params are changed.
-     * In js: var create(var t,var table)
-     * In lua: local create(local t, local table)
-     * @endcode
-     */
-    static CardinalSplineTo* create(float duration, PointArray* points, float tension);
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~CardinalSplineTo();
-    /**
-     * @js ctor
-     * @lua NA
-     */
-    CardinalSplineTo();
+    CardinalSplineTo(float duration, std::vector<Vec2> controlPoints, float tension);
 
-    /** 
-     * Initializes the action with a duration and an array of points.
-     *
-     * @param duration In seconds.
-     * @param points An PointArray.
-     * @param tension Goodness of fit.
-     */
-    bool initWithDuration(float duration, PointArray* points, float tension);
-    /** It will update the target position and change the _previousPosition to newPos
-     *
-     * @param newPos The new position.
-     */
+    // It will update the target position and change the _previousPosition to newPos
     virtual void updatePosition(Vec2 &newPos);
-    /** Return a PointArray.
-     *
-     * @return A PointArray.
-     */
-    PointArray* getPoints() { return _points; }
-    /**
-     * @js NA
-     * @lua NA
-     */
-    void setPoints(PointArray* points)
-    {
-        CC_SAFE_RETAIN(points);
-        CC_SAFE_RELEASE(_points);
-        _points = points;
-    }
 
-    // Overrides
+    std::vector<Vec2> const& getPoints() { return _points; }
+
     virtual CardinalSplineTo *clone() const override;
     virtual CardinalSplineTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
 
 protected:
@@ -177,37 +68,24 @@ protected:
 
 protected:
     /** Array of control points */
-    PointArray *_points;
+    std::vector<Vec2> _points;
     float _deltaT;
     float _tension;
     Vec2 _previousPosition;
     Vec2 _accumulatedDiff;
 };
 
-/** @class CardinalSplineBy
- * Cardinal Spline path.
- * http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline
- * @ingroup Actions
- */
+// Cardinal Spline path.
+// http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Cardinal_spline
+
 class CC_DLL CardinalSplineBy : public CardinalSplineTo
 {
 public:
 
-    /** Creates an action with a Cardinal Spline array of points and tension.
-     * @code
-     * When this function bound to js or lua,the input params are changed.
-     * In js: var create(var t,var table).
-     * In lua: local create(local t, local table).
-     * @param duration In seconds.
-     * @param point An PointArray.
-     * @param tension Goodness of fit.
-     * @endcode
-     */
-    static CardinalSplineBy* create(float duration, PointArray* points, float tension);
+    CardinalSplineBy(float duration, std::vector<Vec2> points, float tension);
 
     CardinalSplineBy();
 
-    // Overrides
     virtual void startWithTarget(Node *target) override;
     virtual void updatePosition(Vec2 &newPos) override;
     virtual CardinalSplineBy *clone() const override;
@@ -220,78 +98,35 @@ protected:
     Vec2 _startPosition;
 };
 
-/** @class CatmullRomTo
- * An action that moves the target with a CatmullRom curve to a destination point.
- * A Catmull Rom is a Cardinal Spline with a tension of 0.5.
- * http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull.E2.80.93Rom_spline
- * @ingroup Actions
- */
+// An action that moves the target with a CatmullRom curve to a destination point.
+// A Catmull Rom is a Cardinal Spline with a tension of 0.5.
+// http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull.E2.80.93Rom_spline
+
 class CC_DLL CatmullRomTo : public CardinalSplineTo
 {
 public:
 
-    /** Creates an action with a Cardinal Spline array of points and tension.
-     * @param dt In seconds.
-     * @param points An PointArray.
-     * @code
-     * When this function bound to js or lua,the input params are changed.
-     * In js: var create(var dt,var table).
-     * In lua: local create(local dt, local table).
-     * @endcode
-     */
-    static CatmullRomTo* create(float dt, PointArray* points);
+    CatmullRomTo(float dt, std::vector<Vec2> points);
 
-    /** 
-     * Initializes the action with a duration and an array of points.
-     *
-     * @param dt In seconds.
-     * @param points An PointArray.
-     */
-    bool initWithDuration(float dt, PointArray* points);
-
-    // Override
     virtual CatmullRomTo *clone() const override;
     virtual CatmullRomTo *reverse() const override;
 };
 
-/** @class CatmullRomBy
- * An action that moves the target with a CatmullRom curve by a certain distance.
- * A Catmull Rom is a Cardinal Spline with a tension of 0.5.
- * http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull.E2.80.93Rom_spline
- * @ingroup Actions
- */
+// An action that moves the target with a CatmullRom curve by a certain distance.
+// A Catmull Rom is a Cardinal Spline with a tension of 0.5.
+// http://en.wikipedia.org/wiki/Cubic_Hermite_spline#Catmull.E2.80.93Rom_spline
+
 class CC_DLL CatmullRomBy : public CardinalSplineBy
 {
 public:
-    /** Creates an action with a Cardinal Spline array of points and tension.
-     * @param dt In seconds.
-     * @param points An PointArray.
-     * @code
-     * When this function bound to js or lua,the input params are changed.
-     * In js: var create(var dt,var table).
-     * In lua: local create(local dt, local table).
-     * @endcode
-     */
-    static CatmullRomBy* create(float dt, PointArray* points);
+    CatmullRomBy(float dt, std::vector<Vec2> points);
 
-    /** Initializes the action with a duration and an array of points.
-     *
-     * @param dt In seconds.
-     * @param points An PointArray.
-     */
-    bool initWithDuration(float dt, PointArray* points);
-
-    // Override
     virtual CatmullRomBy *clone() const override;
     virtual CatmullRomBy *reverse() const override;
-
 };
 
-/** Returns the Cardinal Spline position for a given set of control points, tension and time */
-extern CC_DLL Vec2 ccCardinalSplineAt(Vec2 &p0, Vec2 &p1, Vec2 &p2, Vec2 &p3, float tension, float t);
-
-// end of actions group
-/// @}
+// Returns the Cardinal Spline position for a given set of control points, tension and time
+Vec2 ccCardinalSplineAt(Vec2 const& p0, Vec2 const& p1, Vec2 const& p2, Vec2 const& p3, float tension, float t);
 
 } // namespace cocos2d
 

@@ -135,7 +135,7 @@ void TransitionPageTurn::onEnter()
     ));
     sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(StopGrid::create()) );
 
-    grid->runAction( Sequence::create( std::move( sequence_actions)));
+    grid->runAction( std::unique_ptr<Sequence>( Sequence::create( std::move( sequence_actions))));
 }
 
 void TransitionPageTurn::onExit()
