@@ -81,6 +81,10 @@ public:
 class CC_DLL TiledGrid3DAction : public GridAction
 {
 public:
+    TiledGrid3DAction(float duration, Size gridSize)
+        : GridAction(duration, std::move(gridSize))
+    {}
+
     virtual GridBase* getGrid() override;
 
     // Get the tile that belongs to a certain position of the grid.

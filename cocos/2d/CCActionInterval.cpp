@@ -133,14 +133,6 @@ void ActionInterval::setAmplitudeRate(float /*amp*/)
     CCASSERT(0, "Subclass should implement this method!");
 }
 
-float ActionInterval::getAmplitudeRate()
-{
-    // Abstract class needs implementation
-    CCASSERT(0, "Subclass should implement this method!");
-
-    return 0;
-}
-
 void ActionInterval::startWithTarget(Node *target)
 {
     FiniteTimeAction::startWithTarget(target);

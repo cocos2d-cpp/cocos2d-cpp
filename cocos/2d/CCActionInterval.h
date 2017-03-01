@@ -73,21 +73,8 @@ public:
      */
     float getElapsed() { return _elapsed; }
 
-    /** Sets the amplitude rate, extension in GridAction
-     *
-     * @param amp   The amplitude rate.
-     */
     void setAmplitudeRate(float amp);
-    
-    /** Gets the amplitude rate, extension in GridAction
-     *
-     * @return  The amplitude rate.
-     */
-    float getAmplitudeRate();
 
-    //
-    // Overrides
-    //
     virtual bool isDone() const override;
     /**
      * @param dt in seconds

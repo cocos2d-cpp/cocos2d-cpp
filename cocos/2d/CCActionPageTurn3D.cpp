@@ -2,8 +2,7 @@
 Copyright (c) 2009      Sindesso Pty Ltd http://www.sindesso.com/
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,24 +28,14 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-PageTurn3D* PageTurn3D::create(float duration, const Size& gridSize)
+PageTurn3D::PageTurn3D(float duration, Size gridSize)
+    : Grid3DAction(duration, std::move(gridSize))
 {
-    PageTurn3D *action = new (std::nothrow) PageTurn3D();
-
-    if (action && action->initWithDuration(duration, gridSize))
-    {
-        action->autorelease();
-        return action;
-    }
-
-    delete action;
-    return nullptr;
 }
 
 PageTurn3D *PageTurn3D::clone() const
 {
-    // no copy constructor
-    return PageTurn3D::create(_duration, _gridSize);
+    return new PageTurn3D(_duration, _gridSize);
 }
 
 GridBase* PageTurn3D::getGrid()
