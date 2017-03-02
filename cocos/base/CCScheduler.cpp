@@ -378,9 +378,9 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 {
     schedule(
         TimedJob(target, to_id(id), callback)
+            .delay(delay + interval)
             .interval(interval)
             .repeat(repeat)
-            .delay(delay)
             .paused(paused)
     );
 }
@@ -388,6 +388,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 {
     schedule(
         TimedJob(target, to_id(id), callback)
+            .delay(interval)
             .interval(interval)
             .paused(paused)
     );
@@ -396,9 +397,9 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, uns
 {
     schedule(
         TimedJob(target, to_id(selector), selector)
+            .delay(delay + interval)
             .interval(interval)
             .repeat(repeat)
-            .delay(delay)
             .paused(paused)
     );
 }
@@ -406,6 +407,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, boo
 {
     schedule(
         TimedJob(target, to_id(selector), selector)
+            .delay(interval)
             .interval(interval)
             .paused(paused)
     );
