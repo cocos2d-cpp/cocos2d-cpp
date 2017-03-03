@@ -124,15 +124,20 @@ private:
 /*
  * Executed by INTERVAL after DELAY for REPEAT times, but within a
  * frame always after UpdateJob
- * Unique per (target + id)
+ * Unique per (target + id) unless id is negative, e.g. DEFAULT_ID
+ * If a new TimedJob is scheduled with a non-negative id, any TimedJob scheduled
+ * for the target with the same non-negative id is unscheduled
+ * There can be many TimedJob's for a target with equal negative id's
  */
 class CC_DLL TimedJobId {
+public:
+    using id_type = int32_t;
+
 protected:
     void*   _target;
     int32_t _id;
 
 public:
-
     TimedJobId(void* target, int32_t id)
         : _target(target)
         , _id(id)
@@ -147,7 +152,8 @@ public:
 
 class CC_DLL TimedJob : public TimedJobId {
 public:
-    using id_type = int32_t;
+    using id_type = TimedJobId::id_type;
+    static constexpr id_type DEFAULT_ID = -1;
 
 public:
     // for _repeat
@@ -162,7 +168,7 @@ public:
 
 public:
 
-    TimedJob(void* target, int32_t id, std::function<void(float)> callback)
+    TimedJob(void* target, std::function<void(float)> callback, int32_t id = DEFAULT_ID)
         : TimedJobId{target, id}
         , _callback(callback)
         {
@@ -171,8 +177,8 @@ public:
         }
 
     template<typename T>
-    TimedJob(T* target, int32_t id, void (T::*func)(float))
-        : TimedJob(target, id, [target,func](float dt){ (target->*func)(dt); })
+    TimedJob(T* target, void (T::*func)(float), int32_t id = DEFAULT_ID)
+        : TimedJob(target, [target,func](float dt){ (target->*func)(dt); }, id)
         {}
 
 

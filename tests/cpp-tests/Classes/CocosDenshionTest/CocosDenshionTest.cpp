@@ -234,7 +234,7 @@ _sliderMusicVolume(nullptr)
     addButtons();
     addSliders();
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &CocosDenshionTest::updateVolumes).paused(isPaused())
+        TimedJob(this, &CocosDenshionTest::updateVolumes).paused(isPaused())
     );
 
     // preload background music and effect

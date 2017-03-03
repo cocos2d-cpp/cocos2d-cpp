@@ -226,7 +226,7 @@ void ControlStepper::startAutorepeat()
     
     Director::getInstance()->getScheduler().schedule
         (
-            TimedJob(this, UPDATE_JOBID, &ControlStepper::update)
+            TimedJob(this, &ControlStepper::update, UPDATE_JOBID)
                 .interval(kAutorepeatDeltaTime)
                 .delay(kAutorepeatDeltaTime * 3)
                 .paused(!_running)

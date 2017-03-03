@@ -89,7 +89,7 @@ PongLayer::PongLayer()
     }
 
     Director::getInstance()->getScheduler().schedule(
-       TimedJob(this, 0, &PongLayer::doStep).paused(isPaused())
+       TimedJob(this, &PongLayer::doStep).paused(isPaused())
     );
 }
 

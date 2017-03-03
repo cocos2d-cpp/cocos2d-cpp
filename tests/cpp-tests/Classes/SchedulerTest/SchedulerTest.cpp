@@ -41,18 +41,17 @@ SchedulerTests::SchedulerTests()
 //
 //------------------------------------------------------------------
 static TimedJob::id_type SchedulerAutoremove_autoremove_JOBID = 0;
-static TimedJob::id_type SchedulerAutoremove_tick_JOBID       = 1;
 
 void SchedulerAutoremove::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, SchedulerAutoremove_autoremove_JOBID, &SchedulerAutoremove::autoremove)
+        TimedJob(this, &SchedulerAutoremove::autoremove, SchedulerAutoremove_autoremove_JOBID)
             .interval(0.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, SchedulerAutoremove_tick_JOBID, &SchedulerAutoremove::tick)
+        TimedJob(this, &SchedulerAutoremove::tick)
             .interval(0.5f)
     );
 
@@ -95,19 +94,19 @@ void SchedulerPauseResume::onEnter()
 {
     SchedulerTestLayer::onEnter();
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SchedulerPauseResume::tick1)
+        TimedJob(this, &SchedulerPauseResume::tick1)
             .interval(0.5f)
             .delay(0.5f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, &SchedulerPauseResume::tick2)
+        TimedJob(this, &SchedulerPauseResume::tick2)
             .interval(0.5f)
             .delay(0.5f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 2, &SchedulerPauseResume::pause)
+        TimedJob(this, &SchedulerPauseResume::pause)
             .interval(0.0f)
             .delay(3.0f)
             .paused(isPaused())
@@ -250,19 +249,19 @@ void SchedulerPauseResumeAllUser::onEnter()
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, &SchedulerPauseResumeAllUser::tick1)
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick1)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 2, &SchedulerPauseResumeAllUser::tick2)
+        TimedJob(this, &SchedulerPauseResumeAllUser::tick2)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 3, &SchedulerPauseResumeAllUser::pause)
+        TimedJob(this, &SchedulerPauseResumeAllUser::pause)
             .interval(3.0f)
             .delay(3.0f)
             .paused(isPaused())
@@ -292,7 +291,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
     // using another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(child123, 4, [this](float dt) { this->resume(dt); })
+        TimedJob(child123, [this](float dt) { this->resume(dt); })
             .delay(2.0f)
             .repeat(0)
     );
@@ -325,23 +324,23 @@ void SchedulerUnscheduleAll::onEnter()
     SchedulerTestLayer::onEnter();
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SchedulerUnscheduleAll::tick1)
+        TimedJob(this, &SchedulerUnscheduleAll::tick1)
             .interval(0.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, &SchedulerUnscheduleAll::tick2)
+        TimedJob(this, &SchedulerUnscheduleAll::tick2)
             .interval(1.0f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 2, &SchedulerUnscheduleAll::tick3)
+        TimedJob(this, &SchedulerUnscheduleAll::tick3)
             .interval(1.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 3, &SchedulerUnscheduleAll::tick4)
+        TimedJob(this, &SchedulerUnscheduleAll::tick4)
             .interval(1.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 4, &SchedulerUnscheduleAll::unscheduleAllJobs)
+        TimedJob(this, &SchedulerUnscheduleAll::unscheduleAllJobs)
             .delay(4.0f)
     );
 }
@@ -398,27 +397,27 @@ void SchedulerUnscheduleAllHard::onEnter()
     sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SchedulerUnscheduleAllHard::tick1)
+        TimedJob(this, &SchedulerUnscheduleAllHard::tick1)
             .interval(0.5f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, &SchedulerUnscheduleAllHard::tick2)
+        TimedJob(this, &SchedulerUnscheduleAllHard::tick2)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 2, &SchedulerUnscheduleAllHard::tick3)
+        TimedJob(this, &SchedulerUnscheduleAllHard::tick3)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 3, &SchedulerUnscheduleAllHard::tick4)
+        TimedJob(this, &SchedulerUnscheduleAllHard::tick4)
             .interval(1.0f)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 4, &SchedulerUnscheduleAllHard::unscheduleAllJobs)
+        TimedJob(this, &SchedulerUnscheduleAllHard::unscheduleAllJobs)
             .delay(4.0f)
             .paused(isPaused())
     );
@@ -636,7 +635,7 @@ void SchedulerUpdate::onEnter()
     f->release();
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SchedulerUpdate::removeUpdates)
+        TimedJob(this, &SchedulerUpdate::removeUpdates)
             .delay(4.0)
     );
 }
@@ -719,7 +718,7 @@ void SchedulerUpdateFromCustom::onEnter()
     SchedulerTestLayer::onEnter();
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SchedulerUpdateFromCustom::schedUpdate)
+        TimedJob(this, &SchedulerUpdateFromCustom::schedUpdate)
             .repeat(0)
             .delay(2.0f)
             .paused(isPaused())

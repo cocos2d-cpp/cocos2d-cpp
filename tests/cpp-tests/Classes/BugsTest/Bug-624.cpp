@@ -39,7 +39,7 @@ bool Bug624Layer::init()
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
         Director::getInstance()->getScheduler().schedule(
-            TimedJob(this, 0, &Bug624Layer::switchLayer)
+            TimedJob(this, &Bug624Layer::switchLayer, 0)
                 .delay(5.0f)
                 .interval(5.0f)
                 .paused(isPaused())
@@ -90,7 +90,7 @@ bool Bug624Layer2::init()
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
         
         Director::getInstance()->getScheduler().schedule(
-            TimedJob(this, 0, &Bug624Layer2::switchLayer)
+            TimedJob(this, &Bug624Layer2::switchLayer, 0)
                 .delay(5.0f)
                 .interval(5.0f)
                 .paused(isPaused())

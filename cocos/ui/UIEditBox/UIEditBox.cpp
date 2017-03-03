@@ -428,7 +428,11 @@ void EditBox::onEnter(void)
         _editBoxImpl->onEnter();
     }
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS || CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-    this->schedule(CC_SCHEDULE_SELECTOR(EditBox::updatePosition), CHECK_EDITBOX_POSITION_INTERVAL);
+    this->schedule(
+        TimedJob(this, &EditBox::updatePosition, DEFAULT_ID)
+            .delay(CHECK_EDITBOX_POSITION_INTERVAL)
+            .interval(CHECK_EDITBOX_POSITION_INTERVAL)
+    );
 #endif
 }
 

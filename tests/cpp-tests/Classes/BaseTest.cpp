@@ -368,7 +368,7 @@ TestCase::TestCase()
         _runTime += dt;
     };
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, accumulateRuntime)
+        TimedJob(this, accumulateRuntime)
             .paused(isPaused())
     );
 }

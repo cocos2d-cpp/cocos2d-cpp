@@ -723,7 +723,7 @@ static constexpr TimedJob::id_type SCHED_JOB_ID = 0;
         };
 
         _scheduler->schedule(
-            TimedJob(this, SCHED_JOB_ID, &DownloaderCURL::_onSchedule)
+            TimedJob(this, &DownloaderCURL::_onSchedule, SCHED_JOB_ID)
                 .interval(0.1f)
                 .delay(0.1f)
                 .paused(true)

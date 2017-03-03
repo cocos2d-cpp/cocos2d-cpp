@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2010 Sangwoo Im
- 
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -254,7 +253,7 @@ void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
             to_action_ptr(expire)
         ));
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, performedAnimatedScroll_JOBID, &ScrollView::performedAnimatedScroll)
+        TimedJob(this, &ScrollView::performedAnimatedScroll, performedAnimatedScroll_JOBID)
             .paused(isPaused())
     );
 }
@@ -842,7 +841,7 @@ void ScrollView::onTouchEnded(Touch* touch, Event* /*event*/)
         if (_touches.size() == 1 && _touchMoved)
         {
             Director::getInstance()->getScheduler().schedule(
-                TimedJob(this, deaccelerateScrolling_JOBID, &ScrollView::deaccelerateScrolling)
+                TimedJob(this, &ScrollView::deaccelerateScrolling, deaccelerateScrolling_JOBID)
                     .paused(isPaused())
             );
         }

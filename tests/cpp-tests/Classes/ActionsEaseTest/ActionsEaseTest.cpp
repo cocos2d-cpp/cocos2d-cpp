@@ -126,7 +126,7 @@ void SpriteEase::onEnter()
     a->setTag(1);
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SpriteEase::testStopAction)
+        TimedJob(this, &SpriteEase::testStopAction)
             .delay(6.25f)
             .repeat(0)
             .paused(isPaused())
@@ -1253,7 +1253,7 @@ void SpeedTest::onEnter()
     _kathia->runAction(action);
     
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SpeedTest::altertime)
+        TimedJob(this, &SpeedTest::altertime)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())

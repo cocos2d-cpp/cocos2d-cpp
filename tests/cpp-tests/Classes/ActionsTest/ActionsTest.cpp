@@ -1962,7 +1962,7 @@ void Issue1305::onEnter()
     _spriteTmp->runAction(CallFunc::create(std::bind(&Issue1305::log, this, _spriteTmp.get())));
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0,
+        TimedJob(this,
                  [=](float /*dt*/) {
                      _spriteTmp->setPosition(250,250);
                      addChild(_spriteTmp.get());
@@ -2423,13 +2423,13 @@ void PauseResumeActions::onEnter()
     };
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, pause)
+        TimedJob(this, pause)
             .delay(3)
             .repeat(0)
             .paused(isPaused())
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, resume)
+        TimedJob(this, resume)
             .delay(5)
             .repeat(0)
             .paused(isPaused())

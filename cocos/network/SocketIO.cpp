@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2015 Chris Hannon http://www.channon.us
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -728,7 +727,7 @@ void SIOClientImpl::onOpen(WebSocket* /*ws*/)
     }
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &SIOClientImpl::heartbeat)
+        TimedJob(this, &SIOClientImpl::heartbeat, 0)
             .interval(_heartbeat * 0.9f)
             .delay(_heartbeat * 0.9f)
             .paused(false)

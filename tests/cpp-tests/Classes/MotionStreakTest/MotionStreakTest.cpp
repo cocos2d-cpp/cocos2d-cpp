@@ -51,7 +51,7 @@ void MotionStreakTest1::onEnter()
     addChild(_streak);
     // schedule an update on each frame so we can syncronize the streak with the target
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &MotionStreakTest1::onUpdate)
+        TimedJob(this, &MotionStreakTest1::onUpdate)
             .delay(5.0f)
             .interval(5.0f)
             .paused(isPaused())
@@ -154,7 +154,7 @@ void Issue1358::onEnter()
     _angle = 0.0f;
     
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &Issue1358::update)
+        TimedJob(this, &Issue1358::update)
             .delay(5.0f)
             .interval(5.0f)
             .paused(isPaused())
@@ -217,7 +217,7 @@ void Issue12226::onEnter()
     };
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(outer, 0, updateMotionStreak) 
+        TimedJob(outer, updateMotionStreak) 
             .delay(1 / 240.0f)
             .interval(1 / 240.0f)
             .paused( outer->isPaused() )

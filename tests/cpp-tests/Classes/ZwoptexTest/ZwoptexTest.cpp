@@ -49,7 +49,7 @@ void ZwoptexGenericTest::onEnter()
     sprite2->setFlippedY(false);
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 1, &ZwoptexGenericTest::startIn05Secs)
+        TimedJob(this, &ZwoptexGenericTest::startIn05Secs)
             .interval( 1.0f )
             .repeat(0)
             .delay( 5.0f )
@@ -65,7 +65,7 @@ void ZwoptexGenericTest::onEnter()
 void ZwoptexGenericTest::startIn05Secs(float /*dt*/)
 {
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 2, &ZwoptexGenericTest::flipSprites)
+        TimedJob(this, &ZwoptexGenericTest::flipSprites)
             .interval( 0.5f )
             .delay( 0.5f )
             .paused( isPaused() )

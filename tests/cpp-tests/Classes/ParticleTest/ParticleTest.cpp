@@ -109,7 +109,7 @@ void DemoPause::onEnter()
     
     setEmitterPosition();
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &DemoPause::pauseEmitter)
+        TimedJob(this, &DemoPause::pauseEmitter)
             .delay(2.0f)
             .interval(2.0f)
             .paused(isPaused())
@@ -957,7 +957,7 @@ void Issue870::onEnter()
 
     _index = 0;
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &Issue870::updateQuads)
+        TimedJob(this, &Issue870::updateQuads)
             .delay(2.0f)
             .interval(2.0f)
             .paused(isPaused())
@@ -1244,7 +1244,7 @@ void ParticleBatchHybrid::onEnter()
     addChild(batch, 10);
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &ParticleBatchHybrid::switchRender)
+        TimedJob(this, &ParticleBatchHybrid::switchRender)
             .delay(2.0f)
             .interval(2.0f)
             .paused(isPaused())
@@ -1366,7 +1366,7 @@ void ParticleReorder::onEnter()
     }
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &ParticleReorder::reorderParticles)
+        TimedJob(this, &ParticleReorder::reorderParticles)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
@@ -1671,7 +1671,7 @@ void AddAndDeleteParticleSystems::onEnter()
     }
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &AddAndDeleteParticleSystems::removeSystem)
+        TimedJob(this, &AddAndDeleteParticleSystems::removeSystem)
             .delay(0.5f)
             .interval(0.5f)
             .paused(isPaused())
@@ -1828,7 +1828,7 @@ void ReorderParticleSystems::onEnter()
     }
 
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &ReorderParticleSystems::reorderSystem)
+        TimedJob(this, &ReorderParticleSystems::reorderSystem)
             .delay(2.0f)
             .interval(2.0f)
             .paused(isPaused())
@@ -1929,7 +1929,7 @@ void PremultipliedAlphaTest::onEnter()
     _hasEmitter = true;
     
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &PremultipliedAlphaTest::readdPaticle)
+        TimedJob(this, &PremultipliedAlphaTest::readdPaticle)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())
@@ -2006,7 +2006,7 @@ void ParticleVisibleTest::onEnter()
     _emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );
     
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &ParticleVisibleTest::callback)
+        TimedJob(this, &ParticleVisibleTest::callback)
             .delay(1.0f)
             .interval(1.0f)
             .paused(isPaused())

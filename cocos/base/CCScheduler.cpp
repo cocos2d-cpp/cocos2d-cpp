@@ -145,21 +145,22 @@ void Scheduler::unscheduleUpdateJob(void *target)
 
 void Scheduler::unscheduleTimedJob(void *target, int32_t id)
 {
-    auto found = [=](auto & vec, auto lower_bound) {
-        return lower_bound != vec.end()
-            && lower_bound->target() == target
-            && lower_bound->id() == id;
+    auto unschedule_in = [target, id] (auto & vec) {
+
+        auto equal = [=](auto & vec, auto lower_bound) {
+            return lower_bound != vec.end()
+                && lower_bound->target() == target
+                && lower_bound->id() == id;
+        };
+
+        auto lower_bound = findTimedJob(vec, target, id);
+
+        for ( ; equal(vec, lower_bound); lower_bound++)
+            lower_bound->unschedule();
     };
 
-    auto lower_bound = findTimedJob(_timedJobs, target, id);
-    
-    if (found(_timedJobs, lower_bound))
-        lower_bound->unschedule();
-
-    lower_bound = findTimedJob(_timedJobsToAdd, target, id);
-    
-    for ( ; found(_timedJobsToAdd, lower_bound); lower_bound++)
-        lower_bound->unschedule();
+    unschedule_in(_timedJobs);
+    unschedule_in(_timedJobsToAdd);
 }
 
 template<typename V>
@@ -335,7 +336,7 @@ void Scheduler::update(float dt)
 
         begin = std::lower_bound(begin, end, job);
 
-        if (begin == end || job < *begin)
+        if (begin == end || job < *begin || job.id() < 0)
             begin = _timedJobs.insert(begin, job);
         else
             *begin = job;
@@ -377,7 +378,7 @@ static int32_t to_id(std::string const& id)
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(target, to_id(id), callback)
+        TimedJob(target, callback, to_id(id))
             .delay(delay + interval)
             .interval(interval)
             .repeat(repeat)
@@ -387,7 +388,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id)
 {
     schedule(
-        TimedJob(target, to_id(id), callback)
+        TimedJob(target, callback, to_id(id))
             .delay(interval)
             .interval(interval)
             .paused(paused)
@@ -396,7 +397,7 @@ void Scheduler::schedule(std::function<void(float)> callback, void *target, floa
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused)
 {
     schedule(
-        TimedJob(target, to_id(selector), selector)
+        TimedJob(target, selector, to_id(selector))
             .delay(delay + interval)
             .interval(interval)
             .repeat(repeat)
@@ -406,7 +407,7 @@ void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, uns
 void Scheduler::schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused)
 {
     schedule(
-        TimedJob(target, to_id(selector), selector)
+        TimedJob(target, selector, to_id(selector))
             .delay(interval)
             .interval(interval)
             .paused(paused)

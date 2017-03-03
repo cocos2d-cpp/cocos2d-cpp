@@ -197,7 +197,7 @@ void MenuLayerMainMenu::menuCallbackDisabled(Ref* )
     // hijack all touch events for 5 seconds
     _eventDispatcher->setPriority(_touchListener, -1);
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, 0, &MenuLayerMainMenu::allowTouches)
+        TimedJob(this, &MenuLayerMainMenu::allowTouches)
             .delay(5.0f)
             .interval(5.0f)
             .paused(isPaused())
