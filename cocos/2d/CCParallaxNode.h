@@ -28,7 +28,8 @@ THE SOFTWARE.
 #define __CCPARALLAX_NODE_H__
 
 #include "2d/CCNode.h"
-/*#include "ccArray.h"*/
+
+#include <vector>
 
 namespace cocos2d {
 
@@ -66,18 +67,6 @@ public:
      */
     void addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
 
-    /** Sets an array of layers for the Parallax node.
-     *
-     * @param parallaxArray An array of layers for the Parallax node.
-     */
-    void setParallaxArray( struct _ccArray *parallaxArray) { _parallaxArray = parallaxArray; }
-    /** Returns the array of layers of the Parallax node.
-     *
-     * @return An array of layers for the Parallax node.
-     */
-    struct _ccArray* getParallaxArray() { return _parallaxArray; }
-    const struct _ccArray* getParallaxArray() const { return _parallaxArray; }
-
     //
     // Overrides
     //
@@ -94,17 +83,26 @@ protected:
      * @js ctor
      */
     ParallaxNode();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ParallaxNode();
 
-protected:
     Vec2 absolutePosition();
 
+private:
+
+    struct PointObject
+    {
+        PointObject(Vec2 ratio, Vec2 offset, Node* child)
+            : _ratio(ratio), _offset(offset), _child(child)
+            {}
+        Vec2  _ratio;
+        Vec2  _offset;
+        Node* _child; // weak ref
+    };
+
+protected:
+
     Vec2    _lastPosition;
-    struct _ccArray* _parallaxArray;
+
+    std::vector<PointObject> _parallaxArray;
 
 private:
     ParallaxNode(const ParallaxNode &) = delete;

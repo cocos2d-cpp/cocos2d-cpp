@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,53 +28,10 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-class PointObject : public Ref
-{
-public:
-    static PointObject * create(Vec2 ratio, Vec2 offset)
-    {
-        PointObject *ret = new (std::nothrow) PointObject();
-        ret->initWithPoint(ratio, offset);
-        ret->autorelease();
-        return ret;
-    }
-    
-    bool initWithPoint(Vec2 ratio, Vec2 offset)
-    {
-        _ratio = ratio;
-        _offset = offset;
-        _child = nullptr;
-        return true;
-    }
-    
-    const Vec2& getRatio() const { return _ratio; }
-    void setRatio(const Vec2& ratio) { _ratio = ratio; }
-
-    const Vec2& getOffset() const { return _offset; }
-    void setOffset(const Vec2& offset) { _offset = offset; }
-    
-    Node* getChild() const { return _child; }
-    void setChild(Node* child) { _child = child; }
-    
-private:
-    Vec2 _ratio;
-    Vec2 _offset;
-    Node *_child; // weak ref
-};
-
 ParallaxNode::ParallaxNode()
 {
-    _parallaxArray = ccArrayNew(5);        
+    _parallaxArray.reserve(5);        
     _lastPosition.set(-100.0f, -100.0f);
-}
-
-ParallaxNode::~ParallaxNode()
-{
-    if( _parallaxArray )
-    {
-        ccArrayFree(_parallaxArray);
-        _parallaxArray = nullptr;
-    }
 }
 
 ParallaxNode * ParallaxNode::create()
@@ -97,10 +53,7 @@ void ParallaxNode::addChild(Node* /*child*/, int /*zOrder*/, const std::string& 
 
 void ParallaxNode::addChild(Node *child, int z, const Vec2& ratio, const Vec2& offset)
 {
-    CCASSERT( child != nullptr, "Argument must be non-nil");
-    PointObject *obj = PointObject::create(ratio, offset);
-    obj->setChild(child);
-    ccArrayAppendObjectWithResize(_parallaxArray, (Ref*)obj);
+    _parallaxArray.emplace_back(ratio, offset, child);
 
     Vec2 pos = this->absolutePosition();
     pos.x = -pos.x + pos.x * ratio.x + offset.x;
@@ -112,21 +65,20 @@ void ParallaxNode::addChild(Node *child, int z, const Vec2& ratio, const Vec2& o
 
 void ParallaxNode::removeChild(Node* child, bool cleanup)
 {
-    for( int i=0;i < _parallaxArray->num;i++)
+    auto it = std::find_if(_parallaxArray.begin(), _parallaxArray.end(),
+                           [child] (auto const& v) {
+                               return v._child == child;
+                           });
+    if (_parallaxArray.end() != it)
     {
-        PointObject *point = (PointObject*)_parallaxArray->arr[i];
-        if (point->getChild() == child)
-        {
-            ccArrayRemoveObjectAtIndex(_parallaxArray, i, true);
-            break;
-        }
+        _parallaxArray.erase(it);
     }
     Node::removeChild(child, cleanup);
 }
 
 void ParallaxNode::removeAllChildrenWithCleanup(bool cleanup)
 {
-    ccArrayRemoveAllObjects(_parallaxArray);
+    _parallaxArray.clear();
     Node::removeAllChildrenWithCleanup(cleanup);
 }
 
@@ -154,12 +106,12 @@ void ParallaxNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
     Vec2 pos = this->absolutePosition();
     if( ! pos.equals(_lastPosition) )
     {
-        for( int i=0; i < _parallaxArray->num; i++ ) 
+        for (size_t i = 0, size = _parallaxArray.size(); i < size; i++) 
         {
-            PointObject *point = (PointObject*)_parallaxArray->arr[i];
-            float x = -pos.x + pos.x * point->getRatio().x + point->getOffset().x;
-            float y = -pos.y + pos.y * point->getRatio().y + point->getOffset().y;            
-            point->getChild()->setPosition(x,y);
+            PointObject & point = _parallaxArray[i];
+            float x = -pos.x + pos.x * point._ratio.x + point._offset.x;
+            float y = -pos.y + pos.y * point._ratio.y + point._offset.y;            
+            point._child->setPosition(x,y);
         }
         _lastPosition = pos;
     }
