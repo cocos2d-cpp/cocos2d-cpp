@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +28,14 @@ THE SOFTWARE.
 
 #include "2d/CCSpriteBatchNode.h"
 #include "2d/CCTMXXMLParser.h"
-#include "base/ccCArray.h"
+
+#include <vector>
+
 namespace cocos2d {
 
 class TMXMapInfo;
 class TMXLayerInfo;
 class TMXTilesetInfo;
-struct _ccCArray;
 
 /**
  * @addtogroup _2d
@@ -270,8 +270,6 @@ protected:
 
     // index
     ssize_t atlasIndexForExistantZ(int z);
-    ssize_t atlasIndexForNewZ(int z);
-
 
     //! name of the layer
     std::string _layerName;
@@ -284,7 +282,7 @@ protected:
 
     //! used for optimization
     Sprite *_reusedTile;
-    ccCArray *_atlasIndexArray;
+    std::vector<intptr_t> _atlasIndexArray;
     
     // used for retina display
     float _contentScaleFactor;

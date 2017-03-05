@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -95,7 +94,7 @@ bool TMXLayer::initWithTilesetInfo(std::shared_ptr<TMXTilesetInfo> tilesetInfo,
         Vec2 offset = this->calculateLayerOffset(layerInfo->_offset);
         this->setPosition(CC_POINT_PIXELS_TO_POINTS(offset));
 
-        _atlasIndexArray = ccCArrayNew(totalNumberOfTiles);
+        _atlasIndexArray.reserve(totalNumberOfTiles);
 
         float width = 0;
         float height = 0;
@@ -127,7 +126,7 @@ TMXLayer::TMXLayer()
 ,_vertexZvalue(0)
 ,_useAutomaticVertexZ(false)
 ,_reusedTile(nullptr)
-,_atlasIndexArray(nullptr)
+,_atlasIndexArray()
 ,_contentScaleFactor(1.0f)
 ,_layerSize(Size::ZERO)
 ,_mapTileSize(Size::ZERO)
@@ -142,13 +141,6 @@ TMXLayer::TMXLayer()
 TMXLayer::~TMXLayer()
 {
     CC_SAFE_RELEASE(_reusedTile);
-
-    if (_atlasIndexArray)
-    {
-        ccCArrayFree(_atlasIndexArray);
-        _atlasIndexArray = nullptr;
-    }
-
     CC_SAFE_FREE(_tiles);
 }
 
@@ -160,11 +152,7 @@ void TMXLayer::releaseMap()
         _tiles = nullptr;
     }
 
-    if (_atlasIndexArray)
-    {
-        ccCArrayFree(_atlasIndexArray);
-        _atlasIndexArray = nullptr;
-    }
+    _atlasIndexArray.clear();
 }
 
 // TMXLayer - setup Tiles
@@ -352,7 +340,7 @@ Sprite* TMXLayer::reusedTileWithRect(const Rect& rect)
 Sprite * TMXLayer::getTileAt(const Vec2& pos)
 {
     CCASSERT(pos.x < _layerSize.width && pos.y < _layerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-    CCASSERT(_tiles && _atlasIndexArray, "TMXLayer: the tiles map has been released");
+    CCASSERT(_tiles, "TMXLayer: the tiles map has been released");
 
     Sprite *tile = nullptr;
     int gid = this->getTileGIDAt(pos);
@@ -387,7 +375,7 @@ Sprite * TMXLayer::getTileAt(const Vec2& pos)
 uint32_t TMXLayer::getTileGIDAt(const Vec2& pos, TMXTileFlags* flags/* = nullptr*/)
 {
     CCASSERT(pos.x < _layerSize.width && pos.y < _layerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-    CCASSERT(_tiles && _atlasIndexArray, "TMXLayer: the tiles map has been released");
+    CCASSERT(_tiles, "TMXLayer: the tiles map has been released");
 
     ssize_t idx = static_cast<int>(((int) pos.x + (int) pos.y * _layerSize.width));
     // Bits on the far end of the 32-bit global tile ID are used for tile flags
@@ -417,13 +405,14 @@ Sprite * TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
         setupTileSprite(tile, pos, gid);
         
         // get atlas index
-        ssize_t indexForZ = atlasIndexForNewZ(static_cast<int>(z));
+        auto it = std::upper_bound(_atlasIndexArray.begin(), _atlasIndexArray.end(), z);
+        size_t indexForZ = (_atlasIndexArray.end() == it ? _atlasIndexArray.size() : std::distance(_atlasIndexArray.begin(), it));
         
         // Optimization: add the quad without adding a child
         this->insertQuadFromSprite(tile, indexForZ);
         
         // insert it into the local atlasindex array
-        ccCArrayInsertValueAtIndex(_atlasIndexArray, (void*)z, indexForZ);
+        _atlasIndexArray.insert(_atlasIndexArray.begin() + indexForZ, z);
         
         // update possible children
         
@@ -431,7 +420,7 @@ Sprite * TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
         {
             Sprite* sp = static_cast<Sprite*>(child.get());
             ssize_t ai = sp->getAtlasIndex();
-            if ( ai >= indexForZ )
+            if ( ai >= (ssize_t)indexForZ )
             {
                 sp->setAtlasIndex(ai+1);
             }
@@ -467,6 +456,7 @@ Sprite * TMXLayer::updateTileForGID(uint32_t gid, const Vec2& pos)
 intptr_t TMXLayer::getZForPos(const Vec2& pos) const
 {
     intptr_t z = -1;
+
     // fix correct render ordering in Hexagonal maps when stagger axis == x
     if (_staggerAxis == TMXStaggerAxis_X && _layerOrientation == TMXOrientationHex)
     {
@@ -516,17 +506,13 @@ Sprite * TMXLayer::appendTileForGID(uint32_t gid, const Vec2& pos)
         // optimization:
         // The difference between appendTileForGID and insertTileforGID is that append is faster, since
         // it appends the tile at the end of the texture atlas
-        ssize_t indexForZ = _atlasIndexArray->num;
+        size_t indexForZ = _atlasIndexArray.size();
         
         // don't add it using the "standard" way.
         insertQuadFromSprite(tile, indexForZ);
         
         // append should be after addQuadFromSprite since it modifies the quantity values
-        ccCArrayInsertValueAtIndex(_atlasIndexArray, (void*)z, indexForZ);
-
-        // Validation for issue #16512
-        CCASSERT(_atlasIndexArray->num == 1 ||
-                 _atlasIndexArray->arr[_atlasIndexArray->num-1] > _atlasIndexArray->arr[_atlasIndexArray->num-2], "Invalid z for _atlasIndexArray");
+        _atlasIndexArray.insert(_atlasIndexArray.begin() + indexForZ, z);
 
         return tile;
     }
@@ -534,39 +520,12 @@ Sprite * TMXLayer::appendTileForGID(uint32_t gid, const Vec2& pos)
     return nullptr;
 }
 
-// TMXLayer - atlasIndex and Z
-static inline int compareInts(const void * a, const void * b)
-{
-    const int ia = *(int*)a;
-    const int ib = *(int*)b;
-    return (ia-ib);
-}
-
 ssize_t TMXLayer::atlasIndexForExistantZ(int z)
 {
-    int key=z;
-    int *item = (int*)bsearch((void*)&key, (void*)&_atlasIndexArray->arr[0], _atlasIndexArray->num, sizeof(void*), compareInts);
-
-    CCASSERT(item, "TMX atlas index not found. Shall not happen");
-
-    ssize_t index = ((size_t)item - (size_t)_atlasIndexArray->arr) / sizeof(void*);
-    return index;
-}
-
-ssize_t TMXLayer::atlasIndexForNewZ(int z)
-{
-    // FIXME:: This can be improved with a sort of binary search
-    ssize_t i=0;
-    for (i=0; i< _atlasIndexArray->num ; i++) 
-    {
-        ssize_t val = (size_t) _atlasIndexArray->arr[i];
-        if (z < val)
-        {
-            break;
-        }
-    } 
-    
-    return i;
+    intptr_t key = z;
+    auto it = std::lower_bound(_atlasIndexArray.begin(), _atlasIndexArray.end(), key);
+    CC_ASSERT(it != _atlasIndexArray.end() && *it == key);
+    return std::distance(_atlasIndexArray.begin(), it);
 }
 
 // TMXLayer - adding / remove tiles
@@ -578,7 +537,7 @@ void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos)
 void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos, TMXTileFlags flags)
 {
     CCASSERT(pos.x < _layerSize.width && pos.y < _layerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-    CCASSERT(_tiles && _atlasIndexArray, "TMXLayer: the tiles map has been released");
+    CCASSERT(_tiles, "TMXLayer: the tiles map has been released");
     CCASSERT(gid == 0 || (int)gid >= _tileSet->_firstGid, "TMXLayer: invalid gid" );
 
     TMXTileFlags currentFlags;
@@ -645,16 +604,16 @@ void TMXLayer::removeChild(Node* node, bool cleanup)
              "Tile does not belong to TMXLayer");
 
     ssize_t atlasIndex = sprite->getAtlasIndex();
-    ssize_t zz = (ssize_t)_atlasIndexArray->arr[atlasIndex];
+    ssize_t zz = (ssize_t)_atlasIndexArray[atlasIndex];
     _tiles[zz] = 0;
-    ccCArrayRemoveValueAtIndex(_atlasIndexArray, atlasIndex);
+    _atlasIndexArray.erase(_atlasIndexArray.begin() + atlasIndex);
     SpriteBatchNode::removeChild(sprite, cleanup);
 }
 
 void TMXLayer::removeTileAt(const Vec2& pos)
 {
     CCASSERT(pos.x < _layerSize.width && pos.y < _layerSize.height && pos.x >=0 && pos.y >=0, "TMXLayer: invalid position");
-    CCASSERT(_tiles && _atlasIndexArray, "TMXLayer: the tiles map has been released");
+    CCASSERT(_tiles, "TMXLayer: the tiles map has been released");
 
     int gid = getTileGIDAt(pos);
 
@@ -667,7 +626,7 @@ void TMXLayer::removeTileAt(const Vec2& pos)
         _tiles[z] = 0;
 
         // remove tile from atlas position array
-        ccCArrayRemoveValueAtIndex(_atlasIndexArray, atlasIndex);
+        _atlasIndexArray.erase(_atlasIndexArray.begin() + atlasIndex);
 
         // remove it from sprites and/or texture atlas
         Sprite *sprite = (Sprite*)getChildByTag(z);
