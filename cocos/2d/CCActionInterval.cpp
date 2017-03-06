@@ -1163,88 +1163,17 @@ BezierTo* BezierTo::reverse() const
 
 // ScaleTo
 
-std::unique_ptr<ScaleTo> ScaleTo::create(float duration, float s)
+ScaleTo::ScaleTo(float duration, float x, float y, float z)
+    : ActionInterval(duration)
+    , _endScaleX( x )
+    , _endScaleY( y )
+    , _endScaleZ( z )
 {
-    auto scaleTo = std::unique_ptr<ScaleTo>(new ScaleTo);
-
-    if (! scaleTo->initWithDuration(duration, s))
-    {
-        return std::unique_ptr<ScaleTo>();
-    }
-
-    return scaleTo;
-}
-
-std::unique_ptr<ScaleTo> ScaleTo::create(float duration, float sx, float sy)
-{
-    auto scaleTo = std::unique_ptr<ScaleTo>(new ScaleTo);
-
-    if (! scaleTo->initWithDuration(duration, sx, sy))
-    {
-        return std::unique_ptr<ScaleTo>();
-    }
-
-    return scaleTo;
-}
-
-std::unique_ptr<ScaleTo> ScaleTo::create(float duration, float sx, float sy, float sz)
-{
-    auto scaleTo = std::unique_ptr<ScaleTo>(new ScaleTo);
-
-    if (! scaleTo->initWithDuration(duration, sx, sy, sz))
-    {
-        return std::unique_ptr<ScaleTo>();
-    }
-
-    return scaleTo;
-}
-
-bool ScaleTo::initWithDuration(float duration, float s)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _endScaleX = s;
-        _endScaleY = s;
-        _endScaleZ = s;
-
-        return true;
-    }
-
-    return false;
-}
-
-bool ScaleTo::initWithDuration(float duration, float sx, float sy)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _endScaleX = sx;
-        _endScaleY = sy;
-        _endScaleZ = 1.f;
-
-        return true;
-    }
-
-    return false;
-}
-
-bool ScaleTo::initWithDuration(float duration, float sx, float sy, float sz)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _endScaleX = sx;
-        _endScaleY = sy;
-        _endScaleZ = sz;
-
-        return true;
-    }
-
-    return false;
 }
 
 ScaleTo* ScaleTo::clone() const
 {
-    // no copy constructor
-    return ScaleTo::create(_duration, _endScaleX, _endScaleY, _endScaleZ).release();
+    return new ScaleTo(_duration, _endScaleX, _endScaleY, _endScaleZ);
 }
 
 ScaleTo* ScaleTo::reverse() const
@@ -1278,38 +1207,11 @@ void ScaleTo::at_stop()
 {
 }
 
-//
 // ScaleBy
-//
-
-std::unique_ptr<ScaleBy> ScaleBy::create(float duration, float s)
-{
-    auto scaleBy = std::unique_ptr<ScaleBy>(new ScaleBy);
-
-    if (! scaleBy->initWithDuration(duration, s))
-    {
-        return std::unique_ptr<ScaleBy>();
-    }
-    
-    return scaleBy;
-}
-
-std::unique_ptr<ScaleBy> ScaleBy::create(float duration, float sx, float sy, float sz)
-{
-    auto scaleBy = std::unique_ptr<ScaleBy>(new ScaleBy);
-
-    if (! scaleBy->initWithDuration(duration, sx, sy, sz))
-    {
-        return std::unique_ptr<ScaleBy>();
-    }
-    
-    return scaleBy;
-}
 
 ScaleBy* ScaleBy::clone() const
 {
-    // no copy constructor
-    return ScaleBy::create(_duration, _endScaleX, _endScaleY, _endScaleZ).release();
+    return new ScaleBy(_duration, _endScaleX, _endScaleY, _endScaleZ);
 }
 
 void ScaleBy::startWithTarget(Node *target)
@@ -1322,7 +1224,7 @@ void ScaleBy::startWithTarget(Node *target)
 
 ScaleBy* ScaleBy::reverse() const
 {
-    return ScaleBy::create(_duration, 1 / _endScaleX, 1 / _endScaleY, 1/ _endScaleZ).release();
+    return new ScaleBy(_duration, 1 / _endScaleX, 1 / _endScaleY, 1/ _endScaleZ);
 }
 
 //

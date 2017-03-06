@@ -652,72 +652,25 @@ protected:
     BezierConfig _toConfig;
 };
 
-/** @class ScaleTo
- @brief Scales a Node object to a zoom factor by modifying it's scale attribute.
- @warning This action doesn't support "reverse".
- @warning The physics body contained in Node doesn't support this action.
- */
+// Scales a Node object to a zoom factor by modifying it's scale attribute.
+ // This action doesn't support "reverse".
+ // The physics body contained in Node doesn't support this action.
+ 
 class CC_DLL ScaleTo : public ActionInterval
 {
 public:
-    virtual ~ScaleTo() {}
+    ScaleTo(float duration, float xyz)
+        : ScaleTo(duration, xyz, xyz, xyz)
+        {}
 
-    /** 
-     * Creates the action with the same scale factor for X and Y.
-     * @param duration Duration time, in seconds.
-     * @param s Scale factor of x and y.
-     * @return An autoreleased ScaleTo object.
-     */
-    static std::unique_ptr<ScaleTo> create(float duration, float s);
+    ScaleTo(float duration, float x, float y, float z = 1.0f);
 
-    /** 
-     * Creates the action with and X factor and a Y factor.
-     * @param duration Duration time, in seconds.
-     * @param sx Scale factor of x.
-     * @param sy Scale factor of y.
-     * @return An autoreleased ScaleTo object.
-     */
-    static std::unique_ptr<ScaleTo> create(float duration, float sx, float sy);
-
-    /** 
-     * Creates the action with X Y Z factor.
-     * @param duration Duration time, in seconds.
-     * @param sx Scale factor of x.
-     * @param sy Scale factor of y.
-     * @param sz Scale factor of z.
-     * @return An autoreleased ScaleTo object.
-     */
-    static std::unique_ptr<ScaleTo> create(float duration, float sx, float sy, float sz);
-
-    //
-    // Overrides
-    //
     virtual ScaleTo* clone() const override;
     virtual ScaleTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    ScaleTo() {}
-
-    /** 
-     * initializes the action with the same scale factor for X and Y
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, float s);
-    /** 
-     * initializes the action with and X factor and a Y factor 
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, float sx, float sy);
-    /** 
-     * initializes the action with X Y Z factor 
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, float sx, float sy, float sz);
 
     virtual void at_stop() override;
 
@@ -734,52 +687,25 @@ protected:
     float _deltaX;
     float _deltaY;
     float _deltaZ;
-
-private:
-    ScaleTo(const ScaleTo &) = delete;
-    const ScaleTo & operator=(const ScaleTo &) = delete;
 };
 
-/** @class ScaleBy
- * @brief Scales a Node object a zoom factor by modifying it's scale attribute.
- @warning The physics body contained in Node doesn't support this action.
-*/
+// Scales a Node object a zoom factor by modifying it's scale attribute.
+// The physics body contained in Node doesn't support this action.
+
 class CC_DLL ScaleBy : public ScaleTo
 {
 public:
-    virtual ~ScaleBy() {}
+    ScaleBy(float duration, float s)
+        : ScaleTo(duration, s)
+        {}
 
-    /** 
-     * Creates the action with the same scale factor for X and Y.
-     * @param duration Duration time, in seconds.
-     * @param s Scale factor of x and y.
-     * @return An autoreleased ScaleBy object.
-     */
-    static std::unique_ptr<ScaleBy> create(float duration, float s);
+    ScaleBy(float duration, float x, float y, float z = 1.0f)
+        : ScaleTo(duration, x, y, z)
+        {}
 
-    /** 
-     * Creates the action with X Y Z factor.
-     * @param duration Duration time, in seconds.
-     * @param sx Scale factor of x.
-     * @param sy Scale factor of y.
-     * @param sz Scale factor of z.
-     * @return An autoreleased ScaleBy object.
-     */
-    static std::unique_ptr<ScaleBy> create(float duration, float sx, float sy, float sz = 1.0f);
-
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual ScaleBy* clone() const override;
     virtual ScaleBy* reverse() const override;
-
-protected:
-    ScaleBy() {}
-
-private:
-    ScaleBy(const ScaleBy &) = delete;
-    const ScaleBy & operator=(const ScaleBy &) = delete;
 };
 
 /** @class Blink
