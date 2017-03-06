@@ -27,7 +27,7 @@ THE SOFTWARE.
 #ifndef __ACTIONS_CCACTION_H__
 #define __ACTIONS_CCACTION_H__
 
-#include "base/CCRef.h"
+#include "2d/CCNode.h"
 #include "math/CCGeometry.h"
 
 namespace cocos2d {
@@ -37,11 +37,6 @@ class Node;
 enum {
     kActionUpdate
 };
-
-/**
- * @addtogroup actions
- * @{
- */
 
 /** 
  * @brief Base class for Action objects.
@@ -191,42 +186,17 @@ private:
 class ActionInterval;
 class RepeatForever;
 
-/** @class Follow
- * @brief Follow is an action that "follows" a node.
- * Eg:
- * @code
- * layer->runAction(Follow::create(hero));
- * @endcode
- * Instead of using Camera as a "follower", use this action instead.
- * @since v0.99.2
- */
+// Follow is an action that "follows" a node.
+// Instead of using Camera as a "follower", use this action instead.
+// For example:
+// layer->runAction(std::make_unique<Follow>(hero));
+
 class CC_DLL Follow final : public Action
 {
 public:
-    Follow()
-    : _followedNode(nullptr)
-    , _boundarySet(false)
-    , _boundaryFullyCovered(false)
-    , _leftBoundary(0.0)
-    , _rightBoundary(0.0)
-    , _topBoundary(0.0)
-    , _bottomBoundary(0.0)
-    , _offsetX(0.0)
-    , _offsetY(0.0)
-    , _worldRect(Rect::ZERO)
-    {}
-
-    virtual ~Follow();
-
-     /**
-     * Creates the action with a set boundary or with no boundary.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-    */
-    
-    static std::unique_ptr<Follow> create(Node *followedNode, const Rect& rect = Rect::ZERO);
+    Follow(Node *followedNode, const Rect& boundary = Rect::ZERO)
+        : Follow(followedNode, 0.0f, 0.0f, boundary)
+        {}
     
     /**
      * Creates the action with a set boundary or with no boundary with offsets.
@@ -243,7 +213,7 @@ public:
      *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
      */
 
-    static std::unique_ptr<Follow> createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
+    Follow(Node* followedNode,float xOffset,float yOffset,const Rect& boundary = Rect::ZERO);
     
     /** Return boundarySet.
      *
@@ -301,7 +271,7 @@ protected:
 
 protected:
     /** Node to follow. */
-    Node *_followedNode;
+    node_ptr<Node> _followedNode;
 
     /** Whether camera should be limited to certain area. */
     bool _boundarySet;
@@ -329,9 +299,6 @@ private:
     Follow(const Follow &) = delete;
     const Follow & operator=(const Follow &) = delete;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 
