@@ -39,13 +39,8 @@ class Node;
 class SpriteFrame;
 class EventCustom;
 
-/**
- * @addtogroup actions
- * @{
- */
-
-/** @class ActionInterval
-@brief An interval action is an action that takes place within a certain period of time.
+/*
+An interval action is an action that takes place within a certain period of time.
 It has an start time, and a finish time. The finish time is the parameter
 duration plus the start time.
 
@@ -59,14 +54,22 @@ then running it again in Reverse mode.
 
 Example:
 
-@code
-auto action = MoveBy::create(1.0f, Vec2::ONE);
-auto pingPongAction = Sequence::create(action, action->reverse(), nullptr);
-@endcode
+auto action = std::make_unique<MoveBy>(1.0f, Vec2::ONE);
+auto rev_action = std::unique_ptr<MoveBy>(action->reverse());
+auto pingPongAction = std::make_unique<Sequence>(std::move(action), std::move(rev_action));
 */
+
 class CC_DLL ActionInterval : public FiniteTimeAction
 {
 public:
+    ActionInterval()
+    {}
+
+    explicit ActionInterval(float d)
+    {
+        initWithDuration(d);
+    }
+
     /** How many seconds had elapsed since the actions started to run.
      *
      * @return The seconds had elapsed since the actions started to run.
@@ -147,78 +150,70 @@ class CC_DLL Sequence : public ActionInterval
 public:
     using actions_container = std::vector<std::unique_ptr<FiniteTimeAction>>;
 
-    static std::unique_ptr<Sequence> create(actions_container arrayOfActions);
+    Sequence(actions_container arrayOfActions);
 
-    template<typename ...Actions>
-    static std::unique_ptr<Sequence> create(actions_container arrayOfActions,
-                                            actions_container::value_type action,
-                                            Actions ...actions)
+    template<typename ...AA>
+    Sequence(actions_container array, actions_container::value_type action, AA ...actions)
+        : Sequence([](auto array, auto action) {
+                       array.push_back(std::move(action));
+                       return array;
+                   } (std::move(array), actions_container::value_type(action.release())),
+                   std::forward<AA>(actions)...)
     {
-        arrayOfActions.push_back(std::move(action));
-        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
-    }
-    template<typename A, typename ...Actions>
-    static std::unique_ptr<Sequence> create(actions_container arrayOfActions, A action, Actions ...actions)
-    {
-        static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
-            "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
-        );
-        return create(std::move(arrayOfActions),
-                      std::unique_ptr<FiniteTimeAction>(action.release()),
-                      std::forward<Actions>(actions)...);
     }
 
-    template<typename A, typename ...Actions>
-    static std::unique_ptr<Sequence> create(A action, Actions ...actions)
+    template<typename A, typename ...AA>
+    Sequence(actions_container array, A action, AA ...actions)
+        : Sequence([](auto array, auto action) {
+                       array.push_back(std::move(action));
+                       return array;
+                   } (std::move(array), std::move(action)),
+                   std::forward<AA>(actions)...)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
-            "Sequence::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+            "Sequence construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
-        actions_container arrayOfActions;
-        arrayOfActions.push_back( std::unique_ptr<FiniteTimeAction>(action.release()) );
-        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
 
-    /** Creates the action.
-     * @param actionOne The first sequenceable action.
-     * @param actionTwo The second sequenceable action.
-     * @return An autoreleased Sequence object.
-     */
-    static std::unique_ptr<Sequence> createWithTwoActions(std::unique_ptr<FiniteTimeAction> actionOne,
-                                                          std::unique_ptr<FiniteTimeAction> actionTwo);
+    template<typename ...AA>
+    Sequence(actions_container::value_type action, AA ...actions)
+        : Sequence([](auto a) -> actions_container {
+                       actions_container vec;
+                       vec.push_back( std::move( a));
+                       return vec;
+                   }(std::move(action)),
+                   std::forward<AA>(actions)...)
+    {
+    }
 
-    //
-    // Overrides
-    //
+    template<typename A, typename ...AA>
+    Sequence(A action, AA ...actions)
+        : Sequence(actions_container::value_type(action.release()), std::forward<AA>(actions)...)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Sequence construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+    }
+
     virtual Sequence* clone() const override;
     virtual Sequence* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param t In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    Sequence();
-
-    /** initializes the action */
-    bool initWithTwoActions(std::unique_ptr<FiniteTimeAction> actionOne,
-                            std::unique_ptr<FiniteTimeAction> actionTwo);
-
-    bool init(actions_container arrayOfActions);
 
     virtual void at_stop() override;
+
+private:
+    void initWithTwoActions(std::unique_ptr<FiniteTimeAction> actionOne,
+                            std::unique_ptr<FiniteTimeAction> actionTwo);
 
 protected:
     std::unique_ptr<FiniteTimeAction> _actions[2];
     float _split;
     int _last;
-
-private:
-    Sequence(const Sequence &) = delete;
-    const Sequence & operator=(const Sequence &) = delete;
 };
 
 /** @class Repeat
@@ -297,68 +292,67 @@ private:
     const RepeatForever & operator=(const RepeatForever &) = delete;
 };
 
-/** @class Spawn
- * @brief Spawn a new action immediately
- */
+// Spawn a new action immediately
+
 class CC_DLL Spawn : public ActionInterval
 {
 public:
     using actions_container = std::vector<std::unique_ptr<FiniteTimeAction>>;
 
-    static std::unique_ptr<Spawn> create(actions_container arrayOfActions);
+    Spawn(actions_container arrayOfActions);
 
-    template<typename ...Actions>
-    static std::unique_ptr<Spawn> create(actions_container arrayOfActions,
-                                         actions_container::value_type action,
-                                         Actions ...actions)
+    template<typename ...AA>
+    Spawn(actions_container array, actions_container::value_type action, AA ...actions)
+        : Spawn([](auto array, auto action) {
+                       array.push_back(std::move(action));
+                       return array;
+                   } (std::move(array), actions_container::value_type(action.release())),
+                   std::forward<AA>(actions)...)
     {
-        arrayOfActions.push_back(std::move(action));
-        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
-    }
-    template<typename A, typename ...Actions>
-    static std::unique_ptr<Spawn> create(actions_container arrayOfActions, A action, Actions ...actions)
-    {
-        static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
-            "Spawn::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
-        );
-        return create(std::move(arrayOfActions),
-                      std::unique_ptr<FiniteTimeAction>(action.release()),
-                      std::forward<Actions>(actions)...);
     }
 
-    template<typename A, typename ...Actions>
-    static std::unique_ptr<Spawn> create(A action, Actions ...actions)
+    template<typename A, typename ...AA>
+    Spawn(actions_container array, A action, AA ...actions)
+        : Spawn([](auto array, auto action) {
+                       array.push_back(std::move(action));
+                       return array;
+                   } (std::move(array), std::move(action)),
+                   std::forward<AA>(actions)...)
     {
         static_assert(
             std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
-            "Spawn::create accepts only unique_ptr<Derived_from_FiniteTimeAction>'s"
+            "Spawn construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
-        actions_container arrayOfActions;
-        arrayOfActions.push_back( std::unique_ptr<FiniteTimeAction>(action.release()) );
-        return create(std::move(arrayOfActions), std::forward<Actions>(actions)...);
     }
 
-    static std::unique_ptr<Spawn> createWithTwoActions(std::unique_ptr<FiniteTimeAction> action1,
-                                                       std::unique_ptr<FiniteTimeAction> action2);
+    template<typename ...AA>
+    Spawn(actions_container::value_type action, AA ...actions)
+        : Spawn([](auto action) -> actions_container {
+                    actions_container vec;
+                    vec.push_back( std::move( action));
+                    return vec;
+                }(std::move(action)),
+                std::forward<AA>(actions)...)
+    {
+    }
 
-    //
-    // Overrides
-    //
+    template<typename A, typename ...AA>
+    Spawn(A action, AA ...actions)
+        : Spawn(actions_container::value_type(action.release()), std::forward<AA>(actions)...)
+    {
+        static_assert(
+            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            "Spawn construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
+        );
+    }
+
     virtual Spawn* clone() const override;
     virtual Spawn* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    Spawn() = default;
-
-    bool init(actions_container arrayOfActions);
-
-    bool initWithTwoActions(std::unique_ptr<FiniteTimeAction> action1,
+    void initWithTwoActions(std::unique_ptr<FiniteTimeAction> action1,
                             std::unique_ptr<FiniteTimeAction> action2);
 
     virtual void at_stop() override;
@@ -372,68 +366,27 @@ private:
     const Spawn & operator=(const Spawn &) = delete;
 };
 
-/** @class RotateTo
- * @brief Rotates a Node object to a certain angle by modifying it's rotation attribute.
- The direction will be decided by the shortest angle.
-*/ 
+// Rotates a Node object to a certain angle by modifying it's rotation attribute.
+// The direction will be decided by the shortest angle.
+// Angles in degreesCW
+
 class CC_DLL RotateTo : public ActionInterval
 {
 public:
-    virtual ~RotateTo() {}
-    /** 
-     * Creates the action with separate rotation angles.
-     *
-     * @param duration Duration time, in seconds.
-     * @param dstAngleX In degreesCW.
-     * @param dstAngleY In degreesCW.
-     * @return An autoreleased RotateTo object.
-     */
-    static std::unique_ptr<RotateTo> create(float duration, float dstAngleX, float dstAngleY);
+    RotateTo(float duration, float dstAngleX, float dstAngleY);
 
-    /** 
-     * Creates the action.
-     *
-     * @param duration Duration time, in seconds.
-     * @param dstAngle In degreesCW.
-     * @return An autoreleased RotateTo object.
-     */
-    static std::unique_ptr<RotateTo> create(float duration, float dstAngle);
+    RotateTo(float duration, float dstAngle)
+        : RotateTo(duration, dstAngle, dstAngle)
+        {}
 
-    /** 
-     * Creates the action with 3D rotation angles.
-     * @param duration Duration time, in seconds.
-     * @param dstAngle3D A Vec3 angle.
-     * @return An autoreleased RotateTo object.
-     */
-    static std::unique_ptr<RotateTo> create(float duration, const Vec3& dstAngle3D);
+    RotateTo(float duration, const Vec3& dstAngle3D);
 
-    //
-    // Overrides
-    //
     virtual RotateTo* clone() const override;
     virtual RotateTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    RotateTo();
-
-    /** 
-     * initializes the action
-     * @param duration in seconds
-     * @param dstAngleX in degreesCW
-     * @param dstAngleY in degreesCW
-     */
-    bool initWithDuration(float duration, float dstAngleX, float dstAngleY);
-    /**
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec3& dstAngle3D);
-
     /** 
      * calculates the start and diff angles
      * @param dstAngle in degreesCW
@@ -447,68 +400,28 @@ protected:
     Vec3 _dstAngle;
     Vec3 _startAngle;
     Vec3 _diffAngle;
-
-private:
-    RotateTo(const RotateTo &) = delete;
-    const RotateTo & operator=(const RotateTo &) = delete;
 };
 
-/** @class RotateBy
- * @brief Rotates a Node object clockwise a number of degrees by modifying it's rotation attribute.
-*/
+// Rotates a Node object clockwise a number of degrees by modifying it's rotation attribute.
+// deltaAngle In degreesCW.
+
 class CC_DLL RotateBy : public ActionInterval
 {
 public:
-    virtual ~RotateBy() {}
-    /** 
-     * Creates the action.
-     *
-     * @param duration Duration time, in seconds.
-     * @param deltaAngle In degreesCW.
-     * @return An autoreleased RotateBy object.
-     */
-    static std::unique_ptr<RotateBy> create(float duration, float deltaAngle);
-    /**
-     * Creates the action with separate rotation angles.
-     *
-     * @param duration Duration time, in seconds.
-     * @param deltaAngleZ_X In degreesCW.
-     * @param deltaAngleZ_Y In degreesCW.
-     * @return An autoreleased RotateBy object.
-     * @warning The physics body contained in Node doesn't support rotate with different x and y angle.
-     */
-    static std::unique_ptr<RotateBy> create(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
-    /** Creates the action with 3D rotation angles.
-     *
-     * @param duration Duration time, in seconds.
-     * @param deltaAngle3D A Vec3 angle.
-     * @return An autoreleased RotateBy object.
-     */
-    static std::unique_ptr<RotateBy> create(float duration, const Vec3& deltaAngle3D);
+    RotateBy(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
 
-    //
-    // Override
-    //
+    RotateBy(float duration, float deltaAngle)
+        : RotateBy(duration, deltaAngle, deltaAngle)
+    {}
+
+    RotateBy(float duration, const Vec3& deltaAngle3D);
+
     virtual RotateBy* clone() const override;
     virtual RotateBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    RotateBy();
-
-    /** initializes the action */
-    bool initWithDuration(float duration, float deltaAngle);
-    /** 
-     * @warning The physics body contained in Node doesn't support rotate with different x and y angle.
-     * @param deltaAngleZ_X in degreesCW
-     * @param deltaAngleZ_Y in degreesCW
-     */
-    bool initWithDuration(float duration, float deltaAngleZ_X, float deltaAngleZ_Y);
-    bool initWithDuration(float duration, const Vec3& deltaAngle3D);
     
     virtual void at_stop() override;
 
@@ -516,159 +429,72 @@ protected:
     bool _is3D;
     Vec3 _deltaAngle;
     Vec3 _startAngle;
-
-private:
-    RotateBy(const RotateBy &) = delete;
-    const RotateBy & operator=(const RotateBy &) = delete;
 };
 
-/** @class MoveBy
- * @brief Moves a Node object x,y pixels by modifying it's position attribute.
- x and y are relative to the position of the object.
- Several MoveBy actions can be concurrently called, and the resulting
- movement will be the sum of individual movements.
- @since v2.1beta2-custom
- */
+// Moves a Node object x,y pixels by modifying it's position attribute.
+// x and y are relative to the position of the object.
+// Several MoveBy actions can be concurrently called, and the resulting
+// movement will be the sum of individual movements.
+
 class CC_DLL MoveBy : public ActionInterval
 {
 public:
-    virtual ~MoveBy() {}
-    /** 
-     * Creates the action.
-     *
-     * @param duration Duration time, in seconds.
-     * @param deltaPosition The delta distance in 2d, it's a Vec2 type.
-     * @return An autoreleased MoveBy object.
-     */
-    static std::unique_ptr<MoveBy> create(float duration, const Vec2& deltaPosition);
-    /**
-     * Creates the action.
-     *
-     * @param duration Duration time, in seconds.
-     * @param deltaPosition The delta distance in 3d, it's a Vec3 type.
-     * @return An autoreleased MoveBy object.
-     */
-    static std::unique_ptr<MoveBy> create(float duration, const Vec3& deltaPosition);
+    MoveBy(float duration, const Vec2& deltaPosition)
+        : MoveBy(duration, Vec3(deltaPosition.x, deltaPosition.y, 0))
+        {}
 
-    //
-    // Overrides
-    //
+    MoveBy(float duration, Vec3 deltaPosition);
+
     virtual MoveBy* clone() const override;
     virtual MoveBy* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time in seconds
-     */
     virtual void step(float time) override;
     
 protected:
-    MoveBy():_is3D(false) {}
-
-    /** initializes the action */
-    bool initWithDuration(float duration, const Vec2& deltaPosition);
-    bool initWithDuration(float duration, const Vec3& deltaPosition);
 
     virtual void at_stop() override;
 
 protected:
-    bool _is3D;
     Vec3 _positionDelta;
     Vec3 _startPosition;
     Vec3 _previousPosition;
-
-private:
-    MoveBy(const MoveBy &) = delete;
-    const MoveBy & operator=(const MoveBy &) = delete;
 };
 
-/** @class MoveTo
- * @brief Moves a Node object to the position x,y. x and y are absolute coordinates by modifying it's position attribute.
- Several MoveTo actions can be concurrently called, and the resulting
- movement will be the sum of individual movements.
- @since v2.1beta2-custom
- */
+// Moves a Node object to the position x,y. x and y are absolute coordinates by modifying it's position attribute.
+// Several MoveTo actions can be concurrently called, and the resulting
+// movement will be the sum of individual movements.
+
 class CC_DLL MoveTo : public MoveBy
 {
 public:
-    virtual ~MoveTo() {}
-    /** 
-     * Creates the action.
-     * @param duration Duration time, in seconds.
-     * @param position The destination position in 2d.
-     * @return An autoreleased MoveTo object.
-     */
-    static std::unique_ptr<MoveTo> create(float duration, const Vec2& position);
-    /**
-     * Creates the action.
-     * @param duration Duration time, in seconds.
-     * @param position The destination position in 3d.
-     * @return An autoreleased MoveTo object.
-     */
-    static std::unique_ptr<MoveTo> create(float duration, const Vec3& position);
+    MoveTo(float duration, const Vec2& position)
+        : MoveTo(duration, Vec3(position.x, position.y, 0))
+        {}
 
-    //
-    // Overrides
-    //
+    MoveTo(float duration, Vec3 position);
+
     virtual MoveTo* clone() const override;
     virtual MoveTo* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
     
 protected:
-    MoveTo() {}
 
-    /** 
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec2& position);
-    /**
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec3& position);
-
-protected:
     Vec3 _endPosition;
-
-private:
-    MoveTo(const MoveTo &) = delete;
-    const MoveTo & operator=(const MoveTo &) = delete;
 };
 
-/** @class SkewTo
- * @brief Skews a Node object to given angles by modifying it's skewX and skewY attributes
-@since v1.0
-*/
+// Skews a Node object to given angles by modifying it's skewX and skewY attributes
+
 class CC_DLL SkewTo : public ActionInterval
 {
 public:
-    virtual ~SkewTo() {}
-    /** 
-     * Creates the action.
-     * @param t Duration time, in seconds.
-     * @param sx Skew x angle.
-     * @param sy Skew y angle.
-     * @return An autoreleased SkewTo object.
-     */
-    static std::unique_ptr<SkewTo> create(float t, float sx, float sy);
+    SkewTo(float t, float sx, float sy);
 
-    //
-    // Overrides
-    //
     virtual SkewTo* clone() const override;
     virtual SkewTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    SkewTo();
-    /**
-     * @param t In seconds.
-     */
-    bool initWithDuration(float t, float sx, float sy);
 
     virtual void at_stop() override;
 
@@ -681,91 +507,39 @@ protected:
     float _endSkewY;
     float _deltaX;
     float _deltaY;
-
-private:
-    SkewTo(const SkewTo &) = delete;
-    const SkewTo & operator=(const SkewTo &) = delete;
 };
 
-/** @class SkewBy
-* @brief Skews a Node object by skewX and skewY degrees.
-@since v1.0
-*/
+// Skews a Node object by skewX and skewY degrees.
+
 class CC_DLL SkewBy : public SkewTo
 {
 public:
-    virtual ~SkewBy() {}
-    /** 
-     * Creates the action.
-     * @param t Duration time, in seconds.
-     * @param deltaSkewX Skew x delta angle.
-     * @param deltaSkewY Skew y delta angle.
-     * @return An autoreleased SkewBy object.
-     */
-    static std::unique_ptr<SkewBy> create(float t, float deltaSkewX, float deltaSkewY);
+    SkewBy(float t, float deltaSkewX, float deltaSkewY);
 
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual SkewBy* clone() const override;
     virtual SkewBy* reverse() const override;
-    
-protected:
-    SkewBy() {}
-    /**
-     * @param t In seconds.
-     */
-    bool initWithDuration(float t, float sx, float sy);
-
-private:
-    SkewBy(const SkewBy &) = delete;
-    const SkewBy & operator=(const SkewBy &) = delete;
 };
 
-/** @class ResizeTo
-* @brief Resize a Node object to the final size by modifying it's Size attribute.
-*/
+// Resize a Node object to the final size by modifying it's Size attribute.
+
 class  CC_DLL ResizeTo : public ActionInterval 
 {
 public:
-    virtual ~ResizeTo() {}
-    /**
-    * Creates the action.
-    * @brief Resize a Node object to the final size by modifying it's Size attribute. Works on all nodes where setContentSize is effective. But it's mostly useful for nodes where 9-slice is enabled
-    * @param duration Duration time, in seconds.
-    * @param final_size The target size to reach
-    * @return An autoreleased RotateTo object.
-    */
-    static std::unique_ptr<ResizeTo> create(float duration, const cocos2d::Size& final_size);
+    ResizeTo(float duration, const Size& final_size);
 
-    //
-    // Overrides
-    //
     virtual ResizeTo* clone() const override;
-    void startWithTarget(cocos2d::Node* target) override;
+    void startWithTarget(Node* target) override;
     void step(float time) override;
 
 protected:
-    ResizeTo() {}
-    
-    /**
-    * initializes the action
-    * @param duration in seconds
-    * @param final_size in Size type
-    */
-    bool initWithDuration(float duration, const cocos2d::Size& final_size);
 
     virtual void at_stop() override;
 
 protected:
-    cocos2d::Size _initialSize;
-    cocos2d::Size _finalSize;
-    cocos2d::Size _sizeDelta;
-
-private:
-    ResizeTo(const ResizeTo &) = delete;
-    const ResizeTo & operator=(const ResizeTo &) = delete;
+    Size _initialSize;
+    Size _finalSize;
+    Size _sizeDelta;
 };
 
 
@@ -783,7 +557,7 @@ public:
     * @param deltaSize The delta size.
     * @return An autoreleased ResizeBy object.
     */
-    static std::unique_ptr<ResizeBy> create(float duration, const cocos2d::Size& deltaSize);
+    static std::unique_ptr<ResizeBy> create(float duration, const Size & deltaSize);
     
     //
     // Overrides
@@ -800,14 +574,14 @@ protected:
     ResizeBy() {}
     
     /** initializes the action */
-    bool initWithDuration(float duration, const cocos2d::Size& deltaSize);
+    bool initWithDuration(float duration, const Size & deltaSize);
 
     virtual void at_stop() override;
 
 protected:
-    cocos2d::Size _sizeDelta;
-    cocos2d::Size _startSize;
-    cocos2d::Size _previousSize;
+    Size _sizeDelta;
+    Size _startSize;
+    Size _previousSize;
 
 private:
     ResizeBy(const ResizeBy &) = delete;
@@ -1420,38 +1194,20 @@ private:
     const TintBy & operator=(const TintBy &) = delete;
 };
 
-/** @class DelayTime
- * @brief Delays the action a certain amount of seconds.
-*/
+// Delays the action a certain amount of seconds.
+
 class CC_DLL DelayTime : public ActionInterval
 {
 public:
-    virtual ~DelayTime() {}
-    /** 
-     * Creates the action.
-     * @param d Duration time, in seconds.
-     * @return An autoreleased DelayTime object.
-     */
-    static std::unique_ptr<DelayTime> create(float d);
+    explicit DelayTime(float d);
 
-    //
-    // Overrides
-    //
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     virtual DelayTime* reverse() const override;
     virtual DelayTime* clone() const override;
 
 protected:
-    DelayTime() {}
 
     virtual void at_stop() override;
-
-private:
-    DelayTime(const DelayTime &) = delete;
-    const DelayTime & operator=(const DelayTime &) = delete;
 };
 
 /** @class ReverseTime
@@ -1670,9 +1426,6 @@ private:
     ActionFloat(const ActionFloat &) = delete;
     const ActionFloat & operator=(const ActionFloat &) = delete;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 
