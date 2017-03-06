@@ -258,29 +258,25 @@ void TransitionRotoZoom:: onEnter()
     _inScene->setAnchorPoint(Vec2(0.5f, 0.5f));
     _outScene->setAnchorPoint(Vec2(0.5f, 0.5f));
 
-    auto rotozoom = std::unique_ptr<Sequence>(Sequence::create
-    (
-        to_action_ptr(
-            Spawn::create
-            (
-                ScaleBy::create(_duration/2, 0.001f),
-                RotateBy::create(_duration/2, 360 * 2),
-                nullptr
-            )
-        ),
-        to_action_ptr( DelayTime::create(_duration/2) )
-    ));
+    auto rotozoom =
+        std::make_unique<Sequence>(
+            std::make_unique<Spawn>(
+                std::make_unique<ScaleBy>(_duration/2, 0.001f),
+                std::make_unique<RotateBy>(_duration/2, 360 * 2)
+            ),
+            std::make_unique<DelayTime>(_duration / 2)
+        );
 
-    auto rotozoom_reverse = rotozoom->reverse();
+    auto rotozoom_reverse = std::unique_ptr<Sequence>(rotozoom->reverse());
 
     _outScene->runAction( std::move( rotozoom));
+
     _inScene->runAction
     (
-        std::unique_ptr<Sequence>( Sequence::create
-        (
-            to_action_ptr(rotozoom_reverse),
-            to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-        ))
+        std::make_unique<Sequence>(
+            std::move(rotozoom_reverse),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
+        )
     );
 }
 

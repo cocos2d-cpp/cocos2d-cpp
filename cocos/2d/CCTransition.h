@@ -4,8 +4,6 @@ Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -50,7 +48,7 @@ class NodeGrid;
 @since v0.8.2
 @js NA
 */
-class CC_DLL TransitionEaseScene// : public Ref
+class CC_DLL TransitionEaseScene
 {
 public:
     /** Constructor.

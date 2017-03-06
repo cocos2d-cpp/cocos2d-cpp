@@ -164,7 +164,7 @@ public:
      * @param segments The number of segments.
      * @param color Set the Spline color.
      */
-    void drawCardinalSpline(PointArray *config, float tension,  unsigned int segments, const Color4F &color);
+    void drawCardinalSpline(std::vector<Vec2> const& config, float tension,  unsigned int segments, const Color4F &color);
     
     /** Draws a Catmull Rom path.
      *
@@ -172,7 +172,7 @@ public:
      * @param segments The number of segments.
      * @param color The Catmull Rom color.
      */
-    void drawCatmullRom(PointArray *points, unsigned int segments, const Color4F &color);
+    void drawCatmullRom(std::vector<Vec2> const& points, unsigned int segments, const Color4F &color);
     
     /** draw a dot at a position, with a given radius and color. 
      *

@@ -1068,31 +1068,12 @@ static inline float bezierat( float a, float b, float c, float d, float t )
             powf(t,3)*d );
 }
 
-//
 // BezierBy
-//
 
-std::unique_ptr<BezierBy> BezierBy::create(float t, const ccBezierConfig& c)
+BezierBy::BezierBy(float duration, const BezierConfig& c)
+    : ActionInterval(duration)
+    , _config(c)
 {
-    auto bezierBy = std::unique_ptr<BezierBy>(new BezierBy);
-
-    if (! bezierBy->initWithDuration(t, c))
-    {
-        return std::unique_ptr<BezierBy>();
-    }
-    
-    return bezierBy;
-}
-
-bool BezierBy::initWithDuration(float t, const ccBezierConfig& c)
-{
-    if (ActionInterval::initWithDuration(t))
-    {
-        _config = c;
-        return true;
-    }
-
-    return false;
 }
 
 void BezierBy::startWithTarget(Node *target)
@@ -1103,7 +1084,7 @@ void BezierBy::startWithTarget(Node *target)
 
 BezierBy* BezierBy::clone() const
 {
-    return BezierBy::create(_duration, _config).release();
+    return new BezierBy(_duration, _config);
 }
 
 void BezierBy::step(float time)
@@ -1140,50 +1121,30 @@ void BezierBy::step(float time)
 
 BezierBy* BezierBy::reverse() const
 {
-    ccBezierConfig r;
+    BezierConfig r;
 
     r.endPosition = -_config.endPosition;
     r.controlPoint_1 = _config.controlPoint_2 + (-_config.endPosition);
     r.controlPoint_2 = _config.controlPoint_1 + (-_config.endPosition);
 
-    return BezierBy::create(_duration, r).release();
+    return new BezierBy(_duration, r);
 }
 
 void BezierBy::at_stop()
 {
 }
 
-//
 // BezierTo
-//
 
-std::unique_ptr<BezierTo> BezierTo::create(float t, const ccBezierConfig& c)
+BezierTo::BezierTo(float duration, const BezierConfig& c)
+    : BezierBy(duration, c)
+    , _toConfig( c )
 {
-    auto bezierTo = std::unique_ptr<BezierTo>(new BezierTo);
-
-    if (! bezierTo->initWithDuration(t, c))
-    {
-        return std::unique_ptr<BezierTo>();
-    }
-    
-    return bezierTo;
-}
-
-bool BezierTo::initWithDuration(float t, const ccBezierConfig &c)
-{
-    if (ActionInterval::initWithDuration(t))
-    {
-        _toConfig = c;
-        return true;
-    }
-    
-    return false;
 }
 
 BezierTo* BezierTo::clone() const
 {
-    // no copy constructor
-    return BezierTo::create(_duration, _toConfig).release();
+    return new BezierTo(_duration, _toConfig);
 }
 
 void BezierTo::startWithTarget(Node *target)
@@ -1200,9 +1161,8 @@ BezierTo* BezierTo::reverse() const
     return nullptr;
 }
 
-//
 // ScaleTo
-//
+
 std::unique_ptr<ScaleTo> ScaleTo::create(float duration, float s)
 {
     auto scaleTo = std::unique_ptr<ScaleTo>(new ScaleTo);

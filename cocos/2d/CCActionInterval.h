@@ -606,108 +606,50 @@ protected:
     Vec2 _endPosition;
 };
 
-/** @struct Bezier configuration structure
- */
-typedef struct _ccBezierConfig {
-    //! end position of the bezier
-    Vec2 endPosition;
-    //! Bezier control point 1
-    Vec2 controlPoint_1;
-    //! Bezier control point 2
-    Vec2 controlPoint_2;
-} ccBezierConfig;
+// Bezier configuration structure
 
-/** @class BezierBy
- * @brief An action that moves the target with a cubic Bezier curve by a certain distance.
- */
+struct BezierConfig {
+    Vec2 endPosition;
+    Vec2 controlPoint_1;
+    Vec2 controlPoint_2;
+};
+
+// An action that moves the target with a cubic Bezier curve by a certain distance.
+
 class CC_DLL BezierBy : public ActionInterval
 {
 public:
-    virtual ~BezierBy() {}
-    /** Creates the action with a duration and a bezier configuration.
-     * @param t Duration time, in seconds.
-     * @param c Bezier config.
-     * @return An autoreleased BezierBy object.
-     * @code
-     * When this function bound to js or lua,the input params are changed.
-     * in js: var create(var t,var table)
-     * in lua: local create(local t, local table)
-     * @endcode
-     */
-    static std::unique_ptr<BezierBy> create(float t, const ccBezierConfig& c);
+    BezierBy(float duration, const BezierConfig& c);
 
-    //
-    // Overrides
-    //
     virtual BezierBy* clone() const override;
     virtual BezierBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    BezierBy() {}
-
-    /** 
-     * initializes the action with a duration and a bezier configuration
-     * @param t in seconds
-     */
-    bool initWithDuration(float t, const ccBezierConfig& c);
 
     virtual void at_stop() override;
 
 protected:
-    ccBezierConfig _config;
+    BezierConfig _config;
+
     Vec2 _startPosition;
     Vec2 _previousPosition;
-
-private:
-    BezierBy(const BezierBy &) = delete;
-    const BezierBy & operator=(const BezierBy &) = delete;
 };
 
-/** @class BezierTo
- * @brief An action that moves the target with a cubic Bezier curve to a destination point.
- @since v0.8.2
- */
+// An action that moves the target with a cubic Bezier curve to a destination point.
+
 class CC_DLL BezierTo : public BezierBy
 {
 public:
-    virtual ~BezierTo() {}
-    /** Creates the action with a duration and a bezier configuration.
-     * @param t Duration time, in seconds.
-     * @param c Bezier config.
-     * @return An autoreleased BezierTo object.
-     * @code
-     * when this function bound to js or lua,the input params are changed
-     * in js: var create(var t,var table)
-     * in lua: local create(local t, local table)
-     * @endcode
-     */
-    static std::unique_ptr<BezierTo> create(float t, const ccBezierConfig& c);
+    BezierTo(float duration, const BezierConfig& c);
 
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual BezierTo* clone() const override;
     virtual BezierTo* reverse() const override;
     
 protected:
-    BezierTo() {}
-    /**
-     * @param t In seconds.
-     */
-    bool initWithDuration(float t, const ccBezierConfig &c);
-
-protected:
-    ccBezierConfig _toConfig;
-
-private:
-    BezierTo(const BezierTo &) = delete;
-    const BezierTo & operator=(const BezierTo &) = delete;
+    BezierConfig _toConfig;
 };
 
 /** @class ScaleTo
