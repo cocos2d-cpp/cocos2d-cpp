@@ -915,7 +915,7 @@ ResizeTo* ResizeTo::clone() const
     return new ResizeTo(_duration, _finalSize);
 }
 
-void ResizeTo::startWithTarget(cocos2d::Node* target)
+void ResizeTo::startWithTarget(Node* target)
 {
     ActionInterval::startWithTarget(target);
     _initialSize = target->getContentSize();
@@ -935,28 +935,17 @@ void ResizeTo::at_stop()
 {
 }
 
-//
 // ResizeBy
-//
 
-std::unique_ptr<ResizeBy> ResizeBy::create(float duration, const cocos2d::Size& deltaSize)
+ResizeBy::ResizeBy(float duration, Size deltaSize)
+    : ActionInterval(duration)
+    , _sizeDelta( deltaSize )
 {
-    auto ret = std::unique_ptr<ResizeBy>(new ResizeBy);
-
-    if (!ret->initWithDuration(duration, deltaSize))
-    {
-        return ret;
-    } 
-
-    return std::unique_ptr<ResizeBy>();
 }
 
 ResizeBy* ResizeBy::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) ResizeBy();
-    a->initWithDuration(_duration, _sizeDelta);
-    return a;
+    return new ResizeBy(_duration, _sizeDelta);
 }
 
 void ResizeBy::startWithTarget(Node *target)
@@ -967,8 +956,8 @@ void ResizeBy::startWithTarget(Node *target)
 
 ResizeBy* ResizeBy::reverse() const
 {
-    cocos2d::Size newSize(-_sizeDelta.width, -_sizeDelta.height);
-    return ResizeBy::create(_duration, newSize).release();
+    Size newSize(-_sizeDelta.width, -_sizeDelta.height);
+    return new ResizeBy(_duration, newSize);
 }
 
 void ResizeBy::step(float t)
@@ -979,63 +968,24 @@ void ResizeBy::step(float t)
     }
 }
 
-bool ResizeBy::initWithDuration(float duration, const cocos2d::Size& deltaSize)
-{
-    bool ret = false;
-    
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _sizeDelta = deltaSize;
-        ret = true;
-    }
-    
-    return ret;
-}
-
 void ResizeBy::at_stop()
 {
 }
 
-//
 // JumpBy
-//
 
-std::unique_ptr<JumpBy> JumpBy::create(float duration, const Vec2& position, float height, int jumps)
+JumpBy::JumpBy(float duration, Vec2 position, float height, int nJumps)
+    : ActionInterval(duration)
+    , _delta( position )
+    , _height( height )
+    , _jumps( nJumps )
 {
-    auto jumpBy = std::unique_ptr<JumpBy>(new JumpBy);
-
-    if (! jumpBy->initWithDuration(duration, position, height, jumps))
-    {
-        return std::unique_ptr<JumpBy>();
-    }
-    
-    return jumpBy;
-}
-
-bool JumpBy::initWithDuration(float duration, const Vec2& position, float height, int jumps)
-{
-    CCASSERT(jumps>=0, "Number of jumps must be >= 0");
-    if (jumps < 0)
-    {
-        log("JumpBy::initWithDuration error: Number of jumps must be >= 0");
-        return false;
-    }
-    
-    if (ActionInterval::initWithDuration(duration) && jumps>=0)
-    {
-        _delta = position;
-        _height = height;
-        _jumps = jumps;
-
-        return true;
-    }
-
-    return false;
+    CCASSERT(nJumps >= 0, "Number of jumps must be >= 0");
 }
 
 JumpBy* JumpBy::clone() const
 {
-    return JumpBy::create(_duration, _delta, _height, _jumps).release();
+    return new JumpBy(_duration, _delta, _height, _jumps);
 }
 
 void JumpBy::startWithTarget(Node *target)
@@ -1072,10 +1022,7 @@ void JumpBy::step(float t)
 
 JumpBy* JumpBy::reverse() const
 {
-    return JumpBy::create(_duration,
-                          Vec2(-_delta.x, -_delta.y),
-                          _height,
-                          _jumps).release();
+    return new JumpBy(_duration, Vec2(-_delta.x, -_delta.y), _height, _jumps);
 }
 
 void JumpBy::at_stop()
@@ -1086,41 +1033,15 @@ void JumpBy::at_stop()
 // JumpTo
 //
 
-std::unique_ptr<JumpTo> JumpTo::create(float duration, const Vec2& position, float height, int jumps)
+JumpTo::JumpTo(float duration, Vec2 position, float height, int nJumps)
+    : JumpBy(duration, position, height, nJumps)
+    , _endPosition(position)
 {
-    auto jumpTo = std::unique_ptr<JumpTo>(new JumpTo);
-
-    if (! jumpTo->initWithDuration(duration, position, height, jumps))
-    {
-        return std::unique_ptr<JumpTo>();
-    }
-    return jumpTo;
-}
-
-bool JumpTo::initWithDuration(float duration, const Vec2& position, float height, int jumps)
-{
-    CCASSERT(jumps>=0, "Number of jumps must be >= 0");
-    if (jumps < 0)
-    {
-        log("JumpTo::initWithDuration error:Number of jumps must be >= 0");
-        return false;
-    }
-
-    if (ActionInterval::initWithDuration(duration) && jumps>=0)
-    {
-        _endPosition = position;
-        _height = height;
-        _jumps = jumps;
-
-        return true;
-    }
-
-    return false;
 }
 
 JumpTo* JumpTo::clone() const
 {
-    return JumpTo::create(_duration, _endPosition, _height, _jumps).release();
+    return new JumpTo(_duration, _endPosition, _height, _jumps);
 }
 
 JumpTo* JumpTo::reverse() const
@@ -1546,7 +1467,7 @@ FadeTo* FadeIn::reverse() const
     return action.release();
 }
 
-void FadeIn::startWithTarget(cocos2d::Node *target)
+void FadeIn::startWithTarget(Node *target)
 {
     ActionInterval::startWithTarget(target);
     
@@ -1581,7 +1502,7 @@ FadeOut* FadeOut::clone() const
     return FadeOut::create(_duration).release();
 }
 
-void FadeOut::startWithTarget(cocos2d::Node *target)
+void FadeOut::startWithTarget(Node *target)
 {
     ActionInterval::startWithTarget(target);
     

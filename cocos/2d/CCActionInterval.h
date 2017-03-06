@@ -543,38 +543,19 @@ protected:
 };
 
 
-/** @class ResizeBy
-* @brief Resize a Node object by a Size. Works on all nodes where setContentSize is effective. But it's mostly useful for nodes where 9-slice is enabled
-*/
+// Resize a Node object by a Size. Works on all nodes where setContentSize is effective. But it's mostly useful for nodes where 9-slice is enabled
+
 class CC_DLL ResizeBy : public ActionInterval 
 {
 public:
-    virtual ~ResizeBy() {}
-    /**
-    * Creates the action.
-    *
-    * @param duration Duration time, in seconds.
-    * @param deltaSize The delta size.
-    * @return An autoreleased ResizeBy object.
-    */
-    static std::unique_ptr<ResizeBy> create(float duration, const Size & deltaSize);
+    ResizeBy(float duration, Size deltaSize);
     
-    //
-    // Overrides
-    //
     virtual ResizeBy* clone() const override;
     virtual ResizeBy* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
-    /**
-    * @param time in seconds
-    */
     virtual void step(float time) override;
 
 protected:
-    ResizeBy() {}
-    
-    /** initializes the action */
-    bool initWithDuration(float duration, const Size & deltaSize);
 
     virtual void at_stop() override;
 
@@ -582,49 +563,22 @@ protected:
     Size _sizeDelta;
     Size _startSize;
     Size _previousSize;
-
-private:
-    ResizeBy(const ResizeBy &) = delete;
-    const ResizeBy & operator=(const ResizeBy &) = delete;
 };
 
 
-/** @class JumpBy
- * @brief Moves a Node object simulating a parabolic jump movement by modifying it's position attribute.
-*/
+// Moves a Node object simulating a parabolic jump movement by modifying it's position attribute.
+
 class CC_DLL JumpBy : public ActionInterval
 {
 public:
-    virtual ~JumpBy() {}
-    /** 
-     * Creates the action.
-     * @param duration Duration time, in seconds.
-     * @param position The jumping distance.
-     * @param height The jumping height.
-     * @param jumps The jumping times.
-     * @return An autoreleased JumpBy object.
-     */
-    static std::unique_ptr<JumpBy> create(float duration, const Vec2& position, float height, int jumps);
+    JumpBy(float duration, Vec2 distance, float height, int nJumps);
 
-    //
-    // Overrides
-    //
     virtual JumpBy* clone() const override;
     virtual JumpBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    JumpBy() {}
-
-    /** 
-     * initializes the action
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, const Vec2& position, float height, int jumps);
 
     virtual void at_stop() override;
 
@@ -634,10 +588,6 @@ protected:
     float           _height;
     int             _jumps;
     Vec2           _previousPos;
-
-private:
-    JumpBy(const JumpBy &) = delete;
-    const JumpBy & operator=(const JumpBy &) = delete;
 };
 
 /** @class JumpTo
@@ -646,39 +596,14 @@ private:
 class CC_DLL JumpTo : public JumpBy
 {
 public:
-    virtual ~JumpTo() {}
-    /** 
-     * Creates the action.
-     * @param duration Duration time, in seconds.
-     * @param position The jumping destination position.
-     * @param height The jumping height.
-     * @param jumps The jumping times.
-     * @return An autoreleased JumpTo object.
-     */
-    static std::unique_ptr<JumpTo> create(float duration, const Vec2& position, float height, int jumps);
+    JumpTo(float duration, Vec2 position, float height, int nJumps);
 
-    //
-    // Override
-    //
     virtual void startWithTarget(Node *target) override;
     virtual JumpTo* clone() const override;
     virtual JumpTo* reverse() const override;
 
 protected:
-    JumpTo() {}
-
-    /** 
-     * initializes the action
-     * @param duration In seconds.
-     */
-    bool initWithDuration(float duration, const Vec2& position, float height, int jumps);
-
-protected:
     Vec2 _endPosition;
-
-private:
-    JumpTo(const JumpTo &) = delete;
-    const JumpTo & operator=(const JumpTo &) = delete;
 };
 
 /** @struct Bezier configuration structure
