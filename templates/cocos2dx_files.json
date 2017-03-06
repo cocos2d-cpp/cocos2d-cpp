@@ -490,8 +490,6 @@
         "cocos/base/atitc.h", 
         "cocos/base/base64.cpp", 
         "cocos/base/base64.h", 
-        "cocos/base/ccCArray.cpp", 
-        "cocos/base/ccCArray.h", 
         "cocos/base/ccConfig.h", 
         "cocos/base/ccFPSImages.c", 
         "cocos/base/ccFPSImages.h", 

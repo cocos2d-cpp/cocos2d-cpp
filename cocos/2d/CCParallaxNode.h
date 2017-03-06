@@ -32,8 +32,6 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-struct _ccArray;
-
 /**
  * @addtogroup _2d
  * @{

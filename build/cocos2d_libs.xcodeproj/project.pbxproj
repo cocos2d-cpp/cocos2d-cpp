@@ -1849,7 +1849,6 @@
 		507B3C161C31BDD30067B53E /* CCPUOnQuotaObserverTranslator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B665E17E1AA80A6500DDB1C5 /* CCPUOnQuotaObserverTranslator.cpp */; };
 		507B3C171C31BDD30067B53E /* UIPageView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2905FA0218CF08D000240AA3 /* UIPageView.cpp */; };
 		507B3C181C31BDD30067B53E /* CCComponentContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A57030A180BCF190088DEC7 /* CCComponentContainer.cpp */; };
-		507B3C191C31BDD30067B53E /* ccCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDC71925AB6E00A911A9 /* ccCArray.cpp */; };
 		507B3C1A1C31BDD30067B53E /* CCActionNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C594E180E930E00EF57C3 /* CCActionNode.cpp */; };
 		507B3C1B1C31BDD30067B53E /* CCDisplayFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C596E180E930E00EF57C3 /* CCDisplayFactory.cpp */; };
 		507B3C1C1C31BDD30067B53E /* Sprite3DReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 182C5CD41A98F30500C30D34 /* Sprite3DReader.cpp */; };
@@ -2155,7 +2154,6 @@
 		507B3D591C31BDD30067B53E /* btRigidBody.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB1141AF9AA1900B9B856 /* btRigidBody.h */; };
 		507B3D5A1C31BDD30067B53E /* TriggerObj.h in Headers */ = {isa = PBXBuildFile; fileRef = 06CAAAC1186AD63B0012A414 /* TriggerObj.h */; };
 		507B3D5B1C31BDD30067B53E /* CCPULineAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1451AA80A6500DDB1C5 /* CCPULineAffectorTranslator.h */; };
-		507B3D5C1C31BDD30067B53E /* ccCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC81925AB6E00A911A9 /* ccCArray.h */; };
 		507B3D5D1C31BDD30067B53E /* btMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = B6CAB07A1AF9AA1900B9B856 /* btMaterial.h */; };
 		507B3D5E1C31BDD30067B53E /* AssetsManagerEx.h in Headers */ = {isa = PBXBuildFile; fileRef = 15B3706F19EE414C00ABE682 /* AssetsManagerEx.h */; };
 		507B3D5F1C31BDD30067B53E /* CCPUSineForceAffectorTranslator.h in Headers */ = {isa = PBXBuildFile; fileRef = B665E1C71AA80A6500DDB1C5 /* CCPUSineForceAffectorTranslator.h */; };
@@ -3243,10 +3241,6 @@
 		50ABBE281925AB6F00A911A9 /* CCAutoreleasePool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDC51925AB6E00A911A9 /* CCAutoreleasePool.cpp */; };
 		50ABBE291925AB6F00A911A9 /* CCAutoreleasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC61925AB6E00A911A9 /* CCAutoreleasePool.h */; };
 		50ABBE2A1925AB6F00A911A9 /* CCAutoreleasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC61925AB6E00A911A9 /* CCAutoreleasePool.h */; };
-		50ABBE2B1925AB6F00A911A9 /* ccCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDC71925AB6E00A911A9 /* ccCArray.cpp */; };
-		50ABBE2C1925AB6F00A911A9 /* ccCArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDC71925AB6E00A911A9 /* ccCArray.cpp */; };
-		50ABBE2D1925AB6F00A911A9 /* ccCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC81925AB6E00A911A9 /* ccCArray.h */; };
-		50ABBE2E1925AB6F00A911A9 /* ccCArray.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC81925AB6E00A911A9 /* ccCArray.h */; };
 		50ABBE2F1925AB6F00A911A9 /* ccConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC91925AB6E00A911A9 /* ccConfig.h */; };
 		50ABBE301925AB6F00A911A9 /* ccConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 50ABBDC91925AB6E00A911A9 /* ccConfig.h */; };
 		50ABBE311925AB6F00A911A9 /* CCConfiguration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ABBDCA1925AB6E00A911A9 /* CCConfiguration.cpp */; };
@@ -6189,8 +6183,6 @@
 		50ABBDC41925AB6E00A911A9 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base64.h; path = ../base/base64.h; sourceTree = "<group>"; };
 		50ABBDC51925AB6E00A911A9 /* CCAutoreleasePool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCAutoreleasePool.cpp; path = ../base/CCAutoreleasePool.cpp; sourceTree = "<group>"; };
 		50ABBDC61925AB6E00A911A9 /* CCAutoreleasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCAutoreleasePool.h; path = ../base/CCAutoreleasePool.h; sourceTree = "<group>"; };
-		50ABBDC71925AB6E00A911A9 /* ccCArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ccCArray.cpp; path = ../base/ccCArray.cpp; sourceTree = "<group>"; };
-		50ABBDC81925AB6E00A911A9 /* ccCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccCArray.h; path = ../base/ccCArray.h; sourceTree = "<group>"; };
 		50ABBDC91925AB6E00A911A9 /* ccConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ccConfig.h; path = ../base/ccConfig.h; sourceTree = "<group>"; };
 		50ABBDCA1925AB6E00A911A9 /* CCConfiguration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CCConfiguration.cpp; path = ../base/CCConfiguration.cpp; sourceTree = "<group>"; };
 		50ABBDCB1925AB6E00A911A9 /* CCConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCConfiguration.h; path = ../base/CCConfiguration.h; sourceTree = "<group>"; };
@@ -7476,8 +7468,6 @@
 				50ABBDC41925AB6E00A911A9 /* base64.h */,
 				50ABBDC51925AB6E00A911A9 /* CCAutoreleasePool.cpp */,
 				50ABBDC61925AB6E00A911A9 /* CCAutoreleasePool.h */,
-				50ABBDC71925AB6E00A911A9 /* ccCArray.cpp */,
-				50ABBDC81925AB6E00A911A9 /* ccCArray.h */,
 				50ABBDC91925AB6E00A911A9 /* ccConfig.h */,
 				50ABBDCA1925AB6E00A911A9 /* CCConfiguration.cpp */,
 				50ABBDCB1925AB6E00A911A9 /* CCConfiguration.h */,
@@ -11129,7 +11119,6 @@
 				B6CAB4ED1AF9AA1A00B9B856 /* vectormath2bullet.h in Headers */,
 				1A9DCA29180E6955007A3AD4 /* CCGLBufferedNode.h in Headers */,
 				50ABC0031926664800A911A9 /* CCLock-apple.h in Headers */,
-				50ABBE2D1925AB6F00A911A9 /* ccCArray.h in Headers */,
 				50ABBD5E1925AB0000A911A9 /* Vec3.h in Headers */,
 				50ABBE211925AB6F00A911A9 /* atitc.h in Headers */,
 				B665E3401AA80A6500DDB1C5 /* CCPUOnEventFlagObserverTranslator.h in Headers */,
@@ -11280,7 +11269,6 @@
 				507B3D591C31BDD30067B53E /* btRigidBody.h in Headers */,
 				507B3D5A1C31BDD30067B53E /* TriggerObj.h in Headers */,
 				507B3D5B1C31BDD30067B53E /* CCPULineAffectorTranslator.h in Headers */,
-				507B3D5C1C31BDD30067B53E /* ccCArray.h in Headers */,
 				507B3D5D1C31BDD30067B53E /* btMaterial.h in Headers */,
 				507B3D5E1C31BDD30067B53E /* AssetsManagerEx.h in Headers */,
 				507B3D5F1C31BDD30067B53E /* CCPUSineForceAffectorTranslator.h in Headers */,
@@ -12343,7 +12331,6 @@
 				B6CAB2BE1AF9AA1A00B9B856 /* btCylinderShape.h in Headers */,
 				B6CAB3F01AF9AA1A00B9B856 /* btRigidBody.h in Headers */,
 				B665E2E51AA80A6500DDB1C5 /* CCPULineAffectorTranslator.h in Headers */,
-				50ABBE2E1925AB6F00A911A9 /* ccCArray.h in Headers */,
 				B6CAB2C81AF9AA1A00B9B856 /* btMaterial.h in Headers */,
 				15B3707B19EE414C00ABE682 /* AssetsManagerEx.h in Headers */,
 				B665E3E91AA80A6600DDB1C5 /* CCPUSineForceAffectorTranslator.h in Headers */,
@@ -13260,7 +13247,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				15AE1A9019AAD40300C27E9E /* b2WeldJoint.cpp in Sources */,
-				50ABBE2B1925AB6F00A911A9 /* ccCArray.cpp in Sources */,
 				382383F41A258FA7002C4610 /* idl_gen_cpp.cpp in Sources */,
 				B6CAAFEA1AF9A9E100B9B856 /* CCPhysics3DConstraint.cpp in Sources */,
 				15AE1BDE19AAE01E00C27E9E /* CCInvocation.cpp in Sources */,
@@ -14598,7 +14584,6 @@
 				94A6DF081C73040E0094AEF7 /* LocalizationManager.cpp in Sources */,
 				507B3C171C31BDD30067B53E /* UIPageView.cpp in Sources */,
 				507B3C181C31BDD30067B53E /* CCComponentContainer.cpp in Sources */,
-				507B3C191C31BDD30067B53E /* ccCArray.cpp in Sources */,
 				507B3C1A1C31BDD30067B53E /* CCActionNode.cpp in Sources */,
 				507B3C1B1C31BDD30067B53E /* CCDisplayFactory.cpp in Sources */,
 				507B3C1C1C31BDD30067B53E /* Sprite3DReader.cpp in Sources */,
@@ -15368,7 +15353,6 @@
 				5020A22C1D49912500E80C72 /* VertexAttachment.c in Sources */,
 				15AE1B7619AADA9A00C27E9E /* UIPageView.cpp in Sources */,
 				1A570311180BCF190088DEC7 /* CCComponentContainer.cpp in Sources */,
-				50ABBE2C1925AB6F00A911A9 /* ccCArray.cpp in Sources */,
 				50ABC0061926664800A911A9 /* CCThread-apple.mm in Sources */,
 				B5CE6DBF1B3BF2B1002B0419 /* UIAbstractCheckButton.cpp in Sources */,
 				B6CAB4B81AF9AA1A00B9B856 /* SpuFakeDma.cpp in Sources */,

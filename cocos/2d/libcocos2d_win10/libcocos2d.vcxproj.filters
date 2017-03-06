@@ -351,9 +351,6 @@
     <ClCompile Include="..\..\base\CCAutoreleasePool.cpp">
       <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\base\ccCArray.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\base\CCConfiguration.cpp">
       <Filter>base</Filter>
     </ClCompile>
@@ -1716,9 +1713,6 @@
       <Filter>base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\base\CCAutoreleasePool.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\base\ccCArray.h">
       <Filter>base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\base\ccConfig.h">

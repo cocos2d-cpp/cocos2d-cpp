@@ -147,7 +147,6 @@ USER_SRCS = ../../cocos/2d/CCAction.cpp \
             ../../cocos/base/allocator/CCAllocatorGlobalNewDelete.cpp \
             ../../cocos/base/atitc.cpp \
             ../../cocos/base/base64.cpp \
-            ../../cocos/base/ccCArray.cpp \
             ../../cocos/base/ccFPSImages.c \
             ../../cocos/base/ccRandom.cpp \
             ../../cocos/base/ccTypes.cpp \

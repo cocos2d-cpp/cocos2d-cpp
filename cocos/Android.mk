@@ -146,7 +146,6 @@ base/allocator/CCAllocatorGlobal.cpp \
 base/allocator/CCAllocatorGlobalNewDelete.cpp \
 base/atitc.cpp \
 base/base64.cpp \
-base/ccCArray.cpp \
 base/ccFPSImages.c \
 base/ccRandom.cpp \
 base/ccTypes.cpp \
