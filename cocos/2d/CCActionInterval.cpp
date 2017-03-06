@@ -974,13 +974,12 @@ void ResizeBy::at_stop()
 
 // JumpBy
 
-JumpBy::JumpBy(float duration, Vec2 position, float height, int nJumps)
+JumpBy::JumpBy(float duration, Vec2 position, float height, unsigned nJumps)
     : ActionInterval(duration)
     , _delta( position )
     , _height( height )
     , _jumps( nJumps )
 {
-    CCASSERT(nJumps >= 0, "Number of jumps must be >= 0");
 }
 
 JumpBy* JumpBy::clone() const
@@ -1033,7 +1032,7 @@ void JumpBy::at_stop()
 // JumpTo
 //
 
-JumpTo::JumpTo(float duration, Vec2 position, float height, int nJumps)
+JumpTo::JumpTo(float duration, Vec2 position, float height, unsigned nJumps)
     : JumpBy(duration, position, height, nJumps)
     , _endPosition(position)
 {
@@ -1231,40 +1230,16 @@ ScaleBy* ScaleBy::reverse() const
 // Blink
 //
 
-std::unique_ptr<Blink> Blink::create(float duration, int blinks)
+Blink::Blink(float duration, unsigned nBlinks)
+    : ActionInterval(duration)
+    , _times( nBlinks )
 {
-    auto blink = std::unique_ptr<Blink>(new Blink);
-
-    if (! blink->initWithDuration(duration, blinks))
-    {
-        return std::unique_ptr<Blink>();
-    }
-
-    return blink;
-}
-
-bool Blink::initWithDuration(float duration, int blinks)
-{
-    CCASSERT(blinks>=0, "blinks should be >= 0");
-    if (blinks < 0)
-    {
-        log("Blink::initWithDuration error:blinks should be >= 0");
-        return false;
-    }
-    
-    if (ActionInterval::initWithDuration(duration) && blinks>=0)
-    {
-        _times = blinks;
-        return true;
-    }
-
-    return false;
 }
 
 void Blink::at_stop()
 {
-    if (nullptr != getTarget())
-        getTarget()->setVisible(_originalState);
+    CC_ASSERT(getTarget());
+    getTarget()->setVisible(_originalState);
 }
 
 void Blink::startWithTarget(Node *target)
@@ -1275,8 +1250,7 @@ void Blink::startWithTarget(Node *target)
 
 Blink* Blink::clone() const
 {
-    // no copy constructor
-    return Blink::create(_duration, _times).release();
+    return new Blink(_duration, _times);
 }
 
 void Blink::step(float time)
@@ -1291,136 +1265,22 @@ void Blink::step(float time)
 
 Blink* Blink::reverse() const
 {
-    return Blink::create(_duration, _times).release();
-}
-
-//
-// FadeIn
-//
-
-std::unique_ptr<FadeIn> FadeIn::create(float d)
-{
-    auto action = std::unique_ptr<FadeIn>(new FadeIn);
-
-    if (! action->initWithDuration(d, 255.0f))
-    {
-        return std::unique_ptr<FadeIn>();
-    }
-
-    return action;
-}
-
-FadeIn* FadeIn::clone() const
-{
-    // no copy constructor
-    return FadeIn::create(_duration).release();
-}
-
-void FadeIn::setReverseAction(std::unique_ptr<FadeOut> ac)
-{
-    _reverseAction = std::move( ac );
-}
-
-
-FadeTo* FadeIn::reverse() const
-{
-    auto action = FadeOut::create(_duration);
-    action->setReverseAction(std::unique_ptr<FadeIn>(clone()));
-    return action.release();
-}
-
-void FadeIn::startWithTarget(Node *target)
-{
-    ActionInterval::startWithTarget(target);
-    
-    if (nullptr != _reverseAction)
-        this->_toOpacity = this->_reverseAction->_fromOpacity;
-    else
-        _toOpacity = 255.0f;
-    
-    if (target)
-        _fromOpacity = target->getOpacity();
-}
-
-//
-// FadeOut
-//
-
-std::unique_ptr<FadeOut> FadeOut::create(float d)
-{
-    auto action = std::unique_ptr<FadeOut>(new FadeOut);
-
-    if (! action->initWithDuration(d,0.0f))
-    {
-        return std::unique_ptr<FadeOut>();
-    }
-    
-    return action;
-}
-
-FadeOut* FadeOut::clone() const
-{
-    // no copy constructor
-    return FadeOut::create(_duration).release();
-}
-
-void FadeOut::startWithTarget(Node *target)
-{
-    ActionInterval::startWithTarget(target);
-    
-    if (nullptr != _reverseAction)
-        _toOpacity = _reverseAction->_fromOpacity;
-    else
-        _toOpacity = 0.0f;
-    
-    if (target)
-        _fromOpacity = target->getOpacity();
-}
-
-void FadeOut::setReverseAction(std::unique_ptr<FadeIn> ac)
-{
-    _reverseAction = std::move(ac);
-}
-
-
-FadeTo* FadeOut::reverse() const
-{
-    auto action = FadeIn::create(_duration);
-    action->setReverseAction( std::unique_ptr<FadeOut>( clone()));
-    return action.release();
+    return new Blink(_duration, _times);
 }
 
 //
 // FadeTo
 //
 
-std::unique_ptr<FadeTo> FadeTo::create(float duration, GLubyte opacity)
+FadeTo::FadeTo(float duration, GLubyte opacity)
+    : ActionInterval(duration)
+    , _toOpacity( opacity )
 {
-    auto fadeTo = std::unique_ptr<FadeTo>(new FadeTo);
-
-    if (! fadeTo->initWithDuration(duration, opacity))
-    {
-        return std::unique_ptr<FadeTo>();
-    }
-    
-    return fadeTo;
-}
-
-bool FadeTo::initWithDuration(float duration, GLubyte opacity)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _toOpacity = opacity;
-        return true;
-    }
-
-    return false;
 }
 
 FadeTo* FadeTo::clone() const
 {
-    // no copy constructor
-    return FadeTo::create(_duration, _toOpacity).release();
+    return new FadeTo(_duration, _toOpacity);
 }
 
 FadeTo* FadeTo::reverse() const
@@ -1431,29 +1291,102 @@ FadeTo* FadeTo::reverse() const
 
 void FadeTo::startWithTarget(Node *target)
 {
-    ActionInterval::startWithTarget(target);
+    CC_ASSERT(target);
 
-    if (target)
-    {
-        _fromOpacity = target->getOpacity();
-    }
+    ActionInterval::startWithTarget(target);
+    _fromOpacity = target->getOpacity();
 }
 
 void FadeTo::step(float time)
 {
-    if (getTarget())
-    {
-        getTarget()->setOpacity((GLubyte)(_fromOpacity + (_toOpacity - _fromOpacity) * time));
-    }
+    CC_ASSERT(getTarget());
+    getTarget()->setOpacity((GLubyte)(_fromOpacity + (_toOpacity - _fromOpacity) * time));
 }
 
 void FadeTo::at_stop()
 {
 }
 
-//
+// FadeIn
+
+FadeIn::FadeIn(float d)
+    : FadeTo(d, 255.0f)
+{
+}
+
+FadeIn* FadeIn::clone() const
+{
+    return new FadeIn(_duration);
+}
+
+void FadeIn::setReverseAction(std::unique_ptr<FadeOut> ac)
+{
+    _reverseAction = std::move( ac );
+}
+
+
+FadeTo* FadeIn::reverse() const
+{
+    auto action = new FadeOut(_duration);
+    action->setReverseAction(std::unique_ptr<FadeIn>(clone()));
+    return action;
+}
+
+void FadeIn::startWithTarget(Node *target)
+{
+    CC_ASSERT(target);
+
+    ActionInterval::startWithTarget(target);
+    
+    if (nullptr != _reverseAction)
+        this->_toOpacity = this->_reverseAction->_fromOpacity;
+    else
+        _toOpacity = 255.0f;
+    
+    _fromOpacity = target->getOpacity();
+}
+
+// FadeOut
+
+FadeOut::FadeOut(float d)
+    : FadeTo(d, 0.0f)
+{
+}
+
+FadeOut* FadeOut::clone() const
+{
+    return new FadeOut(_duration);
+}
+
+void FadeOut::startWithTarget(Node *target)
+{
+    CC_ASSERT(target);
+
+    ActionInterval::startWithTarget(target);
+    
+    if (nullptr != _reverseAction)
+        _toOpacity = _reverseAction->_fromOpacity;
+    else
+        _toOpacity = 0.0f;
+    
+    _fromOpacity = target->getOpacity();
+}
+
+void FadeOut::setReverseAction(std::unique_ptr<FadeIn> ac)
+{
+    _reverseAction = std::move(ac);
+}
+
+
+FadeTo* FadeOut::reverse() const
+{
+    auto action = new FadeIn(_duration);
+    action->setReverseAction( std::unique_ptr<FadeOut>( clone()));
+    return action;
+}
+
 // TintTo
-//
+
 std::unique_ptr<TintTo> TintTo::create(float duration, GLubyte red, GLubyte green, GLubyte blue)
 {
     auto tintTo = std::unique_ptr<TintTo>(new TintTo);

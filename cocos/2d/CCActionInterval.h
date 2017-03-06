@@ -571,7 +571,7 @@ protected:
 class CC_DLL JumpBy : public ActionInterval
 {
 public:
-    JumpBy(float duration, Vec2 distance, float height, int nJumps);
+    JumpBy(float duration, Vec2 distance, float height, unsigned nJumps);
 
     virtual JumpBy* clone() const override;
     virtual JumpBy* reverse() const override;
@@ -583,11 +583,11 @@ protected:
     virtual void at_stop() override;
 
 protected:
-    Vec2           _startPosition;
-    Vec2           _delta;
-    float           _height;
-    int             _jumps;
-    Vec2           _previousPos;
+    Vec2     _startPosition;
+    Vec2     _delta;
+    float    _height;
+    unsigned _jumps;
+    Vec2     _previousPos;
 };
 
 /** @class JumpTo
@@ -596,7 +596,7 @@ protected:
 class CC_DLL JumpTo : public JumpBy
 {
 public:
-    JumpTo(float duration, Vec2 position, float height, int nJumps);
+    JumpTo(float duration, Vec2 position, float height, unsigned nJumps);
 
     virtual void startWithTarget(Node *target) override;
     virtual JumpTo* clone() const override;
@@ -708,178 +708,89 @@ public:
     virtual ScaleBy* reverse() const override;
 };
 
-/** @class Blink
- * @brief Blinks a Node object by modifying it's visible attribute.
-*/
+// Blinks a Node object by modifying it's visible attribute.
+
 class CC_DLL Blink : public ActionInterval
 {
 public:
-    virtual ~Blink() {}
-    /** 
-     * Creates the action.
-     * @param duration Duration time, in seconds.
-     * @param blinks Blink times.
-     * @return An autoreleased Blink object.
-     */
-    static std::unique_ptr<Blink> create(float duration, int blinks);
+    Blink(float duration, unsigned nBlinks);
 
-    //
-    // Overrides
-    //
     virtual Blink* clone() const override;
     virtual Blink* reverse() const override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     virtual void startWithTarget(Node *target) override;
     
 protected:
-    Blink() {}
 
-    /** 
-     * initializes the action 
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, int blinks);
-    
     virtual void at_stop() override;
 
 protected:
-    int _times;
-    bool _originalState;
-
-private:
-    Blink(const Blink &) = delete;
-    const Blink & operator=(const Blink &) = delete;
+    unsigned _times;
+    bool     _originalState;
 };
 
 
-/** @class FadeTo
- * @brief Fades an object that implements the RGBAProtocol protocol. It modifies the opacity from the current value to a custom one.
- @warning This action doesn't support "reverse"
- */
+// Fades an object that implements the RGBAProtocol protocol. It modifies the opacity from the current value to a custom one.
+// This action doesn't support "reverse"
+
 class CC_DLL FadeTo : public ActionInterval
 {
     friend class FadeIn;
     friend class FadeOut;
 public:
-    virtual ~FadeTo() {}
-    /** 
-     * Creates an action with duration and opacity.
-     * @param duration Duration time, in seconds.
-     * @param opacity A certain opacity, the range is from 0 to 255.
-     * @return An autoreleased FadeTo object.
-     */
-    static std::unique_ptr<FadeTo> create(float duration, GLubyte opacity);
+    FadeTo(float duration, GLubyte opacity);
 
-    //
-    // Overrides
-    //
     virtual FadeTo* clone() const override;
     virtual FadeTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    FadeTo() {}
-
-    /** 
-     * initializes the action with duration and opacity 
-     * @param duration in seconds
-     */
-    bool initWithDuration(float duration, GLubyte opacity);
 
     virtual void at_stop() override;
 
 private:
     GLubyte _toOpacity;
     GLubyte _fromOpacity;
-
-private:
-    FadeTo(const FadeTo &) = delete;
-    const FadeTo & operator=(const FadeTo &) = delete;
 };
 
 
-/** @class FadeIn
- * @brief Fades In an object that implements the RGBAProtocol protocol. It modifies the opacity from 0 to 255.
- The "reverse" of this action is FadeOut
- */
+// Fades In an object that implements the RGBAProtocol protocol. It modifies the opacity from 0 to 255.
+// The "reverse" of this action is FadeOut
+
 class CC_DLL FadeOut;
 
 class CC_DLL FadeIn : public FadeTo
 {
 public:
-    virtual ~FadeIn() {}
-    /** 
-     * Creates the action.
-     * @param d Duration time, in seconds.
-     * @return An autoreleased FadeIn object.
-     */
-    static std::unique_ptr<FadeIn> create(float d);
+    FadeIn(float d);
 
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual FadeIn* clone() const override;
     virtual FadeTo* reverse() const override;
 
-    /**
-     * @js NA
-     */
     void setReverseAction(std::unique_ptr<FadeOut> ac);
-
-protected:
-    FadeIn() = default;
-
-private:
-    FadeIn(const FadeIn &) = delete;
-    const FadeIn & operator=(const FadeIn &) = delete;
 
 private:
     std::unique_ptr<FadeOut> _reverseAction;
 };
 
-/** @class FadeOut
- * @brief Fades Out an object that implements the RGBAProtocol protocol. It modifies the opacity from 255 to 0.
- The "reverse" of this action is FadeIn
-*/
+// Fades Out an object that implements the RGBAProtocol protocol. It modifies the opacity from 255 to 0.
+// The "reverse" of this action is FadeIn
+
 class CC_DLL FadeOut : public FadeTo
 {
 public:
-    virtual ~FadeOut() {}
-    /** 
-     * Creates the action.
-     * @param d Duration time, in seconds.
-     */
-    static std::unique_ptr<FadeOut> create(float d);
+    FadeOut(float d);
 
-    //
-    // Overrides
-    //
     virtual void startWithTarget(Node *target) override;
     virtual FadeOut* clone() const override;
     virtual FadeTo* reverse() const override;
 
-    /**
-     * @js NA
-     */
     void setReverseAction(std::unique_ptr<FadeIn> ac);
-
-protected:
-    FadeOut() = default;
 
 private:
     std::unique_ptr<FadeIn> _reverseAction;
-
-private:
-    FadeOut(const FadeOut &) = delete;
-    const FadeOut & operator=(const FadeOut &) = delete;
 };
 
 /** @class TintTo
