@@ -334,17 +334,25 @@ void Scheduler::update(float dt)
 
         const auto end = _timedJobs.end();
 
-        begin = std::lower_bound(begin, end, job);
-
-        if (begin == end || job < *begin || job.id() < 0)
-            begin = _timedJobs.insert(begin, job);
+        if (job.id() < 0)
+        {
+            begin = std::upper_bound(begin, end, job);
+            begin = ++_timedJobs.insert(begin, job);
+        }
         else
-            *begin = job;
+        {
+            begin = std::lower_bound(begin, end, job);
+
+            if (begin == end || job < *begin)
+                begin = _timedJobs.insert(begin, job);
+            else
+                *begin = job;
+        }
     }
 
     _timedJobsToAdd.clear();
 
-    // Functions allocated from another thread
+    // Functions scheeduled from another thread
 
     if( !_functionsToPerform.empty() )
     {
