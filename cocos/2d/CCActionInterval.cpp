@@ -1387,38 +1387,15 @@ FadeTo* FadeOut::reverse() const
 
 // TintTo
 
-std::unique_ptr<TintTo> TintTo::create(float duration, GLubyte red, GLubyte green, GLubyte blue)
+TintTo::TintTo(float duration, const Color3B & color)
+    : ActionInterval(duration)
+    , _to(color)
 {
-    auto tintTo = std::unique_ptr<TintTo>(new TintTo);
-
-    if (! tintTo->initWithDuration(duration, red, green, blue))
-    {
-        return std::unique_ptr<TintTo>();
-    }
-    
-    return tintTo;
-}
-
-std::unique_ptr<TintTo> TintTo::create(float duration, const Color3B& color)
-{
-    return create(duration, color.r, color.g, color.b);
-}
-
-bool TintTo::initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _to = Color3B(red, green, blue);
-        return true;
-    }
-
-    return false;
 }
 
 TintTo* TintTo::clone() const
 {
-    // no copy constructor
-    return TintTo::create(_duration, _to.r, _to.g, _to.b).release();
+    return new TintTo(_duration, _to);
 }
 
 TintTo* TintTo::reverse() const
@@ -1429,98 +1406,75 @@ TintTo* TintTo::reverse() const
 
 void TintTo::startWithTarget(Node *target)
 {
+    CC_ASSERT(getTarget());
     ActionInterval::startWithTarget(target);
-    if (getTarget())
-    {
-        _from = getTarget()->getColor();
-    }
+    _from = getTarget()->getColor();
 }
 
 void TintTo::step(float time)
 {
-    if (getTarget())
-    {
-        getTarget()->setColor(Color3B(GLubyte(_from.r + (_to.r - _from.r) * time),
-            (GLubyte)(_from.g + (_to.g - _from.g) * time),
-            (GLubyte)(_from.b + (_to.b - _from.b) * time)));
-    }
+    getTarget()->setColor(
+        Color3B(
+            GLubyte(_from.r + (_to.r - _from.r) * time),
+            GLubyte(_from.g + (_to.g - _from.g) * time),
+            GLubyte(_from.b + (_to.b - _from.b) * time)
+        ));
 }
 
 void TintTo::at_stop()
 {
 }
 
-//
 // TintBy
-//
 
-std::unique_ptr<TintBy> TintBy::create(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue)
+TintBy::TintBy(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue)
+    : ActionInterval(duration)
+    , _deltaR( deltaRed )
+    , _deltaG( deltaGreen )
+    , _deltaB( deltaBlue )
 {
-    auto tintBy = std::unique_ptr<TintBy>(new TintBy);
-
-    if (! tintBy->initWithDuration(duration, deltaRed, deltaGreen, deltaBlue))
-    {
-        return std::unique_ptr<TintBy>();
-    }
-    
-    return tintBy;
-}
-
-bool TintBy::initWithDuration(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _deltaR = deltaRed;
-        _deltaG = deltaGreen;
-        _deltaB = deltaBlue;
-
-        return true;
-    }
-
-    return false;
 }
 
 TintBy* TintBy::clone() const
 {
-    // no copy constructor
-    return TintBy::create(_duration, _deltaR, _deltaG, _deltaB).release();
+    return new TintBy(_duration, _deltaR, _deltaG, _deltaB);
 }
 
 void TintBy::startWithTarget(Node *target)
 {
+    CC_ASSERT(target);
+
     ActionInterval::startWithTarget(target);
 
-    if (target)
-    {
-        Color3B color = target->getColor();
-        _fromR = color.r;
-        _fromG = color.g;
-        _fromB = color.b;
-    }    
+    const Color3B & color = target->getColor();
+    _fromR = color.r;
+    _fromG = color.g;
+    _fromB = color.b;
 }
 
 void TintBy::step(float time)
 {
-    if (getTarget())
-    {
-        getTarget()->setColor(Color3B((GLubyte)(_fromR + _deltaR * time),
-            (GLubyte)(_fromG + _deltaG * time),
-            (GLubyte)(_fromB + _deltaB * time)));
-    }    
+    CC_ASSERT(getTarget());
+
+    getTarget()->setColor(
+        Color3B(
+            GLubyte(_fromR + _deltaR * time),
+            GLubyte(_fromG + _deltaG * time),
+            GLubyte(_fromB + _deltaB * time)
+        ));
 }
 
 TintBy* TintBy::reverse() const
 {
-    return TintBy::create(_duration, -_deltaR, -_deltaG, -_deltaB).release();
+    return new TintBy(_duration, -_deltaR, -_deltaG, -_deltaB);
 }
 
 void TintBy::at_stop()
 {
 }
 
-//
 // DelayTime
-//
+
 DelayTime::DelayTime(float d)
 {
     ActionInterval::initWithDuration(d);
@@ -1545,46 +1499,17 @@ void DelayTime::at_stop()
 {
 }
 
-//
 // ReverseTime
-//
 
-std::unique_ptr<ReverseTime> ReverseTime::create(std::unique_ptr<FiniteTimeAction> action)
+ReverseTime::ReverseTime(std::unique_ptr<FiniteTimeAction> action)
+    : ActionInterval(action->getDuration())
+    , _other( std::move( action))
 {
-    auto reverseTime = std::unique_ptr<ReverseTime>(new ReverseTime);
-
-    if (! reverseTime->initWithAction( std::move(action) ))
-    {
-        return std::unique_ptr<ReverseTime>();
-    }
-
-    return reverseTime;
-}
-
-bool ReverseTime::initWithAction(std::unique_ptr<FiniteTimeAction> action)
-{
-    CC_ASSERT(action);
-    CC_ASSERT(action);
-
-    if (action == nullptr || action == _other)
-    {
-        log("ReverseTime::initWithAction error: action is null or action equal to _other");
-        return false;
-    }
-
-    if (ActionInterval::initWithDuration(action->getDuration()))
-    {
-        _other = std::move( action );
-        return true;
-    }
-
-    return false;
 }
 
 ReverseTime* ReverseTime::clone() const
 {
-    // no copy constructor
-    return ReverseTime::create(std::unique_ptr<FiniteTimeAction>(_other->clone())).release();
+    return new ReverseTime(std::unique_ptr<FiniteTimeAction>(_other->clone()));
 }
 
 void ReverseTime::startWithTarget(Node *target)
@@ -1608,87 +1533,44 @@ ReverseTime* ReverseTime::reverse() const
     CC_ASSERT(false);
 }
 
-//
 // Animate
-//
-std::unique_ptr<Animate> Animate::create(std::unique_ptr<Animation> animation)
-{
-    auto animate = std::unique_ptr<Animate>(new Animate);
 
-    if (! animate->initWithAnimation( std::move( animation)))
+Animate::Animate(std::unique_ptr<Animation> animation)
+    : ActionInterval(animation->getDuration() * animation->getLoops())
+    , _splitTimes()
+    , _nextFrame(0)
+    , _origFrame(nullptr)
+    , _currFrameIndex(0)
+    , _executedLoops(0)
+    , _animation(std::move(animation))
+    , _frameDisplayedEvent(nullptr)
+{
+    float singleDuration = _animation->getDuration();
+
+    _splitTimes.reserve(_animation->getFrames().size());
+
+    float accumUnitsOfTime = 0;
+    float newUnitOfTimeValue = singleDuration / _animation->getTotalDelayUnits();
+
+    auto& frames = _animation->getFrames();
+
+    for (auto& frame : frames)
     {
-        return std::unique_ptr<Animate>();
-    }
-    
-    return animate;
-}
-
-Animate::Animate()
-: _splitTimes(new std::vector<float>)
-, _nextFrame(0)
-, _origFrame(nullptr)
-, _currFrameIndex(0)
-, _executedLoops(0)
-, _animation()
-, _frameDisplayedEvent(nullptr)
-{
-
+        float value = (accumUnitsOfTime * newUnitOfTimeValue) / singleDuration;
+        accumUnitsOfTime += frame->getDelayUnits();
+        _splitTimes.push_back(value);
+    }    
 }
 
 Animate::~Animate()
 {
     CC_SAFE_RELEASE(_origFrame);
-    CC_SAFE_DELETE(_splitTimes);
     CC_SAFE_RELEASE(_frameDisplayedEvent);
-}
-
-bool Animate::initWithAnimation(std::unique_ptr<Animation> animation)
-{
-    CCASSERT( animation, "Animate: argument Animation must be non-nullptr");
-    if ( ! animation)
-    {
-        log("Animate::initWithAnimation: argument Animation must be non-nullptr");
-        return false;
-    }
-
-    float singleDuration = animation->getDuration();
-
-    if ( ActionInterval::initWithDuration(singleDuration * animation->getLoops() ) )
-    {
-        _nextFrame = 0;
-        _origFrame = nullptr;
-        _executedLoops = 0;
-
-        _splitTimes->reserve(animation->getFrames().size());
-
-        float accumUnitsOfTime = 0;
-        float newUnitOfTimeValue = singleDuration / animation->getTotalDelayUnits();
-
-        auto& frames = animation->getFrames();
-
-        for (auto& frame : frames)
-        {
-            float value = (accumUnitsOfTime * newUnitOfTimeValue) / singleDuration;
-            accumUnitsOfTime += frame->getDelayUnits();
-            _splitTimes->push_back(value);
-        }    
-
-        setAnimation( std::move( animation));
-
-        return true;
-    }
-    return false;
-}
-
-void Animate::setAnimation(std::unique_ptr<Animation> animation)
-{
-    _animation = std::move(animation);
 }
 
 Animate* Animate::clone() const
 {
-    // no copy constructor
-    return Animate::create( std::unique_ptr<Animation>( _animation->clone())).release();
+    return new Animate( std::unique_ptr<Animation>( _animation->clone()));
 }
 
 void Animate::startWithTarget(Node *target)
@@ -1742,7 +1624,7 @@ void Animate::step(float t)
 
     for (size_t i = _nextFrame; i < numberOfFrames; i++)
     {
-        float splitTime = _splitTimes->at(i);
+        float splitTime = _splitTimes.at(i);
 
         if( splitTime <= t )
         {
@@ -1798,66 +1680,32 @@ Animate* Animate::reverse() const
         ));
 
     newAnim->setRestoreOriginalFrame(_animation->getRestoreOriginalFrame());
-    return Animate::create( std::move( newAnim)).release();
+    return new Animate( std::move( newAnim));
 }
 
 // TargetedAction
 
-TargetedAction::TargetedAction()
-: _action(nullptr)
-, _forcedTarget(nullptr)
+TargetedAction::TargetedAction(Node* forcedTarget, std::unique_ptr<FiniteTimeAction> action)
+    : ActionInterval(action->getDuration())
+    , _action( std::move( action))
+    , _forcedTarget(to_node_ptr(forcedTarget))
 {
-
-}
-
-TargetedAction::~TargetedAction()
-{
-    CC_SAFE_RELEASE(_forcedTarget);
-}
-
-std::unique_ptr<TargetedAction> TargetedAction::create(Node* target, std::unique_ptr<FiniteTimeAction> action)
-{
-    auto p = std::unique_ptr<TargetedAction>(new TargetedAction);
-
-    if (! p->initWithTarget(target, std::move(action)))
-    {
-        return std::unique_ptr<TargetedAction>();
-    }
-    
-    return p;
-}
-
-
-bool TargetedAction::initWithTarget(Node* target, std::unique_ptr<FiniteTimeAction> action)
-{
-    if(ActionInterval::initWithDuration(action->getDuration()))
-    {
-        CC_SAFE_RETAIN(target);
-        _forcedTarget = target;
-        _action = std::move( action );
-        return true;
-    }
-    return false;
 }
 
 TargetedAction* TargetedAction::clone() const
 {
-    return TargetedAction::create(_forcedTarget,
-                                  std::unique_ptr<FiniteTimeAction>(_action->clone()))
-        .release();
+    return new TargetedAction(_forcedTarget.get(), std::unique_ptr<FiniteTimeAction>(_action->clone()));
 }
 
 TargetedAction* TargetedAction::reverse() const
 {
-    auto a = new TargetedAction;
-    a->initWithTarget(_forcedTarget, std::unique_ptr<FiniteTimeAction>(_action->reverse()));
-    return a;
+    return new TargetedAction(_forcedTarget.get(), std::unique_ptr<FiniteTimeAction>(_action->reverse()));
 }
 
 void TargetedAction::startWithTarget(Node *target)
 {
     ActionInterval::startWithTarget(target);
-    _action->startWithTarget(_forcedTarget);
+    _action->startWithTarget(_forcedTarget.get());
 }
 
 void TargetedAction::at_stop()
@@ -1870,45 +1718,20 @@ void TargetedAction::step(float time)
     _action->step(time);
 }
 
-void TargetedAction::setForcedTarget(Node* forcedTarget)
-{
-    if( _forcedTarget != forcedTarget )
-    {
-        CC_SAFE_RETAIN(forcedTarget);
-        CC_SAFE_RELEASE(_forcedTarget);
-        _forcedTarget = forcedTarget;
-    }
-}
-
 // ActionFloat
 
-std::unique_ptr<ActionFloat> ActionFloat::create(float duration, float from, float to, ActionFloatCallback callback)
+ActionFloat::ActionFloat(float duration, float from, float to, std::function<void(float)> callback)
+    : ActionInterval(duration)
+    , _from( from )
+    , _to( to )
+    , _callback( callback )
 {
-    auto ref = std::unique_ptr<ActionFloat>(new ActionFloat);
-
-    if (! ref->initWithDuration(duration, from, to, callback))
-    {
-        return std::unique_ptr<ActionFloat>();
-    }
-
-    return ref;
-}
-
-bool ActionFloat::initWithDuration(float duration, float from, float to, ActionFloatCallback callback)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _from = from;
-        _to = to;
-        _callback = callback;
-        return true;
-    }
-    return false;
+    CC_ASSERT(_callback);
 }
 
 ActionFloat* ActionFloat::clone() const
 {
-    return ActionFloat::create(_duration, _from, _to, _callback).release();
+    return new ActionFloat(_duration, _from, _to, _callback);
 }
 
 void ActionFloat::startWithTarget(Node *target)
@@ -1920,17 +1743,12 @@ void ActionFloat::startWithTarget(Node *target)
 void ActionFloat::step(float delta)
 {
     float value = _to - _delta * (1 - delta);
-
-    if (_callback)
-    {
-        // report back value to caller
-        _callback(value);
-    }
+    _callback(value);
 }
 
 ActionFloat* ActionFloat::reverse() const
 {
-    return ActionFloat::create(_duration, _to, _from, _callback).release();
+    return new ActionFloat(_duration, _to, _from, _callback);
 }
 
 void ActionFloat::at_stop()

@@ -793,94 +793,45 @@ private:
     std::unique_ptr<FadeIn> _reverseAction;
 };
 
-/** @class TintTo
- * @brief Tints a Node that implements the NodeRGB protocol from current tint to a custom one.
- @warning This action doesn't support "reverse"
- @since v0.7.2
-*/
+// Tints a Node from current tint to a custom one.
+// This action doesn't support "reverse"
+
 class CC_DLL TintTo : public ActionInterval
 {
 public:
-    virtual ~TintTo() {}
-    /** 
-     * Creates an action with duration and color.
-     * @param duration Duration time, in seconds.
-     * @param red Red Color, from 0 to 255.
-     * @param green Green Color, from 0 to 255.
-     * @param blue Blue Color, from 0 to 255.
-     * @return An autoreleased TintTo object.
-     */
-    static std::unique_ptr<TintTo> create(float duration, GLubyte red, GLubyte green, GLubyte blue);
-    /**
-     * Creates an action with duration and color.
-     * @param duration Duration time, in seconds.
-     * @param color It's a Color3B type.
-     * @return An autoreleased TintTo object.
-     */
-    static std::unique_ptr<TintTo> create(float duration, const Color3B& color);
+    TintTo(float duration, GLubyte r, GLubyte g, GLubyte b)
+        : TintTo(duration, Color3B(r, g, b))
+        {}
 
-    //
-    // Overrides
-    //
+    TintTo(float duration, const Color3B& color);
+
     virtual TintTo* clone() const override;
     virtual TintTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    TintTo() {}
-
-    /** initializes the action with duration and color */
-    bool initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue);
 
     virtual void at_stop() override;
 
 protected:
     Color3B _to;
     Color3B _from;
-
-private:
-    TintTo(const TintTo &) = delete;
-    const TintTo & operator=(const TintTo &) = delete;
 };
 
-/** @class TintBy
- @brief Tints a Node that implements the NodeRGB protocol from current tint to a custom one.
- @since v0.7.2
- */
+// Tints a Node from current tint to a custom one.
+
 class CC_DLL TintBy : public ActionInterval
 {
 public:
-    virtual ~TintBy() {}
-    /** 
-     * Creates an action with duration and color.
-     * @param duration Duration time, in seconds.
-     * @param deltaRed Delta red color.
-     * @param deltaGreen Delta green color.
-     * @param deltaBlue Delta blue color.
-     * @return An autoreleased TintBy object.
-     */
-    static std::unique_ptr<TintBy> create(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
+    TintBy(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
 
-    //
-    // Overrides
-    //
     virtual TintBy* clone() const override;
     virtual TintBy* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    TintBy() {}
-
-    /** initializes the action with duration and color */
-    bool initWithDuration(float duration, GLshort deltaRed, GLshort deltaGreen, GLshort deltaBlue);
 
     virtual void at_stop() override;
 
@@ -892,10 +843,6 @@ protected:
     GLshort _fromR;
     GLshort _fromG;
     GLshort _fromB;
-
-private:
-    TintBy(const TintBy &) = delete;
-    const TintBy & operator=(const TintBy &) = delete;
 };
 
 // Delays the action a certain amount of seconds.
@@ -914,205 +861,97 @@ protected:
     virtual void at_stop() override;
 };
 
-/** @class ReverseTime
- * @brief Executes an action in reverse order, from time=duration to time=0
- 
- @warning Use this action carefully. This action is not
- sequenceable. Use it as the default "reversed" method
- of your own actions, but using it outside the "reversed"
- scope is not recommended.
-*/
+// Executes an action in reverse order, from time=duration to time=0
+// Use this action carefully. This action is not
+// sequenceable. Use it as the default "reversed" method
+// of your own actions, but using it outside the "reversed"
+// scope is not recommended.
+
 class CC_DLL ReverseTime : public ActionInterval
 {
 public:
-    static std::unique_ptr<ReverseTime> create(std::unique_ptr<FiniteTimeAction> action);
+    ReverseTime(std::unique_ptr<FiniteTimeAction> action);
 
-    //
-    // Overrides
-    //
     virtual ReverseTime* reverse() const override;
     virtual ReverseTime* clone() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    ReverseTime() = default;
-
-    bool initWithAction(std::unique_ptr<FiniteTimeAction> action);
 
     virtual void at_stop() override;
 
 protected:
     std::unique_ptr<FiniteTimeAction> _other;
-
-private:
-    ReverseTime(const ReverseTime &) = delete;
-    const ReverseTime & operator=(const ReverseTime &) = delete;
 };
 
-class Texture2D;
-/** @class Animate
- * @brief Animates a sprite given the name of an Animation.
- */
+// Animates a sprite given the name of an Animation.
+
 class CC_DLL Animate : public ActionInterval
 {
 public:
+    // Creates the action with an Animation and will restore the original frame when the animation is over.
+    Animate(std::unique_ptr<Animation>);
+
     virtual ~Animate();
-    /** Creates the action with an Animation and will restore the original frame when the animation is over.
-     *
-     * @param animation A certain animation.
-     * @return An autoreleased Animate object.
-     */
-    static std::unique_ptr<Animate> create(std::unique_ptr<Animation>);
 
-    /** Sets the Animation object to be animated 
-     * 
-     * @param animation certain animation.
-     */
-    void setAnimation(std::unique_ptr<Animation>);
-    /** returns the Animation object that is being animated 
-     *
-     * @return Gets the animation object that is being animated.
-     */
-    Animation* getAnimation() { return _animation.get(); }
-    const Animation* getAnimation() const { return _animation.get(); }
-
-    /**
-     * Gets the index of sprite frame currently displayed.
-     * @return int  the index of sprite frame currently displayed.
-     */
-    int getCurrentFrameIndex() { return _currFrameIndex; }
-    //
-    // Overrides
-    //
     virtual Animate* clone() const override;
     virtual Animate* reverse() const override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param t In seconds.
-     */
     virtual void step(float t) override;
     
 protected:
-    Animate();
-
-    /** initializes the action with an Animation and will restore the original frame when the animation is over */
-    bool initWithAnimation(std::unique_ptr<Animation>);
 
     virtual void at_stop() override;
 
 protected:
-    std::vector<float>* _splitTimes;
-    int             _nextFrame;
-    SpriteFrame*    _origFrame;
-    int _currFrameIndex;
-    unsigned int    _executedLoops;
+    std::vector<float> _splitTimes;
+    int                _nextFrame;
+    SpriteFrame*       _origFrame;
+    int                _currFrameIndex;
+    unsigned int       _executedLoops;
     std::unique_ptr<Animation> _animation;
 
-    EventCustom*    _frameDisplayedEvent;
+    EventCustom*       _frameDisplayedEvent;
     AnimationFrame::DisplayedEventInfo _frameDisplayedEventInfo;
-
-private:
-    Animate(const Animate &) = delete;
-    const Animate & operator=(const Animate &) = delete;
 };
 
-/** @class TargetedAction
- * @brief Overrides the target of an action so that it always runs on the target
- * specified at action creation rather than the one specified by runAction.
- */
+// Overrides the target of an action so that it always runs on the target
+// specified at action creation rather than the one specified by runAction.
+
 class CC_DLL TargetedAction : public ActionInterval
 {
 public:
-    virtual ~TargetedAction();
-    /** Create an action with the specified action and forced target.
-     * 
-     * @param target The target needs to override.
-     * @param action The action needs to override.
-     * @return An autoreleased TargetedAction object.
-     */
-    static std::unique_ptr<TargetedAction> create(Node* target, std::unique_ptr<FiniteTimeAction> action);
+    TargetedAction(Node* forcedTarget, std::unique_ptr<FiniteTimeAction> action);
 
-    /** Sets the target that the action will be forced to run with.
-     *
-     * @param forcedTarget The target that the action will be forced to run with.
-     */
-    void setForcedTarget(Node* forcedTarget);
-    /** returns the target that the action is forced to run with. 
-     *
-     * @return The target that the action is forced to run with.
-     */
-    Node* getForcedTarget() { return _forcedTarget; }
-    const Node* getForcedTarget() const { return _forcedTarget; }
-
-    //
-    // Overrides
-    //
     virtual TargetedAction* clone() const override;
     virtual TargetedAction* reverse() const  override;
     virtual void startWithTarget(Node *target) override;
-    /**
-     * @param time In seconds.
-     */
     virtual void step(float time) override;
     
 protected:
-    TargetedAction();
-
-    /** Init an action with the specified action and forced target */
-    bool initWithTarget(Node* target, std::unique_ptr<FiniteTimeAction> action);
 
     virtual void at_stop() override;
 
 protected:
     std::unique_ptr<FiniteTimeAction> _action;
-    Node* _forcedTarget;
-
-private:
-    TargetedAction(const TargetedAction &) = delete;
-    const TargetedAction & operator=(const TargetedAction &) = delete;
+    node_ptr<Node> _forcedTarget;
 };
 
-/**
- * @class ActionFloat
- * @brief Action used to animate any value in range [from,to] over specified time interval
- */
+// Action used to animate any value in range [from,to] over specified time interval
+
 class CC_DLL ActionFloat : public ActionInterval
 {
 public:
-    virtual ~ActionFloat() {};
-    /**
-     *  Callback function used to report back result
-     */
-    typedef std::function<void(float value)> ActionFloatCallback;
+    // Creates FloatAction with specified duration, from value, to value and callback to report back
+    ActionFloat(float duration, float from, float to, std::function<void(float)> callback);
 
-    /**
-     * Creates FloatAction with specified duration, from value, to value and callback to report back
-     * results
-     * @param duration of the action
-     * @param from value to start from
-     * @param to value to be at the end of the action
-     * @param callback to report back result
-     *
-     * @return An autoreleased ActionFloat object
-     */
-    static std::unique_ptr<ActionFloat> create(float duration, float from, float to, ActionFloatCallback callback);
-
-    /**
-     * Overridden ActionInterval methods
-     */
     void startWithTarget(Node* target) override;
     void step(float delta) override;
     ActionFloat* reverse() const override;
     virtual ActionFloat* clone() const override;
 
 protected:
-    ActionFloat() {};
-
-    bool initWithDuration(float duration, float from, float to, ActionFloatCallback callback);
 
     virtual void at_stop() override;
 
@@ -1125,10 +964,7 @@ protected:
     float _delta;
 
     /* Callback to report back results */
-    ActionFloatCallback _callback;
-private:
-    ActionFloat(const ActionFloat &) = delete;
-    const ActionFloat & operator=(const ActionFloat &) = delete;
+    std::function<void(float)> _callback;
 };
 
 } // namespace cocos2d
