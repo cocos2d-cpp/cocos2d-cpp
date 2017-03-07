@@ -79,7 +79,7 @@ void GridAction::cacheTargetAsGridNode()
 GridAction* GridAction::reverse() const
 {
     // FIXME: This conversion isn't safe.
-    return (GridAction*)ReverseTime::create(std::unique_ptr<FiniteTimeAction>(clone())).release();
+    return (GridAction*)new ReverseTime(std::unique_ptr<FiniteTimeAction>(clone()));
 }
 
 GridBase* GridAction::getGrid()
@@ -289,8 +289,7 @@ StopGrid* StopGrid::clone() const
 
 StopGrid* StopGrid::reverse() const
 {
-    // no reverse, just clone it
-    return clone();
+    return new StopGrid;
 }
 
 // implementation of ReuseGrid

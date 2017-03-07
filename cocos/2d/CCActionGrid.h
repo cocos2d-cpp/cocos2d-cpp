@@ -162,16 +162,13 @@ protected:
     float _rate;
 };
 
- // Don't call this action if another grid action is active.
- // Call if you want to remove the grid effect. Example:
- //   Sequence::create(Lens3D::create(...), StopGrid::create(), nullptr);
+// Don't call this action if another grid action is active.
+// Call if you want to remove the grid effect. Example:
+//   Sequence(std::make_unique<Lens3D>(...), std::make_unique<StopGrid>());
+
 class CC_DLL StopGrid : public ActionInstant
 {
 public:
-    /** 
-    @brief Create a StopGrid Action.
-    @return Return a pointer of StopGrid. When the creation failed, return nil.
-    */
     virtual void startWithTarget(Node *target) override;
     virtual void step(float) override { /*nothing*/ }
     virtual StopGrid* clone() const override;
