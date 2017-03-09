@@ -29,6 +29,8 @@
 using namespace cocos2d;
 using namespace cocos2d::experimental;
 
+static constexpr TimedJob::id_t UPDATE_JOB_ID = 0;
+
 AudioEngineImpl::AudioEngineImpl()
     : _lazyInitLoop(true)
     , _currentAudioID(0)
@@ -38,6 +40,7 @@ AudioEngineImpl::AudioEngineImpl()
 
 AudioEngineImpl::~AudioEngineImpl()
 {
+    cocos2d::Director::getInstance()->getScheduler().unscheduleTimedJob(this, UPDATE_JOB_ID);
     _audioCaches.clear();
 }
 
@@ -123,7 +126,11 @@ int AudioEngineImpl::play2d(const std::string &filePath, bool loop, float volume
         _lazyInitLoop = false;
 
         auto & scheduler = cocos2d::Director::getInstance()->getScheduler();
-        scheduler.schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.05f, false);
+        scheduler.schedule(
+            TimedJob(this, &AudioEngineImpl::update, UPDATE_JOB_ID)
+                .delay(.05f)
+                .interval(.05f)
+        );
     }
 
     return _currentAudioID++;
@@ -343,7 +350,7 @@ void AudioEngineImpl::update(float dt)
         _lazyInitLoop = true;
 
         auto & scheduler = cocos2d::Director::getInstance()->getScheduler();
-        scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+        scheduler.unscheduleTimedJob(this, UPDATE_JOB_ID);
     }
 }
 

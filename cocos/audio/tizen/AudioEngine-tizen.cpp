@@ -37,6 +37,8 @@
 
 #include <queue>
 
+static constexpr TimedJob::id_t UPDATE_JOB_ID = 0;
+
 class AudioEngineThreadPool
 {
 public:
@@ -242,7 +244,7 @@ AudioEngineImpl::~AudioEngineImpl()
         _threadPool = nullptr;
     }
     auto & scheduler = Director::getInstance()->getScheduler();
-    scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+    scheduler.unscheduleTimedJob(this, UPDATE_JOB_ID);
 }
 
 bool AudioEngineImpl::init()
@@ -281,7 +283,10 @@ int AudioEngineImpl::play2d(const std::string &filePath ,bool loop ,float volume
             _lazyInitLoop = false;
 
             auto & scheduler = Director::getInstance()->getScheduler();
-            scheduler.schedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this, 0.03f, false);
+            scheduler.schedule(
+                TimedJob(this, &AudioEngineImpl::update, UPDATE_JOB_ID)
+                    .delay(.03f).interval(.03f)
+            );
         }
     } while (0);
 
@@ -340,7 +345,7 @@ void AudioEngineImpl::update(float dt)
         _lazyInitLoop = true;
 
         auto & scheduler = Director::getInstance()->getScheduler();
-        scheduler.unschedule(CC_SCHEDULE_SELECTOR(AudioEngineImpl::update), this);
+        scheduler.unscheduleTimedJob(this, UPDATE_JOB_ID);
     }
 }
 
