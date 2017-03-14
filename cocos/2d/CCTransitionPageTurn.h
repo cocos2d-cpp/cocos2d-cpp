@@ -88,7 +88,7 @@ public:
      * @param vector A given size.
      * @return The action that will be performed.
      */
-    ActionInterval* actionWithSize(const Size& vector);
+    std::unique_ptr<ActionInterval> actionWithSize(const Size& vector);
 
     //
     // Overrides
