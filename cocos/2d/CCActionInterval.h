@@ -112,13 +112,8 @@ class CC_DLL Speed : public Action
 public:
     Speed(std::unique_ptr<ActionInterval> action, float speed);
 
-    /*
     float getSpeed() const { return _speed; }
     void setSpeed(float speed) { _speed = speed; }
-
-    void setInnerAction(ActionInterval *action);
-    ActionInterval* getInnerAction() const { return _innerAction; }
-    */
 
     virtual Speed* clone() const override;
     virtual Speed* reverse() const override;
