@@ -158,7 +158,6 @@ Speed* Speed::reverse() const
     return new Speed(std::unique_ptr<ActionInterval>(_innerAction->reverse()),
                      _speed);
 }
-*/
 
 // Sequence
 
