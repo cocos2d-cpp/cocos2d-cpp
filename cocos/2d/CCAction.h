@@ -243,16 +243,6 @@ public:
 protected:
 
     /**
-     * Initializes the action with a set boundary or with no boundary.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-    */
-    bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
-    
-    
-    /**
      * Initializes the action with a set boundary or with no boundary with offsets.
      *
      * @param followedNode  The node to be followed.

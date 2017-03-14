@@ -663,26 +663,33 @@ void performanceActions(Sprite* sprite)
     sprite->setPosition(Vec2((rand() % (int)size.width), (rand() % (int)size.height)));
 
     float period = 0.5f + (rand() % 1000) / 500.0f;
-    auto rot = RotateBy::create(period, 360.0f * CCRANDOM_0_1());
-    auto rot_back = rot->reverse();
-    auto permanentRotation = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(rot),
-            to_action_ptr(rot_back)
+    auto rot = std::make_unique<RotateBy>(period, 360.0f * CCRANDOM_0_1());
+    auto rot_back = std::unique_ptr<RotateBy>( rot->reverse() );
+
+    auto permanentRotation = std::make_unique<RepeatForever>
+    (
+        std::make_unique<Sequence>
+        (
+            std::move(rot),
+            std::move(rot_back)
         )
     );
-    sprite->runAction(permanentRotation);
+    sprite->runAction( std::move( permanentRotation));
 
     float growDuration = 0.5f + (rand() % 1000) / 500.0f;
-    auto grow = ScaleBy::create(growDuration, 0.5f, 0.5f);
-    auto grow_reverse = grow->reverse();
-    auto permanentScaleLoop = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(grow),
-            to_action_ptr(grow_reverse)
+
+    auto grow = std::make_unique<ScaleBy>(growDuration, 0.5f, 0.5f);
+    auto grow_reverse = std::unique_ptr<ScaleBy>( grow->reverse() );
+    
+    auto permanentScaleLoop = std::make_unique<RepeatForever>
+    (
+        std::make_unique<Sequence>
+        (
+            std::move(grow),
+            std::move(grow_reverse)
         )
     );
-    sprite->runAction(permanentScaleLoop);
+    sprite->runAction( std::move( permanentScaleLoop));
 }
 
 void performanceActions20(Sprite* sprite)
@@ -694,20 +701,33 @@ void performanceActions20(Sprite* sprite)
         sprite->setPosition(Vec2( -1000, -1000));
 
     float period = 0.5f + (rand() % 1000) / 500.0f;
-    auto rot = RotateBy::create(period, 360.0f * CCRANDOM_0_1());
-    auto rot_back = rot->reverse();
-    auto permanentRotation = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(rot),
-            to_action_ptr(rot_back)
+
+    auto rot = std::make_unique<RotateBy>(period, 360.0f * CCRANDOM_0_1());
+    auto rot_back = std::unique_ptr<RotateBy>( rot->reverse() );
+
+    auto permanentRotation = std::make_unique<RepeatForever>
+    (
+        std::make_unique<Sequence>
+        (
+            std::move(rot),
+            std::move(rot_back)
         )
     );
-    sprite->runAction(permanentRotation);
+    sprite->runAction( std::move( permanentRotation));
 
     float growDuration = 0.5f + (rand() % 1000) / 500.0f;
-    auto grow = ScaleBy::create(growDuration, 0.5f, 0.5f);
-    auto permanentScaleLoop = RepeatForever::create(Sequence::createWithTwoActions(grow, grow->reverse()));
-    sprite->runAction(permanentScaleLoop);
+
+    auto grow = std::make_unique<ScaleBy>(growDuration, 0.5f, 0.5f);
+    auto permanentScaleLoop = std::make_unique<RepeatForever>
+    (
+        std::make_unique<Sequence>
+        (
+            std::move(grow),
+            std::unique_ptr<ScaleBy>(grow->reverse())
+        )
+    );
+    
+    sprite->runAction( std::move( permanentScaleLoop));
 }
 
 void performanceRotationScale(Sprite* sprite)

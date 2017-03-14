@@ -240,19 +240,18 @@ void ScrollView::setContentOffset(Vec2 offset, bool animated/* = false*/)
 
 void ScrollView::setContentOffsetInDuration(Vec2 offset, float dt)
 {
-    FiniteTimeAction *scroll, *expire;
-    
     if (_animatedScrollActionActive) {
         stopAnimatedContentOffset();
     }
-    scroll = MoveTo::create(dt, offset);
-    expire = CallFuncN::create(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll,this));
 
-    std::unique_ptr<Sequence> animatedScrollAction(
-        Sequence::create(
-            to_action_ptr(scroll),
-            to_action_ptr(expire)
-        ));
+    auto scroll = std::make_unique<MoveTo>(dt, offset);
+    auto expire = std::make_unique<CallFuncN>(CC_CALLBACK_1(ScrollView::stoppedAnimatedScroll,this));
+
+    auto animatedScrollAction = std::make_unique<Sequence>(
+        std::move(scroll),
+        std::move(expire)
+    );
+
     animatedScrollAction->setTag(_animatedScrollActionTag);
     _container->runAction( std::move( animatedScrollAction));
     _animatedScrollActionActive = true;
@@ -329,9 +328,8 @@ void ScrollView::setZoomScaleInDuration(float s, float dt)
         if (_container->getScale() != s)
         {
             this->runAction(
-                std::unique_ptr<ActionTween>(
-                    ActionTween::create(dt, "zoomScale", _container->getScale(), s)
-                ));
+                std::make_unique<ActionTween>(dt, "zoomScale", _container->getScale(), s)
+            );
         }
     }
     else

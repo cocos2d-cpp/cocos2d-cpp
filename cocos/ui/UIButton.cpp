@@ -484,9 +484,7 @@ void Button::onPressStateChangedToNormal()
                 {
                     _titleRenderer->runAction
                         (
-                            std::unique_ptr<ScaleTo>(
-                                ScaleTo::create(ZOOM_ACTION_TIME_STEP, 1.0f, 1.0f)
-                            )
+                            std::make_unique<ScaleTo>(ZOOM_ACTION_TIME_STEP, 1.0f, 1.0f)
                         );
                 }
                 else
@@ -529,10 +527,8 @@ void Button::onPressStateChangedToPressed()
 
             _buttonClickedRenderer->runAction
                 (
-                    std::unique_ptr<ScaleTo>(
-                        ScaleTo::create(ZOOM_ACTION_TIME_STEP,
-                                        1.0f + _zoomScale,
-                                        1.0f + _zoomScale)
+                    std::make_unique<ScaleTo>(
+                        ZOOM_ACTION_TIME_STEP, 1.0f + _zoomScale, 1.0f + _zoomScale
                     )
                 );
 
@@ -545,10 +541,8 @@ void Button::onPressStateChangedToPressed()
 
                 _titleRenderer->runAction
                     (
-                        std::unique_ptr<ScaleTo>(
-                            ScaleTo::create(ZOOM_ACTION_TIME_STEP,
-                                            1.0f + _zoomScale,
-                                            1.0f + _zoomScale)
+                        std::make_unique<ScaleTo>(
+                            ZOOM_ACTION_TIME_STEP, 1.0f + _zoomScale, 1.0f + _zoomScale
                         )
                     );
             }

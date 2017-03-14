@@ -211,26 +211,28 @@ void ScenarioTest::addNewSprites(int num)
         float randomy = CCRANDOM_0_1();
         sprite->setPosition(origin + Vec2(randomx * s.width, randomy * s.height));
         
-        ActionInterval* action;
+        std::unique_ptr<ActionInterval> action;
         float random = CCRANDOM_0_1();
         
         if( random < 0.20 )
-            action = ScaleBy::create(3, 2);
+            action.reset(new ScaleBy(3, 2));
         else if(random < 0.40)
-            action = RotateBy::create(3, 360);
+            action.reset(new RotateBy(3, 360));
         else if( random < 0.60)
-            action = Blink::create(1, 3);
+            action.reset(new Blink(1, 3));
         else if( random < 0.8 )
-            action = TintBy::create(2, 0, -255, -255);
+            action.reset(new TintBy(2, 0, -255, -255));
         else
-            action = FadeOut::create(2);
-        auto action_back = action->reverse();
-        auto seq = Sequence::create(
-            to_action_ptr(action),
-            to_action_ptr(action_back)
+            action.reset(new FadeOut(2));
+
+        auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+        auto seq = std::make_unique<Sequence>(
+            std::move(action),
+            std::move(action_back)
         );
         
-        sprite->runAction( RepeatForever::create(seq) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
 
         _spriteArray.push_back( std::move( sprite));
     }

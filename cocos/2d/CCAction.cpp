@@ -123,12 +123,6 @@ Follow* Follow::reverse() const
     return new Follow(_followedNode.get(), _offsetX, _offsetY, _worldRect);
 }
 
-
-bool Follow::initWithTarget(Node *followedNode, const Rect& rect /*= Rect::ZERO*/){
-    
-    return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
-    
-}
 void Follow::update(float /*dt*/)
 {
     if(_boundarySet)
