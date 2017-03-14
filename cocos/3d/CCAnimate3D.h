@@ -1,7 +1,6 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +24,7 @@
 #ifndef __CCANIMATE3D_H__
 #define __CCANIMATE3D_H__
 
+#include <limits>
 #include <map>
 #include <unordered_map>
 
@@ -41,51 +41,39 @@ class EventCustom;
 
 enum class Animate3DQuality
 {
-    QUALITY_NONE = 0,          // it'll be ignore the curve-evaluating(the animation looks like stop), just accumulate transition time.
-    QUALITY_LOW,               // low animation quality, it'll be more efficient.
-    QUALITY_HIGH,              // high animation quality.
+    QUALITY_NONE = 0, // it'll be ignore the curve-evaluating(the animation looks like stop), just accumulate transition time.
+    QUALITY_LOW,      // low animation quality, it'll be more efficient.
+    QUALITY_HIGH,     // high animation quality.
 };
 
-/**
- * @addtogroup _3d
- * @{
- */
+// Animates a Sprite3D given with an Animation3D
 
-/**
- * @brief Animate3D, Animates a Sprite3D given with an Animation3D
- */
-class CC_DLL Animate3D: public ActionInterval
+class CC_DLL Animate3D : public ActionInterval
 {
 public:
+    struct FrameInfo {
+
+        FrameInfo(int s, int e, float r = 30.0f)
+            : startFrame(s)
+            , endFrame(e)
+            , frameRate(r)
+            {}
+        
+        int startFrame;
+        int endFrame;
+        float frameRate;
+    };
     
-    /**create Animate3D using Animation.*/
-    static Animate3D* create(Animation3D* animation);
+    Animate3D(Animation3D* animation, float fromTime = 0.0f, float duration = std::numeric_limits<float>::max());
     
-    /**
-     * create Animate3D
-     * @param animation used to generate animate3D
-     * @param fromTime
-     * @param duration Time the Animate3D lasts
-     * @return Animate3D created using animate
-     */
-    static Animate3D* create(Animation3D* animation, float fromTime, float duration);
+    Animate3D(Animation3D* animation, FrameInfo const& info);
+
+    virtual ~Animate3D();
     
-    /**
-     * create Animate3D by frame section, [startFrame, endFrame)
-     * @param animation used to generate animate3D
-     * @param startFrame
-     * @param endFrame
-     * @param frameRate default is 30 per second
-     * @return Animate3D created using animate
-     */
-    static Animate3D* createWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate = 30.f);
-    
-    //
-    // Overrides
-    //
-    virtual void startWithTarget(Node *target) override;
+    virtual Animate3D* clone() const override;
     virtual Animate3D* reverse() const override;
-    Animate3D *clone() const;
+
+    virtual void startWithTarget(Node *target) override;
     
     virtual void step(float t) override;
     
@@ -128,15 +116,7 @@ public:
     
 protected:
     
-    Animate3D();
-    virtual ~Animate3D();
-    
     void removeFromMap();
-    
-    /** init method */
-    bool init(Animation3D* animation);
-    bool init(Animation3D* animation, float fromTime, float duration);
-    bool initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate);
     
     virtual void at_stop() override;
 

@@ -38,47 +38,21 @@ std::unordered_map<Node*, Animate3D*> Animate3D::s_fadeOutAnimates;
 std::unordered_map<Node*, Animate3D*> Animate3D::s_runningAnimates;
 float      Animate3D::_transTime = 0.1f;
 
-//create Animate3D using Animation.
-Animate3D* Animate3D::create(Animation3D* animation)
+Animate3D::Animate3D(Animation3D* animation, float fromTime, float duration)
+    : _state(Animate3D::Animate3DState::Running)
+    , _animation(animation)
+    , _absSpeed(1.0f)
+    , _weight(1.0f)
+    , _start(0.0f)
+    , _last(1.0f)
+    , _playReverse(false)
+    , _accTransTime(0.0f)
+    , _lastTime(0.0f)
+    , _originInterval(0.0f)
+    , _frameRate(30.0f)
 {
-    auto animate = new (std::nothrow) Animate3D();
-    animate->init(animation);
-    animate->autorelease();
-    
-    return animate;
-}
+    float fullDuration = _animation->getDuration();
 
-Animate3D* Animate3D::create(Animation3D* animation, float fromTime, float duration)
-{
-    auto animate = new (std::nothrow) Animate3D();
-    animate->init(animation, fromTime, duration);
-    animate->autorelease();
-    
-    return  animate;
-}
-
-Animate3D* Animate3D::createWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate)
-{
-    auto animate = new (std::nothrow) Animate3D();
-    animate->initWithFrames(animation, startFrame, endFrame, frameRate);
-    animate->autorelease();
-    
-    return  animate;
-}
-
-bool Animate3D::init(Animation3D* animation)
-{
-    _animation = animation;
-    animation->retain();
-    setDuration(animation->getDuration());
-    setOriginInterval(animation->getDuration());
-    setQuality(Configuration::getInstance()->getAnimate3DQuality());
-    return true;
-}
-
-bool Animate3D::init(Animation3D* animation, float fromTime, float duration)
-{
-    float fullDuration = animation->getDuration();
     if (duration > fullDuration - fromTime)
         duration = fullDuration - fromTime;
     
@@ -86,27 +60,36 @@ bool Animate3D::init(Animation3D* animation, float fromTime, float duration)
     _last = duration / fullDuration;
     setDuration(duration);
     setOriginInterval(duration);
-    _animation = animation;
-    animation->retain();
     setQuality(Configuration::getInstance()->getAnimate3DQuality());
-    return true;
+    _animation->retain();
 }
 
-bool Animate3D::initWithFrames(Animation3D* animation, int startFrame, int endFrame, float frameRate)
+Animate3D::Animate3D(Animation3D* animation, FrameInfo const& info)
+    : Animate3D( std::move( animation),
+                 info.startFrame / info.frameRate,
+                 (info.endFrame - info.startFrame) / info.frameRate)
 {
-    float perFrameTime = 1.f / frameRate;
-    float fromTime = startFrame * perFrameTime;
-    float duration = (endFrame - startFrame) * perFrameTime;
-    _frameRate = frameRate;
-    init(animation, fromTime, duration);
-    return true;
+    _frameRate  = info.frameRate;
+}
+
+Animate3D::~Animate3D()
+{
+    removeFromMap();
+    
+    for (auto& it : _keyFrameEvent) {
+        delete it.second;
+    }
+
+    _keyFrameEvent.clear();
+
+    CC_SAFE_RELEASE(_animation);
 }
 
 /** returns a clone of action */
 Animate3D* Animate3D::clone() const
 {
     auto animate = const_cast<Animate3D*>(this);
-    auto copy = Animate3D::create(animate->_animation);
+    auto copy = std::make_unique<Animate3D>(animate->_animation);
     
     copy->_absSpeed = _absSpeed;
     copy->_weight = _weight;
@@ -116,7 +99,8 @@ Animate3D* Animate3D::clone() const
     copy->_playReverse = _playReverse;
     copy->setDuration(animate->getDuration());
     copy->setOriginInterval(animate->getOriginInterval());
-    return copy;
+
+    return copy.release();
 }
 
 /** returns a new action that performs the exactly the reverse action */
@@ -473,33 +457,6 @@ ValueMap* Animate3D::getKeyFrameUserInfo(int keyFrame)
 void Animate3D::setKeyFrameUserInfo(int keyFrame, const ValueMap &userInfo)
 {
     _keyFrameUserInfos[keyFrame] = userInfo;
-}
-
-Animate3D::Animate3D()
-: _state(Animate3D::Animate3DState::Running)
-, _animation(nullptr)
-, _absSpeed(1.f)
-, _weight(1.f)
-, _start(0.f)
-, _last(1.f)
-, _playReverse(false)
-, _accTransTime(0.0f)
-, _lastTime(0.0f)
-, _originInterval(0.0f)
-, _frameRate(30.0f)
-{
-    setQuality(Animate3DQuality::QUALITY_HIGH);
-}
-Animate3D::~Animate3D()
-{
-    removeFromMap();
-    
-    for (auto& it : _keyFrameEvent) {
-        delete it.second;
-    }
-    _keyFrameEvent.clear();
-    
-    CC_SAFE_RELEASE(_animation);
 }
 
 void Animate3D::removeFromMap()

@@ -90,10 +90,11 @@ void TransitionProgress::onEnter()
     ProgressTimer *node = progressTimerNodeWithRenderTexture(texture);
 
     // create the blend action
-    auto layerAction = std::unique_ptr<Sequence>( Sequence::create(
-        to_action_ptr(ProgressFromTo::create(_duration, _from, _to)),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-    ));
+    auto layerAction = std::make_unique<Sequence>
+        (
+            std::make_unique<ProgressFromTo>(_duration, _from, _to),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
+        );
     // run the blend action
     node->runAction( std::move( layerAction));
 
