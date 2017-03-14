@@ -51,16 +51,16 @@ public:
  For example, if you want to modify the "width" property of a target from 200 to 300 in 2 seconds, then:
 
  @code
-     auto modifyWidth = ActionTween::create(2, "width", 200, 300);
-     target->runAction(modifyWidth);
+     auto modifyWidth = std::make_unique<ActionTween>(2, "width", 200, 300);
+     target->runAction( std::move( modifyWidth));
  @endcode
 
  Another example: ScaleTo action could be rewritten using PropertyAction:
 
  @code
      // scaleA and scaleB are equivalents
-     auto scaleA = ScaleTo::create(2, 3);                 // (duration, to)
-     auto scaleB = ActionTween::create(2, "scale", 1, 3); // (duration, key, from, to)
+     auto scaleA = new ScaleTo(2, 3);                 // (duration, to)
+     auto scaleB = new ActionTween(2, "scale", 1, 3); // (duration, key, from, to)
  @endcode
 
  */
