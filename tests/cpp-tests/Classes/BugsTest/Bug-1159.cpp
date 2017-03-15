@@ -6,6 +6,8 @@
 //  Created by Greg Woods on 4/5/11.
 //  Copyright 2011 Westlake Design. All rights reserved.
 //
+//  Copyright 2017 Iakov Sergeev <yahont@github>
+//
 
 #include "Bug-1159.h"
 
@@ -33,10 +35,10 @@ bool Bug1159Layer::init()
         addChild(sprite_a);
 
         sprite_a->runAction(
-            RepeatForever::create(
-                Sequence::create(
-                    to_action_ptr(MoveTo::create(1.0f, Vec2(1024.0f, 384.0f))),
-                    to_action_ptr(MoveTo::create(1.0f, Vec2(0.0f, 384.0f)))
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::make_unique<MoveTo>(1.0f, Vec2(1024.0f, 384.0f)),
+                    std::make_unique<MoveTo>(1.0f, Vec2(0.0f, 384.0f))
                 )));
 
         auto sprite_b = LayerColor::create(Color4B(0, 0, 255, 255), 400, 400);
