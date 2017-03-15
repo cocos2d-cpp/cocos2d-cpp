@@ -205,18 +205,18 @@ void ActionMove::onEnter()
 
     auto s = Director::getInstance()->getWinSize();
 
-    auto actionTo = MoveTo::create(2, Vec2(s.width-40, s.height-40));
-    auto actionBy = MoveBy::create(2, Vec2(80,80));
-    auto actionByBack = actionBy->reverse();
+    auto actionTo = std::make_unique<MoveTo>(2, Vec2(s.width-40, s.height-40));
+    auto actionBy = std::make_unique<MoveBy>(2, Vec2(80,80));
+    auto actionByBack = std::unique_ptr<MoveBy>(actionBy->reverse());
 
-    _tamara->runAction( actionTo);
+    _tamara->runAction( std::move(  actionTo));
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
-    _kathia->runAction(MoveTo::create(1, Vec2(40,40)));
+    _kathia->runAction(std::make_unique<MoveTo>(1, Vec2(40,40)));
 }
 
 std::string ActionMove::subtitle() const
@@ -240,18 +240,18 @@ void ActionMove3D::onEnter()
     _tamara->setPosition3D(Vec3(s.width-40, s.height-40, 0));
     _kathia->setPosition3D(Vec3(40, 40, 0));
     
-    auto actionTo = MoveTo::create(2, Vec3(s.width-40, s.height-40, -100));
-    auto actionBy = MoveBy::create(2, Vec3(80, 80, -100));
-    auto actionByBack = actionBy->reverse();
+    auto actionTo = std::make_unique<MoveTo>(2, Vec3(s.width-40, s.height-40, -100));
+    auto actionBy = std::make_unique<MoveBy>(2, Vec3(80, 80, -100));
+    auto actionByBack = std::unique_ptr<MoveBy>(actionBy->reverse());
     
-    _tamara->runAction(actionTo);
+    _tamara->runAction( std::move( actionTo));
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
-    _kathia->runAction(MoveTo::create(1, Vec3(40, 40, -100)));
+    _kathia->runAction(std::make_unique<MoveTo>(1, Vec3(40, 40, -100)));
 }
 
 std::string ActionMove3D::subtitle() const
@@ -270,23 +270,23 @@ void ActionScale::onEnter()
 
     centerSprites(3);
 
-    auto actionTo = ScaleTo::create(2.0f, 0.5f);
-    auto actionBy = ScaleBy::create(2.0f, 1.0f, 10.0f);
-    auto actionBy_reverse = actionBy->reverse();
-    auto actionBy2 = ScaleBy::create(2.0f, 5.0f, 1.0f);
-    auto actionBy2_reverse = actionBy2->reverse();
+    auto actionTo = std::make_unique<ScaleTo>(2.0f, 0.5f);
+    auto actionBy = std::make_unique<ScaleBy>(2.0f, 1.0f, 10.0f);
+    auto actionBy_reverse = std::unique_ptr<ScaleBy>( actionBy->reverse());
+    auto actionBy2 = std::make_unique<ScaleBy>(2.0f, 5.0f, 1.0f);
+    auto actionBy2_reverse = std::unique_ptr<ScaleBy>( actionBy2->reverse());
 
-    _grossini->runAction( actionTo);
+    _grossini->runAction( std::move(  actionTo));
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionBy_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionBy_reverse)
         )
     );
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy2),
-            to_action_ptr(actionBy2_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy2),
+            std::move(actionBy2_reverse)
         )
     );
 }
@@ -307,30 +307,30 @@ void ActionSkew::onEnter()
 
     centerSprites(3);
 
-    auto actionTo = SkewTo::create(2, 37.2f, -37.2f);
-    auto actionToBack = SkewTo::create(2, 0, 0);
-    auto actionBy = SkewBy::create(2, 0.0f, -90.0f);
-    auto actionBy2 = SkewBy::create(2, 45.0f, 45.0f);
-    auto actionBy2_reverse = actionBy2->reverse();
-    auto actionByBack = actionBy->reverse();
+    auto actionTo = std::make_unique<SkewTo>(2, 37.2f, -37.2f);
+    auto actionToBack = std::make_unique<SkewTo>(2, 0, 0);
+    auto actionBy = std::make_unique<SkewBy>(2, 0.0f, -90.0f);
+    auto actionBy2 = std::make_unique<SkewBy>(2, 45.0f, 45.0f);
+    auto actionBy2_reverse = std::unique_ptr<SkewBy>( actionBy2->reverse());
+    auto actionByBack = std::unique_ptr<SkewBy>( actionBy->reverse());
 
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo),
-            to_action_ptr(actionToBack)
+        std::make_unique<Sequence>(
+            std::move(actionTo),
+            std::move(actionToBack)
         )
     );
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
 
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy2),
-            to_action_ptr(actionBy2_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy2),
+            std::move(actionBy2_reverse)
         )
     );
 }
@@ -347,30 +347,30 @@ void ActionRotationalSkew::onEnter()
 
     this->centerSprites(3);
 
-    auto actionTo = RotateTo::create(2, 180, 180);
-    auto actionToBack = RotateTo::create(2, 0, 0);
-    auto actionBy = RotateBy::create(2, 0.0f, 360);
-    auto actionByBack = actionBy->reverse();
+    auto actionTo = std::make_unique<RotateTo>(2, 180, 180);
+    auto actionToBack = std::make_unique<RotateTo>(2, 0, 0);
+    auto actionBy = std::make_unique<RotateBy>(2, 0.0f, 360);
+    auto actionByBack = std::unique_ptr<RotateBy>( actionBy->reverse());
 
-    auto actionBy2 = RotateBy::create(2, 360, 0);
-    auto actionBy2Back = actionBy2->reverse();
+    auto actionBy2 = std::make_unique<RotateBy>(2, 360, 0);
+    auto actionBy2Back = std::unique_ptr<RotateBy>( actionBy2->reverse());
 
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo),
-            to_action_ptr(actionToBack)
+        std::make_unique<Sequence>(
+            std::move(actionTo),
+            std::move(actionToBack)
         )
     );
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy2),
-            to_action_ptr(actionBy2Back)
+        std::make_unique<Sequence>(
+            std::move(actionBy2),
+            std::move(actionBy2Back)
         )
     );
 }
@@ -406,13 +406,13 @@ void ActionRotationalSkewVSStandardSkew::onEnter()
     label->setPosition(s.width/2, s.height - 100 + label->getContentSize().height);
     this->addChild(label);
 
-    auto actionTo = SkewBy::create(2, 360, 0);
-    auto actionToBack = SkewBy::create(2, -360, 0);
+    auto actionTo = std::make_unique<SkewBy>(2, 360, 0);
+    auto actionToBack = std::make_unique<SkewBy>(2, -360, 0);
 
     box->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo),
-            to_action_ptr(actionToBack)
+        std::make_unique<Sequence>(
+            std::move(actionTo),
+            std::move(actionToBack)
         )
     );
 
@@ -426,12 +426,12 @@ void ActionRotationalSkewVSStandardSkew::onEnter()
     label = Label::createWithTTF("Rotational Skew", "fonts/Marker Felt.ttf", 16.0f);
     label->setPosition(s.width/2, s.height - 250 + label->getContentSize().height/2);
     this->addChild(label);
-    auto actionTo2 = RotateBy::create(2, 360, 0);
-    auto actionToBack2 = RotateBy::create(2, -360, 0);
+    auto actionTo2 = std::make_unique<RotateBy>(2, 360, 0);
+    auto actionToBack2 = std::make_unique<RotateBy>(2, -360, 0);
     box->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo2),
-            to_action_ptr(actionToBack2)
+        std::make_unique<Sequence>(
+            std::move(actionTo2),
+            std::move(actionToBack2)
         )
     );
 }
@@ -470,30 +470,30 @@ void ActionSkewRotateScale::onEnter()
     uR->setAnchorPoint(Vec2(0, 0));
     addChild(box);
 
-    auto actionTo = SkewTo::create(2, 0.f, 2.f);
-    auto rotateTo = RotateTo::create(2, 61.0f);
-    auto actionScaleTo = ScaleTo::create(2, -0.44f, 0.47f);
+    auto actionTo = std::make_unique<SkewTo>(2, 0.f, 2.f);
+    auto rotateTo = std::make_unique<RotateTo>(2, 61.0f);
+    auto actionScaleTo = std::make_unique<ScaleTo>(2, -0.44f, 0.47f);
 
-    auto actionScaleToBack = ScaleTo::create(2, 1.0f, 1.0f);
-    auto rotateToBack = RotateTo::create(2, 0);
-    auto actionToBack = SkewTo::create(2, 0, 0);
+    auto actionScaleToBack = std::make_unique<ScaleTo>(2, 1.0f, 1.0f);
+    auto rotateToBack = std::make_unique<RotateTo>(2, 0);
+    auto actionToBack = std::make_unique<SkewTo>(2, 0, 0);
 
     box->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo),
-            to_action_ptr(actionToBack)
+        std::make_unique<Sequence>(
+            std::move(actionTo),
+            std::move(actionToBack)
         )
     );
     box->runAction(
-        Sequence::create(
-            to_action_ptr(rotateTo),
-            to_action_ptr(rotateToBack)
+        std::make_unique<Sequence>(
+            std::move(rotateTo),
+            std::move(rotateToBack)
         )
     );
     box->runAction(
-        Sequence::create(
-            to_action_ptr(actionScaleTo),
-            to_action_ptr(actionScaleToBack)
+        std::make_unique<Sequence>(
+            std::move(actionScaleTo),
+            std::move(actionScaleToBack)
         )
     );
 }
@@ -514,29 +514,29 @@ void ActionRotate::onEnter()
 
     centerSprites(3);
 
-    auto actionTo = RotateTo::create( 2, 45);
-    auto actionTo2 = RotateTo::create( 2, -45);
-    auto actionTo0 = RotateTo::create(2 , 0);
+    auto actionTo = std::make_unique<RotateTo>( 2, 45);
+    auto actionTo2 = std::make_unique<RotateTo>( 2, -45);
+    auto actionTo0 = std::make_unique<RotateTo>(2 , 0);
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo),
-            to_action_ptr(actionTo0)
+        std::make_unique<Sequence>(
+            std::move(actionTo),
+            std::move(actionTo0)
         )
     );
 
-    auto actionBy = RotateBy::create(2 ,  360);
-    auto actionByBack = actionBy->reverse();
+    auto actionBy = std::make_unique<RotateBy>(2 ,  360);
+    auto actionByBack = std::unique_ptr<RotateBy>( actionBy->reverse());
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
 
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(actionTo2),
-            to_action_ptr(actionTo0->clone())
+        std::make_unique<Sequence>(
+            std::move(actionTo2),
+            std::unique_ptr<RotateTo>(actionTo0->clone())
         )
     );
 }
@@ -557,29 +557,29 @@ void ActionRotateBy3D::onEnter()
 
     centerSprites(3);
 
-    auto actionBy1 = RotateBy::create(4, Vec3(360, 0, 0));
-    auto actionBy1_reverse = actionBy1->reverse();
-    auto actionBy2 = RotateBy::create(4, Vec3(0, 360, 0));
-    auto actionBy2_reverse = actionBy2->reverse();
-    auto actionBy3 = RotateBy::create(4 ,Vec3(0, 0, 360));
-    auto actionBy3_reverse = actionBy3->reverse();
+    auto actionBy1 = std::make_unique<RotateBy>(4, Vec3(360, 0, 0));
+    auto actionBy1_reverse = std::unique_ptr<RotateBy>( actionBy1->reverse());
+    auto actionBy2 = std::make_unique<RotateBy>(4, Vec3(0, 360, 0));
+    auto actionBy2_reverse = std::unique_ptr<RotateBy>( actionBy2->reverse());
+    auto actionBy3 = std::make_unique<RotateBy>(4 ,Vec3(0, 0, 360));
+    auto actionBy3_reverse = std::unique_ptr<RotateBy>( actionBy3->reverse());
 
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy1),
-            to_action_ptr(actionBy1_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy1),
+            std::move(actionBy1_reverse)
         )
     );
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy2),
-            to_action_ptr(actionBy2_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy2),
+            std::move(actionBy2_reverse)
         )
     );
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy3),
-            to_action_ptr(actionBy3_reverse)
+        std::make_unique<Sequence>(
+            std::move(actionBy3),
+            std::move(actionBy3_reverse)
         )
     );
 }
@@ -600,19 +600,19 @@ void ActionJump::onEnter()
 
     centerSprites(3);
 
-    auto actionTo = JumpTo::create(2, Vec2(300,300), 50, 4);
-    auto actionBy = JumpBy::create(2, Vec2(300,0), 50, 4);
-    auto actionUp = JumpBy::create(2, Vec2(0,0), 80, 4);
-    auto actionByBack = actionBy->reverse();
+    auto actionTo = std::make_unique<JumpTo>(2, Vec2(300,300), 50, 4);
+    auto actionBy = std::make_unique<JumpBy>(2, Vec2(300,0), 50, 4);
+    auto actionUp = std::make_unique<JumpBy>(2, Vec2(0,0), 80, 4);
+    auto actionByBack = std::unique_ptr<JumpBy>( actionBy->reverse());
 
-    _tamara->runAction( actionTo);
+    _tamara->runAction( std::move(  actionTo));
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(actionBy),
-            to_action_ptr(actionByBack)
+        std::make_unique<Sequence>(
+            std::move(actionBy),
+            std::move(actionByBack)
         )
     );
-    _kathia->runAction( RepeatForever::create(actionUp));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(actionUp)));
 }
 std::string ActionJump::subtitle() const
 {
@@ -643,12 +643,12 @@ void ActionBezier::onEnter()
     bezier.controlPoint_2 = Vec2(300, -s.height/2);
     bezier.endPosition = Vec2(300,100);
 
-    auto bezierForward = BezierBy::create(3, bezier);
-    auto bezierBack = bezierForward->reverse();
-    auto rep = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(bezierForward),
-            to_action_ptr(bezierBack)
+    auto bezierForward = std::make_unique<BezierBy>(3, bezier);
+    auto bezierBack = std::unique_ptr<BezierBy>( bezierForward->reverse());
+    auto rep = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(bezierForward),
+            std::move(bezierBack)
         )
     );
 
@@ -660,15 +660,15 @@ void ActionBezier::onEnter()
     bezier2.controlPoint_2 = Vec2(200, -s.height/2);
     bezier2.endPosition = Vec2(240,160);
 
-    auto bezierTo1 = BezierTo::create(2, bezier2);    
+    auto bezierTo1 = std::make_unique<BezierTo>(2, bezier2);    
 
     // sprite 3
     _kathia->setPosition(400,160);
-    auto bezierTo2 = BezierTo::create(2, bezier2);
+    auto bezierTo2 = std::make_unique<BezierTo>(2, bezier2);
 
-    _grossini->runAction( rep);
-    _tamara->runAction(bezierTo1);
-    _kathia->runAction(bezierTo2);
+    _grossini->runAction( std::move(  rep));
+    _tamara->runAction( std::move( bezierTo1));
+    _kathia->runAction( std::move( bezierTo2));
 
 }
 
@@ -688,11 +688,11 @@ void ActionBlink::onEnter()
 
     centerSprites(2);
 
-    auto action1 = Blink::create(2, 10);
-    auto action2 = Blink::create(2, 5);
+    auto action1 = std::make_unique<Blink>(2, 10);
+    auto action2 = std::make_unique<Blink>(2, 5);
 
-    _tamara->runAction( action1);
-    _kathia->runAction(action2);
+    _tamara->runAction( std::move(  action1));
+    _kathia->runAction( std::move( action2));
 }
 
 std::string  ActionBlink::subtitle() const
@@ -712,28 +712,28 @@ void ActionFade::onEnter()
     centerSprites(2);
 
     _tamara->setOpacity( 0 );
-    auto action1 = FadeIn::create(1.0f);
-    auto action1Back = action1->reverse();
+    auto action1 = std::make_unique<FadeIn>(1.0f);
+    auto action1Back = std::unique_ptr<FadeTo>( action1->reverse());
 
-    auto action2 = FadeOut::create(1.0f);
-    auto action2Back = action2->reverse();
-    auto action2BackReverse = action2Back->reverse();
-    auto action2BackReverseReverse = action2BackReverse->reverse();
+    auto action2 = std::make_unique<FadeOut>(1.0f);
+    auto action2Back = std::unique_ptr<FadeTo>( action2->reverse());
+    auto action2BackReverse = std::unique_ptr<FadeTo>( action2Back->reverse());
+    auto action2BackReverseReverse = std::unique_ptr<FadeTo>( action2BackReverse->reverse());
 
     _tamara->setOpacity(122);
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(action1),
-            to_action_ptr(action1Back)
+        std::make_unique<Sequence>(
+            std::move(action1),
+            std::move(action1Back)
         )
     );
     _kathia->setOpacity(122);
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(action2),
-            to_action_ptr(action2Back),
-            to_action_ptr(action2BackReverse),
-            to_action_ptr(action2BackReverseReverse)
+        std::make_unique<Sequence>(
+            std::move(action2),
+            std::move(action2Back),
+            std::move(action2BackReverse),
+            std::move(action2BackReverseReverse)
         )
     );
 }
@@ -755,15 +755,15 @@ void ActionTint::onEnter()
 
     centerSprites(2);
 
-    auto action1 = TintTo::create(2, 255, 0, 255);
-    auto action2 = TintBy::create(2, -127, -255, -127);
-    auto action2Back = action2->reverse();
+    auto action1 = std::make_unique<TintTo>(2, 255, 0, 255);
+    auto action2 = std::make_unique<TintBy>(2, -127, -255, -127);
+    auto action2Back = std::unique_ptr<TintBy>( action2->reverse());
 
-    _tamara->runAction( action1);
+    _tamara->runAction( std::move(  action1));
     _kathia->runAction(
-        Sequence::create(
-            to_action_ptr(action2),
-            to_action_ptr(action2Back)
+        std::make_unique<Sequence>(
+            std::move(action2),
+            std::move(action2Back)
         )
     );
 }
@@ -799,13 +799,13 @@ void ActionAnimate::onEnter()
     animation->setDelayPerUnit(2.8f / 14.0f);
     animation->setRestoreOriginalFrame(true);
 
-    auto action = Animate::create( std::move( animation));
-    auto action_reverse = action->reverse();
+    auto action = std::make_unique<Animate>( std::move( animation));
+    auto action_reverse = std::unique_ptr<Animate>( action->reverse());
 
     _grossini->runAction(
-        Sequence::create(
-            to_action_ptr(action),
-            to_action_ptr(action_reverse)
+        std::make_unique<Sequence>(
+            std::move(action),
+            std::move(action_reverse)
         )
     );
     
@@ -817,13 +817,13 @@ void ActionAnimate::onEnter()
     cache->addAnimationsWithFile("animations/animations-2.plist");
     auto animation2 = cache->extractAnimation("dance_1");
 
-    auto action2 = Animate::create(animation2->clone());
-    auto action2_reverse = action2->reverse();
+    auto action2 = std::make_unique<Animate>(animation2->clone());
+    auto action2_reverse = std::unique_ptr<Animate>( action2->reverse());
 
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(action2),
-            to_action_ptr(action2_reverse)
+        std::make_unique<Sequence>(
+            std::move(action2),
+            std::move(action2_reverse)
         )
     );
 
@@ -843,8 +843,8 @@ void ActionAnimate::onEnter()
     animation3->setLoops(4);
 
 
-    auto action3 = Animate::create( std::move( animation3));
-    _kathia->runAction(action3);
+    auto action3 = std::make_unique<Animate>( std::move( animation3));
+    _kathia->runAction( std::move( action3));
 }
 
 void ActionAnimate::onExit()
@@ -874,12 +874,12 @@ void ActionSequence::onEnter()
 
     alignSpritesLeft(1);
 
-    auto action = Sequence::create(
-        to_action_ptr(MoveBy::create( 2, Vec2(240,0))),
-        to_action_ptr(RotateBy::create( 2,  540))
+    auto action = std::make_unique<Sequence>(
+        std::make_unique<MoveBy>( 2, Vec2(240,0)),
+        std::make_unique<RotateBy>( 2,  540)
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction( std::move( action));
 }
 
 std::string ActionSequence::subtitle() const
@@ -900,16 +900,16 @@ void ActionSequence2::onEnter()
 
     _grossini->setVisible(false);
 
-    auto action = Sequence::create(
-		to_action_ptr(Place::create(Vec2(200,200))),
-		to_action_ptr(Show::create()),
-		to_action_ptr(MoveBy::create(1, Vec2(100,0))),
-		to_action_ptr(CallFunc::create( CC_CALLBACK_0(ActionSequence2::callback1,this))),
-		to_action_ptr(CallFunc::create( CC_CALLBACK_0(ActionSequence2::callback2,this,_grossini))),
-		to_action_ptr(CallFunc::create( CC_CALLBACK_0(ActionSequence2::callback3,this,_grossini,0xbebabeba)))
+    auto action = std::make_unique<Sequence>(
+		std::make_unique<Place>(Vec2(200,200)),
+		std::make_unique<Show>(),
+		std::make_unique<MoveBy>(1, Vec2(100,0)),
+		std::make_unique<CallFunc>( CC_CALLBACK_0(ActionSequence2::callback1,this)),
+		std::make_unique<CallFunc>( CC_CALLBACK_0(ActionSequence2::callback2,this,_grossini)),
+		std::make_unique<CallFunc>( CC_CALLBACK_0(ActionSequence2::callback3,this,_grossini,0xbebabeba))
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction( std::move( action));
 }
 
 void ActionSequence2::callback1()
@@ -956,22 +956,22 @@ void ActionSequence3::onEnter()
     alignSpritesLeft(1);
 
     // Uses Array API
-    auto action1 = MoveBy::create(2, Vec2(240,0));
-    auto action2 = RotateBy::create(2, 540);
-    auto action3 = action1->reverse();
-    auto action4 = action2->reverse();
+    auto action1 = std::make_unique<MoveBy>(2, Vec2(240,0));
+    auto action2 = std::make_unique<RotateBy>(2, 540);
+    auto action3 = std::unique_ptr<MoveBy>(action1->reverse());
+    auto action4 = std::unique_ptr<RotateBy>(action2->reverse());
 
     Sequence::actions_container array;
 
     array.reserve(4);
 
-    array.push_back(to_action_ptr<FiniteTimeAction>(action1));
-    array.push_back(to_action_ptr<FiniteTimeAction>(action2));
-    array.push_back(to_action_ptr<FiniteTimeAction>(action3));
-    array.push_back(to_action_ptr<FiniteTimeAction>(action4));
+    array.push_back(std::move(action1));
+    array.push_back(std::move(action2));
+    array.push_back(std::move(action3));
+    array.push_back(std::move(action4));
 
-    auto action = Sequence::create( std::move(array) );
-    _grossini->runAction(action);
+    auto action = std::make_unique<Sequence>( std::move(array) );
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionSequence3::subtitle() const
@@ -990,12 +990,12 @@ void ActionCallFuncN::onEnter()
 
     centerSprites(1);
 
-    auto action = Sequence::create(
-        to_action_ptr(MoveBy::create(2.0f, Vec2(150,0))),
-        to_action_ptr(CallFuncN::create( CC_CALLBACK_1(ActionCallFuncN::callback, this)))
+    auto action = std::make_unique<Sequence>(
+        std::make_unique<MoveBy>(2.0f, Vec2(150,0)),
+        std::make_unique<CallFuncN>( CC_CALLBACK_1(ActionCallFuncN::callback, this))
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionCallFuncN::title() const
@@ -1010,8 +1010,7 @@ std::string ActionCallFuncN::subtitle() const
 
 void ActionCallFuncN::callback(Node* sender )
 {
-    auto a = JumpBy::create(5, Vec2(0,0), 100, 5);
-    sender->runAction(a);
+    sender->runAction(std::make_unique<JumpBy>(5, Vec2(0,0), 100, 5));
 }
 //------------------------------------------------------------------
 //
@@ -1025,12 +1024,12 @@ void ActionCallFuncND::onEnter()
 
     centerSprites(1);
 
-    auto action = Sequence::create(
-        to_action_ptr(MoveBy::create(2.0f, Vec2(200,0))),
-        to_action_ptr(CallFuncN::create( CC_CALLBACK_1(ActionCallFuncND::doRemoveFromParentAndCleanup, this, true)))
+    auto action = std::make_unique<Sequence>(
+        std::make_unique<MoveBy>(2.0f, Vec2(200,0)),
+        std::make_unique<CallFuncN>( CC_CALLBACK_1(ActionCallFuncND::doRemoveFromParentAndCleanup, this, true))
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction( std::move( action));
 }
 
 std::string ActionCallFuncND::title() const
@@ -1060,34 +1059,33 @@ void ActionCallFunction::onEnter()
     centerSprites(3);
 
 
-	auto action1 = Sequence::create(
-                        to_action_ptr(MoveBy::create(2, Vec2(200,0))),
-                        to_action_ptr(CallFunc::create( std::bind(&ActionCallFunction::callback1, this) )),
-                        to_action_ptr(CallFunc::create(
-                             // lambda
+	auto action1 = std::make_unique<Sequence>(
+                        std::make_unique<MoveBy>(2, Vec2(200,0)),
+                        std::make_unique<CallFunc>( std::bind(&ActionCallFunction::callback1, this) ),
+                        std::make_unique<CallFunc>(
                              [&](){
                                  auto s = Director::getInstance()->getWinSize();
                                  auto label = Label::createWithTTF("called:lambda callback", "fonts/Marker Felt.ttf", 16.0f);
                                  label->setPosition(s.width/4*1,s.height/2-40);
                                  this->addChild(label);
-                             }  ))
+                             }  )
                         );
 
-    auto action2 = Sequence::create(
-                        to_action_ptr(ScaleBy::create(2 ,  2)),
-                        to_action_ptr(FadeOut::create(2)),
-                        to_action_ptr(CallFunc::create( std::bind(&ActionCallFunction::callback2, this, _tamara) ))
+    auto action2 = std::make_unique<Sequence>(
+                        std::make_unique<ScaleBy>(2 ,  2),
+                        std::make_unique<FadeOut>(2),
+                        std::make_unique<CallFunc>( std::bind(&ActionCallFunction::callback2, this, _tamara) )
                    );
 
-    auto action3 = Sequence::create(
-                        to_action_ptr(RotateBy::create(3 , 360)),
-                        to_action_ptr(FadeOut::create(2)),
-                        to_action_ptr(CallFunc::create( std::bind(&ActionCallFunction::callback3, this, _kathia, 42) ))
+    auto action3 = std::make_unique<Sequence>(
+                        std::make_unique<RotateBy>(3 , 360),
+                        std::make_unique<FadeOut>(2),
+                        std::make_unique<CallFunc>( std::bind(&ActionCallFunction::callback3, this, _kathia, 42) )
                    );
 
-    _grossini->runAction(action1);
-    _tamara->runAction(action2);
-    _kathia->runAction(action3);
+    _grossini->runAction(std::move(action1));
+    _tamara->runAction(std::move(action2));
+    _kathia->runAction(std::move(action3));
 }
 
 
@@ -1137,12 +1135,12 @@ void ActionSpawn::onEnter()
 
     alignSpritesLeft(1);
 
-    auto action = Spawn::create(
-        JumpBy::create(2, Vec2(300,0), 50, 4),
-        RotateBy::create( 2,  720),
-        nullptr);
+    auto action = std::make_unique<Spawn>(
+        std::make_unique<JumpBy>(2, Vec2(300,0), 50, 4),
+        std::make_unique<RotateBy>( 2,  720)
+    );
 
-    _grossini->runAction(action);
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionSpawn::subtitle() const
@@ -1162,16 +1160,16 @@ void ActionSpawn2::onEnter()
 
     alignSpritesLeft(1);
 
-    auto action1 = to_action_ptr<FiniteTimeAction>( JumpBy::create(2, Vec2(300,0), 50, 4) );
-    auto action2 = to_action_ptr<FiniteTimeAction>( RotateBy::create( 2,  720) );
+    auto action1 = std::make_unique<JumpBy>(2, Vec2(300,0), 50, 4);
+    auto action2 = std::make_unique<RotateBy>(2,  720);
 
-    std::vector<action_ptr<FiniteTimeAction>> array;
+    std::vector<std::unique_ptr<FiniteTimeAction>> array;
 
     array.push_back( std::move(action1) );
     array.push_back( std::move(action2) );
 
-    auto action = Spawn::create( std::move(array) );
-    _grossini->runAction(action);
+    auto action = std::make_unique<Spawn>( std::move(array) );
+    _grossini->runAction( std::move(action));
 }
 
 std::string ActionSpawn2::subtitle() const
@@ -1190,19 +1188,17 @@ void ActionRepeatForever::onEnter()
 
     centerSprites(1);
 
-    auto action = Sequence::create(
-        to_action_ptr(DelayTime::create(1)),
-        to_action_ptr(CallFunc::create( std::bind( &ActionRepeatForever::repeatForever, this, _grossini) ))
+    auto action = std::make_unique<Sequence>(
+        std::make_unique<DelayTime>(1),
+        std::make_unique<CallFunc>( std::bind( &ActionRepeatForever::repeatForever, this, _grossini) )
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction( std::move(action));
 }
 
 void ActionRepeatForever::repeatForever(Node* sender)
 {
-    auto repeat = RepeatForever::create( RotateBy::create(1.0f, 360) );
-
-    sender->runAction(repeat);
+    sender->runAction(std::make_unique<RepeatForever>( std::make_unique<RotateBy>(1.0f, 360)));
 }
 
 std::string ActionRepeatForever::subtitle() const
@@ -1222,14 +1218,14 @@ void ActionRotateToRepeat::onEnter()
 
     centerSprites(2);
 
-	auto act1 = RotateTo::create(1, 90);
-	auto act2 = RotateTo::create(1, 0);
-	auto seq = Sequence::create(to_action_ptr(act1), to_action_ptr(act2));
-	auto rep1 = RepeatForever::create(seq);
-	auto rep2 = Repeat::create( seq->clone(), 10);
+	auto act1 = std::make_unique<RotateTo>(1, 90);
+	auto act2 = std::make_unique<RotateTo>(1, 0);
+	auto seq = std::make_unique<Sequence>(std::move(act1), std::move(act2));
+	auto rep1 = std::make_unique<RepeatForever>(std::move(seq));
+	auto rep2 = std::make_unique<Repeat>( std::unique_ptr<Sequence>(seq->clone()), 10);
 
-    _tamara->runAction(rep1);
-    _kathia->runAction(rep2);
+    _tamara->runAction(std::move(rep1));
+    _kathia->runAction(std::move(rep2));
 }
 
 std::string ActionRotateToRepeat ::subtitle() const
@@ -1248,12 +1244,12 @@ void ActionReverse::onEnter()
 
     alignSpritesLeft(1);
 
-    auto jump = JumpBy::create(2, Vec2(300,0), 50, 4);
-    auto jump_reverse = jump->reverse();
+    auto jump = std::make_unique<JumpBy>(2, Vec2(300,0), 50, 4);
+    auto jump_reverse = std::unique_ptr<JumpBy>(jump->reverse());
 
-    auto action = Sequence::create( to_action_ptr(jump), to_action_ptr(jump_reverse));
+    auto action = std::make_unique<Sequence>( std::move(jump), std::move(jump_reverse));
 
-    _grossini->runAction(action);
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionReverse::subtitle() const
@@ -1273,16 +1269,16 @@ void ActionDelayTime::onEnter()
 
     alignSpritesLeft(1);
 
-    auto move = MoveBy::create(1, Vec2(150,0));
-    auto move_clone = move->clone();
+    auto move = std::make_unique<MoveBy>(1, Vec2(150,0));
+    auto move_clone = std::unique_ptr<MoveBy>( move->clone());
 
-    auto action = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(DelayTime::create(2)),
-        to_action_ptr(move_clone)
+    auto action = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(2),
+        std::move(move_clone)
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionDelayTime::subtitle() const
@@ -1302,23 +1298,23 @@ void ActionReverseSequence::onEnter()
 
     alignSpritesLeft(1);
 
-    auto move1 = MoveBy::create(1, Vec2(250,0));
-    auto move1_reverse = move1->reverse();
-    auto move2 = MoveBy::create(1, Vec2(0,50));
+    auto move1 = std::make_unique<MoveBy>(1, Vec2(250,0));
+    auto move1_reverse = std::unique_ptr<MoveBy>( move1->reverse());
+    auto move2 = std::make_unique<MoveBy>(1, Vec2(0,50));
 
-    auto seq = Sequence::create(
-        to_action_ptr(move1),
-        to_action_ptr(move2),
-        to_action_ptr(move1_reverse)
+    auto seq = std::make_unique<Sequence>(
+        std::move(move1),
+        std::move(move2),
+        std::move(move1_reverse)
     );
-    auto seq_reverse = seq->reverse();
+    auto seq_reverse = std::unique_ptr<Sequence>( seq->reverse());
 
-    auto action = Sequence::create(
-        to_action_ptr(seq),
-        to_action_ptr(seq_reverse)
+    auto action = std::make_unique<Sequence>(
+        std::move(seq),
+        std::move(seq_reverse)
     );
 
-    _grossini->runAction(action);
+    _grossini->runAction(std::move(action));
 }
 
 std::string ActionReverseSequence::subtitle() const
@@ -1341,23 +1337,23 @@ void ActionReverseSequence2::onEnter()
 
     // Test:
     //   Sequence should work both with IntervalAction and InstantActions
-	auto move1 = MoveBy::create(1, Vec2(250,0));
-    auto move1_reverse = move1->reverse();
-	auto move2 = MoveBy::create(1, Vec2(0,50));
-	auto tog1 = ToggleVisibility::create();
-	auto tog2 = ToggleVisibility::create();
-    auto seq = Sequence::create(
-        to_action_ptr(move1),
-        to_action_ptr(tog1),
-        to_action_ptr(move2),
-        to_action_ptr(tog2),
-        to_action_ptr(move1_reverse)
+	auto move1 = std::make_unique<MoveBy>(1, Vec2(250,0));
+    auto move1_reverse = std::unique_ptr<MoveBy>( move1->reverse());
+	auto move2 = std::make_unique<MoveBy>(1, Vec2(0,50));
+	auto tog1 = std::make_unique<ToggleVisibility>();
+	auto tog2 = std::make_unique<ToggleVisibility>();
+    auto seq = std::make_unique<Sequence>(
+        std::move(move1),
+        std::move(tog1),
+        std::move(move2),
+        std::move(tog2),
+        std::move(move1_reverse)
     );
-    auto seq_reverse = seq->reverse();
-	auto action = Repeat::create(
-        Sequence::create(
-            to_action_ptr(seq),
-            to_action_ptr(seq_reverse)
+    auto seq_reverse = std::unique_ptr<Sequence>( seq->reverse());
+	auto action = std::make_unique<Repeat>(
+        std::make_unique<Sequence>(
+            std::move(seq),
+            std::move(seq_reverse)
         ),
         3
     );
@@ -1365,21 +1361,21 @@ void ActionReverseSequence2::onEnter()
 
     // Test:
     //   Also test that the reverse of Hide is Show, and vice-versa
-    _kathia->runAction(action);
+    _kathia->runAction( std::move( action));
 
-	auto move_tamara = MoveBy::create(1, Vec2(100,0));
-	auto move_tamara2 = MoveBy::create(1, Vec2(50,0));
-	auto hide = Hide::create();
-	auto seq_tamara = Sequence::create(
-        to_action_ptr(move_tamara),
-        to_action_ptr(hide),
-        to_action_ptr(move_tamara2)
+	auto move_tamara = std::make_unique<MoveBy>(1, Vec2(100,0));
+	auto move_tamara2 = std::make_unique<MoveBy>(1, Vec2(50,0));
+	auto hide = std::make_unique<Hide>();
+	auto seq_tamara = std::make_unique<Sequence>(
+        std::move(move_tamara),
+        std::move(hide),
+        std::move(move_tamara2)
     );
-	auto seq_back = seq_tamara->reverse();
+	auto seq_back = std::unique_ptr<Sequence>( seq_tamara->reverse());
     _tamara->runAction(
-        Sequence::create(
-            to_action_ptr(seq_tamara),
-            to_action_ptr(seq_back)
+        std::make_unique<Sequence>(
+            std::move(seq_tamara),
+            std::move(seq_back)
         )
     );
 }
@@ -1400,19 +1396,19 @@ void ActionRepeat::onEnter()
     alignSpritesLeft(2);
 
 
-    auto a1 = MoveBy::create(1, Vec2(150,0));
-    auto a1_clone = a1->clone();
-    auto a1_reverse = a1->reverse();
+    auto a1 = std::make_unique<MoveBy>(1, Vec2(150,0));
+    auto a1_clone = std::unique_ptr<MoveBy>( a1->clone());
+    auto a1_reverse = std::unique_ptr<MoveBy>( a1->reverse());
 
-    auto action1 = Repeat::create(
-        Sequence::create( to_action_ptr(Place::create(Vec2(60,60))), to_action_ptr(a1)) , 
+    auto action1 = std::make_unique<Repeat>(
+        std::make_unique<Sequence>( std::make_unique<Place>(Vec2(60,60)), std::move(a1)) , 
         3); 
-    auto  action2 = RepeatForever::create(
-        Sequence::create(to_action_ptr(a1_clone), to_action_ptr(a1_reverse))
+    auto  action2 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(std::move(a1_clone), std::move(a1_reverse))
     );
 
-    _kathia->runAction(action1);
-    _tamara->runAction(action2);
+    _kathia->runAction( std::move( action1));
+    _tamara->runAction( std::move( action2));
 }
 
 std::string ActionRepeat::subtitle() const
@@ -1432,38 +1428,38 @@ void ActionOrbit::onEnter()
     Director::getInstance()->setProjection(Director::Projection::_2D);
     centerSprites(3);
 
-    auto orbit1 = OrbitCamera::create(2,1, 0, 0, 180, 0, 0);
-    auto orbit1_reverse = orbit1->reverse();
-    auto action1 = Sequence::create(
-        to_action_ptr(orbit1),
-        to_action_ptr(orbit1_reverse)
+    auto orbit1 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, 0, 0);
+    auto orbit1_reverse = std::unique_ptr<ActionCamera>( orbit1->reverse());
+    auto action1 = std::make_unique<Sequence>(
+        std::move(orbit1),
+        std::move(orbit1_reverse)
     );
 
-    auto orbit2 = OrbitCamera::create(2,1, 0, 0, 180, -45, 0);
-    auto orbit2_reverse = orbit2->reverse();
-    auto action2 = Sequence::create(
-        to_action_ptr(orbit2),
-        to_action_ptr(orbit2_reverse)
+    auto orbit2 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, -45, 0);
+    auto orbit2_reverse = std::unique_ptr<ActionCamera>( orbit2->reverse());
+    auto action2 = std::make_unique<Sequence>(
+        std::move(orbit2),
+        std::move(orbit2_reverse)
     );
 
-    auto orbit3 = OrbitCamera::create(2,1, 0, 0, 180, 90, 0);
-    auto orbit3_reverse = orbit3->reverse();
-    auto action3 = Sequence::create(
-        to_action_ptr(orbit3),
-        to_action_ptr(orbit3_reverse)
+    auto orbit3 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, 90, 0);
+    auto orbit3_reverse = std::unique_ptr<ActionCamera>( orbit3->reverse());
+    auto action3 = std::make_unique<Sequence>(
+        std::move(orbit3),
+        std::move(orbit3_reverse)
     );
 
-    _kathia->runAction(RepeatForever::create(action1));
-    _tamara->runAction(RepeatForever::create(action2));
-    _grossini->runAction(RepeatForever::create(action3));
+    _kathia->runAction(std::make_unique<RepeatForever>( std::move( action1)));
+    _tamara->runAction(std::make_unique<RepeatForever>( std::move( action2)));
+    _grossini->runAction(std::make_unique<RepeatForever>( std::move( action3)));
 
-    auto move = MoveBy::create(3, Vec2(100,-100));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create(to_action_ptr(move), to_action_ptr(move_back));
-    auto rfe = RepeatForever::create(seq);
-    _kathia->runAction(rfe);
-    _tamara->runAction(rfe->clone() );
-    _grossini->runAction( rfe->clone() );
+    auto move = std::make_unique<MoveBy>(3, Vec2(100,-100));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
+    auto seq = std::make_unique<Sequence>(std::move(move), std::move(move_back));
+    auto rfe = std::make_unique<RepeatForever>( std::move( seq));
+    _kathia->runAction( std::move( rfe));
+    _tamara->runAction(std::unique_ptr<RepeatForever>( rfe->clone()) );
+    _grossini->runAction( std::unique_ptr<RepeatForever>( rfe->clone()) );
 }
 
 void ActionOrbit::onExit()
@@ -1500,14 +1496,14 @@ void ActionFollow::onEnter()
     this->addChild(drawNode);
 
     _grossini->setPosition(-200, s.height / 2);
-    auto move = MoveBy::create(2, Vec2(s.width * 3, 0));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create(to_action_ptr(move), to_action_ptr(move_back));
-    auto rep = RepeatForever::create(seq);
+    auto move = std::make_unique<MoveBy>(2, Vec2(s.width * 3, 0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
+    auto seq = std::make_unique<Sequence>(std::move(move), std::move(move_back));
+    auto rep = std::make_unique<RepeatForever>( std::move( seq));
 
-    _grossini->runAction(rep);
+    _grossini->runAction( std::move( rep));
 
-    this->runAction(Follow::create(_grossini, Rect(0, 0, s.width * 2 - 100, s.height)));
+    this->runAction(std::make_unique<Follow>(_grossini, Rect(0, 0, s.width * 2 - 100, s.height)));
 }
 
 std::string ActionFollow::subtitle() const
@@ -1537,17 +1533,17 @@ void ActionFollowWithOffset::onEnter()
     this->addChild(drawNode);
     
     _grossini->setPosition(-200, s.height / 2);
-    auto move = MoveBy::create(2, Vec2(s.width * 3, 1));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create(to_action_ptr(move), to_action_ptr(move_back));
-    auto rep = RepeatForever::create(seq);
+    auto move = std::make_unique<MoveBy>(2, Vec2(s.width * 3, 1));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
+    auto seq = std::make_unique<Sequence>(std::move(move), std::move(move_back));
+    auto rep = std::make_unique<RepeatForever>( std::move( seq));
     
-    _grossini->runAction(rep);
+    _grossini->runAction( std::move( rep));
     
     //sample offset values set
     float verticalOffset = -900;
     float horizontalOffset = 200;
-    this->runAction(Follow::createWithOffset(_grossini, horizontalOffset,verticalOffset,Rect(0, 0, s.width * 2 - 100, s.height)));
+    this->runAction(std::make_unique<Follow>(_grossini, horizontalOffset, verticalOffset, Rect(0, 0, s.width * 2 - 100, s.height)));
 }
 
 std::string ActionFollowWithOffset::subtitle() const
@@ -1562,23 +1558,23 @@ void ActionTargeted::onEnter()
     centerSprites(2);
 
 
-    auto jump1 = JumpBy::create(2,Vec2::ZERO,100,3);
-    auto jump2 = jump1->clone();
-    auto rot1 = RotateBy::create(1, 360);
-    auto rot2 = rot1->clone();
+    auto jump1 = std::make_unique<JumpBy>(2,Vec2::ZERO,100,3);
+    auto jump2 = std::unique_ptr<JumpBy>( jump1->clone());
+    auto rot1 = std::make_unique<RotateBy>(1, 360);
+    auto rot2 = std::unique_ptr<RotateBy>( rot1->clone());
 
-    auto t1 = TargetedAction::create(_kathia, jump2);
-    auto t2 = TargetedAction::create(_kathia, rot2);
+    auto t1 = std::make_unique<TargetedAction>(_kathia, std::move(jump2));
+    auto t2 = std::make_unique<TargetedAction>(_kathia, std::move(rot2));
 
-    auto seq = Sequence::create(
-        to_action_ptr(jump1),
-        to_action_ptr(t1),
-        to_action_ptr(rot1),
-        to_action_ptr(t2)
+    auto seq = std::make_unique<Sequence>(
+        std::move(jump1),
+        std::move(t1),
+        std::move(rot1),
+        std::move(t2)
     );
-    auto always = RepeatForever::create(seq);
+    auto always = std::make_unique<RepeatForever>(std::move(seq));
 
-    _tamara->runAction(always);
+    _tamara->runAction( std::move( always));
 }
 
 std::string ActionTargeted::title() const
@@ -1598,23 +1594,23 @@ void ActionTargetedReverse::onEnter()
     centerSprites(2);
     
     
-    auto jump1 = JumpBy::create(2,Vec2::ZERO,100,3);
-    auto jump2 = jump1->clone();
-    auto rot1 = RotateBy::create(1, 360);
-    auto rot2 = rot1->clone();
+    auto jump1 = std::make_unique<JumpBy>(2,Vec2::ZERO,100,3);
+    auto jump2 = std::unique_ptr<JumpBy>( jump1->clone());
+    auto rot1 = std::make_unique<RotateBy>(1, 360);
+    auto rot2 = std::unique_ptr<RotateBy>( rot1->clone());
     
-    auto t1 = TargetedAction::create(_kathia, jump2);
-    auto t2 = TargetedAction::create(_kathia, rot2);
+    auto t1 = std::make_unique<TargetedAction>(_kathia, std::move(jump2));
+    auto t2 = std::make_unique<TargetedAction>(_kathia, std::move(rot2));
     
-    auto seq = Sequence::create(
-        to_action_ptr(jump1),
-        to_action_ptr(t1->reverse()),
-        to_action_ptr(rot1),
-        to_action_ptr(t2->reverse())
+    auto seq = std::make_unique<Sequence>(
+        std::move(jump1),
+        std::unique_ptr<TargetedAction>( t1->reverse()),
+        std::move(rot1),
+        std::unique_ptr<TargetedAction>( t2->reverse())
     );
-    auto always = RepeatForever::create(seq);
+    auto always = std::make_unique<RepeatForever>(std::move(seq));
     
-    _tamara->runAction(always);
+    _tamara->runAction( std::move( always));
 }
 
 std::string ActionTargetedReverse::title() const
@@ -1687,20 +1683,20 @@ std::string ActionStacked::subtitle() const
 void ActionMoveStacked::runActionsInSprite(Sprite *sprite)
 {
     sprite->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,10))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,-10)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,10)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,-10))
             )
         )
     );
     
-    auto action = MoveBy::create(2.0f, Vec2(400,0));
-    auto action_back = action->reverse();
+    auto action = std::make_unique<MoveBy>(2.0f, Vec2(400,0));
+    auto action_back = std::unique_ptr<MoveBy>( action->reverse());
     
     sprite->runAction(
-      RepeatForever::create(
-        Sequence::create(to_action_ptr(action), to_action_ptr(action_back))
+      std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(std::move(action), std::move(action_back))
       ));
 }
 
@@ -1715,18 +1711,18 @@ std::string ActionMoveStacked::title() const
 void ActionMoveJumpStacked::runActionsInSprite(Sprite *sprite)
 {
     sprite->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,2))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,-2)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,2)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,-2))
             )));
     
-    auto jump = JumpBy::create(2.0f, Vec2(400,0), 100, 5);
-    auto jump_back = jump->reverse();
+    auto jump = std::make_unique<JumpBy>(2.0f, Vec2(400,0), 100, 5);
+    auto jump_back = std::unique_ptr<JumpBy>( jump->reverse());
     
     sprite->runAction(
-      RepeatForever::create(
-          Sequence::create(to_action_ptr(jump), to_action_ptr(jump_back))
+      std::make_unique<RepeatForever>(
+          std::make_unique<Sequence>(std::move(jump), std::move(jump_back))
           ));
 }
 
@@ -1747,17 +1743,17 @@ void ActionMoveBezierStacked::runActionsInSprite(Sprite *sprite)
     bezier.controlPoint_2 = Vec2(300, -s.height/2);
     bezier.endPosition = Vec2(300,100);
     
-    auto bezierForward = BezierBy::create(3, bezier);
-    auto bezierBack = bezierForward->reverse();
-    auto seq = Sequence::create(to_action_ptr(bezierForward), to_action_ptr(bezierBack));
-    auto rep = RepeatForever::create(seq);
-    sprite->runAction(rep);
+    auto bezierForward = std::make_unique<BezierBy>(3, bezier);
+    auto bezierBack = std::unique_ptr<BezierBy>( bezierForward->reverse());
+    auto seq = std::make_unique<Sequence>(std::move(bezierForward), std::move(bezierBack));
+    auto rep = std::make_unique<RepeatForever>(std::move(seq));
+    sprite->runAction( std::move( rep));
     
     sprite->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(MoveBy::create(0.05f, Vec2(10,0))),
-       to_action_ptr(MoveBy::create(0.05f, Vec2(-10,0)))
+     std::make_unique<RepeatForever>(
+      std::make_unique<Sequence>(
+       std::make_unique<MoveBy>(0.05f, Vec2(10,0)),
+       std::make_unique<MoveBy>(0.05f, Vec2(-10,0))
        )));
 }
 
@@ -1786,28 +1782,28 @@ void ActionCatmullRomStacked::onEnter()
     
     _tamara->setPosition(50,50);
     
-    auto array = PointArray::create(20);
+    std::vector<Vec2> array {
+        Vec2(0,0),
+        Vec2(80,80),
+        Vec2(s.width-80,80),
+        Vec2(s.width-80,s.height-80),
+        Vec2(80,s.height-80),
+        Vec2(80,80),
+        Vec2(s.width/2, s.height/2)
+    };
     
-    array->addControlPoint(Vec2(0,0));
-    array->addControlPoint(Vec2(80,80));
-    array->addControlPoint(Vec2(s.width-80,80));
-    array->addControlPoint(Vec2(s.width-80,s.height-80));
-    array->addControlPoint(Vec2(80,s.height-80));
-    array->addControlPoint(Vec2(80,80));
-    array->addControlPoint(Vec2(s.width/2, s.height/2));
+    auto action = std::make_unique<CatmullRomBy>(3, array);
+    auto reverse = std::unique_ptr<CatmullRomBy>( action->reverse());
     
-    auto action = CatmullRomBy::create(3, array);
-    auto reverse = action->reverse();
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(reverse));
     
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(reverse));
-    
-    _tamara->runAction(seq);
+    _tamara->runAction( std::move( seq));
     
     _tamara->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,0))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,0)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,0)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,0))
                 )));
     
     auto drawNode1 = DrawNode::create();
@@ -1822,26 +1818,26 @@ void ActionCatmullRomStacked::onEnter()
     // The initial position will be the 1st point of the Catmull Rom path
     //
     
-    auto array2 = PointArray::create(20);
+    std::vector<Vec2> array2 {
+        Vec2(s.width/2, 30),
+        Vec2(s.width-80,30),
+        Vec2(s.width-80,s.height-80),
+        Vec2(s.width/2,s.height-80),
+        Vec2(s.width/2, 30)
+    };
     
-    array2->addControlPoint(Vec2(s.width/2, 30));
-    array2->addControlPoint(Vec2(s.width-80,30));
-    array2->addControlPoint(Vec2(s.width-80,s.height-80));
-    array2->addControlPoint(Vec2(s.width/2,s.height-80));
-    array2->addControlPoint(Vec2(s.width/2, 30));
+    auto action2 = std::make_unique<CatmullRomTo>(3, array2);
+    auto reverse2 = std::unique_ptr<CatmullRomTo>( action2->reverse());
     
-    auto action2 = CatmullRomTo::create(3, array2);
-    auto reverse2 = action2->reverse();
+    auto seq2 = std::make_unique<Sequence>(std::move(action2), std::move(reverse2));
     
-    auto seq2 = Sequence::create(to_action_ptr(action2), to_action_ptr(reverse2));
-    
-    _kathia->runAction(seq2);
+    _kathia->runAction( std::move( seq2));
     
     _kathia->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,0))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,0)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,0)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,0))
             )));
     
     auto drawNode2 = DrawNode::create();
@@ -1874,34 +1870,33 @@ void ActionCardinalSplineStacked::onEnter()
     
     auto s = Director::getInstance()->getWinSize();
     
-    auto array = PointArray::create(20);
-    
-    array->addControlPoint(Vec2(0, 0));
-    array->addControlPoint(Vec2(s.width/2-30,0));
-    array->addControlPoint(Vec2(s.width/2-30,s.height-80));
-    array->addControlPoint(Vec2(0, s.height-80));
-    array->addControlPoint(Vec2(0, 0));
-    
-    
+    std::vector<Vec2> array {
+        Vec2(0, 0),
+        Vec2(s.width/2-30,0),
+        Vec2(s.width/2-30,s.height-80),
+        Vec2(0, s.height-80),
+        Vec2(0, 0)
+    };
+
     //
     // sprite 1 (By)
     //
     // Spline with no tension (tension==0)
     //
 
-    auto action = CardinalSplineBy::create(3, array, 0);
-    auto reverse = action->reverse();
+    auto action = std::make_unique<CardinalSplineBy>(3, array, 0);
+    auto reverse = std::unique_ptr<CardinalSplineBy>( action->reverse());
     
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(reverse));
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(reverse));
     
     _tamara->setPosition(50,50);
-    _tamara->runAction(seq);
+    _tamara->runAction( std::move( seq));
     
     _tamara->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,0))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,0)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,0)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,0))
                 )));
     
     auto drawNode1 = DrawNode::create();
@@ -1915,20 +1910,20 @@ void ActionCardinalSplineStacked::onEnter()
     // Spline with high tension (tension==1)
     //
     
-    auto *action2 = CardinalSplineBy::create(3, array, 1);
-    auto reverse2 = action2->reverse();
+    auto action2 = std::make_unique<CardinalSplineBy>(3, array, 1);
+    auto reverse2 = std::unique_ptr<CardinalSplineBy>( action2->reverse());
     
-    auto seq2 = Sequence::create(to_action_ptr(action2), to_action_ptr(reverse2));
+    auto seq2 = std::make_unique<Sequence>(std::move(action2), std::move(reverse2));
     
     _kathia->setPosition(s.width/2,50);
     
-    _kathia->runAction(seq2);
+    _kathia->runAction( std::move( seq2));
     
     _kathia->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(0.05f, Vec2(10,0))),
-                to_action_ptr(MoveBy::create(0.05f, Vec2(-10,0)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(0.05f, Vec2(10,0)),
+                std::make_unique<MoveBy>(0.05f, Vec2(-10,0))
                 )));
     
     auto drawNode2 = DrawNode::create();
@@ -1958,7 +1953,7 @@ void Issue1305::onEnter()
     centerSprites(0);
 
     _spriteTmp = to_node_ptr<Sprite>(Sprite::create("Images/grossini.png"));
-    _spriteTmp->runAction(CallFunc::create(std::bind(&Issue1305::log, this, _spriteTmp.get())));
+    _spriteTmp->runAction(std::make_unique<CallFunc>(std::bind(&Issue1305::log, this, _spriteTmp.get())));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this,
@@ -2003,27 +1998,27 @@ void Issue1305_2::onEnter()
     spr->setPosition(200,200);
     addChild(spr);
 
-    auto act1 = MoveBy::create(2 ,Vec2(0, 100));
-    auto act2 = CallFunc::create( std::bind( &Issue1305_2::printLog1, this));
-    auto act3 = MoveBy::create(2, Vec2(0, -100));
-    auto act4 = CallFunc::create( std::bind( &Issue1305_2::printLog2, this));
-    auto act5 = MoveBy::create(2, Vec2(100, -100));
-    auto act6 = CallFunc::create( std::bind( &Issue1305_2::printLog3, this));
-    auto act7 = MoveBy::create(2, Vec2(-100, 0));
-    auto act8 = CallFunc::create( std::bind( &Issue1305_2::printLog4, this));
+    auto act1 = std::make_unique<MoveBy>(2 ,Vec2(0, 100));
+    auto act2 = std::make_unique<CallFunc>( std::bind( &Issue1305_2::printLog1, this));
+    auto act3 = std::make_unique<MoveBy>(2, Vec2(0, -100));
+    auto act4 = std::make_unique<CallFunc>( std::bind( &Issue1305_2::printLog2, this));
+    auto act5 = std::make_unique<MoveBy>(2, Vec2(100, -100));
+    auto act6 = std::make_unique<CallFunc>( std::bind( &Issue1305_2::printLog3, this));
+    auto act7 = std::make_unique<MoveBy>(2, Vec2(-100, 0));
+    auto act8 = std::make_unique<CallFunc>( std::bind( &Issue1305_2::printLog4, this));
 
-    auto actF = Sequence::create(
-        to_action_ptr(act1),
-        to_action_ptr(act2),
-        to_action_ptr(act3),
-        to_action_ptr(act4),
-        to_action_ptr(act5),
-        to_action_ptr(act6),
-        to_action_ptr(act7),
-        to_action_ptr(act8)
+    auto actF = std::make_unique<Sequence>(
+        std::move(act1),
+        std::move(act2),
+        std::move(act3),
+        std::move(act4),
+        std::move(act5),
+        std::move(act6),
+        std::move(act7),
+        std::move(act8)
     );
 
-    spr->runAction(actF);
+    spr->runAction( std::move( actF));
 }
 
 void Issue1305_2::printLog1()
@@ -2065,12 +2060,12 @@ void Issue1288::onEnter()
     spr->setPosition(100, 100);
     addChild(spr);
 
-    auto act1 = MoveBy::create(0.5, Vec2(100, 0));
-    auto act2 = act1->reverse();
-    auto act3 = Sequence::create(to_action_ptr(act1), to_action_ptr(act2));
-    auto act4 = Repeat::create(act3, 2);
+    auto act1 = std::make_unique<MoveBy>(0.5, Vec2(100, 0));
+    auto act2 = std::unique_ptr<MoveBy>( act1->reverse());
+    auto act3 = std::make_unique<Sequence>(std::move(act1), std::move(act2));
+    auto act4 = std::make_unique<Repeat>(std::move(act3), 2);
 
-    spr->runAction(act4);
+    spr->runAction( std::move( act4));
 }
 
 std::string Issue1288::title() const
@@ -2092,8 +2087,8 @@ void Issue1288_2::onEnter()
     spr->setPosition(100, 100);
     addChild(spr);
 
-    auto act1 = MoveBy::create(0.5, Vec2(100, 0));
-    spr->runAction(Repeat::create(act1, 1));
+    auto act1 = std::make_unique<MoveBy>(0.5, Vec2(100, 0));
+    spr->runAction(std::make_unique<Repeat>(std::move(act1), 1));
 }
 
 std::string Issue1288_2::title() const
@@ -2116,28 +2111,28 @@ void Issue1327::onEnter()
     spr->setPosition(100, 100);
     addChild(spr);
 
-    auto act1 = CallFunc::create( std::bind(&Issue1327::logSprRotation, this, spr));
-    auto act2 = RotateBy::create(0.25, 45);
-    auto act3 = CallFunc::create( std::bind(&Issue1327::logSprRotation, this, spr));
-    auto act4 = RotateBy::create(0.25, 45);
-    auto act5 = CallFunc::create( std::bind(&Issue1327::logSprRotation, this, spr));
-    auto act6 = RotateBy::create(0.25, 45);
-    auto act7 = CallFunc::create( std::bind(&Issue1327::logSprRotation, this, spr));
-    auto act8 = RotateBy::create(0.25, 45);
-    auto act9 = CallFunc::create( std::bind(&Issue1327::logSprRotation, this, spr));
+    auto act1 = std::make_unique<CallFunc>( std::bind(&Issue1327::logSprRotation, this, spr));
+    auto act2 = std::make_unique<RotateBy>(0.25, 45);
+    auto act3 = std::make_unique<CallFunc>( std::bind(&Issue1327::logSprRotation, this, spr));
+    auto act4 = std::make_unique<RotateBy>(0.25, 45);
+    auto act5 = std::make_unique<CallFunc>( std::bind(&Issue1327::logSprRotation, this, spr));
+    auto act6 = std::make_unique<RotateBy>(0.25, 45);
+    auto act7 = std::make_unique<CallFunc>( std::bind(&Issue1327::logSprRotation, this, spr));
+    auto act8 = std::make_unique<RotateBy>(0.25, 45);
+    auto act9 = std::make_unique<CallFunc>( std::bind(&Issue1327::logSprRotation, this, spr));
 
-    auto actF = Sequence::create(
-        to_action_ptr(act1),
-        to_action_ptr(act2),
-        to_action_ptr(act3),
-        to_action_ptr(act4),
-        to_action_ptr(act5),
-        to_action_ptr(act6),
-        to_action_ptr(act7),
-        to_action_ptr(act8),
-        to_action_ptr(act9)
+    auto actF = std::make_unique<Sequence>(
+        std::move(act1),
+        std::move(act2),
+        std::move(act3),
+        std::move(act4),
+        std::move(act5),
+        std::move(act6),
+        std::move(act7),
+        std::move(act8),
+        std::move(act9)
     );
-    spr->runAction(actF);
+    spr->runAction( std::move( actF));
 }
 
 std::string Issue1327::title() const
@@ -2171,15 +2166,15 @@ void Issue1398::onEnter()
     log("testInt = %d", _testInteger);
 
     this->runAction(
-        Sequence::create(
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"1"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"2"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"3"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"4"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"5"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"6"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"7"))),
-			to_action_ptr(CallFunc::create( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"8")))
+        std::make_unique<Sequence>(
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"1")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"2")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"3")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"4")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"5")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"6")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"7")),
+			std::make_unique<CallFunc>( std::bind(&Issue1398::incrementIntegerCallback, this, (void*)"8"))
         )
     );
 }
@@ -2210,16 +2205,18 @@ void Issue2599::onEnter()
     
     log("start count up 50 times using Repeat action");
     auto delay = 1.0f / 50;
-    auto repeatAction = Repeat::create(
-        Sequence::createWithTwoActions(
-            CallFunc::create([&](){ this->_count++; }),
-            DelayTime::create(delay)),
+    auto repeatAction = std::make_unique<Repeat>(
+        std::make_unique<Sequence>(
+            std::make_unique<CallFunc>([&](){ this->_count++; }),
+            std::make_unique<DelayTime>(delay)
+        ),
         50);
     this->runAction(
-        Sequence::createWithTwoActions(
-            repeatAction,
-            CallFunc::create([&]() { log("after: count = %d", this->_count); })
-        ));
+        std::make_unique<Sequence>(
+            std::move(repeatAction),
+            std::make_unique<CallFunc>([&]() { log("after: count = %d", this->_count); })
+        )
+    );
 }
 
 std::string Issue2599::subtitle() const
@@ -2251,22 +2248,22 @@ void ActionCatmullRom::onEnter()
     
     _tamara->setPosition(50, 50);
     
-    auto array = PointArray::create(20);
+    std::vector<Vec2> array {
+        Vec2(0, 0),
+        Vec2(80, 80),
+        Vec2(s.width - 80, 80),
+        Vec2(s.width - 80, s.height - 80),
+        Vec2(80, s.height - 80),
+        Vec2(80, 80),
+        Vec2(s.width / 2, s.height / 2)
+    };
     
-    array->addControlPoint(Vec2(0, 0));
-    array->addControlPoint(Vec2(80, 80));
-    array->addControlPoint(Vec2(s.width - 80, 80));
-    array->addControlPoint(Vec2(s.width - 80, s.height - 80));
-    array->addControlPoint(Vec2(80, s.height - 80));
-    array->addControlPoint(Vec2(80, 80));
-    array->addControlPoint(Vec2(s.width / 2, s.height / 2));
+    auto action = std::make_unique<CatmullRomBy>(3, array);
+    auto reverse = std::unique_ptr<CatmullRomBy>( action->reverse());
     
-    auto action = CatmullRomBy::create(3, array);
-    auto reverse = action->reverse();
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(reverse));
     
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(reverse));
-    
-    _tamara->runAction(seq);
+    _tamara->runAction( std::move( seq));
     
     auto drawNode1 = DrawNode::create();
     drawNode1->setPosition(Vec2(50,50));
@@ -2280,20 +2277,20 @@ void ActionCatmullRom::onEnter()
     // The initial position will be the 1st point of the Catmull Rom path
     //    
     
-    auto array2 = PointArray::create(20);
+    std::vector<Vec2> array2 {
+        Vec2(s.width / 2, 30),
+        Vec2(s.width  -80, 30),
+        Vec2(s.width - 80, s.height - 80),
+        Vec2(s.width / 2, s.height - 80),
+        Vec2(s.width / 2, 30)
+    };
     
-    array2->addControlPoint(Vec2(s.width / 2, 30));
-    array2->addControlPoint(Vec2(s.width  -80, 30));
-    array2->addControlPoint(Vec2(s.width - 80, s.height - 80));
-    array2->addControlPoint(Vec2(s.width / 2, s.height - 80));
-    array2->addControlPoint(Vec2(s.width / 2, 30));
+    auto action2 = std::make_unique<CatmullRomTo>(3, array2);
+    auto reverse2 = std::unique_ptr<CatmullRomTo>( action2->reverse());
     
-    auto action2 = CatmullRomTo::create(3, array2);
-    auto reverse2 = action2->reverse();
+    auto seq2 = std::make_unique<Sequence>(std::move(action2), std::move(reverse2));
     
-    auto seq2 = Sequence::create(to_action_ptr(action2), to_action_ptr(reverse2));
-    
-    _kathia->runAction(seq2);
+    _kathia->runAction( std::move( seq2));
     
     auto drawNode2 = DrawNode::create();
     drawNode2->drawCatmullRom(array2, 50, Color4F(0.0, 1.0, 1.0, 1.0));
@@ -2324,13 +2321,13 @@ void ActionCardinalSpline::onEnter()
     
     auto s = Director::getInstance()->getWinSize();
     
-    auto array = PointArray::create(20);
-    
-    array->addControlPoint(Vec2(0, 0));
-    array->addControlPoint(Vec2(s.width/2-30, 0));
-    array->addControlPoint(Vec2(s.width/2-30, s.height-80));
-    array->addControlPoint(Vec2(0, s.height-80));
-    array->addControlPoint(Vec2(0, 0));
+    std::vector<Vec2> array {
+        Vec2(0, 0),
+        Vec2(s.width/2-30, 0),
+        Vec2(s.width/2-30, s.height-80),
+        Vec2(0, s.height-80),
+        Vec2(0, 0)
+    };
     
     //
     // sprite 1 (By)
@@ -2338,13 +2335,13 @@ void ActionCardinalSpline::onEnter()
     // Spline with no tension (tension==0)
     //
     
-    auto action = CardinalSplineBy::create(3, array, 0);
-    auto reverse = action->reverse();
+    auto action = std::make_unique<CardinalSplineBy>(3, array, 0);
+    auto reverse = std::unique_ptr<CardinalSplineBy>( action->reverse());
     
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(reverse));
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(reverse));
     
     _tamara->setPosition(50, 50);
-    _tamara->runAction(seq);
+    _tamara->runAction( std::move( seq));
     
     auto drawNode1 = DrawNode::create();
     drawNode1->setPosition(Vec2(50,50));
@@ -2357,13 +2354,13 @@ void ActionCardinalSpline::onEnter()
     // Spline with high tension (tension==1)
     //
     
-    auto action2 = CardinalSplineBy::create(3, array, 1);
-    auto reverse2 = action2->reverse();
+    auto action2 = std::make_unique<CardinalSplineBy>(3, array, 1);
+    auto reverse2 = std::unique_ptr<CardinalSplineBy>( action2->reverse());
     
-    auto seq2 = Sequence::create(to_action_ptr(action2), to_action_ptr(reverse2));
+    auto seq2 = std::make_unique<Sequence>(std::move(action2), std::move(reverse2));
     
     _kathia->setPosition(s.width/2, 50);
-    _kathia->runAction(seq2);
+    _kathia->runAction( std::move( seq2));
     
     auto drawNode2 = DrawNode::create();
     drawNode2->setPosition(Vec2(s.width/2, 50));
@@ -2404,9 +2401,9 @@ void PauseResumeActions::onEnter()
     
     this->centerSprites(3);
     
-    _tamara->runAction(RepeatForever::create(RotateBy::create(3, 360)));
-    _grossini->runAction(RepeatForever::create(RotateBy::create(3, -360)));
-    _kathia->runAction(RepeatForever::create(RotateBy::create(3, 360)));
+    _tamara->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3, 360)));
+    _grossini->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3, -360)));
+    _kathia->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3, 360)));
     
     auto pause = [=](float){
         log("Pausing");
@@ -2477,21 +2474,21 @@ void ActionResize::onEnter()
     imageViewResize->setPosition(Vec2((widgetSize.width / 2.0f) + offset.x,
                                 (widgetSize.height / 2.0f) + offset.y));
 
-    auto resizeDown = cocos2d::ResizeTo::create(2.8f, Size(50, 40));
-    auto resizeUp = cocos2d::ResizeTo::create(2.8f, Size(300, 40));
+    auto resizeDown = std::make_unique<ResizeTo>(2.8f, Size(50, 40));
+    auto resizeUp = std::make_unique<ResizeTo>(2.8f, Size(300, 40));
 
-    auto resizeByDown = cocos2d::ResizeBy::create(1.8f, Size(0, -30));
-    auto resizeByUp = cocos2d::ResizeBy::create(1.8f, Size(0, 30));
+    auto resizeByDown = std::make_unique<ResizeBy>(1.8f, Size(0, -30));
+    auto resizeByUp = std::make_unique<ResizeBy>(1.8f, Size(0, 30));
     addChild(imageViewResize);
-    auto rep = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(resizeUp),
-            to_action_ptr(resizeDown),
-            to_action_ptr(resizeByDown),
-            to_action_ptr(resizeByUp)
+    auto rep = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(resizeUp),
+            std::move(resizeDown),
+            std::move(resizeByDown),
+            std::move(resizeByUp)
         )
     );
-    imageViewResize->runAction(rep);
+    imageViewResize->runAction( std::move( rep));
 
     // Create another imageview that scale to see the difference
     ImageView* imageViewScale = ImageView::create("cocosui/buttonHighlighted.png");
@@ -2500,21 +2497,21 @@ void ActionResize::onEnter()
     imageViewScale->setPosition(Vec2(widgetSize.width / 2.0f,
                                  widgetSize.height / 2.0f));
 
-    auto scaleDownScale = cocos2d::ScaleTo::create(2.8f, 1.0f);
-    auto scaleUpScale = cocos2d::ScaleTo::create(2.8f, 6.0f, 1.0f);
+    auto scaleDownScale = std::make_unique<ScaleTo>(2.8f, 1.0f);
+    auto scaleUpScale = std::make_unique<ScaleTo>(2.8f, 6.0f, 1.0f);
 
-    auto scaleByDownScale = cocos2d::ScaleBy::create(1.8f, 1.0f, 0.25f);
-    auto scaleByUpScale = cocos2d::ScaleBy::create(1.8f, 1.0f, 4.0f);
+    auto scaleByDownScale = std::make_unique<ScaleBy>(1.8f, 1.0f, 0.25f);
+    auto scaleByUpScale = std::make_unique<ScaleBy>(1.8f, 1.0f, 4.0f);
     addChild(imageViewScale);
-    auto rep2 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(scaleUpScale),
-            to_action_ptr(scaleDownScale),
-            to_action_ptr(scaleByDownScale),
-            to_action_ptr(scaleByUpScale)
+    auto rep2 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(scaleUpScale),
+            std::move(scaleDownScale),
+            std::move(scaleByDownScale),
+            std::move(scaleByUpScale)
         )
     );
-    imageViewScale->runAction(rep2);
+    imageViewScale->runAction( std::move( rep2));
 }
 
 std::string ActionResize::subtitle() const 
@@ -2533,14 +2530,14 @@ void ActionRemoveSelf::onEnter()
 
 	alignSpritesLeft(1);
 
-	auto action = Sequence::create(
-		to_action_ptr(MoveBy::create( 2, Vec2(240,0))),
-		to_action_ptr(RotateBy::create( 2,  540)),
-		to_action_ptr(ScaleTo::create(1,0.1f)),
-		to_action_ptr(RemoveSelf::create())
+	auto action = std::make_unique<Sequence>(
+		std::make_unique<MoveBy>( 2, Vec2(240,0)),
+		std::make_unique<RotateBy>( 2,  540),
+		std::make_unique<ScaleTo>(1,0.1f),
+		std::make_unique<RemoveSelf>()
         );
 
-	_grossini->runAction(action);
+	_grossini->runAction( std::move( action));
 }
 
 std::string ActionRemoveSelf::subtitle() const
@@ -2560,23 +2557,23 @@ void ActionFloatTest::onEnter()
     centerSprites(3);
 
     // create float action with duration and from to value, using lambda function we can easly animate any property of the Node.
-    auto actionFloat = ActionFloat::create(2.f, 0, 3, [this](float value) {
+    auto actionFloat = std::make_unique<ActionFloat>(2.f, 0, 3, [this](float value) {
         _tamara->setScale(value);
     });
 
     float grossiniY = _grossini->getPositionY();
 
-    auto actionFloat1 = ActionFloat::create(3.f, grossiniY, grossiniY + 50, [this](float value) {
+    auto actionFloat1 = std::make_unique<ActionFloat>(3.f, grossiniY, grossiniY + 50, [this](float value) {
         _grossini->setPositionY(value);
     });
 
-    auto actionFloat2 = ActionFloat::create(3.f, 3, 1, [this] (float value) {
+    auto actionFloat2 = std::make_unique<ActionFloat>(3.f, 3, 1, [this] (float value) {
         _kathia->setScale(value);
     });
 
-    _tamara->runAction(actionFloat);
-    _grossini->runAction(actionFloat1);
-    _kathia->runAction(actionFloat2);
+    _tamara->runAction( std::move( actionFloat));
+    _grossini->runAction( std::move( actionFloat1));
+    _kathia->runAction( std::move( actionFloat2));
 }
 
 std::string ActionFloatTest::subtitle() const
