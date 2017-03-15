@@ -147,16 +147,6 @@ public:
 
     Sequence(actions_container arrayOfActions);
 
-    template<typename ...AA>
-    Sequence(actions_container array, actions_container::value_type action, AA ...actions)
-        : Sequence([](auto array, auto action) {
-                       array.push_back(std::move(action));
-                       return array;
-                   } (std::move(array), actions_container::value_type(action.release())),
-                   std::forward<AA>(actions)...)
-    {
-    }
-
     template<typename A, typename ...AA>
     Sequence(actions_container array, A action, AA ...actions)
         : Sequence([](auto array, auto action) {
@@ -166,28 +156,22 @@ public:
                    std::forward<AA>(actions)...)
     {
         static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            std::is_base_of<FiniteTimeAction, typename std::remove_reference<decltype(*action.get())>::type>::value,
             "Sequence construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
     }
 
-    template<typename ...AA>
-    Sequence(actions_container::value_type action, AA ...actions)
+    template<typename A, typename ...AA>
+    Sequence(A action, AA ...actions)
         : Sequence([](auto a) -> actions_container {
                        actions_container vec;
                        vec.push_back( std::move( a));
                        return vec;
-                   }(std::move(action)),
+                   } (std::move(action)),
                    std::forward<AA>(actions)...)
     {
-    }
-
-    template<typename A, typename ...AA>
-    Sequence(A action, AA ...actions)
-        : Sequence(actions_container::value_type(action.release()), std::forward<AA>(actions)...)
-    {
         static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            std::is_base_of<FiniteTimeAction, typename std::remove_reference<decltype(*action.get())>::type>::value,
             "Sequence construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
     }
@@ -296,16 +280,6 @@ public:
 
     Spawn(actions_container arrayOfActions);
 
-    template<typename ...AA>
-    Spawn(actions_container array, actions_container::value_type action, AA ...actions)
-        : Spawn([](auto array, auto action) {
-                       array.push_back(std::move(action));
-                       return array;
-                   } (std::move(array), actions_container::value_type(action.release())),
-                   std::forward<AA>(actions)...)
-    {
-    }
-
     template<typename A, typename ...AA>
     Spawn(actions_container array, A action, AA ...actions)
         : Spawn([](auto array, auto action) {
@@ -315,13 +289,13 @@ public:
                    std::forward<AA>(actions)...)
     {
         static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            std::is_base_of<FiniteTimeAction, typename std::remove_reference<decltype(*action.get())>::type>::value,
             "Spawn construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
     }
 
-    template<typename ...AA>
-    Spawn(actions_container::value_type action, AA ...actions)
+    template<typename A, typename ...AA>
+    Spawn(A action, AA ...actions)
         : Spawn([](auto action) -> actions_container {
                     actions_container vec;
                     vec.push_back( std::move( action));
@@ -329,14 +303,8 @@ public:
                 }(std::move(action)),
                 std::forward<AA>(actions)...)
     {
-    }
-
-    template<typename A, typename ...AA>
-    Spawn(A action, AA ...actions)
-        : Spawn(actions_container::value_type(action.release()), std::forward<AA>(actions)...)
-    {
         static_assert(
-            std::is_convertible<decltype(action.get()), FiniteTimeAction*>::value,
+            std::is_base_of<FiniteTimeAction, typename std::remove_reference<decltype(*action.get())>::type>::value,
             "Spawn construtors accept only unique_ptr<Derived_from_FiniteTimeAction>'s"
         );
     }
