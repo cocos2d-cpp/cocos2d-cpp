@@ -129,10 +129,10 @@ private:
 
     void scaleButtonTo(float scale)
     {
-        auto action = ScaleTo::create(0.1f, scale);
+        auto action = std::make_unique<ScaleTo>(0.1f, scale);
         action->setTag(900);
         stopActionByTag(900);
-        runAction(action);
+        runAction( std::move( action));
     }
 
     Node *_child;

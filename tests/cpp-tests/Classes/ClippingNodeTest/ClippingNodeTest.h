@@ -37,8 +37,8 @@ public:
     virtual std::string subtitle() const override;
     virtual void setup() override;
 
-	virtual cocos2d::Action* actionRotate();
-	virtual cocos2d::Action* actionScale();
+	virtual std::unique_ptr<cocos2d::Action> actionRotate();
+	virtual std::unique_ptr<cocos2d::Action> actionScale();
 
 	virtual cocos2d::DrawNode* shape();
 	virtual cocos2d::Sprite* grossini();
