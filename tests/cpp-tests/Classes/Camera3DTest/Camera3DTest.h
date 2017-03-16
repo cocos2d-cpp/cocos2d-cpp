@@ -86,8 +86,6 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
 
-    virtual void update(float dt) override;
-
     // overrides
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -145,7 +143,7 @@ protected:
     cocos2d::MenuItem*      _decRot;
     unsigned int   _curState;
     cocos2d::Camera*      _camera;
-    cocos2d::MoveTo* _moveAction;
+    std::unique_ptr<cocos2d::MoveTo> _moveAction;
     bool _bZoomOut;
     bool _bZoomIn;
     bool _bRotateLeft;
@@ -184,7 +182,7 @@ protected:
     CameraType                       _cameraType;
     cocos2d::Camera*                 _cameraFirst;
     cocos2d::Camera*                 _cameraThird;
-    cocos2d::MoveBy*                 _moveAction;
+    std::unique_ptr<cocos2d::MoveBy> _moveAction;
     cocos2d::DrawNode3D*             _drawAABB;
     cocos2d::DrawNode3D*             _drawFrustum;
     int                     _row;
@@ -199,8 +197,6 @@ public:
     
     virtual void onEnter() override;
     virtual void onExit() override;
-    
-    virtual void update(float dt) override;
     
     // overrides
     virtual std::string title() const override;
@@ -236,8 +232,6 @@ public:
     
     virtual void onEnter() override;
     virtual void onExit() override;
-    
-    virtual void update(float dt) override;
     
     // overrides
     virtual std::string title() const override;
