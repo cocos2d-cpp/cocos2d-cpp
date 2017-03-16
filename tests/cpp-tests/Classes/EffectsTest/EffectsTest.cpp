@@ -41,9 +41,9 @@ Shaky3DDemo::Shaky3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* Shaky3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> Shaky3DDemo::createEffect(float t)
 {
-    return Shaky3D::create(t, Size(15,10), 5, false);
+    return std::make_unique<Shaky3D>(t, Size(15,10), 5, false);
 }
 
 Waves3DDemo::Waves3DDemo()
@@ -52,17 +52,17 @@ Waves3DDemo::Waves3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* Waves3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> Waves3DDemo::createEffect(float t)
 {
-    return Waves3D::create(t, Size(15,10), 5, 40);
+    return std::make_unique<Waves3D>(t, Size(15,10), 5, 40);
 }
 
-cocos2d::ActionInterval* FlipX3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FlipX3DDemo::createEffect(float t)
 {
     auto flipx  = std::make_unique<FlipX3D>(t);
-    auto flipx_back = std::unique_ptr<FlipX3D>(flipx->reverse());
+    auto flipx_back = std::unique_ptr<GridAction>(flipx->reverse());
     auto delay = std::make_unique<DelayTime>(2);
-    return Sequence::create( std::move(flipx), std::move(delay), std::move(flipx_back) );
+    return std::make_unique<Sequence>( std::move(flipx), std::move(delay), std::move(flipx_back) );
 }
 
 FlipX3DDemo::FlipX3DDemo()
@@ -71,13 +71,13 @@ FlipX3DDemo::FlipX3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* FlipY3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FlipY3DDemo::createEffect(float t)
 {
-    auto flipy  = FlipY3D::create(t);
-    auto flipy_back = flipy->reverse();
-    auto delay = DelayTime::create(2);
+    auto flipy  = std::make_unique<FlipY3D>(t);
+    auto flipy_back = std::unique_ptr<GridAction>(flipy->reverse());
+    auto delay = std::make_unique<DelayTime>(2);
     
-    return Sequence::create( to_action_ptr(flipy), to_action_ptr( delay), to_action_ptr( flipy_back) );
+    return std::make_unique<Sequence>( std::move(flipy), std::move( delay), std::move( flipy_back) );
 }
 
 FlipY3DDemo::FlipY3DDemo()
@@ -86,10 +86,10 @@ FlipY3DDemo::FlipY3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* Lens3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> Lens3DDemo::createEffect(float t)
 {
     auto size = Director::getInstance()->getWinSize();
-    return Lens3D::create(t, Size(15,10), Vec2(size.width/2,size.height/2), 240);
+    return std::make_unique<Lens3D>(t, Size(15,10), Vec2(size.width/2,size.height/2), 240);
 }
 
 Lens3DDemo::Lens3DDemo()
@@ -98,10 +98,10 @@ Lens3DDemo::Lens3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* Ripple3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> Ripple3DDemo::createEffect(float t)
 {
     auto size = Director::getInstance()->getWinSize();
-    return Ripple3D::create(t, Size(32,24), Vec2(size.width/2,size.height/2), 240, 4, 160);
+    return std::make_unique<Ripple3D>(t, Size(32,24), Vec2(size.width/2,size.height/2), 240, 4, 160);
 }
 
 Ripple3DDemo::Ripple3DDemo()
@@ -110,9 +110,9 @@ Ripple3DDemo::Ripple3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* LiquidDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> LiquidDemo::createEffect(float t)
 {
-    return Liquid::create(t, Size(16,12), 4, 20);
+    return std::make_unique<Liquid>(t, Size(16,12), 4, 20);
 }
 
 LiquidDemo::LiquidDemo()
@@ -121,9 +121,9 @@ LiquidDemo::LiquidDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* WavesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> WavesDemo::createEffect(float t)
 {
-    return Waves::create(t, Size(16,12), 4, 20, true, true);
+    return std::make_unique<Waves>(t, Size(16,12), 4, 20, true, true);
 }
 
 WavesDemo::WavesDemo()
@@ -132,10 +132,10 @@ WavesDemo::WavesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* TwirlDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> TwirlDemo::createEffect(float t)
 {
     auto size = Director::getInstance()->getWinSize();
-    return Twirl::create(t, Size(12,8), Vec2(size.width/2, size.height/2), 1, 2.5f);
+    return std::make_unique<Twirl>(t, Size(12,8), Vec2(size.width/2, size.height/2), 1, 2.5f);
 }
 
 TwirlDemo::TwirlDemo()
@@ -144,9 +144,9 @@ TwirlDemo::TwirlDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* ShakyTiles3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> ShakyTiles3DDemo::createEffect(float t)
 {
-    return ShakyTiles3D::create(t, Size(16,12), 5, false) ;
+    return std::make_unique<ShakyTiles3D>(t, Size(16,12), 5, false) ;
 }
 
 ShakyTiles3DDemo::ShakyTiles3DDemo()
@@ -155,9 +155,9 @@ ShakyTiles3DDemo::ShakyTiles3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* ShatteredTiles3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> ShatteredTiles3DDemo::createEffect(float t)
 {
-    return ShatteredTiles3D::create(t, Size(16,12), 5, false);
+    return std::make_unique<ShatteredTiles3D>(t, Size(16,12), 5, false);
 }
 
 ShatteredTiles3DDemo::ShatteredTiles3DDemo()
@@ -166,13 +166,13 @@ ShatteredTiles3DDemo::ShatteredTiles3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* ShuffleTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> ShuffleTilesDemo::createEffect(float t)
 {
-    auto shuffle = ShuffleTiles::create(t, Size(16,12), 25);
-    auto shuffle_back = shuffle->reverse();
-    auto delay = DelayTime::create(2);
+    auto shuffle = std::make_unique<ShuffleTiles>(t, Size(16,12), 25);
+    auto shuffle_back = std::unique_ptr<GridAction>(shuffle->reverse());
+    auto delay = std::make_unique<DelayTime>(2);
     
-    return Sequence::create( to_action_ptr(shuffle), to_action_ptr( delay), to_action_ptr( shuffle_back) );
+    return std::make_unique<Sequence>( std::move(shuffle), std::move( delay), std::move( shuffle_back) );
 }
 
 ShuffleTilesDemo::ShuffleTilesDemo()
@@ -181,13 +181,13 @@ ShuffleTilesDemo::ShuffleTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* FadeOutTRTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FadeOutTRTilesDemo::createEffect(float t)
 {
-    auto fadeout = FadeOutTRTiles::create(t, Size(16,12));
-    auto back = fadeout->reverse();
-    auto delay = DelayTime::create(0.5f);
+    auto fadeout = std::make_unique<FadeOutTRTiles>(t, Size(16,12));
+    auto back = std::unique_ptr<GridAction>(fadeout->reverse());
+    auto delay = std::make_unique<DelayTime>(0.5f);
     
-    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
+    return std::make_unique<Sequence>( std::move(fadeout), std::move( delay), std::move( back) );
 }
 
 FadeOutTRTilesDemo::FadeOutTRTilesDemo()
@@ -196,13 +196,13 @@ FadeOutTRTilesDemo::FadeOutTRTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* FadeOutBLTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FadeOutBLTilesDemo::createEffect(float t)
 {
-    auto fadeout = FadeOutBLTiles::create(t, Size(16,12));
-    auto back = fadeout->reverse();
-    auto delay = DelayTime::create(0.5f);
+    auto fadeout = std::make_unique<FadeOutBLTiles>(t, Size(16,12));
+    auto back = std::unique_ptr<GridAction>(fadeout->reverse());
+    auto delay = std::make_unique<DelayTime>(0.5f);
     
-    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
+    return std::make_unique<Sequence>( std::move(fadeout), std::move( delay), std::move( back) );
 }
 
 FadeOutBLTilesDemo::FadeOutBLTilesDemo()
@@ -211,13 +211,13 @@ FadeOutBLTilesDemo::FadeOutBLTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* FadeOutUpTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FadeOutUpTilesDemo::createEffect(float t)
 {
-    auto fadeout = FadeOutUpTiles::create(t, Size(16,12));
-    auto back = fadeout->reverse();
-    auto delay = DelayTime::create(0.5f);
+    auto fadeout = std::make_unique<FadeOutUpTiles>(t, Size(16,12));
+    auto back = std::unique_ptr<GridAction>(fadeout->reverse());
+    auto delay = std::make_unique<DelayTime>(0.5f);
     
-    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
+    return std::make_unique<Sequence>( std::move(fadeout), std::move( delay), std::move( back) );
 }
 
 FadeOutUpTilesDemo::FadeOutUpTilesDemo()
@@ -226,13 +226,13 @@ FadeOutUpTilesDemo::FadeOutUpTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* FadeOutDownTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> FadeOutDownTilesDemo::createEffect(float t)
 {
-    auto fadeout = FadeOutDownTiles::create(t, Size(16,12));
-    auto back = fadeout->reverse();
-    auto delay = DelayTime::create(0.5f);
+    auto fadeout = std::make_unique<FadeOutDownTiles>(t, Size(16,12));
+    auto back = std::unique_ptr<GridAction>(fadeout->reverse());
+    auto delay = std::make_unique<DelayTime>(0.5f);
     
-    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
+    return std::make_unique<Sequence>( std::move(fadeout), std::move( delay), std::move( back) );
 }
 
 FadeOutDownTilesDemo::FadeOutDownTilesDemo()
@@ -241,13 +241,13 @@ FadeOutDownTilesDemo::FadeOutDownTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* TurnOffTilesDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> TurnOffTilesDemo::createEffect(float t)
 {
-    auto fadeout = TurnOffTiles::create(t, Size(48,32), 25);
-    auto back = fadeout->reverse();
-    auto delay = DelayTime::create(0.5f);
+    auto fadeout = std::make_unique<TurnOffTiles>(t, Size(48,32), 25);
+    auto back = std::unique_ptr<GridAction>(fadeout->reverse());
+    auto delay = std::make_unique<DelayTime>(0.5f);
     
-    return Sequence::create( to_action_ptr(fadeout), to_action_ptr( delay), to_action_ptr( back) );
+    return std::make_unique<Sequence>( std::move(fadeout), std::move( delay), std::move( back) );
 }
 
 TurnOffTilesDemo::TurnOffTilesDemo()
@@ -256,9 +256,9 @@ TurnOffTilesDemo::TurnOffTilesDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* WavesTiles3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> WavesTiles3DDemo::createEffect(float t)
 {
-    return WavesTiles3D::create(t, Size(15,10), 4, 120);
+    return std::make_unique<WavesTiles3D>(t, Size(15,10), 4, 120);
 }
 
 WavesTiles3DDemo::WavesTiles3DDemo()
@@ -267,9 +267,9 @@ WavesTiles3DDemo::WavesTiles3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* JumpTiles3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> JumpTiles3DDemo::createEffect(float t)
 {
-    return JumpTiles3D::create(t, Size(15,10), 2, 30);
+    return std::make_unique<JumpTiles3D>(t, Size(15,10), 2, 30);
 }
 
 JumpTiles3DDemo::JumpTiles3DDemo()
@@ -278,9 +278,9 @@ JumpTiles3DDemo::JumpTiles3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* SplitRowsDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> SplitRowsDemo::createEffect(float t)
 {
-    return SplitRows::create(t, 9);
+    return std::make_unique<SplitRows>(t, 9);
 }
 
 SplitRowsDemo::SplitRowsDemo()
@@ -289,9 +289,9 @@ SplitRowsDemo::SplitRowsDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* SplitColsDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> SplitColsDemo::createEffect(float t)
 {
-    return SplitCols::create(t, 9);
+    return std::make_unique<SplitCols>(t, 9);
 }
 
 SplitColsDemo::SplitColsDemo()
@@ -300,9 +300,9 @@ SplitColsDemo::SplitColsDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* PageTurn3DDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> PageTurn3DDemo::createEffect(float t)
 {
-    return PageTurn3D::create(t, Size(15,10));
+    return std::make_unique<PageTurn3D>(t, Size(15,10));
 }
 
 PageTurn3DDemo::PageTurn3DDemo()
@@ -311,9 +311,9 @@ PageTurn3DDemo::PageTurn3DDemo()
     _subtitle = "";
 }
 
-cocos2d::ActionInterval* PageTurn3DRectDemo::createEffect(float t)
+std::unique_ptr<cocos2d::ActionInterval> PageTurn3DRectDemo::createEffect(float t)
 {
-    return PageTurn3D::create(t, Size(15,10));
+    return std::make_unique<PageTurn3D>(t, Size(15,10));
 }
 
 PageTurn3DRectDemo::PageTurn3DRectDemo()
@@ -359,16 +359,28 @@ bool EffectBaseTest::init()
         auto grossini = Sprite::create(s_pathSister2);
         _gridNodeTarget->addChild(grossini, 1);
         grossini->setPosition(VisibleRect::left().x+VisibleRect::getVisibleRect().size.width/3,VisibleRect::center().y);
-        auto sc = ScaleBy::create(2, 5);
-        auto sc_back = sc->reverse();
-        grossini->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc), to_action_ptr( sc_back) ) ) );
+
+        auto sc = std::make_unique<ScaleBy>(2, 5);
+        auto sc_back = std::unique_ptr<ScaleBy>(sc->reverse());
+        grossini->runAction(
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::move(sc),
+                    std::move(sc_back)
+                )));
         
         auto tamara = Sprite::create(s_pathSister1);
         _gridNodeTarget->addChild(tamara, 1);
         tamara->setPosition(VisibleRect::left().x+2*VisibleRect::getVisibleRect().size.width/3,VisibleRect::center().y);
-        auto sc2 = ScaleBy::create(2, 5);
-        auto sc2_back = sc2->reverse();
-        tamara->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc2), to_action_ptr( sc2_back) )) );
+
+        auto sc2 = std::make_unique<ScaleBy>(2, 5);
+        auto sc2_back = std::unique_ptr<ScaleBy>(sc2->reverse());
+        tamara->runAction(
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::move(sc2),
+                    std::move(sc2_back)
+                )));
         
         Director::getInstance()->getScheduler().schedule(
             TimedJob(this, &EffectBaseTest::checkAnim)
