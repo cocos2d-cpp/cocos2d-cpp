@@ -31,13 +31,13 @@ ClickAndMoveTestCase::ClickAndMoveTestCase()
     addChild(sprite, 0, kTagSprite);
     sprite->setPosition(20,150);
     
-    sprite->runAction( JumpTo::create(4, Vec2(300,48), 100, 4) );
+    sprite->runAction( std::make_unique<JumpTo>(4, Vec2(300,48), 100, 4) );
     
     layer->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(FadeIn::create(1)),
-                to_action_ptr(FadeOut::create(1))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeIn>(1),
+                std::make_unique<FadeOut>(1)
             )
         )
     ); 
@@ -54,7 +54,7 @@ void ClickAndMoveTestCase::onTouchEnded(Touch* touch, Event*)
 
     auto s = getChildByTag(kTagSprite);
     s->stopAllActions();
-    s->runAction( MoveTo::create(1, Vec2(location.x, location.y) ) );
+    s->runAction( std::make_unique<MoveTo>(1, Vec2(location.x, location.y) ) );
     float o = location.x - s->getPosition().x;
     float a = location.y - s->getPosition().y;
     float at = (float) CC_RADIANS_TO_DEGREES( atanf( o/a) );
@@ -67,5 +67,5 @@ void ClickAndMoveTestCase::onTouchEnded(Touch* touch, Event*)
             at = 180 - fabs(at);    
     }
     
-    s->runAction( RotateTo::create(1, at) );
+    s->runAction( std::make_unique<RotateTo>(1, at) );
 }
