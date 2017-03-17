@@ -92,11 +92,17 @@ IntervalTest::IntervalTest()
     auto sprite = Sprite::create(s_pathGrossini);
     sprite->setPosition(VisibleRect::left().x + 40, VisibleRect::bottom().y + 50);
     
-    auto jump = JumpBy::create(3, Vec2(s.width-80,0), 50, 4);
-    auto jump_back = jump->reverse();
+    auto jump = std::make_unique<JumpBy>(3, Vec2(s.width-80,0), 50, 4);
+    auto jump_back = std::unique_ptr<JumpBy>(jump->reverse());
     
     addChild(sprite);
-    sprite->runAction( RepeatForever::create(Sequence::create( to_action_ptr(jump), to_action_ptr( jump_back) ) ));
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(jump),
+                std::move(jump_back)
+            )));
+
     // pause button
     auto item1 = MenuItemFont::create("Pause", [&](Ref*) {
 		if(Director::getInstance()->isPaused())
