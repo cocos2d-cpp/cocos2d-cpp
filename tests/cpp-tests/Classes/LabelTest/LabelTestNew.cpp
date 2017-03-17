@@ -134,24 +134,25 @@ LabelFNTColorAndOpacity::LabelFNTColorAndOpacity()
     
     label1->setAnchorPoint( Vec2(0,0) );
     addChild(label1, 0, kTagBitmapAtlas1);
-    auto fade = FadeOut::create(1.0f);
-    auto fade_in = fade->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(fade),
-        to_action_ptr(fade_in)
+
+    auto fade = std::make_unique<FadeOut>(1.0f);
+    auto fade_in = std::unique_ptr<FadeTo>(fade->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(fade),
+        std::move(fade_in)
     );
-    auto repeat = RepeatForever::create(seq);
-    label1->runAction(repeat);
+    auto repeat = std::make_unique<RepeatForever>( std::move(seq) );
+    label1->runAction( std::move(repeat) );
     
     auto label2 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "Test");
     label2->setColor( Color3B::RED );
     addChild(label2, 0, kTagBitmapAtlas2);
-    auto tint = Sequence::create(
-        to_action_ptr(TintTo::create(1, 255, 0, 0)),
-        to_action_ptr(TintTo::create(1, 0, 255, 0)),
-        to_action_ptr(TintTo::create(1, 0, 0, 255))
+    auto tint = std::make_unique<Sequence>(
+        std::make_unique<TintTo>(1, 255, 0, 0),
+        std::make_unique<TintTo>(1, 0, 255, 0),
+        std::make_unique<TintTo>(1, 0, 0, 255)
     );
-    label2->runAction( RepeatForever::create(tint) );
+    label2->runAction( std::make_unique<RepeatForever>( std::move(tint) ) );
     
     auto label3 = Label::createWithBMFont("fonts/bitmapFontTest2.fnt", "Test");
     label3->setAnchorPoint( Vec2(1,1) );
@@ -161,7 +162,9 @@ LabelFNTColorAndOpacity::LabelFNTColorAndOpacity()
     label2->setPosition( VisibleRect::center() );
     label3->setPosition( VisibleRect::rightTop() );
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelFNTColorAndOpacity::step, this), this, 0.0f, !_running, "step_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LabelFNTColorAndOpacity::step, 0).paused(isPaused())
+    );
 }
 
 void LabelFNTColorAndOpacity::step(float dt)
@@ -212,33 +215,32 @@ LabelFNTSpriteActions::LabelFNTSpriteActions()
     auto FChar = (Sprite*) label->getLetter(7);
     auto AChar = (Sprite*) label->getLetter(12);
     
+    auto rot_4ever = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360) );
+    auto rot_4ever_clone = std::unique_ptr<RepeatForever>(rot_4ever->clone());
     
-    auto rotate = RotateBy::create(2, 360);
-    auto rot_4ever = RepeatForever::create(rotate);
-    
-    auto scale = ScaleBy::create(2, 1.5f);
-    auto scale_back = scale->reverse();
-    auto scale_seq = Sequence::create(
-        to_action_ptr(scale),
-        to_action_ptr(scale_back)
+    auto scale = std::make_unique<ScaleBy>(2, 1.5f);
+    auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto scale_seq = std::make_unique<Sequence>(
+        std::move(scale),
+        std::move(scale_back)
     );
-    auto scale_4ever = RepeatForever::create(scale_seq);
+    auto scale_4ever = std::make_unique<RepeatForever>(std::move(scale_seq));
     
-    auto jump = JumpBy::create(0.5f, Vec2::ZERO, 60, 1);
-    auto jump_4ever = RepeatForever::create(jump);
+    auto jump = std::make_unique<JumpBy>(0.5f, Vec2::ZERO, 60, 1);
+    auto jump_4ever = std::make_unique<RepeatForever>(std::move(jump));
     
-    auto fade_out = FadeOut::create(1);
-    auto fade_in = FadeIn::create(1);
-    auto seq = Sequence::create(
-        to_action_ptr(fade_out),
-        to_action_ptr(fade_in)
+    auto fade_out = std::make_unique<FadeOut>(1);
+    auto fade_in = std::make_unique<FadeIn>(1);
+    auto seq = std::make_unique<Sequence>(
+        std::move(fade_out),
+        std::move(fade_in)
     );
-    auto fade_4ever = RepeatForever::create(seq);
+    auto fade_4ever = std::make_unique<RepeatForever>(std::move(seq));
     
-    BChar->runAction(rot_4ever);
-    BChar->runAction(scale_4ever);
-    FChar->runAction(jump_4ever);
-    AChar->runAction(fade_4ever);
+    BChar->runAction(std::move(rot_4ever));
+    BChar->runAction(std::move(scale_4ever));
+    FChar->runAction(std::move(jump_4ever));
+    AChar->runAction(std::move(fade_4ever));
     
     
     // Bottom Label
@@ -247,9 +249,14 @@ LabelFNTSpriteActions::LabelFNTSpriteActions()
     label2->setPosition( Vec2(s.width/2.0f, 80) );
     
     auto lastChar = (Sprite*) label2->getLetter(3);
-    lastChar->runAction( rot_4ever->clone() );
+    lastChar->runAction( std::move(rot_4ever_clone) );
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelFNTSpriteActions::step, this), this, 0.1f, !_running, "step_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LabelFNTSpriteActions::step, 0)
+            .delay(0.1f)
+            .interval(0.1f)
+            .paused(isPaused())
+    );
 }
 
 void LabelFNTSpriteActions::step(float dt)
@@ -463,7 +470,12 @@ LabelFNTandTTFEmpty::LabelFNTandTTFEmpty()
     addChild(label3, 0, kTagBitmapAtlas3);
     label3->setPosition(Vec2(s.width/2, 100));
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelFNTandTTFEmpty::updateStrings, this), this, 1.0f, !_running, "update_strings_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LabelFNTandTTFEmpty::updateStrings, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 
     setEmpty = false;
 }
@@ -1087,12 +1099,12 @@ LabelTTFDistanceField::LabelTTFDistanceField()
     label1->setTextColor( Color4B::GREEN );
     addChild(label1);
 
-    auto action = Sequence::create(
-        to_action_ptr(DelayTime::create(1.0f)),
-        to_action_ptr(ScaleTo::create(6.0f,5.0f,5.0f)),
-        to_action_ptr(ScaleTo::create(6.0f,1.0f,1.0f))
+    auto action = std::make_unique<Sequence>(
+        std::make_unique<DelayTime>(1.0f),
+        std::make_unique<ScaleTo>(6.0f, 5.0f, 5.0f),
+        std::make_unique<ScaleTo>(6.0f, 1.0f, 1.0f)
     );
-    label1->runAction(RepeatForever::create(action));
+    label1->runAction(std::make_unique<RepeatForever>(std::move(action)));
 
     // Draw the label border
     auto& labelContentSize = label1->getContentSize();
@@ -1279,7 +1291,10 @@ LabelCharMapTest::LabelCharMapTest()
     label2->setPosition( Vec2(10,200) );
     label2->setOpacity( 32 );
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelCharMapTest::step, this), this, 0.0f, !_running, "step_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LabelCharMapTest::step, 0)
+            .paused(isPaused())
+    );
 }
 
 void LabelCharMapTest::step(float dt)
@@ -1325,20 +1340,23 @@ LabelCharMapColorTest::LabelCharMapColorTest()
     label2->setPosition( Vec2(10,200) );
     label2->setColor( Color3B::RED );
 
-    auto fade = FadeOut::create(1.0f);
-    auto fade_in = fade->reverse();
-    auto cb = CallFunc::create(CC_CALLBACK_0(LabelCharMapColorTest::actionFinishCallback, this));
-    auto seq = Sequence::create(
-        to_action_ptr(fade),
-        to_action_ptr(fade_in),
-        to_action_ptr(cb)
+    auto fade = std::make_unique<FadeOut>(1.0f);
+    auto fade_in = std::unique_ptr<FadeTo>(fade->reverse());
+    auto cb = std::make_unique<CallFunc>(CC_CALLBACK_0(LabelCharMapColorTest::actionFinishCallback, this));
+    auto seq = std::make_unique<Sequence>(
+        std::move(fade),
+        std::move(fade_in),
+        std::move(cb)
     );
-    auto repeat = RepeatForever::create( seq );
-    label2->runAction( repeat );    
+    auto repeat = std::make_unique<RepeatForever>( std::move(seq) );
+    label2->runAction( std::move(repeat) );    
 
     _time = 0;
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(LabelCharMapColorTest::step, this), this, 0.0f, !_running, "step_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LabelCharMapColorTest::step, 0)
+            .paused(isPaused())
+    );
 }
 
 void LabelCharMapColorTest::actionFinishCallback()
@@ -1859,17 +1877,10 @@ LabelIssue11576Test::LabelIssue11576Test()
     }
 
     this->runAction(
-        Sequence::create(
-            to_action_ptr(DelayTime::create(2.0f)),
-            to_action_ptr(
-                CallFunc::create(
-                    [label](){
-                        label->setString("Hello World!");
-                    }
-                )
-            )
-        )
-    );
+        std::make_unique<Sequence>(
+            std::make_unique<DelayTime>(2.0f),
+            std::make_unique<CallFunc>( [label](){ label->setString("Hello World!"); })
+        ));
 
     label->setPosition(center.x, center.y);
     addChild(label);
@@ -1951,9 +1962,10 @@ LabelAddChildTest::LabelAddChildTest()
     label->setPosition(center.x, center.y);
     addChild(label);
 
-    auto jump = JumpBy::create(1.0f, Vec2::ZERO, 60, 1);
-    auto jump_4ever = RepeatForever::create(jump);
-    label->runAction(jump_4ever);
+    label->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<JumpBy>(1.0f, Vec2::ZERO, 60, 1)
+        ));
 
     auto spite = Sprite::create("Images/SpookyPeas.png");
     spite->setAnchorPoint(Vec2::ANCHOR_MIDDLE_LEFT);
@@ -1996,13 +2008,13 @@ LabelIssue11585Test::LabelIssue11585Test()
     label->getLetter(0)->setColor(Color3B::RED);
     label->getLetter(1)->setColor(Color3B::GREEN);
     label->getLetter(2)->setColor(Color3B::BLUE);
-    auto action = RepeatForever::create(
-        Sequence::create( 
-            to_action_ptr(FadeOut::create(2)),
-            to_action_ptr(FadeIn::create(2))
-        )
-    );
-    label->runAction(action);
+
+    label->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>( 
+                std::make_unique<FadeOut>(2),
+                std::make_unique<FadeIn>(2)
+            )));
 }
 
 std::string LabelIssue11585Test::title() const
@@ -2051,9 +2063,12 @@ LabelIssue13202Test::LabelIssue13202Test()
 
     label->getContentSize();
     label->setString("A");
-    Director::getInstance()->getScheduler().schedule([](float){
-        FontAtlasCache::purgeCachedData();
-    }, this, 0.15f, !_running, "FontAtlasCache::purgeCachedData");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, [](float){ FontAtlasCache::purgeCachedData(); }, 0)
+            .interval(0.15f)
+            .delay(0.15f)
+            .paused(isPaused())
+    );
 }
 
 std::string LabelIssue13202Test::title() const
