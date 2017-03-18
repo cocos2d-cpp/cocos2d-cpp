@@ -114,13 +114,13 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     
     auto item8 = MenuItemFont::create("Remove menu item when moving", CC_CALLBACK_1(MenuLayerMainMenu::menuMovingCallback, this));
     
-    auto color_action = TintBy::create(0.5f, 0, -255, -255);
-    auto color_back = color_action->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(color_action),
-        to_action_ptr(color_back)
+    auto color_action = std::make_unique<TintBy>(0.5f, 0, -255, -255);
+    auto color_back = std::unique_ptr<TintBy>(color_action->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(color_action),
+        std::move(color_back)
     );
-    item7->runAction(RepeatForever::create(seq));
+    item7->runAction( std::make_unique<RepeatForever>( std::move(seq)));
 
     auto menu = Menu::create( item1, item2, item3, item4, item5, item6, item7, item8,  nullptr);
     menu->alignItemsVertically();
@@ -138,8 +138,8 @@ MenuLayerMainMenu::MenuLayerMainMenu()
         
         child->setPosition( Vec2( dstPoint.x + offset, dstPoint.y) );
         child->runAction(
-                         EaseElasticOut::create(MoveBy::create(2, Vec2(dstPoint.x - offset,0)), 0.35f)
-                         );
+            std::make_unique<EaseElasticOut>(std::make_unique<MoveBy>(2, Vec2(dstPoint.x - offset,0)), 0.35f)
+        );
         i++;
     }
 
@@ -149,7 +149,7 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     addChild(menu);
     menu->setPosition(Vec2(s.width/2, s.height/2));
     menu->setScale(0);
-    menu->runAction(ScaleTo::create(1,1));
+    menu->runAction(std::make_unique<ScaleTo>(1,1));
 }
 
 bool MenuLayerMainMenu::onTouchBegan(Touch *, Event * )
@@ -373,25 +373,25 @@ MenuLayer3::MenuLayer3()
     item2->setPosition( Vec2(s.width/2 - 200, s.height/2) );
     item3->setPosition( Vec2(s.width/2, s.height/2 - 100) );
     
-    auto jump = JumpBy::create(3, Vec2(400,0), 50, 4);
-    auto jump_reverse = jump->reverse();
+    auto jump = std::make_unique<JumpBy>(3, Vec2(400,0), 50, 4);
+    auto jump_reverse = std::unique_ptr<JumpBy>(jump->reverse());
 
     item2->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(jump),
-                to_action_ptr(jump_reverse)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(jump),
+                std::move(jump_reverse)
             )
         )
     );
 
-    auto spin1 = RotateBy::create(3, 360);
-    auto spin2 = spin1->clone();
-    auto spin3 = spin1->clone();
+    auto spin1 = std::make_unique<RotateBy>(3, 360);
+    auto spin2 = std::unique_ptr<RotateBy>(spin1->clone());
+    auto spin3 = std::unique_ptr<RotateBy>(spin1->clone());
     
-    item1->runAction( RepeatForever::create(spin1) );
-    item2->runAction( RepeatForever::create(spin2) );
-    item3->runAction( RepeatForever::create(spin3) );
+    item1->runAction( std::make_unique<RepeatForever>( std::move(spin1)));
+    item2->runAction( std::make_unique<RepeatForever>( std::move(spin2)));
+    item3->runAction( std::make_unique<RepeatForever>( std::move(spin3)));
     
     addChild( menu ); 
 

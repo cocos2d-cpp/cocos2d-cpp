@@ -57,34 +57,32 @@ void MotionStreakTest1::onEnter()
             .paused(isPaused())
     );
   
-    auto a1 = RotateBy::create(2, 360);
-
-    auto action1 = RepeatForever::create(a1);
-    auto motion = MoveBy::create(2, Vec2(100,0) );
-    auto motion_reverse = motion->reverse();
+    auto action1 = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360));
+    auto motion = std::make_unique<MoveBy>(2, Vec2(100,0) );
+    auto motion_reverse = std::unique_ptr<MoveBy>(motion->reverse());
     _root->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(motion),
-                to_action_ptr(motion_reverse)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(motion),
+                std::move(motion_reverse)
             )
         )
     );
-    _root->runAction( action1 );
+    _root->runAction( std::move(action1) );
 
-    auto colorAction = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(TintTo::create(0.2f, 255, 0, 0)),
-            to_action_ptr(TintTo::create(0.2f, 0, 255, 0)),
-            to_action_ptr(TintTo::create(0.2f, 0, 0, 255)),
-            to_action_ptr(TintTo::create(0.2f, 0, 255, 255)),
-            to_action_ptr(TintTo::create(0.2f, 255, 255, 0)),
-            to_action_ptr(TintTo::create(0.2f, 255, 0, 255)),
-            to_action_ptr(TintTo::create(0.2f, 255, 255, 255))
+    auto colorAction = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::make_unique<TintTo>(0.2f, 255, 0, 0),
+            std::make_unique<TintTo>(0.2f, 0, 255, 0),
+            std::make_unique<TintTo>(0.2f, 0, 0, 255),
+            std::make_unique<TintTo>(0.2f, 0, 255, 255),
+            std::make_unique<TintTo>(0.2f, 255, 255, 0),
+            std::make_unique<TintTo>(0.2f, 255, 0, 255),
+            std::make_unique<TintTo>(0.2f, 255, 255, 255)
         )
     );
 
-    _streak->runAction(colorAction);
+    _streak->runAction( std::move(colorAction) );
 }
 
 void MotionStreakTest1::onUpdate(float /*delta*/)
@@ -223,10 +221,7 @@ void Issue12226::onEnter()
             .paused( outer->isPaused() )
     );
 
-    auto rot = RotateBy::create(2, 360);
-    auto forever = RepeatForever::create(rot);
-    outer->runAction(forever);
-
+    outer->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360)));
 }
 
 std::string Issue12226::title() const

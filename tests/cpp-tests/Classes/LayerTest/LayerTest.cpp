@@ -77,21 +77,21 @@ void LayerTestCascadingOpacityA::onEnter()
     label->setPosition( Vec2( s.width/2, s.height/2));
     
     layer1->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(FadeTo::create(4, 0)),
-                to_action_ptr(FadeTo::create(4, 255)),
-                to_action_ptr(DelayTime::create(1))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(4, 0),
+                std::make_unique<FadeTo>(4, 255),
+                std::make_unique<DelayTime>(1)
             )));
 
     sister1->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(FadeTo::create(2, 0)),
-                to_action_ptr(FadeTo::create(2, 255)),
-                to_action_ptr(FadeTo::create(2, 0)),
-                to_action_ptr(FadeTo::create(2, 255)),
-                to_action_ptr(DelayTime::create(1))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<DelayTime>(1)
             )));
     
     // Enable cascading in scene
@@ -129,23 +129,23 @@ void LayerTestCascadingOpacityB::onEnter()
     label->setPosition( Vec2( s.width/2, 0));
     
     layer1->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(FadeTo::create(4, 0)),
-                to_action_ptr(FadeTo::create(4, 255)),
-                to_action_ptr(DelayTime::create(1))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(4, 0),
+                std::make_unique<FadeTo>(4, 255),
+                std::make_unique<DelayTime>(1)
             )));
     
     sister1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(FadeTo::create(2, 0)),
-       to_action_ptr(FadeTo::create(2, 255)),
-       to_action_ptr(FadeTo::create(2, 0)),
-       to_action_ptr(FadeTo::create(2, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
-    
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<DelayTime>(1)
+            )));
+
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
 }
@@ -182,22 +182,22 @@ void LayerTestCascadingOpacityC::onEnter()
     label->setPosition( Vec2( s.width/2, 0));
     
     layer1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(FadeTo::create(4, 0)),
-       to_action_ptr(FadeTo::create(4, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
-    
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(4, 0),
+                std::make_unique<FadeTo>(4, 255),
+                std::make_unique<DelayTime>(1)
+            )));
+
     sister1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(FadeTo::create(2, 0)),
-       to_action_ptr(FadeTo::create(2, 255)),
-       to_action_ptr(FadeTo::create(2, 0)),
-       to_action_ptr(FadeTo::create(2, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<FadeTo>(2, 0),
+                std::make_unique<FadeTo>(2, 255),
+                std::make_unique<DelayTime>(1)
+            )));
 }
 
 std::string LayerTestCascadingOpacityC::subtitle() const
@@ -230,24 +230,24 @@ void LayerTestCascadingColorA::onEnter()
     label->setPosition( Vec2( s.width/2, s.height/2));
     
     layer1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(6, 255, 0, 255)),
-       to_action_ptr(TintTo::create(6, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
-    
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(6, 255, 0, 255),
+                std::make_unique<TintTo>(6, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
+
     sister1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(2, 255, 255, 0)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 0, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 0, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(2, 255, 255, 0),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 0, 255, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 255, 0, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -283,24 +283,24 @@ void LayerTestCascadingColorB::onEnter()
     label->setPosition( Vec2( s.width/2, 0));
     
     layer1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(6, 255, 0, 255)),
-       to_action_ptr(TintTo::create(6, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
-    
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(6, 255, 0, 255),
+                std::make_unique<TintTo>(6, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
+
     sister1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(2, 255, 255, 0)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 0, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 0, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(2, 255, 255, 0),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 0, 255, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 255, 0, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
     
     // Enable cascading in scene
     setEnableRecursiveCascading(this, true);
@@ -335,24 +335,24 @@ void LayerTestCascadingColorC::onEnter()
     label->setPosition( Vec2( s.width/2, 0));
     
     layer1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(6, 255, 0, 255)),
-       to_action_ptr(TintTo::create(6, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
-    
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(6, 255, 0, 255),
+                std::make_unique<TintTo>(6, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
+
     sister1->runAction(
-     RepeatForever::create(
-      Sequence::create(
-       to_action_ptr(TintTo::create(2, 255, 255, 0)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 0, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(TintTo::create(2, 255, 0, 255)),
-       to_action_ptr(TintTo::create(2, 255, 255, 255)),
-       to_action_ptr(DelayTime::create(1))
-      )));
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<TintTo>(2, 255, 255, 0),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 0, 255, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<TintTo>(2, 255, 0, 255),
+                std::make_unique<TintTo>(2, 255, 255, 255),
+                std::make_unique<DelayTime>(1)
+            )));
 }
 
 std::string LayerTestCascadingColorC::subtitle() const
@@ -437,15 +437,15 @@ void LayerTest2::onEnter()
     layer2->setIgnoreAnchorPointForPosition(false);
     addChild(layer2, 1);
     
-    auto actionTint = TintBy::create(2, -255, -127, 0);
-    auto actionTintBack = actionTint->reverse();
-    auto seq1 = Sequence::create( to_action_ptr( actionTint), to_action_ptr( actionTintBack) );
-    layer1->runAction(seq1);
+    auto actionTint = std::make_unique<TintBy>(2, -255, -127, 0);
+    auto actionTintBack = std::unique_ptr<TintBy>(actionTint->reverse());
+    auto seq1 = std::make_unique<Sequence>( std::move( actionTint), std::move( actionTintBack) );
+    layer1->runAction( std::move(seq1) );
 
-    auto actionFade = FadeOut::create(2.0f);
-    auto actionFadeBack = actionFade->reverse();
-    auto seq2 = Sequence::create( to_action_ptr(actionFade), to_action_ptr( actionFadeBack) );        
-    layer2->runAction(seq2);
+    auto actionFade = std::make_unique<FadeOut>(2.0f);
+    auto actionFadeBack = std::unique_ptr<FadeTo>(actionFade->reverse());
+    auto seq2 = std::make_unique<Sequence>( std::move(actionFade), std::move( actionFadeBack) );        
+    layer2->runAction( std::move(seq2) );
 }
 
 std::string LayerTest2::subtitle() const
@@ -474,7 +474,9 @@ LayerTestBlend::LayerTestBlend()
     sister1->setPosition( Vec2( s.width*1/3, s.height/2) );
     sister2->setPosition( Vec2( s.width*2/3, s.height/2) );
 
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(LayerTestBlend::newBlend), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LayerTestBlend::newBlend, 0).interval(1.0f).delay(1.0f).paused(isPaused())
+    );
 }
 
 void LayerTestBlend::newBlend(float /*dt*/)
@@ -614,10 +616,10 @@ void LayerIgnoreAnchorPointPos::onEnter()
     l->setAnchorPoint(Vec2(0.5f, 0.5f));
     l->setPosition(Vec2( s.width/2, s.height/2));
 
-    auto move = MoveBy::create(2, Vec2(100,2));
-    auto back = (MoveBy *)move->reverse();
-    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
-    l->runAction(RepeatForever::create(seq));
+    auto move = std::make_unique<MoveBy>(2, Vec2(100,2));
+    auto back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(move), std::move( back) );
+    l->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
     this->addChild(l, 0, kLayerIgnoreAnchorPoint);
 
     auto child = Sprite::create("Images/grossini.png");
@@ -664,9 +666,7 @@ void LayerIgnoreAnchorPointRot::onEnter()
 
     this->addChild(l, 0, kLayerIgnoreAnchorPoint);
 
-    auto rot = RotateBy::create(2, 360);
-    l->runAction(RepeatForever::create(rot));
-
+    l->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(2, 360)));
 
     auto child = Sprite::create("Images/grossini.png");
     l->addChild(child);
@@ -711,11 +711,11 @@ void LayerIgnoreAnchorPointScale::onEnter()
     l->setPosition(Vec2( s.width/2, s.height/2));
 
 
-    auto scale = ScaleBy::create(2, 2);
-    auto back = (ScaleBy*)scale->reverse();
-    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( back) );
+    auto scale = std::make_unique<ScaleBy>(2, 2);
+    auto back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(scale), std::move( back) );
 
-    l->runAction(RepeatForever::create(seq));
+    l->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
 
     this->addChild(l, 0, kLayerIgnoreAnchorPoint);
 
@@ -807,7 +807,9 @@ void LayerBug3162A::onEnter()
     
     this->addChild(_layer[0]);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LayerBug3162A::step), this, 0.5, CC_REPEAT_FOREVER, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LayerBug3162A::step, 0).interval(0.5f).delay(0.5f).paused(isPaused())
+    );
 }
 
 void LayerBug3162A::step(float /*dt*/)
@@ -853,7 +855,9 @@ void LayerBug3162B::onEnter()
     _layer[1]->setCascadeColorEnabled(true);
     _layer[2]->setCascadeColorEnabled(true);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(LayerBug3162B::step), this, 0.5, CC_REPEAT_FOREVER, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &LayerBug3162B::step, 0).interval(0.5f).delay(0.5f).paused(isPaused())
+    );
 }
 
 void LayerBug3162B::step(float /*dt*/)
