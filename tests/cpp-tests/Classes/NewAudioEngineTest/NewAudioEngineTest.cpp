@@ -145,10 +145,10 @@ namespace {
         
         void scaleButtonTo(float scale)
         {
-            auto action = ScaleTo::create(0.05f, scale);
+            auto action = std::make_unique<ScaleTo>(0.05f, scale);
             action->setTag(10000);
             stopActionByTag(10000);
-            runAction(action);
+            runAction( std::move(action) );
         }
         
         std::function<void(TextButton*)> _onTriggered;
