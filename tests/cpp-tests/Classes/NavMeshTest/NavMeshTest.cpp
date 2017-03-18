@@ -199,13 +199,14 @@ void NavMeshBaseTestDemo::createAgent(const Vec3 &pos)
 
 
     auto animation = Animation3D::create(filePath);
-    auto animate = Animate3D::create(animation);
+    auto animate = std::make_unique<Animate3D>(animation);
     if (animate){
-        agentNode->runAction(RepeatForever::create(animate));
+        // FIXME
+        _agents.push_back(std::make_pair(agent, animate.get()));
+        
+        agentNode->runAction(std::make_unique<RepeatForever>(std::move(animate)));
         animate->setSpeed(0);
     }
-
-    _agents.push_back(std::make_pair(agent, animate));
 }
 
 void NavMeshBaseTestDemo::createObstacle(const Vec3 &pos)
@@ -232,7 +233,7 @@ Vec3 jump(const Vec3* pV1, const Vec3* pV2, float height, float t)
 
 void NavMeshBaseTestDemo::moveAgents(const cocos2d::Vec3 &des)
 {
-    for (auto iter : _agents){
+    for (auto & iter : _agents){
         NavMeshAgent::MoveCallback callback = [](NavMeshAgent *agent, float /*totalTimeAfterMove*/){
             AgentUserData *data = static_cast<AgentUserData *>(agent->getUserData());
             if (agent->isOnOffMeshLink()){
@@ -264,7 +265,7 @@ void NavMeshBaseTestDemo::moveAgents(const cocos2d::Vec3 &des)
 
 void NavMeshBaseTestDemo::update(float /*delta*/)
 {
-    for (auto iter : _agents){
+    for (auto & iter : _agents){
         float speed = iter.first->getCurrentVelocity().length() * 0.2;
         iter.second->setSpeed(0.0f < speed ? speed : 0.0f);
     }
