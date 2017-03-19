@@ -162,7 +162,7 @@ void SchedulerPauseResumeAll::onEnter()
     auto sprite = Sprite::create("Images/grossinis_sister1.png");
     sprite->setPosition(VisibleRect::center());
     this->addChild(sprite);
-    sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
+    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
     sprite->setTag(123);
     Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.5f, !_running);
@@ -246,7 +246,7 @@ void SchedulerPauseResumeAllUser::onEnter()
     sprite->setPosition(Vec2(s.width/2, s.height/2));
     sprite->setTag(123);
     this->addChild(sprite);
-    sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
+    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &SchedulerPauseResumeAllUser::tick1)
@@ -394,7 +394,7 @@ void SchedulerUnscheduleAllHard::onEnter()
     auto sprite = Sprite::create("Images/grossinis_sister1.png");
     sprite->setPosition(Vec2(s.width/2, s.height/2));
     this->addChild(sprite);
-    sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
+    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &SchedulerUnscheduleAllHard::tick1)
@@ -477,7 +477,7 @@ void SchedulerUnscheduleAllUserLevel::onEnter()
     auto sprite = Sprite::create("Images/grossinis_sister1.png");
     sprite->setPosition(Vec2(s.width/2, s.height/2));
     this->addChild(sprite);
-    sprite->runAction(RepeatForever::create(RotateBy::create(3.0, 360)));
+    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
 
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
@@ -849,24 +849,24 @@ void SchedulerSpeedup::onEnter()
     auto s = Director::getInstance()->getWinSize();
 
     // rotate and jump
-    auto jump1 = JumpBy::create(4, Vec2(-s.width+80,0), 100, 4);
-    auto jump2 = jump1->reverse();
-    auto rot1 = RotateBy::create(4, 360*2);
-    auto rot2 = rot1->reverse();
+    auto jump1 = std::make_unique<JumpBy>(4, Vec2(-s.width+80,0), 100, 4);
+    auto jump2 = std::unique_ptr<JumpBy>(jump1->reverse());
+    auto rot1 = std::make_unique<RotateBy>(4, 360*2);
+    auto rot2 = std::unique_ptr<RotateBy>(rot1->reverse());
 
-    auto seq3_1 = Sequence::create(
-        to_action_ptr(jump2),
-        to_action_ptr(jump1)
+    auto seq3_1 = std::make_unique<Sequence>(
+        std::move(jump2),
+        std::move(jump1)
     );
-    auto seq3_2 = Sequence::create(
-        to_action_ptr(rot1),
-        to_action_ptr(rot2)
+    auto seq3_2 = std::make_unique<Sequence>(
+        std::move(rot1),
+        std::move(rot2)
     );
-    auto spawn = Spawn::create(seq3_1, seq3_2, nullptr);
-    auto action = Repeat::create(spawn, 50);
+    auto spawn = std::make_unique<Spawn>( std::move(seq3_1), std::move(seq3_2));
+    auto action = std::make_unique<Repeat>( std::move(spawn), 50);
 
-    auto action2 = action->clone();
-    auto action3 = action->clone();
+    auto action2 = std::unique_ptr<Repeat>(action->clone());
+    auto action3 = std::unique_ptr<Repeat>(action->clone());
 
     auto grossini = Sprite::create("Images/grossini.png");
     auto tamara = Sprite::create("Images/grossinis_sister1.png");
@@ -880,9 +880,9 @@ void SchedulerSpeedup::onEnter()
     addChild(tamara);
     addChild(kathia);
 
-    grossini->runAction(Speed::create(action, 0.5f));
-    tamara->runAction(Speed::create(action2, 1.5f));
-    kathia->runAction(Speed::create(action3, 1.0f));
+    grossini->runAction(std::make_unique<Speed>(std::move(action), 0.5f));
+    tamara->runAction(std::make_unique<Speed>(std::move(action2), 1.5f));
+    kathia->runAction(std::make_unique<Speed>(std::move(action3), 1.0f));
 
     auto emitter = ParticleFireworks::create();
     emitter->setTexture( Director::getInstance()->getTextureCache()->addImage(s_stars1) );

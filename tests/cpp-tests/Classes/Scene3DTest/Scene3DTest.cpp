@@ -429,8 +429,7 @@ void Scene3DTestScene::createWorld3D()
     auto animation = Animation3D::create("Sprite3DTest/girl.c3b","Take 001");
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        _player->runAction(RepeatForever::create(animate));
+        _player->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation)));
     }
     // add a particle 3d above player
     auto rootps =
@@ -438,16 +437,13 @@ void Scene3DTestScene::createWorld3D()
                                    "Particle3D/materials/pu_mediapack_01.material");
     rootps->setScale(2);
     rootps->setPosition3D(Vec3(0, 150, 0));
-    auto moveby = MoveBy::create(2.0f, Vec2(50.0f, 0.0f));
-    auto moveby1 = MoveBy::create(2.0f, Vec2(-50.0f, 0.0f));
+
     rootps->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(moveby),
-                to_action_ptr(moveby1)
-            )
-        )
-    );
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(2.0f, Vec2(50.0f, 0.0f)),
+                std::make_unique<MoveBy>(2.0f, Vec2(-50.0f, 0.0f))
+            )));
     rootps->startParticleSystem();
     
     _player->addChild(rootps, 0);
@@ -498,7 +494,7 @@ void Scene3DTestScene::createUI()
             // animate show descDlg
             _descDlg->setVisible(true);
             _descDlg->setScale(0);
-            _descDlg->runAction(ScaleTo::create(2, 1.0));
+            _descDlg->runAction(std::make_unique<ScaleTo>(2, 1.0));
         }
     });
     descItem->setName("descItem");
@@ -807,9 +803,7 @@ void Scene3DTestScene::createDescDlg()
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        
-        _reskinGirl->runAction(RepeatForever::create(animate));
+        _reskinGirl->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation)));
     }
     
     auto& body = _skins[(int)SkinType::UPPER_BODY];

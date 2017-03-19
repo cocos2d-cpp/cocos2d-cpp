@@ -356,9 +356,9 @@ void RenderTextureZbuffer::renderScreenShot()
     sprite->setColor(Color3B::GREEN);
 
     sprite->runAction(
-        Sequence::create(
-            to_action_ptr(FadeTo::create(2, 0)),
-            to_action_ptr(Hide::create())
+        std::make_unique<Sequence>(
+            std::make_unique<FadeTo>(2, 0),
+            std::make_unique<Hide>()
         ));
 }
 
@@ -395,15 +395,17 @@ RenderTexturePartTest::RenderTexturePartTest()
     _rend->end();
     
     _spriteDraw = Sprite::createWithTexture(_rend->getSprite()->getTexture());
-    FiniteTimeAction* baseAction = MoveBy::create(1, Vec2(size.width,0));
-    auto baseAction_reverse = baseAction->reverse();
+
+    auto baseAction = std::make_unique<MoveBy>(1, Vec2(size.width,0));
+    auto baseAction_reverse = std::unique_ptr<MoveBy>(baseAction->reverse());
+    
     _spriteDraw->setPosition(0,size.height/2);
     _spriteDraw->setScaleY(-1);
     _spriteDraw->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(baseAction),
-                to_action_ptr(baseAction_reverse)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(baseAction),
+                std::move(baseAction_reverse)
             )
         ));
     addChild(_spriteDraw);
@@ -680,26 +682,26 @@ SpriteRenderTextureBug::SimpleSprite* SpriteRenderTextureBug::addNewSpriteWithCo
     
     sprite->setPosition(p);
     
-	FiniteTimeAction *action = nullptr;
+    std::unique_ptr<FiniteTimeAction> action;
+
 	float rd = CCRANDOM_0_1();
     
 	if (rd < 0.20)
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
 	else if (rd < 0.40)
-		action = RotateBy::create(3, 360);
+		action.reset(new RotateBy(3, 360));
 	else if (rd < 0.60)
-		action = Blink::create(1, 3);
+		action.reset(new Blink(1, 3));
 	else if (rd < 0.8 )
-		action = TintBy::create(2, 0, -255, -255);
+		action.reset(new TintBy(2, 0, -255, -255));
 	else
-		action = FadeOut::create(2);
+		action.reset(new FadeOut(2));
     
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr(action), to_action_ptr( action_back) );
+    auto action_back = std::unique_ptr<FiniteTimeAction>(action->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(action), std::move( action_back) );
     
-    sprite->runAction(RepeatForever::create(seq));
+    sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
     
-    //return sprite;
     return nullptr;
 }
 
@@ -780,9 +782,10 @@ RenderTextureWithSprite3DIssue16894::RenderTextureWithSprite3DIssue16894()
         {
             addChild(ship, 1);
             // Rotate Ship
-            auto spin = RotateBy::create(4, Vec3(0,180,0));
-            auto repeatspin = RepeatForever::create(spin);
-            ship->runAction(repeatspin);
+            ship->runAction(
+                std::make_unique<RepeatForever>(
+                    std::make_unique<RotateBy>(4, Vec3(0,180,0))
+                ));
         }
         _ship[i] = ship;
     }

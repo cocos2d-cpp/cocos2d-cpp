@@ -95,7 +95,7 @@ bool Particle3DTestDemo::init()
     _particleLab->setAnchorPoint(Vec2(0.0f, 0.0f));
     this->addChild(_particleLab);
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
     return true;
 }
 
@@ -163,11 +163,11 @@ bool Particle3DAdvancedLodSystemDemo::init()
     auto rootps = PUParticleSystem3D::create("advancedLodSystem.pu");
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
 
-    auto scale = ScaleBy::create(1.0f, 2.0f, 2.0f, 2.0f);
-    auto scale_back = scale->reverse();
-    auto rotate = RotateBy::create(1.0f, Vec3(0.0f, 0.0f, 100.0f));
-    rootps->runAction(RepeatForever::create(rotate));
-    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr(scale_back) )));
+    auto scale = std::make_unique<ScaleBy>(1.0f, 2.0f, 2.0f, 2.0f);
+    auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto rotate = std::make_unique<RotateBy>(1.0f, Vec3(0.0f, 0.0f, 100.0f));
+    rootps->runAction( std::make_unique<RepeatForever>( std::move(rotate)));
+    rootps->runAction( std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(scale), std::move(scale_back) )));
     rootps->startParticleSystem();
 
 
@@ -189,9 +189,9 @@ bool Particle3DBlackHoleDemo::init()
     auto rootps = PUParticleSystem3D::create("blackHole.pu", "pu_mediapack_01.material");
     rootps->setCameraMask((unsigned short)CameraFlag::USER1);
     rootps->setPosition(-25.0f, 0.0f);
-    auto moveby = MoveBy::create(2.0f, Vec2(50.0f, 0.0f));
-    auto moveby1 = MoveBy::create(2.0f, Vec2(-50.0f, 0.0f));
-    rootps->runAction(RepeatForever::create(Sequence::create( to_action_ptr(moveby), to_action_ptr( moveby1) )));
+    auto moveby = std::make_unique<MoveBy>(2.0f, Vec2(50.0f, 0.0f));
+    auto moveby1 = std::make_unique<MoveBy>(2.0f, Vec2(-50.0f, 0.0f));
+    rootps->runAction(std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(moveby), std::move( moveby1) )));
     rootps->startParticleSystem();
 
     this->addChild(rootps, 0, PARTICLE_SYSTEM_TAG);
@@ -448,8 +448,10 @@ bool Particle3DWithSprite3DDemo::init()
     auto animation = Animation3D::create(c3bfileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction(
+            std::make_unique<RepeatForever>(
+                std::make_unique<Animate3D>(animation)
+            ));
     }
 
     auto billboard = BillBoard::create("Images/Icon.png");
