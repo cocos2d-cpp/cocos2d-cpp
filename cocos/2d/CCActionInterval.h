@@ -93,7 +93,7 @@ public:
     virtual ActionInterval* clone() const override = 0;
 
 protected:
-    /** initializes the action */
+
     bool initWithDuration(float d);
 
 protected:
@@ -212,6 +212,8 @@ public:
      */
     virtual void step(float time) override;
     virtual bool isDone() const override;
+
+    FiniteTimeAction* getInnerAction() { return _innerAction.get(); }
     
 protected:
 
@@ -239,31 +241,22 @@ class CC_DLL RepeatForever : public ActionInterval
 public:
     RepeatForever(std::unique_ptr<ActionInterval>);
 
-    //
-    // Overrides
-    //
     virtual RepeatForever* clone() const override;
     virtual RepeatForever* reverse() const override;
     virtual void startWithTarget(Node* target) override;
-    /**
-     * @param dt In seconds.
-     */
+
     virtual void update(float dt) override;
     virtual void step(float time) override;
     virtual bool isDone() const override;
     
-protected:
-    RepeatForever()
-    : _innerAction(nullptr)
-    {}
+    ActionInterval* getInnerAction() { return _innerAction.get(); }
 
-    /** initializes the action */
-    bool initWithAction(ActionInterval *action);
+ protected:
 
     virtual void at_stop() override;
 
 protected:
-    /** Inner action */
+
     std::unique_ptr<ActionInterval> _innerAction;
 
 private:

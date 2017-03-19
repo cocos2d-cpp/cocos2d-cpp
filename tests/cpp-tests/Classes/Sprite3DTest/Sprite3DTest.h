@@ -289,14 +289,12 @@ protected:
     
     cocos2d::Sprite3D* _sprite;
     
-    cocos2d::Action* _swim;
-    cocos2d::Animate3D* _hurt;
+    std::unique_ptr<cocos2d::Action> _swim;
+    std::unique_ptr<cocos2d::Animate3D> _hurt;
 
     float _elapseTransTime;
     
     State   _state;
-    
-    cocos2d::MoveTo* _moveAction;
 };
 
 class AttachmentTest : public Sprite3DTestDemo

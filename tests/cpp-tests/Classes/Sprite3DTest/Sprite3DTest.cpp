@@ -212,23 +212,25 @@ void Sprite3DBasicTest::addNewSpriteWithCoords(Vec2 p)
     
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    ActionInterval* action;
+    std::unique_ptr<ActionInterval> action;
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else
-        action = FadeOut::create(2);
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr( action), to_action_ptr( action_back) );
+        action.reset(new FadeOut(2));
+
+    auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(action_back));
     
-    sprite->runAction( RepeatForever::create(seq) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
 }
 
 void Sprite3DBasicTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
@@ -285,7 +287,9 @@ Sprite3DUVAnimationTest::Sprite3DUVAnimationTest()
     cylinder->setRotation3D(Vec3(-90,0,0));
 
     //the callback function update cylinder's texcoord
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Sprite3DUVAnimationTest::cylinderUpdate), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Sprite3DUVAnimationTest::cylinderUpdate, 0).paused(isPaused())
+    );
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     _backToForegroundListener = EventListenerCustom::create(
@@ -388,7 +392,9 @@ Sprite3DFakeShadowTest::Sprite3DFakeShadowTest()
     layer->addChild(_camera);
     layer->setCameraMask(2);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Sprite3DFakeShadowTest::updateCamera), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Sprite3DFakeShadowTest::updateCamera, 0).paused(isPaused())
+    );
     
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
     _backToForegroundListener = EventListenerCustom::create(
@@ -591,8 +597,7 @@ Sprite3DBasicToonShaderTest::Sprite3DBasicToonShaderTest()
 
     teapot->setPosition3D(Vec3(0,-5,-20));
     teapot->setRotation3D(Vec3(-90,180,0)); 
-    auto rotate_action = RotateBy::create(1.5,Vec3(0,30,0));
-    teapot->runAction(RepeatForever::create(rotate_action)); 
+    teapot->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(1.5,Vec3(0,30,0)))); 
     addChild(teapot);
     addChild(_camera);
     setCameraMask(2);
@@ -716,7 +721,7 @@ Sprite3DHitTest::Sprite3DHitTest()
     
     //add to scene
     addChild( sprite1 );
-    sprite1->runAction(RepeatForever::create(RotateBy::create(3, 360)));
+    sprite1->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(3, 360)));
     
     auto sprite2 = Sprite3D::create("Sprite3DTest/boss1.obj");
     
@@ -727,7 +732,7 @@ Sprite3DHitTest::Sprite3DHitTest()
     
     //add to scene
     addChild( sprite2 );
-    sprite2->runAction(RepeatForever::create(RotateBy::create(3, -360)));
+    sprite2->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(3, -360)));
     
     
     // Make sprite1 touchable
@@ -831,23 +836,27 @@ void Sprite3DEffectTest::addNewSpriteWithCoords(Vec2 p)
     
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    ActionInterval* action;
+    std::unique_ptr<ActionInterval> action;
+
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else
-        action = FadeOut::create(2);
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr( action), to_action_ptr( action_back) );
+        action.reset(new FadeOut(2));
+
+    auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+    auto seq = std::make_unique<Sequence>(std::move(action), std::move(action_back));
     
-    sprite->runAction( RepeatForever::create(seq) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
+
     _sprites.push_back(sprite);
 }
 
@@ -969,10 +978,9 @@ void Sprite3DWithSkinTest::addNewSpriteWithCoords(Vec2 p)
     addChild(sprite);
     _sprits.push_back(sprite);
     
-    auto animation = Animation3D::create(fileName);
-    if (animation)
+    if (auto animation = Animation3D::create(fileName))
     {
-        auto animate = Animate3D::create(animation);
+        auto animate = std::make_unique<Animate3D>(animation);
         bool inverse = (std::rand() % 3 == 0);
 
         int rand2 = std::rand();
@@ -988,9 +996,9 @@ void Sprite3DWithSkinTest::addNewSpriteWithCoords(Vec2 p)
         animate->setSpeed(inverse ? -speed : speed);
         animate->setTag(110);
         animate->setQuality((Animate3DQuality)_animateQuality);
-        auto repeate = RepeatForever::create(animate);
+        auto repeate = std::make_unique<RepeatForever>( std::move( animate));
         repeate->setTag(110);
-        sprite->runAction(repeate);
+        sprite->runAction( std::move( repeate));
     }
 }
 
@@ -1091,10 +1099,9 @@ void Sprite3DWithSkinOutlineTest::addNewSpriteWithCoords(Vec2 p)
     addChild(sprite);
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    auto animation = Animation3D::create(fileName);
-    if (animation)
+    if (auto animation = Animation3D::create(fileName))
     {
-        auto animate = Animate3D::create(animation);
+        auto animate = std::make_unique<Animate3D>(animation);
         bool inverse = (std::rand() % 3 == 0);
         
         int rand2 = std::rand();
@@ -1109,7 +1116,7 @@ void Sprite3DWithSkinOutlineTest::addNewSpriteWithCoords(Vec2 p)
         }
         animate->setSpeed(inverse ? -speed : speed);
         
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::move(animate)));
     }
 }
 
@@ -1125,10 +1132,8 @@ void Sprite3DWithSkinOutlineTest::onTouchesEnded(const std::vector<Touch*>& touc
 
 Animate3DTest::Animate3DTest()
 : _sprite(nullptr)
-, _swim(nullptr)
-, _hurt(nullptr)
+, _hurt()
 , _elapseTransTime(0.f)
-, _moveAction(nullptr)
 {
     addSprite3D();
     
@@ -1136,14 +1141,11 @@ Animate3DTest::Animate3DTest()
     listener->onTouchesEnded = CC_CALLBACK_2(Animate3DTest::onTouchesEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 
 Animate3DTest::~Animate3DTest()
 {
-    CC_SAFE_RELEASE(_moveAction);
-    CC_SAFE_RELEASE(_hurt);
-    CC_SAFE_RELEASE(_swim);
 }
 
 std::string Animate3DTest::title() const
@@ -1164,7 +1166,7 @@ void Animate3DTest::update(float dt)
         
         if (_elapseTransTime >= Animate3D::getTransitionTime())
         {
-            _hurt->stop();
+            _sprite->stopAllActionsByTag((int)State::HURT);
             _state = State::SWIMMING;
         }
     }
@@ -1173,7 +1175,7 @@ void Animate3DTest::update(float dt)
         _elapseTransTime += dt;
         if (_elapseTransTime >= Animate3D::getTransitionTime())
         {
-            _swim->stop();
+            _sprite->stopAllActionsByTag((int)State::SWIMMING);
             _state = State::HURT;
         }
     }
@@ -1188,51 +1190,48 @@ void Animate3DTest::addSprite3D()
     sprite->setPosition(Vec2(s.width * 4.f / 5.f, s.height / 2.f));
     addChild(sprite);
     _sprite = sprite;
-    auto animation = Animation3D::create(fileName);
-    if (animation)
+    if (auto animation = Animation3D::create(fileName))
     {
-        auto animate = Animate3D::create(animation, 0.f, 1.933f);
-        _swim = RepeatForever::create(animate);
-        sprite->runAction(_swim);
+        auto animate = std::make_unique<Animate3D>(animation, 0.f, 1.933f);
+        _swim = std::make_unique<RepeatForever>( std::move(animate) );
+
+        auto swim = std::unique_ptr<Action>(_swim->clone());
+        swim->setTag( (int)State::SWIMMING );
+        _sprite->runAction( std::move( swim));
         
-        _swim->retain();
-        _hurt = Animate3D::create(animation, 1.933f, 2.8f);
-        _hurt->retain();
+        _hurt = std::make_unique<Animate3D>(animation, 1.933f, 2.8f);
         _state = State::SWIMMING;
     }
     
-    _moveAction = MoveTo::create(4.f, Vec2(s.width / 5.f, s.height / 2.f));
-    _moveAction->retain();
-    auto seq = Sequence::create(
-        to_action_ptr(_moveAction),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)))
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<MoveTo>(4.f, Vec2(s.width / 5.f, s.height / 2.f)),
+        std::make_unique<CallFunc>(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this))
     );
+
     seq->setTag(100);
-    sprite->runAction(seq);
+    sprite->runAction( std::move( seq));
 }
 
 void Animate3DTest::reachEndCallBack()
 {
     auto s = Director::getInstance()->getWinSize();
     _sprite->stopActionByTag(100);
-    auto inverse = MoveTo::create(4.f, Vec2(s.width - _sprite->getPositionX(), s.height / 2.f));
-    inverse->retain();
-    _moveAction->release();
-    _moveAction = inverse;
-    auto rot = RotateBy::create(1.f, Vec3(0.f, 180.f, 0.f));
-    auto seq = Sequence::create(
-        to_action_ptr(rot),
-        to_action_ptr(_moveAction),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this)))
+    
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<RotateBy>(1.f, Vec3(0.f, 180.f, 0.f)),
+        std::make_unique<MoveTo>(4.f, Vec2(s.width / 5.f, s.height / 2.f)),
+        std::make_unique<CallFunc>(CC_CALLBACK_0(Animate3DTest::reachEndCallBack, this))
     );
     seq->setTag(100);
-    _sprite->runAction(seq);
+    _sprite->runAction( std::move( seq));
 }
 
 void Animate3DTest::renewCallBack()
 {
-    //rerun swim action
-    _sprite->runAction(_swim);
+    auto swim = std::unique_ptr<Action>(_swim->clone());
+    swim->setTag( (int)State::SWIMMING );
+    _sprite->runAction( std::move( swim));
+
     _state = State::HURT_TO_SWIMMING;
     _elapseTransTime = 0.0f;
 }
@@ -1253,15 +1252,22 @@ void Animate3DTest::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
                 {
                     _elapseTransTime = 0.0f;
                     _state = State::SWIMMING_TO_HURT;
-                    _hurt->stop();
-                    _sprite->runAction(_hurt);
-                    auto delay = DelayTime::create(_hurt->getDuration() - Animate3D::getTransitionTime());
-                    auto seq = Sequence::create(
-                        to_action_ptr(delay),
-                        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Animate3DTest::renewCallBack, this)))
+                    _sprite->stopActionByTag( (int)State::HURT );
+
+                    auto hurt = std::unique_ptr<Animate3D>(_hurt->clone());
+                    hurt->setTag( (int)State::HURT );
+                    _sprite->runAction( std::move( hurt));
+
+                    auto innerAction = dynamic_cast<Animate3D*>(_sprite->getActionByTag((int)State::HURT));
+                    auto delay = std::make_unique<DelayTime>(
+                        innerAction->getDuration() - Animate3D::getTransitionTime()
+                    );
+                    auto seq = std::make_unique<Sequence>(
+                        std::move(delay),
+                        std::make_unique<CallFunc>(CC_CALLBACK_0(Animate3DTest::renewCallBack, this))
                     );
                     seq->setTag(101);
-                    _sprite->runAction(seq);
+                    _sprite->runAction( std::move( seq));
                 }
                 return;
             }
@@ -1305,9 +1311,7 @@ void AttachmentTest::addNewSpriteWithCoords(Vec2 p)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>( animation)));
     }
     _sprite = sprite;
     _hasWeapon = true;
@@ -1392,9 +1396,7 @@ void Sprite3DReskinTest::addNewSpriteWithCoords(Vec2 p)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>( animation)));
     }
     _sprite = sprite;
     
@@ -1481,7 +1483,7 @@ Sprite3DWithOBBPerformanceTest::Sprite3DWithOBBPerformanceTest()
     addChild(_labelCubeCount);
     _hasCollider = false;
     addOBBCallback(nullptr);
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 std::string Sprite3DWithOBBPerformanceTest::title() const
 {
@@ -1597,20 +1599,15 @@ void Sprite3DWithOBBPerformanceTest::addNewSpriteWithCoords(Vec2)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation, 0.f, 1.933f);
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation, 0.f, 1.933f)));
     }
     
-    _moveAction = MoveTo::create(4.f, Vec2(s.width / 5.f, s.height / 2.f));
-    _moveAction->retain();
-    auto seq = Sequence::create(
-        to_action_ptr(_moveAction),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)))
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<MoveTo>(4.f, Vec2(s.width / 5.f, s.height / 2.f)),
+        std::make_unique<CallFunc>(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this))
     );
     seq->setTag(100);
-    sprite->runAction(seq);
-    
-    
+    sprite->runAction( std::move( seq));
     
     _drawDebug = DrawNode3D::create();
     addChild(_drawDebug);
@@ -1620,18 +1617,14 @@ void Sprite3DWithOBBPerformanceTest::reachEndCallBack()
 {
     auto s = Director::getInstance()->getWinSize();
     _sprite->stopActionByTag(100);
-    auto inverse = MoveTo::create(4.f, Vec2(s.width - _sprite->getPositionX(), s.height / 2.f));
-    inverse->retain();
-    _moveAction->release();
-    _moveAction = inverse;
-    auto rot = RotateBy::create(1.0f, Vec3(0.f, 180.f, 0.f));
-    auto seq = Sequence::create(
-        to_action_ptr(rot),
-        to_action_ptr(_moveAction),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this)))
+
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<RotateBy>(1.0f, Vec3(0.f, 180.f, 0.f)),
+        std::make_unique<MoveTo>(4.f, Vec2(s.width - _sprite->getPositionX(), s.height / 2.f)),
+        std::make_unique<CallFunc>(CC_CALLBACK_0(Sprite3DWithOBBPerformanceTest::reachEndCallBack, this))
     );
     seq->setTag(100);
-    _sprite->runAction(seq);
+    _sprite->runAction( std::move( seq));
 }
 
 void Sprite3DWithOBBPerformanceTest::addOBBCallback(Ref*)
@@ -1744,9 +1737,7 @@ void Sprite3DMirrorTest::addNewSpriteWithCoords(Vec2 p)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>( animation)));
     }
     _sprite = sprite;
     _hasWeapon = true;
@@ -1767,9 +1758,7 @@ void Sprite3DMirrorTest::addNewSpriteWithCoords(Vec2 p)
     animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation)));
     }
     _mirrorSprite = sprite;
 }
@@ -1781,7 +1770,7 @@ QuaternionTest::QuaternionTest()
 {
     auto s = Director::getInstance()->getWinSize();
     addNewSpriteWithCoords(Vec2(s.width / 2.f, s.height / 2.f));
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 std::string QuaternionTest::title() const
 {
@@ -1804,8 +1793,7 @@ void QuaternionTest::addNewSpriteWithCoords(Vec2)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation, 0.f, 1.933f);
-        sprite->runAction(RepeatForever::create(animate));
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation, 0.f, 1.933f)));
     }
 }
 
@@ -1894,16 +1882,14 @@ void UseCaseSprite3D::switchCase()
         auto animation = Animation3D::create(filename);
         if (animation)
         {
-            auto animate = Animate3D::create(animation);
-            
-            sprite->runAction(RepeatForever::create(animate));
+            sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation)));
         }
         
         auto circleBack = Sprite3D::create();
         auto circle = Sprite::create("Sprite3DTest/circle.png");
         circleBack->setScale(0.5f);
         circleBack->addChild(circle);
-        circle->runAction(RepeatForever::create(RotateBy::create(3, Vec3(0.f, 0.f, 360.f))));
+        circle->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(3, Vec3(0.f, 0.f, 360.f))));
 
         circleBack->setRotation3D(Vec3(90, 90, 0));
         
@@ -1922,7 +1908,7 @@ void UseCaseSprite3D::switchCase()
         node->setTag(101);
         addChild(node);
         
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
         update(0.f);
     }
     else if (_caseIdx == 1) // use case 2, ui - 3d - ui, last ui should on the top
@@ -1938,8 +1924,7 @@ void UseCaseSprite3D::switchCase()
         auto animation = Animation3D::create(filename);
         if (animation)
         {
-            auto animate = Animate3D::create(animation);
-            sprite->runAction(RepeatForever::create(animate));
+            sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation)));
         }
         sprite->setPosition(s.width * 0.25f, s.height * 0.125f);
         layer->addChild(sprite);
@@ -2075,10 +2060,9 @@ void NodeAnimationTest::addNewSpriteWithCoords(Vec2)
     auto animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        auto act = RepeatForever::create(animate);
+        auto act = std::make_unique<RepeatForever>(std::make_unique<Animate3D>(animation));
         act->setTag(0);
-        sprite->runAction(act);
+        sprite->runAction( std::move( act));
     }
     addChild(sprite);
     _sprites.push_back(sprite);
@@ -2093,10 +2077,9 @@ void NodeAnimationTest::addNewSpriteWithCoords(Vec2)
     animation = Animation3D::create(fileName);
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        auto act = RepeatForever::create(animate);
+        auto act = std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation));
         act->setTag(0);
-        sprite->runAction(act);
+        sprite->runAction( std::move( act));
     }
     addChild(sprite);
     _sprites.push_back(sprite);
@@ -2173,8 +2156,7 @@ void Sprite3DCubeMapTest::addNewSpriteWithCoords(Vec2)
     _teapot->setPosition3D(Vec3(0, -5, 0));
     _teapot->setRotation3D(Vec3(-90, 180, 0));
 
-    auto rotate_action = RotateBy::create(1.5, Vec3(0, 30, 0));
-    _teapot->runAction(RepeatForever::create(rotate_action));
+    _teapot->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(1.5, Vec3(0, 30, 0))));
 
     addChild(_teapot);
 
@@ -2303,14 +2285,18 @@ Sprite3DClippingTest::Sprite3DClippingTest()
     
     clipSprite3D->setPosition(Vec2(size.width / 2, size.height / 2));
     
-    auto seq = Sequence::create(
-        to_action_ptr(ScaleTo::create(2.f, 3)),
-        to_action_ptr(ScaleTo::create(2.f, 0.5f))
-    );
-    sprite3D->runAction(RepeatForever::create(seq));
+    sprite3D->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<ScaleTo>(2.f, 3),
+                std::make_unique<ScaleTo>(2.f, 0.5f)
+            )));
+
     auto animation = Animation3D::create("Sprite3DTest/orc.c3b");
-    auto animate = Animate3D::create(animation);
-    sprite3D->runAction(RepeatForever::create(animate));
+    sprite3D->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate3D>(animation)
+        ));
     sprite3D->setForce2DQueue(true);
 }
 
@@ -2355,12 +2341,16 @@ Animate3DCallbackTest::Animate3DCallbackTest()
     auto animation = Animation3D::create("Sprite3DTest/ReskinGirl.c3b");
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        _sprite3d->runAction(RepeatForever::create(animate));
+        auto animate = std::make_unique<Animate3D>(animation);
 
         ValueMap valuemap0;
         animate->setKeyFrameUserInfo(275, valuemap0);
-        
+
+        _sprite3d->runAction(
+            std::make_unique<RepeatForever>(
+                std::move(animate)
+            ));
+
         auto listener = EventListenerCustom::create(Animate3DDisplayedNotification, [&](EventCustom* event)
         {
             auto info = (Animate3D::Animate3DDisplayedEventInfo*)event->getUserData();
@@ -2437,7 +2427,7 @@ Sprite3DVertexColorTest::Sprite3DVertexColorTest()
         Sprite3DMaterial::createWithFilename("Sprite3DTest/VertexColor.material")
     );
     sprite->setMaterial(mat);
-    sprite->runAction(RepeatForever::create(RotateBy::create(1.0f, Vec3(10.0f, 50.0f, 10.0f))));
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(1.0f, Vec3(10.0f, 50.0f, 10.0f))));
 
     this->addChild(sprite);
 
@@ -2566,7 +2556,7 @@ MotionStreak3DTest::MotionStreak3DTest()
     
     _sprite = sprite;
     _streak = streak;
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 std::string MotionStreak3DTest::title() const
 {
@@ -2621,25 +2611,23 @@ Sprite3DNormalMappingTest::Sprite3DNormalMappingTest()
 
     PointLight* light = PointLight::create(Vec3(0.0, 0.0, 0.0), Color3B(255, 255, 255), 1000);
     light->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(
-                    CallFuncN::create([radius](Node *node){
-                        static float angle = 0.0;
-                        static bool reverseDir = false;
-                        node->setPosition3D(Vec3(radius * cos(angle), 0.0f, radius * sin(angle)));
-                        if (reverseDir){
-                            angle -= 0.01f;
-                            if (angle < 0.0)
-                                reverseDir = false;
-                        }
-                        else{
-                            angle += 0.01f;
-                            if (3.14159 < angle)
-                                reverseDir = true;
-                        }
-                    })
-                )
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<CallFuncN>([radius](Node *node){
+                    static float angle = 0.0;
+                    static bool reverseDir = false;
+                    node->setPosition3D(Vec3(radius * cos(angle), 0.0f, radius * sin(angle)));
+                    if (reverseDir){
+                        angle -= 0.01f;
+                        if (angle < 0.0)
+                            reverseDir = false;
+                    }
+                    else{
+                        angle += 0.01f;
+                        if (3.14159 < angle)
+                            reverseDir = true;
+                    }
+                })
             )));
     //setup camera
     auto camera = Camera::createPerspective(60.0, s.width / s.height, 1.0f, 1000.f);
@@ -2709,7 +2697,7 @@ Sprite3DPropertyTest::Sprite3DPropertyTest()
     pMenu1->setPosition(Vec2(0, 0));
     this->addChild(pMenu1, 10);
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 std::string Sprite3DPropertyTest::title() const
 {
