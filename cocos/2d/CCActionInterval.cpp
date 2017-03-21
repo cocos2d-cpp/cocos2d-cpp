@@ -592,33 +592,33 @@ void RotateTo::startWithTarget(Node *target)
 
 void RotateTo::step(float time)
 {
-    if (getTarget())
+    CC_ASSERT(getTarget());
+
+    if(_is3D)
     {
-        if(_is3D)
-        {
-            getTarget()->setRotation3D(Vec3(
+        getTarget()->setRotation3D(
+            Vec3(
                 _startAngle.x + _diffAngle.x * time,
                 _startAngle.y + _diffAngle.y * time,
                 _startAngle.z + _diffAngle.z * time
             ));
+    }
+    else
+    {
+#if CC_USE_PHYSICS
+        if (_startAngle.x == _startAngle.y && _diffAngle.x == _diffAngle.y)
+        {
+            getTarget()->setRotation(_startAngle.x + _diffAngle.x * time);
         }
         else
         {
-#if CC_USE_PHYSICS
-            if (_startAngle.x == _startAngle.y && _diffAngle.x == _diffAngle.y)
-            {
-                getTarget()->setRotation(_startAngle.x + _diffAngle.x * time);
-            }
-            else
-            {
-                getTarget()->setRotationSkewX(_startAngle.x + _diffAngle.x * time);
-                getTarget()->setRotationSkewY(_startAngle.y + _diffAngle.y * time);
-            }
-#else
             getTarget()->setRotationSkewX(_startAngle.x + _diffAngle.x * time);
             getTarget()->setRotationSkewY(_startAngle.y + _diffAngle.y * time);
-#endif // CC_USE_PHYSICS
         }
+#else
+        getTarget()->setRotationSkewX(_startAngle.x + _diffAngle.x * time);
+        getTarget()->setRotationSkewY(_startAngle.y + _diffAngle.y * time);
+#endif // CC_USE_PHYSICS
     }
 }
 
@@ -910,6 +910,12 @@ ResizeTo::ResizeTo(float duration, const Size& final_size)
 {
 }
 
+ResizeTo* ResizeTo::reverse() const
+{
+    CC_ASSERT(false);
+    return nullptr;
+}
+
 ResizeTo* ResizeTo::clone() const
 {
     return new ResizeTo(_duration, _finalSize);
@@ -962,10 +968,9 @@ ResizeBy* ResizeBy::reverse() const
 
 void ResizeBy::step(float t)
 {
-    if (getTarget())
-    {
-        getTarget()->setContentSize(_startSize + (_sizeDelta * t));
-    }
+    CC_ASSERT(getTarget());
+
+    getTarget()->setContentSize(_startSize + (_sizeDelta * t));
 }
 
 void ResizeBy::at_stop()
@@ -996,27 +1001,26 @@ void JumpBy::startWithTarget(Node *target)
 void JumpBy::step(float t)
 {
     // parabolic jump (since v0.8.2)
-    if (getTarget())
-    {
-        float frac = fmodf( t * _jumps, 1.0f );
-        float y = _height * 4 * frac * (1 - frac);
-        y += _delta.y * t;
+    CC_ASSERT(getTarget());
 
-        float x = _delta.x * t;
+    float frac = fmodf( t * _jumps, 1.0f );
+    float y = _height * 4 * frac * (1 - frac);
+    y += _delta.y * t;
+
+    float x = _delta.x * t;
 #if CC_ENABLE_STACKABLE_ACTIONS
-        Vec2 currentPos = getTarget()->getPosition();
+    Vec2 currentPos = getTarget()->getPosition();
 
-        Vec2 diff = currentPos - _previousPos;
-        _startPosition = diff + _startPosition;
+    Vec2 diff = currentPos - _previousPos;
+    _startPosition = diff + _startPosition;
 
-        Vec2 newPos = _startPosition + Vec2(x,y);
-        getTarget()->setPosition(newPos);
+    Vec2 newPos = _startPosition + Vec2(x,y);
+    getTarget()->setPosition(newPos);
 
-        _previousPos = newPos;
+    _previousPos = newPos;
 #else
-        getTarget()->setPosition(_startPosition + Vec2(x,y));
+    getTarget()->setPosition(_startPosition + Vec2(x,y));
 #endif // !CC_ENABLE_STACKABLE_ACTIONS
-    }
 }
 
 JumpBy* JumpBy::reverse() const
@@ -1088,34 +1092,33 @@ BezierBy* BezierBy::clone() const
 
 void BezierBy::step(float time)
 {
-    if (getTarget())
-    {
-        float xa = 0;
-        float xb = _config.controlPoint_1.x;
-        float xc = _config.controlPoint_2.x;
-        float xd = _config.endPosition.x;
+    CC_ASSERT(getTarget());
 
-        float ya = 0;
-        float yb = _config.controlPoint_1.y;
-        float yc = _config.controlPoint_2.y;
-        float yd = _config.endPosition.y;
+    float xa = 0;
+    float xb = _config.controlPoint_1.x;
+    float xc = _config.controlPoint_2.x;
+    float xd = _config.endPosition.x;
 
-        float x = bezierat(xa, xb, xc, xd, time);
-        float y = bezierat(ya, yb, yc, yd, time);
+    float ya = 0;
+    float yb = _config.controlPoint_1.y;
+    float yc = _config.controlPoint_2.y;
+    float yd = _config.endPosition.y;
+
+    float x = bezierat(xa, xb, xc, xd, time);
+    float y = bezierat(ya, yb, yc, yd, time);
 
 #if CC_ENABLE_STACKABLE_ACTIONS
-        Vec2 currentPos = getTarget()->getPosition();
-        Vec2 diff = currentPos - _previousPosition;
-        _startPosition = _startPosition + diff;
+    Vec2 currentPos = getTarget()->getPosition();
+    Vec2 diff = currentPos - _previousPosition;
+    _startPosition = _startPosition + diff;
 
-        Vec2 newPos = _startPosition + Vec2(x,y);
-        getTarget()->setPosition(newPos);
+    Vec2 newPos = _startPosition + Vec2(x,y);
+    getTarget()->setPosition(newPos);
 
-        _previousPosition = newPos;
+    _previousPosition = newPos;
 #else
-        getTarget()->setPosition( _startPosition + Vec2(x,y));
+    getTarget()->setPosition( _startPosition + Vec2(x,y));
 #endif // !CC_ENABLE_STACKABLE_ACTIONS
-    }
 }
 
 BezierBy* BezierBy::reverse() const
@@ -1194,12 +1197,11 @@ void ScaleTo::startWithTarget(Node *target)
 
 void ScaleTo::step(float time)
 {
-    if (getTarget())
-    {
-        getTarget()->setScaleX(_startScaleX + _deltaX * time);
-        getTarget()->setScaleY(_startScaleY + _deltaY * time);
-        getTarget()->setScaleZ(_startScaleZ + _deltaZ * time);
-    }
+    CC_ASSERT(getTarget());
+
+    getTarget()->setScaleX(_startScaleX + _deltaX * time);
+    getTarget()->setScaleY(_startScaleY + _deltaY * time);
+    getTarget()->setScaleZ(_startScaleZ + _deltaZ * time);
 }
 
 void ScaleTo::at_stop()
@@ -1245,7 +1247,7 @@ void Blink::at_stop()
 void Blink::startWithTarget(Node *target)
 {
     ActionInterval::startWithTarget(target);
-    _originalState = target->isVisible();
+    _originalState = getTarget()->isVisible();
 }
 
 Blink* Blink::clone() const
@@ -1255,12 +1257,12 @@ Blink* Blink::clone() const
 
 void Blink::step(float time)
 {
-    if (getTarget() && ! isDone())
-    {
-        float slice = 1.0f / _times;
-        float m = fmodf(time, slice);
-        getTarget()->setVisible(m > slice / 2 ? true : false);
-    }
+    CC_ASSERT(getTarget());
+    CC_ASSERT(! isDone());
+
+    float slice = 1.0f / _times;
+    float m = fmodf(time, slice);
+    getTarget()->setVisible(m > slice / 2 ? true : false);
 }
 
 Blink* Blink::reverse() const
@@ -1406,13 +1408,14 @@ TintTo* TintTo::reverse() const
 
 void TintTo::startWithTarget(Node *target)
 {
-    CC_ASSERT(getTarget());
     ActionInterval::startWithTarget(target);
     _from = getTarget()->getColor();
 }
 
 void TintTo::step(float time)
 {
+    CC_ASSERT(getTarget());
+
     getTarget()->setColor(
         Color3B(
             GLubyte(_from.r + (_to.r - _from.r) * time),
@@ -1591,7 +1594,9 @@ void Animate::startWithTarget(Node *target)
 
 void Animate::at_stop()
 {
-    if (_animation->getRestoreOriginalFrame() && getTarget())
+    CC_ASSERT(getTarget());
+
+    if (_animation->getRestoreOriginalFrame())
     {
         auto blend = static_cast<Sprite*>(getTarget())->getBlendFunc();
         static_cast<Sprite*>(getTarget())->setSpriteFrame(_origFrame);

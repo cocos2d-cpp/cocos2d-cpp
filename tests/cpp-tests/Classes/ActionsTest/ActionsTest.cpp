@@ -514,9 +514,11 @@ void ActionRotate::onEnter()
 
     centerSprites(3);
 
-    auto actionTo = std::make_unique<RotateTo>( 2, 45);
-    auto actionTo2 = std::make_unique<RotateTo>( 2, -45);
+    auto actionTo = std::make_unique<RotateTo>(2, 45);
+    auto actionTo2 = std::make_unique<RotateTo>(2, -45);
     auto actionTo0 = std::make_unique<RotateTo>(2 , 0);
+    auto actionTo0_clone = std::unique_ptr<RotateTo>(actionTo0->clone());
+    
     _tamara->runAction(
         std::make_unique<Sequence>(
             std::move(actionTo),
@@ -526,6 +528,7 @@ void ActionRotate::onEnter()
 
     auto actionBy = std::make_unique<RotateBy>(2 ,  360);
     auto actionByBack = std::unique_ptr<RotateBy>( actionBy->reverse());
+
     _grossini->runAction(
         std::make_unique<Sequence>(
             std::move(actionBy),
@@ -536,7 +539,7 @@ void ActionRotate::onEnter()
     _kathia->runAction(
         std::make_unique<Sequence>(
             std::move(actionTo2),
-            std::unique_ptr<RotateTo>(actionTo0->clone())
+            std::move(actionTo0_clone)
         )
     );
 }
@@ -691,7 +694,7 @@ void ActionBlink::onEnter()
     auto action1 = std::make_unique<Blink>(2, 10);
     auto action2 = std::make_unique<Blink>(2, 5);
 
-    _tamara->runAction( std::move(  action1));
+    _tamara->runAction( std::move( action1));
     _kathia->runAction( std::move( action2));
 }
 
@@ -1221,8 +1224,8 @@ void ActionRotateToRepeat::onEnter()
 	auto act1 = std::make_unique<RotateTo>(1, 90);
 	auto act2 = std::make_unique<RotateTo>(1, 0);
 	auto seq = std::make_unique<Sequence>(std::move(act1), std::move(act2));
-	auto rep1 = std::make_unique<RepeatForever>(std::move(seq));
-	auto rep2 = std::make_unique<Repeat>( std::unique_ptr<Sequence>(seq->clone()), 10);
+	auto rep1 = std::make_unique<RepeatForever>( std::unique_ptr<Sequence>(seq->clone()) );
+	auto rep2 = std::make_unique<Repeat>(std::move(seq), 10);
 
     _tamara->runAction(std::move(rep1));
     _kathia->runAction(std::move(rep2));
@@ -1429,21 +1432,21 @@ void ActionOrbit::onEnter()
     centerSprites(3);
 
     auto orbit1 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, 0, 0);
-    auto orbit1_reverse = std::unique_ptr<ActionCamera>( orbit1->reverse());
+    auto orbit1_reverse = std::unique_ptr<FiniteTimeAction>( orbit1->reverse());
     auto action1 = std::make_unique<Sequence>(
         std::move(orbit1),
         std::move(orbit1_reverse)
     );
 
     auto orbit2 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, -45, 0);
-    auto orbit2_reverse = std::unique_ptr<ActionCamera>( orbit2->reverse());
+    auto orbit2_reverse = std::unique_ptr<FiniteTimeAction>( orbit2->reverse());
     auto action2 = std::make_unique<Sequence>(
         std::move(orbit2),
         std::move(orbit2_reverse)
     );
 
     auto orbit3 = std::make_unique<OrbitCamera>(2,1, 0, 0, 180, 90, 0);
-    auto orbit3_reverse = std::unique_ptr<ActionCamera>( orbit3->reverse());
+    auto orbit3_reverse = std::unique_ptr<FiniteTimeAction>( orbit3->reverse());
     auto action3 = std::make_unique<Sequence>(
         std::move(orbit3),
         std::move(orbit3_reverse)
@@ -1457,9 +1460,9 @@ void ActionOrbit::onEnter()
     auto move_back = std::unique_ptr<MoveBy>( move->reverse());
     auto seq = std::make_unique<Sequence>(std::move(move), std::move(move_back));
     auto rfe = std::make_unique<RepeatForever>( std::move( seq));
-    _kathia->runAction( std::move( rfe));
-    _tamara->runAction(std::unique_ptr<RepeatForever>( rfe->clone()) );
+    _tamara->runAction(   std::unique_ptr<RepeatForever>( rfe->clone()) );
     _grossini->runAction( std::unique_ptr<RepeatForever>( rfe->clone()) );
+    _kathia->runAction(   std::move( rfe));
 }
 
 void ActionOrbit::onExit()

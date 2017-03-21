@@ -23,7 +23,7 @@ LightTest::LightTest()
 {
     addSprite();
     addLights();
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 
     auto s = Director::getInstance()->getWinSize();
     auto camera = Camera::createPerspective(60, (GLfloat)s.width/s.height, 1.0f, 1000.0f);

@@ -270,122 +270,121 @@ bool cmpEventInfoDes(Animate3D::Animate3DDisplayedEventInfo* info1, Animate3D::A
 
 void Animate3D::step(float t)
 {
-    if (getTarget())
+    CC_ASSERT(getTarget());
+
+    if (_state == Animate3D::Animate3DState::FadeIn && _lastTime > 0.f)
     {
-        if (_state == Animate3D::Animate3DState::FadeIn && _lastTime > 0.f)
+        _accTransTime += (t - _lastTime) * getDuration();
+
+        _weight = _accTransTime / _transTime;
+        if (_weight >= 1.0f)
         {
-            _accTransTime += (t - _lastTime) * getDuration();
-            
-            _weight = _accTransTime / _transTime;
-            if (_weight >= 1.0f)
-            {
-                _accTransTime = _transTime;
-                _weight = 1.0f;
-                _state = Animate3D::Animate3DState::Running;
-                s_fadeInAnimates.erase(getTarget());
-                s_runningAnimates[getTarget()] = this;
-            }
+            _accTransTime = _transTime;
+            _weight = 1.0f;
+            _state = Animate3D::Animate3DState::Running;
+            s_fadeInAnimates.erase(getTarget());
+            s_runningAnimates[getTarget()] = this;
         }
-        else if (_state == Animate3D::Animate3DState::FadeOut && _lastTime > 0.f)
+    }
+    else if (_state == Animate3D::Animate3DState::FadeOut && _lastTime > 0.f)
+    {
+        _accTransTime += (t - _lastTime) * getDuration();
+
+        _weight = 1 - _accTransTime / _transTime;
+        if (_weight <= 0.0f)
         {
-            _accTransTime += (t - _lastTime) * getDuration();
-            
-            _weight = 1 - _accTransTime / _transTime;
-            if (_weight <= 0.0f)
-            {
-                _accTransTime = _transTime;
-                _weight = 0.0f;
-                
-                s_fadeOutAnimates.erase(getTarget());
-                Action::stop();
-                return;
-            }
+            _accTransTime = _transTime;
+            _weight = 0.0f;
+
+            s_fadeOutAnimates.erase(getTarget());
+            Action::stop();
+            return;
         }
-        float lastTime = _lastTime;
-        _lastTime = t;
-        
-        if (_quality != Animate3DQuality::QUALITY_NONE)
+    }
+    float lastTime = _lastTime;
+    _lastTime = t;
+
+    if (_quality != Animate3DQuality::QUALITY_NONE)
+    {
+        if (_weight > 0.0f)
         {
-            if (_weight > 0.0f)
-            {
-                float transDst[3], rotDst[4], scaleDst[3];
-                float* trans = nullptr, *rot = nullptr, *scale = nullptr;
-                if (_playReverse){
-                    t = 1 - t;
-                    lastTime = 1.0f - lastTime;
-                }
-                
-                t = _start + t * _last;
-                lastTime = _start + lastTime * _last;
-                
-                for (const auto& it : _boneCurves) {
-                    auto bone = it.first;
-                    auto curve = it.second;
-                    if (curve->translateCurve)
-                    {
-                        curve->translateCurve->evaluate(t, transDst, _translateEvaluate);
-                        trans = &transDst[0];
-                    }
-                    if (curve->rotCurve)
-                    {
-                        curve->rotCurve->evaluate(t, rotDst, _roteEvaluate);
-                        rot = &rotDst[0];
-                    }
-                    if (curve->scaleCurve)
-                    {
-                        curve->scaleCurve->evaluate(t, scaleDst, _scaleEvaluate);
-                        scale = &scaleDst[0];
-                    }
-                    bone->setAnimationValue(trans, rot, scale, this, _weight);
-                }
-                
-                for (const auto& it : _nodeCurves)
+            float transDst[3], rotDst[4], scaleDst[3];
+            float* trans = nullptr, *rot = nullptr, *scale = nullptr;
+            if (_playReverse){
+                t = 1 - t;
+                lastTime = 1.0f - lastTime;
+            }
+
+            t = _start + t * _last;
+            lastTime = _start + lastTime * _last;
+
+            for (const auto& it : _boneCurves) {
+                auto bone = it.first;
+                auto curve = it.second;
+                if (curve->translateCurve)
                 {
-                    auto node = it.first;
-                    auto curve = it.second;
-                    Mat4 transform;
-                    if (curve->translateCurve)
-                    {
-                        curve->translateCurve->evaluate(t, transDst, _translateEvaluate);
-                        transform.translate(transDst[0], transDst[1], transDst[2]);
-                    }
-                    if (curve->rotCurve)
-                    {
-                        curve->rotCurve->evaluate(t, rotDst, _roteEvaluate);
-                        Quaternion qua(rotDst[0], rotDst[1], rotDst[2], rotDst[3]);
-                        transform.rotate(qua);
-                    }
-                    if (curve->scaleCurve)
-                    {
-                        curve->scaleCurve->evaluate(t, scaleDst, _scaleEvaluate);
-                        transform.scale(scaleDst[0], scaleDst[1], scaleDst[2]);
-                    }
-                    node->setAdditionalTransform(&transform);
+                    curve->translateCurve->evaluate(t, transDst, _translateEvaluate);
+                    trans = &transDst[0];
                 }
-                if (!_keyFrameUserInfos.empty()){
-                    float prekeyTime = lastTime * getDuration() * _frameRate;
-                    float keyTime = t * getDuration() * _frameRate;
-                    std::vector<Animate3DDisplayedEventInfo*> eventInfos;
-                    for (auto keyFrame : _keyFrameUserInfos)
+                if (curve->rotCurve)
+                {
+                    curve->rotCurve->evaluate(t, rotDst, _roteEvaluate);
+                    rot = &rotDst[0];
+                }
+                if (curve->scaleCurve)
+                {
+                    curve->scaleCurve->evaluate(t, scaleDst, _scaleEvaluate);
+                    scale = &scaleDst[0];
+                }
+                bone->setAnimationValue(trans, rot, scale, this, _weight);
+            }
+
+            for (const auto& it : _nodeCurves)
+            {
+                auto node = it.first;
+                auto curve = it.second;
+                Mat4 transform;
+                if (curve->translateCurve)
+                {
+                    curve->translateCurve->evaluate(t, transDst, _translateEvaluate);
+                    transform.translate(transDst[0], transDst[1], transDst[2]);
+                }
+                if (curve->rotCurve)
+                {
+                    curve->rotCurve->evaluate(t, rotDst, _roteEvaluate);
+                    Quaternion qua(rotDst[0], rotDst[1], rotDst[2], rotDst[3]);
+                    transform.rotate(qua);
+                }
+                if (curve->scaleCurve)
+                {
+                    curve->scaleCurve->evaluate(t, scaleDst, _scaleEvaluate);
+                    transform.scale(scaleDst[0], scaleDst[1], scaleDst[2]);
+                }
+                node->setAdditionalTransform(&transform);
+            }
+            if (!_keyFrameUserInfos.empty()){
+                float prekeyTime = lastTime * getDuration() * _frameRate;
+                float keyTime = t * getDuration() * _frameRate;
+                std::vector<Animate3DDisplayedEventInfo*> eventInfos;
+                for (auto keyFrame : _keyFrameUserInfos)
+                {
+                    if ((!_playReverse && keyFrame.first >= prekeyTime && keyFrame.first < keyTime)
+                        || (_playReverse && keyFrame.first >= keyTime && keyFrame.first < prekeyTime))
                     {
-                        if ((!_playReverse && keyFrame.first >= prekeyTime && keyFrame.first < keyTime)
-                            || (_playReverse && keyFrame.first >= keyTime && keyFrame.first < prekeyTime))
-                            {
-                                auto& frameEvent = _keyFrameEvent[keyFrame.first];
-                                if (frameEvent == nullptr)
-                                    frameEvent = new (std::nothrow) EventCustom(Animate3DDisplayedNotification);
-                                auto eventInfo = &_displayedEventInfo[keyFrame.first];
-                                eventInfo->target = getTarget();
-                                eventInfo->frame = keyFrame.first;
-                                eventInfo->userInfo = &_keyFrameUserInfos[keyFrame.first];
-                                eventInfos.push_back(eventInfo);
-                                frameEvent->setUserData((void*)eventInfo);
-                            }
+                        auto& frameEvent = _keyFrameEvent[keyFrame.first];
+                        if (frameEvent == nullptr)
+                            frameEvent = new (std::nothrow) EventCustom(Animate3DDisplayedNotification);
+                        auto eventInfo = &_displayedEventInfo[keyFrame.first];
+                        eventInfo->target = getTarget();
+                        eventInfo->frame = keyFrame.first;
+                        eventInfo->userInfo = &_keyFrameUserInfos[keyFrame.first];
+                        eventInfos.push_back(eventInfo);
+                        frameEvent->setUserData((void*)eventInfo);
                     }
-                    std::sort(eventInfos.begin(), eventInfos.end(), _playReverse ? cmpEventInfoDes : cmpEventInfoAsc);
-                    for (auto eventInfo : eventInfos) {
-                        Director::getInstance()->getEventDispatcher()->dispatchEvent(_keyFrameEvent[eventInfo->frame]);
-                    }
+                }
+                std::sort(eventInfos.begin(), eventInfos.end(), _playReverse ? cmpEventInfoDes : cmpEventInfoAsc);
+                for (auto eventInfo : eventInfos) {
+                    Director::getInstance()->getEventDispatcher()->dispatchEvent(_keyFrameEvent[eventInfo->frame]);
                 }
             }
         }

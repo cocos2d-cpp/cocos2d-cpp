@@ -86,7 +86,7 @@ void TimedJob::update(float dt)
 
 // implementation of Scheduler
 
-using update_map       = std::unordered_map<void*,int32_t>;
+using update_map       = std::unordered_map<void*,UpdateJob::priority_type>;
 using update_vector    = std::vector<UpdateJob>;
 using update_iterators = std::pair<update_map::iterator,update_vector::iterator>;
 
@@ -113,7 +113,7 @@ using timed_vector   = std::vector<TimedJob>;
 using timed_iterator = timed_vector::iterator;
 
 inline
-static timed_iterator findTimedJob(timed_vector & vec, void * target, int32_t id)
+static timed_iterator findTimedJob(timed_vector & vec, void * target, TimedJob::id_type id)
 {
     return std::lower_bound( vec.begin(), vec.end(), TimedJobId{ target, id});
 }
@@ -143,7 +143,7 @@ void Scheduler::unscheduleUpdateJob(void *target)
     }
 }
 
-void Scheduler::unscheduleTimedJob(void *target, int32_t id)
+void Scheduler::unscheduleTimedJob(void *target, TimedJob::id_type id)
 {
     auto unschedule_in = [target, id] (auto & vec) {
 
@@ -374,13 +374,13 @@ void Scheduler::update(float dt)
 //************************ DEPRECATED ****************************************//
 ////////////////////////////////////////////////////////////////////////////////
 
-static int32_t to_id(SEL_SCHEDULE selector)
+static TimedJob::id_type to_id(SEL_SCHEDULE selector)
 {
-    return static_cast<int32_t>(std::hash<void*>()(reinterpret_cast<void*>(selector)));
+    return static_cast<TimedJob::id_type>(std::hash<void*>()(reinterpret_cast<void*>(selector)));
 }
-static int32_t to_id(std::string const& id)
+static TimedJob::id_type to_id(std::string const& id)
 {
-    return static_cast<int32_t>(std::hash<std::string>()(id));
+    return static_cast<TimedJob::id_type>(std::hash<std::string>()(id));
 }
 
 void Scheduler::schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id)

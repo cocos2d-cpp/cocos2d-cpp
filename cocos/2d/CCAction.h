@@ -104,7 +104,7 @@ public:
 
     void stop();
 
-    bool hasStopped() const { return _target == nullptr; }
+    bool hasStopped() const { return _hasStopped; }
 
 protected:
 
@@ -113,7 +113,6 @@ protected:
 public:
 
     Node* getTarget() const { return _target; }
-    void  setTarget(Node *target) { _target = target; }
 
     tag_t getTag() const    { return _tag; }
     void  setTag(tag_t tag) { _tag = tag; }
@@ -129,6 +128,7 @@ private:
     Node*   _target;
     tag_t   _tag;
     flags_t _flags;
+    bool    _hasStopped;
 
 private:
     Action(const Action &) = delete;
@@ -159,14 +159,7 @@ public:
      */
     void setDuration(float duration) { _duration = duration; }
 
-    //
-    // Overrides
-    //
-    virtual FiniteTimeAction* reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual FiniteTimeAction* reverse() const override = 0;
 
     virtual FiniteTimeAction* clone() const override = 0;
 

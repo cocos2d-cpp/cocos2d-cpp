@@ -127,13 +127,16 @@ CardinalSplineTo* CardinalSplineTo::clone() const
 
 void CardinalSplineTo::step(float time)
 {
-    size_t p;
+    int p;
     float lt;
 
     // eg.
     // p..p..p..p..p..p..p
     // 1..2..3..4..5..6..7
     // want p to be 1, 2, 3, 4, 5, 6
+
+    CC_ASSERT(_points.size());
+
     if (time == 1)
     {
         p = _points.size() - 1;
@@ -144,14 +147,24 @@ void CardinalSplineTo::step(float time)
         p = time / _deltaT;
         lt = (time - _deltaT * (float)p) / _deltaT;
     }
-    
-    // Interpolate
-    Vec2 const& pp0 = _points.at(p-1);
-    Vec2 const& pp1 = _points.at(p+0);
-    Vec2 const& pp2 = _points.at(p+1);
-    Vec2 const& pp3 = _points.at(p+2);
 
-    Vec2 newPos = ccCardinalSplineAt(pp0, pp1, pp2, pp3, _tension, lt);
+    const auto control_point = [=](int p) -> Vec2 const& {
+        if (p < 0)
+            return _points[0];
+        else if (p < (int)_points.size())
+            return _points[p];
+        return _points.back();
+    };
+
+    // Interpolate
+    Vec2 newPos = ccCardinalSplineAt(
+        control_point(p - 1),
+        control_point(p + 0),
+        control_point(p + 1),
+        control_point(p + 2),
+        _tension,
+        lt
+    );
 
 #if CC_ENABLE_STACKABLE_ACTIONS
     // Support for stacked actions
@@ -163,7 +176,7 @@ void CardinalSplineTo::step(float time)
         newPos = newPos + _accumulatedDiff;
     }
 #endif
-    
+
     this->updatePosition(newPos);
 }
 

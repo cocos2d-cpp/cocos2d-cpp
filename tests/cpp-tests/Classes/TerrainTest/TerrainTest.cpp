@@ -137,8 +137,7 @@ TerrainWalkThru::TerrainWalkThru()
     auto animation = Animation3D::create("Sprite3DTest/girl.c3b","Take 001");
     if (animation)
     {
-        auto animate = Animate3D::create(animation);
-        _player->runAction(RepeatForever::create(animate));
+        _player->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>( std::move(animation))));
     }
 
     _camera->setPosition3D(_player->getPosition3D()+camera_offset);

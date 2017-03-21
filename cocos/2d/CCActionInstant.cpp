@@ -129,6 +129,7 @@ FlipX::FlipX(bool x)
 void FlipX::startWithTarget(Node *target)
 {
     CC_ASSERT(dynamic_cast<Sprite*>(target));
+    Action::startWithTarget(target);
 }
 
 void FlipX::step(float /*time*/)
@@ -156,6 +157,7 @@ FlipY::FlipY(bool y)
 void FlipY::startWithTarget(Node *target)
 {
     CC_ASSERT(dynamic_cast<Sprite*>(target));
+    Action::startWithTarget(target);
 }
 
 void FlipY::step(float /*time*/)

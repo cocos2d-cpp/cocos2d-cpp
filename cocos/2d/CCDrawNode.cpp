@@ -610,10 +610,18 @@ void DrawNode::drawCardinalSpline(std::vector<Vec2> const& config, float tension
 
     CC_ASSERT(config.size());
     
-    size_t p;
+    int p;
     float lt;
     float deltaT = 1.0f / config.size();
     
+    const auto control_point = [&config](int p) -> Vec2 const& {
+        if (p < 0)
+            return config[0];
+        else if (p < (int)config.size())
+            return config[p];
+        return config.back();
+    };
+
     for( unsigned int i=0; i < segments+1;i++) {
         
         float dt = (float)i / segments;
@@ -626,19 +634,16 @@ void DrawNode::drawCardinalSpline(std::vector<Vec2> const& config, float tension
             p = dt / deltaT;
             lt = (dt - deltaT * (float)p) / deltaT;
         }
-        
-        CC_ASSERT(0u < p);
-        CC_ASSERT(3u < config.size());
 
-        // Interpolate
-        Vec2 const& pp0 = config[p-1];
-        Vec2 const& pp1 = config[p+0];
-        Vec2 const& pp2 = config[p+1];
-        Vec2 const& pp3 = config[p+2];
-        
-        Vec2 newPos = ccCardinalSplineAt(pp0, pp1, pp2, pp3, tension, lt);
-        vertices[i].x = newPos.x;
-        vertices[i].y = newPos.y;
+       // Interpolate
+        vertices[i] = ccCardinalSplineAt(
+            control_point(p - 1),
+            control_point(p + 0),
+            control_point(p + 1),
+            control_point(p + 2),
+            tension,
+            lt
+        );
     }
     
     drawPoly(vertices.data(), segments+1, false, color);

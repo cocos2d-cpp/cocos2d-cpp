@@ -332,25 +332,25 @@ void TextureMipMap::onEnter()
     addChild(img1);
     
     
-    auto scale1 = EaseOut::create(ScaleBy::create(4, 0.01f), 3);
-    auto sc_back = scale1->reverse();
+    auto scale1 = std::make_unique<EaseOut>(std::make_unique<ScaleBy>(4, 0.01f), 3);
+    auto sc_back = std::unique_ptr<FiniteTimeAction>(scale1->reverse());
     
-    auto scale2 = scale1->clone();
-    auto sc_back2 = scale2->reverse();
+    auto scale2 = std::unique_ptr<FiniteTimeAction>(scale1->clone());
+    auto sc_back2 = std::unique_ptr<FiniteTimeAction>(scale2->reverse());
 
     img0->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(scale1),
-                to_action_ptr(sc_back)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scale1),
+                std::move(sc_back)
             )
         )
     );
     img1->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(scale2),
-                to_action_ptr(sc_back2)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scale2),
+                std::move(sc_back2)
             )
         )
     );
@@ -399,25 +399,25 @@ void TexturePVRMipMap::onEnter()
         img->setPosition(Vec2( s.width/2.0f+100, s.height/2.0f));
         addChild(img);
 
-        auto scale1 = EaseOut::create(ScaleBy::create(4, 0.01f), 3);
-        auto sc_back = scale1->reverse();
+        auto scale1 = std::make_unique<EaseOut>(std::make_unique<ScaleBy>(4, 0.01f), 3);
+        auto sc_back = std::unique_ptr<FiniteTimeAction>(scale1->reverse());
 
-        auto scale2 = scale1->clone();
-        auto sc_back2 = scale2->reverse();
+        auto scale2 = std::unique_ptr<FiniteTimeAction>(scale1->clone());
+        auto sc_back2 = std::unique_ptr<FiniteTimeAction>(scale2->reverse());
         
         imgMipMap->runAction(
-            RepeatForever::create(
-                Sequence::create(
-                    to_action_ptr(scale1),
-                    to_action_ptr(sc_back)
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::move(scale1),
+                    std::move(sc_back)
                 )
             )
         );
         img->runAction(
-            RepeatForever::create(
-                Sequence::create(
-                    to_action_ptr(scale2),
-                    to_action_ptr(sc_back2)
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::move(scale2),
+                    std::move(sc_back2)
                 )
             )
         );
@@ -457,25 +457,25 @@ void TexturePVRMipMap2::onEnter()
     img->setPosition(Vec2( s.width/2.0f+100, s.height/2.0f));
     addChild(img);
     
-    auto scale1 = EaseOut::create(ScaleBy::create(4, 0.01f), 3);
-    auto sc_back = scale1->reverse();
+    auto scale1 = std::make_unique<EaseOut>(std::make_unique<ScaleBy>(4, 0.01f), 3);
+    auto sc_back = std::unique_ptr<FiniteTimeAction>(scale1->reverse());
 
-    auto scale2 = scale1->clone();
-    auto sc_back2 = scale2->reverse();
+    auto scale2 = std::unique_ptr<FiniteTimeAction>(scale1->clone());
+    auto sc_back2 = std::unique_ptr<FiniteTimeAction>(scale2->reverse());
     
     imgMipMap->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(scale1),
-                to_action_ptr(sc_back)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scale1),
+                std::move(sc_back)
             )
         )
     );
     img->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(scale2),
-                to_action_ptr(sc_back2)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scale2),
+                std::move(sc_back2)
             )
         )
     );
@@ -1373,18 +1373,18 @@ void TextureAlias::onEnter()
     sprite2->getTexture()->setAliasTexParameters();
         
     // scale them to show
-    auto sc = ScaleBy::create(3, 8.0f);
-    auto sc_back = sc->reverse();
-    auto scaleforever = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(sc),
-            to_action_ptr(sc_back)
+    auto sc = std::make_unique<ScaleBy>(3, 8.0f);
+    auto sc_back = std::unique_ptr<FiniteTimeAction>(sc->reverse());
+    auto scaleforever = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(sc),
+            std::move(sc_back)
         )
     );
-    auto scaleToo = scaleforever->clone();
+    auto scaleToo = std::unique_ptr<Action>(scaleforever->clone());
 
-    sprite2->runAction(scaleforever);
-    sprite->runAction(scaleToo);
+    sprite2->runAction(std::move(scaleforever));
+    sprite->runAction(std::move(scaleToo));
     log("%s\n", Director::getInstance()->getTextureCache()->getCachedTextureInfo().c_str());
 }
 
@@ -1473,24 +1473,22 @@ void TexturePixelFormat::onEnter()
     // remove texture from texture manager    
     Director::getInstance()->getTextureCache()->removeTexture(sprite6->getTexture());
 
-    auto fadeout = FadeOut::create(2);
-    auto fadein  = FadeIn::create(2);
-    auto seq = Sequence::create(
-        to_action_ptr(DelayTime::create(2)),
-        to_action_ptr(fadeout),
-        to_action_ptr(fadein)
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<DelayTime>(2),
+        std::make_unique<FadeOut>(2),
+        std::make_unique<FadeIn>(2)
     );
-    auto seq_4ever = RepeatForever::create(seq);
-    auto seq_4ever2 = seq_4ever->clone();
-    auto seq_4ever3 = seq_4ever->clone();
-    auto seq_4ever4 = seq_4ever->clone();
-    auto seq_4ever5 = seq_4ever->clone();
+    auto seq_4ever = std::make_unique<RepeatForever>(std::move(seq));
+    auto seq_4ever2 = std::unique_ptr<Action>(seq_4ever->clone());
+    auto seq_4ever3 = std::unique_ptr<Action>(seq_4ever->clone());
+    auto seq_4ever4 = std::unique_ptr<Action>(seq_4ever->clone());
+    auto seq_4ever5 = std::unique_ptr<Action>(seq_4ever->clone());
     
-    sprite1->runAction(seq_4ever);
-    sprite2->runAction(seq_4ever2);
-    sprite3->runAction(seq_4ever3);
-    sprite4->runAction(seq_4ever4);
-    sprite5->runAction(seq_4ever5);
+    sprite1->runAction(std::move(seq_4ever));
+    sprite2->runAction(std::move(seq_4ever2));
+    sprite3->runAction(std::move(seq_4ever3));
+    sprite4->runAction(std::move(seq_4ever4));
+    sprite5->runAction(std::move(seq_4ever5));
 
     // restore default
     Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::DEFAULT);
@@ -1572,13 +1570,13 @@ void TextureAsync::onEnter()
     label->setPosition(Vec2( size.width/2, size.height/2));
     addChild(label, 10);
 
-    auto scale = ScaleBy::create(0.3f, 2);
-    auto scale_back = scale->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(scale),
-        to_action_ptr(scale_back)
+    auto scale = std::make_unique<ScaleBy>(0.3f, 2);
+    auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(scale),
+        std::move(scale_back)
     );
-    label->runAction(RepeatForever::create(seq));
+    label->runAction(std::make_unique<RepeatForever>(std::move(seq)));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &TextureAsync::loadImages)
@@ -1668,15 +1666,15 @@ void TextureGlClamp::onEnter()
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
     texture->setTexParameters(params);
 
-    auto rotate = RotateBy::create(4, 360);
-    sprite->runAction(rotate);
-    auto scale = ScaleBy::create(2, 0.04f);
-    auto scaleBack = scale->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(scale),
-        to_action_ptr(scaleBack)
+    sprite->runAction(std::make_unique<RotateBy>(4, 360));
+
+    auto scale = std::make_unique<ScaleBy>(2, 0.04f);
+    auto scaleBack = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(scale),
+        std::move(scaleBack)
     );
-    sprite->runAction(seq);
+    sprite->runAction(std::move(seq));
 }
 
 std::string TextureGlClamp::title() const
@@ -1709,15 +1707,14 @@ void TextureGlRepeat::onEnter()
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};
     texture->setTexParameters(params);
     
-    auto rotate = RotateBy::create(4, 360);
-    sprite->runAction(rotate);
-    auto scale = ScaleBy::create(2, 0.04f);
-    auto scaleBack = scale->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(scale),
-        to_action_ptr(scaleBack)
+    sprite->runAction(std::make_unique<RotateBy>(4, 360));
+    auto scale = std::make_unique<ScaleBy>(2, 0.04f);
+    auto scaleBack = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(scale),
+        std::move(scaleBack)
     );
-    sprite->runAction(seq);
+    sprite->runAction(std::move(seq));
 }
 
 std::string TextureGlRepeat::title() const
@@ -2084,30 +2081,19 @@ std::string TexturePVRv3Premult::subtitle() const
 
 void TexturePVRv3Premult::transformSprite(cocos2d::Sprite *sprite)
 {
-    auto fade = FadeOut::create(2);
-    auto dl = DelayTime::create(2);
-    auto fadein = fade->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(fade),
-        to_action_ptr(fadein),
-        to_action_ptr(dl)
+    auto fade = std::make_unique<FadeOut>(2);
+    auto dl = std::make_unique<DelayTime>(2);
+    auto fadein = std::unique_ptr<FiniteTimeAction>(fade->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(fade),
+        std::move(fadein),
+        std::move(dl)
     );
-    auto repeat = RepeatForever::create(seq);
-    sprite->runAction(repeat);
+    auto repeat = std::make_unique<RepeatForever>(std::move(seq));
+    sprite->runAction(std::move(repeat));
 }
 
 // Implementation of ETC1
-
-/*
-class TextureETC1 : public TextureDemo
-{
-public:
-    TextureETC1();
-    
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-};
- */
 
 TextureETC1::TextureETC1()
 {

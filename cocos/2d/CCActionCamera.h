@@ -50,7 +50,6 @@ public:
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
-    virtual ActionCamera * reverse() const override;
 
     virtual ActionCamera *clone() const override = 0;
 
@@ -86,6 +85,7 @@ public:
 
     // Overrides
     virtual void startWithTarget(Node *target) override;
+    virtual ReverseTime* reverse() const override;
     virtual OrbitCamera *clone() const override;
     virtual void step(float time) override;
     

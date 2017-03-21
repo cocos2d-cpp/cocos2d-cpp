@@ -35,9 +35,10 @@ namespace cocos2d {
 //
 
 Action::Action()
-:_target(nullptr)
-,_tag(Action::INVALID_TAG)
-,_flags(0)
+    : _target(nullptr)
+    , _tag(Action::INVALID_TAG)
+    , _flags(0)
+    , _hasStopped(true)
 {
 }
 
@@ -53,13 +54,18 @@ std::string Action::description() const
 
 void Action::startWithTarget(Node *aTarget)
 {
+    CC_ASSERT(aTarget);
     _target = aTarget;
+    _hasStopped = false;
 }
 
 void Action::stop()
 {
-    at_stop();
-    _target = nullptr;
+    if (!_hasStopped)
+    {
+        at_stop();
+        _hasStopped = true;
+    }
 }
 
 //

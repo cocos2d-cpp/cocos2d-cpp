@@ -43,11 +43,6 @@ void ActionCamera::startWithTarget(Node *target)
     ActionInterval::startWithTarget(target);
 }
 
-ActionCamera * ActionCamera::reverse() const
-{
-    CC_ASSERT(false);
-}
-
 void ActionCamera::restore()
 {
     _center.setZero();
@@ -132,6 +127,11 @@ OrbitCamera::OrbitCamera(float t, float radius, float deltaRadius, float angleZ,
 , _radDeltaX((float)CC_DEGREES_TO_RADIANS(_deltaAngleX))
 {
     ActionInterval::initWithDuration(t);
+}
+
+ReverseTime* OrbitCamera::reverse() const
+{
+    return new ReverseTime( std::unique_ptr<OrbitCamera>( clone()));
 }
 
 OrbitCamera* OrbitCamera::clone() const

@@ -195,12 +195,6 @@ void TextFieldTTFActionTest::onEnter()
 
     _charLimit = 12;
 
-    _textFieldAction = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(FadeOut::create(0.25)),
-            to_action_ptr(FadeIn::create(0.25))
-        ));
-    _textFieldAction->retain();
     _action = false;
 
     // add TextFieldTTF
@@ -227,7 +221,6 @@ void TextFieldTTFActionTest::onEnter()
 void TextFieldTTFActionTest::onExit()
 {
     KeyboardNotificationLayer::onExit();
-    _textFieldAction->release();
 }
 
 // TextFieldDelegate protocol
@@ -235,7 +228,13 @@ bool TextFieldTTFActionTest::onTextFieldAttachWithIME(TextFieldTTF *)
 {
     if (! _action)
     {
-        _textField->runAction(_textFieldAction);
+        auto textFieldAction = std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(std::make_unique<FadeOut>(0.25)),
+                std::move(std::make_unique<FadeIn>(0.25))
+            ));
+        textFieldAction->setTag(111);
+        _textField->runAction( std::move( textFieldAction));
         _action = true;
     }
     return false;
@@ -245,7 +244,7 @@ bool TextFieldTTFActionTest::onTextFieldDetachWithIME(TextFieldTTF *)
 {
     if (_action)
     {
-        _textFieldAction->stop();
+        _textField->stopActionByTag(111);
         _textField->setOpacity(255);
         _action = false;
     }
@@ -285,20 +284,15 @@ bool TextFieldTTFActionTest::onTextFieldInsertText(TextFieldTTF *sender, const c
     label->setPosition(beginPos);
     label->setScale(8);
 
-    auto seq = Sequence::create(
-        to_action_ptr(
-            Spawn::create(
-                MoveTo::create(duration, endPos),
-                ScaleTo::create(duration, 1),
-                FadeOut::create(duration),
-                nullptr
-            )
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<Spawn>(
+            std::make_unique<MoveTo>(duration, endPos),
+            std::make_unique<ScaleTo>(duration, 1),
+            std::make_unique<FadeOut>(duration)
         ),
-        to_action_ptr(
-            CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
-        )
+        std::make_unique<CallFuncN>(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
     );
-    label->runAction(seq);
+    label->runAction( std::move( seq));
     return false;
 }
 
@@ -322,20 +316,18 @@ bool TextFieldTTFActionTest::onTextFieldDeleteBackward(TextFieldTTF * sender, co
     int repeatTime = 5; 
     label->setPosition(beginPos);
     
-    auto moveto = MoveTo::create(duration, endPos);
-    auto repeat = Repeat::create(RotateBy::create(rotateDuration, (rand() % 2) ? 360 : -360),
-                                 repeatTime);
-    auto fadeout = FadeOut::create(duration);
-    
-    auto spawn = Spawn::create(moveto, repeat, fadeout, std::nullptr_t());
-
-    auto seq = Sequence::create(
-        to_action_ptr(spawn),
-        to_action_ptr(
-            CallFuncN::create(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
-        )
+    auto seq = std::make_unique<Sequence>(
+        std::make_unique<Spawn>(
+            std::make_unique<MoveTo>(duration, endPos),
+            std::make_unique<Repeat>(
+                std::make_unique<RotateBy>(rotateDuration, (rand() % 2) ? 360 : -360),
+                repeatTime
+            ),
+            std::make_unique<FadeOut>(duration)
+        ),
+        std::make_unique<CallFuncN>(CC_CALLBACK_1(TextFieldTTFActionTest::callbackRemoveNodeWhenDidAction, this))
     );
-    label->runAction(seq);
+    label->runAction( std::move( seq));
     return false;
 }
 

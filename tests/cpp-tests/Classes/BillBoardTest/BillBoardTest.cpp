@@ -82,17 +82,15 @@ BillBoardRotationTest::BillBoardRotationTest()
     
     auto jump = std::make_unique<JumpBy>(1, Vec2(0, 0), 30, 1);
     auto scale = std::make_unique<ScaleBy>(2.f, 2.f, 2.f, 0.1f);
-    auto seq = std::make_unique<Sequence>( std::move(jump), std::move(scale) );
-    
-    auto rot = std::make_unique<RotateBy>(2, Vec3(-90, 0, 0));
-    auto act = std::make_unique<Spawn>(std::move(seq), std::move(rot));
-    
     auto scale2 = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(jump), std::move(scale) );
+    auto rot = std::make_unique<RotateBy>(2, Vec3(-90, 0, 0));
     auto rot2 = std::unique_ptr<RotateBy>(rot->reverse());
+    auto act = std::make_unique<Spawn>(std::move(seq), std::move(rot));
     auto act2 = std::make_unique<Spawn>(std::move(scale2), std::move(rot2));
-    
     auto seq2 = std::make_unique<Sequence>( std::move(act), std::move( act2) );
     auto repeat = std::make_unique<RepeatForever>( std::move( seq2));
+
     model->runAction( std::move( repeat));
 }
 

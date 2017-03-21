@@ -100,6 +100,10 @@ public:
     std::string getTestCaseName() const { return _testCaseName; }
 
     virtual void onEnter() override;
+
+    virtual void resume() override;
+    virtual void pause() override;
+
 protected:
     virtual bool init() override;
 

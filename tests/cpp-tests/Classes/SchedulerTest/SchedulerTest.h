@@ -164,6 +164,8 @@ class SchedulerUpdateAndCustom : public SchedulerTestLayer
 public:
     CREATE_FUNC(SchedulerUpdateAndCustom);
 
+    virtual float getDuration() const override;
+
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

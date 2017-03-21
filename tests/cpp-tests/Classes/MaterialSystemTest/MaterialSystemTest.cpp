@@ -282,7 +282,12 @@ void Material_setTechnique::onEnter()
     auto light2 = DirectionLight::create(Vec3(-1,1,0), Color3B::GREEN);
     addChild(light2);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(Material_setTechnique::changeMaterial, this), this, 1.0f, !_running, "cookie");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Material_setTechnique::changeMaterial, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
     _techniqueState = 0;
 
     sprite->runAction(
@@ -409,14 +414,16 @@ void Material_parsePerformance::onEnter()
             {
                 label->setString("Testing start!");
             }
+            auto schedule_test_parsing = [this, p, slider](float) {
+                this->parsingTesting(p * _maxParsingCoumt);
+                slider->setTouchEnabled(true);
+            };
             Director::getInstance()->getScheduler().schedule(
-                               [this, p, slider](float)
-                               {
-                                   this->parsingTesting(p * _maxParsingCoumt);
-                                   slider->setTouchEnabled(true);
-                               },
-                               this, 0.0f, 0, 1.0, !_running, "schedule test parsing");
-            
+                TimedJob(this, schedule_test_parsing, 0)
+                    .delay(1.0f)
+                    .repeat(0)
+                    .paused(isPaused())
+            );
         }
     });
     

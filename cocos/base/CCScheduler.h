@@ -46,12 +46,14 @@ class Scheduler;
  */
 class CC_DLL UpdateJobId {
 protected:
-    void*   _target;
-    int32_t _priority;
+    using priority_type = int32_t;
+
+    void*         _target;
+    priority_type _priority;
 
 public:
 
-    UpdateJobId(void* target, int32_t priority)
+    UpdateJobId(void* target, priority_type priority)
         : _target(target)
         , _priority(priority)
         {}
@@ -65,11 +67,11 @@ public:
 
 class UpdateJob : public UpdateJobId {
 public:
-    using priority_type = int32_t;
+    using priority_type = UpdateJobId::priority_type;
 
 public:
     template<typename T>
-        UpdateJob(T* target, int32_t priority)
+        UpdateJob(T* target, priority_type priority = 0)
             : UpdateJobId{target, priority}
             , _callback([target](float dt){ target->update(dt); })
         {
@@ -101,7 +103,7 @@ public:
     {
         return _target;
     }
-    int32_t priority() const
+    priority_type priority() const
     {
         return _priority;
     }
@@ -135,10 +137,10 @@ public:
 
 protected:
     void*   _target;
-    int32_t _id;
+    id_type _id;
 
 public:
-    TimedJobId(void* target, int32_t id)
+    TimedJobId(void* target, id_type id)
         : _target(target)
         , _id(id)
         {}
@@ -168,7 +170,7 @@ public:
 
 public:
 
-    TimedJob(void* target, std::function<void(float)> callback, int32_t id = DEFAULT_ID)
+    TimedJob(void* target, std::function<void(float)> callback, id_type id = DEFAULT_ID)
         : TimedJobId{target, id}
         , _callback(callback)
         {
@@ -177,7 +179,7 @@ public:
         }
 
     template<typename T>
-    TimedJob(T* target, void (T::*func)(float), int32_t id = DEFAULT_ID)
+    TimedJob(T* target, void (T::*func)(float), id_type id = DEFAULT_ID)
         : TimedJob(target, [target,func](float dt){ (target->*func)(dt); }, id)
         {}
 
@@ -227,7 +229,7 @@ public:
     {
         return _target;
     }
-    int32_t id() const
+    id_type id() const
     {
         return _id;
     }
@@ -302,7 +304,7 @@ public:
     void schedule(TimedJob job)  { schedule( _timedJobsToAdd,  job); }
 
     void unscheduleUpdateJob(void * target);
-    void unscheduleTimedJob(void * target, int32_t id);
+    void unscheduleTimedJob(void * target, TimedJob::id_type id);
 
     void unscheduleAllForTarget(void *target);
     void unscheduleAllJobs();
@@ -337,7 +339,7 @@ private:
     std::vector<TimedJob> _timedJobs;
     std::vector<TimedJob> _timedJobsToAdd;
 
-    std::unordered_map<void*,int32_t> _update_target_to_priority;
+    std::unordered_map<void*,UpdateJob::priority_type> _update_target_to_priority;
 
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
@@ -347,7 +349,7 @@ public: // deprecated
 
     template<typename T>
     CC_DEPRECATED_ATTRIBUTE
-    void scheduleUpdate(T *target, int32_t priority, bool paused)
+    void scheduleUpdate(T *target, UpdateJob::priority_type priority, bool paused)
     {
         schedule(
             UpdateJob(target, priority)

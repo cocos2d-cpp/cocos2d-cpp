@@ -89,6 +89,7 @@ Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action
             );
 
         if (lb != vec.end()
+            && *lb
             && (*lb)->getTarget() == target
             && (*lb)->getTag() == tag)
         {
@@ -101,7 +102,9 @@ Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action
     auto rv = find(_actions);
 
     if (rv)
+    {
         return rv;
+    }
 
     return find(_actionsToAdd);
 }
@@ -113,8 +116,11 @@ static auto get_n_for = [](auto const& vec, auto const& v,
     size_t rv = 0;
 
     auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
+
     for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
+    {
         rv += match_cmp(*lb);
+    }
 
     return rv;
 };
@@ -159,6 +165,7 @@ static auto stop = [](auto const& vec, auto const& v,
 {
     size_t rv = 0;
     auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
+
     for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
     {
         if (match_cmp(*lb))
@@ -167,6 +174,7 @@ static auto stop = [](auto const& vec, auto const& v,
             rv++;
         }
     }
+
     return rv;
 };
 
@@ -197,24 +205,28 @@ size_t ActionManager::stopActionsForTargetWithFlags(const Node* target, flags_t 
 
 void ActionManager::update(float dt)
 {
-    size_t move_to = 0;
     const size_t size = _actions.size();
+    size_t n_stopped = 0;
 
     for (size_t i = 0; i < size; i++)
     {
         auto & a = _actions[i];
 
-        if (!a->hasStopped() && (a->getTarget()->isPaused() || !a->last_update(dt)))
+        if (a->hasStopped() || (!a->getTarget()->isPaused() && a->last_update(dt)))
         {
-            if (i != move_to)
-            {
-                _actions[move_to] = std::move(a);
-            }
-            move_to++;
+            n_stopped = true;
         }
     }
 
-    _actions.erase( _actions.begin() + move_to, _actions.end());
+    if (n_stopped)
+    {
+        auto first_to_remove = std::remove_if(_actions.begin(), _actions.end(),
+                                              [](auto & a) { return a->hasStopped(); });
+
+        std::vector<std::unique_ptr<Action>> to_delete(std::make_move_iterator(first_to_remove),
+                                                       std::make_move_iterator(_actions.end()));
+        _actions.erase(first_to_remove, _actions.end());
+    }
 
     auto begin = _actions.begin();
 

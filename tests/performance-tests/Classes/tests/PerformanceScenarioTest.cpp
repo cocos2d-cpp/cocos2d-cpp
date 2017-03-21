@@ -6,6 +6,15 @@ using namespace cocos2d;
 #define DELAY_TIME              4
 #define STAT_TIME               3
 
+namespace {
+
+enum JobId : TimedJob::id_type {
+    beginStat_JOBID = 0,
+    endStat_JOBID
+};
+
+}
+
 PerformceScenarioTests::PerformceScenarioTests()
 {
     ADD_TEST_CASE(ScenarioTest);
@@ -329,7 +338,7 @@ void ScenarioTest::onEnter()
                                               genStrVector("SpriteCount", "ParticleCount", "ParticleSystemCount", nullptr),
                                               genStrVector("Avg", "Min", "Max", nullptr));
         doAutoTest();
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     }
 }
 
@@ -356,13 +365,13 @@ void ScenarioTest::update(float dt)
 
 void ScenarioTest::beginStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, beginStat_JOBID);
     isStating = true;
 }
 
 void ScenarioTest::endStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, endStat_JOBID);
     isStating = false;
     
     // record test data
@@ -411,8 +420,16 @@ void ScenarioTest::doAutoTest()
     addParticleSystem(caseInfo.particleSystemCount);
     addParticles(caseInfo.particleCount);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ScenarioTest::beginStat, beginStat_JOBID)
+            .delay(DELAY_TIME)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ScenarioTest::endStat, endStat_JOBID)
+            .delay(DELAY_TIME + STAT_TIME)
+            .paused(isPaused())
+    );
 }
 
 std::string ScenarioTest::title() const

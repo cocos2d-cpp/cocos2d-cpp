@@ -84,11 +84,8 @@ public:
      */
     virtual void update(float dt) override;
     virtual void startWithTarget(Node *target) override;
-    virtual ActionInterval* reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+
+    virtual ActionInterval* reverse() const override = 0;
 
     virtual ActionInterval* clone() const override = 0;
 
@@ -107,7 +104,7 @@ protected:
  * Useful to simulate 'slow motion' or 'fast forward' effect.
  * @warning This action can't be Sequenceable because it is not an IntervalAction.
  */
-class CC_DLL Speed : public Action
+class CC_DLL Speed final : public Action
 {
 public:
     Speed(std::unique_ptr<ActionInterval> action, float speed);
@@ -484,6 +481,7 @@ class  CC_DLL ResizeTo : public ActionInterval
 public:
     ResizeTo(float duration, const Size& final_size);
 
+    virtual ResizeTo* reverse() const override;
     virtual ResizeTo* clone() const override;
     void startWithTarget(Node* target) override;
     void step(float time) override;

@@ -45,7 +45,6 @@ namespace cocos2d {
 ActionEase::ActionEase(std::unique_ptr<ActionInterval> action)
     : _inner( std::move( action))
 {
-    CC_ASSERT(action);
 }
 
 void ActionEase::startWithTarget(Node *target)

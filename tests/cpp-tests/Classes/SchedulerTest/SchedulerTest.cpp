@@ -673,6 +673,11 @@ std::string SchedulerUpdate::subtitle() const
 // SchedulerUpdateAndCustom
 //
 //------------------------------------------------------------------
+float SchedulerUpdateAndCustom::getDuration() const
+{
+    return 0.15f;
+}
+
 void SchedulerUpdateAndCustom::onEnter()
 {
     SchedulerTestLayer::onEnter();

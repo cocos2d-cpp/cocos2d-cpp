@@ -197,15 +197,14 @@ void NavMeshBaseTestDemo::createAgent(const Vec3 &pos)
     node->setCameraMask((unsigned short)CameraFlag::USER1);
     this->addChild(node);
 
-
     auto animation = Animation3D::create(filePath);
-    auto animate = std::make_unique<Animate3D>(animation);
-    if (animate){
+
+    if (auto animate = std::make_unique<Animate3D>(animation))
+    {
         // FIXME
         _agents.push_back(std::make_pair(agent, animate.get()));
-        
-        agentNode->runAction(std::make_unique<RepeatForever>(std::move(animate)));
         animate->setSpeed(0);
+        agentNode->runAction(std::make_unique<RepeatForever>(std::move(animate)));
     }
 }
 
