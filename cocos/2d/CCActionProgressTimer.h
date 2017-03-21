@@ -2,8 +2,7 @@
 Copyright (C) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,109 +29,45 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-/**
- * @addtogroup actions
- * @{
- */
+class ProgressTimer;
 
-/**
-@brief Progress to percentage.
-@details This action show the target node from current percentage to the specified percentage.
-        You should specify the destination percentage when creating the action.
-@since v0.99.1
-*/
-class CC_DLL ProgressTo : public ActionInterval
-{
-public:
-    /** 
-     * @brief Create and initializes with a duration and a destination percentage.
-     * @param duration Specify the duration of the ProgressTo action. It's a value in seconds.
-     * @param percent Specify the destination percentage.
-     * @return If the creation success, return a pointer of ProgressTo action; otherwise, return nil.
-     */
-    static ProgressTo* create(float duration, float percent);
+// Progress to percentage.
+// This action show the target node from current percentage to the specified percentage.
+// You should specify the destination percentage when creating the action.
 
-    //
-    // Overrides
-    //
-    virtual ProgressTo* clone() const override;
-    virtual ProgressTo* reverse() const override;
-    virtual void startWithTarget(Node *target) override;
-    virtual void step(float time) override;
-    
-protected:
-    ProgressTo() {}
-    virtual ~ProgressTo() {}
-
-    /** 
-     * @brief Initializes with a duration and destination percentage. 
-     * @param duration Specify the duration of the ProgressTo action. It's a value in seconds.
-     * @param percent Specify the destination percentage.
-     * @return If the creation success, return true; otherwise, return false.
-     */
-    bool initWithDuration(float duration, float percent);
-
-    virtual void at_stop() override;
-
-protected:
-    float _to;
-    float _from;
-
-private:
-    ProgressTo(const ProgressTo &) = delete;
-    const ProgressTo & operator=(const ProgressTo &) = delete;
-};
-
-/**
-@brief Progress from a percentage to another percentage.
-@since v0.99.1
-*/
 class CC_DLL ProgressFromTo : public ActionInterval
 {
 public:
-    /** 
-     * @brief Create and initializes the action with a duration, a "from" percentage and a "to" percentage.
-     * @param duration Specify the duration of the ProgressFromTo action. It's a value in seconds.
-     * @param fromPercentage Specify the source percentage.
-     * @param toPercentage Specify the destination percentage.
-     * @return If the creation success, return a pointer of ProgressFromTo action; otherwise, return nil.
-     */
-    static ProgressFromTo* create(float duration, float fromPercentage, float toPercentage);
+    ProgressFromTo(float duration, float percentFrom, float percentTo);
 
-    //
-    // Overrides
-    //
     virtual ProgressFromTo* clone() const override;
     virtual ProgressFromTo* reverse() const override;
     virtual void startWithTarget(Node *target) override;
     virtual void step(float time) override;
     
 protected:
-    ProgressFromTo() {}
-    virtual ~ProgressFromTo() {}
-
-    /**
-     * @brief Initializes the action with a duration, a "from" percentage and a "to" percentage.
-     * @param duration Specify the duration of the ProgressFromTo action. It's a value in seconds.
-     * @param fromPercentage Specify the source percentage.
-     * @param toPercentage Specify the destination percentage.
-     * @return If the creation success, return true; otherwise, return false.
-     */
-    bool initWithDuration(float duration, float fromPercentage, float toPercentage);
 
     virtual void at_stop() override;
 
 protected:
-    float _to;
+    ProgressTimer* _cachedTarget;
     float _from;
-
-private:
-    ProgressFromTo(const ProgressFromTo &) = delete;
-    const ProgressFromTo & operator=(const ProgressFromTo &) = delete;
+    float _to;
 };
 
-// end of actions group
-/// @}
+// Progress from a percentage to another percentage.
+
+class CC_DLL ProgressTo : public ProgressFromTo
+{
+public:
+    ProgressTo(float duration, float to)
+        : ProgressFromTo(duration, 0.0f, to)
+    {}
+
+    virtual ProgressTo* clone() const override;
+    virtual ProgressTo* reverse() const override;
+    virtual void startWithTarget(Node *target) override;
+};
 
 } // namespace cocos2d
 

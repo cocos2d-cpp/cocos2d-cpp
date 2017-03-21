@@ -221,20 +221,8 @@ NewClippingNodeTest::NewClippingNodeTest()
     clipper->setAnchorPoint(  Vec2(0.5, 0.5) );
     clipper->setPosition( Vec2(s.width / 2, s.height / 2) );
 
-    clipper->runAction(RepeatForever::create(RotateBy::create(1, 45)));
+    clipper->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(1, 45)));
     this->addChild(clipper);
-
-    // TODO: Fix draw node as clip node
-//    auto stencil = NewDrawNode::create();
-//    Vec2 rectangle[4];
-//    rectangle[0] = Vec2(0, 0);
-//    rectangle[1] = Vec2(clipper->getContentSize().width, 0);
-//    rectangle[2] = Vec2(clipper->getContentSize().width, clipper->getContentSize().height);
-//    rectangle[3] = Vec2(0, clipper->getContentSize().height);
-//
-//    Color4F white(1, 1, 1, 1);
-//    stencil->drawPolygon(rectangle, 4, white, 1, white);
-//    clipper->setStencil(stencil);
 
     //Test with alpha Test
     clipper->setAlphaThreshold(0.05f);
@@ -439,30 +427,30 @@ CaptureScreenTest::CaptureScreenTest()
 	
     auto sp1 = Sprite::create("Images/grossini.png");
     sp1->setPosition(left);
-    auto move1 = MoveBy::create(1, Vec2(s.width/2, 0));
-    auto move1_reverse = move1->reverse();
+    auto move1 = std::make_unique<MoveBy>(1, Vec2(s.width/2, 0));
+    auto move1_reverse = std::unique_ptr<MoveBy>(move1->reverse());
 
-    auto seq1 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(move1),
-            to_action_ptr(move1_reverse)
+    auto seq1 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(move1),
+            std::move(move1_reverse)
         )
     );
     addChild(sp1);
-    sp1->runAction(seq1);
+    sp1->runAction( std::move( seq1));
     auto sp2 = Sprite::create("Images/grossinis_sister1.png");
     sp2->setPosition(right);
-    auto move2 = MoveBy::create(1, Vec2(-s.width/2, 0));
-    auto move2_reverse = move2->reverse();
+    auto move2 = std::make_unique<MoveBy>(1, Vec2(-s.width/2, 0));
+    auto move2_reverse = std::unique_ptr<MoveBy>(move2->reverse());
 
-    auto seq2 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(move2),
-            to_action_ptr(move2_reverse)
+    auto seq2 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(move2),
+            std::move(move2_reverse)
         )
     );
     addChild(sp2);
-    sp2->runAction(seq2);
+    sp2->runAction( std::move( seq2));
 
     auto label1 = Label::createWithTTF(TTFConfig("fonts/arial.ttf"), "capture all");
     auto mi1 = MenuItemLabel::create(label1, CC_CALLBACK_1(CaptureScreenTest::onCaptured, this));
@@ -521,28 +509,28 @@ CaptureNodeTest::CaptureNodeTest()
 
     auto sp1 = Sprite::create("Images/grossini.png");
     sp1->setPosition(left);
-    auto move1 = MoveBy::create(1, Vec2(s.width / 2, 0));
-    auto move1_reverse = move1->reverse();
-    auto seq1 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(move1),
-            to_action_ptr(move1_reverse)
+    auto move1 = std::make_unique<MoveBy>(1, Vec2(s.width / 2, 0));
+    auto move1_reverse = std::unique_ptr<MoveBy>(move1->reverse());
+    auto seq1 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(move1),
+            std::move(move1_reverse)
         )
     );
     addChild(sp1);
-    sp1->runAction(seq1);
+    sp1->runAction( std::move( seq1));
     auto sp2 = Sprite::create("Images/grossinis_sister1.png");
     sp2->setPosition(right);
-    auto move2 = MoveBy::create(1, Vec2(-s.width / 2, 0));
-    auto move2_reverse = move2->reverse();
-    auto seq2 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(move2),
-            to_action_ptr(move2_reverse)
+    auto move2 = std::make_unique<MoveBy>(1, Vec2(-s.width / 2, 0));
+    auto move2_reverse = std::unique_ptr<MoveBy>(move2->reverse());
+    auto seq2 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(move2),
+            std::move(move2_reverse)
         )
     );
     addChild(sp2);
-    sp2->runAction(seq2);
+    sp2->runAction( std::move( seq2));
 
     auto label1 = Label::createWithTTF(TTFConfig("fonts/arial.ttf"), "capture this scene");
     auto mi1 = MenuItemLabel::create(label1, CC_CALLBACK_1(CaptureNodeTest::onCaptured, this));
@@ -604,17 +592,25 @@ BugAutoCulling::BugAutoCulling()
         label->setPosition(s.width/2 + s.width/10 * i, s.height/2);
         this->addChild(label);
     }
-    Director::getInstance()->getScheduler().schedule([=](float){
+
+    auto lambda_autoculling_bug = [=](float){
         auto camera = Director::getInstance()->getRunningScene()->getCameras().front();
-        auto move  = MoveBy::create(2.0, Vec2(2 * s.width, 0));
-        auto move_reverse = move->reverse();
+        auto move  = std::make_unique<MoveBy>(2.0, Vec2(2 * s.width, 0));
+        auto move_reverse = std::unique_ptr<MoveBy>(move->reverse());
         camera->runAction(
-            Sequence::create(
-                to_action_ptr(move),
-                to_action_ptr(move_reverse)
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::move(move_reverse)
             )
         );
-    }, this, 0.0f, 0, 1.0f, !_running, "lambda-autoculling-bug");
+    };
+
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, lambda_autoculling_bug, 0)
+            .delay(1.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 std::string BugAutoCulling::title() const

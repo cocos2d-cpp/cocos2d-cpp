@@ -148,8 +148,6 @@ CameraRotationTest::CameraRotationTest()
     };
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_lis, this);
-    
-    Director::getInstance()->getScheduler().schedule([=](float dt){ update(dt); }, this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "");
 }
 
 CameraRotationTest::~CameraRotationTest()
@@ -175,10 +173,6 @@ void CameraRotationTest::onEnter()
 void CameraRotationTest::onExit()
 {
     CameraBaseTest::onExit();
-}
-
-void CameraRotationTest::update(float)
-{
 }
 
 //------------------------------------------------------------------
@@ -353,7 +347,10 @@ void Camera3DTestDemo::onEnter()
     menuItem2->setPosition(VisibleRect::left().x+100, VisibleRect::top().y -100);
     menuItem3->setPosition(VisibleRect::left().x+100, VisibleRect::top().y -150);
     addChild(menu, 0);
-    Director::getInstance()->getScheduler().schedule([=](float dt){ updateCamera(dt); }, this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Camera3DTestDemo::updateCamera, 0)
+            .paused(isPaused())
+    );
     if (_camera == nullptr)
     {
         _camera=Camera::createPerspective(60, (GLfloat)s.width/s.height, 1, 1000);
@@ -400,8 +397,8 @@ void Camera3DTestDemo::addNewSpriteWithCoords(Vec3 p,std::string fileName,bool p
         auto animation = Animation3D::create(fileName,"Take 001");
         if (animation)
         {
-            auto animate = Animate3D::create(animation);
-            sprite->runAction(RepeatForever::create(animate));
+            auto animate = std::make_unique<Animate3D>(animation);
+            sprite->runAction(std::make_unique<RepeatForever>( std::move( animate)));
         }
     }
     if(bindCamera)
@@ -716,7 +713,7 @@ CameraCullingDemo::CameraCullingDemo(void)
 , _cameraType(CameraType::FirstPerson)
 , _cameraFirst(nullptr)
 , _cameraThird(nullptr)
-, _moveAction(nullptr)
+, _moveAction()
 , _drawAABB(nullptr)
 , _drawFrustum(nullptr)
 , _row(3)
@@ -735,14 +732,13 @@ void CameraCullingDemo::onEnter()
 {
     CameraBaseTest::onEnter();
 
-    Director::getInstance()->getScheduler().schedule([=](float dt){ update(dt); }, this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &CameraCullingDemo::update, 0)
+            .paused(isPaused())
+    );
     
     auto s = Director::getInstance()->getWinSize();
-    /*auto listener = EventListenerTouchAllAtOnce::create();
-    listener->onTouchesBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesBegan, this);
-    listener->onTouchesMoved = CC_CALLBACK_2(Camera3DTestDemo::onTouchesMoved, this);
-    listener->onTouchesEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);*/
+
     auto layer3D=Layer::create();
     addChild(layer3D,0);
     _layer3D=layer3D;
@@ -830,22 +826,20 @@ void CameraCullingDemo::update(float)
 void CameraCullingDemo::reachEndCallBack()
 {
     _cameraFirst->stopActionByTag(100);
-    auto inverse = MoveTo::create(4.f, Vec2(-_cameraFirst->getPositionX(), 0));
-    inverse->retain();
     
-    _moveAction->release();
-    _moveAction = inverse;
+    _moveAction.reset(new MoveTo(4.f, Vec2(-_cameraFirst->getPositionX(), 0)));
 
-    auto rot = RotateBy::create(1.f, Vec3(0.f, 180.f, 0.f));
-    auto seq = Sequence::create(
-        to_action_ptr(rot->clone()),
-        to_action_ptr(_moveAction->clone()),
-        to_action_ptr(rot->clone()),
-        to_action_ptr(_moveAction->clone()),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this)))
+    auto rot = std::make_unique<RotateBy>(1.f, Vec3(0.f, 180.f, 0.f));
+
+    auto seq = std::make_unique<Sequence>(
+        std::unique_ptr<RotateBy>(rot->clone()),
+        std::unique_ptr<MoveBy>(_moveAction->clone()),
+        std::unique_ptr<RotateBy>(rot->clone()),
+        std::unique_ptr<MoveBy>(_moveAction->clone()),
+        std::make_unique<CallFunc>(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this))
     );
     seq->setTag(100);
-    _cameraFirst->runAction(seq);
+    _cameraFirst->runAction( std::move( seq));
 }
 
 void CameraCullingDemo::switchViewCallback(Ref*)
@@ -858,14 +852,14 @@ void CameraCullingDemo::switchViewCallback(Ref*)
         _cameraFirst->setCameraFlag(CameraFlag::USER8);
         _cameraFirst->setPosition3D(Vec3(-100,0,0));
         _cameraFirst->lookAt(Vec3(1000,0,0));
-        _moveAction = MoveTo::create(4.f, Vec2(-_cameraFirst->getPositionX(), 0));
-        _moveAction->retain();
-        auto seq = Sequence::create(
-            to_action_ptr(_moveAction->clone()),
-            to_action_ptr(CallFunc::create(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this)))
+        _moveAction.reset(new MoveTo(4.f, Vec2(-_cameraFirst->getPositionX(), 0)));
+
+        auto seq = std::make_unique<Sequence>(
+            std::unique_ptr<MoveBy>(_moveAction->clone()),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(CameraCullingDemo::reachEndCallBack, this))
         );
         seq->setTag(100);
-        _cameraFirst->runAction(seq);
+        _cameraFirst->runAction( std::move( seq));
         addChild(_cameraFirst);
     }
     
@@ -1030,7 +1024,6 @@ void CameraArcBallDemo::onEnter()
 {
     CameraBaseTest::onEnter();
     _rotationQuat.set(0.0f, 0.0f, 0.0f, 1.0f);
-    Director::getInstance()->getScheduler().schedule([=](float dt){ update(dt); }, this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "");
     auto s = Director::getInstance()->getWinSize();
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(CameraArcBallDemo::onTouchsMoved, this);
@@ -1217,10 +1210,6 @@ void CameraArcBallDemo::switchTargetCallback(Ref*)
     }
 }
 
-void CameraArcBallDemo::update(float)
-{
-}
-
 ////////////////////////////////////////////////////////////
 // FogTestDemo
 FogTestDemo::FogTestDemo(void)
@@ -1244,7 +1233,6 @@ std::string FogTestDemo::title() const
 void FogTestDemo::onEnter()
 {
     CameraBaseTest::onEnter();
-    Director::getInstance()->getScheduler().schedule([=](float dt){ update(dt); }, this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "");
     Director::getInstance()->setClearColor(Color4F(0.5,0.5,0.5,1));
 
     auto s = Director::getInstance()->getWinSize();
@@ -1405,10 +1393,6 @@ void FogTestDemo::onExit()
 #endif
 }
 
-void FogTestDemo::update(float)
-{
-}
-
 void FogTestDemo::onTouchesMoved(const std::vector<Touch*>& touches, cocos2d::Event *)
 {
     if(touches.size()==1)
@@ -1476,7 +1460,7 @@ void CameraFrameBufferTest::onEnter()
     fbo->attachDepthStencilTarget(rtDS);
     auto sprite = Sprite::createWithTexture(fbo->getRenderTarget()->getTexture());
     sprite->setScale(0.3f);
-    sprite->runAction(RepeatForever::create(RotateBy::create(1, 90)));
+    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1, 90)));
     sprite->setPosition(size.width/2, size.height/2);
     addChild(sprite);
     
@@ -1484,13 +1468,14 @@ void CameraFrameBufferTest::onEnter()
     sprite2->setPosition(Vec2(size.width/5,size.height/5));
     addChild(sprite2);
     sprite2->setCameraMask((unsigned short)CameraFlag::USER1);
-    auto move = MoveBy::create(1.0, Vec2(100,100));
+    auto move = std::make_unique<MoveBy>(1.0, Vec2(100,100));
+    auto move_reverse = std::unique_ptr<MoveBy>(move->reverse());
     sprite2->runAction(
-                       RepeatForever::create(
-                                             Sequence::createWithTwoActions(
-                                                                            move, move->reverse())
-                                             )
-                       );
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::move(move_reverse)
+            )));
     
     auto camera = Camera::create();
     camera->setCameraFlag(CameraFlag::USER1);

@@ -2,8 +2,7 @@
 Copyright (c) 2009      On-Core
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,130 +33,66 @@ namespace cocos2d {
 class GridBase;
 class NodeGrid;
 
-/**
- * @addtogroup actions
- * @{
- */
+// Grid actions are the actions take effect on GridBase.
 
-/** 
-@class GridAction
-@brief Base class for Grid actions.
-@details Grid actions are the actions take effect on GridBase.
-*/
 class CC_DLL GridAction : public ActionInterval
 {
 public:
+    GridAction(float duration, Size gridSize);
 
-    /** 
-    @brief Get the pointer of GridBase.
-    @return The pointer of GridBase.
-    */
     virtual GridBase* getGrid();
 
-    // overrides
     virtual GridAction* reverse() const override;
     virtual void startWithTarget(Node *target) override;
 
 protected:
-    GridAction() {}
-    virtual ~GridAction() {}
-    /** 
-     * @brief Initializes the action with size and duration.
-     * @param duration The duration of the GridAction. It's a value in seconds.
-     * @param gridSize The size of the GridAction should be.
-     * @return Return true when the initialization success, otherwise return false.
-     */
-    bool initWithDuration(float duration, const Size& gridSize);
-
-protected:
-    Size _gridSize;
-    
-    NodeGrid* _gridNodeTarget;
+    virtual void at_stop() override;
     
     void cacheTargetAsGridNode();
 
-    virtual void at_stop() override;
-
-private:
-    GridAction(const GridAction &) = delete;
-    const GridAction & operator=(const GridAction &) = delete;
+protected:
+    Size _gridSize;
+    NodeGrid* _gridNodeTarget;
 };
 
-/** 
- @brief Base class for Grid3D actions.
- @details Grid3D actions can modify a non-tiled grid.
- */
+// Grid3D actions can modify a non-tiled grid.
+
 class CC_DLL Grid3DAction : public GridAction
 {
 public:
-
+    Grid3DAction(float duration, Size gridSize)
+        : GridAction(duration, std::move(gridSize))
+    {}
 
     virtual GridBase* getGrid() override;
-    /**
-     * @brief Get the vertex that belongs to certain position in the grid.
-     * @param position The position of the grid.
-     * @return Return a pointer of vertex.
-     */
+
+    // The vertex will be used on the certain position of grid.
+    void setVertex(const Vec2& position, const Vec3& vertex);
+    // Get the vertex that belongs to certain position in the grid.
     Vec3 getVertex(const Vec2& position) const;
 
-    /** 
-     * @brief Get the non-transformed vertex that belongs to certain position in the grid.
-     * @param position The position of the grid.
-     * @return Return a pointer of vertex.
-     */
+    // Get the non-transformed vertex that belongs to certain position in the grid.
     Vec3 getOriginalVertex(const Vec2& position) const;
 
-    /** 
-     * @brief Set a new vertex to a certain position of the grid.
-     * @param position The position of the grid.
-     * @param vertex The vertex will be used on the certain position of grid.
-     */
-    void setVertex(const Vec2& position, const Vec3& vertex);
-
-    /**
-     * @brief Get the effect grid rect.
-     * @return Return the effect grid rect.
-     */
+    // Return the effect grid rect.
     Rect getGridRect() const;
 };
 
-/**
-@brief Base class for TiledGrid3D actions.
-*/
 class CC_DLL TiledGrid3DAction : public GridAction
 {
 public:
-    /** 
-     * @brief Create the action with size and duration.
-     * @param duration The duration of the action. It's a value in seconds.
-     * @param gridSize Specify the grid size of the action.
-     * @return A pointer of TiledGrid3DAction. If creation failed, return nil.
-     */
-    static TiledGrid3DAction* create(float duration, const Size& gridSize);
+    TiledGrid3DAction(float duration, Size gridSize)
+        : GridAction(duration, std::move(gridSize))
+    {}
 
-    /** 
-     * @brief Get the tile that belongs to a certain position of the grid.
-     * @param position The position of the tile want to get.
-     * @return A quadrilateral of the tile. 
-     */
+    virtual GridBase* getGrid() override;
+
+    // Get the tile that belongs to a certain position of the grid.
     Quad3 getTile(const Vec2& position) const;
-
-    /** 
-     * @brief Get the non-transformed tile that belongs to a certain position of the grid.
-     * @param position The position of the tile want to get.
-     * @return A quadrilateral of the tile. 
-     */
-    Quad3 getOriginalTile(const Vec2& position) const;
-
-    /** 
-     * @brief Set a new tile to a certain position of the grid.
-     * @param position The position of the tile.
-     * @param coords The quadrilateral of the new tile.
-     */
     void setTile(const Vec2& position, const Quad3& coords);
 
-    /** returns the grid */
-    virtual GridBase* getGrid() override;
+    // Get the non-transformed tile that belongs to a certain position of the grid.
+    Quad3 getOriginalTile(const Vec2& position) const;
 };
 
 /**
@@ -166,220 +101,100 @@ public:
 class CC_DLL AccelDeccelAmplitude : public ActionInterval
 {
 public:
-    /**
-    @brief Create the action with an inner action that has the amplitude property, and a duration time.
-    @param action A pointer of the inner action.
-    @param duration Specify the duration of the AccelDeccelAmplitude action.
-    @return Return a pointer of AccelDeccelAmplitude action. When the creation failed, return nil.
-    */
-    static AccelDeccelAmplitude* create(Action *action, float duration);
+    // Create the action with an inner action that has the amplitude property, and a duration time.
+    AccelDeccelAmplitude(std::unique_ptr<ActionInterval> action, float duration);
 
-    /** 
-    @brief Get the value of amplitude rate.
-    @return the value of amplitude rate.
-    */
-    float getRate() const { return _rate; }
-    /**
-    @brief Set the value of amplitude rate.
-    @param rate Specify the value of amplitude rate.
-    */
-    void setRate(float rate) { _rate = rate; }
-
-    // Overrides
     virtual void startWithTarget(Node *target) override;
     virtual void step(float time) override;
     virtual AccelDeccelAmplitude* clone() const override;
     virtual AccelDeccelAmplitude* reverse() const override;
     
 protected:
-    AccelDeccelAmplitude() {}
-    virtual ~AccelDeccelAmplitude();
-    
-    /** 
-    @brief Initializes the action with an inner action that has the amplitude property, and a duration time.
-    @param action A pointer of the inner action.
-    @param duration Specify the duration of the AccelDeccelAmplitude action.
-    @return If the initialization success, return true; otherwise, return false.
-    */
-    bool initWithAction(Action *action, float duration);
 
     virtual void at_stop() override;
 
 protected:
+    std::unique_ptr<ActionInterval> _other;
     float _rate;
-    ActionInterval *_other;
-
-private:
-    AccelDeccelAmplitude(const AccelDeccelAmplitude &) = delete;
-    const AccelDeccelAmplitude & operator=(const AccelDeccelAmplitude &) = delete;
 };
 
-/**
-@brief AccelAmplitude action.
-*/
+// AccelAmplitude action.
+
 class CC_DLL AccelAmplitude : public ActionInterval
 {
 public:
-    /** 
-    @brief Create the action with an inner action that has the amplitude property, and a duration time.
-    @param action A pointer of the inner action.
-    @param duration Specify the duration of the AccelAmplitude action.
-    @return Return a pointer of AccelAmplitude action. When the creation failed, return nil.
-     */
-    static AccelAmplitude* create(Action *action, float duration);
+    // Create the action with an inner action that has the amplitude property, and a duration time.
+    AccelAmplitude(std::unique_ptr<ActionInterval> action, float duration);
 
-    /** 
-    @brief Get the value of amplitude rate.
-    @return The value of amplitude rate.
-    */
-    float getRate() const { return _rate; }
-    /**
-    @brief Set the value of amplitude rate.
-    @param rate Specify the value of amplitude rate.
-    */
-    void setRate(float rate) { _rate = rate; }
-
-    // Overrides
     virtual void startWithTarget(Node *target) override;
     virtual void step(float time) override;
     virtual AccelAmplitude* clone() const override;
     virtual AccelAmplitude* reverse() const override;
     
 protected:
-    AccelAmplitude() {}
-    virtual ~AccelAmplitude();
-
-    bool initWithAction(Action *action, float duration);
 
     virtual void at_stop() override;
 
 protected:
+    std::unique_ptr<ActionInterval> _other;
     float _rate;
-    ActionInterval *_other;
-
-private:
-    AccelAmplitude(const AccelAmplitude &) = delete;
-    const AccelAmplitude & operator=(const AccelAmplitude &) = delete;
 };
 
-/**
-@brief DeccelAmplitude action.
-*/
+// DeccelAmplitude action.
+
 class CC_DLL DeccelAmplitude : public ActionInterval
 {
 public:
-    /** 
-    @brief Creates the action with an inner action that has the amplitude property, and a duration time.
-    @param action A pointer of the inner action.
-    @param duration Specify the duration of the DeccelAmplitude action.
-    @return Return a pointer of DeccelAmplitude. When the creation failed, return nil.
-    */
-    static DeccelAmplitude* create(Action *action, float duration);
+    // Creates the action with an inner action that has the amplitude property, and a duration time.
+    DeccelAmplitude(std::unique_ptr<ActionInterval> action, float duration);
 
-    /** 
-    @brief Get the value of amplitude rate.
-    @return The value of amplitude rate.
-    */
-    float getRate() const { return _rate; }
-    /**
-    @brief Set the value of amplitude rate.
-    @param rate Specify the value.
-    */
-    void setRate(float rate) { _rate = rate; }
-
-    // overrides
     virtual void startWithTarget(Node *target) override;
     virtual void step(float time) override;
     virtual DeccelAmplitude* clone() const override;
     virtual DeccelAmplitude* reverse() const override;
     
 protected:
-    DeccelAmplitude() {}
-    virtual ~DeccelAmplitude();
-
-    /** 
-    @brief Initializes the action with an inner action that has the amplitude property, and a duration time.
-    @param action The pointer of inner action.
-    @param duration The duration of the DeccelAmplitude action.
-    @return If the initialization success, return true; otherwise, return false.
-    */
-    bool initWithAction(Action *action, float duration);
 
     virtual void at_stop() override;
 
 protected:
+    std::unique_ptr<ActionInterval> _other;
     float _rate;
-    ActionInterval *_other;
-
-private:
-    DeccelAmplitude(const DeccelAmplitude &) = delete;
-    const DeccelAmplitude & operator=(const DeccelAmplitude &) = delete;
 };
 
-/**
- @brief StopGrid action.
- @warning Don't call this action if another grid action is active.
- Call if you want to remove the grid effect. Example:
- @code
- Sequence::create(Lens3D::create(...), StopGrid::create(), nullptr);
- @endcode
- */
+// Don't call this action if another grid action is active.
+// Call if you want to remove the grid effect. Example:
+//   Sequence(std::make_unique<Lens3D>(...), std::make_unique<StopGrid>());
+
 class CC_DLL StopGrid : public ActionInstant
 {
 public:
-    /** 
-    @brief Create a StopGrid Action.
-    @return Return a pointer of StopGrid. When the creation failed, return nil.
-    */
-    static StopGrid* create();
-
-    // Overrides
     virtual void startWithTarget(Node *target) override;
+    virtual void step(float) override { /*nothing*/ }
     virtual StopGrid* clone() const override;
     virtual StopGrid* reverse() const override;
-
-protected:
-    StopGrid() {}
-    virtual ~StopGrid() {}
     
 protected:
-    NodeGrid* _gridNodeTarget;
-    
     void cacheTargetAsGridNode();
 
-private:
-    StopGrid(const StopGrid &) = delete;
-    const StopGrid & operator=(const StopGrid &) = delete;
+protected:
+    NodeGrid* _gridNodeTarget;
 };
 
-/** 
-@brief ReuseGrid action.
-*/
+// ReuseGrid action.
+
 class CC_DLL ReuseGrid : public ActionInstant
 {
 public:
-    /** 
-    @brief Create an action with the number of times that the current grid will be reused.
-    @param times Specify times the grid will be reused.
-    @return Return a pointer of ReuseGrid. When the creation failed, return nil.
-    */
-    static ReuseGrid* create(int times);
+    // Create an action with the number of times that the current grid will be reused.
+    // times Specify times the grid will be reused.
+    explicit ReuseGrid(int times);
 
     // Override
     virtual void startWithTarget(Node *target) override;
+    virtual void step(float) override { /*nothing*/ }
     virtual ReuseGrid* clone() const override;
     virtual ReuseGrid* reverse() const override;
-    
-protected:
-    ReuseGrid() {}
-    virtual ~ReuseGrid() {}
-    
-    /** 
-    @brief Initializes an action with the number of times that the current grid will be reused.
-    @param times Specify times the grid will be reused.
-    @return If the initialization success, return true; otherwise, return false.
-    */
-    bool initWithTimes(int times);
 
 protected:
     NodeGrid* _gridNodeTarget;
@@ -387,14 +202,7 @@ protected:
     void cacheTargetAsGridNode();
     
     int _times;
-
-private:
-    ReuseGrid(const ReuseGrid &) = delete;
-    const ReuseGrid & operator=(const ReuseGrid &) = delete;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 

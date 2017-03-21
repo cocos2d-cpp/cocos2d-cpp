@@ -23,7 +23,7 @@ LightTest::LightTest()
 {
     addSprite();
     addLights();
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 
     auto s = Director::getInstance()->getWinSize();
     auto camera = Camera::createPerspective(60, (GLfloat)s.width/s.height, 1.0f, 1000.0f);
@@ -101,8 +101,7 @@ void LightTest::addSprite()
         auto animation = Animation3D::create(fileName);
         if (animation)
         {
-            auto animate = Animate3D::create(animation);
-            sprite->runAction(RepeatForever::create(animate));
+            sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<Animate3D>(animation) ));
         }
 
         addChild(sprite);
@@ -163,59 +162,59 @@ void LightTest::addLights()
     _spotLight->setCameraMask(2);
 
     {
-        auto tintto1 = TintTo::create(4, 0, 0, 255);
-        auto tintto2 = TintTo::create(4, 0, 255, 0);
-        auto tintto3 = TintTo::create(4, 255, 0, 0);
-        auto tintto4 = TintTo::create(4, 255, 255, 255);
-        auto seq = Sequence::create(
-            to_action_ptr(tintto1),
-            to_action_ptr(tintto2),
-            to_action_ptr(tintto3),
-            to_action_ptr(tintto4)
+        auto tintto1 = std::make_unique<TintTo>(4, 0, 0, 255);
+        auto tintto2 = std::make_unique<TintTo>(4, 0, 255, 0);
+        auto tintto3 = std::make_unique<TintTo>(4, 255, 0, 0);
+        auto tintto4 = std::make_unique<TintTo>(4, 255, 255, 255);
+        auto seq = std::make_unique<Sequence>(
+            std::move(tintto1),
+            std::move(tintto2),
+            std::move(tintto3),
+            std::move(tintto4)
         );
-        _ambientLight->runAction(RepeatForever::create(seq));
+        _ambientLight->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
     }
 
     {
-        auto tintto1 = TintTo::create(4, 255, 0, 0);
-        auto tintto2 = TintTo::create(4, 0, 255, 0);
-        auto tintto3 = TintTo::create(4, 0, 0, 255);
-        auto tintto4 = TintTo::create(4, 255, 255, 255);
-        auto seq = Sequence::create(
-            to_action_ptr(tintto1),
-            to_action_ptr(tintto2),
-            to_action_ptr(tintto3),
-            to_action_ptr(tintto4)
+        auto tintto1 = std::make_unique<TintTo>(4, 255, 0, 0);
+        auto tintto2 = std::make_unique<TintTo>(4, 0, 255, 0);
+        auto tintto3 = std::make_unique<TintTo>(4, 0, 0, 255);
+        auto tintto4 = std::make_unique<TintTo>(4, 255, 255, 255);
+        auto seq = std::make_unique<Sequence>(
+            std::move(tintto1),
+            std::move(tintto2),
+            std::move(tintto3),
+            std::move(tintto4)
         );
-        _directionalLight->runAction(RepeatForever::create(seq));
+        _directionalLight->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
     }
 
     {
-        auto tintto1 = TintTo::create(4, 255, 0, 0);
-        auto tintto2 = TintTo::create(4, 0, 255, 0);
-        auto tintto3 = TintTo::create(4, 0, 0, 255);
-        auto tintto4 = TintTo::create(4, 255, 255, 255);
-        auto seq = Sequence::create(
-            to_action_ptr(tintto2),
-            to_action_ptr(tintto1),
-            to_action_ptr(tintto3),
-            to_action_ptr(tintto4)
+        auto tintto1 = std::make_unique<TintTo>(4, 255, 0, 0);
+        auto tintto2 = std::make_unique<TintTo>(4, 0, 255, 0);
+        auto tintto3 = std::make_unique<TintTo>(4, 0, 0, 255);
+        auto tintto4 = std::make_unique<TintTo>(4, 255, 255, 255);
+        auto seq = std::make_unique<Sequence>(
+            std::move(tintto2),
+            std::move(tintto1),
+            std::move(tintto3),
+            std::move(tintto4)
         );
-        _pointLight->runAction(RepeatForever::create(seq));
+        _pointLight->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
     }
 
     {
-        auto tintto1 = TintTo::create(4, 255, 0, 0);
-        auto tintto2 = TintTo::create(4, 0, 255, 0);
-        auto tintto3 = TintTo::create(4, 0, 0, 255);
-        auto tintto4 = TintTo::create(4, 255, 255, 255);
-        auto seq = Sequence::create(
-            to_action_ptr(tintto3),
-            to_action_ptr(tintto2),
-            to_action_ptr(tintto1),
-            to_action_ptr(tintto4)
+        auto tintto1 = std::make_unique<TintTo>(4, 255, 0, 0);
+        auto tintto2 = std::make_unique<TintTo>(4, 0, 255, 0);
+        auto tintto3 = std::make_unique<TintTo>(4, 0, 0, 255);
+        auto tintto4 = std::make_unique<TintTo>(4, 255, 255, 255);
+        auto seq = std::make_unique<Sequence>(
+            std::move(tintto3),
+            std::move(tintto2),
+            std::move(tintto1),
+            std::move(tintto4)
         );
-        _spotLight->runAction(RepeatForever::create(seq));
+        _spotLight->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
     }
 }
 

@@ -27,9 +27,9 @@ bool Bug15594Layer::init()
         sprite3d->setPosition(size/2);
 
         auto animation = Animation3D::create("Images/bugs/bug15594.c3t");
-        auto animate = Animate3D::create(animation);
-        auto repeate = RepeatForever::create(animate);
-        sprite3d->runAction(repeate);
+        auto animate = std::make_unique<Animate3D>(animation);
+        auto repeate = std::make_unique<RepeatForever>(std::move(animate));
+        sprite3d->runAction(std::move(repeate));
         return true;
     }
 

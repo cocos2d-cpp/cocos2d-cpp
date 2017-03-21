@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +41,6 @@ ActionCamera::ActionCamera()
 void ActionCamera::startWithTarget(Node *target)
 {
     ActionInterval::startWithTarget(target);
-}
-
-ActionCamera * ActionCamera::reverse() const
-{
-    // FIXME: This conversion isn't safe.
-    return (ActionCamera*)ReverseTime::create(const_cast<ActionCamera*>(this));
 }
 
 void ActionCamera::restore()
@@ -121,58 +114,30 @@ void ActionCamera::updateTransform()
 // OrbitCamera
 //
 
-OrbitCamera::OrbitCamera()
-: _radius(0.0)
-, _deltaRadius(0.0)
-, _angleZ(0.0)
-, _deltaAngleZ(0.0)
-, _angleX(0.0)
-, _deltaAngleX(0.0)
+OrbitCamera::OrbitCamera(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
+: _radius(radius)
+, _deltaRadius(deltaRadius)
+, _angleZ(angleZ)
+, _deltaAngleZ(deltaAngleZ)
+, _angleX(angleX)
+, _deltaAngleX(deltaAngleX)
 , _radZ(0.0)
-, _radDeltaZ(0.0)
+, _radDeltaZ((float)CC_DEGREES_TO_RADIANS(_deltaAngleZ))
 , _radX(0.0)
-, _radDeltaX(0.0)
+, _radDeltaX((float)CC_DEGREES_TO_RADIANS(_deltaAngleX))
 {
-}
-OrbitCamera::~OrbitCamera()
-{
+    ActionInterval::initWithDuration(t);
 }
 
-OrbitCamera * OrbitCamera::create(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
+ReverseTime* OrbitCamera::reverse() const
 {
-    OrbitCamera * obitCamera = new (std::nothrow) OrbitCamera();
-    if(obitCamera && obitCamera->initWithDuration(t, radius, deltaRadius, angleZ, deltaAngleZ, angleX, deltaAngleX))
-    {
-        obitCamera->autorelease();
-        return obitCamera;
-    }
-    
-    delete obitCamera;
-    return nullptr;
+    return new ReverseTime( std::unique_ptr<OrbitCamera>( clone()));
 }
 
 OrbitCamera* OrbitCamera::clone() const
 {
     // no copy constructor
-    return OrbitCamera::create(_duration, _radius, _deltaRadius, _angleZ, _deltaAngleZ, _angleX, _deltaAngleX);
-}
-
-bool OrbitCamera::initWithDuration(float t, float radius, float deltaRadius, float angleZ, float deltaAngleZ, float angleX, float deltaAngleX)
-{
-    if ( ActionInterval::initWithDuration(t) )
-    {
-        _radius = radius;
-        _deltaRadius = deltaRadius;
-        _angleZ = angleZ;
-        _deltaAngleZ = deltaAngleZ;
-        _angleX = angleX;
-        _deltaAngleX = deltaAngleX;
-
-        _radDeltaZ = (float)CC_DEGREES_TO_RADIANS(deltaAngleZ);
-        _radDeltaX = (float)CC_DEGREES_TO_RADIANS(deltaAngleX);
-        return true;
-    }
-    return false;
+    return new OrbitCamera(_duration, _radius, _deltaRadius, _angleZ, _deltaAngleZ, _angleX, _deltaAngleX);
 }
 
 void OrbitCamera::at_stop()

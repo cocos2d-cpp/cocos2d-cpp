@@ -75,12 +75,12 @@ Parallax1::Parallax1()
     // now create some actions that will move the 'void' node
     // and the children of the 'void' node will move at different
     // speed, thus, simulation the 3D environment
-    auto goUp = MoveBy::create(4, Vec2(0,-500) );
-    auto goDown = goUp->reverse();
-    auto go = MoveBy::create(8, Vec2(-1000,0) );
-    auto goBack = go->reverse();
-    auto seq = Sequence::create( to_action_ptr(goUp), to_action_ptr( go), to_action_ptr( goDown), to_action_ptr( goBack) );
-    voidNode->runAction( (RepeatForever::create(seq) ));
+    auto goUp = std::make_unique<MoveBy>(4, Vec2(0,-500) );
+    auto goDown = std::unique_ptr<MoveBy>(goUp->reverse());
+    auto go = std::make_unique<MoveBy>(8, Vec2(-1000,0) );
+    auto goBack = std::unique_ptr<MoveBy>(go->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(goUp), std::move( go), std::move( goDown), std::move( goBack) );
+    voidNode->runAction( std::make_unique<RepeatForever>( std::move(seq)));
     
     addChild( voidNode );
 }
@@ -178,7 +178,7 @@ Issue2572::Issue2572()
     _paraNode = ParallaxNode::create();
     addChild(_paraNode, 0, kTagNode);
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 
 void Issue2572::update(float dt)

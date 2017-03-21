@@ -663,13 +663,13 @@ void ParallaxParticle::onEnter()
     p2->addChild(par, 10);
     par->setTexture( Director::getInstance()->getTextureCache()->addImage(s_fire) );
 
-    auto move = MoveBy::create(4, Vec2(300,0));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(move_back)
+    auto move = std::make_unique<MoveBy>(4, Vec2(300,0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(move),
+        std::move(move_back)
     );
-    p->runAction(RepeatForever::create(seq));
+    p->runAction(std::make_unique<RepeatForever>(std::move(seq)));
 }
 
 std::string ParallaxParticle::subtitle() const
@@ -923,8 +923,7 @@ void Issue704::onEnter()
     // additive
     _emitter->setBlendAdditive(false);
 
-    auto rot = RotateBy::create(16, 360);
-    _emitter->runAction(RepeatForever::create(rot));
+    _emitter->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(16, 360)));
 }
 
 std::string Issue704::title() const
@@ -1140,13 +1139,13 @@ void ParticleDemo::onEnter(void)
     addChild(_background, 5);
     _background->setPosition( Vec2(s.width/2, s.height-180) );
 
-    auto move = MoveBy::create(4, Vec2(300,0) );
-    auto move_back = move->reverse();
-    auto seq = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(move_back)
+    auto move = std::make_unique<MoveBy>(4, Vec2(300,0) );
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>(
+        std::move(move),
+        std::move(move_back)
     );
-    _background->runAction( RepeatForever::create(seq) );
+    _background->runAction( std::make_unique<RepeatForever>(std::move(seq)) );
 
 
     Director::getInstance()->getScheduler().schedule(

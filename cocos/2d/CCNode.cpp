@@ -1215,13 +1215,11 @@ void Node::setEventDispatcher(EventDispatcher* dispatcher)
 
 // MARK: actions
 
-Action * Node::runAction(Action* action)
+void Node::runAction(std::unique_ptr<Action> action)
 {
-    auto rv = action;
     CC_ASSERT( action );
     action->startWithTarget(this);
-    _director->getActionManager().runAction( to_action_ptr( action));
-    return rv;
+    _director->getActionManager().runAction( std::move( action));
 }
 
 void Node::stopAllActions()

@@ -35,9 +35,10 @@ namespace cocos2d {
 //
 
 Action::Action()
-:_target(nullptr)
-,_tag(Action::INVALID_TAG)
-,_flags(0)
+    : _target(nullptr)
+    , _tag(Action::INVALID_TAG)
+    , _flags(0)
+    , _hasStopped(true)
 {
 }
 
@@ -53,79 +54,41 @@ std::string Action::description() const
 
 void Action::startWithTarget(Node *aTarget)
 {
+    CC_ASSERT(aTarget);
     _target = aTarget;
+    _hasStopped = false;
 }
 
 void Action::stop()
 {
-    at_stop();
-    _target = nullptr;
+    if (!_hasStopped)
+    {
+        at_stop();
+        _hasStopped = true;
+    }
 }
 
 //
 // Follow
 //
-Follow::~Follow()
-{
-    CC_SAFE_RELEASE(_followedNode);
-}
 
-Follow* Follow::create(Node *followedNode, const Rect& rect/* = Rect::ZERO*/)
+Follow::Follow(Node* followedNode, float xOffset, float yOffset, const Rect& rect)
+    : _followedNode(to_node_ptr(followedNode))
+    , _boundarySet(!rect.equals(Rect::ZERO))
+    , _boundaryFullyCovered(false)
+    , _leftBoundary(0.0)
+    , _rightBoundary(0.0)
+    , _topBoundary(0.0)
+    , _bottomBoundary(0.0)
+    , _offsetX(xOffset)
+    , _offsetY(yOffset)
+    , _worldRect(rect)
 {
-    return createWithOffset(followedNode, 0.0, 0.0,rect);
-}
-
-Follow* Follow::createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect/*= Rect::ZERO*/){
-    
-    
-    Follow *follow = new (std::nothrow) Follow();
-    
-    bool valid;
-    
-    valid = follow->initWithTargetAndOffset(followedNode, xOffset, yOffset,rect);
-
-    if (follow && valid)
-    {
-        follow->autorelease();
-        return follow;
-    }
-    
-    delete follow;
-    return nullptr;
-    
-}
-Follow* Follow::clone() const
-{
-    // no copy constructor
-    return Follow::createWithOffset(_followedNode, _offsetX,_offsetY,_worldRect);
-    
-}
-
-Follow* Follow::reverse() const
-{
-    return clone();
-}
-
-bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOffset,const Rect& rect)
-{
-    CCASSERT(followedNode != nullptr, "FollowedNode can't be NULL");
-    if(followedNode == nullptr)
-    {
-        log("Follow::initWithTarget error: followedNode is nullptr!");
-        return false;
-    }
+    CC_ASSERT(followedNode);
  
-    followedNode->retain();
-    _followedNode = followedNode;
-    _worldRect = rect;
-    _boundarySet = !rect.equals(Rect::ZERO);
-    _boundaryFullyCovered = false;
-
     Size winSize = Director::getInstance()->getWinSize();
     _fullScreenSize.set(winSize.width, winSize.height);
     _halfScreenSize = _fullScreenSize * 0.5f;
-    _offsetX=xOffset;
-    _offsetY=yOffset;
     _halfScreenSize.x += _offsetX;
     _halfScreenSize.y += _offsetY;
     
@@ -154,15 +117,18 @@ bool Follow::initWithTargetAndOffset(Node *followedNode, float xOffset,float yOf
             _boundaryFullyCovered = true;
         }
     }
-    
-    return true;
 }
 
-bool Follow::initWithTarget(Node *followedNode, const Rect& rect /*= Rect::ZERO*/){
-    
-    return initWithTargetAndOffset(followedNode, 0.0, 0.0,rect);
-    
+Follow* Follow::clone() const
+{
+    return new Follow(_followedNode.get(), _offsetX, _offsetY, _worldRect);
 }
+
+Follow* Follow::reverse() const
+{
+    return new Follow(_followedNode.get(), _offsetX, _offsetY, _worldRect);
+}
+
 void Follow::update(float /*dt*/)
 {
     if(_boundarySet)

@@ -282,12 +282,18 @@ void Material_setTechnique::onEnter()
     auto light2 = DirectionLight::create(Vec3(-1,1,0), Color3B::GREEN);
     addChild(light2);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(Material_setTechnique::changeMaterial, this), this, 1.0f, !_running, "cookie");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Material_setTechnique::changeMaterial, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
     _techniqueState = 0;
 
-    auto rot = RotateBy::create(5, Vec3(30,60,270));
-    auto repeat = RepeatForever::create(rot);
-    sprite->runAction(repeat);
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<RotateBy>(5, Vec3(30,60,270))
+        ));
 }
 
 std::string Material_setTechnique::subtitle() const
@@ -335,9 +341,12 @@ void Material_clone::onEnter()
     );
     sprite->setMaterial(mat);
 
-    auto rot = RotateBy::create(5, Vec3(360,240,120));
-    auto repeat = RepeatForever::create(rot);
-    sprite->runAction(repeat);
+    auto repeat1 = std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, Vec3(360,240,120)));
+    auto repeat2 = std::unique_ptr<RepeatForever>( repeat1->clone() );
+    auto repeat3 = std::unique_ptr<RepeatForever>( repeat1->clone() );
+
+
+    sprite->runAction( std::move(repeat1) );
 
     // sprite 2... using same material
     auto sprite2 = Sprite3D::create("Sprite3DTest/boss1.obj");
@@ -345,7 +354,7 @@ void Material_clone::onEnter()
     this->addChild(sprite2);
     sprite2->setPositionNormalized(Vec2(0.5, 0.5));
     sprite2->setMaterial(mat);
-    sprite2->runAction(repeat->clone());
+    sprite2->runAction( std::move(repeat2) );
 
     // sprite 3... using cloned material
     auto sprite3 = Sprite3D::create("Sprite3DTest/boss1.obj");
@@ -356,7 +365,7 @@ void Material_clone::onEnter()
         mat->clone()
     );
     sprite3->setMaterial(mat2);
-    sprite3->runAction(repeat->clone());
+    sprite3->runAction( std::move(repeat3) );
 
     // testing clone
     // should affect both sprite 1 and sprite 2
@@ -405,14 +414,16 @@ void Material_parsePerformance::onEnter()
             {
                 label->setString("Testing start!");
             }
+            auto schedule_test_parsing = [this, p, slider](float) {
+                this->parsingTesting(p * _maxParsingCoumt);
+                slider->setTouchEnabled(true);
+            };
             Director::getInstance()->getScheduler().schedule(
-                               [this, p, slider](float)
-                               {
-                                   this->parsingTesting(p * _maxParsingCoumt);
-                                   slider->setTouchEnabled(true);
-                               },
-                               this, 0.0f, 0, 1.0, !_running, "schedule test parsing");
-            
+                TimedJob(this, schedule_test_parsing, 0)
+                    .delay(1.0f)
+                    .repeat(0)
+                    .paused(isPaused())
+            );
         }
     });
     
@@ -473,9 +484,10 @@ void Material_invalidate::onEnter()
     addChild(sprite);
     sprite->setPositionNormalized(Vec2(0.3f,0.3f));
 
-    auto rotate = RotateBy::create(5, Vec3(0,360,0));
-    auto repeat = RepeatForever::create(rotate);
-    sprite->runAction(repeat);
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<RotateBy>(5, Vec3(0,360,0))
+        ));
 
     // SPINE
     auto skeletonNode = spine::SkeletonAnimation::createWithJsonFile("spine/goblins.json", "spine/goblins.atlas", 1.5f);
@@ -542,9 +554,10 @@ void Material_renderState::onEnter()
     addChild(sprite);
     sprite->setPositionNormalized(Vec2(0.3f,0.3f));
 
-    auto rotate = RotateBy::create(5, Vec3(0,360,0));
-    auto repeat = RepeatForever::create(rotate);
-    sprite->runAction(repeat);
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<RotateBy>(5, Vec3(0,360,0))
+        ));
 
     // SPINE
     auto skeletonNode = spine::SkeletonAnimation::createWithJsonFile("spine/goblins.json", "spine/goblins.atlas", 1.5f);

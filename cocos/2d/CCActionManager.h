@@ -46,7 +46,7 @@ public:
     ~ActionManager();
 
    
-    void runAction(action_ptr<Action> action);
+    void runAction(std::unique_ptr<Action> action);
 
     // getters
 
@@ -70,8 +70,8 @@ public:
 
  private:
 
-    std::vector<action_ptr<Action>> _actions;
-    std::vector<action_ptr<Action>> _actionsToAdd;
+    std::vector<std::unique_ptr<Action>> _actions;
+    std::vector<std::unique_ptr<Action>> _actionsToAdd;
     // TODO Consider having _actionsPaused
 };
 

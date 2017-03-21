@@ -602,24 +602,19 @@ void RemoveAndRetainNodeTest::onEnter()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, _sprite);
     
     this->runAction(
-        Sequence::create(
-            to_action_ptr(DelayTime::create(5.0f)),
-            to_action_ptr(
-                CallFunc::create([this](){
-                    _spriteSaved = true;
-                    _sprite->retain();
-                    _sprite->removeFromParent();
-                })
-            ),
-            to_action_ptr(DelayTime::create(5.0f)),
-            to_action_ptr(
-                CallFunc::create([this](){
-                    _spriteSaved = false;
-                    this->addChild(_sprite);
-                    _sprite->release();
-
-                })
-            )
+        std::make_unique<Sequence>(
+            std::make_unique<DelayTime>(5.0f),
+            std::make_unique<CallFunc>([this](){
+                _spriteSaved = true;
+                _sprite->retain();
+                _sprite->removeFromParent();
+            }),
+            std::make_unique<DelayTime>(5.0f),
+            std::make_unique<CallFunc>([this](){
+                _spriteSaved = false;
+                this->addChild(_sprite);
+                _sprite->release();
+            })
         )
     );
 }

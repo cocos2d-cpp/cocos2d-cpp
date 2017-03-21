@@ -1,9 +1,7 @@
 /*
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2012 Yannick Loriot. All rights reserved.
- * http://yannickloriot.com
+ * Copyright (c) 2017      Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -369,7 +367,7 @@ void ControlSwitch::setOn(bool isOn, bool animated)
     if (animated) {
         _switchSprite->runAction
         (
-            ActionTween::create
+            std::make_unique<ActionTween>
                 (
                     0.2f,
                     "sliderXPosition",

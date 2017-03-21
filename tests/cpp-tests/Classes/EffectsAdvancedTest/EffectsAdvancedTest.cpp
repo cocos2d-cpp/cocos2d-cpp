@@ -47,16 +47,13 @@ void Effect1::onEnter()
     //     Waves3D is Grid3D and it's size is (15,10)
     
     auto size = Director::getInstance()->getWinSize();
-    auto lens = Lens3D::create(0.0f, Size(15,10), Vec2(size.width/2,size.height/2), 240);
-    auto waves = Waves3D::create(10, Size(15,10), 18, 15);
+    auto lens = std::make_unique<Lens3D>(0.0f, Size(15,10), Vec2(size.width/2,size.height/2), 240);
+    auto waves = std::make_unique<Waves3D>(10, Size(15,10), 18, 15);
 
-    auto reuse = ReuseGrid::create(1);
-    auto delay = DelayTime::create(8);
+    auto reuse = std::make_unique<ReuseGrid>(1);
+    auto delay = std::make_unique<DelayTime>(8);
 
-//    auto orbit = OrbitCamera::create(5, 1, 2, 0, 180, 0, -90);
-//    auto orbit_back = orbit->reverse();
-
-    _bgNode->runAction( Sequence::create( to_action_ptr(lens), to_action_ptr( delay), to_action_ptr( reuse), to_action_ptr( waves) ) );
+    _bgNode->runAction( std::make_unique<Sequence>( std::move(lens), std::move( delay), std::move( reuse), std::move( waves) ) );
 }
 
 std::string Effect1::title() const
@@ -80,35 +77,30 @@ void Effect2::onEnter()
     //     ShakyTiles is TiledGrid3D and it's size is (15,10)
     //     Shuffletiles is TiledGrid3D and it's size is (15,10)
     //       TurnOfftiles is TiledGrid3D and it's size is (15,10)
-    auto shaky = ShakyTiles3D::create(5, Size(15,10), 4, false);
-    auto shuffle = ShuffleTiles::create(0, Size(15,10), 3);
-    auto turnoff = TurnOffTiles::create(0, Size(15,10), 3);
-    auto turnon = turnoff->reverse();
+    auto shaky = std::make_unique<ShakyTiles3D>(5, Size(15,10), 4, false);
+    auto shuffle = std::make_unique<ShuffleTiles>(0, Size(15,10), 3);
+    auto turnoff = std::make_unique<TurnOffTiles>(0, Size(15,10), 3);
+    auto turnon = std::unique_ptr<GridAction>(turnoff->reverse());
     
     // reuse 2 times:
     //   1 for shuffle
     //   2 for turn off
     //   turnon tiles will use a new grid
-    auto reuse = ReuseGrid::create(2);
+    auto reuse = std::make_unique<ReuseGrid>(2);
 
-    auto delay = DelayTime::create(1);
-    auto delay_clone = delay->clone();
+    auto delay = std::make_unique<DelayTime>(1);
+    auto delay_clone = std::unique_ptr<DelayTime>(delay->clone());
     
-//    id orbit = [OrbitCamera::create:5 radius:1 deltaRadius:2 angleZ:0 deltaAngleZ:180 angleX:0 deltaAngleX:-90];
-//    id orbit_back = [orbit reverse];
-//
-//    [target runAction: [RepeatForever::create: [Sequence actions: orbit, orbit_back, nil]]];    
     _bgNode->runAction(
-        Sequence::create(
-            to_action_ptr(shaky),
-            to_action_ptr(delay),
-            to_action_ptr(reuse),
-            to_action_ptr(shuffle),
-            to_action_ptr(delay_clone),
-            to_action_ptr(turnoff),
-            to_action_ptr(turnon)
-        )
-    );
+        std::make_unique<Sequence>(
+            std::move(shaky),
+            std::move(delay),
+            std::move(reuse),
+            std::move(shuffle),
+            std::move(delay_clone),
+            std::move(turnoff),
+            std::move(turnon)
+        ));
 }
 
 std::string Effect2::title() const
@@ -125,19 +117,22 @@ std::string Effect2::title() const
 void Effect3::onEnter()
 {
     EffectAdvanceBaseTest::onEnter();
-    //auto bg = getChildByTag(kTagBackground);
-    //auto target1 = bg->getChildByTag(kTagSprite1);
-    //auto target2 = bg->getChildByTag(kTagSprite2);    
-    auto waves = Waves::create(5, Size(15,10), 5, 20, true, false);
-    auto shaky = Shaky3D::create(5, Size(15,10), 4, false);
+
+    auto waves = std::make_unique<Waves>(5, Size(15,10), 5, 20, true, false);
+    auto shaky = std::make_unique<Shaky3D>(5, Size(15,10), 4, false);
     
-    _target1->runAction( RepeatForever::create( waves ) );
-    _target2->runAction( RepeatForever::create( shaky ) );
+    _target1->runAction( std::make_unique<RepeatForever>( std::move(waves) ) );
+    _target2->runAction( std::make_unique<RepeatForever>( std::move(shaky) ) );
     
     // moving background. Testing issue #244
-    auto move = MoveBy::create(3, Vec2(200,0) );
-    auto move_reverse = move->reverse();
-    _bgNode->runAction(RepeatForever::create( Sequence::create( to_action_ptr(move), to_action_ptr( move_reverse) ) ));    
+    auto move = std::make_unique<MoveBy>(3, Vec2(200,0) );
+    auto move_reverse = std::unique_ptr<MoveBy>(move->reverse());
+    _bgNode->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::move(move_reverse)
+            )));    
 }
 
 std::string Effect3::title() const
@@ -186,25 +181,24 @@ void Effect4::onEnter()
     EffectAdvanceBaseTest::onEnter();
     //Node* gridNode = NodeGrid::create();
     
-    auto lens = Lens3D::create(10, Size(32,24), Vec2(100,180), 150);
-    auto move = JumpBy::create(5, Vec2(380,0), 100, 4);
-    auto move_back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr( move), to_action_ptr( move_back) );
+    auto lens = std::make_unique<Lens3D>(10, Size(32,24), Vec2(100,180), 150);
+    auto move = std::make_unique<JumpBy>(5, Vec2(380,0), 100, 4);
+    auto move_back = std::unique_ptr<JumpBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move( move), std::move( move_back) );
 
     /* In cocos2d-iphone, the type of action's target is 'id', so it supports using the instance of 'Lens3D' as its target.
         While in cocos2d-x, the target of action only supports Node or its subclass,
         so we make an encapsulation for Lens3D to achieve that.
     */
 
-    auto director = Director::getInstance();
-    auto pTarget = Lens3DTarget::create(lens);
+    auto pTarget = Lens3DTarget::create(lens.get());
 
     // Please make sure the target been added to its parent.
     this->addChild(pTarget);
 
-    pTarget->runAction( seq );
+    pTarget->runAction( std::move(seq) );
     
-    _bgNode->runAction( lens );
+    _bgNode->runAction( std::move(lens) );
 }
 
 std::string Effect4::title() const
@@ -223,12 +217,15 @@ void Effect5::onEnter()
 
     //CCDirector::getInstance()->setProjection(DirectorProjection2D);
     
-    auto effect = Liquid::create(2, Size(32,24), 1, 20);    
+    auto effect = std::make_unique<Liquid>(2, Size(32,24), 1, 20);    
 
-    auto stopEffect = Sequence::create( to_action_ptr(effect), to_action_ptr( DelayTime::create(2)), to_action_ptr( StopGrid::create()) );
+    auto stopEffect = std::make_unique<Sequence>(
+        std::move(effect),
+        std::make_unique<DelayTime>(2),
+        std::make_unique<StopGrid>()
+    );
     
-    //auto bg = getChildByTag(kTagBackground);
-    _bgNode->runAction(stopEffect);
+    _bgNode->runAction( std::move( stopEffect));
 }
 
 std::string Effect5::title() const
@@ -252,9 +249,9 @@ void Issue631::onEnter()
 {
     EffectAdvanceBaseTest::onEnter();
         
-    auto effect = Sequence::create(
-        to_action_ptr(DelayTime::create(2.0f)),
-        to_action_ptr(Shaky3D::create(5.0f, Size(5, 5), 16, false))
+    auto effect = std::make_unique<Sequence>(
+        std::make_unique<DelayTime>(2.0f),
+        std::make_unique<Shaky3D>(5.0f, Size(5, 5), 16, false)
     );
 
     // cleanup
@@ -279,7 +276,7 @@ void Issue631::onEnter()
     addChild(layer2BaseGrid, 1);
     layer2BaseGrid->addChild(layer2);
     
-    layer2BaseGrid->runAction( RepeatForever::create(effect) );
+    layer2BaseGrid->runAction( std::make_unique<RepeatForever>( std::move(effect)));
 }
 
 std::string Issue631::title() const
@@ -318,9 +315,14 @@ void EffectAdvanceBaseTest::onEnter(void)
     _target1->addChild(grossini);
     _bgNode->addChild(_target1);
     _target1->setPosition(VisibleRect::left().x+VisibleRect::getVisibleRect().size.width/3.0f, VisibleRect::bottom().y+ 200);
-    auto sc = ScaleBy::create(2, 5);
-    auto sc_back = sc->reverse();
-    _target1->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc), to_action_ptr( sc_back) ) ) );
+    auto sc = std::make_unique<ScaleBy>(2, 5);
+    auto sc_back = std::unique_ptr<ScaleBy>(sc->reverse());
+    _target1->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(sc),
+                std::move(sc_back)
+            )));
 
 
     _target2 = NodeGrid::create();
@@ -329,9 +331,14 @@ void EffectAdvanceBaseTest::onEnter(void)
     _target2->addChild(tamara);
     _bgNode->addChild(_target2);
     _target2->setPosition(VisibleRect::left().x+2*VisibleRect::getVisibleRect().size.width/3.0f,VisibleRect::bottom().y+200);
-    auto sc2 = ScaleBy::create(2, 5);
-    auto sc2_back = sc2->reverse();
-    _target2->runAction( RepeatForever::create(Sequence::create( to_action_ptr(sc2), to_action_ptr( sc2_back) ) ) );    
+    auto sc2 = std::make_unique<ScaleBy>(2, 5);
+    auto sc2_back = std::unique_ptr<ScaleBy>(sc2->reverse());
+    _target2->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(sc2),
+                std::move(sc2_back)
+            )));    
 
 }
 

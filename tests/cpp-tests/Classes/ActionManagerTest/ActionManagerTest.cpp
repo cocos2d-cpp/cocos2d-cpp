@@ -1,3 +1,25 @@
+/****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ****************************************************************************/
+
 #include "ActionManagerTest.h"
 #include "../testResource.h"
 
@@ -66,19 +88,23 @@ void CrashTest::onEnter()
     addChild(child, 1, kTagGrossini);
 
     //Sum of all action's duration is 1.5 second.
-    child->runAction(RotateBy::create(1.5f, 90));
-    child->runAction(
-        Sequence::create(
-            to_action_ptr(DelayTime::create(1.4f)),
-            to_action_ptr(FadeOut::create(1.1f))
+    child->runAction( std::make_unique<RotateBy>(1.5f, 90));
+    child->runAction
+    (
+        std::make_unique<Sequence>
+        (
+            std::make_unique<DelayTime>(1.4f),
+            std::make_unique<FadeOut>(1.1f)
         )
     );
 
     //After 1.5 second, self will be removed.
-    child->runAction(
-        Sequence::create(
-            to_action_ptr(DelayTime::create(1.4f)),
-            to_action_ptr(CallFunc::create( CC_CALLBACK_0(CrashTest::removeThis,this)))
+    child->runAction
+    (
+        std::make_unique<Sequence>
+        (
+            std::make_unique<DelayTime>(1.4f),
+            std::make_unique<CallFunc>( CC_CALLBACK_0(CrashTest::removeThis, this))
         )
     );
 }
@@ -109,10 +135,12 @@ void LogicTest::onEnter()
     addChild(grossini, 0, 2);
     grossini->setPosition(VisibleRect::center());
 
-    grossini->runAction(
-        Sequence::create( 
-            to_action_ptr(MoveBy::create(1, Vec2(150,0))),
-            to_action_ptr(CallFuncN::create(CC_CALLBACK_1(LogicTest::bugMe,this)))
+    grossini->runAction
+    (
+        std::make_unique<Sequence>
+        ( 
+            std::make_unique<MoveBy>(1, Vec2(150,0)),
+            std::make_unique<CallFuncN>( CC_CALLBACK_1(LogicTest::bugMe, this))
         ) 
     );
 }
@@ -120,7 +148,7 @@ void LogicTest::onEnter()
 void LogicTest::bugMe(Node* node)
 {
     node->stopAllActions(); //After this stop next action not working, if remove this stop everything is working
-    node->runAction(ScaleTo::create(2, 2));
+    node->runAction( std::make_unique<ScaleTo>(2, 2));
 }
 
 std::string LogicTest::subtitle() const
@@ -155,9 +183,8 @@ void PauseTest::onEnter()
     addChild(grossini, 0, kTagGrossini);
     grossini->setPosition(VisibleRect::center() );
     
-    auto action = MoveBy::create(1, Vec2(150,0));
+    grossini->runAction( std::make_unique<MoveBy>(1, Vec2(150,0)));
 
-    grossini->runAction(action);
     grossini->pause();
 
     Director::getInstance()->getScheduler().schedule(
@@ -192,16 +219,18 @@ void StopActionTest::onEnter()
     addChild(l);
     l->setPosition(VisibleRect::center().x, VisibleRect::top().y - 75);
 
-    auto pMove = MoveBy::create(2, Vec2(200, 0));
-    auto pCallback = CallFunc::create(CC_CALLBACK_0(StopActionTest::stopAction,this));
-    auto pSequence = Sequence::create(to_action_ptr(pMove), to_action_ptr(pCallback));
+    auto pSequence = std::make_unique<Sequence>
+        (
+            std::make_unique<MoveBy>(2, Vec2(200, 0)),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(StopActionTest::stopAction,this))
+        );
     pSequence->setTag(kTagSequence);
 
     auto pChild = Sprite::create(s_pathGrossini);
     pChild->setPosition( VisibleRect::center() );
 
     addChild(pChild, 1, kTagGrossini);
-    pChild->runAction(pSequence);
+    pChild->runAction( std::move( pSequence));
 }
 
 void StopActionTest::stopAction()
@@ -228,28 +257,38 @@ void StopAllActionsTest::onEnter()
     addChild(l);
     l->setPosition( Vec2(VisibleRect::center().x, VisibleRect::top().y - 75) );
     
-    auto pMove1 = MoveBy::create(2, Vec2(200, 0));
-    auto pMove2 = MoveBy::create(2, Vec2(-200, 0));
-    auto pSequenceMove = Sequence::createWithTwoActions(pMove1, pMove2);
-    auto pRepeatMove = RepeatForever::create(pSequenceMove);
+    auto pRepeatMove = std::make_unique<RepeatForever>
+        (
+            std::make_unique<Sequence>
+            (
+                std::make_unique<MoveBy>(2, Vec2(200, 0)),
+                std::make_unique<MoveBy>(2, Vec2(-200, 0))
+            )
+        );
+
     pRepeatMove->setTag(kTagSequence);
     
-    auto pScale1 = ScaleBy::create(2, 1.5f);
-    auto pScale2 = ScaleBy::create(2, 1.0f/1.5f);
-    auto pSequenceScale = Sequence::createWithTwoActions(pScale1, pScale2);
-    auto pRepeatScale = RepeatForever::create(pSequenceScale);
+    auto pRepeatScale = std::make_unique<RepeatForever>
+        (
+            std::make_unique<Sequence>
+            (
+                std::make_unique<ScaleBy>(2, 1.5f),
+                std::make_unique<ScaleBy>(2, 1.0f / 1.5f)
+            )
+        );
+
     pRepeatScale->setTag(kTagSequence);
     
-    auto pRotate = RotateBy::create(2, 360);
-    auto pRepeatRotate = RepeatForever::create(pRotate);
+    auto pRepeatRotate = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360));
     
     auto pChild = Sprite::create(s_pathGrossini);
     pChild->setPosition( VisibleRect::center() );
     
     addChild(pChild, 1, kTagGrossini);
-    pChild->runAction(pRepeatMove);
-    pChild->runAction(pRepeatScale);
-    pChild->runAction(pRepeatRotate);
+
+    pChild->runAction( std::move( pRepeatMove));
+    pChild->runAction( std::move( pRepeatScale));
+    pChild->runAction( std::move( pRepeatRotate));
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &StopAllActionsTest::stopAction)
             .repeat(0)
@@ -292,10 +331,10 @@ void ResumeTest::onEnter()
     addChild(pGrossini, 0, kTagGrossini);
     pGrossini->setPosition(VisibleRect::center());
 
-    pGrossini->runAction(ScaleBy::create(2, 2));
+    pGrossini->runAction( std::make_unique<ScaleBy>(2, 2));
 
     pGrossini->pause();
-    pGrossini->runAction(RotateBy::create(2, 360));
+    pGrossini->runAction( std::make_unique<RotateBy>(2, 360));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &ResumeTest::resumeGrossini)
@@ -324,29 +363,40 @@ void StopActionsByFlagsTest::onEnter()
     addChild(l);
     l->setPosition( Vec2(VisibleRect::center().x, VisibleRect::top().y - 75) );
 
-    auto pMove1 = MoveBy::create(2, Vec2(200, 0));
-    auto pMove2 = MoveBy::create(2, Vec2(-200, 0));
-    auto pSequenceMove = Sequence::createWithTwoActions(pMove1, pMove2);
-    auto pRepeatMove = RepeatForever::create(pSequenceMove);
+    auto pRepeatMove = std::make_unique<RepeatForever>
+        (
+            std::make_unique<Sequence>
+            (
+                std::make_unique<MoveBy>(2, Vec2(200, 0)),
+                std::make_unique<MoveBy>(2, Vec2(-200, 0))
+            )
+        );
+
     pRepeatMove->setFlags(kMoveFlag | kRepeatForeverFlag);
 
-    auto pScale1 = ScaleBy::create(2, 1.5f);
-    auto pScale2 = ScaleBy::create(2, 1.0f/1.5f);
-    auto pSequenceScale = Sequence::createWithTwoActions(pScale1, pScale2);
-    auto pRepeatScale = RepeatForever::create(pSequenceScale);
+    auto pRepeatScale = std::make_unique<RepeatForever>
+        (
+            std::make_unique<Sequence>
+            (
+                std::make_unique<ScaleBy>(2, 1.5f),
+                std::make_unique<ScaleBy>(2, 1.0f / 1.5f)
+            )
+        );
+
     pRepeatScale->setFlags(kScaleFlag | kRepeatForeverFlag);
 
-    auto pRotate = RotateBy::create(2, 360);
-    auto pRepeatRotate = RepeatForever::create(pRotate);
+    auto pRepeatRotate = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360));
     pRepeatRotate->setFlags(kRotateFlag | kRepeatForeverFlag);
 
     auto pChild = Sprite::create(s_pathGrossini);
     pChild->setPosition( VisibleRect::center() );
 
     addChild(pChild, 1, kTagGrossini);
-    pChild->runAction(pRepeatMove);
-    pChild->runAction(pRepeatScale);
-    pChild->runAction(pRepeatRotate);
+
+    pChild->runAction( std::move( pRepeatMove));
+    pChild->runAction( std::move( pRepeatScale));
+    pChild->runAction( std::move( pRepeatRotate));
+
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &StopActionsByFlagsTest::stopAction)
             .delay(4)
@@ -398,8 +448,7 @@ void Issue14050Test::onEnter()
     
     auto sprite = SpriteIssue14050::create("Images/grossini.png");
 
-    auto move = MoveBy::create(2, Vec2(100, 100));
-    sprite->runAction(move);
+    sprite->runAction( std::make_unique<MoveBy>(2, Vec2(100, 100)));
 }
 
 std::string Issue14050Test::subtitle() const

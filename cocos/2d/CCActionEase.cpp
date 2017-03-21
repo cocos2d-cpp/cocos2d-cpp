@@ -2,8 +2,7 @@
 Copyright (c) 2008-2009 Jason Booth
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,48 +42,21 @@ namespace cocos2d {
 //
 // EaseAction
 //
-
-bool ActionEase::initWithAction(ActionInterval *action)
+ActionEase::ActionEase(std::unique_ptr<ActionInterval> action)
+    : _inner( std::move( action))
 {
-    CCASSERT(action != nullptr, "action couldn't be nullptr!");
-    if (action == nullptr)
-    {
-        return false;
-    }
-
-    if (ActionInterval::initWithDuration(action->getDuration()))
-    {
-        _inner = action;
-        action->retain();
-
-        return true;
-    }
-
-    return false;
-}
-
-ActionEase::~ActionEase(void)
-{
-    CC_SAFE_RELEASE(_inner);
 }
 
 void ActionEase::startWithTarget(Node *target)
 {
-    if (target && _inner)
-    {
-        ActionInterval::startWithTarget(target);
-        _inner->startWithTarget(getTarget());
-    }
-    else
-    {
-        log("ActionEase::startWithTarget error: target or _inner is nullptr!");
-    }
+    CC_ASSERT(target);
+    ActionInterval::startWithTarget(target);
+    _inner->startWithTarget(getTarget());
 }
 
 void ActionEase::at_stop()
 {
-    if (_inner)
-        _inner->stop();
+    _inner->stop();
 }
 
 void ActionEase::step(float time)
@@ -94,51 +66,30 @@ void ActionEase::step(float time)
 
 ActionInterval* ActionEase::getInnerAction()
 {
-    return _inner;
+    return _inner.get();
 }
 
 //
 // EaseRateAction
 //
 
-bool EaseRateAction::initWithAction(ActionInterval *action, float rate)
-{
-    if (ActionEase::initWithAction(action))
-    {
-        _rate = rate;
-        return true;
-    }
-
-    return false;
-}
-
 //
 // NOTE: Converting these macros into Templates is desirable, but please see
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
 #define EASE_TEMPLATE_IMPL(CLASSNAME, TWEEN_FUNC, REVERSE_CLASSNAME) \
-CLASSNAME* CLASSNAME::create(cocos2d::ActionInterval *action) \
+    \
+void CLASSNAME::step(float time) \
 { \
-    CLASSNAME *ease = new (std::nothrow) CLASSNAME(); \
-    if (ease) \
-    { \
-        if (ease->initWithAction(action)) \
-            ease->autorelease(); \
-        else \
-            CC_SAFE_RELEASE_NULL(ease); \
-    } \
-    return ease; \
+    _inner->step(TWEEN_FUNC(time)); \
 } \
 CLASSNAME* CLASSNAME::clone() const \
 { \
-    if(_inner) return CLASSNAME::create(_inner->clone()); \
-    return nullptr; \
+    return new CLASSNAME(std::unique_ptr<ActionInterval>(_inner->clone())); \
 } \
-void CLASSNAME::step(float time) { \
-    _inner->step(TWEEN_FUNC(time)); \
-} \
-ActionEase* CLASSNAME::reverse() const { \
-    return REVERSE_CLASSNAME::create(_inner->reverse()); \
+ActionEase* CLASSNAME::reverse() const \
+{ \
+    return new REVERSE_CLASSNAME(std::unique_ptr<ActionInterval>(_inner->reverse())); \
 }
 
 EASE_TEMPLATE_IMPL(EaseExponentialIn, tweenfunc::expoEaseIn, EaseExponentialOut);
@@ -174,77 +125,40 @@ EASE_TEMPLATE_IMPL(EaseCubicActionInOut, tweenfunc::cubicEaseInOut, EaseCubicAct
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
 #define EASERATE_TEMPLATE_IMPL(CLASSNAME, TWEEN_FUNC) \
-CLASSNAME* CLASSNAME::create(cocos2d::ActionInterval *action, float rate) \
+void CLASSNAME::step(float time) \
 { \
-    CLASSNAME *ease = new (std::nothrow) CLASSNAME(); \
-    if (ease) \
-    { \
-        if (ease->initWithAction(action, rate)) \
-            ease->autorelease(); \
-        else \
-            CC_SAFE_RELEASE_NULL(ease); \
-    } \
-    return ease; \
+    _inner->step(TWEEN_FUNC(time, _rate)); \
 } \
 CLASSNAME* CLASSNAME::clone() const \
 { \
-    if(_inner) return CLASSNAME::create(_inner->clone(), _rate); \
-    return nullptr; \
+    return new CLASSNAME(std::unique_ptr<ActionInterval>(_inner->clone()), _rate); \
 } \
-void CLASSNAME::step(float time) { \
-    _inner->step(TWEEN_FUNC(time, _rate)); \
-} \
-EaseRateAction* CLASSNAME::reverse() const { \
-    return CLASSNAME::create(_inner->reverse(), 1.f / _rate); \
+EaseRateAction* CLASSNAME::reverse() const \
+{ \
+    return new CLASSNAME(std::unique_ptr<ActionInterval>(_inner->reverse()), 1.0f / _rate); \
 }
 
-// NOTE: the original code used the same class for the `reverse()` method
 EASERATE_TEMPLATE_IMPL(EaseIn, tweenfunc::easeIn);
 EASERATE_TEMPLATE_IMPL(EaseOut, tweenfunc::easeOut);
 EASERATE_TEMPLATE_IMPL(EaseInOut, tweenfunc::easeInOut);
-
-//
-// EaseElastic
-//
-
-bool EaseElastic::initWithAction(ActionInterval *action, float period /* = 0.3f*/)
-{
-    if (ActionEase::initWithAction(action))
-    {
-        _period = period;
-        return true;
-    }
-
-    return false;
-}
 
 //
 // NOTE: Converting these macros into Templates is desirable, but please see
 // issue #16159 [https://github.com/cocos2d/cocos2d-x/pull/16159] for further info
 //
 #define EASEELASTIC_TEMPLATE_IMPL(CLASSNAME, TWEEN_FUNC, REVERSE_CLASSNAME) \
-CLASSNAME* CLASSNAME::create(cocos2d::ActionInterval *action, float period /* = 0.3f*/) \
+\
+void CLASSNAME::step(float time) \
 { \
-    CLASSNAME *ease = new (std::nothrow) CLASSNAME(); \
-    if (ease) \
-    { \
-        if (ease->initWithAction(action, period)) \
-            ease->autorelease(); \
-        else \
-            CC_SAFE_RELEASE_NULL(ease); \
-    } \
-    return ease; \
+    _inner->step(TWEEN_FUNC(time, _period)); \
 } \
 CLASSNAME* CLASSNAME::clone() const \
 { \
-    if(_inner) return CLASSNAME::create(_inner->clone(), _period); \
-    return nullptr; \
+    return new CLASSNAME(std::unique_ptr<ActionInterval>(_inner->clone()), _period); \
 } \
-void CLASSNAME::step(float time) { \
-    _inner->step(TWEEN_FUNC(time, _period)); \
-} \
-EaseElastic* CLASSNAME::reverse() const { \
-    return REVERSE_CLASSNAME::create(_inner->reverse(), _period); \
+EaseElastic* CLASSNAME::reverse() const \
+{ \
+    return new REVERSE_CLASSNAME(std::unique_ptr<ActionInterval>(_inner->reverse()), _period); \
 }
 
 EASEELASTIC_TEMPLATE_IMPL(EaseElasticIn, tweenfunc::elasticEaseIn, EaseElasticOut);
@@ -255,20 +169,12 @@ EASEELASTIC_TEMPLATE_IMPL(EaseElasticInOut, tweenfunc::elasticEaseInOut, EaseEla
 // EaseBezierAction
 //
 
-EaseBezierAction* EaseBezierAction::create(cocos2d::ActionInterval* action)
+EaseBezierAction::EaseBezierAction(std::unique_ptr<ActionInterval> action)
+    : ActionEase( std::move( action))
 {
-    EaseBezierAction *ret = new (std::nothrow) EaseBezierAction();
-    if (ret && ret->initWithAction(action))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    delete ret;
-    return nullptr;
 }
 
-void EaseBezierAction::setBezierParamer( float p0, float p1, float p2, float p3)
+void EaseBezierAction::setBezierParamer(float p0, float p1, float p2, float p3)
 {
     _p0 = p0;
     _p1 = p1;
@@ -278,18 +184,9 @@ void EaseBezierAction::setBezierParamer( float p0, float p1, float p2, float p3)
 
 EaseBezierAction* EaseBezierAction::clone() const
 {
-    // no copy constructor
-    if (_inner)
-    {
-        auto ret = EaseBezierAction::create(_inner->clone());
-        if (ret)
-        {
-            ret->setBezierParamer(_p0,_p1,_p2,_p3);
-        }
-        return ret;
-    }
-
-    return nullptr;
+    auto ret = new EaseBezierAction( std::unique_ptr<ActionInterval>( _inner->clone()));
+    ret->setBezierParamer(_p0,_p1,_p2,_p3);
+    return ret;
 }
 
 void EaseBezierAction::step(float time)
@@ -299,7 +196,7 @@ void EaseBezierAction::step(float time)
 
 EaseBezierAction* EaseBezierAction::reverse() const
 {
-    EaseBezierAction* reverseAction = EaseBezierAction::create(_inner->reverse());
+    auto reverseAction = new EaseBezierAction( std::unique_ptr<ActionInterval>( _inner->reverse()));
     reverseAction->setBezierParamer(_p3,_p2,_p1,_p0);
     return reverseAction;
 }

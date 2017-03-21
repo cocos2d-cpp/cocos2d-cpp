@@ -64,29 +64,55 @@ void SpriteLayer::onEnter()
     spriteSister1->setPosition(Vec2(40,y/2));
     spriteSister2->setPosition(Vec2(x-40,y/2));
 
-    auto rot = RotateBy::create(16, -3600);
-    
     addChild(sprite);
     addChild(spriteSister1);
     addChild(spriteSister2);
     
-    sprite->runAction(rot);
+    sprite->runAction( std::make_unique<RotateBy>(16, -3600));
 
-    auto jump1 = JumpBy::create(4, Vec2(-400,0), 100, 4);
-    auto jump1_clone = jump1->clone();
-    auto jump2 = jump1->reverse();
-    auto jump2_clone = jump1->clone();
+    auto jump1 = std::make_unique<JumpBy>(4, Vec2(-400,0), 100, 4);
+    auto jump1_clone = std::unique_ptr<JumpBy>(jump1->clone());
+    auto jump2 = std::unique_ptr<JumpBy>(jump1->reverse());
+    auto jump2_clone = std::unique_ptr<JumpBy>(jump1->clone());
     
-    auto rot1 = RotateBy::create(4, 360*2);
-    auto rot1_clone = rot1->clone();
-    auto rot2 = rot1->reverse();
-    auto rot2_clone = rot2->clone();
+    auto rot1 = std::make_unique<RotateBy>(4, 360 * 2);
+    auto rot1_clone = std::unique_ptr<RotateBy>(rot1->clone());
+    auto rot2 = std::unique_ptr<RotateBy>(rot1->reverse());
+    auto rot2_clone = std::unique_ptr<RotateBy>(rot2->clone());
     
-    spriteSister1->runAction(Repeat::create( Sequence::create( to_action_ptr(jump2), to_action_ptr( jump1) ), 5 ));
-    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(jump1_clone), to_action_ptr( jump2_clone) ), 5 ));
+    spriteSister1->runAction(
+        std::make_unique<Repeat>(
+            std::make_unique<Sequence>(
+                std::move(jump2),
+                std::move(jump1)
+            ),
+            5
+        ));
+    spriteSister2->runAction(
+        std::make_unique<Repeat>(
+            std::make_unique<Sequence>(
+                std::move(jump1_clone),
+                std::move( jump2_clone)
+            ),
+            5
+        ));
     
-    spriteSister1->runAction(Repeat::create( Sequence::create( to_action_ptr(rot1), to_action_ptr( rot2) ), 5 ));
-    spriteSister2->runAction(Repeat::create( Sequence::create( to_action_ptr(rot2_clone), to_action_ptr( rot1_clone) ), 5 ));
+    spriteSister1->runAction(
+        std::make_unique<Repeat>(
+            std::make_unique<Sequence>(
+                std::move(rot1),
+                std::move(rot2)
+            ),
+            5
+        ));
+    spriteSister2->runAction(
+        std::make_unique<Repeat>(
+            std::make_unique<Sequence>(
+                std::move(rot2_clone),
+                std::move(rot1_clone)
+            ),
+            5
+        ));
 }
 
 //------------------------------------------------------------------
@@ -131,12 +157,12 @@ void RotateWorldMainLayer::onEnter()
     addChild(green);
     addChild(red);
 
-    auto rot = to_action_ptr( RotateBy::create(8, 720) );
+    auto rot = std::make_unique<RotateBy>(8, 720);
     
-    blue->runAction(rot->clone());
-    red->runAction(rot->clone());
-    green->runAction(rot->clone());
-    white->runAction(rot->clone());
+    blue->runAction( std::unique_ptr<RotateBy>(rot->clone()) );
+    red->runAction( std::unique_ptr<RotateBy>(rot->clone()) );
+    green->runAction( std::unique_ptr<RotateBy>(rot->clone()) );
+    white->runAction( std::unique_ptr<RotateBy>(rot->clone()) );
 }
 
 bool RotateWorldTest::init()
@@ -146,7 +172,7 @@ bool RotateWorldTest::init()
         auto layer = RotateWorldMainLayer::create();
 
         addChild(layer);
-        runAction(RotateBy::create(4, -360));
+        runAction( std::make_unique<RotateBy>(4, -360));
 
         return true;
     }

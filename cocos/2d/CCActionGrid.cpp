@@ -2,8 +2,7 @@
 Copyright (c) 2009      On-Core
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,16 +32,10 @@ THE SOFTWARE.
 namespace cocos2d {
 // implementation of GridAction
 
-bool GridAction::initWithDuration(float duration, const Size& gridSize)
+GridAction::GridAction(float duration, Size gridSize)
+    : _gridSize( gridSize )
 {
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _gridSize = gridSize;
-
-        return true;
-    }
-
-    return false;
+    ActionInterval::initWithDuration(duration);
 }
 
 void GridAction::startWithTarget(Node *target)
@@ -86,14 +79,12 @@ void GridAction::cacheTargetAsGridNode()
 GridAction* GridAction::reverse() const
 {
     // FIXME: This conversion isn't safe.
-    return (GridAction*)ReverseTime::create( this->clone() );
+    return (GridAction*)new ReverseTime(std::unique_ptr<FiniteTimeAction>(clone()));
 }
 
 GridBase* GridAction::getGrid()
 {
-    // Abstract class needs implementation
     CCASSERT(0, "Subclass should implement this method!");
-
     return nullptr;
 }
 
@@ -108,6 +99,12 @@ GridBase* Grid3DAction::getGrid()
     return Grid3D::create(_gridSize, _gridNodeTarget->getGridRect());
 }
 
+void Grid3DAction::setVertex(const Vec2& position, const Vec3& vertex)
+{
+    Grid3D *g = (Grid3D*)_gridNodeTarget->getGrid();
+    g->setVertex(position, vertex);
+}
+
 Vec3 Grid3DAction::getVertex(const Vec2& position) const
 {
     Grid3D *g = (Grid3D*)_gridNodeTarget->getGrid();
@@ -118,12 +115,6 @@ Vec3 Grid3DAction::getOriginalVertex(const Vec2& position) const
 {
     Grid3D *g = (Grid3D*)_gridNodeTarget->getGrid();
     return g->getOriginalVertex(position);
-}
-
-void Grid3DAction::setVertex(const Vec2& position, const Vec3& vertex)
-{
-    Grid3D *g = (Grid3D*)_gridNodeTarget->getGrid();
-    g->setVertex(position, vertex);
 }
 
 Rect Grid3DAction::getGridRect() const
@@ -159,45 +150,17 @@ void TiledGrid3DAction::setTile(const Vec2& pos, const Quad3& coords)
 
 // implementation AccelDeccelAmplitude
 
-AccelDeccelAmplitude* AccelDeccelAmplitude::create(Action *action, float duration)
+AccelDeccelAmplitude::AccelDeccelAmplitude(std::unique_ptr<ActionInterval> action, float duration)
+    : _other( std::move( action))
+    , _rate( 1.0f )
 {
-    AccelDeccelAmplitude *ret = new (std::nothrow) AccelDeccelAmplitude();
-    if (ret && ret->initWithAction(action, duration))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    delete ret;
-    return nullptr;
-}
-
-bool AccelDeccelAmplitude::initWithAction(Action *action, float duration)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _rate = 1.0f;
-        _other = (ActionInterval*)(action);
-        action->retain();
-
-        return true;
-    }
-
-    return false;
+    CC_ASSERT(action);
+    ActionInterval::initWithDuration(duration);
 }
 
 AccelDeccelAmplitude* AccelDeccelAmplitude::clone() const
 {
-    // no copy constructor
-    if (_other)
-        return AccelDeccelAmplitude::create(_other->clone(), _rate);
-    
-    return nullptr;
-}
-
-AccelDeccelAmplitude::~AccelDeccelAmplitude()
-{
-    CC_SAFE_RELEASE(_other);
+    return new AccelDeccelAmplitude(std::unique_ptr<ActionInterval>(_other->clone()), _rate);
 }
 
 void AccelDeccelAmplitude::startWithTarget(Node *target)
@@ -216,15 +179,12 @@ void AccelDeccelAmplitude::step(float time)
         f = 1 - f;
     }
 
-    ((AccelDeccelAmplitude*)(_other))->setAmplitudeRate(powf(f, _rate));
+    ((AccelDeccelAmplitude*)(_other.get()))->setAmplitudeRate(powf(f, _rate));
 }
 
 AccelDeccelAmplitude* AccelDeccelAmplitude::reverse() const
 {
-    if (_other)
-        return AccelDeccelAmplitude::create(_other->reverse(), _duration);
-    
-    return nullptr;
+    return new AccelDeccelAmplitude(std::unique_ptr<ActionInterval>(_other->reverse()), _duration);
 }
 
 void AccelDeccelAmplitude::at_stop()
@@ -233,45 +193,17 @@ void AccelDeccelAmplitude::at_stop()
 
 // implementation of AccelAmplitude
 
-AccelAmplitude* AccelAmplitude::create(Action *action, float duration)
+AccelAmplitude::AccelAmplitude(std::unique_ptr<ActionInterval> action, float duration)
+    : _other( std::move( action))
+    , _rate( 1.0f )
 {
-    AccelAmplitude *ret = new (std::nothrow) AccelAmplitude();
-    if (ret && ret->initWithAction(action, duration))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    delete ret;
-    return nullptr;
-}
-
-bool AccelAmplitude::initWithAction(Action *action, float duration)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _rate = 1.0f;
-        _other = (ActionInterval*)(action);
-        action->retain();
-
-        return true;
-    }
-
-    return false;
+    CC_ASSERT(action);
+    ActionInterval::initWithDuration(duration);
 }
 
 AccelAmplitude* AccelAmplitude::clone() const
 {
-    // no copy constructor
-    if (_other)
-        return AccelAmplitude::create(_other->clone(), _duration);
-    
-    return nullptr;
-}
-
-AccelAmplitude::~AccelAmplitude()
-{
-    CC_SAFE_DELETE(_other);
+    return new AccelAmplitude(std::unique_ptr<ActionInterval>(_other->clone()), _duration);
 }
 
 void AccelAmplitude::startWithTarget(Node *target)
@@ -282,16 +214,13 @@ void AccelAmplitude::startWithTarget(Node *target)
 
 void AccelAmplitude::step(float time)
 {
-    ((AccelAmplitude*)(_other))->setAmplitudeRate(powf(time, _rate));
+    ((AccelAmplitude*)(_other.get()))->setAmplitudeRate(powf(time, _rate));
     _other->step(time);
 }
 
 AccelAmplitude* AccelAmplitude::reverse() const
 {
-    if (_other)
-        return AccelAmplitude::create(_other->reverse(), _duration);
-    
-    return nullptr;
+    return new AccelAmplitude(std::unique_ptr<ActionInterval>(_other->reverse()), _duration);
 }
 
 void AccelAmplitude::at_stop()
@@ -300,36 +229,12 @@ void AccelAmplitude::at_stop()
 
 // DeccelAmplitude
 
-DeccelAmplitude* DeccelAmplitude::create(Action *action, float duration)
+DeccelAmplitude::DeccelAmplitude(std::unique_ptr<ActionInterval> action, float duration)
+    : _other( std::move( action))
+    , _rate( 1.0f )
 {
-    DeccelAmplitude *ret = new (std::nothrow) DeccelAmplitude();
-    if (ret && ret->initWithAction(action, duration))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    delete ret;
-    return nullptr;
-}
-
-bool DeccelAmplitude::initWithAction(Action *action, float duration)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _rate = 1.0f;
-        _other = (ActionInterval*)(action);
-        action->retain();
-
-        return true;
-    }
-
-    return false;
-}
-
-DeccelAmplitude::~DeccelAmplitude()
-{
-    CC_SAFE_RELEASE(_other);
+    CC_ASSERT(action);
+    ActionInterval::initWithDuration(duration);
 }
 
 void DeccelAmplitude::startWithTarget(Node *target)
@@ -340,22 +245,18 @@ void DeccelAmplitude::startWithTarget(Node *target)
 
 void DeccelAmplitude::step(float time)
 {
-    ((DeccelAmplitude*)(_other))->setAmplitudeRate(powf((1 - time), _rate));
+    ((DeccelAmplitude*)(_other.get()))->setAmplitudeRate(powf((1 - time), _rate));
     _other->step(time);
 }
 
 DeccelAmplitude* DeccelAmplitude::clone() const
 {
-    // no copy constructor
-    if (_other)
-        return DeccelAmplitude::create(_other->clone(), _duration);
-    
-    return nullptr;
+    return new DeccelAmplitude(std::unique_ptr<ActionInterval>(_other->clone()), _duration);
 }
 
 DeccelAmplitude* DeccelAmplitude::reverse() const
 {
-    return DeccelAmplitude::create(_other->reverse(), _duration);
+    return new DeccelAmplitude(std::unique_ptr<ActionInterval>(_other->reverse()), _duration);
 }
 
 void DeccelAmplitude::at_stop()
@@ -381,50 +282,21 @@ void StopGrid::cacheTargetAsGridNode()
     CCASSERT(_gridNodeTarget, "GridActions can only used on NodeGrid");
 }
 
-StopGrid* StopGrid::create()
-{
-    StopGrid* action = new (std::nothrow) StopGrid();
-    if (action)
-    {
-        action->autorelease();
-        return action;
-    }
-
-    delete action;
-    return nullptr;
-}
-
 StopGrid* StopGrid::clone() const
 {
-    return StopGrid::create();
+    return new StopGrid;
 }
 
 StopGrid* StopGrid::reverse() const
 {
-    // no reverse, just clone it
-    return this->clone();
+    return new StopGrid;
 }
 
 // implementation of ReuseGrid
 
-ReuseGrid* ReuseGrid::create(int times)
+ReuseGrid::ReuseGrid(int times)
+    : _times(times)
 {
-    ReuseGrid *action = new (std::nothrow) ReuseGrid();
-    if (action && action->initWithTimes(times))
-    {
-        action->autorelease();
-        return action;
-    }
-
-    delete action;
-    return nullptr;
-}
-
-bool ReuseGrid::initWithTimes(int times)
-{
-    _times = times;
-
-    return true;
 }
 
 void ReuseGrid::startWithTarget(Node *target)
@@ -446,13 +318,13 @@ void ReuseGrid::cacheTargetAsGridNode()
 
 ReuseGrid* ReuseGrid::clone() const
 {
-    return ReuseGrid::create(_times);
+    return new ReuseGrid(_times);
 }
 
 ReuseGrid* ReuseGrid::reverse() const
 {
     // no reverse, just clone it
-    return this->clone();
+    return clone();
 }
 
 } // namespace cocos2d

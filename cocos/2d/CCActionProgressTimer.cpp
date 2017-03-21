@@ -2,8 +2,7 @@
 Copyright (C) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 CopyRight (c) 2013-2016 Chukong Technologies Inc.
- 
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,40 +27,52 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-#define kProgressTimerCast ProgressTimer*
+// implementation of ProgressFromTo
+
+ProgressFromTo::ProgressFromTo(float duration, float percentFrom, float percentTo)
+    : _cachedTarget( nullptr )
+    , _from( percentFrom )
+    , _to( percentTo )
+{
+    ActionInterval::initWithDuration(duration);
+}
+
+ProgressFromTo* ProgressFromTo::clone() const
+{
+    return new ProgressFromTo(_duration, _from, _to);
+}
+
+ProgressFromTo* ProgressFromTo::reverse() const
+{
+    return new ProgressFromTo(_duration, _to, _from);
+}
+
+void ProgressFromTo::startWithTarget(Node *target)
+{
+    _cachedTarget = dynamic_cast<ProgressTimer*>(target);
+    CC_ASSERT(_cachedTarget);
+    ActionInterval::startWithTarget(target);
+}
+
+void ProgressFromTo::step(float time)
+{
+    if (_cachedTarget)
+    {
+        _cachedTarget->setPercentage(_from + (_to - _from) * time);
+    }
+}
+
+void ProgressFromTo::at_stop()
+{
+}
 
 // implementation of ProgressTo
 
-ProgressTo* ProgressTo::create(float duration, float percent)
-{
-    ProgressTo *progressTo = new (std::nothrow) ProgressTo();
-    if (progressTo && progressTo->initWithDuration(duration, percent))
-    {
-        progressTo->autorelease();
-        return progressTo;
-    }
-    
-    delete progressTo;
-    return nullptr;
-}
-
-bool ProgressTo::initWithDuration(float duration, float percent)
-{
-    if (ActionInterval::initWithDuration(duration))
-    {
-        _to = percent;
-
-        return true;
-    }
-
-    return false;
-}
-
 ProgressTo* ProgressTo::clone() const
 {
-    // no copy constructor
-    return ProgressTo::create(_duration, _to);
+    return new ProgressTo(_duration, _to);
 }
+
 
 ProgressTo* ProgressTo::reverse() const
 {
@@ -71,70 +82,11 @@ ProgressTo* ProgressTo::reverse() const
 
 void ProgressTo::startWithTarget(Node *target)
 {
-    ActionInterval::startWithTarget(target);
-    _from = ((kProgressTimerCast)(target))->getPercentage();
-}
-
-void ProgressTo::step(float time)
-{
-    ((kProgressTimerCast)(getTarget()))->setPercentage(_from + (_to - _from) * time);
-}
-
-void ProgressTo::at_stop()
-{
-}
-
-// implementation of ProgressFromTo
-
-ProgressFromTo* ProgressFromTo::create(float duration, float fromPercentage, float toPercentage)
-{
-    ProgressFromTo *progressFromTo = new (std::nothrow) ProgressFromTo();
-    if (progressFromTo && progressFromTo->initWithDuration(duration, fromPercentage, toPercentage)) {
-        progressFromTo->autorelease();
-        return progressFromTo;
-    }
-    
-    delete progressFromTo;
-    return nullptr;
-}
-
-bool ProgressFromTo::initWithDuration(float duration, float fromPercentage, float toPercentage)
-{
-    if (ActionInterval::initWithDuration(duration))
+    ProgressFromTo::startWithTarget(target);
+    if (_cachedTarget)
     {
-        _to = toPercentage;
-        _from = fromPercentage;
-
-        return true;
+        _from = _cachedTarget->getPercentage();
     }
-
-    return false;
-}
-
-ProgressFromTo* ProgressFromTo::clone() const
-{
-    // no copy constructor
-    return ProgressFromTo::create(_duration, _from, _to);
-}
-
-
-ProgressFromTo* ProgressFromTo::reverse() const
-{
-    return ProgressFromTo::create(_duration, _to, _from);
-}
-
-void ProgressFromTo::startWithTarget(Node *target)
-{
-    ActionInterval::startWithTarget(target);
-}
-
-void ProgressFromTo::step(float time)
-{
-    ((kProgressTimerCast)(getTarget()))->setPercentage(_from + (_to - _from) * time);
-}
-
-void ProgressFromTo::at_stop()
-{
 }
 
 } // namespace cocos2d

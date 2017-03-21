@@ -131,12 +131,12 @@ TileMapTest::TileMapTest()
     
     map->setAnchorPoint( Vec2(0, 0.5f) );
 
-    auto scale = ScaleBy::create(4, 0.8f);
-    auto scaleBack = scale->reverse();
+    auto scale = std::make_unique<ScaleBy>(4, 0.8f);
+    auto scaleBack = std::unique_ptr<ScaleBy>(scale->reverse());
 
-    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( scaleBack) );
+    auto seq = std::make_unique<Sequence>( std::move(scale), std::move( scaleBack) );
 
-    map->runAction(RepeatForever::create(seq));
+    map->runAction(std::make_unique<RepeatForever>( std::move(seq) ));
 }
 
 std::string TileMapTest::title() const
@@ -161,7 +161,12 @@ TileMapEditTest::TileMapEditTest()
     // If you are not going to use the Map, you can free it now
     // [tilemap releaseMap);
     // And if you are going to use, it you can access the data with:
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TileMapEditTest::updateMap), this, 0.2f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TileMapEditTest::updateMap, 0)
+            .delay(0.2f)
+            .interval(0.2f)
+            .paused(isPaused())
+    );
     
     addChild(map, 0, kTagTileMap);
     
@@ -228,11 +233,11 @@ TMXOrthoTest::TMXOrthoTest()
     Size CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
 
-    auto scale = ScaleBy::create(10, 0.1f);
-    auto back = scale->reverse();
-    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( back) );
-    auto repeat = RepeatForever::create(seq);
-    map->runAction(repeat);
+    auto scale = std::make_unique<ScaleBy>(10, 0.1f);
+    auto back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(scale), std::move( back) );
+    auto repeat = std::make_unique<RepeatForever>( std::move( seq));
+    map->runAction( std::move(repeat) );
 
 //    float x, y, z;
 //    map->getCamera()->getEye(&x, &y, &z);
@@ -305,7 +310,7 @@ TMXOrthoTest2::TMXOrthoTest2()
         child->getTexture()->setAntiAliasTexParameters();
     }
 
-    map->runAction( ScaleBy::create(2, 0.5f) ) ;
+    map->runAction( std::make_unique<ScaleBy>(2, 0.5f) ) ;
 }
 
 std::string TMXOrthoTest2::title() const
@@ -382,13 +387,17 @@ TMXOrthoTest4::TMXOrthoTest4()
     sprite = layer->getTileAt(Vec2(s.width-1,s.height-1));
     sprite->setScale(2);
 
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXOrthoTest4::removeSprite), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TMXOrthoTest4::removeSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void TMXOrthoTest4::removeSprite(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXOrthoTest4::removeSprite), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     auto map = static_cast<TMXTiledMap*>( getChildByTag(kTagTileMap) );
     auto layer = map->getLayer("Layer 0");
@@ -444,37 +453,52 @@ TMXReadWriteTest::TMXReadWriteTest()
     tile2->setAnchorPoint( Vec2(0.5f, 0.5f) );
     tile3->setAnchorPoint( Vec2(0.5f, 0.5f) );
 
-    auto move = MoveBy::create(0.5f, Vec2(0,160));
-    auto rotate = RotateBy::create(2, 360);
-    auto scale = ScaleBy::create(2, 5);
-    auto opacity = FadeOut::create(2);
-    auto fadein = FadeIn::create(2);
-    auto scaleback = ScaleTo::create(1, 1);
-    auto finish = CallFuncN::create(CC_CALLBACK_1(TMXReadWriteTest::removeSprite, this));
-    auto seq0 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(rotate),
-        to_action_ptr(scale),
-        to_action_ptr(opacity),
-        to_action_ptr(fadein),
-        to_action_ptr(scaleback),
-        to_action_ptr(finish)
+    auto move = std::make_unique<MoveBy>(0.5f, Vec2(0,160));
+    auto rotate = std::make_unique<RotateBy>(2, 360);
+    auto scale = std::make_unique<ScaleBy>(2, 5);
+    auto opacity = std::make_unique<FadeOut>(2);
+    auto fadein = std::make_unique<FadeIn>(2);
+    auto scaleback = std::make_unique<ScaleTo>(1, 1);
+    auto finish = std::make_unique<CallFuncN>(CC_CALLBACK_1(TMXReadWriteTest::removeSprite, this));
+    auto seq0 = std::make_unique<Sequence>(
+        std::move(move),
+        std::move(rotate),
+        std::move(scale),
+        std::move(opacity),
+        std::move(fadein),
+        std::move(scaleback),
+        std::move(finish)
     );
-    auto seq1 = seq0->clone();
-    auto seq2 = seq0->clone();
-    auto seq3 = seq0->clone();
+    auto seq1 = std::unique_ptr<Sequence>(seq0->clone());
+    auto seq2 = std::unique_ptr<Sequence>(seq0->clone());
+    auto seq3 = std::unique_ptr<Sequence>(seq0->clone());
     
-    tile0->runAction(seq0);
-    tile1->runAction(seq1);
-    tile2->runAction(seq2);
-    tile3->runAction(seq3);
+    tile0->runAction( std::move(seq0) );
+    tile1->runAction( std::move(seq1) );
+    tile2->runAction( std::move(seq2) );
+    tile3->runAction( std::move(seq3) );
     
     
     _gid = layer->getTileGIDAt(Vec2(0,63));
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTest::updateCol), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running); 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTest::repaintWithGID), this, 2.05f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTest::removeTiles), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running); 
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TMXReadWriteTest::updateCol, 1)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TMXReadWriteTest::repaintWithGID, 2)
+            .delay(2.05f)
+            .interval(2.05f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TMXReadWriteTest::removeTiles, 3)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 
     _gid2 = 0;
 }
@@ -506,8 +530,6 @@ void TMXReadWriteTest::updateCol(float /*dt*/)
 
 void TMXReadWriteTest::repaintWithGID(float /*dt*/)
 {
-//    unschedule:_cmd);
-    
     auto map = (TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (TMXLayer*)map->getChildByTag(0);
     
@@ -522,7 +544,7 @@ void TMXReadWriteTest::repaintWithGID(float /*dt*/)
 
 void TMXReadWriteTest::removeTiles(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXReadWriteTest::removeTiles), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 3);
 
     auto map = (TMXTiledMap*)getChildByTag(kTagTileMap);
     auto layer = (TMXLayer*)map->getChildByTag(0);
@@ -579,7 +601,7 @@ TMXIsoTest::TMXIsoTest()
     // move map to the center of the screen
     auto ms = map->getMapSize();
     auto ts = map->getTileSize();
-    map->runAction( MoveTo::create(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 )) ); 
+    map->runAction( std::make_unique<MoveTo>(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 )) ); 
 }
 
 std::string TMXIsoTest::title() const
@@ -630,7 +652,7 @@ TMXIsoTest2::TMXIsoTest2()
     // move map to the center of the screen
     auto ms = map->getMapSize();
     auto ts = map->getTileSize();
-    map->runAction( MoveTo::create(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
+    map->runAction( std::make_unique<MoveTo>(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
 }
 
 std::string TMXIsoTest2::title() const
@@ -657,7 +679,7 @@ TMXUncompressedTest::TMXUncompressedTest()
     // move map to the center of the screen
     auto ms = map->getMapSize();
     auto ts = map->getTileSize();
-    map->runAction(MoveTo::create(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
+    map->runAction(std::make_unique<MoveTo>(1.0f, Vec2( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
     
     // testing release map
     TMXLayer* layer;
@@ -899,12 +921,12 @@ TMXIsoZorder::TMXIsoZorder()
     _tamara->setAnchorPoint(Vec2(0.5f,0));
 
     
-    auto move = MoveBy::create(10, Vec2(300,250));
-    auto back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
-    _tamara->runAction( RepeatForever::create(seq) );
+    auto move = std::make_unique<MoveBy>(10, Vec2(300,250));
+    auto back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(move), std::move( back) );
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq) ));
     
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXIsoZorder::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &TMXIsoZorder::repositionSprite, 0).paused(isPaused()));
 }
 
 TMXIsoZorder::~TMXIsoZorder()
@@ -914,7 +936,7 @@ TMXIsoZorder::~TMXIsoZorder()
 
 void TMXIsoZorder::onExit()
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(TMXIsoZorder::repositionSprite), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
     TileDemo::onExit();
 }
 
@@ -965,12 +987,12 @@ TMXOrthoZorder::TMXOrthoZorder()
     _tamara->setAnchorPoint(Vec2(0.5f,0));
 
     
-    auto move = MoveBy::create(10, Vec2(400,450));
-    auto back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
-    _tamara->runAction( RepeatForever::create(seq));
+    auto move = std::make_unique<MoveBy>(10, Vec2(400,450));
+    auto back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(move), std::move( back) );
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq)));
     
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXOrthoZorder::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &TMXOrthoZorder::repositionSprite, 0).paused(isPaused()));
 }
 
 TMXOrthoZorder::~TMXOrthoZorder()
@@ -1027,13 +1049,12 @@ TMXIsoVertexZ::TMXIsoVertexZ()
     _tamara = layer->getTileAt( Vec2(29,29) );
     _tamara->retain();
     
-    auto move = MoveBy::create(10, Vec2(300,250) * (1/CC_CONTENT_SCALE_FACTOR()));
-    auto back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
-    _tamara->runAction( RepeatForever::create(seq) );
+    auto move = std::make_unique<MoveBy>(10, Vec2(300,250) * (1/CC_CONTENT_SCALE_FACTOR()));
+    auto back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(move), std::move( back) );
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq)) );
     
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(TMXIsoVertexZ::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &TMXIsoVertexZ::repositionSprite, 0).paused(isPaused()));
 }
 
 TMXIsoVertexZ::~TMXIsoVertexZ()
@@ -1099,13 +1120,12 @@ TMXOrthoVertexZ::TMXOrthoVertexZ()
     CCLOG("%p vertexZ: %f", _tamara, _tamara->getPositionZ());
     _tamara->retain();
 
-    auto move = MoveBy::create(10, Vec2(400,450) * (1/CC_CONTENT_SCALE_FACTOR()));
-    auto back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr(move), to_action_ptr( back) );
-    _tamara->runAction( RepeatForever::create(seq));
+    auto move = std::make_unique<MoveBy>(10, Vec2(400,450) * (1/CC_CONTENT_SCALE_FACTOR()));
+    auto back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(move), std::move( back) );
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq)));
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXOrthoVertexZ::repositionSprite), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &TMXOrthoVertexZ::repositionSprite, 0).paused(isPaused()));
 }
 
 TMXOrthoVertexZ::~TMXOrthoVertexZ()
@@ -1250,8 +1270,8 @@ TMXOrthoFlipTest::TMXOrthoFlipTest()
         child->getTexture()->setAntiAliasTexParameters();
     }
 
-    auto action = ScaleBy::create(2, 0.5f);
-    map->runAction(action);
+    auto action = std::make_unique<ScaleBy>(2, 0.5f);
+    map->runAction( std::move(action));
 }
 
 std::string TMXOrthoFlipTest::title() const
@@ -1279,10 +1299,15 @@ TMXOrthoFlipRunTimeTest::TMXOrthoFlipRunTimeTest()
         child->getTexture()->setAntiAliasTexParameters();
     }
 
-    auto action = ScaleBy::create(2, 0.5f);
-    map->runAction(action);
+    auto action = std::make_unique<ScaleBy>(2, 0.5f);
+    map->runAction( std::move(action));
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(TMXOrthoFlipRunTimeTest::flipIt), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &TMXOrthoFlipRunTimeTest::flipIt, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 std::string TMXOrthoFlipRunTimeTest::title() const
@@ -1360,8 +1385,8 @@ TMXOrthoFromXMLTest::TMXOrthoFromXMLTest()
         child->getTexture()->setAntiAliasTexParameters();
     }
 
-    auto action = ScaleBy::create(2, 0.5f);
-    map->runAction(action);
+    auto action = std::make_unique<ScaleBy>(2, 0.5f);
+    map->runAction( std::move(action));
 }
 
 std::string TMXOrthoFromXMLTest::title() const
@@ -1396,8 +1421,8 @@ TMXOrthoXMLFormatTest::TMXOrthoXMLFormatTest()
         log("GID:%i, Properties:%s", i, map->getPropertiesForGID(i).asValueMap()["name"].asString().c_str());
     }
     
-    auto action = ScaleBy::create(2, 0.5f);
-    map->runAction(action);
+    auto action = std::make_unique<ScaleBy>(2, 0.5f);
+    map->runAction( std::move(action));
 }
 
 std::string TMXOrthoXMLFormatTest::title() const

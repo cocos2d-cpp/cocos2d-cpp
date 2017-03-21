@@ -419,7 +419,7 @@ bool SpritePolygonTest5::init()
         _polygonInfo = AutoPolygon::generatePolygon(s_pathGrossini);
         loadDefaultSprites();
         initTouch();
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
         return true;
     }
     return false;
@@ -482,26 +482,27 @@ void SpritePolygonTest5::addSpritePolygon(const Vec2& pos)
     sprite->addChild(drawNode.get());
     _drawNodes.push_back( std::move( drawNode));
     
-    ActionInterval* action;
+    std::unique_ptr<FiniteTimeAction> action;
     float random = CCRANDOM_0_1();
+
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else
-        action = FadeOut::create(2);
+        action.reset(new FadeOut(2));
 
-    auto action_reverse = action->reverse();
+    auto action_reverse = std::unique_ptr<FiniteTimeAction>(action->reverse());
 
-    auto seq = Sequence::create(
-        to_action_ptr(action),
-        to_action_ptr(action_reverse)
+    auto seq = std::make_unique<Sequence>(
+        std::move(action),
+        std::move(action_reverse)
     );
-    sprite->runAction(RepeatForever::create(seq));
+    sprite->runAction( std::make_unique<RepeatForever>( std::move(seq)));
 }
 
 void SpritePolygonTest5::update(float /*dt*/)
@@ -535,7 +536,7 @@ bool SpritePolygonPerformance::init()
 {
     if (SpritePolygonTestCase::init()) {
         initIncrementStats();
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
         return true;
     }
     return false;
@@ -632,7 +633,7 @@ SpritePolygonPerformanceTestDynamic::SpritePolygonPerformanceTestDynamic()
 Sprite* SpritePolygonPerformanceTestDynamic::makeSprite()
 {
     auto ret = Sprite::create(_pinfo);
-    ret->runAction(RepeatForever::create(RotateBy::create(1.0,360.0)));
+    ret->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1.0,360.0)));
     return ret;
 }
 
@@ -653,7 +654,7 @@ void SpritePerformanceTestDynamic::initIncrementStats()
 Sprite* SpritePerformanceTestDynamic::makeSprite()
 {
     auto ret =  Sprite::create(s_pathGrossini);
-    ret->runAction(RepeatForever::create(RotateBy::create(1.0,360.0)));
+    ret->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1.0,360.0)));
     return ret;
 }
 
@@ -754,8 +755,7 @@ void SpritePolygonTestFrameAnim::initSprites()
 {
     auto screen = Director::getInstance()->getWinSize();
 
-    auto rotate = RotateBy::create(10, 360);
-    auto action = RepeatForever::create(rotate);
+    auto action = std::make_unique<RepeatForever>(std::make_unique<RotateBy>(10, 360));
     char str[100] = {0};
 
     auto cache = SpriteFrameCache::getInstance();
@@ -774,7 +774,7 @@ void SpritePolygonTestFrameAnim::initSprites()
         point->setPosition( sprite->getPosition() );
         addChild(point, 10);
 
-        sprite->runAction( action->clone() );
+        sprite->runAction( std::unique_ptr<Action>(action->clone()) );
         addChild(sprite, i);
 
         //DrawNode
@@ -800,8 +800,8 @@ void SpritePolygonTestFrameAnim::initSprites()
     }
     std::unique_ptr<Animation> animation(new Animation(animFrames, 0.3f));
     sprite->runAction(
-        RepeatForever::create(
-            Animate::create( std::move( animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move( animation))
         ));
 }
 

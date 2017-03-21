@@ -132,26 +132,26 @@ void NodeTest2::onEnter()
     sp1->addChild(sp3);
     sp2->addChild(sp4);
     
-    auto a1 = to_action_ptr( RotateBy::create(2, 360) );
-    auto a2 = to_action_ptr( ScaleBy::create(2, 2) );
+    auto a1 = std::make_unique<RotateBy>(2, 360);
+    auto a2 = std::make_unique<ScaleBy>(2, 2);
     
-    auto action1 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(a1->clone()),
-            to_action_ptr(a2->clone()),
-            to_action_ptr(a2->reverse())
+    auto action1 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::unique_ptr<RotateBy>(a1->clone()),
+            std::unique_ptr<ScaleBy>(a2->clone()),
+            std::unique_ptr<ScaleBy>(a2->reverse())
         ));
-    auto action2 = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(a1->clone()),
-            to_action_ptr(a2->clone()),
-            to_action_ptr(a2->reverse())
+    auto action2 = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::unique_ptr<RotateBy>(a1->clone()),
+            std::unique_ptr<ScaleBy>(a2->clone()),
+            std::unique_ptr<ScaleBy>(a2->reverse())
         ));
     
     sp2->setAnchorPoint(Vec2(0,0));
     
-    sp1->runAction(action1);
-    sp2->runAction(action2);
+    sp1->runAction( std::move(action1) );
+    sp2->runAction( std::move(action2) );
 }
 
 std::string NodeTest2::subtitle() const
@@ -179,20 +179,29 @@ NodeTest4::NodeTest4()
     addChild(sp1, 0, 2);
     addChild(sp2, 0, 3);
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest4::delay2, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "delay2_key");
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest4::delay4, this), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "delay4_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeTest4::delay2, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeTest4::delay4, 1)
+            .delay(4.0f)
+            .interval(4.0f)
+            .paused(isPaused())
+    );
 }
 
 void NodeTest4::delay2(float /*dt*/)
 {
     auto node = static_cast<Sprite*>(getChildByTag(2));
-    auto action1 = RotateBy::create(1, 360);
-    node->runAction(action1);
+    node->runAction(std::make_unique<RotateBy>(1, 360));
 }
 
 void NodeTest4::delay4(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule("delay4_key", this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 1);
     removeChildByTag(3, false);
 }
 
@@ -215,20 +224,25 @@ NodeTest5::NodeTest5()
     sp1->setPosition(Vec2(100,160));
     sp2->setPosition(Vec2(380,160));
 
-    auto rot = RotateBy::create(2, 360);
-    auto rot_back = rot->reverse();
-    auto forever = RepeatForever::create(Sequence::create( to_action_ptr(rot), to_action_ptr( rot_back) ));
-    auto forever2 = forever->clone();
+    auto rot = std::make_unique<RotateBy>(2, 360);
+    auto rot_back = std::unique_ptr<RotateBy>(rot->reverse());
+    auto forever = std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(rot), std::move( rot_back) ));
+    auto forever2 = std::unique_ptr<RepeatForever>(forever->clone());
     forever->setTag(101);
     forever2->setTag(102);
                                                   
     addChild(sp1, 0, kTagSprite1);
     addChild(sp2, 0, kTagSprite2);
             
-    sp1->runAction(forever);
-    sp2->runAction(forever2);
+    sp1->runAction( std::move(forever) );
+    sp2->runAction( std::move(forever2) );
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest5::addAndRemove, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "add_and_remove_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeTest5::addAndRemove, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void NodeTest5::addAndRemove(float /*dt*/)
@@ -270,25 +284,30 @@ NodeTest6::NodeTest6()
     sp1->setPosition(Vec2(100,160));
     sp2->setPosition(Vec2(380,160));
         
-    auto rot = RotateBy::create(2, 360);
-    auto rot_back = rot->reverse();
-    auto forever1 = RepeatForever::create(Sequence::create( to_action_ptr(rot), to_action_ptr( rot_back) ));
-    auto forever11 = forever1->clone();
+    auto rot = std::make_unique<RotateBy>(2, 360);
+    auto rot_back = std::unique_ptr<RotateBy>(rot->reverse());
+    auto forever1 = std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(rot), std::move( rot_back) ));
+    auto forever11 = std::unique_ptr<RepeatForever>(forever1->clone());
 
-    auto forever2 = forever1->clone();
-    auto forever21 = forever1->clone();
+    auto forever2 = std::unique_ptr<RepeatForever>(forever1->clone());
+    auto forever21 = std::unique_ptr<RepeatForever>(forever1->clone());
     
     addChild(sp1, 0, kTagSprite1);
     sp1->addChild(sp11);
     addChild(sp2, 0, kTagSprite2);
     sp2->addChild(sp21);
     
-    sp1->runAction(forever1);
-    sp11->runAction(forever11);
-    sp2->runAction(forever2);
-    sp21->runAction(forever21);
+    sp1->runAction( std::move(forever1) );
+    sp11->runAction( std::move(forever11) );
+    sp2->runAction( std::move(forever2) );
+    sp21->runAction( std::move(forever21) );
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeTest6::addAndRemove, this), this, 2.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "add_and_remove_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeTest6::addAndRemove, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void NodeTest6::addAndRemove(float /*dt*/)
@@ -330,12 +349,17 @@ StressTest1::StressTest1()
     
     sp1->setPosition( Vec2(s.width/2, s.height/2) );        
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(StressTest1::shouldNotCrash, this), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "should_not_crash_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &StressTest1::shouldNotCrash, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 void StressTest1::shouldNotCrash(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule("should_not_crash_key", this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     auto s = Director::getInstance()->getWinSize();
 
@@ -349,9 +373,9 @@ void StressTest1::shouldNotCrash(float /*dt*/)
     explosion->setPosition( Vec2(s.width/2, s.height/2) );
     
     runAction(
-        Sequence::create(
-            to_action_ptr(RotateBy::create(2, 360)),
-            to_action_ptr(CallFuncN::create(CC_CALLBACK_1(StressTest1::removeMe, this)))
+        std::make_unique<Sequence>(
+            std::make_unique<RotateBy>(2, 360),
+            std::make_unique<CallFuncN>(CC_CALLBACK_1(StressTest1::removeMe, this))
         ));
     
     addChild(explosion);
@@ -383,30 +407,33 @@ StressTest2::StressTest2()
     auto sp1 = Sprite::create(s_pathSister1);
     sp1->setPosition( Vec2(80, s.height/2) );
     
-    auto move = MoveBy::create(3, Vec2(350,0));
-    auto move_ease_inout3 = EaseInOut::create(move->clone(), 2.0f);
-    auto move_ease_inout_back3 = move_ease_inout3->reverse();
-    auto seq3 = Sequence::create( to_action_ptr( move_ease_inout3), to_action_ptr( move_ease_inout_back3) );
-    sp1->runAction( RepeatForever::create(seq3) );
+    auto move = std::make_unique<MoveBy>(3, Vec2(350,0));
+    auto move_ease_inout3 = std::make_unique<EaseInOut>( std::move(move), 2.0f);
+    auto move_ease_inout_back3 = std::unique_ptr<EaseRateAction>(move_ease_inout3->reverse());
+    auto seq3 = std::make_unique<Sequence>( std::move(move_ease_inout3), std::move( move_ease_inout_back3) );
+    auto copy_seq3 = std::unique_ptr<Sequence>(seq3->clone());
+    sp1->runAction( std::make_unique<RepeatForever>( std::move(seq3)));
+
     sublayer->addChild(sp1, 1);
 
     auto fire = ParticleFire::create();
     fire->setTexture(Director::getInstance()->getTextureCache()->addImage("Images/fire.png"));
     fire->setPosition( Vec2(80, s.height/2-50) );
     
-    auto copy_seq3 = seq3->clone();
-
-    fire->runAction( RepeatForever::create(copy_seq3) );
+    fire->runAction( std::make_unique<RepeatForever>( std::move( copy_seq3)));
     sublayer->addChild(fire, 2);
             
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(StressTest2::shouldNotLeak,this), this, 6.0f, CC_REPEAT_FOREVER, 0.0f, !_running, "should_not_leak_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &StressTest2::shouldNotLeak, 0)
+            .paused(isPaused())
+    );
     
     addChild(sublayer, 0, kTagSprite1);
 }
 
 void StressTest2::shouldNotLeak(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule("should_not_leak_key", this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
     auto sublayer = static_cast<Layer*>( getChildByTag(kTagSprite1) );
     sublayer->removeAllChildrenWithCleanup(true); 
 }
@@ -428,14 +455,17 @@ SchedulerTest1::SchedulerTest1()
     
     addChild(layer, 0);
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SchedulerTest1::doSomething, this), layer, 0.0f, CC_REPEAT_FOREVER, 0.0f, layer->isPaused(), "do_something_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerTest1::doSomething, 0)
+            .paused(isPaused())
+    );
     
-    Director::getInstance()->getScheduler().unschedule("do_something_key", layer);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 }
 
 void SchedulerTest1::doSomething(float /*dt*/)
 {
-
+    CC_ASSERT(0);
 }
 
 std::string SchedulerTest1::subtitle() const
@@ -454,20 +484,26 @@ SchedulerCallbackTest::SchedulerCallbackTest()
     addChild(node, 0);
     node->setName("a node");
 
-    _total = 0;
-    Director::getInstance()->getScheduler().schedule([this](float dt) {
+    int id = 0;
+
+    auto run = [this](float dt) {
         _total += dt;
-        log("hello world: %f - total: %f", dt, _total);
-    },
-    node, 0.5, CC_REPEAT_FOREVER, 0.0f, node->isPaused(), "some_key");
+        log("hello world: dt: %f, total: %f", dt, _total);
+    };
 
-
-    Director::getInstance()->getScheduler().schedule([this](float /*dt*/) {
-        // the local variable "node" will go out of scope, so I have to get it from "this"
+    auto cancel = [this,id](float /*dt*/) {
         auto anode = this->getChildByName("a node");
-        Director::getInstance()->getScheduler().unschedule("some_key", anode);
-    },
-    node, 0.0f, 0, 5.0f, node->isPaused(), "ignore_key");
+        Director::getInstance()->getScheduler().unscheduleTimedJob(anode, id);
+    };
+
+    _total = 0;
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(node, run, id).delay(0.5f).interval(0.5).paused(node->isPaused())
+    );
+
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(node, cancel).delay(5.0f).paused(node->isPaused())
+    );
 }
 
 void SchedulerCallbackTest::onEnter()
@@ -504,15 +540,13 @@ NodeToWorld::NodeToWorld()
     menu->setPosition( Vec2(backSize.width/2, backSize.height/2));
     back->addChild(menu);
     
-    auto rot = RotateBy::create(5, 360);
-    auto fe = RepeatForever::create( rot);
-    item->runAction( fe );
+    item->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(5, 360)) );
     
-    auto move = MoveBy::create(3, Vec2(200,0));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr( move), to_action_ptr( move_back) );
-    auto fe2 = RepeatForever::create(seq);
-    back->runAction(fe2);
+    auto move = std::make_unique<MoveBy>(3, Vec2(200,0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move( move), std::move( move_back) );
+    auto fe2 = std::make_unique<RepeatForever>( std::move(seq) );
+    back->runAction( std::move( fe2));
 }
 
 std::string NodeToWorld::subtitle() const
@@ -550,18 +584,16 @@ NodeToWorld3D::NodeToWorld3D()
     menu->setPosition( Vec2(backSize.width/2, backSize.height/2));
     back->addChild(menu);
 
-    auto rot = RotateBy::create(5, 360);
-    auto fe = RepeatForever::create( rot);
-    item->runAction( fe );
+    item->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(5, 360)));
 
-    auto move = MoveBy::create(3, Vec2(200,0));
-    auto move_back = move->reverse();
-    auto seq = Sequence::create( to_action_ptr( move), to_action_ptr( move_back) );
-    auto fe2 = RepeatForever::create(seq);
-    back->runAction(fe2);
+    auto move = std::make_unique<MoveBy>(3, Vec2(200,0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
+    auto seq = std::make_unique<Sequence>( std::move( move), std::move( move_back) );
+    auto fe2 = std::make_unique<RepeatForever>( std::move(seq) );
+    back->runAction( std::move(fe2) );
 
-    auto orbit = OrbitCamera::create(10, 0, 1, 0, 360, 0, 90);
-    parent->runAction(orbit);
+    auto orbit = std::make_unique<OrbitCamera>(10, 0, 1, 0, 360, 0, 90);
+    parent->runAction( std::move(orbit) );
 }
 
 std::string NodeToWorld3D::subtitle() const
@@ -600,7 +632,6 @@ CameraOrbitTest::CameraOrbitTest()
     p->setOpacity( 128 );
     
     Sprite* sprite;
-    OrbitCamera* orbit;
     Size ss;
 
     // LEFT
@@ -609,16 +640,14 @@ CameraOrbitTest::CameraOrbitTest()
     sprite->setScale(0.5f);
     p->addChild(sprite, 0);        
     sprite->setPosition( Vec2(s.width/4*1, s.height/2) );
-    orbit = OrbitCamera::create(2, 1, 0, 0, 360, 0, 0);
-    sprite->runAction( RepeatForever::create( orbit ) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(2, 1, 0, 0, 360, 0, 0) ) );
     
     // CENTER
     sprite = Sprite::create(s_pathGrossini);
     sprite->setScale( 1.0f );
     p->addChild(sprite, 0);        
     sprite->setPosition( Vec2(s.width/4*2, s.height/2) );
-    orbit = OrbitCamera::create(2, 1, 0, 0, 360, 45, 0);
-    sprite->runAction( RepeatForever::create( orbit ) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(2, 1, 0, 0, 360, 45, 0) ) );
     
     
     // RIGHT
@@ -627,13 +656,10 @@ CameraOrbitTest::CameraOrbitTest()
     p->addChild(sprite, 0);        
     sprite->setPosition( Vec2(s.width/4*3, s.height/2) );
     ss = sprite->getContentSize();        
-    orbit = OrbitCamera::create(2, 1, 0, 0, 360, 90, -45),
-    sprite->runAction( RepeatForever::create(orbit) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(2, 1, 0, 0, 360, 90, -45) ) );
             
-    
     // PARENT
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 90);
-    p->runAction( RepeatForever::create( orbit ) );
+    p->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 90) ) );
 
     setScale( 1 );
 }
@@ -688,7 +714,7 @@ CameraZoomTest::CameraZoomTest()
     sprite->setPosition(Vec2(s.width/4*3, s.height/2));
 
     _z = 0;
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 
 void CameraZoomTest::update(float dt)
@@ -724,7 +750,6 @@ CameraCenterTest::CameraCenterTest()
     auto s = Director::getInstance()->getWinSize();
             
     Sprite *sprite;
-    OrbitCamera *orbit;
     
     // LEFT-TOP
     sprite = Sprite::create("Images/white-512x512.png");
@@ -732,11 +757,7 @@ CameraCenterTest::CameraCenterTest()
     sprite->setPosition(Vec2(s.width/5*1, s.height/5*1));
     sprite->setColor(Color3B::RED);
     sprite->setTextureRect(Rect(0, 0, 120, 50));
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 0);
-    sprite->runAction(RepeatForever::create( orbit ));
-//        [sprite setAnchorPoint: Vec2(0,1));
-
-    
+    sprite->runAction(std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0) ));
     
     // LEFT-BOTTOM
     sprite = Sprite::create("Images/white-512x512.png");
@@ -744,9 +765,7 @@ CameraCenterTest::CameraCenterTest()
     sprite->setPosition(Vec2(s.width/5*1, s.height/5*4));
     sprite->setColor(Color3B::BLUE);
     sprite->setTextureRect(Rect(0, 0, 120, 50));
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 0);
-    sprite->runAction(RepeatForever::create( orbit ));
-
+    sprite->runAction(std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0) ));
 
     // RIGHT-TOP
     sprite = Sprite::create("Images/white-512x512.png");
@@ -754,18 +773,15 @@ CameraCenterTest::CameraCenterTest()
     sprite->setPosition(Vec2(s.width/5*4, s.height/5*1));
     sprite->setColor(Color3B::YELLOW);
     sprite->setTextureRect(Rect(0, 0, 120, 50));
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 0);
-    sprite->runAction(RepeatForever::create( orbit) );
+    sprite->runAction(std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0)));
 
-    
     // RIGHT-BOTTOM
     sprite = Sprite::create("Images/white-512x512.png");
     addChild( sprite, 0, 40);
     sprite->setPosition(Vec2(s.width/5*4, s.height/5*4));
     sprite->setColor(Color3B::GREEN);
     sprite->setTextureRect(Rect(0, 0, 120, 50));
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 0);
-    sprite->runAction( RepeatForever::create( orbit ) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0)));
 
     // CENTER
     sprite = Sprite::create("Images/white-512x512.png");
@@ -773,8 +789,7 @@ CameraCenterTest::CameraCenterTest()
     sprite->setPosition(Vec2(s.width/2, s.height/2));
     sprite->setColor(Color3B::WHITE);
     sprite->setTextureRect(Rect(0, 0, 120, 50));
-    orbit = OrbitCamera::create(10, 1, 0, 0, 360, 0, 0);
-    sprite->runAction(RepeatForever::create( orbit ) );
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0)));
 }
 
 std::string CameraCenterTest::title() const
@@ -800,8 +815,8 @@ ConvertToNode::ConvertToNode()
     
     auto s = Director::getInstance()->getWinSize();
 
-    auto rotate = RotateBy::create(10, 360);
-    auto action = RepeatForever::create(rotate);
+    auto action = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(10, 360));
+
     for(int i = 0; i < 3; i++)
     {
         auto sprite = Sprite::create("Images/grossini.png");
@@ -827,7 +842,7 @@ ConvertToNode::ConvertToNode()
 
         point->setPosition(sprite->getPosition());
 
-        sprite->runAction( action->clone() );
+        sprite->runAction( std::unique_ptr<RepeatForever>( action->clone()));
         addChild(sprite, i);
     }
 }
@@ -935,7 +950,7 @@ NodeGlobalZValueTest::NodeGlobalZValueTest()
         sprite->setPosition(s.width/2 - w*0.7*(i-5), s.height/2);
     }
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 
 void NodeGlobalZValueTest::update(float dt)
@@ -1057,9 +1072,11 @@ CameraTest1::CameraTest1()
     _sprite2->setPosition( Vec2(3*s.width/4, s.height/2) );
     _sprite2->setScale(0.5);
 
-    auto camera = OrbitCamera::create(10, 0, 1, 0, 360, 0, 0);
-    _sprite1->runAction( camera );
-    _sprite2->runAction( camera->clone() );
+    auto camera1 = std::make_unique<OrbitCamera>(10, 0, 1, 0, 360, 0, 0);
+    auto camera2 = std::unique_ptr<OrbitCamera>(camera1->clone());
+
+    _sprite1->runAction( std::move(camera1) );
+    _sprite2->runAction( std::move(camera2) );
 }
 
 std::string CameraTest1::title() const
@@ -1181,13 +1198,10 @@ NodeNormalizedPositionTest2::NodeNormalizedPositionTest2()
         sprites[i]->setPositionNormalized(positions[i]);
         addChild(sprites[i]);
     }
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 
     setContentSize( Director::getInstance()->getWinSize());
     _copyContentSize = getContentSize();
-
-//    setAnchorPoint(Vec2(0.5,0.5));
-//    setPositionNormalized(Vec2(0.5,0.5));
 }
 
 std::string NodeNormalizedPositionTest2::title() const
@@ -1230,7 +1244,7 @@ NodeNormalizedPositionBugTest::NodeNormalizedPositionBugTest()
     sprite->setPositionNormalized(position);
     addChild(sprite);
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, 0).paused(isPaused()));
 }
 
 std::string NodeNormalizedPositionBugTest::title() const
@@ -1266,7 +1280,12 @@ void NodeNameTest::onEnter()
 {
     TestCocosNodeDemo::onEnter();
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeNameTest::test, this), this, 0, 0, 0.05f, !_running, "test_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeNameTest::test, 0)
+            .delay(0.05f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void NodeNameTest::onExit()
@@ -1462,26 +1481,28 @@ void Issue16100Test::onEnter()
     // create user camera
     auto s = Director::getInstance()->getWinSize();
 
-    auto delay = DelayTime::create(0.1f);
-    auto f = CallFunc::create([this, s]()
+    auto f = [this, s]()
     {
         auto camera = Camera::createOrthographic(s.width * 2, s.height * 2, -1024, 1024);
         camera->setCameraFlag(CameraFlag::USER1);
         addChild(camera);
-    });
-    this->runAction(Sequence::createWithTwoActions(delay, f));
+    };
+    this->runAction(std::make_unique<Sequence>(std::make_unique<DelayTime>(0.1f), std::make_unique<CallFunc>(f)));
 
     // grossini using default camera
     auto sprite = Sprite::create("Images/grossini.png");
     this->addChild(sprite);
 
     sprite->setPosition(-200,s.height/3);
-    auto moveby = MoveBy::create(2, Vec2(400,0));
-    auto movebyback = moveby->reverse();
-    auto seq = Sequence::create( to_action_ptr(moveby), to_action_ptr( movebyback) );
-    auto forever = RepeatForever::create(seq);
+    auto moveby = std::make_unique<MoveBy>(2, Vec2(400,0));
+    auto movebyback = std::unique_ptr<MoveBy>(moveby->reverse());
 
-    sprite->runAction(forever);
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(moveby),
+                std::move(movebyback)
+            )));
 
     sprite->setCameraMask((int)CameraFlag::DEFAULT);
 
@@ -1491,12 +1512,16 @@ void Issue16100Test::onEnter()
     this->addChild(sister);
 
     sister->setPosition(-200,s.height*2/3);
-    auto moveby1 = MoveBy::create(2, Vec2(400,0));
-    auto movebyback1 = moveby1->reverse();
-    auto seq1 = Sequence::create( to_action_ptr(moveby1), to_action_ptr( movebyback1) );
-    auto forever1 = RepeatForever::create(seq1);
 
-    sister->runAction(forever1);
+    auto moveby1 = std::make_unique<MoveBy>(2, Vec2(400,0));
+    auto movebyback1 = std::unique_ptr<MoveBy>(moveby1->reverse());
+    sister->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(moveby1),
+                std::move(movebyback1)
+            )));
+
     sister->setCameraMask((int)CameraFlag::USER1);
 }
 

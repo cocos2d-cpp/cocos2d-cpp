@@ -58,7 +58,6 @@ public:
 class TextFieldTTFActionTest : public KeyboardNotificationLayer, public cocos2d::TextFieldDelegate
 {
     cocos2d::TextFieldTTF*    _textField;
-    cocos2d::Action*          _textFieldAction;
     bool                _action;
     size_t              _charLimit;       // the textfield max char limit
 

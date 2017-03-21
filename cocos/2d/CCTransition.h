@@ -3,8 +3,7 @@ Copyright (c) 2009-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,27 +43,6 @@ namespace cocos2d {
 class ActionInterval;
 class Node;
 class NodeGrid;
-
-/** @class TransitionEaseScene
- * @brief TransitionEaseScene can ease the actions of the scene protocol.
-@since v0.8.2
-@js NA
-*/
-class CC_DLL TransitionEaseScene// : public Ref
-{
-public:
-    /** Constructor.
-     */
-    virtual ~TransitionEaseScene() {}
-
-    /** Returns the Ease action that will be performed on a linear action.
-    @since v0.8.2
-     *
-     * @param action A given interval action.
-     * @return The Ease action that will be performed on a linear action.
-     */
-    virtual ActionInterval * easeActionWithAction(ActionInterval * action) = 0;
-};
 
 /** @class TransitionScene
  * @brief Base class for Transition scenes.
@@ -111,7 +89,11 @@ public:
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void cleanup() override;
-    
+
+    /** Returns the ease action that will be performed on a linear action.
+    */
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) { return action; } // = 0;
+
 protected:
     TransitionScene();
     virtual ~TransitionScene();
@@ -228,7 +210,7 @@ private:
  * @brief TransitionMoveInL:
 Move in from to the left the incoming scene.
 */
-class CC_DLL TransitionMoveInL : public TransitionScene, public TransitionEaseScene
+class CC_DLL TransitionMoveInL : public TransitionScene
 {
 public:
     /** Creates a transition with duration and incoming scene.
@@ -243,9 +225,9 @@ public:
      * 
      * @return The action that will be performed.
      */
-    virtual ActionInterval* action(void);
+    virtual std::unique_ptr<ActionInterval> action();
 
-    virtual ActionInterval* easeActionWithAction(ActionInterval * action) override;
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
 
     //
     // Overrides
@@ -350,7 +332,7 @@ private:
  * @brief TransitionSlideInL:
 Slide in the incoming scene from the left border.
 */
-class CC_DLL TransitionSlideInL : public TransitionScene, public TransitionEaseScene
+class CC_DLL TransitionSlideInL : public TransitionScene
 {
 public:
     /** Creates a transition with duration and incoming scene.
@@ -361,13 +343,13 @@ public:
      */
     static TransitionSlideInL* create(float t, Scene* scene);
 
-    virtual ActionInterval* easeActionWithAction(ActionInterval * action) override;
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
 
     /** Returns the action that will be performed by the incoming and outgoing scene.
      *
      * @return The action that will be performed by the incoming and outgoing scene.
      */
-    virtual ActionInterval* action(void);
+    virtual std::unique_ptr<ActionInterval> action();
 
     //
     // Overrides
@@ -405,7 +387,7 @@ public:
     static TransitionSlideInR* create(float t, Scene* scene);
 
     /** Returns the action that will be performed by the incoming and outgoing scene. */
-    virtual ActionInterval* action(void) override;
+    virtual std::unique_ptr<ActionInterval> action() override;
 
 protected:
     TransitionSlideInR();
@@ -438,7 +420,7 @@ public:
     static TransitionSlideInB* create(float t, Scene* scene);
 
     /** returns the action that will be performed by the incoming and outgoing scene */
-    virtual ActionInterval* action(void) override;
+    virtual std::unique_ptr<ActionInterval> action() override;
 
 protected:
     TransitionSlideInB();
@@ -471,7 +453,7 @@ public:
     static TransitionSlideInT* create(float t, Scene* scene);
 
     /** returns the action that will be performed by the incoming and outgoing scene */
-    virtual ActionInterval* action(void) override;
+    virtual std::unique_ptr<ActionInterval> action() override;
 
 protected:
     TransitionSlideInT();
@@ -491,7 +473,7 @@ private:
 /** @class TransitionShrinkGrow
 * @brief Shrink the outgoing scene while grow the incoming scene
 */
-class CC_DLL TransitionShrinkGrow : public TransitionScene , public TransitionEaseScene
+class CC_DLL TransitionShrinkGrow : public TransitionScene
 {
 public:
     /** Creates a transition with duration and incoming scene.
@@ -509,7 +491,7 @@ public:
      * @lua NA
      */
     virtual void onEnter() override;
-    virtual ActionInterval* easeActionWithAction(ActionInterval * action) override;
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
 
 protected:
     TransitionShrinkGrow();
@@ -861,7 +843,7 @@ private:
  * @brief TransitionTurnOffTiles:
 Turn off the tiles of the outgoing scene in random order
 */
-class CC_DLL TransitionTurnOffTiles : public TransitionScene ,public TransitionEaseScene
+class CC_DLL TransitionTurnOffTiles : public TransitionScene
 {
 public :
     /** Creates a transition with duration and incoming scene.
@@ -883,7 +865,7 @@ public :
      * @js NA
      */
     virtual void onExit() override;
-	virtual ActionInterval * easeActionWithAction(ActionInterval * action) override;
+	virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
 	/**
 	* @js NA
 	*/
@@ -906,7 +888,7 @@ private:
  * @brief TransitionSplitCols:
 The odd columns goes upwards while the even columns goes downwards.
 */
-class CC_DLL TransitionSplitCols : public TransitionScene , public TransitionEaseScene
+class CC_DLL TransitionSplitCols : public TransitionScene
 {
 public:
     /** Creates a transition with duration and incoming scene.
@@ -921,7 +903,7 @@ public:
      *
      * @return The action that will be performed.
      */
-    virtual ActionInterval* action();
+    virtual std::unique_ptr<ActionInterval> action();
 
     //
     // Overrides
@@ -930,7 +912,7 @@ public:
      * @lua NA
      */
     virtual void onEnter() override;
-    virtual ActionInterval * easeActionWithAction(ActionInterval * action) override;
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
     virtual void onExit() override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
@@ -964,7 +946,7 @@ public:
     //
     // Overrides
     //
-    virtual ActionInterval* action(void) override;
+    virtual std::unique_ptr<ActionInterval> action() override;
 
 protected:
     TransitionSplitRows();
@@ -979,7 +961,7 @@ private:
  * @brief TransitionFadeTR:
 Fade the tiles of the outgoing scene from the left-bottom corner the to top-right corner.
 */
-class CC_DLL TransitionFadeTR : public TransitionScene , public TransitionEaseScene
+class CC_DLL TransitionFadeTR : public TransitionScene
 {
 public:
     /** Creates a transition with duration and incoming scene.
@@ -995,7 +977,7 @@ public:
      * @param size A given size.
      * @return The action that will be performed.
      */
-    virtual ActionInterval* actionWithSize(const Size& size);
+    virtual std::unique_ptr<ActionInterval> actionWithSize(const Size& size);
 
     //
     // Overrides
@@ -1005,7 +987,7 @@ public:
      * @lua NA
      */
     virtual void onEnter() override;
-    virtual ActionInterval* easeActionWithAction(ActionInterval * action) override;
+    virtual std::unique_ptr<ActionInterval> easeActionWithAction(std::unique_ptr<ActionInterval> action) override;
     virtual void onExit() override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
@@ -1041,7 +1023,7 @@ public:
     //
     // Overrides
     //
-    virtual ActionInterval* actionWithSize(const Size& size) override;
+    virtual std::unique_ptr<ActionInterval> actionWithSize(const Size& size) override;
 
 protected:
     TransitionFadeBL();
@@ -1070,7 +1052,7 @@ public:
     //
     // Overrides
     //
-    virtual ActionInterval* actionWithSize(const Size& size) override;
+    virtual std::unique_ptr<ActionInterval> actionWithSize(const Size& size) override;
 
 protected:
     TransitionFadeUp();
@@ -1099,7 +1081,7 @@ public:
     //
     // Overrides
     //
-    virtual ActionInterval* actionWithSize(const Size& size) override;
+    virtual std::unique_ptr<ActionInterval> actionWithSize(const Size& size) override;
 
 protected:
     TransitionFadeDown();

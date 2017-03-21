@@ -2,8 +2,7 @@
 Copyright (c) 2009      Sindesso Pty Ltd http://www.sindesso.com/
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -111,10 +110,9 @@ void TransitionPageTurn::onEnter()
         y=16;
     }
 
-    ActionInterval *action  = this->actionWithSize(Size(x,y));
-
     NodeGrid* grid;
-    std::vector<action_ptr<FiniteTimeAction>> sequence_actions;
+
+    std::vector<std::unique_ptr<FiniteTimeAction>> sequence_actions;
 
     if (! _back )
     {
@@ -123,19 +121,19 @@ void TransitionPageTurn::onEnter()
     else
     {
         grid = _inSceneProxy;
+        
         grid->setVisible(false);
+
         sequence_actions.push_back(
-            to_action_ptr<FiniteTimeAction>(Show::create())
+            std::make_unique<Show>()
         );
     }
 
-    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(action) );
-    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(
-            CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this))
-    ));
-    sequence_actions.push_back( to_action_ptr<FiniteTimeAction>(StopGrid::create()) );
+    sequence_actions.push_back( this->actionWithSize( Size(x, y)));
+    sequence_actions.push_back( std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish, this)));
+    sequence_actions.push_back( std::make_unique<StopGrid>());
 
-    grid->runAction( Sequence::create( std::move( sequence_actions)));
+    grid->runAction( std::make_unique<Sequence>( std::move( sequence_actions)));
 }
 
 void TransitionPageTurn::onExit()
@@ -148,20 +146,18 @@ void TransitionPageTurn::onExit()
     TransitionScene::onExit();
 }
 
-ActionInterval* TransitionPageTurn:: actionWithSize(const Size& vector)
+std::unique_ptr<ActionInterval> TransitionPageTurn::actionWithSize(const Size& vector)
 {
     if (_back)
     {
-        // Get hold of the PageTurn3DAction
-        return ReverseTime::create
+        return std::make_unique<ReverseTime>
         (
-            PageTurn3D::create(_duration, vector)
+            std::make_unique<PageTurn3D>(_duration, vector)
         );
     }
     else
     {
-        // Get hold of the PageTurn3DAction
-        return PageTurn3D::create(_duration, vector);
+        return std::make_unique<PageTurn3D>(_duration, vector);
     }
 }
 

@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -77,24 +76,22 @@ BillBoardRotationTest::BillBoardRotationTest()
     lbl->setString("+100");
     bill->addChild(lbl);
     
-    auto r = RotateBy::create(10, Vec3(0,360,0));
-    auto rp = RepeatForever::create(r);
-    root->runAction(rp);
+    auto r = std::make_unique<RotateBy>(10, Vec3(0,360,0));
+    auto rp = std::make_unique<RepeatForever>(std::move(r));
+    root->runAction(std::move(rp));
     
-    auto jump = JumpBy::create(1, Vec2(0, 0), 30, 1);
-    auto scale = ScaleBy::create(2.f, 2.f, 2.f, 0.1f);
-    auto seq = Sequence::create( to_action_ptr(jump), to_action_ptr(scale) );
-    
-    auto rot = RotateBy::create(2, Vec3(-90, 0, 0));
-    auto act = Spawn::create(seq, rot,NULL);
-    
-    auto scale2 = scale->reverse();
-    auto rot2 = rot->reverse();
-    auto act2 = Spawn::create(scale2, rot2, NULL);
-    
-    auto seq2 = Sequence::create( to_action_ptr(act), to_action_ptr( act2) );
-    auto repeat = RepeatForever::create(seq2);
-    model->runAction(repeat);
+    auto jump = std::make_unique<JumpBy>(1, Vec2(0, 0), 30, 1);
+    auto scale = std::make_unique<ScaleBy>(2.f, 2.f, 2.f, 0.1f);
+    auto scale2 = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(jump), std::move(scale) );
+    auto rot = std::make_unique<RotateBy>(2, Vec3(-90, 0, 0));
+    auto rot2 = std::unique_ptr<RotateBy>(rot->reverse());
+    auto act = std::make_unique<Spawn>(std::move(seq), std::move(rot));
+    auto act2 = std::make_unique<Spawn>(std::move(scale2), std::move(rot2));
+    auto seq2 = std::make_unique<Sequence>( std::move(act), std::move( act2) );
+    auto repeat = std::make_unique<RepeatForever>( std::move( seq2));
+
+    model->runAction( std::move( repeat));
 }
 
 BillBoardRotationTest::~BillBoardRotationTest()
@@ -148,7 +145,7 @@ BillBoardTest::BillBoardTest()
         _billboards.push_back(billboard);
         layer->addChild(billboard);
         _layerBillBorad->addChild(layer);
-        layer->runAction( RepeatForever::create( RotateBy::create( CCRANDOM_0_1() * 10, Vec3(0.0f, 45.0f, 0.0f) ) ) );
+        layer->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>( CCRANDOM_0_1() * 10, Vec3(0.0f, 45.0f, 0.0f) ) ) );
     }
 
     {
@@ -165,7 +162,7 @@ BillBoardTest::BillBoardTest()
         auto sprite3d = Sprite3D::create("Sprite3DTest/orc.c3t");
         sprite3d->setScale(2.0f);
         sprite3d->addChild(billboard);
-        sprite3d->runAction( RepeatForever::create( RotateBy::create( 10.0f, Vec3(0.0f, 360.0f, 0.0f) ) ) );
+        sprite3d->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>( 10.0f, Vec3(0.0f, 360.0f, 0.0f) ) ) );
         _layerBillBorad->addChild(sprite3d);
     }
 
@@ -272,8 +269,8 @@ void BillBoardTest::addNewAniBillBoradWithCoords(Vec3 p)
         animation->setDelayPerUnit(2.8f / 14.0f);
         animation->setRestoreOriginalFrame(true);
 
-        auto action = Animate::create( std::move( animation));
-        billboardAni->runAction(RepeatForever::create(action));
+        auto action = std::make_unique<Animate>( std::move( animation));
+        billboardAni->runAction(std::make_unique<RepeatForever>( std::move( action)));
         billboardAni->setOpacity(CCRANDOM_0_1() * 128 + 128);
         _billboards.push_back(billboardAni);
     }

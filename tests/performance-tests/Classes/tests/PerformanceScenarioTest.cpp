@@ -6,6 +6,15 @@ using namespace cocos2d;
 #define DELAY_TIME              4
 #define STAT_TIME               3
 
+namespace {
+
+enum JobId : TimedJob::id_type {
+    beginStat_JOBID = 0,
+    endStat_JOBID
+};
+
+}
+
 PerformceScenarioTests::PerformceScenarioTests()
 {
     ADD_TEST_CASE(ScenarioTest);
@@ -211,26 +220,28 @@ void ScenarioTest::addNewSprites(int num)
         float randomy = CCRANDOM_0_1();
         sprite->setPosition(origin + Vec2(randomx * s.width, randomy * s.height));
         
-        ActionInterval* action;
+        std::unique_ptr<ActionInterval> action;
         float random = CCRANDOM_0_1();
         
         if( random < 0.20 )
-            action = ScaleBy::create(3, 2);
+            action.reset(new ScaleBy(3, 2));
         else if(random < 0.40)
-            action = RotateBy::create(3, 360);
+            action.reset(new RotateBy(3, 360));
         else if( random < 0.60)
-            action = Blink::create(1, 3);
+            action.reset(new Blink(1, 3));
         else if( random < 0.8 )
-            action = TintBy::create(2, 0, -255, -255);
+            action.reset(new TintBy(2, 0, -255, -255));
         else
-            action = FadeOut::create(2);
-        auto action_back = action->reverse();
-        auto seq = Sequence::create(
-            to_action_ptr(action),
-            to_action_ptr(action_back)
+            action.reset(new FadeOut(2));
+
+        auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+        auto seq = std::make_unique<Sequence>(
+            std::move(action),
+            std::move(action_back)
         );
         
-        sprite->runAction( RepeatForever::create(seq) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
 
         _spriteArray.push_back( std::move( sprite));
     }
@@ -327,7 +338,7 @@ void ScenarioTest::onEnter()
                                               genStrVector("SpriteCount", "ParticleCount", "ParticleSystemCount", nullptr),
                                               genStrVector("Avg", "Min", "Max", nullptr));
         doAutoTest();
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     }
 }
 
@@ -354,13 +365,13 @@ void ScenarioTest::update(float dt)
 
 void ScenarioTest::beginStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, beginStat_JOBID);
     isStating = true;
 }
 
 void ScenarioTest::endStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, endStat_JOBID);
     isStating = false;
     
     // record test data
@@ -409,8 +420,16 @@ void ScenarioTest::doAutoTest()
     addParticleSystem(caseInfo.particleSystemCount);
     addParticles(caseInfo.particleCount);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ScenarioTest::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ScenarioTest::beginStat, beginStat_JOBID)
+            .delay(DELAY_TIME)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ScenarioTest::endStat, endStat_JOBID)
+            .delay(DELAY_TIME + STAT_TIME)
+            .paused(isPaused())
+    );
 }
 
 std::string ScenarioTest::title() const

@@ -1,8 +1,10 @@
 /****************************************************************************
+Copyright (c) 2008-2010 Ricardo Quesada
+Copyright (c) 2010-2012 cocos2d-x.org
+Copyright (c) 2011      Zynga Inc.
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -25,7 +27,7 @@ THE SOFTWARE.
 #ifndef __ACTIONS_CCACTION_H__
 #define __ACTIONS_CCACTION_H__
 
-#include "base/CCRef.h"
+#include "2d/CCNode.h"
 #include "math/CCGeometry.h"
 
 namespace cocos2d {
@@ -36,15 +38,10 @@ enum {
     kActionUpdate
 };
 
-/**
- * @addtogroup actions
- * @{
- */
-
 /** 
  * @brief Base class for Action objects.
  */
-class CC_DLL Action : public Ref
+class CC_DLL Action
 {
 public:
 
@@ -107,7 +104,7 @@ public:
 
     void stop();
 
-    bool hasStopped() const { return _target == nullptr; }
+    bool hasStopped() const { return _hasStopped; }
 
 protected:
 
@@ -116,7 +113,6 @@ protected:
 public:
 
     Node* getTarget() const { return _target; }
-    void  setTarget(Node *target) { _target = target; }
 
     tag_t getTag() const    { return _tag; }
     void  setTag(tag_t tag) { _tag = tag; }
@@ -132,38 +128,12 @@ private:
     Node*   _target;
     tag_t   _tag;
     flags_t _flags;
+    bool    _hasStopped;
 
 private:
     Action(const Action &) = delete;
     const Action & operator=(const Action &) = delete;
 };
-
-template<typename T>
-struct action_ptr_deleter {
-public:
-    void operator()(T * p) const
-    {
-        static_assert(std::is_base_of<Action, T>::value,
-                      "action_ptr is for Action-derived types only");
-        p->release();
-    }
-};
-
-template<typename T>
-using action_ptr = std::unique_ptr<T, action_ptr_deleter<T>>;
-
-template<typename T>
-action_ptr<T> to_action_ptr(T * ptr)
-{
-    static_assert(std::is_base_of<Action, T>::value,
-                  "action_ptr is for Action-derived types only");
-    
-    if (ptr)
-    {
-        ptr->retain();
-    }
-    return action_ptr<T>(ptr);
-}
 
 /** @class FiniteTimeAction
  * @brief
@@ -176,6 +146,8 @@ action_ptr<T> to_action_ptr(T * ptr)
 class CC_DLL FiniteTimeAction : public Action
 {
 public:
+    virtual ~FiniteTimeAction(){}
+
     /** Get duration in seconds of the action. 
      *
      * @return The duration in seconds of the action.
@@ -187,14 +159,7 @@ public:
      */
     void setDuration(float duration) { _duration = duration; }
 
-    //
-    // Overrides
-    //
-    virtual FiniteTimeAction* reverse() const override
-    {
-        CC_ASSERT(0);
-        return nullptr;
-    }
+    virtual FiniteTimeAction* reverse() const override = 0;
 
     virtual FiniteTimeAction* clone() const override = 0;
 
@@ -202,7 +167,6 @@ protected:
     FiniteTimeAction()
     : _duration(0)
     {}
-    virtual ~FiniteTimeAction(){}
 
 protected:
     //! Duration in seconds.
@@ -215,27 +179,17 @@ private:
 class ActionInterval;
 class RepeatForever;
 
-/** @class Follow
- * @brief Follow is an action that "follows" a node.
- * Eg:
- * @code
- * layer->runAction(Follow::create(hero));
- * @endcode
- * Instead of using Camera as a "follower", use this action instead.
- * @since v0.99.2
- */
+// Follow is an action that "follows" a node.
+// Instead of using Camera as a "follower", use this action instead.
+// For example:
+// layer->runAction(std::make_unique<Follow>(hero));
+
 class CC_DLL Follow final : public Action
 {
 public:
-    /**
-     * Creates the action with a set boundary or with no boundary.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-    */
-    
-    static Follow* create(Node *followedNode, const Rect& rect = Rect::ZERO);
+    Follow(Node *followedNode, const Rect& boundary = Rect::ZERO)
+        : Follow(followedNode, 0.0f, 0.0f, boundary)
+        {}
     
     /**
      * Creates the action with a set boundary or with no boundary with offsets.
@@ -252,7 +206,7 @@ public:
      *   If both xOffset and yOffset are set to zero,then the node will be horizontally and vertically centered followed.
      */
 
-    static Follow* createWithOffset(Node* followedNode,float xOffset,float yOffset,const Rect& rect = Rect::ZERO);
+    Follow(Node* followedNode,float xOffset,float yOffset,const Rect& boundary = Rect::ZERO);
     
     /** Return boundarySet.
      *
@@ -281,31 +235,6 @@ public:
 
 protected:
 
-    Follow()
-    : _followedNode(nullptr)
-    , _boundarySet(false)
-    , _boundaryFullyCovered(false)
-    , _leftBoundary(0.0)
-    , _rightBoundary(0.0)
-    , _topBoundary(0.0)
-    , _bottomBoundary(0.0)
-    , _offsetX(0.0)
-    , _offsetY(0.0)
-    , _worldRect(Rect::ZERO)
-    {}
-
-    virtual ~Follow();
-    
-    /**
-     * Initializes the action with a set boundary or with no boundary.
-     *
-     * @param followedNode  The node to be followed.
-     * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
-     *              with no boundary.
-    */
-    bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
-    
-    
     /**
      * Initializes the action with a set boundary or with no boundary with offsets.
      *
@@ -325,7 +254,7 @@ protected:
 
 protected:
     /** Node to follow. */
-    Node *_followedNode;
+    node_ptr<Node> _followedNode;
 
     /** Whether camera should be limited to certain area. */
     bool _boundarySet;
@@ -353,9 +282,6 @@ private:
     Follow(const Follow &) = delete;
     const Follow & operator=(const Follow &) = delete;
 };
-
-// end of actions group
-/// @}
 
 } // namespace cocos2d
 

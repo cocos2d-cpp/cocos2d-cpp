@@ -3,9 +3,8 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
- http://www.cocos2d-x.org
-
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -31,9 +30,8 @@
 
 namespace cocos2d {
 
-//
 // InstantAction
-//
+
 bool ActionInstant::isDone() const
 {
     return true;
@@ -41,34 +39,14 @@ bool ActionInstant::isDone() const
 
 void ActionInstant::update(float /*dt*/)
 {
-    float updateDt = 1;
-    step(updateDt);
-}
-
-void ActionInstant::step(float /*time*/)
-{
-    // nothing
+    step(1.0f);
 }
 
 void ActionInstant::at_stop()
 {
 }
 
-//
 // Show
-//
-
-Show* Show::create() 
-{
-    Show* ret = new (std::nothrow) Show();
-
-    if (ret)
-    {
-        ret->autorelease();
-    }
-
-    return ret;
-}
 
 void Show::step(float /*time*/)
 {
@@ -77,29 +55,15 @@ void Show::step(float /*time*/)
 
 ActionInstant* Show::reverse() const
 {
-    return Hide::create();
+    return new Hide;
 }
 
 Show* Show::clone() const
 {
-    // no copy constructor
-    return Show::create();
+    return new Show;
 }
 
-//
 // Hide
-//
-Hide * Hide::create() 
-{
-    Hide *ret = new (std::nothrow) Hide();
-
-    if (ret)
-    {
-        ret->autorelease();
-    }
-
-    return ret;
-}
 
 void Hide::step(float /*time*/)
 {
@@ -108,29 +72,15 @@ void Hide::step(float /*time*/)
 
 ActionInstant *Hide::reverse() const
 {
-    return Show::create();
+    return new Show;
 }
 
 Hide* Hide::clone() const
 {
-    // no copy constructor
-    return Hide::create();
+    return new Hide;
 }
 
-//
 // ToggleVisibility
-//
-ToggleVisibility * ToggleVisibility::create()
-{
-    ToggleVisibility *ret = new (std::nothrow) ToggleVisibility();
-
-    if (ret)
-    {
-        ret->autorelease();
-    }
-
-    return ret;
-}
 
 void ToggleVisibility::step(float /*time*/)
 {
@@ -139,34 +89,19 @@ void ToggleVisibility::step(float /*time*/)
 
 ToggleVisibility * ToggleVisibility::reverse() const
 {
-    return ToggleVisibility::create();
+    return new ToggleVisibility;
 }
 
 ToggleVisibility * ToggleVisibility::clone() const
 {
-    // no copy constructor
-    return ToggleVisibility::create();
+    return new ToggleVisibility;
 }
 
-//
 // Remove Self
-//
-RemoveSelf * RemoveSelf::create(bool isNeedCleanUp /*= true*/) 
+
+RemoveSelf::RemoveSelf(bool isNeedCleanUp)
+    :_isNeedCleanUp( isNeedCleanUp )
 {
-    RemoveSelf *ret = new (std::nothrow) RemoveSelf();
-
-    if (ret && ret->init(isNeedCleanUp))
-    {
-        ret->autorelease();
-    }
-
-    return ret;
-}
-
-bool RemoveSelf::init(bool isNeedCleanUp)
-{
-    _isNeedCleanUp = isNeedCleanUp;
-    return true;
 }
 
 void RemoveSelf::step(float /*time*/)
@@ -174,78 +109,55 @@ void RemoveSelf::step(float /*time*/)
     getTarget()->removeFromParentAndCleanup(_isNeedCleanUp);
 }
 
-RemoveSelf *RemoveSelf::reverse() const
+RemoveSelf* RemoveSelf::reverse() const
 {
-    return RemoveSelf::create(_isNeedCleanUp);
+    return new RemoveSelf(_isNeedCleanUp);
 }
 
-RemoveSelf * RemoveSelf::clone() const
+RemoveSelf* RemoveSelf::clone() const
 {
-    // no copy constructor
-    return RemoveSelf::create(_isNeedCleanUp);
+    return new RemoveSelf(_isNeedCleanUp);
 }
 
-//
 // FlipX
-//
 
-FlipX *FlipX::create(bool x)
+FlipX::FlipX(bool x)
+    : _flipX(x)
 {
-    FlipX *ret = new (std::nothrow) FlipX();
-
-    if (ret && ret->initWithFlipX(x))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    CC_SAFE_DELETE(ret);
-    return nullptr;
 }
 
-bool FlipX::initWithFlipX(bool x)
+void FlipX::startWithTarget(Node *target)
 {
-    _flipX = x;
-    return true;
+    CC_ASSERT(dynamic_cast<Sprite*>(target));
+    Action::startWithTarget(target);
 }
 
 void FlipX::step(float /*time*/)
 {
-    static_cast<Sprite*>(getTarget())->setFlippedX(_flipX);
+    dynamic_cast<Sprite*>(getTarget())->setFlippedX(_flipX);
 }
 
 FlipX* FlipX::reverse() const
 {
-    return FlipX::create(!_flipX);
+    return new FlipX(!_flipX);
 }
 
 FlipX * FlipX::clone() const
 {
-    // no copy constructor
-    return FlipX::create(_flipX);
+    return new FlipX(_flipX);
 }
-//
+
 // FlipY
-//
 
-FlipY * FlipY::create(bool y)
+FlipY::FlipY(bool y)
+    : _flipY(y)
 {
-    FlipY *ret = new (std::nothrow) FlipY();
-
-    if (ret && ret->initWithFlipY(y))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    CC_SAFE_DELETE(ret);
-    return nullptr;
 }
 
-bool FlipY::initWithFlipY(bool y)
+void FlipY::startWithTarget(Node *target)
 {
-    _flipY = y;
-    return true;
+    CC_ASSERT(dynamic_cast<Sprite*>(target));
+    Action::startWithTarget(target);
 }
 
 void FlipY::step(float /*time*/)
@@ -255,163 +167,79 @@ void FlipY::step(float /*time*/)
 
 FlipY* FlipY::reverse() const
 {
-    return FlipY::create(!_flipY);
+    return new FlipY(!_flipY);
 }
 
 FlipY * FlipY::clone() const
 {
-    // no copy constructor
-    return FlipY::create(_flipY);
+    return new FlipY(_flipY);
 }
 
-//
 // Place
-//
 
-Place* Place::create(const Vec2& pos)
-{
-    Place *ret = new (std::nothrow) Place();
-
-    if (ret && ret->initWithPosition(pos))
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    delete ret;
-    return nullptr;
-}
-
-bool Place::initWithPosition(const Vec2& pos)
-{
-    _position = pos;
-    return true;
-}
-
-Place * Place::clone() const
-{
-    // no copy constructor
-    return Place::create(_position);
-}
-
-Place * Place::reverse() const
-{
-    // no reverse, just clone
-    return this->clone();
-}
+Place::Place(const Vec2& pos)
+    : _position( pos )
+{}
 
 void Place::step(float /*time*/)
 {
     getTarget()->setPosition(_position);
 }
 
-//
+Place* Place::reverse() const
+{
+    return new Place(_position);
+}
+
+Place* Place::clone() const
+{
+    return new Place(_position);
+}
+
 // CallFunc
-//
 
-CallFunc * CallFunc::create(const std::function<void()> &func)
+CallFunc::CallFunc(std::function<void()> func)
+    : _function( func )
 {
-    CallFunc *ret = new (std::nothrow) CallFunc();
-
-    if (ret && ret->initWithFunction(func) )
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    CC_SAFE_DELETE(ret);
-    return nullptr;
-}
-
-bool CallFunc::initWithFunction(const std::function<void()> &func)
-{
-    _function = func;
-    return true;
-}
-
-CallFunc::~CallFunc()
-{
-}
-
-CallFunc * CallFunc::clone() const
-{
-    // no copy constructor
-    auto a = new (std::nothrow) CallFunc();
-
-    if ( _function )
-    {
-        a->initWithFunction(_function);
-    }
-
-    a->autorelease();
-
-    return a;
-}
-
-CallFunc * CallFunc::reverse() const
-{
-    // no reverse here, just return a clone
-    return this->clone();
+    CC_ASSERT(_function);
 }
 
 void CallFunc::step(float /*time*/)
 {
-    this->execute();
+    _function();
 }
 
-void CallFunc::execute()
+CallFunc * CallFunc::reverse() const
 {
-    if (_function)
-    {
-        _function();
-    }
+    return new CallFunc(_function);
 }
 
-//
+CallFunc * CallFunc::clone() const
+{
+    return new CallFunc(_function);
+}
+
 // CallFuncN
-//
 
-CallFuncN * CallFuncN::create(const std::function<void(Node*)> &func)
+CallFuncN::CallFuncN(std::function<void(Node*)> func)
+    : _function(func)
 {
-    auto ret = new (std::nothrow) CallFuncN();
-
-    if (ret && ret->initWithFunction(func) )
-    {
-        ret->autorelease();
-        return ret;
-    }
-
-    CC_SAFE_DELETE(ret);
-    return nullptr;
+    CC_ASSERT(_function);
 }
 
-void CallFuncN::execute()
+void CallFuncN::step(float /*time*/)
 {
-    if (_functionN)
-    {
-        _functionN(getTarget());
-    }
+    _function(getTarget());
 }
 
-bool CallFuncN::initWithFunction(const std::function<void (Node *)> &func)
+CallFuncN * CallFuncN::reverse() const
 {
-    _functionN = func;
-    return true;
+    return new CallFuncN(_function);
 }
 
 CallFuncN * CallFuncN::clone() const
 {
-    // no copy constructor
-    auto a = new (std::nothrow) CallFuncN();
-
-    if (_functionN)
-    {
-        a->initWithFunction(_functionN);
-    }
-
-    a->autorelease();
-
-    return a;
+    return new CallFuncN(_function);
 }
 
 } // namespace cocos2d

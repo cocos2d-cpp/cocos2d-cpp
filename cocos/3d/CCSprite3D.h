@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
-
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
+ 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
  in the Software without restriction, including without limitation the rights
@@ -141,7 +140,7 @@ public:
      *
      * @return An Action pointer
      */
-    virtual Action* runAction(Action* action) override;
+    virtual void runAction(std::unique_ptr<Action>) override;
     
     /**
      * Force to write to depth buffer, this is useful if you want to achieve effects like fading.

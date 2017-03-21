@@ -3,8 +3,7 @@ Copyright (c) 2009      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2012      Ricardo Quesada
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -91,12 +90,13 @@ void TransitionProgress::onEnter()
     ProgressTimer *node = progressTimerNodeWithRenderTexture(texture);
 
     // create the blend action
-    auto layerAction = Sequence::create(
-        to_action_ptr(ProgressFromTo::create(_duration, _from, _to)),
-        to_action_ptr(CallFunc::create(CC_CALLBACK_0(TransitionScene::finish,this)))
-    );
+    auto layerAction = std::make_unique<Sequence>
+        (
+            std::make_unique<ProgressFromTo>(_duration, _from, _to),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
+        );
     // run the blend action
-    node->runAction(layerAction);
+    node->runAction( std::move( layerAction));
 
     // add the layer (which contains our two rendertextures) to the scene
     addChild(node, 2, kSceneRadial);

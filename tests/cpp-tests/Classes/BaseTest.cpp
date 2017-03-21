@@ -351,6 +351,8 @@ void TestSuite::enterPreviousTest()
     Director::getInstance()->replaceScene(scene);
 }
 
+#include <iostream>
+
 //TestCase
 TestCase::TestCase()
 : _priorTestItem(nullptr)
@@ -368,8 +370,7 @@ TestCase::TestCase()
         _runTime += dt;
     };
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, accumulateRuntime)
-            .paused(isPaused())
+        TimedJob(&_runTime, accumulateRuntime, 1).paused(isPaused())
     );
 }
 
@@ -380,6 +381,19 @@ TestCase::~TestCase()
         _testSuite->release();
         _testSuite = nullptr;
     }
+    Director::getInstance()->getScheduler().unscheduleTimedJob(&_runTime, 1);
+}
+
+void TestCase::resume()
+{
+    _director->getScheduler().resumeJobsForTarget(&_runTime);
+    Node::resume();
+}
+
+void TestCase::pause()
+{
+    _director->getScheduler().pauseJobsForTarget(&_runTime);
+    Node::pause();
 }
 
 void TestCase::setTestSuite(TestSuite* testSuite)

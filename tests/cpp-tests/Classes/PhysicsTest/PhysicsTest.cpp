@@ -664,17 +664,27 @@ void PhysicsDemoActions::onEnter()
     sp3->getPhysicsBody()->setTag(DRAG_BODYS_TAG);
     sp4->getPhysicsBody()->setTag(DRAG_BODYS_TAG);
     
-    auto actionTo = JumpTo::create(2, Vec2(100, 100), 50, 4);
-    auto actionBy = JumpBy::create(2, Vec2(300, 0), 50, 4);
-    auto actionUp = JumpBy::create(2, Vec2(0, 50), 80, 4);
-    auto actionByBack = actionBy->reverse();
-    auto rotateBy = RotateBy::create(2, 180);
-    auto rotateByBack = RotateBy::create(2, -180);
+    auto actionTo = std::make_unique<JumpTo>(2, Vec2(100, 100), 50, 4);
+    auto actionBy = std::make_unique<JumpBy>(2, Vec2(300, 0), 50, 4);
+    auto actionUp = std::make_unique<JumpBy>(2, Vec2(0, 50), 80, 4);
+    auto actionByBack = std::unique_ptr<JumpBy>(actionBy->reverse());
+    auto rotateBy = std::make_unique<RotateBy>(2, 180);
+    auto rotateByBack = std::make_unique<RotateBy>(2, -180);
     
-    sp1->runAction(RepeatForever::create(actionUp));
-    sp2->runAction(RepeatForever::create(Sequence::create( to_action_ptr(actionBy), to_action_ptr( actionByBack) )));
-    sp3->runAction(actionTo);
-    sp4->runAction(RepeatForever::create(Sequence::create( to_action_ptr(rotateBy), to_action_ptr( rotateByBack) )));
+    sp1->runAction(std::make_unique<RepeatForever>( std::move(actionUp)));
+    sp2->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(actionBy),
+                std::move(actionByBack)
+            )));
+    sp3->runAction( std::move( actionTo));
+    sp4->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(rotateBy),
+                std::move(rotateByBack)
+            )));
 }
 
 std::string PhysicsDemoActions::title() const
@@ -1812,9 +1822,14 @@ void PhysicsTransformTest::onEnter()
     leftBall->getPhysicsBody()->setTag(DRAG_BODYS_TAG);
     _parentSprite->addChild(leftBall);
     
-    ScaleTo* scaleTo = ScaleTo::create(2.0, 0.5);
-    ScaleTo* scaleBack = ScaleTo::create(2.0, 1.0);
-    _parentSprite->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scaleTo), to_action_ptr( scaleBack) )));
+    auto scaleTo = std::make_unique<ScaleTo>(2.0, 0.5);
+    auto scaleBack = std::make_unique<ScaleTo>(2.0, 1.0);
+    _parentSprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scaleTo),
+                std::move(scaleBack)
+            )));
     
     auto normal = Sprite::create("Images/YellowSquare.png");
     normal->setPosition(300, 100);
@@ -1829,17 +1844,29 @@ void PhysicsTransformTest::onEnter()
     bullet->getPhysicsBody()->setVelocity(Vec2(100, 100));
     _rootLayer->addChild(bullet);
     
-    MoveBy* move = MoveBy::create(2.0f, Vec2(100, 100));
-    MoveBy* move2 = MoveBy::create(2.0f, Vec2(-200, 0));
-    MoveBy* move3 = MoveBy::create(2.0f, Vec2(100, -100));
-    ScaleTo* scale = ScaleTo::create(3.0f, 0.3f);
-    ScaleTo* scale2 = ScaleTo::create(3.0f, 1.0f);
+    auto move = std::make_unique<MoveBy>(2.0f, Vec2(100, 100));
+    auto move2 = std::make_unique<MoveBy>(2.0f, Vec2(-200, 0));
+    auto move3 = std::make_unique<MoveBy>(2.0f, Vec2(100, -100));
+    auto scale = std::make_unique<ScaleTo>(3.0f, 0.3f);
+    auto scale2 = std::make_unique<ScaleTo>(3.0f, 1.0f);
     
-    RotateBy* rotate = RotateBy::create(6.0f, 360);
-    
-    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(move), to_action_ptr(move2), to_action_ptr(move3) )));
-    _rootLayer->runAction(RepeatForever::create(Sequence::create( to_action_ptr(scale), to_action_ptr(scale2) )));
-    _rootLayer->runAction(RepeatForever::create(rotate));
+    _rootLayer->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::move(move2),
+                std::move(move3)
+            )));
+    _rootLayer->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(scale),
+                std::move(scale2)
+            )));
+    _rootLayer->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<RotateBy>(6.0f, 360)
+        ));
 }
 
 std::string PhysicsTransformTest::title() const
@@ -1858,26 +1885,26 @@ void PhysicsIssue9959::onEnter()
     scale9Sprite1->setPosition(origin + visibleSize/2);
     addChild(scale9Sprite1);
     scale9Sprite1->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(MoveBy::create(2.0f, Vec2(100.0f,0.0f))),
-                to_action_ptr(MoveBy::create(2.0f, Vec2(-100.0f, 0.0f)))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<MoveBy>(2.0f, Vec2(100.0f,0.0f)),
+                std::make_unique<MoveBy>(2.0f, Vec2(-100.0f, 0.0f))
             )));
     
     auto scale9Sprite2 = ui::Scale9Sprite::create("Images/ball.png");
     scale9Sprite2->setPosition(origin + visibleSize/2 + Vec2(0.0f, 50.0f));
     addChild(scale9Sprite2);
     scale9Sprite2->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(ScaleTo::create(2.0f, 1.5f)),
-                to_action_ptr(ScaleTo::create(2.0f, 1.0f))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::make_unique<ScaleTo>(2.0f, 1.5f),
+                std::make_unique<ScaleTo>(2.0f, 1.0f)
             )));
     
     auto scale9Sprite3 = ui::Scale9Sprite::create("Images/ball.png");
     scale9Sprite3->setPosition(origin + visibleSize/2 + Vec2(0.0f, -50.0f));
     addChild(scale9Sprite3);
-    scale9Sprite3->runAction(RepeatForever::create(RotateBy::create(2.0f, 360.0f)));
+    scale9Sprite3->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(2.0f, 360.0f)));
 }
 
 std::string PhysicsIssue9959::title() const

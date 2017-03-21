@@ -43,38 +43,57 @@ IntervalTest::IntervalTest()
     _label3 = Label::createWithBMFont("fonts/bitmapFontTest4.fnt", "0");
     _label4 = Label::createWithBMFont("fonts/bitmapFontTest4.fnt", "0");
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
-    Director::getInstance()->getScheduler().schedule([&](float dt){
-        _time1 +=dt;
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 
+    auto step_1 = [&](float dt){
+        _time1 +=dt;
         char str[10] = {0};
         sprintf(str, "%2.1f", _time1);
         _label1->setString( str );
-    }, this, 0, !_running, "step_1");
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, step_1, 1)
+            .paused(isPaused())
+    );
 
-    Director::getInstance()->getScheduler().schedule([&](float dt){
+    auto step_2 = [&](float dt){
         _time2 +=dt;
-
         char str[10] = {0};
         sprintf(str, "%2.1f", _time2);
         _label2->setString( str );
-    }, this, 0.5, !_running, "step_2");
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, step_2, 2)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
 
-    Director::getInstance()->getScheduler().schedule([&](float dt){
+    auto step_3 = [&](float dt){
         _time3 +=dt;
-
         char str[10] = {0};
         sprintf(str, "%2.1f", _time3);
         _label3->setString( str );
-    }, this, 1, !_running, "step_3");
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, step_3, 3)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 
-    Director::getInstance()->getScheduler().schedule([&](float dt){
+    auto step_4 = [&](float dt){
         _time4 +=dt;
-
         char str[10] = {0};
         sprintf(str, "%2.1f", _time4);
         _label4->setString( str );
-    }, this, 2, !_running, "step_4");
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, step_4, 4)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 
     _label0->setPosition(s.width*1/6, s.height/2);
     _label1->setPosition(s.width*2/6, s.height/2);
@@ -92,11 +111,17 @@ IntervalTest::IntervalTest()
     auto sprite = Sprite::create(s_pathGrossini);
     sprite->setPosition(VisibleRect::left().x + 40, VisibleRect::bottom().y + 50);
     
-    auto jump = JumpBy::create(3, Vec2(s.width-80,0), 50, 4);
-    auto jump_back = jump->reverse();
+    auto jump = std::make_unique<JumpBy>(3, Vec2(s.width-80,0), 50, 4);
+    auto jump_back = std::unique_ptr<JumpBy>(jump->reverse());
     
     addChild(sprite);
-    sprite->runAction( RepeatForever::create(Sequence::create( to_action_ptr(jump), to_action_ptr( jump_back) ) ));
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(jump),
+                std::move(jump_back)
+            )));
+
     // pause button
     auto item1 = MenuItemFont::create("Pause", [&](Ref*) {
 		if(Director::getInstance()->isPaused())

@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -215,9 +214,9 @@ void MenuItemLabel::selected()
             _originalScale = this->getScale();
         }
         
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale * 1.2f);
+        auto zoomAction = std::make_unique<ScaleTo>(0.1f, _originalScale * 1.2f);
         zoomAction->setTag(kZoomActionTag);
-        this->runAction(zoomAction);
+        this->runAction( std::move( zoomAction));
     }
 }
 
@@ -228,9 +227,9 @@ void MenuItemLabel::unselected()
     {
         MenuItem::unselected();
         this->stopActionByTag(kZoomActionTag);
-        Action *zoomAction = ScaleTo::create(0.1f, _originalScale);
+        auto zoomAction = std::make_unique<ScaleTo>(0.1f, _originalScale);
         zoomAction->setTag(kZoomActionTag);
-        this->runAction(zoomAction);
+        this->runAction( std::move( zoomAction));
     }
 }
 

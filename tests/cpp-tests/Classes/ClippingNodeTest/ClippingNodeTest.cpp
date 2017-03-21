@@ -123,20 +123,20 @@ void BasicTest::setup()
     clipper->addChild(content);
 }
 
-Action* BasicTest::actionRotate()
+std::unique_ptr<cocos2d::Action> BasicTest::actionRotate()
 {
-    return RepeatForever::create(RotateBy::create(1.0f, 90.0f));
+    return std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1.0f, 90.0f));
 }
 
-Action* BasicTest::actionScale()
+std::unique_ptr<cocos2d::Action> BasicTest::actionScale()
 {
-    auto scale = ScaleBy::create(1.33f, 1.5f);
-    auto scale_reverse = scale->reverse();
+    auto scale = std::make_unique<ScaleBy>(1.33f, 1.5f);
+    auto scale_reverse = std::unique_ptr<ScaleBy>(scale->reverse());
 
-    return RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(scale),
-            to_action_ptr(scale_reverse)
+    return std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(scale),
+            std::move(scale_reverse)
         )
     );
 }
@@ -322,7 +322,7 @@ void NestedTest::setup()
         clipper->setAnchorPoint(Vec2(0.5, 0.5));
         clipper->setPosition(parent->getContentSize().width / 2, parent->getContentSize().height / 2);
         clipper->setAlphaThreshold(0.05f);
-        clipper->runAction(RepeatForever::create(RotateBy::create(i % 3 ? 1.33 : 1.66, i % 2 ? 90 : -90)));
+        clipper->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(i % 3 ? 1.33 : 1.66, i % 2 ? 90 : -90)));
         parent->addChild(clipper);
         
         auto stencil = Sprite::create(s_pathGrossini);
@@ -330,7 +330,7 @@ void NestedTest::setup()
         stencil->setAnchorPoint( Vec2(0.5, 0.5) );
         stencil->setPosition(clipper->getContentSize().width / 2, clipper->getContentSize().height / 2);
         stencil->setVisible(false);
-        stencil->runAction(Sequence::createWithTwoActions(DelayTime::create(i), Show::create()));
+        stencil->runAction(std::make_unique<Sequence>(std::make_unique<DelayTime>(i), std::make_unique<Show>()));
         clipper->setStencil(stencil);
 
         clipper->addChild(stencil);
@@ -373,7 +373,7 @@ void HoleDemo::setup()
     _outerClipper->setContentSize( SizeApplyAffineTransform(target->getContentSize(), tranform));
     _outerClipper->setAnchorPoint( Vec2(0.5, 0.5) );
     _outerClipper->setPosition(Vec2(this->getContentSize()) * 0.5f);
-    _outerClipper->runAction(RepeatForever::create(RotateBy::create(1, 45)));
+    _outerClipper->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1, 45)));
     
     _outerClipper->setStencil( target );
     
@@ -421,8 +421,11 @@ void HoleDemo::pokeHoleAtPoint(Vec2 point)
     
     _holesStencil->addChild(holeStencil);
 
-    _outerClipper->runAction(Sequence::createWithTwoActions(ScaleBy::create(0.05f, 0.95f),
-                                               ScaleTo::create(0.125f, 1)));
+    _outerClipper->runAction(
+        std::make_unique<Sequence>(
+            std::make_unique<ScaleBy>(0.05f, 0.95f),
+            std::make_unique<ScaleTo>(0.125f, 1)
+        ));
 }
 
 
@@ -454,7 +457,7 @@ void ScrollViewDemo::setup()
     clipper->setContentSize(  Size(200, 200) );
     clipper->setAnchorPoint(  Vec2(0.5, 0.5) );
     clipper->setPosition(this->getContentSize().width / 2, this->getContentSize().height / 2);
-    clipper->runAction(RepeatForever::create(RotateBy::create(1, 45)));
+    clipper->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1, 45)));
     this->addChild(clipper);
 
     auto stencil = DrawNode::create();

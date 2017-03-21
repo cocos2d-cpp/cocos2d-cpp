@@ -1,9 +1,7 @@
 /*
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2011 Yannick Loriot.
- * http://yannickloriot.com
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -204,9 +202,9 @@ void ControlButton::setHighlighted(bool enabled)
     if( _zoomOnTouchDown )
     {
         float scaleValue = (isHighlighted() && isEnabled() && !isSelected()) ? _scaleRatio : 1.0f;
-        Action *zoomAction = ScaleTo::create(0.05f, scaleValue);
+        auto zoomAction = std::make_unique<ScaleTo>(0.05f, scaleValue);
         zoomAction->setTag(kZoomActionTag);
-        runAction(zoomAction);
+        runAction( std::move( zoomAction));
     }
 }
 

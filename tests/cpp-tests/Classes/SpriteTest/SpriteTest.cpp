@@ -166,8 +166,8 @@ static void run_grossini_dance_animation_forever(cocos2d::Sprite* sprite)
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
 
     sprite->runAction(
-        RepeatForever::create(
-            Animate::create( std::move( animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move( animation))
         ));
 }
 
@@ -199,23 +199,28 @@ void Sprite1::addNewSpriteWithCoords(Vec2 p)
     
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    ActionInterval* action;
+    std::unique_ptr<FiniteTimeAction> action;
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else 
-        action = FadeOut::create(2);
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr(action), to_action_ptr(action_back));
+        action.reset(new FadeOut(2));
+
+    auto action_back = std::unique_ptr<FiniteTimeAction>(action->reverse());
     
-    sprite->runAction( RepeatForever::create(seq) );
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(action),
+                std::move(action_back)
+            )));
 }
 
 void Sprite1::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
@@ -275,23 +280,28 @@ void Sprite1ETC1Alpha::addNewSpriteWithCoords(Vec2 p)
 
     sprite->setPosition(Vec2(p.x, p.y));
 
-    ActionInterval* action;
+    std::unique_ptr<FiniteTimeAction> action;
     float random = CCRANDOM_0_1();
 
     if (random < 0.20)
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if (random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if (random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if (random < 0.8)
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else
-        action = FadeOut::create(2);
-    auto action_back = action->reverse();
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(action_back));
+        action.reset(new FadeOut(2));
+    
+    auto action_back = std::unique_ptr<FiniteTimeAction>(action->reverse());
 
-    sprite->runAction(RepeatForever::create(seq));
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(action),
+                std::move(action_back)
+            )));
 }
 
 void Sprite1ETC1Alpha::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
@@ -347,24 +357,28 @@ void SpriteBatchNode1::addNewSpriteWithCoords(Vec2 p)
 
     sprite->setPosition( Vec2( p.x, p.y) );
 
-    ActionInterval* action;
+    std::unique_ptr<ActionInterval> action;
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else 
-        action = FadeOut::create(2);
+        action.reset(new FadeOut(2));
 
-    auto action_back = action->reverse();
-    auto seq = Sequence::create(to_action_ptr(action), to_action_ptr(action_back));
+    auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
     
-    sprite->runAction( RepeatForever::create(seq));
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(action),
+                std::move(action_back)
+            )));
 }
 
 void SpriteBatchNode1::onTouchesEnded(const std::vector<Touch*>& touches, Event*)
@@ -417,26 +431,26 @@ SpriteColorOpacity::SpriteColorOpacity()
     sprite7->setPosition( Vec2( (s.width/5)*3, (s.height/3)*2) );
     sprite8->setPosition( Vec2( (s.width/5)*4, (s.height/3)*2) );
     
-    auto action = FadeIn::create(2);
-    auto action_back = action->reverse();
-    auto fade = RepeatForever::create( Sequence::create( to_action_ptr( action), to_action_ptr( action_back) ) );
+    auto action = std::make_unique<FadeIn>(2);
+    auto action_back = std::unique_ptr<FadeTo>(action->reverse());
+    auto fade = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( action), std::move( action_back) ) );
     
-    auto tintred = TintBy::create(2, 0, -255, -255);
-    auto tintred_back = tintred->reverse();
-    auto red = RepeatForever::create( Sequence::create( to_action_ptr( tintred), to_action_ptr( tintred_back) ) );
+    auto tintred = std::make_unique<TintBy>(2, 0, -255, -255);
+    auto tintred_back = std::unique_ptr<TintBy>(tintred->reverse());
+    auto red = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintred), std::move( tintred_back) ) );
     
-    auto tintgreen = TintBy::create(2, -255, 0, -255);
-    auto tintgreen_back = tintgreen->reverse();
-    auto green = RepeatForever::create( Sequence::create( to_action_ptr( tintgreen), to_action_ptr( tintgreen_back) ) );
+    auto tintgreen = std::make_unique<TintBy>(2, -255, 0, -255);
+    auto tintgreen_back = std::unique_ptr<TintBy>(tintgreen->reverse());
+    auto green = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintgreen), std::move( tintgreen_back) ) );
     
-    auto tintblue = TintBy::create(2, -255, -255, 0);
-    auto tintblue_back = tintblue->reverse();
-    auto blue = RepeatForever::create( Sequence::create( to_action_ptr( tintblue), to_action_ptr( tintblue_back) ) );
+    auto tintblue = std::make_unique<TintBy>(2, -255, -255, 0);
+    auto tintblue_back = std::unique_ptr<TintBy>(tintblue->reverse());
+    auto blue = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintblue), std::move( tintblue_back) ) );
     
-    sprite5->runAction(red);
-    sprite6->runAction(green);
-    sprite7->runAction(blue);
-    sprite8->runAction(fade);
+    sprite5->runAction( std::move( red));
+    sprite6->runAction( std::move( green));
+    sprite7->runAction( std::move( blue));
+    sprite8->runAction( std::move( fade));
     
     // late add: test dirtyColor and dirtyPosition
     addChild(sprite1, 0, kTagSprite1);
@@ -448,7 +462,12 @@ SpriteColorOpacity::SpriteColorOpacity()
     addChild(sprite7, 0, kTagSprite7);
     addChild(sprite8, 0, kTagSprite8);
     
-    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteColorOpacity::removeAndAddSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "remove_add_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteColorOpacity::removeAndAddSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 // this function test if remove and add works as expected:
@@ -508,27 +527,27 @@ SpriteBatchNodeColorOpacity::SpriteBatchNodeColorOpacity()
     sprite7->setPosition( Vec2( (s.width/5)*3, (s.height/3)*2) );
     sprite8->setPosition( Vec2( (s.width/5)*4, (s.height/3)*2) );
 
-    auto action = FadeIn::create(2);
-    auto action_back = action->reverse();
-    auto fade = RepeatForever::create( Sequence::create( to_action_ptr( action), to_action_ptr( action_back) ) );
+    auto action = std::make_unique<FadeIn>(2);
+    auto action_back = std::unique_ptr<FadeTo>(action->reverse());
+    auto fade = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( action), std::move( action_back) ) );
 
-    auto tintred = TintBy::create(2, 0, -255, -255);
-    auto tintred_back = tintred->reverse();
-    auto red = RepeatForever::create( Sequence::create( to_action_ptr( tintred), to_action_ptr( tintred_back) ) );
+    auto tintred = std::make_unique<TintBy>(2, 0, -255, -255);
+    auto tintred_back = std::unique_ptr<TintBy>(tintred->reverse());
+    auto red = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintred), std::move( tintred_back) ) );
 
-    auto tintgreen = TintBy::create(2, -255, 0, -255);
-    auto tintgreen_back = tintgreen->reverse();
-    auto green = RepeatForever::create( Sequence::create( to_action_ptr( tintgreen), to_action_ptr( tintgreen_back) ) );
+    auto tintgreen = std::make_unique<TintBy>(2, -255, 0, -255);
+    auto tintgreen_back = std::unique_ptr<TintBy>(tintgreen->reverse());
+    auto green = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintgreen), std::move( tintgreen_back) ) );
 
-    auto tintblue = TintBy::create(2, -255, -255, 0);
-    auto tintblue_back = tintblue->reverse();
-    auto blue = RepeatForever::create( Sequence::create( to_action_ptr( tintblue), to_action_ptr( tintblue_back) ) );
+    auto tintblue = std::make_unique<TintBy>(2, -255, -255, 0);
+    auto tintblue_back = std::unique_ptr<TintBy>(tintblue->reverse());
+    auto blue = std::make_unique<RepeatForever>( std::make_unique<Sequence>( std::move( tintblue), std::move( tintblue_back) ) );
     
     
-    sprite5->runAction(red);
-    sprite6->runAction(green);
-    sprite7->runAction(blue);
-    sprite8->runAction(fade);
+    sprite5->runAction( std::move( red));
+    sprite6->runAction( std::move( green));
+    sprite7->runAction( std::move( blue));
+    sprite8->runAction( std::move( fade));
     
     // late add: test dirtyColor and dirtyPosition
     batch->addChild(sprite1, 0, kTagSprite1);
@@ -541,7 +560,12 @@ SpriteBatchNodeColorOpacity::SpriteBatchNodeColorOpacity()
     batch->addChild(sprite8, 0, kTagSprite8);
     
     
-    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteBatchNodeColorOpacity::removeAndAddSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "remove_add_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeColorOpacity::removeAndAddSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 // this function test if remove and add works as expected:
@@ -603,7 +627,12 @@ SpriteZOrder::SpriteZOrder()
     sprite->setScaleX( 6 );
     sprite->setColor(Color3B::RED);
     
-    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteZOrder::reorderSprite, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "reorder_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteZOrder::reorderSprite, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpriteZOrder::reorderSprite(float)
@@ -671,7 +700,12 @@ SpriteBatchNodeZOrder::SpriteBatchNodeZOrder()
     sprite->setScaleX( 6 );
     sprite->setColor(Color3B::RED);
     
-    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteBatchNodeZOrder::reorderSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "reorder_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeZOrder::reorderSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpriteBatchNodeZOrder::reorderSprite(float)
@@ -828,7 +862,7 @@ Sprite* SpriteBatchNodeReorderIssue766::makeSpriteZ(int aZ)
 
 void SpriteBatchNodeReorderIssue766::reorderSprite(float)
 {
-    Director::getInstance()->getScheduler().unschedule("issue_766_key", this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     batchNode->reorderChild(sprite1, 4);
 }
@@ -848,7 +882,12 @@ SpriteBatchNodeReorderIssue766::SpriteBatchNodeReorderIssue766()
     sprite3 = makeSpriteZ(4);
     sprite3->setPosition(Vec2(328,160));
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue766::reorderSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "issue_766_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeReorderIssue766::reorderSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 std::string SpriteBatchNodeReorderIssue766::title() const
@@ -926,7 +965,12 @@ SpriteBatchNodeReorderIssue767::SpriteBatchNodeReorderIssue767()
     l3b2->setPosition(Vec2(0+l2bSize.width/2,+50+l2bSize.height/2));
     l2b->addChild(l3b2, 1);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderIssue767::reorderSprites, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "issue_767_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeReorderIssue767::reorderSprites, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 std::string SpriteBatchNodeReorderIssue767::title() const
@@ -1032,7 +1076,7 @@ SpriteZVertex::SpriteZVertex()
         node->addChild(sprite, 0);
     }
 
-    node->runAction( OrbitCamera::create(10, 1, 0, 0, 360, 0, 0) );
+    node->runAction( std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0) );
 }
 
 std::string SpriteZVertex::title() const
@@ -1118,7 +1162,7 @@ SpriteBatchNodeZVertex::SpriteBatchNodeZVertex()
         batch->addChild(sprite, 0);
     }
     
-    batch->runAction(OrbitCamera::create(10, 1, 0, 0, 360, 0, 0) );
+    batch->runAction(std::make_unique<OrbitCamera>(10, 1, 0, 0, 360, 0, 0) );
 }
 
 std::string SpriteBatchNodeZVertex::title() const
@@ -1141,9 +1185,7 @@ SpriteAnchorPoint::SpriteAnchorPoint()
 {
     auto s = Director::getInstance()->getWinSize();
     
-    
-    auto rotate = RotateBy::create(10, 360);
-    auto action = RepeatForever::create(rotate);
+    auto action = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(10, 360));
     
     for(int i=0;i<3;i++) 
     {
@@ -1170,7 +1212,7 @@ SpriteAnchorPoint::SpriteAnchorPoint()
         
         point->setPosition( sprite->getPosition() );
 
-        sprite->runAction( action->clone() );
+        sprite->runAction( std::unique_ptr<RepeatForever>(action->clone()) );
         addChild(sprite, i);
     }        
 }
@@ -1199,9 +1241,8 @@ SpriteBatchNodeAnchorPoint::SpriteBatchNodeAnchorPoint()
     
     auto s = Director::getInstance()->getWinSize();
     
-    
-    auto rotate = RotateBy::create(10, 360);
-    auto action = RepeatForever::create(rotate);
+    auto action = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(10, 360));
+
     for(int i=0;i<3;i++) 
     {
         auto sprite = Sprite::createWithTexture(batch->getTexture(), Rect(85*i, 121*1, 85, 121));
@@ -1227,7 +1268,7 @@ SpriteBatchNodeAnchorPoint::SpriteBatchNodeAnchorPoint()
 
         point->setPosition( sprite->getPosition() );
 
-        sprite->runAction( action->clone() );
+        sprite->runAction( std::unique_ptr<RepeatForever>(action->clone()) );
         batch->addChild(sprite, i);
     }
 }
@@ -1253,8 +1294,7 @@ void SpriteAnchorPointFromFile::onEnter()
     SpriteTestDemo::onEnter();
     auto screen = Director::getInstance()->getWinSize();
     
-    auto rotate = RotateBy::create(10, 360);
-    auto action = RepeatForever::create(rotate);
+    auto action = std::make_unique<RepeatForever>( std::make_unique<RotateBy>(10, 360));
     char str[100] = {0};
 
     auto cache = SpriteFrameCache::getInstance();
@@ -1273,7 +1313,7 @@ void SpriteAnchorPointFromFile::onEnter()
         point->setPosition( sprite->getPosition() );
         addChild(point, 10);
         
-        sprite->runAction( action->clone() );
+        sprite->runAction( std::unique_ptr<RepeatForever>(action->clone()) );
         addChild(sprite, i);
     }
     
@@ -1291,8 +1331,8 @@ void SpriteAnchorPointFromFile::onEnter()
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
 
     sprite->runAction(
-        RepeatForever::create(
-            Animate::create( std::move( animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move( animation))
         ));
 
 }
@@ -1334,18 +1374,20 @@ Sprite6::Sprite6()
     
     
     // SpriteBatchNode actions
-    auto rotate = RotateBy::create(5, 360);
-    auto action = RepeatForever::create(rotate);
+    auto rotate1 = std::make_unique<RotateBy>(5, 360);
+    auto rotate2 = std::unique_ptr<RotateBy>(rotate1->clone());
+    auto rotate_back = std::unique_ptr<RotateBy>(rotate1->reverse());
+
+    auto action = std::make_unique<RepeatForever>( std::move( rotate1));
 
     // SpriteBatchNode actions
-    auto rotate_back = rotate->reverse();
-    auto rotate_seq = Sequence::create( to_action_ptr(rotate), to_action_ptr( rotate_back) );
-    auto rotate_forever = RepeatForever::create(rotate_seq);
+    auto rotate_seq = std::make_unique<Sequence>( std::move(rotate2), std::move( rotate_back) );
+    auto rotate_forever = std::make_unique<RepeatForever>( std::move(rotate_seq) );
     
-    auto scale = ScaleBy::create(5, 1.5f);
-    auto scale_back = scale->reverse();
-    auto scale_seq = Sequence::create( to_action_ptr( scale), to_action_ptr( scale_back) );
-    auto scale_forever = RepeatForever::create(scale_seq);
+    auto scale = std::make_unique<ScaleBy>(5, 1.5f);
+    auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto scale_seq = std::make_unique<Sequence>( std::move( scale), std::move( scale_back) );
+    auto scale_forever = std::make_unique<RepeatForever>( std::move( scale_seq));
 
     float step = s.width/4;
 
@@ -1354,12 +1396,12 @@ Sprite6::Sprite6()
         auto sprite = Sprite::createWithTexture(batch->getTexture(), Rect(85*i, 121*1, 85, 121));
         sprite->setPosition( Vec2( (i+1)*step, s.height/2) );
 
-        sprite->runAction( action->clone());
+        sprite->runAction( std::unique_ptr<RepeatForever>(action->clone()) );
         batch->addChild(sprite, i);
     }
     
-    batch->runAction(scale_forever);
-    batch->runAction(rotate_forever);
+    batch->runAction( std::move( scale_forever));
+    batch->runAction( std::move( rotate_forever));
 }
 
 std::string Sprite6::title() const
@@ -1384,7 +1426,12 @@ SpriteFlip::SpriteFlip()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     addChild(sprite2, 0, kTagSprite2);
     
-    Director::getInstance()->getScheduler().schedule( CC_CALLBACK_1(SpriteFlip::flipSprites,this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "sprite_flip_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteFlip::flipSprites, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpriteFlip::flipSprites(float)
@@ -1432,7 +1479,12 @@ SpriteBatchNodeFlip::SpriteBatchNodeFlip()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     batch->addChild(sprite2, 0, kTagSprite2);
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeFlip::flipSprites, this), this, 1, CC_REPEAT_FOREVER, 0, !_running, "flip_sprites_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeFlip::flipSprites, 0)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpriteBatchNodeFlip::flipSprites(float)
@@ -1479,15 +1531,15 @@ SpriteAliased::SpriteAliased()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     addChild(sprite2, 0, kTagSprite2);
     
-    auto scale = ScaleBy::create(2, 5);
-    auto scale_back = scale->reverse();
-    auto seq = Sequence::create( to_action_ptr( scale), to_action_ptr( scale_back) );
-    auto repeat = RepeatForever::create(seq);
+    auto scale = std::make_unique<ScaleBy>(2, 5);
+    auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move( scale), std::move( scale_back) );
+    auto repeat = std::make_unique<RepeatForever>( std::move( seq));
     
-    auto repeat2 = repeat->clone();
+    auto repeat2 = std::unique_ptr<RepeatForever>(repeat->clone());
     
-    sprite1->runAction(repeat);
-    sprite2->runAction(repeat2);
+    sprite1->runAction( std::move( repeat));
+    sprite2->runAction( std::move( repeat2));
     
 }
 
@@ -1544,15 +1596,15 @@ SpriteBatchNodeAliased::SpriteBatchNodeAliased()
     sprite2->setPosition( Vec2( s.width/2 + 100, s.height/2 ) );
     batch->addChild(sprite2, 0, kTagSprite2);
     
-    auto scale = ScaleBy::create(2, 5);
-    auto scale_back = scale->reverse();
-    auto seq = Sequence::create( to_action_ptr( scale), to_action_ptr( scale_back) );
-    auto repeat = RepeatForever::create(seq);
+    auto scale = std::make_unique<ScaleBy>(2, 5);
+    auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move( scale), std::move( scale_back) );
+    auto repeat = std::make_unique<RepeatForever>( std::move( seq));
     
-    auto repeat2 = repeat->clone();
+    auto repeat2 = std::unique_ptr<RepeatForever>(repeat->clone());
     
-    sprite1->runAction(repeat);
-    sprite2->runAction(repeat2);
+    sprite1->runAction( std::move( repeat));
+    sprite2->runAction( std::move( repeat2));
         
 }
 void SpriteBatchNodeAliased::onEnter()
@@ -1630,24 +1682,28 @@ void SpriteNewTexture::addNewSprite()
     
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    ActionInterval* action;
+    std::unique_ptr<ActionInterval> action;
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else 
-        action = FadeOut::create(2);
+        action.reset(new FadeOut(2));
 
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr(action), to_action_ptr( action_back) );
-    
-    sprite->runAction( RepeatForever::create(seq) );
+    auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+    auto seq = std::make_unique<Sequence>(
+        std::move(action),
+        std::move(action_back)
+    );
+
+    sprite->runAction( std::make_unique<RepeatForever>( std::move( seq)));
 }
 
 void SpriteNewTexture::onTouchesEnded(const std::vector<Touch*>&, Event*)
@@ -1736,23 +1792,28 @@ void SpriteBatchNodeNewTexture::addNewSprite()
     
     sprite->setPosition( Vec2( p.x, p.y) );
     
-    ActionInterval* action;
+    std::unique_ptr<ActionInterval> action;
     float random = CCRANDOM_0_1();
     
     if( random < 0.20 )
-        action = ScaleBy::create(3, 2);
+        action.reset(new ScaleBy(3, 2));
     else if(random < 0.40)
-        action = RotateBy::create(3, 360);
+        action.reset(new RotateBy(3, 360));
     else if( random < 0.60)
-        action = Blink::create(1, 3);
+        action.reset(new Blink(1, 3));
     else if( random < 0.8 )
-        action = TintBy::create(2, 0, -255, -255);
+        action.reset(new TintBy(2, 0, -255, -255));
     else 
-        action = FadeOut::create(2);
-    auto action_back = action->reverse();
-    auto seq = Sequence::create( to_action_ptr(action), to_action_ptr( action_back) );
-    
-    sprite->runAction( RepeatForever::create(seq) );
+        action.reset(new FadeOut(2));
+
+    auto action_back = std::unique_ptr<ActionInterval>(action->reverse());
+
+    sprite->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(action),
+                std::move(action_back)
+            )));
 }
 
 void SpriteBatchNodeNewTexture::onTouchesEnded(const std::vector<Touch*>&, Event*)
@@ -1846,15 +1907,20 @@ void SpriteFrameTest::onEnter()
 
     std::unique_ptr<Animation> animMixed(new Animation(moreFrames, 0.3f));
     _sprite2->runAction(
-        RepeatForever::create(
-            Animate::create( std::move(animMixed))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move(animMixed))
         ));
 
     // to test issue #732, uncomment the following line
     _sprite2->setFlippedX(false);
     _sprite2->setFlippedY(false);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteFrameTest::startIn05Secs, this), this, 0.5f, CC_REPEAT_FOREVER, 0, !_running, "in_05_secs_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteFrameTest::startIn05Secs, 0)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
     _counter = 0;
 }
 
@@ -1879,8 +1945,14 @@ std::string SpriteFrameTest::subtitle() const
 
 void SpriteFrameTest::startIn05Secs(float)
 {
-    Director::getInstance()->getScheduler().unschedule("in_05_secs_key", this);
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteFrameTest::flipSprites, this), this, 1.0f, CC_REPEAT_FOREVER, 0, !_running, "flip_sprites_key");
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
+    Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, &SpriteFrameTest::flipSprites, 1)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+
 }
 
 void SpriteFrameTest::flipSprites(float)
@@ -1972,8 +2044,8 @@ void SpriteFrameAliasNameTest::onEnter()
 
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
     sprite->runAction(
-        RepeatForever::create(
-            Animate::create( std::move(animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move(animation))
         ));
 
     cache->reloadTexture("animations/grossini-aliases.plist");
@@ -2039,8 +2111,8 @@ void SpriteFramesFromFileContent::onEnter()
 
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
     sprite->runAction(
-        RepeatForever::create(
-            Animate::create( std::move(animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move(animation))
         ));
 }
 
@@ -2128,7 +2200,7 @@ void SpriteOffsetAnchorRotation::onEnter()
         
         run_grossini_dance_animation_forever(sprite);
 
-        sprite->runAction(RepeatForever::create(RotateBy::create(10, 360) ) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(10, 360) ) );
 
         addChild(sprite, 0);
     }        
@@ -2211,11 +2283,14 @@ SpriteBatchNodeOffsetAnchorRotation::SpriteBatchNodeOffsetAnchorRotation()
 
         std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
         sprite->runAction(
-            RepeatForever::create(
-                Animate::create( std::move(animation))
+            std::make_unique<RepeatForever>(
+                std::make_unique<Animate>( std::move(animation))
             ));
 
-        sprite->runAction(RepeatForever::create(RotateBy::create(10, 360) ));
+        sprite->runAction(
+            std::make_unique<RepeatForever>(
+                std::make_unique<RotateBy>(10, 360)
+            ));
         
         spritebatch->addChild(sprite, i);
     }        
@@ -2296,14 +2371,14 @@ SpriteOffsetAnchorScale::SpriteOffsetAnchorScale()
 
         std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
         sprite->runAction(
-            RepeatForever::create(
-                Animate::create( std::move(animation))
+            std::make_unique<RepeatForever>(
+                std::make_unique<Animate>( std::move(animation))
             ));
         
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale));
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move(scale_back) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::move(seq_scale) ));
         
         addChild(sprite, 0);
     }        
@@ -2383,14 +2458,14 @@ SpriteBatchNodeOffsetAnchorScale::SpriteBatchNodeOffsetAnchorScale()
 
         std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.3f));
         sprite->runAction(
-            RepeatForever::create(
-                Animate::create( std::move(animation))
+            std::make_unique<RepeatForever>(
+                std::make_unique<Animate>( std::move(animation))
             ));
 
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale) );
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<ScaleBy>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::move(seq_scale)));
         
         spritesheet->addChild(sprite, i);
     }        
@@ -2454,16 +2529,16 @@ SpriteAnimationSplit::SpriteAnimationSplit()
     animFrames.push_back(to_retaining_ptr(frame5));
             
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.2f));
-    auto animate = Animate::create( std::move( animation));
-    auto animate_clone = animate->clone();
-    auto seq = Sequence::create(
-        to_action_ptr(animate),
-        to_action_ptr(FlipX::create(true)),
-        to_action_ptr(animate_clone),
-        to_action_ptr(FlipX::create(false))
+    auto animate = std::make_unique<Animate>( std::move( animation));
+    auto animate_clone = std::unique_ptr<Animate>(animate->clone());
+    auto seq = std::make_unique<Sequence>(
+        std::move(animate),
+        std::make_unique<FlipX>(true),
+        std::move(animate_clone),
+        std::make_unique<FlipX>(false)
     );
     
-    sprite->runAction(RepeatForever::create( seq ) );
+    sprite->runAction(std::make_unique<RepeatForever>( std::move(seq) ) );
 }
 
 void SpriteAnimationSplit::onExit()
@@ -2520,13 +2595,18 @@ SpriteHybrid::SpriteHybrid()
         }
         sprite->setPosition( Vec2(x,y) );
             
-        auto action = RotateBy::create(4, 360);
-        sprite->runAction( RepeatForever::create(action) );
+        auto action = std::make_unique<RotateBy>(4, 360);
+        sprite->runAction( std::make_unique<RepeatForever>( std::move(action)));
     }
     
     _usingSpriteBatchNode = false;
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteHybrid::reparentSprite, this), this, 2, CC_REPEAT_FOREVER, 0, !_running, "reparent_sprite_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteHybrid::reparentSprite, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void SpriteHybrid::reparentSprite(float)
@@ -2617,23 +2697,23 @@ SpriteBatchNodeChildren::SpriteBatchNodeChildren()
     
     std::unique_ptr<Animation> animation(new Animation( std::move(animFrames), 0.2f));
     sprite1->runAction(
-        RepeatForever::create(
-            Animate::create( std::move(animation))
+        std::make_unique<RepeatForever>(
+            std::make_unique<Animate>( std::move(animation))
         ));
     // END NEW CODE
     
-    auto action = MoveBy::create(2, Vec2(200,0));
-    auto action_back = action->reverse();
-    auto action_rot = RotateBy::create(2, 360);
-    auto action_s = ScaleBy::create(2, 2);
-    auto action_s_back = action_s->reverse();
+    auto action = std::make_unique<MoveBy>(2, Vec2(200,0));
+    auto action_back = std::unique_ptr<MoveBy>(action->reverse());
+    auto action_rot = std::make_unique<RotateBy>(2, 360);
+    auto action_s = std::make_unique<ScaleBy>(2, 2);
+    auto action_s_back = std::unique_ptr<ScaleBy>(action_s->reverse());
     
-    auto seq2 = action_rot->reverse();
-    sprite2->runAction( RepeatForever::create(seq2) );
+    auto seq2 = std::unique_ptr<RotateBy>(action_rot->reverse());
+    sprite2->runAction( std::make_unique<RepeatForever>( std::move(seq2) ) );
     
-    sprite1->runAction( RepeatForever::create(action_rot));
-    sprite1->runAction( RepeatForever::create(Sequence::create( to_action_ptr(action), to_action_ptr( action_back) )) );
-    sprite1->runAction( RepeatForever::create(Sequence::create( to_action_ptr(action_s), to_action_ptr( action_s_back) )) );
+    sprite1->runAction( std::make_unique<RepeatForever>( std::move( action_rot)));
+    sprite1->runAction( std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(action), std::move( action_back) )) );
+    sprite1->runAction( std::make_unique<RepeatForever>(std::make_unique<Sequence>( std::move(action_s), std::move( action_s_back) )) );
 
 }
 
@@ -2782,7 +2862,7 @@ SpriteChildrenVisibility::SpriteChildrenVisibility()
     sprite1->addChild(sprite2, -2);
     sprite1->addChild(sprite3, 2);
     
-    sprite1->runAction(Blink::create(5, 10));
+    sprite1->runAction(std::make_unique<Blink>(5, 10));
     
     //
     // Sprite
@@ -2804,7 +2884,7 @@ SpriteChildrenVisibility::SpriteChildrenVisibility()
     sprite1->addChild(sprite2, -2);
     sprite1->addChild(sprite3, 2);
     
-    sprite1->runAction(Blink::create(5, 10));
+    sprite1->runAction(std::make_unique<Blink>(5, 10));
 }
 
 void SpriteChildrenVisibility::onExit()
@@ -3148,8 +3228,7 @@ SpriteBatchNodeChildrenScale::SpriteBatchNodeChildrenScale()
 
     Node *aParent;
     Sprite* sprite1, *sprite2;
-    auto rot = RotateBy::create(10, 360);
-    auto seq = RepeatForever::create(rot);
+    auto seq = std::make_unique<RepeatForever>(std::make_unique<RotateBy>(10, 360));
     
     //
     // Children + Scale using Sprite
@@ -3160,7 +3239,7 @@ SpriteBatchNodeChildrenScale::SpriteBatchNodeChildrenScale()
     sprite1->setPosition( Vec2( s.width/4, s.height/4) );
     sprite1->setScaleX( -0.5f );
     sprite1->setScaleY( 2.0f );
-    sprite1->runAction(seq);
+    sprite1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     
     
     sprite2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossinis_sister2.png"));
@@ -3181,7 +3260,7 @@ SpriteBatchNodeChildrenScale::SpriteBatchNodeChildrenScale()
     sprite1->setPosition( Vec2( 3*s.width/4, s.height/4) );
     sprite1->setScaleX( -0.5f );
     sprite1->setScaleY( 2.0f );
-    sprite1->runAction( seq->clone() );
+    sprite1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     
     sprite2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossinis_sister2.png"));
     sprite2->setPosition( Vec2( 50,0) );
@@ -3201,7 +3280,7 @@ SpriteBatchNodeChildrenScale::SpriteBatchNodeChildrenScale()
     sprite1->setPosition( Vec2( s.width/4, 2*s.height/3) );
     sprite1->setScaleX( 1.5f );
     sprite1->setScaleY( -0.5f );
-    sprite1->runAction( seq->clone() );
+    sprite1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     
     sprite2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossinis_sister2.png"));
     sprite2->setPosition( Vec2( 50,0) );
@@ -3220,7 +3299,7 @@ SpriteBatchNodeChildrenScale::SpriteBatchNodeChildrenScale()
     sprite1->setPosition( Vec2( 3*s.width/4, 2*s.height/3) );
     sprite1->setScaleX( 1.5f );
     sprite1->setScaleY( -0.5f);
-    sprite1->runAction( seq->clone() );
+    sprite1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     
     sprite2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossinis_sister2.png"));
     sprite2->setPosition( Vec2( 50,0) );
@@ -3256,11 +3335,10 @@ SpriteChildrenChildren::SpriteChildrenChildren()
     
     Node *aParent;
     Sprite *l1, *l2a, *l2b, *l3a1, *l3a2, *l3b1, *l3b2;
-    auto rot = RotateBy::create(10, 360);
-    auto seq = RepeatForever::create(rot);
     
-    auto rot_back = rot->reverse();
-    auto rot_back_fe = RepeatForever::create(rot_back);
+    auto rot = std::make_unique<RotateBy>(10, 360);
+    auto rot_back_fe = std::make_unique<RepeatForever>(std::unique_ptr<ActionInterval>(rot->reverse()));
+    auto seq = std::make_unique<RepeatForever>(std::move(rot));
     
     //
     // SpriteBatchNode: 3 levels of children
@@ -3272,14 +3350,14 @@ SpriteChildrenChildren::SpriteChildrenChildren()
     // parent
     l1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("father.gif"));
     l1->setPosition( Vec2( s.width/2, s.height/2) );
-    l1->runAction( seq->clone() );
+    l1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     aParent->addChild(l1);
     auto l1Size = l1->getContentSize();
     
     // child left
     l2a = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("sister1.gif"));
     l2a->setPosition( Vec2( -50 + l1Size.width/2, 0 + l1Size.height/2) );
-    l2a->runAction( rot_back_fe->clone() );
+    l2a->runAction( std::unique_ptr<RepeatForever>(rot_back_fe->clone()) );
     l1->addChild(l2a);
     auto l2aSize = l2a->getContentSize();        
     
@@ -3287,7 +3365,7 @@ SpriteChildrenChildren::SpriteChildrenChildren()
     // child right
     l2b = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("sister2.gif"));
     l2b->setPosition( Vec2( +50 + l1Size.width/2, 0 + l1Size.height/2) );
-    l2b->runAction( rot_back_fe->clone() );
+    l2b->runAction( std::unique_ptr<RepeatForever>(rot_back_fe->clone()) );
     l1->addChild(l2b);
     auto l2bSize = l2a->getContentSize();        
     
@@ -3346,12 +3424,11 @@ SpriteBatchNodeChildrenChildren::SpriteBatchNodeChildrenChildren()
     
     SpriteBatchNode *aParent;
     Sprite *l1, *l2a, *l2b, *l3a1, *l3a2, *l3b1, *l3b2;
-    auto rot = RotateBy::create(10, 360);
-    auto seq = RepeatForever::create(rot);
     
-    auto rot_back = rot->reverse();
-    auto rot_back_fe = RepeatForever::create(rot_back);
-    
+    auto rot = std::make_unique<RotateBy>(10, 360);
+    auto rot_back_fe = std::make_unique<RepeatForever>(std::unique_ptr<ActionInterval>(rot->reverse()));
+    auto seq = std::make_unique<RepeatForever>(std::move(rot));
+
     //
     // SpriteBatchNode: 3 levels of children
     //
@@ -3363,14 +3440,14 @@ SpriteBatchNodeChildrenChildren::SpriteBatchNodeChildrenChildren()
     // parent
     l1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("father.gif"));
     l1->setPosition( Vec2( s.width/2, s.height/2) );
-    l1->runAction( seq->clone() );
+    l1->runAction( std::unique_ptr<RepeatForever>(seq->clone()) );
     aParent->addChild(l1);
     auto l1Size = l1->getContentSize();
 
     // child left
     l2a = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("sister1.gif"));
     l2a->setPosition( Vec2( -50 + l1Size.width/2, 0 + l1Size.height/2) );
-    l2a->runAction( rot_back_fe->clone() );
+    l2a->runAction( std::unique_ptr<RepeatForever>(rot_back_fe->clone()) );
     l1->addChild(l2a);
     auto l2aSize = l2a->getContentSize();        
 
@@ -3378,7 +3455,7 @@ SpriteBatchNodeChildrenChildren::SpriteBatchNodeChildrenChildren()
     // child right
     l2b = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("sister2.gif"));
     l2b->setPosition( Vec2( +50 + l1Size.width/2, 0 + l1Size.height/2) );
-    l2b->runAction( rot_back_fe->clone() );
+    l2b->runAction( std::unique_ptr<RepeatForever>(rot_back_fe->clone()) );
     l1->addChild(l2b);
     auto l2bSize = l2a->getContentSize();        
 
@@ -3443,23 +3520,23 @@ SpriteBatchNodeSkewNegativeScaleChildren::SpriteBatchNodeSkewNegativeScaleChildr
         sprite->setPosition(Vec2( s.width/4*(i+1), s.height/2));
 
         // Skew
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
         if(i == 1)
         {
             sprite->setScale(-1.0f);
         }
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction( std::make_unique<RepeatForever>( std::move( seq_skew)));
 
         auto child1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini_dance_01.png"));
         child1->setPosition(Vec2(sprite->getContentSize().width / 2.0f, sprite->getContentSize().height / 2.0f));
@@ -3507,23 +3584,23 @@ SpriteSkewNegativeScaleChildren::SpriteSkewNegativeScaleChildren()
         sprite->setPosition(Vec2( s.width/4*(i+1), s.height/2));
 
         // Skew
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
         if(i == 1)
         {
             sprite->setScale(-1.0f);
         }
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction( std::make_unique<RepeatForever>( std::move( seq_skew)));
 
         auto child1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini_dance_01.png"));
         child1->setPosition(Vec2(sprite->getContentSize().width / 2.0f, sprite->getContentSize().height / 2.0f));
@@ -3758,14 +3835,14 @@ SpriteDoubleResolution::SpriteDoubleResolution()
 
 
     // Actions
-    auto scale = ScaleBy::create(2, 0.5);
-    auto scale_back = scale->reverse();
-    auto seq = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
+    auto scale = std::make_unique<ScaleBy>(2, 0.5);
+    auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+    auto seq = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
 
-    auto seq_copy = seq->clone();
+    auto seq_copy = std::unique_ptr<Action>(seq->clone());
 
-    spriteSD->runAction(seq);
-    spriteHD->runAction(seq_copy);
+    spriteSD->runAction( std::move(seq) );
+    spriteHD->runAction( std::move(seq_copy) );
 
 }
 
@@ -3854,14 +3931,14 @@ AnimationCacheTest::AnimationCacheTest()
     auto dance_blue = animCache->cloneAnimation("dance_blue");
     dance_blue->setRestoreOriginalFrame(true);
 
-    auto animN = Animate::create( std::move( normal));
-    auto animG = Animate::create( std::move( dance_grey));
-    auto animB = Animate::create( std::move( dance_blue));
+    auto animN = std::make_unique<Animate>( std::move( normal));
+    auto animG = std::make_unique<Animate>( std::move( dance_grey));
+    auto animB = std::make_unique<Animate>( std::move( dance_blue));
 
-    auto seq = Sequence::create(
-        to_action_ptr(animN),
-        to_action_ptr(animG),
-        to_action_ptr(animB)
+    auto seq = std::make_unique<Sequence>(
+        std::move(animN),
+        std::move(animG),
+        std::move(animB)
     );
 
     // create an sprite without texture
@@ -3874,7 +3951,7 @@ AnimationCacheTest::AnimationCacheTest()
     addChild(grossini);
 
     // run the animation
-    grossini->runAction(seq);
+    grossini->runAction(std::move(seq));
 }
 
 AnimationCacheTest::~AnimationCacheTest()
@@ -3922,14 +3999,14 @@ AnimationCacheFile::AnimationCacheFile()
     auto dance_blue = animCache->extractAnimation("dance_3");
     dance_blue->setRestoreOriginalFrame(true);
 
-    auto animN = Animate::create( std::move( normal));
-    auto animG = Animate::create( std::move( dance_grey));
-    auto animB = Animate::create( std::move( dance_blue));
+    auto animN = std::make_unique<Animate>( std::move( normal));
+    auto animG = std::make_unique<Animate>( std::move( dance_grey));
+    auto animB = std::make_unique<Animate>( std::move( dance_blue));
 
-    auto seq = Sequence::create(
-        to_action_ptr(animN),
-        to_action_ptr(animG),
-        to_action_ptr(animB)
+    auto seq = std::make_unique<Sequence>(
+        std::move(animN),
+        std::move(animG),
+        std::move(animB)
     );
 
     // create an sprite without texture
@@ -3946,7 +4023,7 @@ AnimationCacheFile::AnimationCacheFile()
 
 
     // run the animation
-    grossini->runAction(seq);
+    grossini->runAction(std::move(seq));
 }
 
 AnimationCacheFile::~AnimationCacheFile()
@@ -4046,18 +4123,18 @@ SpriteOffsetAnchorSkew::SpriteOffsetAnchorSkew()
 
         run_grossini_dance_animation_forever(sprite);
 
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
 
         addChild(sprite, 0);
     }
@@ -4124,18 +4201,18 @@ SpriteBatchNodeOffsetAnchorSkew::SpriteBatchNodeOffsetAnchorSkew()
         
         run_grossini_dance_animation_forever(sprite);
 
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
 
         spritebatch->addChild(sprite, i);
     }
@@ -4200,24 +4277,24 @@ SpriteOffsetAnchorSkewScale::SpriteOffsetAnchorSkewScale()
         run_grossini_dance_animation_forever(sprite);
 
         // Skew
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
 
         // Scale
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale));
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_scale)));
 
         addChild(sprite, 0);
     }
@@ -4284,24 +4361,24 @@ SpriteBatchNodeOffsetAnchorSkewScale::SpriteBatchNodeOffsetAnchorSkewScale()
         run_grossini_dance_animation_forever(sprite);
 
         // skew
-        auto skewX = SkewBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = SkewBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<SkewBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<SkewBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
 
         // scale 
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale));
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_scale)));
 
         spritebatch->addChild(sprite, i);
     }
@@ -4366,17 +4443,17 @@ SpriteOffsetAnchorFlip::SpriteOffsetAnchorFlip()
 
         run_grossini_dance_animation_forever(sprite);
 
-        auto flip = FlipY::create(true);
-        auto flip_back = FlipY::create(false);
-        auto delay = DelayTime::create(1);
-        auto delay_clone = delay->clone();
-        auto seq = Sequence::create(
-            to_action_ptr(delay),
-            to_action_ptr(flip),
-            to_action_ptr(delay_clone),
-            to_action_ptr(flip_back)
+        auto flip = std::make_unique<FlipY>(true);
+        auto flip_back = std::make_unique<FlipY>(false);
+        auto delay = std::make_unique<DelayTime>(1);
+        auto delay_clone = std::unique_ptr<FiniteTimeAction>(delay->clone());
+        auto seq = std::make_unique<Sequence>(
+            std::move(delay),
+            std::move(flip),
+            std::move(delay_clone),
+            std::move(flip_back)
         );
-        sprite->runAction(RepeatForever::create(seq));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq)));
 
         addChild(sprite, 0);
     }
@@ -4444,17 +4521,17 @@ SpriteBatchNodeOffsetAnchorFlip::SpriteBatchNodeOffsetAnchorFlip()
 
         run_grossini_dance_animation_forever(sprite);
 
-        auto flip = FlipY::create(true);
-        auto flip_back = FlipY::create(false);
-        auto delay = DelayTime::create(1);
-        auto delay_clone = delay->clone();
-        auto seq = Sequence::create(
-            to_action_ptr(delay),
-            to_action_ptr(flip),
-            to_action_ptr(delay_clone),
-            to_action_ptr(flip_back)
+        auto flip = std::make_unique<FlipY>(true);
+        auto flip_back = std::make_unique<FlipY>(false);
+        auto delay = std::make_unique<DelayTime>(1);
+        auto delay_clone = std::unique_ptr<FiniteTimeAction>(delay->clone());
+        auto seq = std::make_unique<Sequence>(
+            std::move(delay),
+            std::move(flip),
+            std::move(delay_clone),
+            std::move(flip_back)
         );
-        sprite->runAction(RepeatForever::create(seq));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq)));
 
         spritebatch->addChild(sprite, i);
     }
@@ -4505,7 +4582,9 @@ NodeSort::NodeSort()
     _sprite5->setPosition(Vec2(356, 160));
     _node->addChild(_sprite5, -3, 5);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(NodeSort::reorderSprite, this), this, 0, CC_REPEAT_FOREVER, 0, !_running, "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &NodeSort::reorderSprite, 0).paused(isPaused())
+    );
 }
 
 std::string NodeSort::title() const
@@ -4520,7 +4599,7 @@ std::string NodeSort::subtitle() const
 
 void NodeSort::reorderSprite(float)
 {
-    Director::getInstance()->getScheduler().unschedule("reorder_sprite_key", this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 
     log("Before reorder--");
     
@@ -4567,7 +4646,12 @@ SpriteBatchNodeReorderSameIndex::SpriteBatchNodeReorderSameIndex()
     _batchNode->addChild(_sprite5, 6, 5);
 
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderSameIndex::reorderSprite, this), this, 0, 0, 2, !_running, "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeReorderSameIndex::reorderSprite, 0)
+            .delay(2.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 std::string SpriteBatchNodeReorderSameIndex::title() const
@@ -4666,7 +4750,12 @@ SpriteBatchNodeReorderOneChild::SpriteBatchNodeReorderOneChild()
     l3b2->setPosition(Vec2(0+l2bSize.width/2,+50+l2bSize.height/2));
     l2b->addChild(l3b2);
 
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(SpriteBatchNodeReorderOneChild::reorderSprite, this), this, 0, 0, 2.0f, !_running, "reorder_sprite_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteBatchNodeReorderOneChild::reorderSprite, 0)
+            .delay(2.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void SpriteBatchNodeReorderOneChild::reorderSprite(float)
@@ -4725,18 +4814,18 @@ SpriteOffsetAnchorRotationalSkew::SpriteOffsetAnchorRotationalSkew()
         
         run_grossini_dance_animation_forever(sprite);
         
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
         
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
         
         addChild(sprite, 0);
     }
@@ -4804,18 +4893,18 @@ SpriteBatchNodeOffsetAnchorRotationalSkew::SpriteBatchNodeOffsetAnchorRotational
         
         run_grossini_dance_animation_forever(sprite);
         
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
         
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
         
         spritebatch->addChild(sprite, 0);
     }
@@ -4881,24 +4970,24 @@ SpriteOffsetAnchorRotationalSkewScale::SpriteOffsetAnchorRotationalSkewScale()
         run_grossini_dance_animation_forever(sprite);
         
         // Skew
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
         
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
         
         // Scale
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale));
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_scale)));
         
         addChild(sprite, 0);
     }
@@ -4965,24 +5054,24 @@ SpriteBatchNodeOffsetAnchorRotationalSkewScale::SpriteBatchNodeOffsetAnchorRotat
         run_grossini_dance_animation_forever(sprite);
         
         // Skew
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
         
-        auto seq_skew = Sequence::create(
-            to_action_ptr(skewX),
-            to_action_ptr(skewX_back),
-            to_action_ptr(skewY),
-            to_action_ptr(skewY_back)
+        auto seq_skew = std::make_unique<Sequence>(
+            std::move(skewX),
+            std::move(skewX_back),
+            std::move(skewY),
+            std::move(skewY_back)
         );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
         
         // Scale
-        auto scale = ScaleBy::create(2, 2);
-        auto scale_back = scale->reverse();
-        auto seq_scale = Sequence::create( to_action_ptr(scale), to_action_ptr( scale_back) );
-        sprite->runAction(RepeatForever::create(seq_scale));
+        auto scale = std::make_unique<ScaleBy>(2, 2);
+        auto scale_back = std::unique_ptr<FiniteTimeAction>(scale->reverse());
+        auto seq_scale = std::make_unique<Sequence>( std::move(scale), std::move( scale_back) );
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_scale)));
         
         spritebatch->addChild(sprite, 0);
     }
@@ -5031,18 +5120,18 @@ SpriteRotationalSkewNegativeScaleChildren::SpriteRotationalSkewNegativeScaleChil
         addChild(point, 1);
         
         // Skew
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
         
         if (1 == 1)
         {
             sprite->setScale(-1.0f);
         }
         
-        auto seq_skew = Sequence::create( to_action_ptr(skewX), to_action_ptr( skewX_back), to_action_ptr( skewY), to_action_ptr( skewY_back) );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        auto seq_skew = std::make_unique<Sequence>( std::move(skewX), std::move( skewX_back), std::move( skewY), std::move( skewY_back) );
+        sprite->runAction(std::make_unique<RepeatForever>(std::move(seq_skew)));
         
         auto child1 = Sprite::create("Images/grossini_dance_01.png");
         child1->setPosition(Vec2(sprite->getContentSize().width/2.0f, sprite->getContentSize().height/2.0f));
@@ -5098,18 +5187,18 @@ SpriteBatchNodeRotationalSkewNegativeScaleChildren::SpriteBatchNodeRotationalSke
         addChild(point, 1);
 
         // Skew
-        auto skewX = RotateBy::create(2, 45, 0);
-        auto skewX_back = skewX->reverse();
-        auto skewY = RotateBy::create(2, 0, 45);
-        auto skewY_back = skewY->reverse();
+        auto skewX = std::make_unique<RotateBy>(2, 45, 0);
+        auto skewX_back = std::unique_ptr<FiniteTimeAction>(skewX->reverse());
+        auto skewY = std::make_unique<RotateBy>(2, 0, 45);
+        auto skewY_back = std::unique_ptr<FiniteTimeAction>(skewY->reverse());
 
         if (1 == 1)
         {
             sprite->setScale(-1.0f);
         }
 
-        auto seq_skew = Sequence::create( to_action_ptr(skewX), to_action_ptr( skewX_back), to_action_ptr( skewY), to_action_ptr( skewY_back) );
-        sprite->runAction(RepeatForever::create(seq_skew));
+        auto seq_skew = std::make_unique<Sequence>( std::move(skewX), std::move( skewX_back), std::move( skewY), std::move( skewY_back) );
+        sprite->runAction( std::make_unique<RepeatForever>( std::move( seq_skew)));
 
         auto child1 = Sprite::create("Images/grossini_dance_01.png");
         child1->setPosition(Vec2(sprite->getContentSize().width/2.0f, sprite->getContentSize().height/2.0f));
@@ -5151,26 +5240,26 @@ SpriteCullTest1::SpriteCullTest1()
 
     grossini->setPosition(s.width/2, s.height/2);
 
-    auto right = MoveBy::create(3, Vec2(s.width*2,0));
-    auto back1 = right->reverse();
-    auto left = MoveBy::create(3, Vec2(-s.width*2,0));
-    auto back2 = left->reverse();
-    auto up = MoveBy::create(3, Vec2(0,s.height*2));
-    auto back3 = up->reverse();
-    auto down = MoveBy::create(3, Vec2(0,-s.height*2));
-    auto back4 = down->reverse();
+    auto right = std::make_unique<MoveBy>(3, Vec2(s.width*2,0));
+    auto back1 = std::unique_ptr<FiniteTimeAction>(right->reverse());
+    auto left = std::make_unique<MoveBy>(3, Vec2(-s.width*2,0));
+    auto back2 = std::unique_ptr<FiniteTimeAction>(left->reverse());
+    auto up = std::make_unique<MoveBy>(3, Vec2(0,s.height*2));
+    auto back3 = std::unique_ptr<FiniteTimeAction>(up->reverse());
+    auto down = std::make_unique<MoveBy>(3, Vec2(0,-s.height*2));
+    auto back4 = std::unique_ptr<FiniteTimeAction>(down->reverse());
 
-    auto seq = Sequence::create(
-        to_action_ptr(right),
-        to_action_ptr(back1),
-        to_action_ptr(left),
-        to_action_ptr(back2),
-        to_action_ptr(up),
-        to_action_ptr(back3),
-        to_action_ptr(down),
-        to_action_ptr(back4)
+    auto seq = std::make_unique<Sequence>(
+        std::move(right),
+        std::move(back1),
+        std::move(left),
+        std::move(back2),
+        std::move(up),
+        std::move(back3),
+        std::move(down),
+        std::move(back4)
     );
-    grossini->runAction(seq);
+    grossini->runAction(std::move(seq));
     this->addChild(grossini);
 }
 
@@ -5199,28 +5288,28 @@ SpriteCullTest2::SpriteCullTest2()
 
     grossini->setPosition(s.width/2, s.height/2);
 
-    auto right = MoveBy::create(3, Vec2(s.width*2,0));
-    auto back1 = right->reverse();
-    auto left = MoveBy::create(3, Vec2(-s.width*2,0));
-    auto back2 = left->reverse();
-    auto up = MoveBy::create(3, Vec2(0,s.height*2));
-    auto back3 = up->reverse();
-    auto down = MoveBy::create(3, Vec2(0,-s.height*2));
-    auto back4 = down->reverse();
+    auto right = std::make_unique<MoveBy>(3, Vec2(s.width*2,0));
+    auto back1 = std::unique_ptr<FiniteTimeAction>(right->reverse());
+    auto left = std::make_unique<MoveBy>(3, Vec2(-s.width*2,0));
+    auto back2 = std::unique_ptr<FiniteTimeAction>(left->reverse());
+    auto up = std::make_unique<MoveBy>(3, Vec2(0,s.height*2));
+    auto back3 = std::unique_ptr<FiniteTimeAction>(up->reverse());
+    auto down = std::make_unique<MoveBy>(3, Vec2(0,-s.height*2));
+    auto back4 = std::unique_ptr<FiniteTimeAction>(down->reverse());
 
     grossini->setScale(0.1f);
     
-    auto seq = Sequence::create(
-        to_action_ptr(right),
-        to_action_ptr(back1),
-        to_action_ptr(left),
-        to_action_ptr(back2),
-        to_action_ptr(up),
-        to_action_ptr(back3),
-        to_action_ptr(down),
-        to_action_ptr(back4)
+    auto seq = std::make_unique<Sequence>(
+        std::move(right),
+        std::move(back1),
+        std::move(left),
+        std::move(back2),
+        std::move(up),
+        std::move(back3),
+        std::move(down),
+        std::move(back4)
     );
-    grossini->runAction(seq);
+    grossini->runAction(std::move(seq));
     this->addChild(grossini);
 }
 
@@ -5248,12 +5337,12 @@ Sprite3DRotationTest::Sprite3DRotationTest()
     auto s1 = Sprite::create("Images/grossini.png");
     s1->setPosition(s.width/4, s.height/4 * 3);
     s1->setAnchorPoint(Vec2(0, 0));
-    s1->runAction(RepeatForever::create(RotateBy::create(6, 360)));
+    s1->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(6, 360)));
     addChild(s1);
     
     auto s2 = Sprite::create("Images/grossini.png");
     s2->setPosition(s.width/4 * 3, s.height/4 * 3);
-    s2->runAction(RepeatForever::create(RotateBy::create(6, 360)));
+    s2->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(6, 360)));
     addChild(s2);
     
     sprite1 = Sprite::create("Images/grossini.png");
@@ -5266,12 +5355,16 @@ Sprite3DRotationTest::Sprite3DRotationTest()
     sprite2->setPosition(s.width/4 * 3, s.height/4);
     
     addChild(sprite2);
-    
-    Director::getInstance()->getScheduler().schedule([&](float) {
+
+    auto f = [&](float) {
         rotation.y += 1;
         sprite1->setRotation3D(rotation);
         sprite2->setRotation3D(rotation);
-    }, this, 0, CC_REPEAT_FOREVER, 0, !_running, "update_key");
+    };
+    
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, f, 0).paused(isPaused())
+    );
 }
 
 //------------------------------------------------------------------
@@ -5331,8 +5424,7 @@ SpriteSlice9Test1::SpriteSlice9Test1()
         s1->setPosition(s.width*1/4, s.height*i/3);
         s1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         s1->setContentSize(Size(s1->getContentSize().width, 200));
-        auto action1 = RepeatForever::create(RotateBy::create(5, 360));
-        s1->runAction(action1);
+        s1->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s2 = Sprite::create("Images/grossinis_sister1.png");
@@ -5340,8 +5432,7 @@ SpriteSlice9Test1::SpriteSlice9Test1()
         s2->setPosition(s.width*2/4, s.height*i/3);
         s2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s2->setContentSize(Size(s2->getContentSize().width, 200));
-        auto action2 = RepeatForever::create(RotateBy::create(5, 360));
-        s2->runAction(action2);
+        s2->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s3 = Sprite::create("Images/grossinis_sister1.png");
@@ -5349,8 +5440,7 @@ SpriteSlice9Test1::SpriteSlice9Test1()
         s3->setPosition(s.width*3/4, s.height*i/3);
         s3->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
         s3->setContentSize(Size(s3->getContentSize().width, 200));
-        auto action3 = RepeatForever::create(RotateBy::create(5, 360));
-        s3->runAction(action3);
+        s3->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         if (i==2) {
             s3->setCenterRectNormalized(Rect(0.4, 0.4, 0.2, 0.2));
@@ -5398,8 +5488,7 @@ SpriteSlice9Test2::SpriteSlice9Test2()
         s1->setPosition(s.width*1/4, s.height*i/3);
         s1->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         s1->setContentSize(Size(80, s1->getContentSize().height));
-        auto action1 = RepeatForever::create(RotateBy::create(5, 360));
-        s1->runAction(action1);
+        s1->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini.png"));
@@ -5407,8 +5496,7 @@ SpriteSlice9Test2::SpriteSlice9Test2()
         s2->setPosition(s.width*2/4, s.height*i/3);
         s2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s2->setContentSize(Size(80, s2->getContentSize().height));
-        auto action2 = RepeatForever::create(RotateBy::create(5, 360));
-        s2->runAction(action2);
+        s2->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s3 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("grossini.png"));
@@ -5416,8 +5504,7 @@ SpriteSlice9Test2::SpriteSlice9Test2()
         s3->setPosition(s.width*3/4, s.height*i/3);
         s3->setAnchorPoint(Vec2::ANCHOR_TOP_RIGHT);
         s3->setContentSize(Size(80, s3->getContentSize().height));
-        auto action3 = RepeatForever::create(RotateBy::create(5, 360));
-        s3->runAction(action3);
+        s3->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         if (i==2) {
             s3->setCenterRectNormalized(Rect(0.4, 0.4, 0.2, 0.2));
@@ -5461,8 +5548,7 @@ SpriteSlice9Test3::SpriteSlice9Test3()
         s1->setPosition(s.width*1/4, s.height*i/3);
         s1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s1->setContentSize(s1->getContentSize());
-        auto action1 = RepeatForever::create(RotateBy::create(5, 360));
-        s1->runAction(action1);
+        s1->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s2 = Sprite::create("ccb/scale-9-demo.png");
@@ -5470,8 +5556,7 @@ SpriteSlice9Test3::SpriteSlice9Test3()
         s2->setPosition(s.width*2/4, s.height*i/3);
         s2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s2->setContentSize(s2->getContentSize() * 2);
-        auto action2 = RepeatForever::create(RotateBy::create(5, 360));
-        s2->runAction(action2);
+        s2->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s3 = Sprite::create("ccb/scale-9-demo.png");
@@ -5479,8 +5564,7 @@ SpriteSlice9Test3::SpriteSlice9Test3()
         s3->setPosition(s.width*3/4, s.height*i/3);
         s3->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s3->setContentSize(s3->getContentSize() * 3);
-        auto action3 = RepeatForever::create(RotateBy::create(5, 360));
-        s3->runAction(action3);
+        s3->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         // enable slice 9, only in the first row
         if (i==2) {
@@ -5526,8 +5610,7 @@ SpriteSlice9Test4::SpriteSlice9Test4()
         s1->setPosition(s.width*1/4, s.height*i/3);
         s1->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s1->setContentSize(s1->getContentSize() * 2);
-        auto action1 = RepeatForever::create(RotateBy::create(5, 360));
-        s1->runAction(action1);
+        s1->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s2 = Sprite::create("ccs-res/cocosui/button.png");
@@ -5535,8 +5618,7 @@ SpriteSlice9Test4::SpriteSlice9Test4()
         s2->setPosition(s.width*2/4, s.height*i/3);
         s2->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s2->setContentSize(s2->getContentSize() * 3);
-        auto action2 = RepeatForever::create(RotateBy::create(5, 360));
-        s2->runAction(action2);
+        s2->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         //Create reference sprite that's rotating based on there anchor point
         auto s3 = Sprite::create("ccs-res/cocosui/button.png");
@@ -5544,8 +5626,7 @@ SpriteSlice9Test4::SpriteSlice9Test4()
         s3->setPosition(s.width*3/4, s.height*i/3);
         s3->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
         s3->setContentSize(s3->getContentSize() * 4);
-        auto action3 = RepeatForever::create(RotateBy::create(5, 360));
-        s3->runAction(action3);
+        s3->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(5, 360)));
 
         // enable slice 9, only in the first row
         if (i==2) {
@@ -5616,7 +5697,7 @@ SpriteSlice9Test5::SpriteSlice9Test5()
     s3->setCenterRectNormalized(Rect(0,0,1,1));
     _sprites[2] = s3;
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule( UpdateJob(this, 0).paused(isPaused()) );
 
     _elapsed = 0;
 }
@@ -5689,7 +5770,7 @@ SpriteSlice9Test6::SpriteSlice9Test6()
     s3->setCenterRectNormalized(Rect(0,0,1,1));
     _sprites[2] = s3;
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule( UpdateJob(this, 0).paused(isPaused()) );
 
     _elapsed = 0;
 }

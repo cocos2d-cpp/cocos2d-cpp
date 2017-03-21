@@ -60,8 +60,13 @@ void PerformanceCallbackScene::onEnter()
                                               genStrVector("Avg", "Min", "Max", nullptr));
     }
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceCallbackScene::onUpdate), this, 0.0f, false);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceCallbackScene::dumpProfilerInfo), this, 2, false);
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &PerformanceCallbackScene::onUpdate, 0));
+
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PerformanceCallbackScene::dumpProfilerInfo, 1)
+            .delay(2.0f)
+            .interval(2.0f)
+    );            
 }
 
 std::string PerformanceCallbackScene::title() const

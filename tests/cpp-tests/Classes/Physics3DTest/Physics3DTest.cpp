@@ -333,14 +333,14 @@ bool Physics3DKinematicDemo::init()
 
         sprite->setScale(2.0f);
         sprite->setPosition3D(Vec3(-15.0f, 0.0f, 15.0f - 15.0f * i));
-        auto moveby = MoveBy::create(2.0f + i, Vec3(30.0f, 0.0f, 0.0f));
-        auto moveby_reverse = moveby->reverse();
+        auto moveby = std::make_unique<MoveBy>(2.0f + i, Vec3(30.0f, 0.0f, 0.0f));
+        auto moveby_reverse = std::unique_ptr<MoveBy>(moveby->reverse());
 
         sprite->runAction(
-            RepeatForever::create(
-                Sequence::create(
-                    to_action_ptr(moveby),
-                    to_action_ptr(moveby_reverse)
+            std::make_unique<RepeatForever>(
+                std::make_unique<Sequence>(
+                    std::move(moveby),
+                    std::move(moveby_reverse)
                 )
             )
         );
@@ -742,26 +742,16 @@ bool Physics3DCollisionCallbackDemo::init()
                     ps->setCameraMask(2);
                     this->addChild(ps);
                     ps->runAction(
-                        Sequence::create(
-                            to_action_ptr(DelayTime::create(1.0f)),
-                            to_action_ptr(
-                                CallFunc::create([=](){
-                                    ps->removeFromParent();
-                                })
-                            )
+                        std::make_unique<Sequence>(
+                            std::make_unique<DelayTime>(1.0f),
+                            std::make_unique<CallFunc>([=](){
+                                ps->removeFromParent();
+                            })
                         )
                     );
                     ci.objA->setMask(0);
                 }
             }
-            //CCLOG("------------BoxB Collision Info------------");
-            //CCLOG("Collision Point Num: %d", ci.collisionPointList.size());
-            //for (auto &iter : ci.collisionPointList){
-            //	CCLOG("Collision Position On A: (%.2f, %.2f, %.2f)", iter.worldPositionOnA.x, iter.worldPositionOnA.y, iter.worldPositionOnA.z);
-            //	CCLOG("Collision Position On B: (%.2f, %.2f, %.2f)", iter.worldPositionOnB.x, iter.worldPositionOnB.y, iter.worldPositionOnB.z);
-            //	CCLOG("Collision Normal On B: (%.2f, %.2f, %.2f)", iter.worldNormalOnB.x, iter.worldNormalOnB.y, iter.worldNormalOnB.z);
-            //}
-            //CCLOG("------------BoxB Collision Info------------");
         });
     }
 
@@ -791,14 +781,14 @@ bool Physics3DColliderDemo::init()
     sprite->setPosition3D(Vec3(0.0f, 0.f, 30.f));
     sprite->addComponent(component);
     sprite->setCameraMask((unsigned short)CameraFlag::USER1);
-    auto moveby = MoveBy::create(5.0f, Vec3(0.0f, 0.0f, -60.0f));
-    auto moveby_reverse = moveby->reverse();
+    auto moveby = std::make_unique<MoveBy>(5.0f, Vec3(0.0f, 0.0f, -60.0f));
+    auto moveby_reverse = std::unique_ptr<MoveBy>(moveby->reverse());
 
     sprite->runAction(
-        RepeatForever::create(
-            Sequence::create(
-                to_action_ptr(moveby),
-                to_action_ptr(moveby_reverse)
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(moveby),
+                std::move(moveby_reverse)
             )
         )
     );
@@ -849,17 +839,19 @@ bool Physics3DColliderDemo::init()
 
         collider->onTriggerEnter = [=](Physics3DObject *otherObject){
             if (otherObject == playerBody){
-                auto moveby = MoveBy::create(1.0f, Vec3(-5.0f, 0.0f, 0.0f));
-                doorLeft->runAction(moveby);
-                doorRight->runAction(moveby->reverse());
+                auto moveby = std::make_unique<MoveBy>(1.0f, Vec3(-5.0f, 0.0f, 0.0f));
+                auto moveby_rev = std::unique_ptr<MoveBy>(moveby->reverse());
+                doorLeft->runAction( std::move( moveby));
+                doorRight->runAction( std::move( moveby_rev));
             }
         };
 
         collider->onTriggerExit = [=](Physics3DObject *otherObject){
             if (otherObject == playerBody){
-                auto moveby = MoveBy::create(1.0f, Vec3(5.0f, 0.0f, 0.0f));
-                doorLeft->runAction(moveby);
-                doorRight->runAction(moveby->reverse());
+                auto moveby = std::make_unique<MoveBy>(1.0f, Vec3(5.0f, 0.0f, 0.0f));
+                auto moveby_rev = std::unique_ptr<MoveBy>(moveby->reverse());
+                doorLeft->runAction( std::move( moveby));
+                doorRight->runAction( std::move( moveby_rev));
             }
         };
     }

@@ -201,22 +201,26 @@ DrawNodeTest::DrawNodeTest()
     
     draw->drawCubicBezier(Vec2(s.width - 250, 40), Vec2(s.width - 70, 100), Vec2(s.width - 30, 250), Vec2(s.width - 10, s.height - 50), 10, Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 0.5));
     
-    auto array = PointArray::create(20);
-    array->addControlPoint(Vec2(0,0));
-    array->addControlPoint(Vec2(80,80));
-    array->addControlPoint(Vec2(s.width-80,80));
-    array->addControlPoint(Vec2(s.width-80,s.height-80));
-    array->addControlPoint(Vec2(80,s.height-80));
-    array->addControlPoint(Vec2(80,80));
-    array->addControlPoint(Vec2(s.width/2, s.height/2));
+    std::vector<Vec2> array {
+        Vec2(0,0),
+        Vec2(80,80),
+        Vec2(s.width-80,80),
+        Vec2(s.width-80,s.height-80),
+        Vec2(80,s.height-80),
+        Vec2(80,80),
+        Vec2(s.width/2, s.height/2),
+    };
+
     draw->drawCardinalSpline(array, 0.5, 50, Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 0.5));
     
-    auto array2 = PointArray::create(20);
-    array2->addControlPoint(Vec2(s.width / 2, 30));
-    array2->addControlPoint(Vec2(s.width  -80, 30));
-    array2->addControlPoint(Vec2(s.width - 80, s.height - 80));
-    array2->addControlPoint(Vec2(s.width / 2, s.height - 80));
-    array2->addControlPoint(Vec2(s.width / 2, 30));
+    std::vector<Vec2> array2 {
+        Vec2(s.width / 2, 30),
+        Vec2(s.width  -80, 30),
+        Vec2(s.width - 80, s.height - 80),
+        Vec2(s.width / 2, s.height - 80),
+        Vec2(s.width / 2, 30),
+    };
+
     draw->drawCatmullRom(array2, 50, Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 0.5));
     
     // open random color poly

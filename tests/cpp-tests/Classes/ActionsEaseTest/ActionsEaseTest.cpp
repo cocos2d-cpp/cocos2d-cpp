@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -85,45 +84,49 @@ void SpriteEase::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130,0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130,0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
     
-    auto move_ease_in = EaseIn::create(move->clone(), 2.5f);
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseIn>( std::unique_ptr<ActionInterval>(move->clone()), 2.5f);
+    auto move_ease_in_back = std::unique_ptr<EaseRateAction>( move_ease_in->reverse());
     
-    auto move_ease_out = EaseOut::create(move->clone(), 2.5f);
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseOut>( std::unique_ptr<ActionInterval>(move->clone()), 2.5f);
+    auto move_ease_out_back = std::unique_ptr<EaseRateAction>( move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
-    
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
-    );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
-    );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
-    );
-    
-    
-    auto a2 = _grossini->runAction(RepeatForever::create(seq1));
+    auto delay = 0.25f;
+
+    auto a2 =
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_back),
+                std::make_unique<DelayTime>(delay)
+            ));
     a2->setTag(1);
+    _grossini->runAction( std::move( a2));
 
-    auto a1 = _tamara->runAction(RepeatForever::create(seq2));
+    auto a1 =
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_in),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_in_back),
+                std::make_unique<DelayTime>(delay)
+            ));
     a1->setTag(1);
+    _tamara->runAction( std::move( a1));
 
-    auto a = _kathia->runAction(RepeatForever::create(seq3));
+    auto a =
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_out),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_out_back),
+                std::make_unique<DelayTime>(delay)
+            ));
     a->setTag(1);
+    _kathia->runAction( std::move( a));
 
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &SpriteEase::testStopAction)
@@ -157,42 +160,43 @@ void SpriteEaseInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130,0));
-//    id move_back = move->reverse();
+    auto move_ease_inout1 = std::make_unique<EaseInOut>(std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x - 130, 0)), 0.65f);
+    auto move_ease_inout_back1 = std::unique_ptr<EaseRateAction>( move_ease_inout1->reverse() );
     
-    auto move_ease_inout1 = EaseInOut::create(move->clone(), 0.65f);
-    auto move_ease_inout_back1 = move_ease_inout1->reverse();
-    
-    auto move_ease_inout2 = EaseInOut::create(move->clone(), 1.35f);
-    auto move_ease_inout_back2 = move_ease_inout2->reverse();
+    auto move_ease_inout2 = std::make_unique<EaseInOut>(std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x - 130, 0)), 1.35f);
+    auto move_ease_inout_back2 = std::unique_ptr<EaseRateAction>( move_ease_inout2->reverse() );
 
-    auto move_ease_inout3 = EaseInOut::create(move->clone(), 1.0f);
-    auto move_ease_inout_back3 = move_ease_inout3->reverse();
-    
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto move_ease_inout3 = std::make_unique<EaseInOut>(std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x - 130, 0)), 1.0f);
+    auto move_ease_inout_back3 = std::unique_ptr<EaseRateAction>( move_ease_inout3->reverse() );
 
-    auto seq1 = Sequence::create(
-        to_action_ptr(move_ease_inout1),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back1),
-        to_action_ptr(delay->clone())
-    );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_inout2),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back2),
-        to_action_ptr(delay->clone())
-    );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_inout3),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back3),
-        to_action_ptr(delay->clone())
-    );
-        
-    _tamara->runAction(RepeatForever::create(seq1));
-    _kathia->runAction(RepeatForever::create(seq2));
-    _grossini->runAction(RepeatForever::create(seq3));
+    auto delay = 0.25f;
+
+    _tamara->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_inout1),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_inout_back1),
+                std::make_unique<DelayTime>(delay)
+            )));
+
+    _kathia->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_inout2),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_inout_back2),
+                std::make_unique<DelayTime>(delay)
+            )));
+
+    _grossini->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_inout3),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_inout_back3),
+                std::make_unique<DelayTime>(delay)
+            )));
 }
 
 
@@ -211,40 +215,43 @@ void SpriteEaseExponential::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130,0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130,0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse() );
     
-    auto move_ease_in = EaseExponentialIn::create(move->clone());
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseExponentialIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>( move_ease_in->reverse() );
     
-    auto move_ease_out = EaseExponentialOut::create(move->clone());
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseExponentialOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>( move_ease_out->reverse() );
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
-    
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
-    );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
-    );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
-    );
-    
+    auto delay = 0.25f;
 
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_back),
+                std::make_unique<DelayTime>(delay)
+            )));
+
+    _tamara->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_in),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_in_back),
+                std::make_unique<DelayTime>(delay)
+            )));
+
+    _kathia->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease_out),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_out_back),
+                std::make_unique<DelayTime>(delay)
+            )));
 }
 
 
@@ -252,6 +259,7 @@ std::string SpriteEaseExponential::subtitle() const
 {
     return "ExpIn - ExpOut actions";
 }
+
 //------------------------------------------------------------------
 //
 // SpriteEaseExponentialInOut
@@ -262,32 +270,33 @@ void SpriteEaseExponentialInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse() );
     
-    auto move_ease = EaseExponentialInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();    //--> reverse()
+    auto move_ease = std::make_unique<EaseExponentialInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>( move_ease->reverse() );
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
-    );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
-    );
-    
-    this->positionForTwo();
-    
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_back),
+                std::make_unique<DelayTime>(delay)
+            )));
 
+    _tamara->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move_ease),
+                std::make_unique<DelayTime>(delay),
+                std::move(move_ease_back),
+                std::make_unique<DelayTime>(delay)
+            )));
+
+    this->positionForTwo();
 }
 
 
@@ -305,40 +314,39 @@ void SpriteEaseSine::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
     
-    auto move_ease_in = EaseSineIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseSineIn>( std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>( move_ease_in->reverse());
     
-    auto move_ease_out = EaseSineOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseSineOut>( std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>( move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
         
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)        
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));    
-
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));    
 }
 
 
@@ -356,31 +364,31 @@ void SpriteEaseSineInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130,0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130,0));
+    auto move_back = std::unique_ptr<MoveBy>( move->reverse());
     
-    auto move_ease = EaseSineInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseSineInOut>( std::unique_ptr<ActionInterval>( move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>( move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
 
     this->positionForTwo();
 
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
 }
 
 
@@ -398,39 +406,39 @@ void SpriteEaseElastic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseElasticIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseElasticIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseElasticOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseElasticOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
 
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));    
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));    
 }
 
 
@@ -449,41 +457,41 @@ void SpriteEaseElasticInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
 
-    auto move_ease_inout1 = EaseElasticInOut::create(move->clone(), 0.3f);
-    auto move_ease_inout_back1 = move_ease_inout1->reverse();
+    auto move_ease_inout1 = std::make_unique<EaseElasticInOut>(std::unique_ptr<ActionInterval>(move->clone()), 0.3f);
+    auto move_ease_inout_back1 = std::unique_ptr<ActionEase>(move_ease_inout1->reverse());
     
-    auto move_ease_inout2 = EaseElasticInOut::create(move->clone(), 0.45f);
-    auto move_ease_inout_back2 = move_ease_inout2->reverse();
+    auto move_ease_inout2 = std::make_unique<EaseElasticInOut>(std::unique_ptr<ActionInterval>(move->clone()), 0.45f);
+    auto move_ease_inout_back2 = std::unique_ptr<ActionEase>(move_ease_inout2->reverse());
     
-    auto move_ease_inout3 = EaseElasticInOut::create(move->clone(), 0.6f);
-    auto move_ease_inout_back3 = move_ease_inout3->reverse();
+    auto move_ease_inout3 = std::make_unique<EaseElasticInOut>(std::unique_ptr<ActionInterval>(move->clone()), 0.6f);
+    auto move_ease_inout_back3 = std::unique_ptr<ActionEase>(move_ease_inout3->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
         
-    auto seq1 = Sequence::create(
-        to_action_ptr(move_ease_inout1),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back1),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move_ease_inout1),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_inout_back1),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_inout2),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back2),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_inout2),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_inout_back2),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_inout3),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_inout_back3),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_inout3),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_inout_back3),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _tamara->runAction( RepeatForever::create(seq1));
-    _kathia->runAction( RepeatForever::create(seq2));
-    _grossini->runAction( RepeatForever::create(seq3)); 
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq3))); 
 }
 
 
@@ -503,39 +511,39 @@ void SpriteEaseBounce::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseBounceIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseBounceIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseBounceOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseBounceOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));    
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));    
 }
 
 
@@ -555,31 +563,31 @@ void SpriteEaseBounceInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseBounceInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseBounceInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
 }
 
 
@@ -598,39 +606,39 @@ void SpriteEaseBack::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseBackIn::create(move->clone());
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseBackIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseBackOut::create( move->clone());
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseBackOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction(RepeatForever::create(seq1));
-    _tamara->runAction(RepeatForever::create(seq2));
-    _kathia->runAction(RepeatForever::create(seq3));    
+    _grossini->runAction(std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction(std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction(std::make_unique<RepeatForever>( std::move(seq3)));    
 }
 
 
@@ -649,31 +657,31 @@ void SpriteEaseBackInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseBackInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseBackInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));    
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));    
 }
 
 
@@ -702,45 +710,45 @@ void SpriteEaseBezier::onEnter()
     centerSprites(3);
     
     // sprite 1
-    ccBezierConfig bezier;
+    BezierConfig bezier;
     bezier.controlPoint_1 = Vec2(0, s.height/2);
     bezier.controlPoint_2 = Vec2(300, -s.height/2);
     bezier.endPosition = Vec2(300,100);
     
-    auto bezierForward = BezierBy::create(3, bezier);
-    auto bezierEaseForward = EaseBezierAction::create(bezierForward);
+    auto bezierForward = std::make_unique<BezierBy>(3, bezier);
+    auto bezierEaseForward = std::make_unique<EaseBezierAction>(std::move(bezierForward));
     bezierEaseForward->setBezierParamer(0.5, 0.5, 1.0, 1.0);
     
-    auto bezierEaseBack = bezierEaseForward->reverse();
-    auto rep = RepeatForever::create(
-        Sequence::create(
-            to_action_ptr(bezierEaseForward),
-            to_action_ptr(bezierEaseBack)
+    auto bezierEaseBack = std::unique_ptr<EaseBezierAction>(bezierEaseForward->reverse());
+    auto rep = std::make_unique<RepeatForever>(
+        std::make_unique<Sequence>(
+            std::move(bezierEaseForward),
+            std::move(bezierEaseBack)
         )
     );
     
     
     // sprite 2
     _tamara->setPosition(80,160);
-	ccBezierConfig bezier2;
+	BezierConfig bezier2;
     bezier2.controlPoint_1 = Vec2(100, s.height/2);
     bezier2.controlPoint_2 = Vec2(200, -s.height/2);
     bezier2.endPosition = Vec2(240,160);
     
-    auto bezierTo1 = BezierTo::create(2, bezier2);
-    auto bezierEaseTo1 = EaseBezierAction::create(bezierTo1);
+    auto bezierTo1 = std::make_unique<BezierTo>(2, bezier2);
+    auto bezierEaseTo1 = std::make_unique<EaseBezierAction>(std::move(bezierTo1));
     bezierEaseTo1->setBezierParamer(0.5, 0.5, 1.0, 1.0);
     
     // sprite 3
     _kathia->setPosition(400,160);
-    auto bezierTo2 = BezierTo::create(2, bezier2);
-    auto bezierEaseTo2 = EaseBezierAction::create(bezierTo2);
+    auto bezierTo2 = std::make_unique<BezierTo>(2, bezier2);
+    auto bezierEaseTo2 = std::make_unique<EaseBezierAction>( std::move(bezierTo2));
     bezierEaseTo2->setBezierParamer(0.0, 0.5, -5.0, 1.0);
 
     
-    _grossini->runAction( rep);
-    _tamara->runAction(bezierEaseTo1);
-    _kathia->runAction(bezierEaseTo2);
+    _grossini->runAction( std::move( rep));
+    _tamara->runAction( std::move( bezierEaseTo1));
+    _kathia->runAction( std::move( bezierEaseTo2));
     
 }
 
@@ -759,39 +767,39 @@ void SpriteEaseQuadratic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseQuadraticActionIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseQuadraticActionIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseQuadraticActionOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseQuadraticActionOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));
 }
 
 std::string SpriteEaseQuadratic::subtitle() const
@@ -809,31 +817,31 @@ void SpriteEaseQuadraticInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseQuadraticActionInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseQuadraticActionInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
 }
 
 std::string SpriteEaseQuadraticInOut::subtitle()const
@@ -852,39 +860,39 @@ void SpriteEaseQuartic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseQuarticActionIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseQuarticActionIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseQuarticActionOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseQuarticActionOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));
 }
 
 std::string SpriteEaseQuartic::subtitle()const
@@ -902,31 +910,31 @@ void SpriteEaseQuarticInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseQuarticActionInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseQuarticActionInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
 }
 
 std::string SpriteEaseQuarticInOut::subtitle()const
@@ -944,39 +952,39 @@ void SpriteEaseQuintic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseQuinticActionIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseQuinticActionIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseQuinticActionOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseQuinticActionOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>( std::move(seq3)));
 }
 
 std::string SpriteEaseQuintic::subtitle()const
@@ -995,31 +1003,31 @@ void SpriteEaseQuinticInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseQuinticActionInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseQuinticActionInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
 }
 
 std::string SpriteEaseQuinticInOut::subtitle()const
@@ -1037,39 +1045,39 @@ void SpriteEaseCircle::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseCircleActionIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseCircleActionIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseCircleActionOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseCircleActionOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction( std::make_unique<RepeatForever>( std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>( std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>(std::move(seq3)));
 }
 
 std::string SpriteEaseCircle::subtitle()const
@@ -1088,31 +1096,31 @@ void SpriteEaseCircleInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseCircleActionInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseCircleActionInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>(std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>(std::move(seq2)));
 }
 
 std::string SpriteEaseCircleInOut::subtitle()const
@@ -1130,39 +1138,39 @@ void SpriteEaseCubic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease_in = EaseCubicActionIn::create(move->clone() );
-    auto move_ease_in_back = move_ease_in->reverse();
+    auto move_ease_in = std::make_unique<EaseCubicActionIn>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_in_back = std::unique_ptr<ActionEase>(move_ease_in->reverse());
     
-    auto move_ease_out = EaseCubicActionOut::create(move->clone() );
-    auto move_ease_out_back = move_ease_out->reverse();
+    auto move_ease_out = std::make_unique<EaseCubicActionOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_out_back = std::unique_ptr<ActionEase>(move_ease_out->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease_in),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_in_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease_in),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_in_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq3 = Sequence::create(
-        to_action_ptr(move_ease_out),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_out_back),
-        to_action_ptr(delay->clone())
+    auto seq3 = std::make_unique<Sequence>(
+        std::move(move_ease_out),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_out_back),
+        std::make_unique<DelayTime>(delay)
     );
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
-    _kathia->runAction( RepeatForever::create(seq3));
+    _grossini->runAction( std::make_unique<RepeatForever>(std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>(std::move(seq2)));
+    _kathia->runAction( std::make_unique<RepeatForever>(std::move(seq3)));
 }
 
 std::string SpriteEaseCubic::subtitle()const
@@ -1181,31 +1189,31 @@ void SpriteEaseCubicInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    auto move = MoveBy::create(3, Vec2(VisibleRect::right().x-130, 0));
-    auto move_back = move->reverse();
+    auto move = std::make_unique<MoveBy>(3, Vec2(VisibleRect::right().x-130, 0));
+    auto move_back = std::unique_ptr<MoveBy>(move->reverse());
     
-    auto move_ease = EaseCubicActionInOut::create(move->clone() );
-    auto move_ease_back = move_ease->reverse();
+    auto move_ease = std::make_unique<EaseCubicActionInOut>(std::unique_ptr<ActionInterval>(move->clone()));
+    auto move_ease_back = std::unique_ptr<ActionEase>(move_ease->reverse());
     
-    auto delay = to_action_ptr( DelayTime::create(0.25f) );
+    auto delay = 0.25f;
     
-    auto seq1 = Sequence::create(
-        to_action_ptr(move),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_back),
-        to_action_ptr(delay->clone())
+    auto seq1 = std::make_unique<Sequence>(
+        std::move(move),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_back),
+        std::make_unique<DelayTime>(delay)
     );
-    auto seq2 = Sequence::create(
-        to_action_ptr(move_ease),
-        to_action_ptr(delay->clone()),
-        to_action_ptr(move_ease_back),
-        to_action_ptr(delay->clone())
+    auto seq2 = std::make_unique<Sequence>(
+        std::move(move_ease),
+        std::make_unique<DelayTime>(delay),
+        std::move(move_ease_back),
+        std::make_unique<DelayTime>(delay)
     );
     
     this->positionForTwo();
     
-    _grossini->runAction( RepeatForever::create(seq1));
-    _tamara->runAction( RepeatForever::create(seq2));
+    _grossini->runAction( std::make_unique<RepeatForever>(std::move(seq1)));
+    _tamara->runAction( std::make_unique<RepeatForever>(std::move(seq2)));
 }
 
 std::string SpriteEaseCubicInOut::title()const
@@ -1225,32 +1233,32 @@ void SpeedTest::onEnter()
     auto s = Director::getInstance()->getWinSize();
 
     // rotate and jump
-    auto jump1 = JumpBy::create(4, Vec2(-s.width+80, 0), 100, 4);
-    auto jump2 = jump1->reverse();
-    auto rot1 = RotateBy::create(4, 360*2);
-    auto rot2 = rot1->reverse();
+    auto jump1 = std::make_unique<JumpBy>(4, Vec2(-s.width+80, 0), 100, 4);
+    auto jump2 = std::unique_ptr<JumpBy>(jump1->reverse());
+    auto rot1 = std::make_unique<RotateBy>(4, 360*2);
+    auto rot2 = std::unique_ptr<RotateBy>(rot1->reverse());
     
-    auto seq3_1 = Sequence::create(
-        to_action_ptr(jump2),
-        to_action_ptr(jump1)
+    auto seq3_1 = std::make_unique<Sequence>(
+        std::move(jump2),
+        std::move(jump1)
     );
-    auto seq3_2 = Sequence::create(
-        to_action_ptr(rot1),
-        to_action_ptr(rot2)
+    auto seq3_2 = std::make_unique<Sequence>(
+        std::move(rot1),
+        std::move(rot2)
     );
-    auto spawn = Spawn::create(seq3_1, seq3_2, nullptr);
-    auto action = Speed::create(RepeatForever::create(spawn), 1.0f);
+    auto spawn = std::make_unique<Spawn>(std::move(seq3_1), std::move(seq3_2));
+    auto action = std::make_unique<Speed>(std::make_unique<RepeatForever>(std::move(spawn)), 1.0f);
     action->setTag(kTagAction1);
     
-    auto action2 = action->clone();
-    auto action3 = action->clone();
+    auto action2 = std::unique_ptr<Speed>( action->clone() );
+    auto action3 = std::unique_ptr<Speed>( action->clone() );
 
     action2->setTag(kTagAction1);
     action3->setTag(kTagAction1);
     
-    _grossini->runAction(action2);
-    _tamara->runAction(action3);
-    _kathia->runAction(action);
+    _grossini->runAction( std::move( action2));
+    _tamara->runAction( std::move( action3));
+    _kathia->runAction( std::move( action));
     
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &SpeedTest::altertime)

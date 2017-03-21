@@ -1,7 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -483,8 +482,10 @@ void Button::onPressStateChangedToNormal()
                 _titleRenderer->stopAllActions();
                 if (_unifySize)
                 {
-                    Action *zoomTitleAction = ScaleTo::create(ZOOM_ACTION_TIME_STEP, 1.0f, 1.0f);
-                    _titleRenderer->runAction(zoomTitleAction);
+                    _titleRenderer->runAction
+                        (
+                            std::make_unique<ScaleTo>(ZOOM_ACTION_TIME_STEP, 1.0f, 1.0f)
+                        );
                 }
                 else
                 {
@@ -524,10 +525,12 @@ void Button::onPressStateChangedToPressed()
             _buttonNormalRenderer->stopAllActions();
             _buttonClickedRenderer->stopAllActions();
 
-            Action *zoomAction = ScaleTo::create(ZOOM_ACTION_TIME_STEP,
-                                                 1.0f + _zoomScale,
-                                                 1.0f + _zoomScale);
-            _buttonClickedRenderer->runAction(zoomAction);
+            _buttonClickedRenderer->runAction
+                (
+                    std::make_unique<ScaleTo>(
+                        ZOOM_ACTION_TIME_STEP, 1.0f + _zoomScale, 1.0f + _zoomScale
+                    )
+                );
 
             _buttonNormalRenderer->setScale(1.0f + _zoomScale,
                                             1.0f + _zoomScale);
@@ -535,9 +538,13 @@ void Button::onPressStateChangedToPressed()
             if (nullptr != _titleRenderer)
             {
                 _titleRenderer->stopAllActions();
-                Action *zoomTitleAction = ScaleTo::create(ZOOM_ACTION_TIME_STEP,
-                                                          1.0f + _zoomScale, 1.0f + _zoomScale);
-                _titleRenderer->runAction(zoomTitleAction);
+
+                _titleRenderer->runAction
+                    (
+                        std::make_unique<ScaleTo>(
+                            ZOOM_ACTION_TIME_STEP, 1.0f + _zoomScale, 1.0f + _zoomScale
+                        )
+                    );
             }
         }
     }

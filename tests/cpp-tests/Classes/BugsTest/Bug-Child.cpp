@@ -79,9 +79,15 @@ bool BugCameraMask::init()
     _sprite = Sprite::create("Images/grossini.png");
     node->addChild(_sprite);
     node->setCameraMask((unsigned short)CameraFlag::USER1);
-    auto move = MoveBy::create(2, Vec2(200,0));
+    auto move = std::make_unique<MoveBy>(2, Vec2(200,0));
     
-    node->runAction(RepeatForever::create(Sequence::createWithTwoActions(move, move->reverse())));
+    node->runAction(
+        std::make_unique<RepeatForever>(
+            std::make_unique<Sequence>(
+                std::move(move),
+                std::unique_ptr<MoveBy>(move->reverse())
+            )));
+
     addChild(node);
     
     auto camera = Camera::create();

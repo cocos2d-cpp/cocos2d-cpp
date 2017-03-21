@@ -255,6 +255,7 @@ void TestController::traverseTestSuite(TestSuite* testSuite)
             logEx("_director is paused");
             _sleepCondition.wait_for(*_sleepUniqueLock, std::chrono::milliseconds(500));
         }
+
         //Run test case in the cocos[GL] thread.
         scheduler.performFunctionInCocosThread([&, logIndentation, testName](){
             if (_stopAutoTest) return;

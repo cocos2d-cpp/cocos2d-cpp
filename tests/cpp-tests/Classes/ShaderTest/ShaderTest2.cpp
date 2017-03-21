@@ -499,16 +499,16 @@ bool EffectSpriteTest::init()
         _sprite->setPosition(Vec2(0, s.height/2));
         addChild(_sprite);
 
-        auto jump = JumpBy::create(4, Vec2(s.width,0), 100, 4);
-        auto rot = RotateBy::create(4, 720);
-        auto spawn = Spawn::create(jump, rot, nullptr);
-        auto rev = spawn->reverse();
-        auto seq = Sequence::create(
-            to_action_ptr(spawn),
-            to_action_ptr(rev)
+        auto jump = std::make_unique<JumpBy>(4, Vec2(s.width,0), 100, 4);
+        auto rot = std::make_unique<RotateBy>(4, 720);
+        auto spawn = std::make_unique<Spawn>(std::move(jump), std::move(rot));
+        auto rev = std::unique_ptr<Spawn>(spawn->reverse());
+        auto seq = std::make_unique<Sequence>(
+            std::move(spawn),
+            std::move(rev)
         );
-        auto repeat = RepeatForever::create(seq);
-        _sprite->runAction(repeat);
+        auto repeat = std::make_unique<RepeatForever>(std::move(seq));
+        _sprite->runAction( std::move(repeat));
 
         // set the Effects
         _effects.push_back( to_retaining_ptr<Effect>( EffectBlur::create()));

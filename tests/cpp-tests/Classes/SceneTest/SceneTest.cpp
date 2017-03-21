@@ -44,11 +44,12 @@ SceneTestLayer1::SceneTestLayer1()
     auto sprite = Sprite::create(s_pathGrossini);
     addChild(sprite);
     sprite->setPosition( Vec2(s.width-40, s.height/2) );
-    auto rotate = RotateBy::create(2, 360);
-    auto repeat = RepeatForever::create(rotate);
-    sprite->runAction(repeat);
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360)));
 
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer1::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SceneTestLayer1::testDealloc, 0)
+            .paused(isPaused())
+    );
 }
 
 void SceneTestLayer1::testDealloc(float /*dt*/)
@@ -112,11 +113,11 @@ SceneTestLayer2::SceneTestLayer2()
     auto sprite = Sprite::create(s_pathGrossini);
     addChild(sprite);
     sprite->setPosition( Vec2(s.width-40, s.height/2) );
-    auto rotate = RotateBy::create(2, 360);
-    auto repeat = RepeatForever::create(rotate);
-    sprite->runAction(repeat);
+    sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360)));
 
-    Director::getInstance()->getScheduler().schedule( CC_SCHEDULE_SELECTOR(SceneTestLayer2::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SceneTestLayer2::testDealloc, 0).paused(isPaused())
+    );
 }
 
 void SceneTestLayer2::testDealloc(float /*dt*/)
@@ -171,9 +172,7 @@ bool SceneTestLayer3::init()
         auto sprite = Sprite::create(s_pathGrossini);
         addChild(sprite);
         sprite->setPosition( Vec2(s.width/2, 40) );
-        auto rotate = RotateBy::create(2, 360);
-        auto repeat = RepeatForever::create(rotate);
-        sprite->runAction(repeat);
+        sprite->runAction( std::make_unique<RepeatForever>( std::make_unique<RotateBy>(2, 360)));
         return true;
     }
     return false;
