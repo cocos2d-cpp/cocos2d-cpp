@@ -579,7 +579,7 @@ RenderTextureTargetNode::RenderTextureTargetNode()
     
     renderTexture->setAutoDraw(true);
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     
     // Toggle clear on / off
     auto item = MenuItemFont::create("Clear On/Off", CC_CALLBACK_1(RenderTextureTargetNode::touched, this));
@@ -802,7 +802,7 @@ RenderTextureWithSprite3DIssue16894::RenderTextureWithSprite3DIssue16894()
     _renderTexWithBuffer->setPosition(visibleSize.width/4 * 4, visibleSize.height/2);
 
     // Update
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 
     auto label1 = Label::createWithTTF("Normal Sprite3D\n", "fonts/arial.ttf", 10);
     label1->setPosition(Vec2(visibleSize.width/4 * 1, 60));

@@ -37,17 +37,10 @@ bool Box2DTest::init()
     this->createResetButton();
 
     //Set up sprite
-#if 1
     // Use batch node. Faster
     auto parent = SpriteBatchNode::create("Images/blocks.png", 100);
     _spriteTexture = parent->getTexture();
-#else
-    // doesn't use batch node. Slower
-    _spriteTexture = Director::getInstance()->getTextureCache()->addImage("Images/blocks.png");
-    auto parent = Node::create();
-#endif
     addChild(parent, 0, kTagParentNode);
-
 
     addNewSpriteAtPosition(VisibleRect::center());
 
@@ -56,7 +49,7 @@ bool Box2DTest::init()
     label->setColor(Color3B(0, 0, 255));
     label->setPosition(VisibleRect::center().x, VisibleRect::top().y - 50);
 
-    scheduleUpdate();
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 #else
     auto label = Label::createWithTTF("Should define CC_ENABLE_BOX2D_INTEGRATION=1\n to run this test case",
         "fonts/arial.ttf",

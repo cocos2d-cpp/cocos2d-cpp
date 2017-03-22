@@ -21,9 +21,6 @@ void GameControllerTest::registerControllerListener()
     _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
 
     Controller::startDiscoveryController();
-
-    //get game pad status in polling mode
-    //scheduleUpdate();
 }
 
 void GameControllerTest::onConnectController(Controller* controller, Event* event)

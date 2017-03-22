@@ -278,7 +278,7 @@ void IterateSpriteSheet::initWithQuantityOfNodes(unsigned int nNodes)
     
     NodeChildrenMainScene::initWithQuantityOfNodes(nNodes);
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 const char*  IterateSpriteSheet::testName()
@@ -451,7 +451,7 @@ void AddRemoveSpriteSheet::initWithQuantityOfNodes(unsigned int nNodes)
 
     NodeChildrenMainScene::initWithQuantityOfNodes(nNodes);
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void AddRemoveSpriteSheet::updateQuantityOfNodes()
@@ -926,7 +926,7 @@ const char*  SortAllChildrenSpriteSheet::testName()
 void VisitSceneGraph::initWithQuantityOfNodes(unsigned int nodes)
 {
     NodeChildrenMainScene::initWithQuantityOfNodes(nodes);
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void VisitSceneGraph::updateQuantityOfNodes()

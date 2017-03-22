@@ -164,10 +164,25 @@ void SchedulerPauseResumeAll::onEnter()
     this->addChild(sprite);
     sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
     sprite->setTag(123);
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.5f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 1.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 3.0f, 0, 3.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::tick1, 0)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::tick2, 1)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::pause, 2)
+            .delay(3.0f)
+            .interval(3.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerPauseResumeAll::update(float /*delta*/)
@@ -583,7 +598,7 @@ void SchedulerSchedulesAndRemove::scheduleAndUnschedule(float /*dt*/)
 void TestNode::initWithString(const std::string& str, int priority)
 {
     _string = str;
-    Director::getInstance()->getScheduler().scheduleUpdate(this, priority, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, priority).paused(isPaused()));
 }
 
 TestNode::~TestNode()
@@ -682,7 +697,7 @@ void SchedulerUpdateAndCustom::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.0f, CC_REPEAT_FOREVER, 0.1, !_running);
 }
@@ -737,7 +752,7 @@ void SchedulerUpdateFromCustom::update(float dt)
 
 void SchedulerUpdateFromCustom::schedUpdate(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this, 2.0f, CC_REPEAT_FOREVER, 2.0f, !_running);
 }
 
@@ -1034,7 +1049,7 @@ bool ScheduleUpdatePriority::onTouchBegan(Touch* /*touch*/, Event* /*event*/)
 {
     int priority = static_cast<int>(CCRANDOM_0_1() * 11);
     CCLOG("change update priority to %d", priority);
-    Director::getInstance()->getScheduler().scheduleUpdate(this, priority, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this, priority).paused(isPaused()));
     return true;
 }
 
@@ -1042,7 +1057,7 @@ void ScheduleUpdatePriority::onEnter()
 {
     SchedulerTestLayer::onEnter();
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(ScheduleUpdatePriority::onTouchBegan, this);

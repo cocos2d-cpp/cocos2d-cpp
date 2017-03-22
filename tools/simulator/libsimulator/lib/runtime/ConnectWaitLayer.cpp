@@ -149,7 +149,7 @@ ConnectWaitLayer::ConnectWaitLayer()
     };
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, playSprite);
 
-    this->scheduleUpdate();
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 ConnectWaitLayer::~ConnectWaitLayer()

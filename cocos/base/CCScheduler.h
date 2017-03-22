@@ -347,15 +347,6 @@ private:
 
 public: // deprecated
 
-    template<typename T>
-    CC_DEPRECATED_ATTRIBUTE
-    void scheduleUpdate(T *target, UpdateJob::priority_type priority, bool paused)
-    {
-        schedule(
-            UpdateJob(target, priority)
-                .paused(paused)
-        );
-    }
 #define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
     CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id);
     CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id);

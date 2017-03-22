@@ -107,7 +107,7 @@ bool NavMeshBaseTestDemo::init()
         _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
         initScene();
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     }
 
 

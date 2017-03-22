@@ -156,7 +156,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
         sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
         
         Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
-        Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
         this->_startItem->setEnabled(false);
         this->_stopItem->setEnabled(true);
         this->_toggle->setEnabled(false);

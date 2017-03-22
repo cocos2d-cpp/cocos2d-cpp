@@ -248,7 +248,7 @@ void NodeCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Node: %lu\n", sizeof(Node));
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void NodeCreateTest::update(float /*dt*/)
@@ -296,7 +296,7 @@ void NodeDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Node: %lu\n", sizeof(Node));
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void NodeDeallocTest::update(float /*dt*/)
@@ -349,7 +349,7 @@ void SpriteCreateEmptyTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Sprite: %lu\n", sizeof(Sprite));
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void SpriteCreateEmptyTest::update(float /*dt*/)
@@ -399,7 +399,7 @@ void SpriteCreateTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of Sprite: %lu\n", sizeof(Sprite));
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void SpriteCreateTest::update(float /*dt*/)
@@ -449,7 +449,7 @@ void SpriteDeallocTest::initWithQuantityOfNodes(unsigned int nNodes)
 
     log("Size of sprite: %lu\n", sizeof(Sprite));
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void SpriteDeallocTest::update(float /*dt*/)
