@@ -487,7 +487,7 @@ void PhysicsDemoRayCast::onEnter()
     this->addChild(menu);
     menu->setPosition(Vec2(VisibleRect::left().x + 100, VisibleRect::top().y - 10));
     
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
 }
 
 void PhysicsDemoRayCast::changeModeCallback(Ref* sender)
@@ -948,7 +948,7 @@ void PhysicsDemoPump::onEnter()
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoPump::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoPump::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, !_running);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     
     auto node = Node::create();
     auto nodeBody = PhysicsBody::create();

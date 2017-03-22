@@ -42,7 +42,7 @@ bool Bug14327Layer::init()
         _edit->setDelegate(this);
         this->addChild(_edit);
 
-        this->scheduleUpdate();
+        Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
         return true;
     }
 
@@ -64,7 +64,7 @@ void Bug14327Layer::update(float dt)
         _edit->removeFromParent();
         _edit = nullptr;
         _TTFShowTime->setString("Edit control has been removed!\nIt should not crash.");
-        this->unscheduleUpdate();
+        Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
     }
 }
 

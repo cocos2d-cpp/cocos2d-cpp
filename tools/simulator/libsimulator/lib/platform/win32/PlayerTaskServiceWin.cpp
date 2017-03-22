@@ -100,7 +100,8 @@ bool PlayerTaskWin::run()
     _outputBuffWide = new WCHAR[BUFF_SIZE];
     _state = STATE_RUNNING;
 
-    cocos2d::Director::getInstance()->getScheduler().scheduleUpdate(this, 0, false);
+    cocos2d::Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
+
     return true;
 }
 

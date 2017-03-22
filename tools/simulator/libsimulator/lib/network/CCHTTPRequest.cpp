@@ -182,8 +182,8 @@ bool HTTPRequest::start(void)
     pthread_detach(_thread);
 #endif
 
-    Director::getInstance()->getScheduler().scheduleUpdate(this, 0, false);
-    // CCLOG("HTTPRequest[0x%04x] - request start", s_id);
+    Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
+
     return true;
 }
 

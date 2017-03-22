@@ -135,7 +135,7 @@ bool PlayerTaskMac::run()
                   withArguments:[NSMutableArray arrayWithArray:[commandLine componentsSeparatedByString:@" "]]];
     _state = STATE_RUNNING;
     
-    cocos2d::Director::getInstance()->getScheduler().scheduleUpdate(this, 0, false);
+    cocos2d::Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     return true;
 }
 
