@@ -165,9 +165,24 @@ void SchedulerPauseResumeAll::onEnter()
     sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
     sprite->setTag(123);
     Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.5f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::tick2), this, 1.0f, CC_REPEAT_FOREVER, 1.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerPauseResumeAll::pause), this, 3.0f, 0, 3.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::tick1, 0)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::tick2, 1)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerPauseResumeAll::pause, 2)
+            .delay(3.0f)
+            .interval(3.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerPauseResumeAll::update(float /*delta*/)
