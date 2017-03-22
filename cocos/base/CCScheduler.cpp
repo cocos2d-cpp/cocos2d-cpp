@@ -265,8 +265,7 @@ void Scheduler::performFunctionInCocosThread(std::function<void()> function)
 template<typename V>
 static void run_and_erase_unscheduled(V & v, float dt)
 {
-    size_t move_to_idx = 0;
-
+    size_t n_to_erase = 0;
     const size_t size  = v.size();
 
     for (size_t i = 0; i < size; i++)
@@ -274,16 +273,24 @@ static void run_and_erase_unscheduled(V & v, float dt)
         if (! v[i].unscheduled())
         {
             if (! v[i].paused())
+            {
                 v[i].update(dt);
-
-            if (move_to_idx != i)
-                v[move_to_idx] = std::move( v[i]);
-
-            move_to_idx++;
+            }
+        }
+        else
+        {
+            n_to_erase++;
         }
     }
 
-    v.erase(v.begin() + move_to_idx, v.end());
+    if (n_to_erase)
+    {
+        v.erase(
+            std::remove_if(v.begin(), v.end(),
+                           [](auto const& j) { return j.unscheduled(); }),
+            v.end()
+        );
+    }
 }
 
 // main loop
@@ -293,6 +300,23 @@ void Scheduler::update(float dt)
 
     run_and_erase_unscheduled( _updateJobs, dt);
     run_and_erase_unscheduled( _timedJobs, dt);
+
+    // Functions scheeduled from another thread
+
+    if( !_functionsToPerform.empty() )
+    {
+        std::vector<std::function<void()>> tmp;
+        {
+            std::lock_guard<std::mutex> locker(_performMutex);
+            // if new functions are added in callback,
+            // it will cause thread deadlock.
+            tmp = std::move(_functionsToPerform);
+        }
+        for(auto function : tmp)
+        {
+            function();
+        }
+    }
 
     _updateJobs.reserve(_updateJobs.size() + _updateJobsToAdd.size());
 
@@ -351,23 +375,6 @@ void Scheduler::update(float dt)
     }
 
     _timedJobsToAdd.clear();
-
-    // Functions scheeduled from another thread
-
-    if( !_functionsToPerform.empty() )
-    {
-        std::vector<std::function<void()>> tmp;
-        {
-            std::lock_guard<std::mutex> locker(_performMutex);
-            // if new functions are added in callback,
-            // it will cause thread deadlock.
-            tmp = std::move(_functionsToPerform);
-        }
-        for(auto function : tmp)
-        {
-            function();
-        }
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
