@@ -146,8 +146,7 @@ bool Director::init()
     _actionManager.reset(new ActionManager);
 
     _scheduler.schedule(
-        UpdateJob(_actionManager.get(),
-                  std::numeric_limits<UpdateJob::priority_type>::min())
+        UpdateJob(_actionManager.get(), UpdateJob::SYSTEM_PRIORITY)
             .paused(false)
     );
 
@@ -183,7 +182,8 @@ Director::~Director(void)
 
     _runningScene.reset();
     CC_SAFE_RELEASE(_notificationNode);
-    _scheduler.unscheduleAllJobs();
+    _scheduler.unscheduleUpdateJob( _actionManager.get() );
+    _scheduler.unscheduleAll();
     CC_SAFE_RELEASE(_defaultFBO);
     
     delete _eventBeforeUpdate;
@@ -938,7 +938,8 @@ void Director::reset()
     _eventDispatcher->dispatchEvent(_eventResetDirector);
     
     // cleanup scheduler
-    _scheduler.unscheduleAllJobs();
+    _scheduler.unscheduleUpdateJob( _actionManager.get() );
+    _scheduler.unscheduleAll();
     
     // Remove all events
     if (_eventDispatcher)
@@ -1016,9 +1017,7 @@ void Director::restartDirector()
     initTextureCache();
     
     _scheduler.schedule(
-        UpdateJob(_actionManager.get(),
-                  std::numeric_limits<UpdateJob::priority_type>::min())
-            .paused(false)
+        UpdateJob(_actionManager.get(), UpdateJob::SYSTEM_PRIORITY).paused(false)
     );
 
     // release the objects

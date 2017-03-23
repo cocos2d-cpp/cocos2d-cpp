@@ -1262,13 +1262,13 @@ ssize_t Node::getNumberOfRunningActions() const
 
 void Node::resume()
 {
-    _director->getScheduler().resumeJobsForTarget(this);
+    _director->getScheduler().resumeAllForTarget(this);
     _eventDispatcher->resumeEventListenersForTarget(this);
 }
 
 void Node::pause()
 {
-    _director->getScheduler().pauseJobsForTarget(this);
+    _director->getScheduler().pauseAllForTarget(this);
     _eventDispatcher->pauseEventListenersForTarget(this);
 }
 

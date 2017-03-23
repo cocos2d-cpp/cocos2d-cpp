@@ -24,7 +24,11 @@ THE SOFTWARE.
 
 #include "base/ccMacros.h"
 
+#include <limits>
+
 namespace cocos2d {
+
+const UpdateJob::priority_type UpdateJob::SYSTEM_PRIORITY = std::numeric_limits<UpdateJob::priority_type>::min();
 
 void TimedJob::update(float dt)
 {
@@ -163,20 +167,45 @@ void Scheduler::unscheduleTimedJob(void *target, TimedJob::id_type id)
     unschedule_in(_timedJobsToAdd);
 }
 
-template<typename V>
-static void unscheduleAllHelper(V & v)
+template<typename F1, typename F2>
+static void for_each(std::vector<UpdateJob> & v, F1 for_system, F2 for_users)
 {
-    for (auto & job : v)
-        job.unschedule();
+    size_t i = 0;
+    const size_t size = v.size();
+
+    for ( ; i < size && v[i].priority() == UpdateJob::SYSTEM_PRIORITY; i++)
+        for_system(v[i]);
+
+    for ( ; i < size; i++)
+        for_users(v[i]);
 }
 
-void Scheduler::unscheduleAllJobs()
+void Scheduler::unscheduleAll()
 {
-    unscheduleAllHelper( _updateJobs);
     _update_target_to_priority.clear();
-    unscheduleAllHelper( _updateJobsToAdd);
-    unscheduleAllHelper( _timedJobs);
-    unscheduleAllHelper( _timedJobsToAdd);
+
+    for_each(
+        _updateJobs,
+        [=](auto & j) {
+            if (! j.unscheduled())
+                _update_target_to_priority[ j.target() ] = j.priority();
+        },
+        [](auto & j) {
+            j.unschedule();
+        }
+    );
+    for_each(
+        _updateJobsToAdd,
+        [](auto &) {},
+        [](auto & j) {
+            j.unschedule();
+        }
+    );
+
+    for (auto & job : _timedJobs)
+        job.unschedule();
+    for (auto & job : _timedJobsToAdd)
+        job.unschedule();
 }
 
 template<typename V>
@@ -207,18 +236,44 @@ static void updatePausedStateForAll(V & v, bool paused)
         job.paused(paused);
 }
 
-void Scheduler::pauseAllJobs()
+void Scheduler::pauseAll()
 {
-    updatePausedStateForAll( _updateJobs,      true);
-    updatePausedStateForAll( _updateJobsToAdd, true);
+    for_each(
+        _updateJobs,
+        [](auto &) {},
+        [](auto & j) {
+            j.paused(true);
+        }
+    );
+    for_each(
+        _updateJobsToAdd,
+        [](auto &) {},
+        [](auto & j) {
+            j.paused(true);
+        }
+    );
+
     updatePausedStateForAll( _timedJobs,       true);
     updatePausedStateForAll( _timedJobsToAdd,  true);
 }
 
-void Scheduler::resumeAllJobs()
+void Scheduler::resumeAll()
 {
-    updatePausedStateForAll( _updateJobs,      false);
-    updatePausedStateForAll( _updateJobsToAdd, false);
+    for_each(
+        _updateJobs,
+        [](auto &) {},
+        [](auto & j) {
+            j.paused(false);
+        }
+    );
+    for_each(
+        _updateJobsToAdd,
+        [](auto &) {},
+        [](auto & j) {
+            j.paused(false);
+        }
+    );
+
     updatePausedStateForAll( _timedJobs,       false);
     updatePausedStateForAll( _timedJobsToAdd,  false);
 }
@@ -246,12 +301,12 @@ void Scheduler::updatePausedStateForTarget(void *target, bool paused)
     updatePausedStateForTargetHelper(_timedJobsToAdd,  target, paused);
 }
 
-void Scheduler::pauseJobsForTarget(void *target)
+void Scheduler::pauseAllForTarget(void *target)
 {
     updatePausedStateForTarget(target, true);
 }
 
-void Scheduler::resumeJobsForTarget(void *target)
+void Scheduler::resumeAllForTarget(void *target)
 {
     updatePausedStateForTarget(target, false);
 }

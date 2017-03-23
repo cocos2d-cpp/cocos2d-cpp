@@ -95,24 +95,7 @@ public:
     void tick2(float dt);
     void tick3(float dt);
     void tick4(float dt);
-    void unscheduleAllJobs(float dt);
-};
-
-class SchedulerUnscheduleAllHard : public SchedulerTestLayer
-{
-public:
-    CREATE_FUNC(SchedulerUnscheduleAllHard);
-
-    virtual void onEnter() override;
-    virtual void onExit() override;
-    virtual std::string title() const override;
-    virtual std::string subtitle() const override;
-
-    void tick1(float dt);
-    void tick2(float dt);
-    void tick3(float dt);
-    void tick4(float dt);
-    void unscheduleAllJobs(float dt);
+    void unscheduleAll(float dt);
 };
 
 class SchedulerUnscheduleAllUserLevel : public SchedulerTestLayer
@@ -128,7 +111,7 @@ public:
     void tick2(float dt);
     void tick3(float dt);
     void tick4(float dt);
-    void unscheduleAllJobs(float dt);
+    void unscheduleAll(float dt);
 };
 
 class SchedulerSchedulesAndRemove : public SchedulerTestLayer

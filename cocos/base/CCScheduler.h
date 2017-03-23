@@ -69,6 +69,8 @@ class UpdateJob : public UpdateJobId {
 public:
     using priority_type = UpdateJobId::priority_type;
 
+    static const priority_type SYSTEM_PRIORITY;
+
 public:
     template<typename T>
         UpdateJob(T* target, priority_type priority = 0)
@@ -307,13 +309,13 @@ public:
     void unscheduleTimedJob(void * target, TimedJob::id_type id);
 
     void unscheduleAllForTarget(void *target);
-    void unscheduleAllJobs();
+    void unscheduleAll();
 
-    void pauseJobsForTarget(void *target);
-    void resumeJobsForTarget(void *target);
+    void pauseAllForTarget(void *target);
+    void resumeAllForTarget(void *target);
     
-    void pauseAllJobs();
-    void resumeAllJobs();
+    void pauseAll();
+    void resumeAll();
 
     /** Calls a function on the cocos2d thread. Useful when you need to call a cocos2d function from another thread.
      This function is thread safe.
