@@ -584,13 +584,13 @@ void SpriteMainScene::update(float dt)
 
 void SpriteMainScene::beginStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 1);
     isStating = true;
 }
 
 void SpriteMainScene::endStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 2);
     isStating = false;
     
     // record test data
@@ -648,8 +648,18 @@ void SpriteMainScene::doAutoTest()
     updateNodes();
     updateTitle();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SpriteMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteMainScene::beginStat, 1)
+            .delay(DELAY_TIME)
+            .interval(DELAY_TIME)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SpriteMainScene::endStat, 2)
+            .delay(DELAY_TIME + STAT_TIME)
+            .interval(DELAY_TIME + STAT_TIME)
+            .paused(isPaused())
+    );
 }
 
 ////////////////////////////////////////////////////////

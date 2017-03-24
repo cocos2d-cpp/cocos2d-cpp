@@ -139,7 +139,7 @@ void InvokeMemberFunctionPerfTest::onEnter()
     PerformanceCallbackScene::onEnter();
     _profileName = "InvokeMemberFunction";
     _target = this;
-    _selector = CC_SCHEDULE_SELECTOR(InvokeMemberFunctionPerfTest::update);
+    _selector = &InvokeMemberFunctionPerfTest::update;
 }
 
 std::string InvokeMemberFunctionPerfTest::title() const

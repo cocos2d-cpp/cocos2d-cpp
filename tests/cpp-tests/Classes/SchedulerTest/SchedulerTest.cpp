@@ -1006,15 +1006,15 @@ std::string ScheduleCallbackTest::title() const
 std::string ScheduleCallbackTest::subtitle() const
 {
     return "\n\n\n\nPlease see console.\n\
-schedule(lambda, ...)\n\
-schedule(CC_CALLBACK_1(XXX::member_function), this), this, ...)\n\
-schedule(global_function, ...)\n\
+schedule(TimedJob(this, lambda) ...)\n\
+schedule(TimedJob(this, &XXX::member) ...)\n\
+schedule(TimedJob(this, global_function) ...)\n\
 ";
 }
 
 static void ScheduleCallbackTest_global_callback(float dt)
 {
-    log("In the callback of schedule(global_function, ...), dt = %f", dt);
+    log("In the callback of schedule(TimedJob(this, global_function) ...), dt = %f", dt);
 }
 
 void ScheduleCallbackTest::onEnter()
@@ -1022,7 +1022,7 @@ void ScheduleCallbackTest::onEnter()
     SchedulerTestLayer::onEnter();
 
     auto lambda = [](float dt){
-        log("In the callback of schedule(lambda, ...), dt = %f", dt);
+        log("In the callback of schedule(TimedJob(this, lambda) ...), dt = %f", dt);
     };
     
     Director::getInstance()->getScheduler().schedule(
@@ -1040,7 +1040,7 @@ void ScheduleCallbackTest::onEnter()
 
 void ScheduleCallbackTest::callback(float dt)
 {
-    log("In the callback of schedule(CC_CALLBACK_1(XXX::member_function), this), this, ...), dt = %f", dt);
+    log("In the callback of schedule(TimedJob(this, &XXX::member) ...), dt = %f", dt);
 }
 
 

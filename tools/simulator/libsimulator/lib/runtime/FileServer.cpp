@@ -72,7 +72,7 @@ void FileServer::readResFileFinfo()
     }
     
     //save file info to disk every five second
-    Director::getInstance()->getScheduler().schedule([&](float){
+    auto sched_f = [=](float){
         rapidjson::StringBuffer buffer;
         rapidjson::Writer< rapidjson::StringBuffer > writer(buffer);
         _filecfgjson.Accept(writer);
@@ -82,7 +82,12 @@ void FileServer::readResFileFinfo()
         if (!pFile) return ;
         fwrite(str, sizeof(char), strlen(str), pFile);
         fclose(pFile);
-    },this, 5.0f, false, "fileinfo");
+    };
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, sched_f, 1)
+            .delay(5.0f)
+            .interval(5.0f)
+    );
 }
 
 void FileServer::addResFileInfo(const char* filename, uint64_t u64)

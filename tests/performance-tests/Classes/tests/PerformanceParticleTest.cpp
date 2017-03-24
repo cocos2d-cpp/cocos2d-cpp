@@ -137,7 +137,9 @@ void ParticleMainScene::initWithSubTest(int asubtest, int particles)
     updateQuantityLabel();
     createParticleSystem();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::step), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ParticleMainScene::step).paused(isPaused())
+    );
 }
 
 void ParticleMainScene::onExitTransitionDidStart()
@@ -178,19 +180,29 @@ void ParticleMainScene::doAutoTest()
     updateTitle();
     createParticleSystem();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ParticleMainScene::beginStat, 1)
+            .delay(DELAY_TIME)
+            .interval(DELAY_TIME)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ParticleMainScene::endStat, 2)
+            .delay(DELAY_TIME + STAT_TIME)
+            .interval(DELAY_TIME + STAT_TIME)
+            .paused(isPaused())
+    );
 }
 
 void ParticleMainScene::beginStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::beginStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 1);
     isStating = true;
 }
 
 void ParticleMainScene::endStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(ParticleMainScene::endStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 2);
     isStating = false;
 
     // record test data
@@ -283,14 +295,7 @@ void ParticleMainScene::createParticleSystem()
     auto texture = Director::getInstance()->getTextureCache()->addImage("Images/fire.png");
     Director::getInstance()->getTextureCache()->removeTexture(texture);
 
-//TODO:     if (subtestNumber <= 3)
-//     {
-//         particleSystem = new (std::nothrow) ParticleSystemPoint();
-//     }
-//     else
-    {
-        particleSystem = ParticleSystemQuad::createWithTotalParticles(quantityParticles);
-    }
+    particleSystem = ParticleSystemQuad::createWithTotalParticles(quantityParticles);
 
     switch( subtestNumber)
     {

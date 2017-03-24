@@ -167,7 +167,9 @@ bool SceneTestLayer3::init()
         this->addChild(menu);
         menu->alignItemsVertically();
 
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SceneTestLayer3::testDealloc), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+        Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, &SceneTestLayer3::testDealloc).paused(isPaused())
+        );
 
         auto sprite = Sprite::create(s_pathGrossini);
         addChild(sprite);

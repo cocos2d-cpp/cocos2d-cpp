@@ -346,16 +346,6 @@ private:
     // Used for "perform Function"
     std::vector<std::function<void()>> _functionsToPerform;
     std::mutex _performMutex;
-
-public: // deprecated
-
-#define CC_SCHEDULE_SELECTOR(_SELECTOR) static_cast<cocos2d::SEL_SCHEDULE>(&_SELECTOR)
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)> callback, void *target, float interval, unsigned int repeat, float delay, bool paused, const std::string& id);
-    CC_DEPRECATED_ATTRIBUTE void schedule(std::function<void(float)> callback, void *target, float interval, bool paused, const std::string& id);
-    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, unsigned int repeat, float delay, bool paused);
-    CC_DEPRECATED_ATTRIBUTE void schedule(SEL_SCHEDULE selector, Ref *target, float interval, bool paused);
-    CC_DEPRECATED_ATTRIBUTE void unschedule(const std::string& id, void *target);
-    CC_DEPRECATED_ATTRIBUTE void unschedule(SEL_SCHEDULE selector, Ref *target);
 };
 
 } // namespace cocos2d

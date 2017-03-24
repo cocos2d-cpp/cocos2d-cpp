@@ -83,7 +83,7 @@ void Particle3DMainScene::initScene()
     updateQuantityLabel();
     createParticleSystem(_quantityParticles - 1);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::step), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(TimedJob(this, &Particle3DMainScene::step, 0).paused(isPaused()));
 }
 
 void Particle3DMainScene::onExitTransitionDidStart()
@@ -132,19 +132,29 @@ void Particle3DMainScene::doAutoTest()
         createParticleSystem(i);
     }
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::beginStat), this, DELAY_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::endStat), this, DELAY_TIME + STAT_TIME, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Particle3DMainScene::beginStat, 1)
+            .delay(DELAY_TIME)
+            .interval(DELAY_TIME)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &Particle3DMainScene::endStat, 2)
+            .delay(DELAY_TIME + STAT_TIME)
+            .interval(DELAY_TIME + STAT_TIME)
+            .paused(isPaused())
+    );
 }
 
 void Particle3DMainScene::beginStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::beginStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 1);
     isStating = true;
 }
 
 void Particle3DMainScene::endStat(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(Particle3DMainScene::endStat), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 2);
     isStating = false;
 
     // record test data

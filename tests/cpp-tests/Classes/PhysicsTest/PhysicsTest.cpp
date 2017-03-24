@@ -435,7 +435,12 @@ void PhysicsDemoPyramidStack::onEnter()
     ball->setPosition(VisibleRect::bottom() + Vec2(0, 60));
     this->addChild(ball);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsDemoPyramidStack::updateOnce), this, 0.0, 0, 3.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PhysicsDemoPyramidStack::updateOnce)
+            .delay(3.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
     
     for (int i = 0; i < 14; i++)
     {
@@ -1638,7 +1643,12 @@ void PhysicsSetGravityEnableTest::onEnter()
     ballBody->setMass(50);
     addChild(ball);
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsSetGravityEnableTest::onScheduleOnce), this, 0.0, 0, 1.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PhysicsSetGravityEnableTest::onScheduleOnce)
+            .delay(1.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void PhysicsSetGravityEnableTest::onScheduleOnce(float /*delta*/)
@@ -1741,7 +1751,12 @@ void PhysicsFixedUpdate::onEnter()
     
     addBall();
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PhysicsFixedUpdate::updateStart), this, 0.0, 0, 2.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PhysicsFixedUpdate::updateStart)
+            .delay(2.0f)
+            .repeat(0)
+            .paused(isPaused())
+    );
 }
 
 void PhysicsFixedUpdate::addBall()

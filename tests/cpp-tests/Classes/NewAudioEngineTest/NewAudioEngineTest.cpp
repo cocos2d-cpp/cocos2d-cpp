@@ -244,9 +244,15 @@ bool AudioControlTest::init()
                     
                     _playOverLabel->setVisible(true);
                     
-                    Director::getInstance()->getScheduler().schedule([&](float /*dt*/){
+                    auto f = [=](float /*dt*/){
                         _playOverLabel->setVisible(false);
-                    }, this, 0.0f, 0, 2.0f, !_running, "hide_play_over_label");
+                    };
+                    Director::getInstance()->getScheduler().schedule(
+                        TimedJob(this, f)
+                            .delay(2.0f)
+                            .repeat(0)
+                            .paused(isPaused())
+                    );
                     
                     assert(!_isStopped); // Stop audio should not trigger finshed callback
                     _audioID = AudioEngine::INVALID_AUDIO_ID;
@@ -354,7 +360,12 @@ bool AudioControlTest::init()
     timeLabel->setPosition(timeSliderPos.x - sliderSize.width / 2, timeSliderPos.y);
     addChild(timeLabel);
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(AudioControlTest::update, this), this, 0.1f, CC_REPEAT_FOREVER, 0.0f, !_running, "update_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &AudioControlTest::update, 111)
+            .delay(0.1f)
+            .interval(0.1f)
+            .paused(isPaused())
+    );
     
     return ret;
 }
@@ -559,7 +570,12 @@ bool AudioProfileTest::init()
     addChild(timeSlider);
     _timeSlider = timeSlider;
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(AudioProfileTest::update, this), this, 0.05f, CC_REPEAT_FOREVER, 0.0f, !_running, "update_key");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &AudioProfileTest::update, 111)
+            .delay(0.05f)
+            .interval(0.05f)
+            .paused(isPaused())
+    );
     
     return ret;
 }
@@ -664,12 +680,16 @@ bool AudioIssue11143Test::init()
             auto audioId = AudioEngine::play2d("audio/SoundEffectsFX009/FX082.mp3", true);
             char key[100] = {0};
             sprintf(key, "play another sound %d", audioId);
+            auto sched_f = [audioId](float /*dt*/){
+                AudioEngine::stop(audioId);
+                AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
+            };
             Director::getInstance()->getScheduler().schedule(
-                [audioId](float /*dt*/){
-                    AudioEngine::stop(audioId);
-                    AudioEngine::play2d("audio/SoundEffectsFX009/FX083.mp3");
-                }, button, 0.0f, 0, 0.3f, button->isPaused(), key);
-
+                TimedJob(button, sched_f)
+                    .delay(0.3f)
+                    .repeat(0)
+                    .paused(button->isPaused())
+            );
         });
         playItem->setPosition(layerSize.width * 0.5f, layerSize.height * 0.5f);
         addChild(playItem);
@@ -745,20 +765,28 @@ bool AudioPerformanceTest::init()
             button->setEnabled(false);
             static_cast<TextButton*>(getChildByName("DisplayButton"))->setEnabled(true);
             
-            Director::getInstance()->getScheduler().unschedule("test", this);
-            Director::getInstance()->getScheduler().schedule([audioFiles](float /*dt*/){
+            Director::getInstance()->getScheduler().unscheduleTimedJob(this, 333);
+
+            auto sched_f = [audioFiles](float /*dt*/){
                 int index = cocos2d::random(0, (int)(audioFiles.size()-1));
                 CC_PROFILER_START("play2d");
                 AudioEngine::play2d(audioFiles[index]);
                 CC_PROFILER_STOP("play2d");
-            }, this, 0.25f, CC_REPEAT_FOREVER, 0.0f, !_running, "test");
+            };
+
+            Director::getInstance()->getScheduler().schedule(
+                TimedJob(this, sched_f, 333)
+                    .delay(0.25f)
+                    .interval(0.25f)
+                    .paused(isPaused())
+            );
         });
         playItem->setPosition(layerSize.width * 0.5f, layerSize.height * 2 / 3);
         playItem->setName("PlayButton");
         addChild(playItem);
         
         auto displayItem = TextButton::create("Display Result", [this, playItem](TextButton* button){
-            Director::getInstance()->getScheduler().unschedule("test", this);
+            Director::getInstance()->getScheduler().unscheduleTimedJob(this, 333);
             AudioEngine::stopAll();
             CC_PROFILER_DISPLAY_TIMERS();
             playItem->setEnabled(true);
@@ -791,14 +819,20 @@ bool AudioSwitchStateTest::init()
 {
     if (AudioEngineTestDemo::init())
     {
-        Director::getInstance()->getScheduler().schedule([](float /*dt*/){
+        auto sched_f = [](float /*dt*/) {
             
             AudioEngine::uncacheAll();
             AudioEngine::preload("audio/SoundEffectsFX009/FX081.mp3");
             AudioEngine::play2d("audio/SoundEffectsFX009/FX082.mp3");
             AudioEngine::play2d("audio/LuckyDay.mp3");
             
-        }, this, 0.1f, CC_REPEAT_FOREVER, 0.0f, !_running, "AudioSwitchStateTest");
+        };
+        Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, sched_f, 333)
+                .delay(0.1f)
+                .interval(0.1f)
+                .paused(isPaused())
+        );
          
         return true;
     }

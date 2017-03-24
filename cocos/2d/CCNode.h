@@ -134,8 +134,6 @@ node_ptr<T> to_node_ptr(T * ptr)
 
  */
 
-typedef void (Ref::*SEL_SCHEDULE)(float);
-
 class CC_DLL Node : public Ref
 {
 public:

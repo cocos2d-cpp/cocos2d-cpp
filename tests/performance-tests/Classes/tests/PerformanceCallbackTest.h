@@ -69,8 +69,8 @@ public:
     virtual void update(float /*dt*/) override { _placeHolder = 200; };
     
 private:
-    cocos2d::Node* _target;
-    cocos2d::SEL_SCHEDULE _selector;
+    InvokeMemberFunctionPerfTest* _target;
+    void (InvokeMemberFunctionPerfTest::*_selector)(float);
 };
 
 // InvokeStdFunctionPerfTest

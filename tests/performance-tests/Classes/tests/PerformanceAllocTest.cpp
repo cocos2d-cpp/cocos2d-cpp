@@ -172,7 +172,7 @@ void PerformceAllocScene::onExitTransitionDidStart()
     auto director = Director::getInstance();
     auto & sched = director->getScheduler();
 
-    sched.unschedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this);
+    sched.unscheduleTimedJob(this, 0);
 }
 
 void PerformceAllocScene::onEnterTransitionDidFinish()
@@ -195,7 +195,11 @@ void PerformceAllocScene::onEnterTransitionDidFinish()
     }
     
     CC_PROFILER_PURGE_ALL();
-    sched.schedule(CC_SCHEDULE_SELECTOR(PerformceAllocScene::dumpProfilerInfo), this, 2, false);
+    sched.schedule(
+        TimedJob(this, &PerformceAllocScene::dumpProfilerInfo, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+    );
 }
 
 void PerformceAllocScene::dumpProfilerInfo(float /*dt*/)

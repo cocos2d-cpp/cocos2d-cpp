@@ -33,17 +33,17 @@ using namespace cocos2d;
 
 PerformceNodeChildrenTests::PerformceNodeChildrenTests()
 {
-//    ADD_TEST_CASE(IterateSpriteSheetForLoop);
-//    ADD_TEST_CASE(IterateSpriteSheetIterator);
-//    ADD_TEST_CASE(IterateSpriteSheetForEach);
-//    ADD_TEST_CASE(CallFuncsSpriteSheetForEach);
+    ADD_TEST_CASE(IterateSpriteSheetForLoop);
+    ADD_TEST_CASE(IterateSpriteSheetIterator);
+    ADD_TEST_CASE(IterateSpriteSheetForEach);
+    ADD_TEST_CASE(CallFuncsSpriteSheetForEach);
     ADD_TEST_CASE(AddSprite);
-//    ADD_TEST_CASE(AddSpriteSheet);
+    ADD_TEST_CASE(AddSpriteSheet);
     ADD_TEST_CASE(GetSpriteSheet);
     ADD_TEST_CASE(RemoveSprite);
-//    ADD_TEST_CASE(RemoveSpriteSheet);
-//    ADD_TEST_CASE(ReorderSpriteSheet);
-//    ADD_TEST_CASE(SortAllChildrenSpriteSheet);
+    ADD_TEST_CASE(RemoveSpriteSheet);
+    ADD_TEST_CASE(ReorderSpriteSheet);
+    ADD_TEST_CASE(SortAllChildrenSpriteSheet);
     ADD_TEST_CASE(VisitSceneGraph);
 }
 
@@ -91,7 +91,7 @@ void NodeChildrenMainScene::onExitTransitionDidStart()
     auto director = Director::getInstance();
     auto & sched = director->getScheduler();
 
-    sched.unschedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this);
+    sched.unscheduleTimedJob(this, 0);
 }
 
 void NodeChildrenMainScene::onEnterTransitionDidFinish()
@@ -112,7 +112,7 @@ void NodeChildrenMainScene::onEnterTransitionDidFinish()
     }
     
     CC_PROFILER_PURGE_ALL();
-    sched.schedule(CC_SCHEDULE_SELECTOR(NodeChildrenMainScene::dumpProfilerInfo), this, 2, false);
+    sched.schedule(TimedJob(this, &NodeChildrenMainScene::dumpProfilerInfo, 0).delay(2.0f).interval(2.0f));
 }
 
 void NodeChildrenMainScene::dumpProfilerInfo(float /*dt*/)
