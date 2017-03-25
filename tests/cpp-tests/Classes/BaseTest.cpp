@@ -386,13 +386,13 @@ TestCase::~TestCase()
 
 void TestCase::resume()
 {
-    _director->getScheduler().resumeJobsForTarget(&_runTime);
+    _director->getScheduler().resumeAllForTarget(&_runTime);
     Node::resume();
 }
 
 void TestCase::pause()
 {
-    _director->getScheduler().pauseJobsForTarget(&_runTime);
+    _director->getScheduler().pauseAllForTarget(&_runTime);
     Node::pause();
 }
 

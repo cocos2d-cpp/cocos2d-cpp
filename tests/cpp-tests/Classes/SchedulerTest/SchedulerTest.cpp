@@ -21,7 +21,6 @@ SchedulerTests::SchedulerTests()
     ADD_TEST_CASE(SchedulerPauseResumeAll);
     ADD_TEST_CASE(SchedulerPauseResumeAllUser);
     ADD_TEST_CASE(SchedulerUnscheduleAll);
-    ADD_TEST_CASE(SchedulerUnscheduleAllHard);
     ADD_TEST_CASE(SchedulerUnscheduleAllUserLevel);
     ADD_TEST_CASE(SchedulerSchedulesAndRemove);
     ADD_TEST_CASE(SchedulerUpdate);
@@ -126,7 +125,7 @@ void SchedulerPauseResume::tick2(float /*dt*/)
 void SchedulerPauseResume::pause(float dt)
 {
     CCLOG("paused. tick1 and tick2 should have been called six times. Time %f", dt);
-    Director::getInstance()->getScheduler().pauseJobsForTarget(this);
+    Director::getInstance()->getScheduler().pauseAllForTarget(this);
 }
 
 std::string SchedulerPauseResume::title() const
@@ -192,7 +191,7 @@ void SchedulerPauseResumeAll::update(float /*delta*/)
 
 void SchedulerPauseResumeAll::onExit()
 {
-    Director::getInstance()->getScheduler().resumeAllJobs();
+    Director::getInstance()->getScheduler().resumeAll();
     SchedulerTestLayer::onExit();
 }
 
@@ -209,20 +208,23 @@ void SchedulerPauseResumeAll::tick2(float /*dt*/)
 void SchedulerPauseResumeAll::pause(float /*dt*/)
 {
     log("Pausing, tick1 should be called six times and tick2 three times");
-    Director::getInstance()->getScheduler().pauseAllJobs();
+    Director::getInstance()->getScheduler().pauseAll();
 
     // because target 'this' has been paused above, so use another node(tag:123) as target
     auto child123 = getChildByTag(123);
+    auto f = [this](float dt) {
+        this->resume(dt);
+    };
+
     Director::getInstance()->getScheduler().schedule(
-        [this](float dt) {
-            this->resume(dt);
-        }, child123, 0.0f, 0, 2.0f, false, "test resume");
+        TimedJob(child123, f, 3).delay(2.0f)
+    );
 }
 
 void SchedulerPauseResumeAll::resume(float /*dt*/)
 {
     log("Resuming");
-    Director::getInstance()->getScheduler().resumeAllJobs();
+    Director::getInstance()->getScheduler().resumeAll();
 }
 
 std::string SchedulerPauseResumeAll::title() const
@@ -302,7 +304,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 {
     log("Pausing, tick1 and tick2 should be called three times");
     auto director = Director::getInstance();
-    director->getScheduler().pauseAllJobs();
+    director->getScheduler().pauseAll();
     // using another node(tag:123) as target
     auto child123 = getChildByTag(123);
     Director::getInstance()->getScheduler().schedule(
@@ -315,7 +317,7 @@ void SchedulerPauseResumeAllUser::pause(float /*dt*/)
 void SchedulerPauseResumeAllUser::resume(float /*dt*/)
 {
     log("Resuming");
-    Director::getInstance()->getScheduler().resumeAllJobs();
+    Director::getInstance()->getScheduler().resumeAll();
 }
 
 std::string SchedulerPauseResumeAllUser::title() const
@@ -355,7 +357,7 @@ void SchedulerUnscheduleAll::onEnter()
             .interval(1.5f)
     );
     Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAll::unscheduleAllJobs)
+        TimedJob(this, &SchedulerUnscheduleAll::unscheduleAll)
             .delay(4.0f)
     );
 }
@@ -380,7 +382,7 @@ void SchedulerUnscheduleAll::tick4(float /*dt*/)
     CCLOG("tick4");
 }
 
-void SchedulerUnscheduleAll::unscheduleAllJobs(float /*dt*/)
+void SchedulerUnscheduleAll::unscheduleAll(float /*dt*/)
 {
     Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
 }
@@ -393,89 +395,6 @@ std::string SchedulerUnscheduleAll::title() const
 std::string SchedulerUnscheduleAll::subtitle() const
 {
     return "All scheduled selectors will be unscheduled in 4 seconds. See console";
-}
-
-//------------------------------------------------------------------
-//
-// SchedulerUnscheduleAllHard
-//
-//------------------------------------------------------------------
-void SchedulerUnscheduleAllHard::onEnter()
-{
-    SchedulerTestLayer::onEnter();
-
-    auto s = Director::getInstance()->getWinSize();
-
-    auto sprite = Sprite::create("Images/grossinis_sister1.png");
-    sprite->setPosition(Vec2(s.width/2, s.height/2));
-    this->addChild(sprite);
-    sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
-
-    Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAllHard::tick1)
-            .interval(0.5f)
-            .paused(isPaused())
-    );
-    Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAllHard::tick2)
-            .interval(1.0f)
-            .paused(isPaused())
-    );
-    Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAllHard::tick3)
-            .interval(1.0f)
-            .paused(isPaused())
-    );
-    Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAllHard::tick4)
-            .interval(1.0f)
-            .paused(isPaused())
-    );
-    Director::getInstance()->getScheduler().schedule(
-        TimedJob(this, &SchedulerUnscheduleAllHard::unscheduleAllJobs)
-            .delay(4.0f)
-            .paused(isPaused())
-    );
-}
-
-void SchedulerUnscheduleAllHard::onExit()
-{
-    SchedulerTestLayer::onExit();
-}
-
-void SchedulerUnscheduleAllHard::tick1(float /*dt*/)
-{
-    CCLOG("tick1");
-}
-
-void SchedulerUnscheduleAllHard::tick2(float /*dt*/)
-{
-    CCLOG("tick2");
-}
-
-void SchedulerUnscheduleAllHard::tick3(float /*dt*/)
-{
-    CCLOG("tick3");
-}
-
-void SchedulerUnscheduleAllHard::tick4(float /*dt*/)
-{
-    CCLOG("tick4");
-}
-
-void SchedulerUnscheduleAllHard::unscheduleAllJobs(float /*dt*/)
-{
-    Director::getInstance()->getScheduler().unscheduleAllJobs();
-}
-
-std::string SchedulerUnscheduleAllHard::title() const
-{
-    return "Unschedule All selectors (HARD)";
-}
-
-std::string SchedulerUnscheduleAllHard::subtitle() const
-{
-    return "Unschedules all user selectors after 4s. Action will stop. See console";
 }
 
 //------------------------------------------------------------------
@@ -494,11 +413,36 @@ void SchedulerUnscheduleAllUserLevel::onEnter()
     this->addChild(sprite);
     sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(3.0, 360)));
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick3), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::tick4), this, 1.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUnscheduleAllUserLevel::unscheduleAllJobs), this, 4, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUnscheduleAllUserLevel::tick1)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUnscheduleAllUserLevel::tick2)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUnscheduleAllUserLevel::tick3)
+            .delay(1.5f)
+            .interval(1.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUnscheduleAllUserLevel::tick4)
+            .delay(1.5f)
+            .interval(1.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUnscheduleAllUserLevel::unscheduleAll)
+            .delay(4.0f)
+            .interval(4.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerUnscheduleAllUserLevel::tick1(float /*dt*/)
@@ -521,9 +465,9 @@ void SchedulerUnscheduleAllUserLevel::tick4(float /*dt*/)
     CCLOG("tick4");
 }
 
-void SchedulerUnscheduleAllUserLevel::unscheduleAllJobs(float /*dt*/)
+void SchedulerUnscheduleAllUserLevel::unscheduleAll(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unscheduleAllJobs();
+    Director::getInstance()->getScheduler().unscheduleAll();
 }
 
 std::string SchedulerUnscheduleAllUserLevel::title() const
@@ -545,9 +489,24 @@ void SchedulerSchedulesAndRemove::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1), this, 0.5f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule), this, 4.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerSchedulesAndRemove::tick1, 1)
+            .delay(0.5f)
+            .interval(0.5f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerSchedulesAndRemove::tick2, 2)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerSchedulesAndRemove::scheduleAndUnschedule, 3)
+            .delay(4.0f)
+            .interval(4.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerSchedulesAndRemove::tick1(float /*dt*/)
@@ -582,12 +541,22 @@ std::string SchedulerSchedulesAndRemove::subtitle() const
 
 void SchedulerSchedulesAndRemove::scheduleAndUnschedule(float /*dt*/)
 {
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick1), this);
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick2), this);
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::scheduleAndUnschedule), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 1);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 2);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 3);
 
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick3), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerSchedulesAndRemove::tick4), this, 1.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerSchedulesAndRemove::tick3, 4)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerSchedulesAndRemove::tick4, 5)
+            .delay(1.0f)
+            .interval(1.0f)
+            .paused(isPaused())
+    );
 }
 
 //------------------------------------------------------------------
@@ -698,8 +667,15 @@ void SchedulerUpdateAndCustom::onEnter()
     SchedulerTestLayer::onEnter();
 
     Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::tick), this, 0.0f, CC_REPEAT_FOREVER, 0.0f, !_running);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateAndCustom::stopSelectors), this, 0.0f, CC_REPEAT_FOREVER, 0.1, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUpdateAndCustom::tick)
+            .paused(isPaused())
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUpdateAndCustom::stopSelectors)
+            .delay(0.1f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerUpdateAndCustom::update(float dt)
@@ -753,13 +729,18 @@ void SchedulerUpdateFromCustom::update(float dt)
 void SchedulerUpdateFromCustom::schedUpdate(float /*dt*/)
 {
     Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this, 2.0f, CC_REPEAT_FOREVER, 2.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerUpdateFromCustom::stopUpdate, 0)
+            .delay(2.0f)
+            .interval(2.0f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerUpdateFromCustom::stopUpdate(float /*dt*/)
 {
     Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
-    Director::getInstance()->getScheduler().unschedule(CC_SCHEDULE_SELECTOR(SchedulerUpdateFromCustom::stopUpdate), this);
+    Director::getInstance()->getScheduler().unscheduleTimedJob(this, 0);
 }
 
 std::string SchedulerUpdateFromCustom::title() const
@@ -783,7 +764,12 @@ void RescheduleSelector::onEnter()
 
     _interval = 1.0f;
     _ticks    = 0;
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), this, _interval, CC_REPEAT_FOREVER, 0.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &RescheduleSelector::schedUpdate, 0)
+            .delay(_interval)
+            .interval(_interval)
+            .paused(isPaused())
+    );
 }
 
 std::string RescheduleSelector::title() const
@@ -804,7 +790,12 @@ void RescheduleSelector::schedUpdate(float dt)
     if ( _ticks > 3 )
     {
         _interval += 1.0f;
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(RescheduleSelector::schedUpdate), this, _interval, CC_REPEAT_FOREVER, 0.0f, !_running);
+        Director::getInstance()->getScheduler().schedule(
+            TimedJob(this, &RescheduleSelector::schedUpdate, 0)
+                .delay(_interval)
+                .interval(_interval)
+                .paused(isPaused())
+        );
         _ticks = 0;
     }
 }
@@ -814,7 +805,12 @@ void RescheduleSelector::schedUpdate(float dt)
 void SchedulerDelayAndRepeat::onEnter()
 {
     SchedulerTestLayer::onEnter();
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(SchedulerDelayAndRepeat::update), this, 0, 4, 3.0f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerDelayAndRepeat::update, 0)
+            .delay(3.0f)
+            .repeat(4)
+            .paused(isPaused())
+    );
     CCLOG("update is scheduled should begin after 3 seconds");
 }
 
@@ -951,11 +947,18 @@ void SchedulerIssue2268::onEnter()
 
 	testNode = TestNode2::create();
 	testNode->retain();
-	Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&TestNode::update), testNode, 0.0f, CC_REPEAT_FOREVER, 0.0f, testNode->isPaused());
+	Director::getInstance()->getScheduler().schedule(
+        TimedJob(static_cast<TestNode2*>(testNode), &TestNode2::update, 0)
+            .paused(isPaused())
+    );
+
 	this->addChild(testNode);
 
-
-	Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&SchedulerIssue2268::update), this, 0, 0, 0.25f, !_running);
+	Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerIssue2268::update, 0)
+            .delay(0.25f)
+            .paused(isPaused())
+    );
 }
 
 void SchedulerIssue2268::update(float /*dt*/)
@@ -1017,14 +1020,22 @@ static void ScheduleCallbackTest_global_callback(float dt)
 void ScheduleCallbackTest::onEnter()
 {
     SchedulerTestLayer::onEnter();
-    
-    Director::getInstance()->getScheduler().schedule([](float dt){
+
+    auto lambda = [](float dt){
         log("In the callback of schedule(lambda, ...), dt = %f", dt);
-    }, this, 1.0f, false, "lambda");
+    };
     
-    Director::getInstance()->getScheduler().schedule(CC_CALLBACK_1(ScheduleCallbackTest::callback, this), this, 1.0f, false, "member_function");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, lambda).delay(1.0f).interval(1.0f)
+    );
     
-    Director::getInstance()->getScheduler().schedule(ScheduleCallbackTest_global_callback, this, 1.0f, false, "global_function");
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &ScheduleCallbackTest::callback).delay(1.0f).interval(1.0f)
+    );
+    
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, ScheduleCallbackTest_global_callback).delay(1.0f).interval(1.0f)
+    );
 }
 
 void ScheduleCallbackTest::callback(float dt)
@@ -1078,12 +1089,17 @@ void SchedulerIssue10232::onEnter()
 {
     SchedulerTestLayer::onEnter();
 
-    Director::getInstance()->getScheduler().schedule(SEL_SCHEDULE(&SchedulerIssue2268::update), this, 0, 0, 0.25f, !_running);
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &SchedulerIssue10232::update).delay(0.25f).repeat(0).paused(isPaused())
+    );
+    
+    auto lambda = [](float /*dt*/){
+            log("SchedulerIssue10232:Schedules a lambda function");
+    };
 
     Director::getInstance()->getScheduler().schedule(
-        [](float /*dt*/){
-            log("SchedulerIssue10232:Schedules a lambda function");
-        }, this, 0, 0, 0.25f, !_running, "SchedulerIssue10232");
+        TimedJob(this, lambda).delay(0.25f).repeat(0).paused(isPaused())
+    );
 }
 
 void SchedulerIssue10232::update(float /*dt*/)
