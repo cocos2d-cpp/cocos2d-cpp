@@ -78,9 +78,14 @@ void PerformanceMathLayer::onEnter()
     addChild(infoLabel, 1, K_INFO_LOOP_TAG);
     updateLoopLabel();
     
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::doPerformanceTest), this, 0.0f, false);
-    Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(PerformanceMathLayer::dumpProfilerInfo), this, 2, false);
-    
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PerformanceMathLayer::doPerformanceTest)
+    );
+    Director::getInstance()->getScheduler().schedule(
+        TimedJob(this, &PerformanceMathLayer::dumpProfilerInfo)
+            .delay(2.0f)
+            .interval(2.0f)
+    );
 }
 
 void PerformanceMathLayer::addLoopCount(Ref *)

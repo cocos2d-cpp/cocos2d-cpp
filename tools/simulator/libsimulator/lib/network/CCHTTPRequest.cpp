@@ -274,9 +274,8 @@ HTTPRequestDelegate* HTTPRequest::getDelegate(void)
     return _delegate;
 }
 
-void HTTPRequest::checkCURLState(float dt)
+void HTTPRequest::checkCURLState(float /*dt*/)
 {
-    CC_UNUSED_PARAM(dt);
     if (_curlState != kCCHTTPRequestCURLStateBusy)
     {
         Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
@@ -284,7 +283,7 @@ void HTTPRequest::checkCURLState(float dt)
     }
 }
 
-void HTTPRequest::update(float dt)
+void HTTPRequest::update(float /*dt*/)
 {
     if (_state == kCCHTTPRequestStateInProgress)
     {
@@ -294,7 +293,7 @@ void HTTPRequest::update(float dt)
     Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     if (_curlState != kCCHTTPRequestCURLStateIdle)
     {
-        Director::getInstance()->getScheduler().schedule(CC_SCHEDULE_SELECTOR(HTTPRequest::checkCURLState), this, 0, false);
+        Director::getInstance()->getScheduler().schedule(TimedJob(this, &HTTPRequest::checkCURLState));
     }
 
     if (_state == kCCHTTPRequestStateCompleted)

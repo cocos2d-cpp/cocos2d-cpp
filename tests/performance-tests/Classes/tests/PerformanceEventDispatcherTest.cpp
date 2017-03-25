@@ -153,7 +153,11 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
         auto & sched = director->getScheduler();
         
         CC_PROFILER_PURGE_ALL();
-        sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
+        sched.schedule(
+            TimedJob(this, &PerformanceEventDispatcherScene::dumpProfilerInfo, 0)
+                .delay(2.0f)
+                .interval(2.0f)
+        );
         
         Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
@@ -171,7 +175,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
         auto director = Director::getInstance();
         auto & sched = director->getScheduler();
         
-        sched.unschedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this);
+        sched.unscheduleTimedJob(this, 0);
         
         Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         this->_startItem->setEnabled(true);
@@ -219,7 +223,11 @@ void PerformanceEventDispatcherScene::onEnter()
 
         auto director = Director::getInstance();
         auto & sched = director->getScheduler();
-        sched.schedule(CC_SCHEDULE_SELECTOR(PerformanceEventDispatcherScene::dumpProfilerInfo), this, 2, false);
+        sched.schedule(
+            TimedJob(this, &PerformanceEventDispatcherScene::dumpProfilerInfo, 0)
+                .delay(2.0f)
+                .interval(2.0f)
+        );
         Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
         Director::getInstance()->getScheduler().schedule(
             UpdateJob(this, 0)
