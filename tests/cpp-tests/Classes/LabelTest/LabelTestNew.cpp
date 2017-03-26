@@ -2598,17 +2598,19 @@ void LabelToggleTypeTest::initToggleCheckboxes()
     for(int i = 0; i < NUMBER_OF_BUTTONS; ++i)
     {
 
-        RadioButton* radioButton = RadioButton::create("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
+        auto radioButton = make_node_ptr<RadioButton>("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
         float posX = startPosX + BUTTON_WIDTH * i;
         radioButton->setPosition(Vec2(posX, winSize.height / 2.0f + 70));
         radioButton->setScale(1.2f);
         radioButton->addEventListener(CC_CALLBACK_2(LabelToggleTypeTest::onChangedRadioButtonSelect, this));
         radioButton->setTag(i);
-        radioButtonGroup->addRadioButton(radioButton);
-        this->addChild(radioButton);
+
+        auto radioButton_p = radioButton.get();
+        radioButtonGroup->addRadioButton( to_node_ptr(radioButton.get()) );
+        this->addChild( std::move(radioButton) );
         
         auto label = Label::createWithSystemFont(labelTypes.at(i), "Arial", 20);
-        label->setPosition(radioButton->getPosition() + Vec2(50,0));
+        label->setPosition( radioButton_p->getPosition() + Vec2(50,0) );
         this->addChild(label);
     }
 }
@@ -2743,17 +2745,19 @@ void LabelSystemFontTest::initToggleCheckboxes()
     for(int i = 0; i < NUMBER_OF_BUTTONS; ++i)
     {
 
-        RadioButton* radioButton = RadioButton::create("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
+        auto radioButton = make_node_ptr<RadioButton>("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
         float posX = startPosX + BUTTON_WIDTH * i;
         radioButton->setPosition(Vec2(posX, winSize.height / 2.0f + 70));
         radioButton->setScale(1.2f);
         radioButton->addEventListener(CC_CALLBACK_2(LabelSystemFontTest::onChangedRadioButtonSelect, this));
         radioButton->setTag(i);
-        radioButtonGroup->addRadioButton(radioButton);
-        this->addChild(radioButton);
+
+        auto radioButton_p = radioButton.get();
+        radioButtonGroup->addRadioButton( to_node_ptr(radioButton.get()) );
+        this->addChild( std::move(radioButton) );
 
         auto label = Label::createWithSystemFont(labelTypes.at(i), "Arial", 20);
-        label->setPosition(radioButton->getPosition() + Vec2(50,0));
+        label->setPosition(radioButton_p->getPosition() + Vec2(50,0));
         this->addChild(label);
     }
 }
@@ -3133,17 +3137,19 @@ LabelLocalizationTest::LabelLocalizationTest()
 
     for (int i = 0; i < NUMBER_OF_BUTTONS; ++i)
     {
-        RadioButton* radioButton = RadioButton::create("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
+        auto radioButton = make_node_ptr<RadioButton>("cocosui/radio_button_off.png", "cocosui/radio_button_on.png");
         float posX = startPosX + BUTTON_WIDTH * i;
         radioButton->setPosition(Vec2(posX, winSize.height / 2.0f + 70));
         radioButton->setScale(1.2f);
         radioButton->addEventListener(CC_CALLBACK_2(LabelLocalizationTest::onChangedRadioButtonSelect, this));
         radioButton->setTag(i);
-        radioButtonGroup->addRadioButton(radioButton);
-        this->addChild(radioButton);
+
+        auto radioButton_p = radioButton.get();
+        radioButtonGroup->addRadioButton( to_node_ptr(radioButton.get()) );
+        this->addChild( std::move(radioButton) );
 
         auto label = Label::createWithSystemFont(labelTypes.at(i), "Arial", 20);
-        label->setPosition(radioButton->getPosition() + Vec2(50, 0));
+        label->setPosition(radioButton_p->getPosition() + Vec2(50, 0));
         this->addChild(label);
     }
 

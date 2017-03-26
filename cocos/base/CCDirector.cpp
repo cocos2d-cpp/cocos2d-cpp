@@ -816,25 +816,25 @@ Vec2 Director::getVisibleOrigin() const
 
 // scene management
 
-void Director::runWithScene(Scene *scene)
+void Director::runWithScene(node_ptr<Scene> scene)
 {
-    CCASSERT(scene != nullptr, "This command can only be used to start the Director. There is already a scene present.");
+    CCASSERT(scene, "This command can only be used to start the Director. There is already a scene present.");
     CCASSERT(!_runningScene, "_runningScene should be null");
 
-    pushScene(scene);
+    pushScene( std::move(scene) );
     startAnimation();
 }
 
-void Director::replaceScene(Scene *scene)
+void Director::replaceScene(node_ptr<Scene> scene)
 {
-    CCASSERT(scene != nullptr, "the scene should not be null");
+    CCASSERT(scene, "the scene should not be null");
     
     if (!_runningScene) {
-        runWithScene(scene);
+        runWithScene( std::move(scene) );
         return;
     }
     
-    if (scene == _scenesStack.back().get())
+    if (scene == _scenesStack.back())
         return;
     
     if (_scenesStack.back())
@@ -848,16 +848,16 @@ void Director::replaceScene(Scene *scene)
 
     _sendCleanupToScene = true;
     
-    _scenesStack.back() = to_node_ptr(scene);
+    _scenesStack.back() = std::move(scene);
 }
 
-void Director::pushScene(Scene *scene)
+void Director::pushScene(node_ptr<Scene> scene)
 {
     CCASSERT(scene, "the scene should not null");
 
     _sendCleanupToScene = false;
 
-    _scenesStack.push_back(to_node_ptr(scene));
+    _scenesStack.push_back( std::move(scene) );
 }
 
 void Director::popScene()
@@ -956,8 +956,6 @@ void Director::reset()
     
     _notificationNode = nullptr;
     
-    // remove all objects, but don't release it.
-    // runWithScene might be executed after 'end'.
     _scenesStack.clear();
     
     stopAnimation();

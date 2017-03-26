@@ -80,19 +80,13 @@ class EventListener;
 
 class Node;
 
-template<typename T>
 struct node_ptr_deleter {
 public:
-    void operator()(T * p) const
-    {
-        static_assert(std::is_base_of<Node, T>::value,
-                      "node_ptr is for Node-derived types only");
-        p->release();
-    }
+    void operator()(Node * p) const;
 };
 
 template<typename T>
-using node_ptr = std::unique_ptr<T, node_ptr_deleter<T>>;
+using node_ptr = std::unique_ptr<T, node_ptr_deleter>;
 
 template<typename T>
 node_ptr<T> to_node_ptr(T * ptr)
@@ -100,11 +94,21 @@ node_ptr<T> to_node_ptr(T * ptr)
     static_assert(std::is_base_of<Node, T>::value,
                   "node_ptr is for Node-derived types only");
     
-    if (ptr)
+    if (ptr != nullptr)
     {
         ptr->retain();
     }
+
     return node_ptr<T>(ptr);
+}
+
+template<typename T, typename ...Args>
+node_ptr<T> make_node_ptr(Args ...args)
+{
+    static_assert(std::is_base_of<Node, T>::value,
+                  "node_ptr is for Node-derived types only");
+
+    return to_node_ptr( T::create(std::forward<Args>(args)...) );
 }
 
 /** @class Node
@@ -707,46 +711,23 @@ public:
     /// @{
     /// @name Children and Parent
 
-    /**
-     * Adds a child to the container with z-order as 0.
-     *
-     * If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-     *
-     * @param child A child node.
-     */
+    // Adds a child to the container with a local z-order.
+    // If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
+    // localZOrder is a Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
+     // tag is an integer to identify the node easily. Please refer to `setTag(int)`.
+     // name is a string to identify the node easily. Please refer to `setName(int)`.
     virtual void addChild(Node * child);
-    /**
-     * Adds a child to the container with a local z-order.
-     *
-     * If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-     *
-     * @param child     A child node.
-     * @param localZOrder    Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
-     */
+    virtual void addChild(node_ptr<Node> child);
+
     virtual void addChild(Node * child, int localZOrder);
-    /**
-     * Adds a child to the container with z order and tag.
-     *
-     * If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-     *
-     * @param child         A child node.
-     * @param localZOrder   Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
-     * @param tag           An integer to identify the node easily. Please refer to `setTag(int)`.
-     * 
-     * Please use `addChild(Node* child, int localZOrder, const std::string &name)` instead.
-     */
-     virtual void addChild(Node* child, int localZOrder, int tag);
-    /**
-     * Adds a child to the container with z order and tag
-     *
-     * If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
-     *
-     * @param child     A child node.
-     * @param localZOrder    Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
-     * @param name      A string to identify the node easily. Please refer to `setName(int)`.
-     *
-     */
+    virtual void addChild(node_ptr<Node> child, int localZOrder);
+    
+    virtual void addChild(Node* child, int localZOrder, int tag);
+    virtual void addChild(node_ptr<Node> child, int localZOrder, int tag);
+
     virtual void addChild(Node* child, int localZOrder, const std::string &name);
+    virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name);
+
     /**
      * Gets a child from the container with its tag.
      *
@@ -1582,7 +1563,7 @@ protected:
 
 protected:
     /// helper that reorder a child
-    void insertChild(Node* child, int z);
+    void insertChild(node_ptr<Node> child, int z);
 
     /// Convert cocos2d coordinates to UI windows coordinate.
     Vec2 convertToWindowSpace(const Vec2& nodePoint) const;
@@ -1608,7 +1589,7 @@ protected:
     void updateRotation3D();
     
 private:
-    void addChildHelper(Node* child, int localZOrder, int tag, const std::string &name, bool setTag);
+    void addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag);
     
     /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
     void detachChild(children_iterator, bool doCleanup);
@@ -1727,6 +1708,12 @@ private:
     const Node & operator=(const Node &) = delete;
 };
 
+inline
+void node_ptr_deleter::operator()(Node * p) const
+{
+    p->release();
+}
+
 /**
  * This is a helper function, checks a GL screen point is in content rectangle space.
  *
@@ -1743,9 +1730,6 @@ private:
  * @return true if the point is in content rectangle, false otherwise.
  */
 bool CC_DLL isScreenPointInRect(const Vec2 &pt, const Camera* camera, const Mat4& w2l, const Rect& rect, Vec3 *p);
-
-// end of _2d group
-/// @}
 
 } // namespace cocos2d
 

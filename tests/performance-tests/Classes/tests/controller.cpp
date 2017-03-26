@@ -179,12 +179,12 @@ void TestController::traverseTestSuite(TestSuite* testSuite)
             if (_stopAutoTest) return;
             logEx("%s%sRun test:%s.", LOG_TAG, logIndentation.c_str(), testName.c_str());
 
-            auto scene = callback();
+            auto scene = to_node_ptr(callback());
             if (_stopAutoTest) return;
 
             if (scene)
             {
-                transitionScene = dynamic_cast<TransitionScene*>(scene);
+                transitionScene = dynamic_cast<TransitionScene*>(scene.get());
                 if (transitionScene)
                 {
                     testCase = (TestCase*)transitionScene->getInScene();
@@ -192,16 +192,17 @@ void TestController::traverseTestSuite(TestSuite* testSuite)
                 }
                 else
                 {
-                    testCase = (TestCase*)scene;
+                    testCase = (TestCase*)scene.get();
                     testCaseDuration = testCase->getDuration();
                 }
                 testSuite->_currTestIndex++;
                 testCase->setTestSuite(testSuite);
                 testCase->setTestCaseName(testName);
                 testCase->setAutoTesting(true);
-                _director->replaceScene(scene);
 
-                testScene = scene;
+                testScene = scene.get();
+
+                _director->replaceScene( std::move(scene) );
             }
         });
 

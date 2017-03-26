@@ -156,7 +156,7 @@ void TestList::runThisTest()
 {
     _cellTouchEnabled = true;
     auto director = Director::getInstance();
-    auto scene = Scene::create();
+    auto scene = to_node_ptr(Scene::create());
 
     auto visibleSize = director->getVisibleSize();
     auto origin = director->getVisibleOrigin();
@@ -212,7 +212,7 @@ void TestList::runThisTest()
         scene->addChild(menu, 1);
     }
 
-    director->replaceScene(scene);
+    director->replaceScene( std::move(scene) );
 }
 
 void TestList::tableCellTouched(TableView* table, TableViewCell* cell)
@@ -302,34 +302,34 @@ void TestSuite::runThisTest()
         TestController::getInstance()->setCurrTestSuite(this);
 
         _currTestIndex = 0;
-        auto scene = _testCallbacks[0]();
-        auto testCase = getTestCase(scene);
+        auto scene = to_node_ptr( _testCallbacks[0]() );
+        auto testCase = getTestCase(scene.get());
         testCase->setTestSuite(this);
         testCase->setTestCaseName(_childTestNames[_currTestIndex]);
-        Director::getInstance()->replaceScene(scene);
+        Director::getInstance()->replaceScene( std::move(scene) );
     }
 }
 
 void TestSuite::restartCurrTest()
 {
-    auto scene = _testCallbacks[_currTestIndex]();
-    auto testCase = getTestCase(scene);
+    auto scene = to_node_ptr( _testCallbacks[_currTestIndex]() );
+    auto testCase = getTestCase(scene.get());
     testCase->setTestSuite(this);
     testCase->setTestCaseName(_childTestNames[_currTestIndex]);
 
-    Director::getInstance()->replaceScene(scene);
+    Director::getInstance()->replaceScene( std::move(scene) );
 }
 
 void TestSuite::enterNextTest()
 {
     _currTestIndex = (_currTestIndex + 1) % _childTestNames.size();
 
-    auto scene = _testCallbacks[_currTestIndex]();
-    auto testCase = getTestCase(scene);
+    auto scene = to_node_ptr( _testCallbacks[_currTestIndex]() );
+    auto testCase = getTestCase(scene.get());
     testCase->setTestSuite(this);
     testCase->setTestCaseName(_childTestNames[_currTestIndex]);
 
-    Director::getInstance()->replaceScene(scene);
+    Director::getInstance()->replaceScene( std::move(scene) );
 }
 
 void TestSuite::enterPreviousTest()
@@ -343,12 +343,12 @@ void TestSuite::enterPreviousTest()
         _currTestIndex = (int)_childTestNames.size() - 1;
     }
 
-    auto scene = _testCallbacks[_currTestIndex]();
-    auto testCase = getTestCase(scene);
+    auto scene = to_node_ptr( _testCallbacks[_currTestIndex]() );
+    auto testCase = getTestCase(scene.get());
     testCase->setTestSuite(this);
     testCase->setTestCaseName(_childTestNames[_currTestIndex]);
 
-    Director::getInstance()->replaceScene(scene);
+    Director::getInstance()->replaceScene( std::move(scene) );
 }
 
 #include <iostream>

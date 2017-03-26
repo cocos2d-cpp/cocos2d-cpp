@@ -184,18 +184,18 @@ void RadioButtonGroup::addEventListener(const ccRadioButtonGroupCallback& callba
     _radioButtonGroupEventCallback = callback;
 }
 
-void RadioButtonGroup::addRadioButton(RadioButton* radioButton)
+void RadioButtonGroup::addRadioButton(node_ptr<RadioButton> radioButton)
 {
-    if(radioButton != nullptr)
+    CC_ASSERT(radioButton != nullptr);
+
+    CCASSERT(!radioButton->_group, "It already belongs to a group!");
+    radioButton->_group = this;
+
+    _radioButtons.push_back( std::move( radioButton));
+
+    if(!_allowedNoSelection && _selectedRadioButton == nullptr)
     {
-        CCASSERT(!radioButton->_group, "It already belongs to a group!");
-        radioButton->_group = this;
-        _radioButtons.push_back( to_node_ptr( radioButton));
-        
-        if(!_allowedNoSelection && _selectedRadioButton == nullptr)
-        {
-            setSelectedButtonWithoutEvent(radioButton);
-        }
+        setSelectedButtonWithoutEvent( _radioButtons.back().get() );
     }
 }
 

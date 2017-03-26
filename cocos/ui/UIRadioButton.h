@@ -216,7 +216,7 @@ public:
      *
      * @param radio button instance
      */
-    virtual void addRadioButton(RadioButton* radioButton);
+    virtual void addRadioButton(node_ptr<RadioButton> radioButton);
     
     /**
      * Remove a radio button from this group.

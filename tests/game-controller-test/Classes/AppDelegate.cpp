@@ -56,11 +56,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     // set searching path
     FileUtils::getInstance()->setSearchPaths(searchPath);
 
-    auto scene = Scene::create();
+    auto scene = to_node_ptr(Scene::create());
     GameControllerTest *gameLayer = GameControllerTest::create();
     scene->addChild(gameLayer);
 
-    director->runWithScene(scene);
+    director->runWithScene( std::move(scene) );
 
     return true;
 }
