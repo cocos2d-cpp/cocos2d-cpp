@@ -92,15 +92,15 @@ void RuntimeCCSImpl::loadCSDProject(const std::string& file)
 
         if (Director::getInstance()->getRunningScene())
         {
-            auto scene = Scene::create();
+            auto scene = to_node_ptr(Scene::create());
             scene->addChild(node);
-            Director::getInstance()->replaceScene(scene);
+            Director::getInstance()->replaceScene( std::move(scene) );
         }
         else
         {
-            auto scene = Scene::create();
+            auto scene = to_node_ptr(Scene::create());
             scene->addChild(node);
-            Director::getInstance()->runWithScene(scene);
+            Director::getInstance()->runWithScene( std::move(scene) );
         }
     }
 }
@@ -121,15 +121,15 @@ void RuntimeCCSImpl::loadCSBProject(const std::string& file)
 
         if (Director::getInstance()->getRunningScene())
         {
-            auto scene = Scene::create();
+            auto scene = to_node_ptr(Scene::create());
             scene->addChild(node);
-            Director::getInstance()->replaceScene(scene);
+            Director::getInstance()->replaceScene( std::move(scene) );
         }
         else
         {
-            auto scene = Scene::create();
+            auto scene = to_node_ptr(Scene::create());
             scene->addChild(node);
-            Director::getInstance()->runWithScene(scene);
+            Director::getInstance()->runWithScene( std::move(scene) );
         }
     }
 }

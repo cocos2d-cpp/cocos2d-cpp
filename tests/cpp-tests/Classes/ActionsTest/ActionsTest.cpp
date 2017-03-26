@@ -1955,7 +1955,7 @@ void Issue1305::onEnter()
     ActionsDemo::onEnter();
     centerSprites(0);
 
-    _spriteTmp = to_node_ptr<Sprite>(Sprite::create("Images/grossini.png"));
+    _spriteTmp = to_node_ptr(Sprite::create("Images/grossini.png"));
     _spriteTmp->runAction(std::make_unique<CallFunc>(std::bind(&Issue1305::log, this, _spriteTmp.get())));
 
     Director::getInstance()->getScheduler().schedule(

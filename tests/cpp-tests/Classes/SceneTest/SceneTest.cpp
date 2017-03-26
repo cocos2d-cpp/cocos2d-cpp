@@ -75,14 +75,13 @@ SceneTestLayer1::~SceneTestLayer1()
 
 void SceneTestLayer1::onPushScene(Ref*)
 {
-    auto scene = SceneTestScene::create(2);
-    Director::getInstance()->pushScene( scene );
+    Director::getInstance()->pushScene( make_node_ptr<SceneTestScene>(2) );
 }
 
 void SceneTestLayer1::onPushSceneTran(Ref*)
 {
     auto scene = SceneTestScene::create(2);
-    Director::getInstance()->pushScene( TransitionSlideInT::create(1, scene) );
+    Director::getInstance()->pushScene( make_node_ptr<TransitionSlideInT>(1, scene) );
 }
 
 
@@ -131,14 +130,13 @@ void SceneTestLayer2::onGoBack(Ref*)
 
 void SceneTestLayer2::onReplaceScene(Ref*)
 {
-    auto scene = SceneTestScene::create(3);
-    Director::getInstance()->replaceScene( scene );
+    Director::getInstance()->replaceScene( to_node_ptr(SceneTestScene::create(3)) );
 }
 
 void SceneTestLayer2::onReplaceSceneTran(Ref*)
 {
     auto scene = SceneTestScene::create(3);
-    Director::getInstance()->replaceScene( TransitionFlipX::create(2, scene) );
+    Director::getInstance()->replaceScene( to_node_ptr(TransitionFlipX::create(2, scene)) );
 }
 
 //------------------------------------------------------------------
@@ -190,7 +188,7 @@ void SceneTestLayer3::item0Clicked(Ref*)
     auto s = Director::getInstance()->getWinSize();
     auto newScene = Scene::createWithSize(s);
     newScene->addChild(SceneTestLayer3::create());
-    Director::getInstance()->pushScene(TransitionFade::create(0.5, newScene, Color3B(0,255,255)));
+    Director::getInstance()->pushScene( make_node_ptr<TransitionFade>(0.5, newScene, Color3B(0,255,255)) );
 }
 
 void SceneTestLayer3::item1Clicked(Ref*)

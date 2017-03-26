@@ -256,7 +256,7 @@ public:
      * It will call pushScene: and then it will call startAnimation
      * @js NA
      */
-    void runWithScene(Scene *scene);
+    void runWithScene(node_ptr<Scene> scene);
 
     /** 
      * Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
@@ -264,7 +264,7 @@ public:
      * Try to avoid big stacks of pushed scenes to reduce memory allocation. 
      * ONLY call it if there is a running scene.
      */
-    void pushScene(Scene *scene);
+    void pushScene(node_ptr<Scene> scene);
 
     /** 
      * Pops out a scene from the stack.
@@ -292,7 +292,7 @@ public:
      * ONLY call it if there is a running scene.
      * @js NA
      */
-    void replaceScene(Scene *scene);
+    void replaceScene(node_ptr<Scene> scene);
 
     /** Ends the execution, releases the running scene.
      * @lua endToLua

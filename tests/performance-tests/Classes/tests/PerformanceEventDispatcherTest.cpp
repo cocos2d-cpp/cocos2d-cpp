@@ -136,7 +136,7 @@ void PerformanceEventDispatcherScene::initWithQuantityOfNodes(unsigned int nNode
     
     for (const auto& f : _testFunctions)
     {
-        toggleItems.push_back( cocos2d::to_node_ptr<MenuItem>( MenuItemFont::create( f.name)));
+        toggleItems.push_back( cocos2d::to_node_ptr( MenuItemFont::create( f.name)));
     }
 
     auto toggle = MenuItemToggle::createWithCallback([=](Ref* sender){

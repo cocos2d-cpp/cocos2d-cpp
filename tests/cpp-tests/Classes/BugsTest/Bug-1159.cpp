@@ -60,7 +60,7 @@ bool Bug1159Layer::init()
 
 void Bug1159Layer::callBack(Ref* /*sender*/)
 {
-    Director::getInstance()->replaceScene(TransitionPageTurn::create(1.0f, Bug1159Layer::create(), false));
+    Director::getInstance()->replaceScene( to_node_ptr(TransitionPageTurn::create(1.0f, Bug1159Layer::create(), false)) );
 }
 
 void Bug1159Layer::onExit()

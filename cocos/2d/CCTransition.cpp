@@ -145,7 +145,7 @@ void TransitionScene::setNewScene(float /*dt*/)
     Director *director = Director::getInstance();
     _isSendCleanupToScene = director->isSendCleanupToScene();
     
-    director->replaceScene(_inScene);
+    director->replaceScene( to_node_ptr(_inScene) );
     
     // issue #267
     _outScene->setVisible(true);

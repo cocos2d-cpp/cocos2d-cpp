@@ -853,40 +853,70 @@ bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) 
 * If a class want's to extend the 'addChild' behavior it only needs
 * to override this method
 */
-void Node::addChild(Node *child, int localZOrder, int tag)
-{    
+void Node::addChild(Node *child)
+{
+    addChild( to_node_ptr(child) );
+}
+void Node::addChild(node_ptr<Node> child)
+{
     CCASSERT( child != nullptr, "Argument must be non-nil");
+    addChild(std::move(child), child->getLocalZOrder(), child->_name);
+}
+
+void Node::addChild(Node *child, int zOrder)
+{
+    addChild(to_node_ptr(child), zOrder);
+}
+void Node::addChild(node_ptr<Node> child, int zOrder)
+{
+    CCASSERT( child != nullptr, "Argument must be non-nil");
+    this->addChild(std::move(child), zOrder, child->_name);
+}
+
+void Node::addChild(Node * child, int localZOrder, int tag)
+{
+    addChild(to_node_ptr(child), localZOrder, tag);
+}
+void Node::addChild(node_ptr<Node> child, int localZOrder, int tag)
+{    
+    CCASSERT( child, "Argument must be non-nil");
     CCASSERT( child->_parent == nullptr, "child already added. It can't be added again");
 
-    addChildHelper(child, localZOrder, tag, "", true);
+    addChildHelper(std::move(child), localZOrder, tag, "", true);
 }
 
-void Node::addChild(Node* child, int localZOrder, const std::string &name)
+void Node::addChild(Node * child, int localZOrder, const std::string &name)
 {
-    CCASSERT(child != nullptr, "Argument must be non-nil");
+    addChild(to_node_ptr(child), localZOrder, name);
+}
+void Node::addChild(node_ptr<Node> child, int localZOrder, const std::string &name)
+{
+    CCASSERT(child, "Argument must be non-nil");
     CCASSERT(child->_parent == nullptr, "child already added. It can't be added again");
     
-    addChildHelper(child, localZOrder, INVALID_TAG, name, false);
+    addChildHelper(std::move(child), localZOrder, INVALID_TAG, name, false);
 }
 
-void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::string &name, bool setTag)
+void Node::addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag)
 {
-    this->insertChild(child, localZOrder);
+    auto child_p = child.get();
+
+    this->insertChild(std::move(child), localZOrder);
     
     if (setTag)
-        child->setTag(tag);
+        child_p->setTag(tag);
     else
-        child->setName(name);
+        child_p->setName(name);
     
-    child->setParent(this);
+    child_p->setParent(this);
 
     if( _running )
     {
-        child->onEnter();
+        child_p->onEnter();
         // prevent onEnterTransitionDidFinish to be called twice when a node is added in onEnter
         if (_isTransitionFinished)
         {
-            child->onEnterTransitionDidFinish();
+            child_p->onEnterTransitionDidFinish();
         }
     }
     
@@ -899,18 +929,6 @@ void Node::addChildHelper(Node* child, int localZOrder, int tag, const std::stri
     {
         updateCascadeOpacity();
     }
-}
-
-void Node::addChild(Node *child, int zOrder)
-{
-    CCASSERT( child != nullptr, "Argument must be non-nil");
-    this->addChild(child, zOrder, child->_name);
-}
-
-void Node::addChild(Node *child)
-{
-    CCASSERT( child != nullptr, "Argument must be non-nil");
-    this->addChild(child, child->getLocalZOrder(), child->_name);
 }
 
 void Node::removeFromParent()
@@ -1010,12 +1028,12 @@ void Node::detachChild(children_iterator it, bool doCleanup)
 
 
 // helper used by reorderChild & add
-void Node::insertChild(Node* child, int z)
+void Node::insertChild(node_ptr<Node> child, int z)
 {
     _transformUpdated = true;
     _reorderChildDirty = true;
-    _children.push_back(to_node_ptr(child));
     child->_setLocalZOrder(z);
+    _children.push_back( std::move(child) );
 }
 
 void Node::reorderChild(Node *child, int zOrder)

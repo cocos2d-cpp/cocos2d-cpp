@@ -84,9 +84,9 @@ void ScenarioTest::performTests()
     _itemToggle = MenuItemToggle::createWithCallback
         (
             nullptr,
-            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Sprite")),
-            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Particle")),
-            to_node_ptr<MenuItem>( MenuItemFont::create( "Add/Remove Particle System"))
+            to_node_ptr( MenuItemFont::create( "Add/Remove Sprite")),
+            to_node_ptr( MenuItemFont::create( "Add/Remove Particle")),
+            to_node_ptr( MenuItemFont::create( "Add/Remove Particle System"))
         );
     _itemToggle->setAnchorPoint(Vec2(0.0f, 0.5f));
     _itemToggle->setPosition(Vec2(origin.x, origin.y + s.height / 2));

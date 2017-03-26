@@ -335,12 +335,12 @@ RuntimeProtocol* RuntimeEngine::getRuntime()
 
 void RuntimeEngine::showUI()
 {
-    auto scene = Scene::create();
+    auto scene = to_node_ptr(Scene::create());
     auto connectLayer = new ConnectWaitLayer();
     connectLayer->autorelease();
     auto director = Director::getInstance();
     scene->addChild(connectLayer);
-    director->runWithScene(scene);
+    director->runWithScene( std::move(scene) );
 }
 
 bool RuntimeEngine::startNetwork()
