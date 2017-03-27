@@ -153,6 +153,7 @@
         "cocos/2d/CCNode.h", 
         "cocos/2d/CCNodeGrid.cpp", 
         "cocos/2d/CCNodeGrid.h", 
+        "cocos/2d/CCNodeRegister.h", 
         "cocos/2d/CCParallaxNode.cpp", 
         "cocos/2d/CCParallaxNode.h", 
         "cocos/2d/CCParticleBatchNode.cpp", 
