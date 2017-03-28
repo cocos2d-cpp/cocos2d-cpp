@@ -47,7 +47,7 @@ ConnectWaitLayer::ConnectWaitLayer()
         Director::getInstance()->getOpenGLView()->setDesignResolutionSize(designHeight, designWidth, ResolutionPolicy::FIXED_HEIGHT);
     }
     Texture2D* texturebg = Director::getInstance()->getTextureCache()->addImage(_imagebg, "play_background");
-    auto background = Sprite::createWithTexture(texturebg);
+    auto background = Sprite::create(texturebg);
     background->setAnchorPoint(Vec2(0.5, 0.5));
     background->setPosition(VisibleRect::center());
     addChild(background, 9000);
@@ -60,13 +60,13 @@ ConnectWaitLayer::ConnectWaitLayer()
     _imageplay = new Image();
     _imageplay->initWithImageData(__playEnablePngData, sizeof(__playEnablePngData));
     Texture2D* textureplay = Director::getInstance()->getTextureCache()->addImage(_imageplay, "play_enable");
-    auto playSprite = Sprite::createWithTexture(textureplay);
+    auto playSprite = Sprite::create(textureplay);
     addChild(playSprite, 9999);
 
     _imageShine = new Image();
     _imageShine->initWithImageData(__shinePngData, sizeof(__shinePngData));
     Texture2D* textureShine = Director::getInstance()->getTextureCache()->addImage(_imageShine, "shine");
-    auto shineSprite = Sprite::createWithTexture(textureShine);
+    auto shineSprite = Sprite::create(textureShine);
     shineSprite->setOpacity(0);
     std::vector<action_ptr<FiniteTimeAction>> arrayOfActions;
     arrayOfActions.push_back( to_action_ptr( DelayTime::create(0.4f)));

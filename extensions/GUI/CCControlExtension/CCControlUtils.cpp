@@ -34,7 +34,7 @@ Sprite* ControlUtils::addSpriteToTargetWithPosAndAnchor(const char* spriteName, 
 {
     auto cache = SpriteFrameCache::getInstance();
 
-    Sprite *sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(spriteName));
+    Sprite *sprite = Sprite::create(cache->getSpriteFrameByName(spriteName));
     
     if (!sprite)
         return nullptr;

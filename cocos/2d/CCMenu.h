@@ -164,11 +164,16 @@ public:
     // overrides
     virtual void removeChild(Node* child, bool cleanup) override;
     
-    virtual void addChild(Node * child) override;
-    virtual void addChild(Node * child, int zOrder) override;
-    virtual void addChild(Node * child, int zOrder, int tag) override;
-    virtual void addChild(Node * child, int zOrder, const std::string &name) override;
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child) override { addChild( to_node_ptr(child) ); }
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child, int zOrder) override { addChild( to_node_ptr(child), zOrder ); }
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child, int zOrder, int tag) override { addChild( to_node_ptr(child), zOrder, tag ); }
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child, int zOrder, const std::string &name) override { addChild( to_node_ptr(child), zOrder, name ); }
     
+    virtual void addChild(node_ptr<Node> child) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setOpacityModifyRGB(bool value) override;

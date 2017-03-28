@@ -219,7 +219,7 @@ void PageViewIndicator::increaseNumberOfPages()
                 indexNode = Sprite::create(_indexNodesTextureFile);
                 break;
             case Widget::TextureResType::PLIST:
-                indexNode = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(_indexNodesTextureFile));
+                indexNode = Sprite::create(cache->getSpriteFrameByName(_indexNodesTextureFile));
                 break;
             default:
                 break;

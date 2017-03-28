@@ -194,7 +194,7 @@ void Box2DTest::addNewSpriteAtPosition(Vec2 p)
     //just randomly picking one of the images
     int idx = (CCRANDOM_0_1() > .5 ? 0:1);
     int idy = (CCRANDOM_0_1() > .5 ? 0:1);
-    auto sprite = PhysicsSprite::createWithTexture(_spriteTexture,Rect(32 * idx,32 * idy,32,32));
+    auto sprite = PhysicsSprite::create(_spriteTexture,Rect(32 * idx,32 * idy,32,32));
     parent->addChild(sprite);
     sprite->setB2Body(body);
     sprite->setPTMRatio(PTM_RATIO);

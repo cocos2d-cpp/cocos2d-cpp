@@ -127,46 +127,46 @@ std::string MenuItem::getDescription() const
 //CCMenuItemLabel
 //
 
-void MenuItemLabel::setLabel(Node* var)
+void MenuItemLabel::setLabel(node_ptr<Node> var)
 {
+    if (_label)
+    {
+        removeChild(_label.get(), true);
+    }
+    
+    _label = to_node_ptr(var.get());
+
     if (var)
     {
         var->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
         setContentSize(var->getContentSize()); 
-        addChild(var);
+        addChild( std::move(var) );
     }
-    
-    if (_label)
-    {
-        removeChild(_label, true);
-    }
-    
-    _label = var;
 }
 
-MenuItemLabel * MenuItemLabel::create(Node*label, const ccMenuCallback& callback)
+MenuItemLabel * MenuItemLabel::create(node_ptr<Node> label, const ccMenuCallback& callback)
 {
     MenuItemLabel *ret = new (std::nothrow) MenuItemLabel();
-    ret->initWithLabel(label, callback);
+    ret->initWithLabel(std::move(label), callback);
     ret->autorelease();
     return ret;
 }
 
-MenuItemLabel* MenuItemLabel::create(Node *label)
+MenuItemLabel* MenuItemLabel::create(node_ptr<Node> label)
 {
     MenuItemLabel *ret = new (std::nothrow) MenuItemLabel();
-    ret->initWithLabel(label, ccMenuCallback());
+    ret->initWithLabel(std::move(label), ccMenuCallback());
     ret->autorelease();
     return ret;
 }
 
-bool MenuItemLabel::initWithLabel(Node* label, const ccMenuCallback& callback)
+bool MenuItemLabel::initWithLabel(node_ptr<Node> label, const ccMenuCallback& callback)
 {
     MenuItem::initWithCallback(callback);
     _originalScale = 1.0f;
     _colorBackup = Color3B::WHITE;
     setDisabledColor(Color3B(126,126,126));
-    this->setLabel(label);
+    this->setLabel( std::move(label) );
 
     setCascadeColorEnabled(true);
     setCascadeOpacityEnabled(true);
@@ -181,13 +181,13 @@ MenuItemLabel::~MenuItemLabel()
 
 void MenuItemLabel::setString(const std::string& label)
 {
-    dynamic_cast<LabelProtocol*>(_label)->setString(label);
+    dynamic_cast<LabelProtocol*>(_label.get())->setString(label);
     this->setContentSize(_label->getContentSize());
 }
 
 std::string MenuItemLabel::getString() const
 {
-    auto label = dynamic_cast<LabelProtocol*>(_label);
+    auto label = dynamic_cast<LabelProtocol*>(_label.get());
     return label->getString();
 }
 
@@ -270,9 +270,9 @@ MenuItemAtlasFont * MenuItemAtlasFont::create(const std::string& value, const st
 bool MenuItemAtlasFont::initWithString(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback)
 {
     CCASSERT( value.size() != 0, "value length must be greater than 0");
-    LabelAtlas *label = LabelAtlas::create();
+    auto label = make_node_ptr<LabelAtlas>();
     label->initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap);
-    if (MenuItemLabel::initWithLabel(label, callback))
+    if (MenuItemLabel::initWithLabel( std::move(label), callback))
     {
         // do something ?
     }
@@ -341,8 +341,8 @@ bool MenuItemFont::initWithString(const std::string& value, const ccMenuCallback
     _fontName = _globalFontName;
     _fontSize = _globalFontSize;
 
-    Label *label = Label::createWithSystemFont(value, _fontName, _fontSize);
-    if (MenuItemLabel::initWithLabel(label, callback))
+    auto label = to_node_ptr(Label::createWithSystemFont(value, _fontName, _fontSize));
+    if (MenuItemLabel::initWithLabel(std::move(label), callback))
     {
         // do something ?
     }
@@ -352,8 +352,8 @@ bool MenuItemFont::initWithString(const std::string& value, const ccMenuCallback
 void MenuItemFont::setFontSizeObj(int s)
 {
     _fontSize = s;
-    dynamic_cast<Label*>(_label)->setSystemFontSize(_fontSize);
-    this->setContentSize(dynamic_cast<Label*>(_label)->getContentSize());
+    dynamic_cast<Label*>(_label.get())->setSystemFontSize(_fontSize);
+    this->setContentSize(dynamic_cast<Label*>(_label.get())->getContentSize());
 }
 
 int MenuItemFont::getFontSizeObj() const
@@ -364,8 +364,8 @@ int MenuItemFont::getFontSizeObj() const
 void MenuItemFont::setFontNameObj(const std::string& name)
 {
     _fontName = name;
-    dynamic_cast<Label*>(_label)->setSystemFontName(_fontName);
-    this->setContentSize(dynamic_cast<Label*>(_label)->getContentSize());
+    dynamic_cast<Label*>(_label.get())->setSystemFontName(_fontName);
+    this->setContentSize(dynamic_cast<Label*>(_label.get())->getContentSize());
 }
 
 const std::string& MenuItemFont::getFontNameObj() const
@@ -383,7 +383,7 @@ void MenuItemSprite::setNormalImage(Node* image)
     {
         if (image)
         {
-            addChild(image);
+            addChild( to_node_ptr(image) );
             image->setAnchorPoint(Vec2(0, 0));
         }
 
@@ -404,7 +404,7 @@ void MenuItemSprite::setSelectedImage(Node* image)
     {
         if (image)
         {
-            addChild(image);
+            addChild( to_node_ptr(image) );
             image->setAnchorPoint(Vec2(0, 0));
         }
 
@@ -424,7 +424,7 @@ void MenuItemSprite::setDisabledImage(Node* image)
     {
         if (image)
         {
-            addChild(image);
+            addChild( to_node_ptr(image) );
             image->setAnchorPoint(Vec2(0, 0));
         }
 
@@ -624,17 +624,17 @@ bool MenuItemImage::initWithNormalImage(const std::string& normalImage, const st
 //
 void MenuItemImage::setNormalSpriteFrame(SpriteFrame * frame)
 {
-    setNormalImage(Sprite::createWithSpriteFrame(frame));
+    setNormalImage(Sprite::create(frame));
 }
 
 void MenuItemImage::setSelectedSpriteFrame(SpriteFrame * frame)
 {
-    setSelectedImage(Sprite::createWithSpriteFrame(frame));
+    setSelectedImage(Sprite::create(frame));
 }
 
 void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 {
-    setDisabledImage(Sprite::createWithSpriteFrame(frame));
+    setDisabledImage(Sprite::create(frame));
 }
 
 //
@@ -713,7 +713,7 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
         }
 
         _selectedItem = _subItems.at(_selectedIndex).get();
-        this->addChild(_selectedItem);
+        this->addChild( to_node_ptr(_selectedItem) );
         Size s = _selectedItem->getContentSize();
         this->setContentSize(s);
         _selectedItem->setPosition(s.width / 2, s.height / 2);

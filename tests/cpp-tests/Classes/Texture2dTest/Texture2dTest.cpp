@@ -321,12 +321,12 @@ void TextureMipMap::onEnter()
 
     auto texture1 = Director::getInstance()->getTextureCache()->addImage("Images/grossini_dance_atlas_nomipmap.png");
 
-    auto img0 = Sprite::createWithTexture(texture0);
+    auto img0 = Sprite::create(texture0);
     img0->setTextureRect(Rect(85, 121, 85, 121));
     img0->setPosition(Vec2( s.width/3.0f, s.height/2.0f));
     addChild(img0);
 
-    auto img1 = Sprite::createWithTexture(texture1);
+    auto img1 = Sprite::create(texture1);
     img1->setTextureRect(Rect(85, 121, 85, 121));
     img1->setPosition(Vec2( 2*s.width/3.0f, s.height/2.0f));
     addChild(img1);
@@ -381,7 +381,7 @@ void TexturePVRMipMap::onEnter()
 
     Texture2D *imgMipMapTexture = Director::getInstance()->getTextureCache()->addImage("Images/logo-mipmap.pvr");
 
-    auto imgMipMap = Sprite::createWithTexture(imgMipMapTexture);
+    auto imgMipMap = Sprite::create(imgMipMapTexture);
 
     if( imgMipMap )
     {
@@ -445,7 +445,7 @@ void TexturePVRMipMap2::onEnter()
     auto s = Director::getInstance()->getWinSize();
     
     Texture2D *imgMipMapTexture = Director::getInstance()->getTextureCache()->addImage("Images/test_image_rgba4444_mipmap.pvr");
-    auto imgMipMap = Sprite::createWithTexture(imgMipMapTexture);
+    auto imgMipMap = Sprite::create(imgMipMapTexture);
     imgMipMap->setPosition(Vec2( s.width/2.0f-100, s.height/2.0f));
     addChild(imgMipMap);
     
@@ -1622,7 +1622,7 @@ void TextureAsync::imageLoaded(Texture2D* texture)
 
     // This test just creates a sprite based on the Texture
 
-    auto sprite = Sprite::createWithTexture(texture);
+    auto sprite = Sprite::create(texture);
     sprite->setAnchorPoint(Vec2(0,0));
     addChild(sprite, -1);
 
@@ -1660,7 +1660,7 @@ void TextureGlClamp::onEnter()
     // The .png image MUST be power of 2 in order to create a continue effect.
     // eg: 32x64, 512x128, 256x1024, 64x64, etc..
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Images/pattern1.png");
-    auto sprite = Sprite::createWithTexture(texture, Rect(0,0,512,256));
+    auto sprite = Sprite::create(texture, Rect(0,0,512,256));
     addChild(sprite, -1, kTagSprite1);
     sprite->setPosition(Vec2(size.width/2,size.height/2));
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE};
@@ -1701,7 +1701,7 @@ void TextureGlRepeat::onEnter()
     // The .png image MUST be power of 2 in order to create a continue effect.
     // eg: 32x64, 512x128, 256x1024, 64x64, etc..
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage("Images/pattern1.png");
-    auto sprite = Sprite::createWithTexture(texture, Rect(0, 0, 4096, 4096));
+    auto sprite = Sprite::create(texture, Rect(0, 0, 4096, 4096));
     addChild(sprite, -1, kTagSprite1);
     sprite->setPosition(Vec2(size.width/2,size.height/2));
     Texture2D::TexParams params = {GL_LINEAR,GL_LINEAR,GL_REPEAT,GL_REPEAT};

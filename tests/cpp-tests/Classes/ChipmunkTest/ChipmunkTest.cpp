@@ -220,7 +220,7 @@ void ChipmunkTest::addNewSpriteAtPosition(cocos2d::Vec2 pos)
     cpShapeSetFriction(shape, 0.5f);
     cpSpaceAddShape(_space, shape);
 
-    auto sprite = PhysicsSprite::createWithTexture(_spriteTexture, cocos2d::Rect(posx, posy, 85, 121));
+    auto sprite = PhysicsSprite::create(_spriteTexture, cocos2d::Rect(posx, posy, 85, 121));
     parent->addChild(sprite);
 
     sprite->setCPBody(body);

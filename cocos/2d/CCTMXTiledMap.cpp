@@ -107,18 +107,21 @@ TMXTiledMap::~TMXTiledMap()
 }
 
 // private
-TMXLayer * TMXTiledMap::parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo)
+node_ptr<TMXLayer> TMXTiledMap::parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo * mapInfo)
 {
+    node_ptr<TMXLayer> layer;
+
     auto tileset = tilesetForLayer(layerInfo.get(), mapInfo);
 
-    if (! tileset)
-        return nullptr;
-    
-    TMXLayer *layer = TMXLayer::create(tileset, std::move( layerInfo ), *mapInfo);
-
-    if (nullptr != layer)
+    if (tileset)
     {
-        layer->setupTiles();
+        //layer = make_node_ptr<TMXLayer>(tileset, std::move( layerInfo ), *mapInfo);
+        layer = make_node_ptr<TMXLayer>(tileset, std::move( layerInfo ), *mapInfo);
+
+        if (layer)
+        {
+            layer->setupTiles();
+        }
     }
 
     return layer;
@@ -184,16 +187,16 @@ void TMXTiledMap::buildWithMapInfo(std::unique_ptr<TMXMapInfo> mapInfo)
     {
         if (layerInfo->_visible)
         {
-            TMXLayer *child = parseLayer(std::move( layerInfo ), mapInfo.get());
+            auto child = parseLayer(std::move( layerInfo ), mapInfo.get());
 
-            if (child == nullptr) {
+            if (! child) {
                 idx++;
                 continue;
             }
 
-            addChild(child, idx, idx);
+            const Size childSize = child->getContentSize();
+            addChild(std::move(child), idx, idx);
             // update content size with the max size
-            const Size& childSize = child->getContentSize();
             Size currentSize = this->getContentSize();
             currentSize.width = std::max(currentSize.width, childSize.width);
             currentSize.height = std::max(currentSize.height, childSize.height);

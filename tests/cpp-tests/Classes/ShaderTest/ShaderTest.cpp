@@ -736,7 +736,7 @@ bool ShaderMultiTexture::init()
 
 
         // Center: MultiTexture
-        _sprite = Sprite::createWithTexture(left->getTexture());
+        _sprite = Sprite::create(left->getTexture());
         addChild(_sprite);
         _sprite->setPosition(Vec2(s.width/2, s.height/2));
 

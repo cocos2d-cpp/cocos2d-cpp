@@ -137,7 +137,7 @@ public:
      * @param   texture    A pointer to a Texture2D object.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithTexture(const Texture2D *texture);
+    static Sprite* create(const Texture2D *texture);
 
     /**
      * Creates a sprite with a texture and a rect.
@@ -150,7 +150,7 @@ public:
      * @param   rotated     Whether or not the rect is rotated.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithTexture(const Texture2D *texture, const Rect& rect, bool rotated=false);
+    static Sprite* create(const Texture2D *texture, const Rect& rect, bool rotated=false);
 
     /**
      * Creates a sprite with an sprite frame.
@@ -158,7 +158,7 @@ public:
      * @param   spriteFrame    A sprite frame which involves a texture and a rect.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithSpriteFrame(SpriteFrame *spriteFrame);
+    static Sprite* create(SpriteFrame *spriteFrame);
 
     //  end of creators group
     /// @}
@@ -183,7 +183,7 @@ public:
      * @warning This method is not recommended for game developers. Sample code for using batch node
      * @code
      * SpriteBatchNode *batch = SpriteBatchNode::create("Images/grossini_dance_atlas.png", 15);
-     * Sprite *sprite = Sprite::createWithTexture(batch->getTexture(), Rect(0, 0, 57, 57));
+     * Sprite *sprite = Sprite::create(batch->getTexture(), Rect(0, 0, 57, 57));
      * batch->addChild(sprite);
      * layer->addChild(batch);
      * @endcode

@@ -496,7 +496,7 @@ void ControlButton::setBackgroundSpriteForState(ui::Scale9Sprite* sprite, State 
 
 void ControlButton::setBackgroundSpriteFrameForState(SpriteFrame * spriteFrame, State state)
 {
-    ui::Scale9Sprite * sprite = ui::Scale9Sprite::createWithSpriteFrame(spriteFrame);
+    ui::Scale9Sprite * sprite = ui::Scale9Sprite::create(spriteFrame);
     this->setBackgroundSpriteForState(sprite, state);
 }
 

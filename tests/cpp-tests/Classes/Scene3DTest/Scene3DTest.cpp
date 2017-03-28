@@ -570,7 +570,7 @@ void Scene3DTestScene::createPlayerDlg()
     float margin = 10;
     
     // first, create dialog ui part, include background, title and buttons
-    _playerDlg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("button_actived.png"));
+    _playerDlg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("button_actived.png"));
     _playerDlg->setContentSize(dlgSize);
     _playerDlg->setAnchorPoint(Vec2(1, 0.5));
     pos.y -= margin;
@@ -585,7 +585,7 @@ void Scene3DTestScene::createPlayerDlg()
     // player background
     Size bgSize(110, 180);
     Vec2 bgPos(margin, dlgSize.height / 2 - margin);
-    auto playerBg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("item_bg.png"));
+    auto playerBg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("item_bg.png"));
     playerBg->setContentSize(bgSize);
     playerBg->setAnchorPoint(Vec2(0, 0.5));
     playerBg->setPosition(bgPos);
@@ -595,7 +595,7 @@ void Scene3DTestScene::createPlayerDlg()
     Size itemSize(48, 48);
     Vec2 itemAnchor(0, 1);
     Vec2 itemPos(bgPos.x + bgSize.width + margin, bgPos.y + bgSize.height / 2);
-    auto itemBg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("item_bg.png"));
+    auto itemBg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("item_bg.png"));
     itemBg->setContentSize(itemSize);
     itemBg->setAnchorPoint(itemAnchor);
     itemBg->setPosition(itemPos);
@@ -672,7 +672,7 @@ void Scene3DTestScene::createDetailDlg()
     
     // create dialog
     // use Scale9Sprite as background, it won't swallow touch event
-    _detailDlg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("button_actived.png"));
+    _detailDlg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("button_actived.png"));
     _detailDlg->setContentSize(dlgSize);
     _detailDlg->setAnchorPoint(Vec2(0, 0.5));
     _detailDlg->setOpacity(224);

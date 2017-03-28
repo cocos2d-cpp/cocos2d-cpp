@@ -383,7 +383,7 @@ Label::Label(TextHAlignment hAlignment /* = TextHAlignment::LEFT */,
 
 #if CC_LABEL_DEBUG_DRAW
     _debugDrawNode = DrawNode::create();
-    addChild(_debugDrawNode);
+    addChild( to_node_ptr(_debugDrawNode) );
 #endif
 
     _purgeTextureListener = EventListenerCustom::create(FontAtlas::CMD_PURGE_FONTATLAS, [this](EventCustom* event){
@@ -1152,7 +1152,7 @@ void Label::enableUnderline()
     if (!_underlineNode)
     {
         _underlineNode = DrawNode::create();
-        addChild(_underlineNode, 100000);
+        addChild( to_node_ptr(_underlineNode), 100000);
         _contentDirty = true;
     }
 }
@@ -1246,7 +1246,7 @@ void Label::createSpriteForSystemFont(const FontDefinition& fontDef)
     auto texture = new (std::nothrow) Texture2D;
     texture->initWithString(_utf8Text.c_str(), fontDef);
 
-    _textSprite = Sprite::createWithTexture(texture);
+    _textSprite = Sprite::create(texture);
     //set camera mask using label's camera mask, because _textSprite may be null when setting camera mask to label
     _textSprite->setCameraMask(getCameraMask());
     _textSprite->setGlobalZOrder(getGlobalZOrder());
@@ -1268,7 +1268,7 @@ void Label::createShadowSpriteForSystemFont(const FontDefinition& fontDef)
     if (!fontDef._stroke._strokeEnabled && fontDef._fontFillColor == _shadowColor3B
         && (fontDef._fontAlpha == _shadowOpacity))
     {
-        _shadowNode = Sprite::createWithTexture(_textSprite->getTexture());
+        _shadowNode = Sprite::create(_textSprite->getTexture());
     }
     else
     {
@@ -1283,7 +1283,7 @@ void Label::createShadowSpriteForSystemFont(const FontDefinition& fontDef)
 
         auto texture = new (std::nothrow) Texture2D;
         texture->initWithString(_utf8Text.c_str(), shadowFontDefinition);
-        _shadowNode = Sprite::createWithTexture(texture);
+        _shadowNode = Sprite::create(texture);
         texture->release();
     }
 
@@ -1735,7 +1735,7 @@ Sprite* Label::getLetter(int letterIndex)
                     letter->setOpacity(_realOpacity);
                 }
                 
-                addChild(letter);
+                addChild( to_node_ptr(letter) );
                 _letters[letterIndex] = letter;
             }
         }

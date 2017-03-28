@@ -596,7 +596,7 @@ Sprite* TMXLayer::getTileAt(const Vec2& tileCoordinate)
             // tile not created yet. create it
             Rect rect = _tileSet->getRectForGID(gid);
             rect = CC_RECT_PIXELS_TO_POINTS(rect);
-            tile = Sprite::createWithTexture(_texture, rect);
+            tile = Sprite::create(_texture, rect);
             
             Vec2 p = this->getPositionAt(tileCoordinate);
             tile->setAnchorPoint(Vec2::ZERO);
@@ -604,7 +604,7 @@ Sprite* TMXLayer::getTileAt(const Vec2& tileCoordinate)
             tile->setPositionZ((float)getVertexZForPos(tileCoordinate));
             tile->setOpacity(this->getOpacity());
             tile->setTag(index);
-            this->addChild(tile, index);
+            this->addChild(to_node_ptr(tile), index);
             _spriteContainer.insert(std::pair<int, std::pair<Sprite*, int> >(index, std::pair<Sprite*, int>(tile, gid)));
             
             // tile is converted to sprite.
