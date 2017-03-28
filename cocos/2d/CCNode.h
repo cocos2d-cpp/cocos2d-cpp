@@ -102,8 +102,8 @@ node_ptr<T> to_node_ptr(T * ptr)
     return node_ptr<T>(ptr);
 }
 
-template<typename T, typename ...Args>
-node_ptr<T> make_node_ptr(Args ...args)
+template<typename T, typename... Args>
+node_ptr<T> make_node_ptr(Args&&... args)
 {
     static_assert(std::is_base_of<Node, T>::value,
                   "node_ptr is for Node-derived types only");
@@ -742,18 +742,18 @@ public:
     // Adds a child to the container with a local z-order.
     // If the child is added to a 'running' node, then 'onEnter' and 'onEnterTransitionDidFinish' will be called immediately.
     // localZOrder is a Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
-     // tag is an integer to identify the node easily. Please refer to `setTag(int)`.
-     // name is a string to identify the node easily. Please refer to `setName(int)`.
-    virtual void addChild(Node * child);
+    // tag is an integer to identify the node easily. Please refer to `setTag(int)`.
+    // name is a string to identify the node easily. Please refer to `setName(int)`.
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child);
     virtual void addChild(node_ptr<Node> child);
 
-    virtual void addChild(Node * child, int localZOrder);
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child, int localZOrder);
     virtual void addChild(node_ptr<Node> child, int localZOrder);
     
-    virtual void addChild(Node* child, int localZOrder, int tag);
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node* child, int localZOrder, int tag);
     virtual void addChild(node_ptr<Node> child, int localZOrder, int tag);
 
-    virtual void addChild(Node* child, int localZOrder, const std::string &name);
+    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node* child, int localZOrder, const std::string &name);
     virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name);
 
     /**
