@@ -27,33 +27,6 @@
 
 namespace cocos2d {
 
-class NodeRegister;
-
-class NodeId {
-
-    friend class NodeRegister;
-
-    using index_type     = uint16_t;
-    using signature_type = uint16_t;
-
-    bool operator==(NodeId const& r) const
-    {
-        return index == r.index && signature == r.signature;
-    }
-
-    index_type     index;
-    signature_type signature;
-};
-
-class Node {
-public:
-    const NodeId & getNodeId() const { return nodeId; }
-    NodeId & getNodeId() { return nodeId; }
-
-private:
-    NodeId nodeId;
-};
-
 class NodeRegister {
 private:
 

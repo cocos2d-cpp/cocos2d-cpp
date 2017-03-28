@@ -138,6 +138,24 @@ node_ptr<T> make_node_ptr(Args ...args)
 
  */
 
+class NodeRegister;
+
+class NodeId {
+
+    friend class NodeRegister;
+
+    using index_type     = uint16_t;
+    using signature_type = uint16_t;
+
+    bool operator==(NodeId const& r) const
+    {
+        return index == r.index && signature == r.signature;
+    }
+
+    index_type     index;
+    signature_type signature;
+};
+
 class CC_DLL Node : public Ref
 {
 public:
@@ -156,6 +174,16 @@ public:
 
         FLAGS_DIRTY_MASK = (FLAGS_TRANSFORM_DIRTY | FLAGS_CONTENT_SIZE_DIRTY),
     };
+
+    const NodeId & getNodeId() const
+    {
+        return _id;
+    }
+    NodeId & getNodeId()
+    {
+        return _id;
+    }
+
     /// @{
     /// @name Constructor, Destructor and Initializers
 
@@ -1595,6 +1623,8 @@ private:
     void detachChild(children_iterator, bool doCleanup);
 
 protected:
+
+    NodeId _id;
 
     float _rotationX;               ///< rotation on the X-axis
     float _rotationY;               ///< rotation on the Y-axis

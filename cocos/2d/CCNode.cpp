@@ -48,7 +48,8 @@ THE SOFTWARE.
 namespace cocos2d {
 
 Node::Node()
-: _rotationX(0.0f)
+: _id()
+, _rotationX(0.0f)
 , _rotationY(0.0f)
 , _rotationZ_X(0.0f)
 , _rotationZ_Y(0.0f)
@@ -103,6 +104,8 @@ Node::Node()
     _eventDispatcher->retain();
     
     _transform = _inverse = Mat4::IDENTITY;
+
+    _director->getNodeRegister().addNode(this);
 }
 
 Node * Node::create()
@@ -152,6 +155,8 @@ Node::~Node()
     CC_SAFE_RELEASE(_eventDispatcher);
 
     delete[] _additionalTransform;
+
+    _director->getNodeRegister().delNode(this);
 }
 
 bool Node::init()
