@@ -61,7 +61,6 @@ private:
     using signature_type = NodeId::signature_type;
 
     static constexpr index_type MAX_NUMBER_OF_NODES = static_cast<index_type>(-1);
-    static constexpr index_type INVALID_INDEX       = static_cast<index_type>(-1);
 
     static constexpr signature_type FIRST_SIGNATURE = 0xAAAA;
 
@@ -81,18 +80,21 @@ public:
 
         auto & id = node->getNodeId();
 
-        if (first_free != INVALID_INDEX)
+        if (first_free < m_nodes.size())
         {
-            id.index = first_free;
-            m_nodeHandlers[ id.index ].node      = node;
-            m_nodeHandlers[ id.index ].prev_free = INVALID_INDEX;
-            first_free = m_nodeHandlers[ id.index ].next_free;
-            m_nodeHandlers[ id.index ].next_free = INVALID_INDEX;
+            id.index              = first_free;
+            m_nodes[ first_free ] = node;
+
+            first_free++;
+
+            for (const size_t size = m_nodes.size(); first_free < size && nullptr != m_nodes[first_free]; first_free++)
+                ;
         }
-        else if (m_nodeHandlers.size() != MAX_NUMBER_OF_NODES)
+        else if (m_nodes.size() != MAX_NUMBER_OF_NODES)
         {
-            m_nodeHandlers.emplace_back(node, index_type(INVALID_INDEX), index_type(INVALID_INDEX));
-            id.index = m_nodeHandlers.size() - 1;
+            m_nodes.push_back(node);
+            id.index = m_nodes.size() - 1;
+            first_free = m_nodes.size();
         }
         else
         {
@@ -107,42 +109,25 @@ public:
         assert(node != nullptr);
 
         auto & id = node->getNodeId();
-        const auto size = m_nodeHandlers.size();
+        const auto size = m_nodes.size();
 
         assert(id.index < size);
-        assert(m_nodeHandlers[id.index].node != nullptr);
-        assert(id == m_nodeHandlers[id.index].node->getNodeId());
+        assert(m_nodes[id.index] != nullptr);
+        assert(id == m_nodes[id.index]->getNodeId());
 
-        m_nodeHandlers[id.index].node = nullptr;
-
-        if (first_free == INVALID_INDEX)
-        {
-            first_free = id.index;
-            return;
-        }
+        m_nodes[id.index] = nullptr;
 
         if (id.index < first_free)
         {
-            m_nodeHandlers[ id.index ].next_free = first_free;
             first_free = id.index;
-            return;
         }
-
-        auto prev_free = first_free;
-
-        while (m_nodeHandlers[prev_free].next_free < id.index)
-            prev_free = m_nodeHandlers[prev_free].next_free;
-
-        m_nodeHandlers[ id.index ].next_free  = m_nodeHandlers[ prev_free ].next_free;
-        m_nodeHandlers[ id.index ].prev_free  = prev_free;
-        m_nodeHandlers[ prev_free ].next_free = id.index;
     }
 
     Node const* getNode(NodeId id) const noexcept
     {
-        if (id.index < m_nodeHandlers.size())
+        if (id.index < m_nodes.size())
         {
-            if (auto node = m_nodeHandlers[id.index].node)
+            if (auto node = m_nodes[id.index])
             {
                 if (node->getNodeId() == id)
                 {
@@ -175,22 +160,9 @@ public:
 
 private:
 
-    struct NodeHandler {
-        NodeHandler(Node* node, index_type prev_free, index_type next_free)
-            : node(node)
-            , prev_free(prev_free)
-            , next_free(next_free)
-            {}
-
-        Node*      node      = nullptr;
-        index_type prev_free = INVALID_INDEX;
-        index_type next_free = INVALID_INDEX;
-    };
-
-private:
-    index_type               first_free     = INVALID_INDEX;
-    signature_type           next_signature = FIRST_SIGNATURE;
-    std::vector<NodeHandler> m_nodeHandlers;
+    index_type         first_free     = 0;
+    signature_type     next_signature = FIRST_SIGNATURE;
+    std::vector<Node*> m_nodes;
 };
 
 } // namespace cocos2d
