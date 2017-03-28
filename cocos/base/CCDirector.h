@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include <chrono>
 
 #include "2d/CCScene.h"
+#include "base/CCNodeRegister.h"
 #include "base/CCScheduler.h"
 #include "math/CCMath.h"
 #include "platform/CCGL.h"
@@ -378,10 +379,9 @@ public:
      */
     float getContentScaleFactor() const { return _contentScaleFactor; }
 
-    /** Gets the Scheduler associated with this director.
-     * @since v2.0
-     */
     Scheduler & getScheduler() { return _scheduler; }
+
+    NodeRegister & getNodeRegister() { return _nodeRegister; }
     
     /** Gets the ActionManager associated with this director.
      * @since v2.0
@@ -567,6 +567,8 @@ private:
      */
     std::vector< std::stack<Mat4> > _projectionMatrixStackList;
     std::stack<Mat4> _textureMatrixStack;
+
+    NodeRegister _nodeRegister;
 
     Scheduler _scheduler;
     

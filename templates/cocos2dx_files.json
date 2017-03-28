@@ -447,6 +447,7 @@
         "cocos/base/CCNS.h", 
         "cocos/base/CCNinePatchImageParser.cpp", 
         "cocos/base/CCNinePatchImageParser.h", 
+        "cocos/base/CCNodeRegister.h", 
         "cocos/base/CCProfiling.cpp", 
         "cocos/base/CCProfiling.h", 
         "cocos/base/CCProperties.cpp", 
