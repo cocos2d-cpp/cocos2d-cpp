@@ -132,10 +132,12 @@ class CC_DLL MenuItemLabel : public MenuItem
 {
 public:
     /** Creates a MenuItemLabel with a Label and a callback. */
-    static MenuItemLabel * create(Node*label, const ccMenuCallback& callback);
+    CC_DEPRECATED_ATTRIBUTE static MenuItemLabel * create(Node* label, const ccMenuCallback& callback)  { return MenuItemLabel::create(to_node_ptr(label), callback); }
+    static MenuItemLabel * create(node_ptr<Node> label, const ccMenuCallback& callback);
 
     /** Creates a MenuItemLabel with a Label. Target and selector will be nil. */
-    static MenuItemLabel* create(Node *label);
+    CC_DEPRECATED_ATTRIBUTE static MenuItemLabel* create(Node *label) { return MenuItemLabel::create(to_node_ptr(label)); }
+    static MenuItemLabel* create(node_ptr<Node> label);
 
     /** Sets a new string to the inner label. */
     void setString(const std::string& label);
@@ -150,10 +152,10 @@ public:
     void setDisabledColor(const Color3B& color) { _disabledColor = color; }
     
     /** Gets the label that is rendered. */
-    Node* getLabel() const { return _label; }
+    Node* getLabel() const { return _label.get(); }
     
     /** Sets the label that is rendered. */
-    void setLabel(Node* node);
+    void setLabel(node_ptr<Node> node);
     
     // Overrides
     virtual void activate() override;
@@ -167,7 +169,7 @@ protected:
      */
     MenuItemLabel()
     : _originalScale(0.0)
-    , _label(nullptr)
+    , _label()
     {}
     /**
      * @js NA
@@ -176,7 +178,7 @@ protected:
     virtual ~MenuItemLabel();
     
     /** Initializes a MenuItemLabel with a Label, target and selector. */
-    bool initWithLabel(Node* label, const ccMenuCallback& callback);
+    bool initWithLabel(node_ptr<Node> label, const ccMenuCallback& callback);
     
 protected:
     Color3B    _colorBackup;
@@ -185,7 +187,7 @@ protected:
     /** The color that will be used to disable the item. */
     Color3B _disabledColor;
     /** Label that is rendered. It can be any Node that implements the LabelProtocol. */
-    Node* _label;
+    node_ptr<Node> _label;
 
 private:
     MenuItemLabel(const MenuItemLabel &) = delete;

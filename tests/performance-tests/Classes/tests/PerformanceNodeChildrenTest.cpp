@@ -251,7 +251,7 @@ void IterateSpriteSheet::updateQuantityOfNodes()
     {
         for(int i = 0; i < (quantityOfNodes-currentQuantityOfNodes); i++)
         {
-            auto sprite = Sprite::createWithTexture(batchNode->getTexture(), Rect(0, 0, 32, 32));
+            auto sprite = Sprite::create(batchNode->getTexture(), Rect(0, 0, 32, 32));
             batchNode->addChild(sprite);
             sprite->setVisible(false);
             sprite->setPosition(Vec2(-1000,-1000));
@@ -463,7 +463,7 @@ void AddRemoveSpriteSheet::updateQuantityOfNodes()
     {
         for (int i=0; i < (quantityOfNodes-currentQuantityOfNodes); i++)
         {
-            auto sprite = Sprite::createWithTexture(batchNode->getTexture(), Rect(0, 0, 32, 32));
+            auto sprite = Sprite::create(batchNode->getTexture(), Rect(0, 0, 32, 32));
             batchNode->addChild(sprite);
             sprite->setPosition(Vec2( CCRANDOM_0_1()*s.width, CCRANDOM_0_1()*s.height));
             sprite->setVisible(false);
@@ -508,7 +508,7 @@ void AddSprite::update(float /*dt*/)
         // Don't include the sprite creation time and random as part of the profiling
         for(int i=0; i<totalToAdd; i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
             zs[i] = CCRANDOM_MINUS1_1() * 50;
         }
 
@@ -571,7 +571,7 @@ void AddSpriteSheet::update(float /*dt*/)
         // Don't include the sprite creation time and random as part of the profiling
         for(int i=0; i<totalToAdd; i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
             zs[i] = CCRANDOM_MINUS1_1() * 50;
         }
 
@@ -634,7 +634,7 @@ void GetSpriteSheet::update(float /*dt*/)
         // Don't include the sprite creation time and random as part of the profiling
         for(int i=0; i<totalToAdd; i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
             zs[i]      = CCRANDOM_MINUS1_1() * 50;
         }
 
@@ -698,7 +698,7 @@ void RemoveSprite::update(float /*dt*/)
         // Don't include the sprite creation time as part of the profiling
         for(int i=0;i<totalToAdd;i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
         }
 
         // add them with random Z (very important!)
@@ -753,7 +753,7 @@ void RemoveSpriteSheet::update(float /*dt*/)
         // Don't include the sprite creation time as part of the profiling
         for(int i=0;i<totalToAdd;i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
         }
 
         // add them with random Z (very important!)
@@ -808,7 +808,7 @@ void ReorderSpriteSheet::update(float /*dt*/)
         // Don't include the sprite creation time as part of the profiling
         for(int i=0; i<totalToAdd; i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
         }
 
         // add them with random Z (very important!)
@@ -871,7 +871,7 @@ void SortAllChildrenSpriteSheet::update(float /*dt*/)
         // Don't include the sprite's creation time as part of the profiling
         for(int i=0; i<totalToAdd; i++)
         {
-            sprites[i] = Sprite::createWithTexture(batchNode->getTexture(), Rect(0,0,32,32));
+            sprites[i] = Sprite::create(batchNode->getTexture(), Rect(0,0,32,32));
         }
 
         // add them with random Z (very important!)

@@ -827,7 +827,7 @@ public:
     CREATE_FUNC(SpriteSlice9Test2);
     SpriteSlice9Test2();
     virtual std::string title() const override { return "Slice 9 Test #2"; };
-    virtual std::string subtitle() const override { return "Testing Sprite::createWithSpriteFrameName()"; }
+    virtual std::string subtitle() const override { return "Testing Sprite::createName()"; }
 };
 
 class SpriteSlice9Test3 : public SpriteTestDemo

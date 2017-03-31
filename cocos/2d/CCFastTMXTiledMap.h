@@ -206,7 +206,7 @@ protected:
     /** initializes a TMX Tiled map with a TMX formatted XML string and a path to TMX resources */
     bool initWithXML(const std::string& tmxString, const std::string& resourcePath);
     
-    TMXLayer * parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
+    node_ptr<TMXLayer> parseLayer(std::unique_ptr<TMXLayerInfo> layerInfo, TMXMapInfo *mapInfo);
     std::shared_ptr<TMXTilesetInfo> tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo);
     void buildWithMapInfo(std::unique_ptr<TMXMapInfo> mapInfo);
 

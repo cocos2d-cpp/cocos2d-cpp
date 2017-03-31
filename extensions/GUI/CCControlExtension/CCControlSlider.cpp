@@ -107,7 +107,7 @@ ControlSlider* ControlSlider::create(Sprite * backgroundSprite, Sprite* pogressS
 
 bool ControlSlider::initWithSprites(Sprite * backgroundSprite, Sprite* progressSprite, Sprite* thumbSprite)
 {
-    Sprite* selectedThumbSprite = Sprite::createWithTexture(thumbSprite->getTexture(),
+    Sprite* selectedThumbSprite = Sprite::create(thumbSprite->getTexture(),
         thumbSprite->getTextureRect());
     selectedThumbSprite->setColor(Color3B::GRAY);
     return this->initWithSprites(backgroundSprite, progressSprite, thumbSprite, selectedThumbSprite);

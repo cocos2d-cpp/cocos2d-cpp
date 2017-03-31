@@ -1441,7 +1441,7 @@ void CameraFrameBufferTest::onEnter()
     auto fbo = experimental::FrameBuffer::create(1, fboSize.width, fboSize.height);
     
     CameraBaseTest::onEnter();
-    //auto sprite = Sprite::createWithTexture(fbo);
+    //auto sprite = Sprite::create(fbo);
     //sprite->setPosition(Vec2(100,100));
     //std::string filename = "Sprite3DTest/girl.c3b";
     //auto sprite = Sprite3D::create(filename);
@@ -1458,7 +1458,7 @@ void CameraFrameBufferTest::onEnter()
     auto rtDS = experimental::RenderTargetDepthStencil::create(fboSize.width, fboSize.height);
     fbo->attachRenderTarget(rt);
     fbo->attachDepthStencilTarget(rtDS);
-    auto sprite = Sprite::createWithTexture(fbo->getRenderTarget()->getTexture());
+    auto sprite = Sprite::create(fbo->getRenderTarget()->getTexture());
     sprite->setScale(0.3f);
     sprite->runAction(std::make_unique<RepeatForever>(std::make_unique<RotateBy>(1, 90)));
     sprite->setPosition(size.width/2, size.height/2);

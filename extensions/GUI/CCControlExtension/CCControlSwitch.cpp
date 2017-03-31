@@ -185,7 +185,7 @@ bool ControlSwitchSprite::initWithMaskSprite(
         setOffLabel(offLabel);
 
         ClippingNode* clipper = ClippingNode::create();
-        _clipperStencil = Sprite::createWithTexture(maskSprite->getTexture());
+        _clipperStencil = Sprite::create(maskSprite->getTexture());
         _clipperStencil->retain();
         clipper->setAlphaThreshold(0.1f);
         

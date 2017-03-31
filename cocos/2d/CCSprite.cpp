@@ -40,7 +40,7 @@ THE SOFTWARE.
 namespace cocos2d {
 
 // MARK: create, init, dealloc
-Sprite* Sprite::createWithTexture(const Texture2D *texture)
+Sprite* Sprite::create(const Texture2D *texture)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithTexture(texture))
@@ -52,7 +52,7 @@ Sprite* Sprite::createWithTexture(const Texture2D *texture)
     return nullptr;
 }
 
-Sprite* Sprite::createWithTexture(const Texture2D *texture, const Rect& rect, bool rotated)
+Sprite* Sprite::create(const Texture2D *texture, const Rect& rect, bool rotated)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithTexture(texture, rect, rotated))
@@ -100,7 +100,7 @@ Sprite* Sprite::create(const std::string& filename, const Rect& rect)
     return nullptr;
 }
 
-Sprite* Sprite::createWithSpriteFrame(SpriteFrame *spriteFrame)
+Sprite* Sprite::create(SpriteFrame *spriteFrame)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && spriteFrame && sprite->initWithSpriteFrame(spriteFrame))

@@ -83,7 +83,7 @@ struct DownloaderTest : public TestCase
         auto cache = SpriteFrameCache::getInstance();
 
         // create background
-        auto bg = ui::Scale9Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("button_actived.png"));
+        auto bg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("button_actived.png"));
         bg->setContentSize(viewSize);
         
         // add a titile on the top
@@ -253,7 +253,7 @@ struct DownloaderTest : public TestCase
                 {
                     break;
                 }
-                auto sprite = Sprite::createWithTexture(texture);
+                auto sprite = Sprite::create(texture);
                 auto view = this->getChildByName(task.identifier);
                 auto viewSize = view->getContentSize();
                 sprite->setPosition(viewSize.width / 2, viewSize.height / 2);

@@ -161,7 +161,7 @@ public:
     using Layer::addChild;
     virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
     virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
-    
+
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setOpacityModifyRGB(bool value) override;
