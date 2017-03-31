@@ -238,24 +238,14 @@ const Vec2& ScrollView::getInnerContainerPosition() const
     return _innerContainer->getPosition();
 }
 
-void ScrollView::addChild(Node* child)
+void ScrollView::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    ScrollView::addChild(child, child->getLocalZOrder(), child->getTag());
+    _innerContainer->addChild(std::move(child), zOrder, tag);
 }
 
-void ScrollView::addChild(Node * child, int localZOrder)
+void ScrollView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    ScrollView::addChild(child, localZOrder, child->getTag());
-}
-
-void ScrollView::addChild(Node *child, int zOrder, int tag)
-{
-    _innerContainer->addChild(child, zOrder, tag);
-}
-
-void ScrollView::addChild(Node* child, int zOrder, const std::string &name)
-{
-    _innerContainer->addChild(child, zOrder, name);
+    _innerContainer->addChild(std::move(child), zOrder, name);
 }
 
 void ScrollView::removeAllChildren()

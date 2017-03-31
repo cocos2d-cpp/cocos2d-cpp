@@ -108,7 +108,7 @@ Sprite* PhysicsDemo::addGrossiniAtPosition(Vec2 p, float scale/* = 1.0*/)
     posx = (posx % 4) * 85;
     posy = (posy % 3) * 121;
     
-    auto sp = Sprite::createWithTexture(_spriteTexture, Rect(posx, posy, 85, 121));
+    auto sp = Sprite::create(_spriteTexture, Rect(posx, posy, 85, 121));
     
     sp->setScale(scale);
     sp->setPosition(p);
@@ -180,7 +180,7 @@ Sprite* PhysicsDemo::makeBall(Vec2 point, float radius, PhysicsMaterial material
 {
     Sprite* ball = nullptr;
     if (_ball != nullptr)
-        ball = Sprite::createWithTexture(_ball->getTexture());
+        ball = Sprite::create(_ball->getTexture());
     else
         ball = Sprite::create("Images/ball.png");
     

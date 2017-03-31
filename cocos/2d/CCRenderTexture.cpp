@@ -323,7 +323,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _texture->setAliasTexParameters();
 
         // retained
-        setSprite(Sprite::createWithTexture(_texture));
+        setSprite(Sprite::create(_texture));
 
         _texture->release();
         _sprite->setFlippedY(true);

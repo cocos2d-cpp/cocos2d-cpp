@@ -576,7 +576,7 @@ bool LayerMultiplex::initWithArray(std::vector<node_ptr<Layer>> && arrayOfLayers
     {
         _layers = std::move( arrayOfLayers );
         _enabledLayer = 0;
-        this->addChild(_layers.at(_enabledLayer).get());
+        this->addChild( to_node_ptr(_layers.at(_enabledLayer).get()) );
         return true;
     }
     return false;
@@ -590,7 +590,7 @@ void LayerMultiplex::switchTo(size_t n)
 
     _enabledLayer = n;
 
-    this->addChild(_layers.at(n).get());
+    this->addChild( to_node_ptr(_layers.at(n).get()) );
 }
 
 void LayerMultiplex::switchToAndReleaseMe(size_t n)
@@ -604,7 +604,7 @@ void LayerMultiplex::switchToAndReleaseMe(size_t n)
     
     _enabledLayer = n;
 
-    this->addChild(_layers.at(_enabledLayer).get());
+    this->addChild( to_node_ptr(_layers.at(_enabledLayer).get()) );
 }
 
 std::string LayerMultiplex::getDescription() const

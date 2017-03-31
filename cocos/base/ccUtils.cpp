@@ -204,7 +204,7 @@ Image* captureNode(Node* startNode, float scale)
     else {
         /* scale */
         auto finalRect = Rect(0, 0, size.width, size.height);
-        Sprite *sprite = Sprite::createWithTexture(rtx->getSprite()->getTexture(), finalRect);
+        Sprite *sprite = Sprite::create(rtx->getSprite()->getTexture(), finalRect);
         sprite->setAnchorPoint(Point(0, 0));
         sprite->setFlippedY(true);
 
@@ -342,7 +342,7 @@ Sprite* createSpriteFromBase64Cached(const char* base64String, const char* key)
         image->release();
     }
 
-    Sprite* sprite = Sprite::createWithTexture(texture);
+    Sprite* sprite = Sprite::create(texture);
     
     return sprite;
 }
@@ -367,7 +367,7 @@ Sprite* createSpriteFromBase64(const char* base64String)
     texture->setAliasTexParameters();
     image->release();
 
-    Sprite* sprite = Sprite::createWithTexture(texture);
+    Sprite* sprite = Sprite::create(texture);
     texture->release();
 
     return sprite;

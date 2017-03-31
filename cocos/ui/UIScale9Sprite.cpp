@@ -84,7 +84,7 @@ Scale9Sprite* Scale9Sprite::create(const std::string& fileaname)
 }
 
 
-Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets)
+Scale9Sprite* Scale9Sprite::create(SpriteFrame* spriteFrame, const Rect& capInsets)
 {
     Scale9Sprite* ret = new (std::nothrow) Scale9Sprite();
     if (ret && ret->initWithSpriteFrame(spriteFrame, capInsets))
@@ -96,9 +96,9 @@ Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame, cons
     return nullptr;
 }
 
-Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame)
+Scale9Sprite* Scale9Sprite::create(SpriteFrame* spriteFrame)
 {
-    return createWithSpriteFrame(spriteFrame, Rect::ZERO);
+    return create(spriteFrame, Rect::ZERO);
 }
 
 Scale9Sprite::Scale9Sprite()

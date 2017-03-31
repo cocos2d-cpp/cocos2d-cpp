@@ -40,33 +40,38 @@ ParallaxNode * ParallaxNode::create()
     return ret;
 }
 
-void ParallaxNode::addChild(Node* /*child*/, int /*zOrder*/, int /*tag*/)
-{
-    CCASSERT(0,"ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
-}
-
-void ParallaxNode::addChild(Node* /*child*/, int /*zOrder*/, const std::string& /*name*/)
-{
-    CCASSERT(0,"ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
-}
-
 void ParallaxNode::addChild(Node *child, int z, const Vec2& ratio, const Vec2& offset)
 {
-    _parallaxArray.emplace_back(ratio, offset, child);
+    addChild(to_node_ptr(child), z, ratio, offset);
+}
+
+void ParallaxNode::addChild(node_ptr<Node> child, int z, const Vec2& ratio, const Vec2& offset)
+{
+    _parallaxArray.emplace_back(ratio, offset, to_node_ptr(child.get()));
 
     Vec2 pos = this->absolutePosition();
     pos.x = -pos.x + pos.x * ratio.x + offset.x;
     pos.y = -pos.y + pos.y * ratio.y + offset.y;
     child->setPosition(pos);
 
-    Node::addChild(child, z, child->getName());
+    Node::addChild(std::move(child), z, child->getName());
+}
+
+void ParallaxNode::addChild(node_ptr<Node>, int, int)
+{
+    CCASSERT(false, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
+}
+
+void ParallaxNode::addChild(node_ptr<Node>, int, const std::string&)
+{
+    CCASSERT(false, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
 }
 
 void ParallaxNode::removeChild(Node* child, bool cleanup)
 {
     auto it = std::find_if(_parallaxArray.begin(), _parallaxArray.end(),
                            [child] (auto const& v) {
-                               return v._child == child;
+                               return v._child.get() == child;
                            });
     if (_parallaxArray.end() != it)
     {
@@ -110,7 +115,7 @@ void ParallaxNode::visit(Renderer *renderer, const Mat4 &parentTransform, uint32
             PointObject & point = _parallaxArray[i];
             float x = -pos.x + pos.x * point._ratio.x + point._offset.x;
             float y = -pos.y + pos.y * point._ratio.y + point._offset.y;            
-            point._child->setPosition(x,y);
+            point._child->setPosition(x, y);
         }
         _lastPosition = pos;
     }

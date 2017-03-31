@@ -142,7 +142,7 @@ bool EditBox::initWithSizeAndBackgroundSprite(const Size& size,
         }
         else
         {
-            _backgroundSprite = Scale9Sprite::createWithSpriteFrame(
+            _backgroundSprite = Scale9Sprite::create(
                 SpriteFrameCache::getInstance()->getSpriteFrameByName(pNormal9SpriteBg)
             );
         }

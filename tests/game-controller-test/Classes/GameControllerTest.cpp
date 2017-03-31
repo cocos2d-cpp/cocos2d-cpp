@@ -378,23 +378,23 @@ void GameControllerTest::createControllerSprite(ControllerHolder& holder)
     //-----------------------------------------------------------------
     auto dPadTexture = Director::getInstance()->getTextureCache()->addImage("dPad.png");
 
-    auto dPadCenter = Sprite::createWithTexture(dPadTexture,Rect(60,60,68,68));
+    auto dPadCenter = Sprite::create(dPadTexture,Rect(60,60,68,68));
     dPadCenter->setPosition(371,294);
     holder._holderNode->addChild(dPadCenter);
 
-    holder._dpadLeft = Sprite::createWithTexture(dPadTexture,Rect(0,60,60,60));
+    holder._dpadLeft = Sprite::create(dPadTexture,Rect(0,60,60,60));
     holder._dpadLeft->setPosition(371 - 64,296);
     holder._holderNode->addChild(holder._dpadLeft);
 
-    holder._dpadRight = Sprite::createWithTexture(dPadTexture,Rect(128,60,60,60));
+    holder._dpadRight = Sprite::create(dPadTexture,Rect(128,60,60,60));
     holder._dpadRight->setPosition(371 + 64,296);
     holder._holderNode->addChild(holder._dpadRight);
 
-    holder._dpadUp = Sprite::createWithTexture(dPadTexture,Rect(60,0,60,60));
+    holder._dpadUp = Sprite::create(dPadTexture,Rect(60,0,60,60));
     holder._dpadUp->setPosition(369,294 + 64);
     holder._holderNode->addChild(holder._dpadUp);
 
-    holder._dpadDown = Sprite::createWithTexture(dPadTexture,Rect(60,128,60,60));
+    holder._dpadDown = Sprite::create(dPadTexture,Rect(60,128,60,60));
     holder._dpadDown->setPosition(369,294 - 64);
     holder._holderNode->addChild(holder._dpadDown);
     //-----------------------------------------------------------------

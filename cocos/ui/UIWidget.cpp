@@ -1137,7 +1137,7 @@ void Widget::copyClonedWidgetChildren(const Widget* model)
         Widget* child = dynamic_cast<Widget*>(subWidget.get());
         if (child)
         {
-            addChild(child->clone());
+            addChild( to_node_ptr(child->clone()) );
         }
     }
 }

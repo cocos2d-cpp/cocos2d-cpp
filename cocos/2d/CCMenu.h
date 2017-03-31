@@ -31,14 +31,8 @@ THE SOFTWARE.
 #include "base/CCValue.h"
 
 namespace cocos2d {
+
 class Touch;
-
-/**
- * @addtogroup _2d
- * @{
- */
-
-
 
 /** @brief A Menu for touch handling.
 * 
@@ -164,11 +158,10 @@ public:
     // overrides
     virtual void removeChild(Node* child, bool cleanup) override;
     
-    virtual void addChild(Node * child) override;
-    virtual void addChild(Node * child, int zOrder) override;
-    virtual void addChild(Node * child, int zOrder, int tag) override;
-    virtual void addChild(Node * child, int zOrder, const std::string &name) override;
-    
+    using Layer::addChild;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual void setOpacityModifyRGB(bool value) override;
@@ -204,9 +197,6 @@ private:
     Menu(const Menu &) = delete;
     const Menu & operator=(const Menu &) = delete;
 };
-
-// end of _2d group
-/// @}
 
 } // namespace cocos2d
 

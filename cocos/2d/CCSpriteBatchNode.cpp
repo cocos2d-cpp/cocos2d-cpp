@@ -174,29 +174,29 @@ void SpriteBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uin
     }
 }
 
-void SpriteBatchNode::addChild(Node *child, int zOrder, int tag)
+void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    CCASSERT(child != nullptr, "child should not be null");
-    CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "CCSpriteBatchNode only supports Sprites as children");
-    Sprite *sprite = static_cast<Sprite*>(child);
+    CCASSERT(child, "child should not be null");
+    auto sprite = dynamic_cast<Sprite*>(child.get());
+    CCASSERT(sprite != nullptr, "CCSpriteBatchNode only supports Sprites as children");
     // check Sprite is using the same texture id
     CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
 
-    Node::addChild(child, zOrder, tag);
+    Node::addChild(std::move(child), zOrder, tag);
 
     appendChild(sprite);
 }
 
-void SpriteBatchNode::addChild(Node * child, int zOrder, const std::string &name)
+void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    CCASSERT(child != nullptr, "child should not be null");
-    CCASSERT(dynamic_cast<Sprite*>(child) != nullptr, "CCSpriteBatchNode only supports Sprites as children");
-    Sprite *sprite = static_cast<Sprite*>(child);
+    CCASSERT(child, "child should not be null");
+    auto sprite = dynamic_cast<Sprite*>(child.get());
+    CCASSERT(sprite != nullptr, "CCSpriteBatchNode only supports Sprites as children");
     // check Sprite is using the same texture id
     CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
-    
-    Node::addChild(child, zOrder, name);
-    
+
+    Node::addChild(std::move(child), zOrder, name);
+
     appendChild(sprite);
 }
 
@@ -717,7 +717,7 @@ void SpriteBatchNode::updateQuadFromSprite(Sprite *sprite, ssize_t index)
     sprite->updateTransform();
 }
 
-SpriteBatchNode * SpriteBatchNode::addSpriteWithoutQuad(Sprite*child, int z, int aTag)
+SpriteBatchNode * SpriteBatchNode::addSpriteWithoutQuad(Sprite* child, int z, int aTag)
 {
     CCASSERT( child != nullptr, "Argument must be non-nullptr");
     CCASSERT( dynamic_cast<Sprite*>(child), "CCSpriteBatchNode only supports Sprites as children");
@@ -736,7 +736,7 @@ SpriteBatchNode * SpriteBatchNode::addSpriteWithoutQuad(Sprite*child, int z, int
     _descendants.insert(it, child);
 
     // IMPORTANT: Call super, and not self. Avoid adding it to the texture atlas array
-    Node::addChild(child, z, aTag);
+    Node::addChild(to_node_ptr(child), z, aTag);
 
     //#issue 1262 don't use lazy sorting, tiles are added as quads not as sprites, so sprites need to be added in order
     reorderBatch(false);

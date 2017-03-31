@@ -700,7 +700,7 @@ void SpritePolygonTestTPIsland::initSprites()
     auto cache = SpriteFrameCache::getInstance();
     cache->addSpriteFramesWithFile("Images/test_polygon.plist");
 
-    auto sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("island_polygon.png"));
+    auto sprite = Sprite::create(cache->getSpriteFrameByName("island_polygon.png"));
     addChild(sprite);
     sprite->setPosition(s.width/2, s.height/2);
 
@@ -765,7 +765,7 @@ void SpritePolygonTestFrameAnim::initSprites()
     for(int i=0;i<10;i++)
     {
         sprintf(str, "grossini_dance_%02d.png", i+1);
-        sprite = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName(str));
+        sprite = Sprite::create(cache->getSpriteFrameByName(str));
 
         sprite->setPosition(Vec2(screen.width/6*(i%5+1), screen.height*2/3 - screen.height*(i/5)/3));
 

@@ -62,13 +62,12 @@ public:
      * @param parallaxRatio A given parallax ratio.
      * @param positionOffset A given position offset.
      */
-    void addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
+    CC_DEPRECATED_ATTRIBUTE void addChild(Node * child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
+    void addChild(node_ptr<Node> child, int z, const Vec2& parallaxRatio, const Vec2& positionOffset);
 
-    //
-    // Overrides
-    //
-    virtual void addChild(Node * child, int zOrder, int tag) override;
-    virtual void addChild(Node * child, int zOrder, const std::string &name) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+
     virtual void removeChild(Node* child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
@@ -87,14 +86,15 @@ private:
 
     struct PointObject
     {
-        PointObject(Vec2 ratio, Vec2 offset, Node* child)
-            : _ratio(ratio), _offset(offset), _child(child)
+        PointObject(Vec2 ratio, Vec2 offset, node_ptr<Node> child)
+            : _ratio(ratio), _offset(offset), _child(std::move(child))
             {}
-        Vec2  _ratio;
-        Vec2  _offset;
-        Node* _child; // weak ref
+        Vec2           _ratio;
+        Vec2           _offset;
+        node_ptr<Node> _child; // weak ref
     };
 
+private:
 protected:
 
     Vec2    _lastPosition;

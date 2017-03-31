@@ -358,10 +358,7 @@ public:
      *@return Get the layout type.
      */
     virtual  Type getLayoutType() const;
-
     
-    virtual void addChild(Node* child)override;
-    virtual void addChild(Node * child, int localZOrder)override;
     /**
      * Adds a child to the container with z order and tag
      *
@@ -371,9 +368,10 @@ public:
      * @param localZOrder    Z order for drawing priority. Please refer to setLocalZOrder(int)
      * @param tag       A integer to identify the node easily. Please refer to setTag(int)
      */
-    virtual void addChild(Node* child, int localZOrder, int tag) override;
-    virtual void addChild(Node* child, int localZOrder, const std::string &name) override;
-    
+    using Widget::addChild;
+    virtual void addChild(node_ptr<Node> child, int localZOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name) override;
+
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
 
     virtual void removeChild(Node* child, bool cleanup = true) override;

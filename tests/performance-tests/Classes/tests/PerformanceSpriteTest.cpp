@@ -216,7 +216,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
         case 4:
         {
             Texture2D *texture = cache->addImage("Images/grossinis_sister1.png");
-            sprite = Sprite::createWithTexture(texture, Rect(0, 0, 52, 139));
+            sprite = Sprite::create(texture, Rect(0, 0, 52, 139));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
@@ -244,7 +244,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
             x *= 85;
             y *= 121;
             Texture2D *texture = cache->addImage("Images/grossini_dance_atlas.png");
-            sprite = Sprite::createWithTexture(texture, Rect(x,y,85,121));
+            sprite = Sprite::create(texture, Rect(x,y,85,121));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
@@ -278,7 +278,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
             x *= 32;
             y *= 32;
             Texture2D *texture = cache->addImage("Images/spritesheet1.png");
-            sprite = Sprite::createWithTexture(texture, CC_RECT_PIXELS_TO_POINTS(Rect(x,y,32,32)));
+            sprite = Sprite::create(texture, CC_RECT_PIXELS_TO_POINTS(Rect(x,y,32,32)));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
@@ -304,7 +304,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
                 x *= 85;
                 y *= 121;
                 Texture2D *texture = cache->addImage("Images/grossini_dance_atlas.png");
-                sprite = Sprite::createWithTexture(texture, Rect(x,y,85,121));
+                sprite = Sprite::create(texture, Rect(x,y,85,121));
                 _parentNode->addChild(sprite, 0, tag+100);
 
             }
@@ -319,7 +319,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
                 x *= 32;
                 y *= 32;
                 Texture2D *texture = cache->addImage("Images/spritesheet1.png");
-                sprite = Sprite::createWithTexture(texture, CC_RECT_PIXELS_TO_POINTS(Rect(x,y,32,32)));
+                sprite = Sprite::create(texture, CC_RECT_PIXELS_TO_POINTS(Rect(x,y,32,32)));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             break;
@@ -328,7 +328,7 @@ Sprite* SubTest::createSpriteWithTag(int tag)
         case 15:
         {
             auto frameCache = SpriteFrameCache::getInstance();
-            sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossini_dance_05.png"));
+            sprite = Sprite::create(frameCache->getSpriteFrameByName("grossini_dance_05.png"));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
@@ -337,12 +337,12 @@ Sprite* SubTest::createSpriteWithTag(int tag)
             int test = (CCRANDOM_0_1() * 2);
             auto frameCache = SpriteFrameCache::getInstance();
             if(test==0) {
-                sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossinis_sister1.png"));
+                sprite = Sprite::create(frameCache->getSpriteFrameByName("grossinis_sister1.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             else if(test==1)
             {
-                sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName("grossinis_sister2.png"));
+                sprite = Sprite::create(frameCache->getSpriteFrameByName("grossinis_sister2.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             break;

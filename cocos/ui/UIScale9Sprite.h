@@ -150,7 +150,7 @@ namespace ui {
          * @param spriteFrame  A sprite frame pointer.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame);
+        static Scale9Sprite* create(SpriteFrame* spriteFrame);
 
         /**
          * Creates a 9-slice sprite with an sprite frame and the centre of its zone.
@@ -163,7 +163,7 @@ namespace ui {
          * @param capInsets  A delimitation zone.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets);
+        static Scale9Sprite* create(SpriteFrame* spriteFrame, const Rect& capInsets);
 
         // overriden methods that takes different parameters
         using Sprite::initWithFile;

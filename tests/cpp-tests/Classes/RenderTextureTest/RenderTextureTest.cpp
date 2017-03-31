@@ -245,15 +245,15 @@ RenderTextureZbuffer::RenderTextureZbuffer()
     cache->addSpriteFramesWithFile("Images/bugs/circle.plist");
     mgr = SpriteBatchNode::create("Images/bugs/circle.png", 9);
     this->addChild(mgr);
-    sp1 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp2 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp3 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp4 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp5 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp6 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp7 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp8 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
-    sp9 = Sprite::createWithSpriteFrame(cache->getSpriteFrameByName("circle.png"));
+    sp1 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp2 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp3 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp4 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp5 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp6 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp7 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp8 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp9 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
 
     mgr->addChild(sp1, 9);
     mgr->addChild(sp2, 8);
@@ -347,7 +347,7 @@ void RenderTextureZbuffer::renderScreenShot()
 
     texture->end();
 
-    auto sprite = Sprite::createWithTexture(texture->getSprite()->getTexture());
+    auto sprite = Sprite::create(texture->getSprite()->getTexture());
 
     sprite->setPosition(Vec2(256, 256));
     sprite->setOpacity(182);
@@ -394,7 +394,7 @@ RenderTexturePartTest::RenderTexturePartTest()
     sprite22->visit();
     _rend->end();
     
-    _spriteDraw = Sprite::createWithTexture(_rend->getSprite()->getTexture());
+    _spriteDraw = Sprite::create(_rend->getSprite()->getTexture());
 
     auto baseAction = std::make_unique<MoveBy>(1, Vec2(size.width,0));
     auto baseAction_reverse = std::unique_ptr<MoveBy>(baseAction->reverse());

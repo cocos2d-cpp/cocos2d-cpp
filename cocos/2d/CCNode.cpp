@@ -858,30 +858,40 @@ bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) 
 * If a class want's to extend the 'addChild' behavior it only needs
 * to override this method
 */
+///////////// deprecated addChild /////////////
 void Node::addChild(Node *child)
 {
     addChild( to_node_ptr(child) );
 }
-void Node::addChild(node_ptr<Node> child)
-{
-    CCASSERT( child != nullptr, "Argument must be non-nil");
-    addChild(std::move(child), child->getLocalZOrder(), child->_name);
-}
-
 void Node::addChild(Node *child, int zOrder)
 {
     addChild(to_node_ptr(child), zOrder);
 }
-void Node::addChild(node_ptr<Node> child, int zOrder)
-{
-    CCASSERT( child != nullptr, "Argument must be non-nil");
-    this->addChild(std::move(child), zOrder, child->_name);
-}
-
 void Node::addChild(Node * child, int localZOrder, int tag)
 {
     addChild(to_node_ptr(child), localZOrder, tag);
 }
+void Node::addChild(Node * child, int localZOrder, const std::string &name)
+{
+    addChild(to_node_ptr(child), localZOrder, name);
+}
+///////////////////////////////////////////////
+
+void Node::addChild(node_ptr<Node> child)
+{
+    CCASSERT( child != nullptr, "Argument must be non-nil");
+    auto zOrder = child->getLocalZOrder();
+    const auto & name = child->_name;
+    addChild(std::move(child), zOrder, name);
+}
+
+void Node::addChild(node_ptr<Node> child, int zOrder)
+{
+    CCASSERT( child != nullptr, "Argument must be non-nil");
+    const auto & name = child->_name;
+    this->addChild(std::move(child), zOrder, name);
+}
+
 void Node::addChild(node_ptr<Node> child, int localZOrder, int tag)
 {    
     CCASSERT( child, "Argument must be non-nil");
@@ -890,10 +900,6 @@ void Node::addChild(node_ptr<Node> child, int localZOrder, int tag)
     addChildHelper(std::move(child), localZOrder, tag, "", true);
 }
 
-void Node::addChild(Node * child, int localZOrder, const std::string &name)
-{
-    addChild(to_node_ptr(child), localZOrder, name);
-}
 void Node::addChild(node_ptr<Node> child, int localZOrder, const std::string &name)
 {
     CCASSERT(child, "Argument must be non-nil");
