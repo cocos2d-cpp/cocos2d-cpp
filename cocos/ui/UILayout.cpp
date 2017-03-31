@@ -138,31 +138,21 @@ bool Layout::init()
     return false;
 }
     
-void Layout::addChild(Node* child)
+void Layout::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    Layout::addChild(child, child->getLocalZOrder(), child->getTag());
-}
-    
-void Layout::addChild(Node * child, int localZOrder)
-{
-    Layout::addChild(child, localZOrder, child->getTag());
-}
-
-void Layout::addChild(Node *child, int zOrder, int tag)
-{
-    if (dynamic_cast<Widget*>(child)) {
-        supplyTheLayoutParameterLackToChild(static_cast<Widget*>(child));
+    if (auto widget = dynamic_cast<Widget*>(child.get())) {
+        supplyTheLayoutParameterLackToChild(widget);
     }
-    Widget::addChild(child, zOrder, tag);
+    Widget::addChild(std::move(child), zOrder, tag);
     _doLayoutDirty = true;
 }
     
-void Layout::addChild(Node* child, int zOrder, const std::string &name)
+void Layout::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    if (dynamic_cast<Widget*>(child)) {
-        supplyTheLayoutParameterLackToChild(static_cast<Widget*>(child));
+    if (auto widget = dynamic_cast<Widget*>(child.get())) {
+        supplyTheLayoutParameterLackToChild(widget);
     }
-    Widget::addChild(child, zOrder, name);
+    Widget::addChild(std::move(child), zOrder, name);
     _doLayoutDirty = true;
 }
     

@@ -38,11 +38,6 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-/**
- * @addtogroup _2d
- * @{
- */
-
 class TouchScriptHandlerEntry;
 
 class Event;
@@ -477,10 +472,6 @@ private:
     LayerMultiplex(const LayerMultiplex &) = delete;
     const LayerMultiplex & operator=(const LayerMultiplex &) = delete;
 };
-
-
-// end of _2d group
-/// @}
 
 } // namespace cocos2d
 

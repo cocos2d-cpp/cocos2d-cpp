@@ -4,8 +4,6 @@ Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -971,17 +969,18 @@ void Sprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 // MARK: visit, draw, transform
 
-void Sprite::addChild(Node *child, int zOrder, int tag)
+void Sprite::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    CCASSERT(child != nullptr, "Argument must be non-nullptr");
-    if (child == nullptr)
+    CCASSERT(child, "Argument must be non-nullptr");
+
+    if (! child)
     {
         return;
     }
 
     if (_batchNode)
     {
-        Sprite* childSprite = dynamic_cast<Sprite*>(child);
+        Sprite* childSprite = dynamic_cast<Sprite*>(child.get());
         CCASSERT( childSprite, "CCSprite only supports Sprites as children when using SpriteBatchNode");
         CCASSERT(childSprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "childSprite's texture name should be equal to _textureAtlas's texture name!");
         //put it in descendants array of batch node
@@ -993,20 +992,21 @@ void Sprite::addChild(Node *child, int zOrder, int tag)
         }
     }
     //CCNode already sets isReorderChildDirty_ so this needs to be after batchNode check
-    Node::addChild(child, zOrder, tag);
+    Node::addChild(std::move(child), zOrder, tag);
 }
 
-void Sprite::addChild(Node *child, int zOrder, const std::string &name)
+void Sprite::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    CCASSERT(child != nullptr, "Argument must be non-nullptr");
-    if (child == nullptr)
+    CCASSERT(child, "Argument must be non-nullptr");
+
+    if (! child)
     {
         return;
     }
 
     if (_batchNode)
     {
-        Sprite* childSprite = dynamic_cast<Sprite*>(child);
+        Sprite* childSprite = dynamic_cast<Sprite*>(child.get());
         CCASSERT( childSprite, "CCSprite only supports Sprites as children when using SpriteBatchNode");
         CCASSERT(childSprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(),
                  "childSprite's texture name should be equal to _textureAtlas's texture name.");
@@ -1019,7 +1019,7 @@ void Sprite::addChild(Node *child, int zOrder, const std::string &name)
         }
     }
     //CCNode already sets isReorderChildDirty_ so this needs to be after batchNode check
-    Node::addChild(child, zOrder, name);
+    Node::addChild(std::move(child), zOrder, name);
 }
 
 void Sprite::reorderChild(Node *child, int zOrder)

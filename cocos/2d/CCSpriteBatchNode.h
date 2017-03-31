@@ -4,8 +4,7 @@ Copyright (c) 2009      Matt Oswald
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -36,12 +35,6 @@ THE SOFTWARE.
 #include "renderer/CCBatchCommand.h"
 
 namespace cocos2d {
-
-/**
- * @addtogroup _2d
- * @{
- */
-
 
 class Sprite;
 
@@ -176,8 +169,8 @@ public:
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
     
     using Node::addChild;
-    virtual void addChild(Node * child, int zOrder, int tag) override;
-    virtual void addChild(Node * child, int zOrder, const std::string &name) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
     virtual void reorderChild(Node *child, int zOrder) override;
         
 	virtual void removeChild(Node *child, bool cleanup) override;
@@ -247,9 +240,6 @@ protected:
     // So, using std::vector<Sprite*> is slightly faster than using cocos2d::Array for this particular case
     std::vector<Sprite*> _descendants;
 };
-
-// end of sprite_nodes group
-/** @} */
 
 } // namespace cocos2d
 

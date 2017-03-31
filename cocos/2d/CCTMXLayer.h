@@ -37,11 +37,6 @@ class TMXMapInfo;
 class TMXLayerInfo;
 class TMXTilesetInfo;
 
-/**
- * @addtogroup _2d
- * @{
- */
-
 /** @brief TMXLayer represents the TMX layer.
  * It is a subclass of SpriteBatchNode. By default the tiles are rendered using a TextureAtlas.
  * If you modify a tile on runtime, then, that tile will become a Sprite, otherwise no Sprite objects are created.
@@ -242,7 +237,7 @@ public:
      @warning addChild(z, tag); is not supported on TMXLayer. Instead of setTileGID.
      */
     using SpriteBatchNode::addChild;
-    virtual void addChild(Node * child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
     // super method
     void removeChild(Node* child, bool cleanup) override;
 
@@ -306,9 +301,6 @@ protected:
     /** properties from the layer. They can be added using Tiled */
     ValueMap _properties;
 };
-
-// end of tilemap_parallax_nodes group
-/** @} */
 
 } // namespace cocos2d
 

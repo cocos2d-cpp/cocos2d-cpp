@@ -4,8 +4,6 @@ Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
 
-http://www.cocos2d-x.org
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -432,9 +430,11 @@ public:
     virtual void removeChild(Node* child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void reorderChild(Node *child, int zOrder) override;
+
     using Node::addChild;
-    virtual void addChild(Node *child, int zOrder, int tag) override;
-    virtual void addChild(Node *child, int zOrder, const std::string &name) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+
     virtual void sortAllChildren() override;
     virtual void setScale(float scale) override;
     virtual void setPositionZ(float positionZ) override;

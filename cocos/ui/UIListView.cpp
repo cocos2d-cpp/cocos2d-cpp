@@ -238,9 +238,9 @@ void ListView::pushBackDefaultItem()
     {
         return;
     }
-    Widget* newItem = _model->clone();
-    remedyLayoutParameter(newItem);
-    addChild(newItem);
+    auto newItem = to_node_ptr(_model->clone());
+    remedyLayoutParameter(newItem.get());
+    addChild( std::move(newItem) );
     requestDoLayout();
 }
 
@@ -257,42 +257,30 @@ void ListView::insertDefaultItem(size_t index)
 void ListView::pushBackCustomItem(Widget* item)
 {
     remedyLayoutParameter(item);
-    addChild(item);
+    addChild( to_node_ptr(item) );
     requestDoLayout();
 }
     
-void ListView::addChild(cocos2d::Node *child, int zOrder, int tag)
+void ListView::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    ScrollView::addChild(child, zOrder, tag);
-
-    Widget* widget = dynamic_cast<Widget*>(child);
-    if (nullptr != widget)
+    if (auto widget = dynamic_cast<Widget*>(child.get()))
     {
         _items.push_back( to_node_ptr( widget));
         onItemListChanged();
     }
-}
-    
-void ListView::addChild(cocos2d::Node *child)
-{
-    ListView::addChild(child, child->getLocalZOrder(), child->getName());
-}
 
-void ListView::addChild(cocos2d::Node *child, int zOrder)
-{
-    ListView::addChild(child, zOrder, child->getName());
+    ScrollView::addChild(std::move(child), zOrder, tag);
 }
- 
-void ListView::addChild(Node* child, int zOrder, const std::string &name)
-{
-    ScrollView::addChild(child, zOrder, name);
     
-    Widget* widget = dynamic_cast<Widget*>(child);
-    if (nullptr != widget)
+void ListView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+{
+    if (auto widget = dynamic_cast<Widget*>(child.get()))
     {
         _items.push_back( to_node_ptr( widget));
         onItemListChanged();
     }
+
+    ScrollView::addChild(std::move(child), zOrder, name);
 }
     
 void ListView::removeChild(cocos2d::Node *child, bool cleanup)
@@ -354,7 +342,7 @@ void ListView::insertCustomItem(Widget* item, size_t index)
     _items.insert(_items.begin() + index, to_node_ptr(item));
     onItemListChanged();
 
-    ScrollView::addChild(item);
+    Node::addChild( to_node_ptr(item) );
 
     remedyLayoutParameter(item);
     requestDoLayout();

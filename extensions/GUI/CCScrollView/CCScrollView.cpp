@@ -131,15 +131,13 @@ bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
         _delegate = nullptr;
         _bounceable = true;
         _clippingToBounds = true;
-        //_container->setContentSize(Size::ZERO);
         _direction  = Direction::BOTH;
         _container->setPosition(0.0f, 0.0f);
         _touchLength = 0.0f;
         
-        this->addChild(_container);
+        this->addChild( to_node_ptr(_container) );
         _minScale = _maxScale = 1.0f;
 
-        
         return true;
     }
     return false;
@@ -367,7 +365,7 @@ void ScrollView::setContainer(Node * pContainer)
     this->_container->setIgnoreAnchorPointForPosition(false);
     this->_container->setAnchorPoint(Vec2(0.0f, 0.0f));
 
-    this->addChild(this->_container);
+    this->addChild(to_node_ptr(this->_container));
 
     this->setViewSize(this->_viewSize);
 }
@@ -528,12 +526,15 @@ void ScrollView::updateInset()
 /**
  * make sure all children go to the container
  */
-void ScrollView::addChild(Node * child, int zOrder, int tag)
+void ScrollView::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
-    if (_container != child) {
-        _container->addChild(child, zOrder, tag);
-    } else {
-        Layer::addChild(child, zOrder, tag);
+    if (_container != child.get())
+    {
+        _container->addChild(std::move(child), zOrder, tag);
+    }
+    else
+    {
+        Layer::addChild(std::move(child), zOrder, tag);
     }
 }
 
@@ -560,15 +561,15 @@ void ScrollView::removeAllChildren()
     removeAllChildrenWithCleanup(true);
 }
 
-void ScrollView::addChild(Node * child, int zOrder, const std::string &name)
+void ScrollView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    if (_container != child)
+    if (_container != child.get())
     {
-        _container->addChild(child, zOrder, name);
+        _container->addChild(std::move(child), zOrder, name);
     }
     else
     {
-        Layer::addChild(child, zOrder, name);
+        Layer::addChild(std::move(child), zOrder, name);
     }
 }
 

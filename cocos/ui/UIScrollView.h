@@ -312,11 +312,9 @@ public:
      */
     virtual void addEventListener(const ccScrollViewCallback& callback);
 
-    //override functions
-    virtual void addChild(Node* child)override;
-    virtual void addChild(Node * child, int localZOrder)override;
-    virtual void addChild(Node* child, int localZOrder, int tag) override;
-    virtual void addChild(Node* child, int localZOrder, const std::string &name) override;
+    using Layout::addChild;
+    virtual void addChild(node_ptr<Node> child, int localZOrder, int tag) override;
+    virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name) override;
     virtual void removeAllChildren() override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void removeChild(Node* child, bool cleanup = true) override;

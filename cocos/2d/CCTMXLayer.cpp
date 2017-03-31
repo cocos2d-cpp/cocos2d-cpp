@@ -582,7 +582,7 @@ void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos, TMXTileFlags flags)
     }
 }
 
-void TMXLayer::addChild(Node* /*child*/, int /*zOrder*/, int /*tag*/)
+void TMXLayer::addChild(node_ptr<Node>, int, int)
 {
     CCASSERT(0, "addChild: is not supported on TMXLayer. Instead use setTileGID:at:/tileAt:");
 }
