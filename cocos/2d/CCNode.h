@@ -744,16 +744,16 @@ public:
     // localZOrder is a Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
     // tag is an integer to identify the node easily. Please refer to `setTag(int)`.
     // name is a string to identify the node easily. Please refer to `setName(int)`.
-    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child);
+    CC_DEPRECATED_ATTRIBUTE void addChild(Node * child);
     virtual void addChild(node_ptr<Node> child);
 
-    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node * child, int localZOrder);
+    CC_DEPRECATED_ATTRIBUTE void addChild(Node * child, int localZOrder);
     virtual void addChild(node_ptr<Node> child, int localZOrder);
     
-    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node* child, int localZOrder, int tag);
+    CC_DEPRECATED_ATTRIBUTE void addChild(Node* child, int localZOrder, int tag);
     virtual void addChild(node_ptr<Node> child, int localZOrder, int tag);
 
-    CC_DEPRECATED_ATTRIBUTE virtual void addChild(Node* child, int localZOrder, const std::string &name);
+    CC_DEPRECATED_ATTRIBUTE void addChild(Node* child, int localZOrder, const std::string &name);
     virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name);
 
     /**
