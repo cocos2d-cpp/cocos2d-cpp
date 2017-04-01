@@ -42,7 +42,7 @@ LinearHorizontalLayoutManager* LinearHorizontalLayoutManager::create()
 }
     
     
-void LinearHorizontalLayoutManager::doLayout(LayoutProtocol* layout)
+void LinearHorizontalLayoutManager::doLayout(Layout* layout)
 {
     Size layoutSize = layout->getLayoutContentSize();
     auto & container = layout->getLayoutElements();
@@ -99,7 +99,7 @@ LinearVerticalLayoutManager* LinearVerticalLayoutManager::create()
     return nullptr;
 }
     
-void LinearVerticalLayoutManager::doLayout(LayoutProtocol* layout)
+void LinearVerticalLayoutManager::doLayout(Layout* layout)
 {
     Size layoutSize = layout->getLayoutContentSize();
     auto & container = layout->getLayoutElements();
@@ -161,7 +161,7 @@ RelativeLayoutManager* RelativeLayoutManager::create()
 
 
 
-std::vector<node_ptr<Widget>> RelativeLayoutManager::getAllWidgets(cocos2d::ui::LayoutProtocol *layout)
+std::vector<node_ptr<Widget>> RelativeLayoutManager::getAllWidgets(Layout *layout)
 {
     std::vector<node_ptr<Widget>> widgetChildren;
 
@@ -208,7 +208,7 @@ Widget* RelativeLayoutManager::getRelativeWidget(Widget* widget)
     return relativeWidget;
 }
     
-bool RelativeLayoutManager::calculateFinalPositionWithRelativeWidget(LayoutProtocol *layout)
+bool RelativeLayoutManager::calculateFinalPositionWithRelativeWidget(Layout *layout)
 {
     Vec2 ap = _widget->getAnchorPoint();
     Size cs = _widget->getContentSize();
@@ -527,7 +527,7 @@ void RelativeLayoutManager::calculateFinalPositionWithRelativeAlign()
     }
 }
 
-void RelativeLayoutManager::doLayout(LayoutProtocol *layout)
+void RelativeLayoutManager::doLayout(Layout *layout)
 {
     
     _widgetChildren = std::move( this->getAllWidgets(layout) );

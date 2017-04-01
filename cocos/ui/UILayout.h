@@ -46,52 +46,6 @@ namespace ui {
 class LayoutManager;
 class Scale9Sprite;
 
-/**
- *@brief Layout interface for creating LayoutManger and do actual layout.
- * @js NA
- */
-class CC_GUI_DLL LayoutProtocol
-{
-public:
-    /**
-     *@brief Default constructor.
-     */
-    LayoutProtocol(){}
-    /**
-     *@brief Default destructor.
-     */
-    virtual ~LayoutProtocol(){}
-
-    
-    /**
-     * @brief Create a custom layout manager.
-     *
-     * @return A LayoutManager descendants instance.
-     */
-    virtual LayoutManager* createLayoutManager() = 0;
-    
-    /**
-     * @brief Return the content size of layout.
-     *
-     * @return A content size in Size.
-     */
-    virtual Size getLayoutContentSize()const = 0;
-    
-    /**
-     * @brief Get all elements of the layout.
-     *
-     * @return A vector of Node pointers.
-     */
-    virtual const Node::children_container & getLayoutElements()const = 0;
-    
-    /**
-     * @brief The main function to do the layout job.
-     *  Different layout manager should implement its own layout algorithm.
-     *
-     */
-    virtual void doLayout() = 0;
-};
-
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 #ifdef RELATIVE
 #undef RELATIVE
@@ -110,7 +64,7 @@ public:
  * - Relative layout: child elements are arranged relative to certain rules.
  *
  */
-class CC_GUI_DLL Layout : public Widget, public LayoutProtocol
+class CC_GUI_DLL Layout : public Widget
 {
     
     DECLARE_CLASS_GUI_INFO
@@ -456,6 +410,12 @@ public:
      */
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
+    // used to be part of LayoutProtocol interface
+    virtual LayoutManager* createLayoutManager();
+    virtual Size getLayoutContentSize() const;
+    virtual const Node::children_container & getLayoutElements() const;
+    virtual void doLayout();
+    
 protected:
     //override "init" method of widget.
     virtual bool init() override;
@@ -477,11 +437,6 @@ protected:
     
     void setStencilClippingSize(const Size& size);
     const Rect& getClippingRect();
-    
-    virtual void doLayout()override;
-    virtual LayoutManager* createLayoutManager()override;
-    virtual Size getLayoutContentSize()const override;
-    virtual const Node::children_container & getLayoutElements()const override;
     
     //clipping
     

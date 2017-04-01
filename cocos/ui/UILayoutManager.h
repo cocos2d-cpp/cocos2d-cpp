@@ -36,7 +36,7 @@ namespace cocos2d {
 
 namespace ui {
     
-class LayoutProtocol;
+class Layout;
 class Widget;
 class RelativeLayoutParameter;
 
@@ -53,7 +53,7 @@ public:
     /**
      * The interface does the actual layouting work.
      */
-    virtual void doLayout(LayoutProtocol *layout) = 0;
+    virtual void doLayout(Layout *layout) = 0;
     
     friend class Layout;
 };
@@ -70,7 +70,7 @@ private:
     LinearVerticalLayoutManager(){};
     virtual ~LinearVerticalLayoutManager(){};
     static LinearVerticalLayoutManager* create();
-    virtual void doLayout(LayoutProtocol *layout) override;
+    virtual void doLayout(Layout *layout) override;
     
     friend class Layout;
 };
@@ -87,7 +87,7 @@ private:
     LinearHorizontalLayoutManager(){};
     virtual ~LinearHorizontalLayoutManager(){};
     static LinearHorizontalLayoutManager* create();
-    virtual void doLayout(LayoutProtocol *layout) override;
+    virtual void doLayout(Layout *layout) override;
     
     friend class Layout;
 };
@@ -110,11 +110,11 @@ private:
     {}
     virtual ~RelativeLayoutManager(){};
     static RelativeLayoutManager* create();
-    virtual void doLayout(LayoutProtocol *layout) override;
+    virtual void doLayout(Layout *layout) override;
     
-    std::vector<node_ptr<Widget>> getAllWidgets(LayoutProtocol *layout);
+    std::vector<node_ptr<Widget>> getAllWidgets(Layout *layout);
     Widget* getRelativeWidget(Widget* widget);
-    bool calculateFinalPositionWithRelativeWidget(LayoutProtocol *layout);
+    bool calculateFinalPositionWithRelativeWidget(Layout *layout);
     void calculateFinalPositionWithRelativeAlign();
     
     ssize_t _unlayoutChildCount;
