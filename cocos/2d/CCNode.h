@@ -144,13 +144,17 @@ class NodeId {
 
     friend class NodeRegister;
 
-    using index_type     = uint16_t;
-    using signature_type = uint16_t;
+public:
 
     bool operator==(NodeId const& r) const
     {
         return index == r.index && signature == r.signature;
     }
+
+private:
+
+    using index_type     = uint16_t;
+    using signature_type = uint16_t;
 
     index_type     index;
     signature_type signature;
@@ -879,7 +883,8 @@ public:
      * @param child     The child node which will be removed.
      * @param cleanup   True if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
-    virtual void removeChild(Node* child, bool cleanup = true);
+    CC_DEPRECATED_ATTRIBUTE virtual void removeChild(Node* child, bool cleanup = true) { removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId const& id, bool cleanup = true);
 
     /**
      * Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter.

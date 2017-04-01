@@ -951,7 +951,7 @@ void Node::removeFromParentAndCleanup(bool cleanup)
 {
     if (_parent != nullptr)
     {
-        _parent->removeChild(this,cleanup);
+        _parent->removeChild(getNodeId(), cleanup);
     } 
 }
 
@@ -959,11 +959,11 @@ void Node::removeFromParentAndCleanup(bool cleanup)
 * If a class want's to extend the 'removeChild' behavior it only needs
 * to override this method
 */
-void Node::removeChild(Node* child, bool cleanup /* = true */)
+void Node::removeChild(NodeId const& id, bool cleanup /* = true */)
 {
     auto iter = std::find_if(std::begin(_children), std::end(_children),
-                             [child](const children_container::value_type & p) {
-                                 return p.get() == child;
+                             [id](auto const & p) {
+                                 return p->getNodeId() == id;
                              });
     if (std::end(_children) != iter)
         this->detachChild(iter, cleanup);
@@ -981,7 +981,7 @@ void Node::removeChildByTag(int tag, bool cleanup/* = true */)
     }
     else
     {
-        this->removeChild(child, cleanup);
+        this->removeChild(child->getNodeId(), cleanup);
     }
 }
 
@@ -997,7 +997,7 @@ void Node::removeChildByName(const std::string &name, bool cleanup)
     }
     else
     {
-        this->removeChild(child, cleanup);
+        this->removeChild(child->getNodeId(), cleanup);
     }
 }
 
