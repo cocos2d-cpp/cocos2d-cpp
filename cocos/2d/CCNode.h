@@ -142,22 +142,45 @@ class NodeRegister;
 
 class NodeId {
 
-    friend class NodeRegister;
-
-public:
-
-    bool operator==(NodeId const& r) const
-    {
-        return index == r.index && signature == r.signature;
-    }
-
-private:
-
     using index_type     = uint16_t;
     using signature_type = uint16_t;
 
-    index_type     index;
-    signature_type signature;
+    static constexpr index_type MAX_NUMBER_OF_NODES = static_cast<index_type>(-1);
+
+public:
+    NodeId() : data{MAX_NUMBER_OF_NODES, 0u} {}
+
+    explicit operator bool() const
+    {
+        return index() != MAX_NUMBER_OF_NODES;
+    }
+
+    bool operator==(NodeId r) const
+    {
+        return data.all == r.data.all;
+    }
+
+    index_type     index()     const { return data.s.index; }
+    signature_type signature() const { return data.s.signature; }
+
+private:
+
+    friend class NodeRegister;
+
+    union Data {
+
+        struct Shorts {
+            index_type     index;
+            signature_type signature;
+        } s;
+
+        uint32_t all;
+    } data;
+
+    static_assert(sizeof(Data) == sizeof(std::declval<Data>().all),
+                  "union of invalid size is NodeId");
+    static_assert(0u < MAX_NUMBER_OF_NODES, "MAX_NUMBER_OF_NODES is not positive");
+    static_assert(0u < static_cast<signature_type>(-1), "signature_type must be unsigned");
 };
 
 class CC_DLL Node : public Ref
@@ -883,8 +906,8 @@ public:
      * @param child     The child node which will be removed.
      * @param cleanup   True if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void removeChild(Node* child, bool cleanup = true) { removeChild(child->getNodeId(), cleanup); }
-    virtual void removeChild(NodeId const& id, bool cleanup = true);
+    CC_DEPRECATED_ATTRIBUTE virtual void removeChild(Node* child, bool cleanup = true) { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup = true);
 
     /**
      * Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter.

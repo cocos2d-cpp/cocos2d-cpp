@@ -5,8 +5,7 @@
  * Copyright (c) 2011      Zynga Inc.
  * Copyright (c) 2011      Marco Tillemans
  * Copyright (c) 2013-2016 Chukong Technologies Inc.
- *
- * http://www.cocos2d-x.org
+ * Copyright (c) 2017      Iakov Sergeev <yahont@github>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -365,21 +364,17 @@ int ParticleBatchNode::searchNewPositionInChildrenForZ(int z)
 }
 
 // override removeChild:
-void  ParticleBatchNode::removeChild(Node* aChild, bool cleanup)
+void  ParticleBatchNode::removeChild(NodeId id, bool cleanup)
 {
-    // explicit nil handling
-    if (aChild == nullptr)
-        return;
+    auto child = Director::getInstance()->getNodeRegister().get<ParticleSystem>(id);
 
-    CCASSERT( dynamic_cast<ParticleSystem*>(aChild) != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
+    CCASSERT(child != nullptr, "CCParticleBatchNode only supports QuadParticleSystems as children");
     CCASSERT(getChildren().end()
              != std::find_if(getChildren().begin(), getChildren().end(),
-                             [aChild](const Node::children_container::value_type & c) {
-                                 return c.get() == aChild;
+                             [child](const Node::children_container::value_type & c) {
+                                 return c.get() == child;
                              }),
              "CCParticleBatchNode doesn't contain the sprite. Can't remove it");
-
-    ParticleSystem* child = static_cast<ParticleSystem*>(aChild);
 
     // remove child helper
     _textureAtlas->removeQuadsAtIndex(child->getAtlasIndex(), child->getTotalParticles());
@@ -389,14 +384,14 @@ void  ParticleBatchNode::removeChild(Node* aChild, bool cleanup)
 
     // particle could be reused for self rendering
     child->setBatchNode(nullptr);
-    Node::removeChild(child, cleanup);
+    Node::removeChild(id, cleanup);
 
     updateAllAtlasIndexes();
 }
 
 void ParticleBatchNode::removeChildAtIndex(int index, bool doCleanup)
 {
-    removeChild(getChildren().at(index).get(), doCleanup);
+    removeChild(getChildren().at(index)->getNodeId(), doCleanup);
 }
 
 void ParticleBatchNode::removeAllChildrenWithCleanup(bool doCleanup)

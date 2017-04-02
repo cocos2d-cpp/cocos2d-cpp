@@ -427,7 +427,8 @@ public:
     virtual void setRotationSkewY(float rotationY) override;
     virtual void setSkewX(float sx) override;
     virtual void setSkewY(float sy) override;
-    virtual void removeChild(Node* child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void reorderChild(Node *child, int zOrder) override;
 

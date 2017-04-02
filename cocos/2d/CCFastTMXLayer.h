@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -254,7 +253,9 @@ public:
     //
     virtual std::string getDescription() const override;
     virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
-    void removeChild(Node* child, bool cleanup = true) override;
+
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    void removeChild(NodeId child, bool cleanup = true) override;
 
 protected:
 

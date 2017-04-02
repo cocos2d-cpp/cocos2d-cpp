@@ -959,7 +959,7 @@ void Node::removeFromParentAndCleanup(bool cleanup)
 * If a class want's to extend the 'removeChild' behavior it only needs
 * to override this method
 */
-void Node::removeChild(NodeId const& id, bool cleanup /* = true */)
+void Node::removeChild(NodeId id, bool cleanup /* = true */)
 {
     auto iter = std::find_if(std::begin(_children), std::end(_children),
                              [id](auto const & p) {

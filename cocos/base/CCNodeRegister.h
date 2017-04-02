@@ -33,12 +33,7 @@ private:
     using index_type     = NodeId::index_type;
     using signature_type = NodeId::signature_type;
 
-    static constexpr index_type MAX_NUMBER_OF_NODES = static_cast<index_type>(-1);
-
     static constexpr signature_type FIRST_SIGNATURE = 0xAAAA;
-
-    static_assert(0u < MAX_NUMBER_OF_NODES, "MAX_NUMBER_OF_NODES is not positive");
-    static_assert(0u < static_cast<signature_type>(-1), "signature_type must be unsigned");
 
 public:
 
@@ -51,11 +46,11 @@ public:
     {
         assert(node != nullptr);
 
-        auto & id = node->getNodeId();
+        index_type     index;
 
         if (first_free < m_nodes.size())
         {
-            id.index              = first_free;
+            index                 = first_free;
             m_nodes[ first_free ] = node;
 
             first_free++;
@@ -63,10 +58,10 @@ public:
             for (const size_t size = m_nodes.size(); first_free < size && nullptr != m_nodes[first_free]; first_free++)
                 ;
         }
-        else if (m_nodes.size() != MAX_NUMBER_OF_NODES)
+        else if (m_nodes.size() != NodeId::MAX_NUMBER_OF_NODES)
         {
             m_nodes.push_back(node);
-            id.index = m_nodes.size() - 1;
+            index      = m_nodes.size() - 1;
             first_free = m_nodes.size();
         }
         else
@@ -74,33 +69,35 @@ public:
             throw std::runtime_error("Maximum number of nodes has been exeeded");
         }
 
-        id.signature = next_signature++;
+        node->getNodeId().data = { index, next_signature++ };
     }
     
     void delNode(Node* node)
     {
         assert(node != nullptr);
 
-        auto & id = node->getNodeId();
-        const auto size = m_nodes.size();
+        const auto index = node->getNodeId().index();
 
-        assert(id.index < size);
-        assert(m_nodes[id.index] != nullptr);
-        assert(id == m_nodes[id.index]->getNodeId());
+        assert(index < m_nodes.size());
+        assert(m_nodes[index] != nullptr);
+        assert(node->getNodeId() == m_nodes[index]->getNodeId());
 
-        m_nodes[id.index] = nullptr;
+        m_nodes[index] = nullptr;
 
-        if (id.index < first_free)
-        {
-            first_free = id.index;
-        }
+        first_free = std::min(index, first_free);
+
+        node->getNodeId() = NodeId();
+
+        CC_ASSERT(!node->getNodeId());
     }
 
     Node const* getNode(NodeId id) const noexcept
     {
-        if (id.index < m_nodes.size())
+        const auto index = id.index();
+
+        if (index < m_nodes.size())
         {
-            if (auto node = m_nodes[id.index])
+            if (auto node = m_nodes[index])
             {
                 if (node->getNodeId() == id)
                 {

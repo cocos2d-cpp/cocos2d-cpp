@@ -156,7 +156,8 @@ public:
     virtual void onTouchMoved(Touch* touch, Event* event) override;
     
     // overrides
-    virtual void removeChild(Node* child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup) override;
     
     using Layer::addChild;
     virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;

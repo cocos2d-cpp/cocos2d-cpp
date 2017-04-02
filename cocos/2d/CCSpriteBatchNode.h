@@ -173,7 +173,8 @@ public:
     virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
     virtual void reorderChild(Node *child, int zOrder) override;
         
-	virtual void removeChild(Node *child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup) override;
 
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
 	virtual void sortAllChildren() override;

@@ -23,7 +23,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 #include "2d/CCParallaxNode.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 
@@ -67,17 +69,22 @@ void ParallaxNode::addChild(node_ptr<Node>, int, const std::string&)
     CCASSERT(false, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
 }
 
-void ParallaxNode::removeChild(Node* child, bool cleanup)
+void ParallaxNode::removeChild(NodeId id, bool cleanup)
 {
-    auto it = std::find_if(_parallaxArray.begin(), _parallaxArray.end(),
-                           [child] (auto const& v) {
-                               return v._child.get() == child;
-                           });
-    if (_parallaxArray.end() != it)
+    if (auto node = Director::getInstance()->getNodeRegister().getNode(id))
     {
-        _parallaxArray.erase(it);
+        auto it = std::find_if(_parallaxArray.begin(), _parallaxArray.end(),
+                               [node] (auto const& v) {
+                                   return v._child.get() == node;
+                               });
+
+        if (_parallaxArray.end() != it)
+        {
+            _parallaxArray.erase(it);
+        }
+
+        Node::removeChild(id, cleanup);
     }
-    Node::removeChild(child, cleanup);
 }
 
 void ParallaxNode::removeAllChildrenWithCleanup(bool cleanup)

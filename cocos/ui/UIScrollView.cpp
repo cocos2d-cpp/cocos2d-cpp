@@ -258,9 +258,9 @@ void ScrollView::removeAllChildrenWithCleanup(bool cleanup)
     _innerContainer->removeAllChildrenWithCleanup(cleanup);
 }
 
-void ScrollView::removeChild(Node* child, bool cleanup)
+void ScrollView::removeChild(NodeId id, bool cleanup)
 {
-    return _innerContainer->removeChild(child, cleanup);
+    return _innerContainer->removeChild(id, cleanup);
 }
 
 Node::children_container & ScrollView::getChildren()

@@ -5,8 +5,7 @@
  * Copyright (c) 2011      Zynga Inc.
  * Copyright (c) 2011      Marco Tillemans
  * Copyright (c) 2013-2016 Chukong Technologies Inc.
- *
- * http://www.cocos2d-x.org
+ * Copyright (c) 2017      Iakov Sergeev <yahont@github>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -126,7 +125,8 @@ public:
     using Node::addChild;
     virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
     virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
-    virtual void removeChild(Node* child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup) override;
     virtual void reorderChild(Node * child, int zOrder) override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     virtual const Texture2D* getTexture(void) const;
