@@ -508,7 +508,7 @@ void Label::reset()
     _boldEnabled = false;
     if (_underlineNode)
     {
-        removeChild(_underlineNode);
+        removeChild(_underlineNode->getNodeId());
         _underlineNode = nullptr;
     }
     _strikethroughEnabled = false;
@@ -738,7 +738,7 @@ void Label::updateLabelLetters()
 
             if (letterIndex >= _lengthOfString)
             {
-                Node::removeChild(letterSprite, true);
+                Node::removeChild(letterSprite->getNodeId(), true);
                 it = _letters.erase(it);
             }
             else
@@ -1214,7 +1214,7 @@ void Label::disableEffect(LabelEffect effect)
             break;
         case cocos2d::LabelEffect::UNDERLINE:
             if (_underlineNode) {
-                removeChild(_underlineNode);
+                removeChild(_underlineNode->getNodeId());
                 _underlineNode = nullptr;
             }
             break;
@@ -2001,15 +2001,21 @@ void Label::removeAllChildrenWithCleanup(bool cleanup)
     _letters.clear();
 }
 
-void Label::removeChild(Node* child, bool cleanup /* = true */)
+void Label::removeChild(NodeId id, bool cleanup /* = true */)
 {
-    Node::removeChild(child, cleanup);
-    for (auto&& it : _letters)
+    Node::removeChild(id, cleanup);
+
+    auto child = Director::getInstance()->getNodeRegister().getNode(id);
+
+    if (child != nullptr)
     {
-        if (it.second == child)
+        for (auto && it : _letters)
         {
-            _letters.erase(it.first);
-            break;
+            if (it.second == child)
+            {
+                _letters.erase(it.first);
+                break;
+            }
         }
     }
 }

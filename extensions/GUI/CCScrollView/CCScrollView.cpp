@@ -1,7 +1,7 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2010 Sangwoo Im
- Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -538,15 +538,15 @@ void ScrollView::addChild(node_ptr<Node> child, int zOrder, int tag)
     }
 }
 
-void ScrollView::removeChild(Node* node, bool cleanup)
+void ScrollView::removeChild(NodeId id, bool cleanup)
 {
-    if(_container != node)
+    if(_container != Director::getInstance()->getNodeRegister().getNode(id))
     {
-        _container->removeChild(node, cleanup);
+        _container->removeChild(id, cleanup);
     }
     else
     {
-        Layer::removeChild(node, cleanup);
+        Layer::removeChild(id, cleanup);
     }
 }
 

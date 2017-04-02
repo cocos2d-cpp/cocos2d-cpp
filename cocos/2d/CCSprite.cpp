@@ -1041,14 +1041,17 @@ void Sprite::reorderChild(Node *child, int zOrder)
     Node::reorderChild(child, zOrder);
 }
 
-void Sprite::removeChild(Node *child, bool cleanup)
+void Sprite::removeChild(NodeId id, bool cleanup)
 {
     if (_batchNode)
     {
-        _batchNode->removeSpriteFromAtlas((Sprite*)(child));
+        if (auto sprite = Director::getInstance()->getNodeRegister().get<Sprite>(id))
+        {
+            _batchNode->removeSpriteFromAtlas(sprite);
+        }
     }
 
-    Node::removeChild(child, cleanup);
+    Node::removeChild(id, cleanup);
 }
 
 void Sprite::removeAllChildrenWithCleanup(bool cleanup)

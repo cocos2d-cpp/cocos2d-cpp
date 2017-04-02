@@ -598,7 +598,10 @@ public:
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
-    virtual void removeChild(Node* child, bool cleanup = true) override;
+
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup = true) override;
+
     virtual void setGlobalZOrder(float globalZOrder) override;
 
 protected:

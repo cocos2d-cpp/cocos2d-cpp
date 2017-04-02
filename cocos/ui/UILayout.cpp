@@ -156,9 +156,9 @@ void Layout::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
     _doLayoutDirty = true;
 }
     
-void Layout::removeChild(Node *child, bool cleanup)
+void Layout::removeChild(NodeId id, bool cleanup)
 {
-    Widget::removeChild(child, cleanup);
+    Widget::removeChild(id, cleanup);
     _doLayoutDirty = true;
 }
     

@@ -212,16 +212,14 @@ void Menu::onExit()
     Layer::onExit();
 }
 
-void Menu::removeChild(Node* child, bool cleanup)
+void Menu::removeChild(NodeId id, bool cleanup)
 {
-    CCASSERT(dynamic_cast<MenuItem*>(child) != nullptr, "Menu only supports MenuItem objects as children");
-    
-    if (_selectedItem == child)
+    if (_selectedItem == Director::getInstance()->getNodeRegister().get<MenuItem>(id))
     {
         _selectedItem = nullptr;
     }
     
-    Node::removeChild(child, cleanup);
+    Node::removeChild(id, cleanup);
 }
 
 //Menu - Events

@@ -1,12 +1,10 @@
 /****************************************************************************
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
-Copyright (c) 2011      Zynga Inc.
-Copyright (c) 2013-2016 Chukong Technologies Inc.
-
+Copyright (c) 2011 Zynga Inc.
 Copyright (c) 2011 HKASoftware
-
-http://www.cocos2d-x.org
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -694,7 +692,7 @@ void TMXLayer::removeTileAt(const Vec2& tileCoordinate)
         auto it = _spriteContainer.find(z);
         if (it != _spriteContainer.end())
         {
-            this->removeChild(it->second.first);
+            this->removeChild(it->second.first->getNodeId());
         }
     }
 }
@@ -707,15 +705,20 @@ void TMXLayer::setFlaggedTileGIDByIndex(int index, uint32_t gid)
     _dirty = true;
 }
 
-void TMXLayer::removeChild(Node* node, bool cleanup)
+void TMXLayer::removeChild(NodeId id, bool cleanup)
 {
-    int tag = node->getTag();
-    auto it = _spriteContainer.find(tag);
-    if (it != _spriteContainer.end() && it->second.first == node)
+    auto node = Director::getInstance()->getNodeRegister().getNode(id);
+
+    if (node != nullptr)
     {
-        _spriteContainer.erase(it);
+        int tag = node->getTag();
+        auto it = _spriteContainer.find(tag);
+        if (it != _spriteContainer.end() && it->second.first == node)
+        {
+            _spriteContainer.erase(it);
+        }
+        Node::removeChild(id, cleanup);
     }
-    Node::removeChild(node, cleanup);
 }
 
 // TMXLayer - Properties

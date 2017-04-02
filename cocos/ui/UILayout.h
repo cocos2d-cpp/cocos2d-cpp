@@ -328,7 +328,8 @@ public:
 
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
 
-    virtual void removeChild(Node* child, bool cleanup = true) override;
+    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
+    virtual void removeChild(NodeId id, bool cleanup = true) override;
     
     /**
      * Removes all children from the container with a cleanup.

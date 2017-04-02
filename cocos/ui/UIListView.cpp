@@ -1,7 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
+#include "base/CCDirector.h"
 #include "ui/UIListView.h"
 #include "ui/UIHelper.h"
 
@@ -283,10 +283,9 @@ void ListView::addChild(node_ptr<Node> child, int zOrder, const std::string &nam
     ScrollView::addChild(std::move(child), zOrder, name);
 }
     
-void ListView::removeChild(cocos2d::Node *child, bool cleanup)
+void ListView::removeChild(NodeId id, bool cleanup)
 {
-    Widget* widget = dynamic_cast<Widget*>(child);
-    if (nullptr != widget)
+    if (auto widget = Director::getInstance()->getNodeRegister().get<Widget>(id))
     {
         if (-1 != _curSelectedIndex)
         {
@@ -301,19 +300,17 @@ void ListView::removeChild(cocos2d::Node *child, bool cleanup)
             }
         }
 
-        auto it = std::find_if(
-            _items.begin(), _items.end(),
-            [widget](const node_ptr<Widget> & p) {
-                return p.get() == widget;
-            }
-        );
+        auto it = std::find_if(_items.begin(), _items.end(),
+                               [widget](const node_ptr<Widget> & p) {
+                                   return p.get() == widget;
+                               });
         if (_items.end() != it)
             _items.erase(it);
 
         onItemListChanged();
     }
    
-    ScrollView::removeChild(child, cleanup);
+    ScrollView::removeChild(id, cleanup);
 }
     
 void ListView::removeAllChildren()
@@ -355,7 +352,7 @@ void ListView::removeItem(size_t index)
     {
         return;
     }
-    removeChild(item, true);
+    removeChild(item->getNodeId(), true);
     requestDoLayout();
 }
 

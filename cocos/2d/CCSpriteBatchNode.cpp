@@ -4,8 +4,7 @@ Copyright (c) 2009      Matt Oswald
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -221,33 +220,28 @@ void SpriteBatchNode::reorderChild(Node *child, int zOrder)
 }
 
 // override remove child
-void SpriteBatchNode::removeChild(Node *child, bool cleanup)
+void SpriteBatchNode::removeChild(NodeId id, bool cleanup)
 {
-    Sprite *sprite = static_cast<Sprite*>(child);
-
-    // explicit null handling
-    if (sprite == nullptr)
+    if (auto sprite = Director::getInstance()->getNodeRegister().get<Sprite>(id))
     {
-        return;
+        CCASSERT(getChildren().end()
+                 != std::find_if(getChildren().begin(), getChildren().end(),
+                                 [sprite](const Node::children_container::value_type & c) {
+                                     return c.get() == static_cast<Node*>(sprite);
+                                 }),
+                 "sprite batch node should contain the child");
+
+        // cleanup before removing
+        removeSpriteFromAtlas(sprite);
+
+        Node::removeChild(id, cleanup);
     }
-
-    CCASSERT(getChildren().end()
-             != std::find_if(getChildren().begin(), getChildren().end(),
-                             [sprite](const Node::children_container::value_type & c) {
-                                 return c.get() == static_cast<Node*>(sprite);
-                             }),
-             "sprite batch node should contain the child");
-
-    // cleanup before removing
-    removeSpriteFromAtlas(sprite);
-
-    Node::removeChild(sprite, cleanup);
 }
 
 void SpriteBatchNode::removeChildAtIndex(size_t index, bool doCleanup)
 {
     CCASSERT(index < getChildren().size(), "Invalid index");
-    removeChild(getChildren().at(index).get(), doCleanup);
+    removeChild(getChildren().at(index)->getNodeId(), doCleanup);
 }
 
 void SpriteBatchNode::removeAllChildrenWithCleanup(bool doCleanup)
@@ -581,7 +575,7 @@ void SpriteBatchNode::appendChild(Sprite* sprite)
         if (dynamic_cast<DrawNode*>(child.get()))
         {
             // to avoid calling Sprite::removeChild()
-            sprite->Node::removeChild(child.get(), true);
+            sprite->Node::removeChild(child->getNodeId(), true);
         }
         else
         {

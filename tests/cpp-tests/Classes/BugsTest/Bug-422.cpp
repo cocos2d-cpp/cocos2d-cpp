@@ -33,8 +33,7 @@ void Bug422Layer::reset()
     // => CRASH BOOM BANG
     auto node = getChildByTag(localtag-1);
     log("Menu: %p", node);
-    removeChild(node, true);
-//    [self removeChildByTag:localtag-1 cleanup:NO];
+    if (node != nullptr) removeChild(node->getNodeId(), true);
 
     auto item1 = MenuItemFont::create("One", CC_CALLBACK_1(Bug422Layer::menuCallback, this) );
     log("MenuItemFont: %p", item1);
