@@ -64,17 +64,9 @@ void ActionManager::runAction(std::unique_ptr<Action> action)
     CC_ASSERT(action);
     CC_ASSERT(action->getTarget());
 
-    _actionsToAdd.insert
-        (
-            std::upper_bound
-            (
-                _actionsToAdd.begin(),
-                _actionsToAdd.end(),
-                action,
-                cmp_action_action
-            ),
-            std::move(action)
-        );
+    auto ub = std::upper_bound(_actionsToAdd.begin(), _actionsToAdd.end(), action, cmp_action_action);
+
+    _actionsToAdd.insert(ub, std::move(action));
 }
 
 Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action::tag_t tag) const
@@ -101,7 +93,7 @@ Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action
 
     auto rv = find(_actions);
 
-    if (rv)
+    if (rv != nullptr)
     {
         return rv;
     }
@@ -234,17 +226,8 @@ void ActionManager::update(float dt)
     {
         if (!a->hasStopped())
         {
-            begin = ++_actions.insert
-                (
-                    std::upper_bound
-                    (
-                        begin,
-                        _actions.end(),
-                        a,
-                        cmp_action_action
-                    ),
-                    std::move(a)
-                );
+            auto ub = std::upper_bound(begin, _actions.end(), a, cmp_action_action);
+            begin = ++_actions.insert(ub, std::move(a));
         }
     }
 

@@ -392,10 +392,9 @@ void Scheduler::update(float dt)
             _update_target_to_priority[ job.target() ] = job.priority();
         }
 
-        _updateJobs.insert(
-            std::upper_bound(_updateJobs.begin(), _updateJobs.end(), job),
-            std::move(job)
-        );
+        auto ub = std::upper_bound(_updateJobs.begin(), _updateJobs.end(), job);
+
+        _updateJobs.insert(ub, std::move(job));
     }
 
     _updateJobsToAdd.clear();
