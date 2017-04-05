@@ -994,7 +994,6 @@ void Sprite3DWithSkinTest::addNewSpriteWithCoords(Vec2 p)
             speed = animate->getSpeed() - 0.5 * CCRANDOM_0_1();
         }
         animate->setSpeed(inverse ? -speed : speed);
-        animate->setTag(110);
         animate->setQuality((Animate3DQuality)_animateQuality);
         auto repeate = std::make_unique<RepeatForever>( std::move( animate));
         repeate->setTag(110);
@@ -1024,8 +1023,10 @@ void Sprite3DWithSkinTest::switchAnimationQualityCallback(Ref*)
     
     for (auto iter: _sprits)
     {
-        RepeatForever* repAction = dynamic_cast<RepeatForever*>(iter->getActionByTag(110));
-        Animate3D* animate3D = dynamic_cast<Animate3D*>(repAction->getInnerAction());
+        auto action = iter->getActionByTag(110);
+        auto repAction = dynamic_cast<RepeatForever*>(action);
+        auto innerAction = repAction->getInnerAction();
+        Animate3D* animate3D = dynamic_cast<Animate3D*>(innerAction);
         animate3D->setQuality((Animate3DQuality)_animateQuality);
     }
 }

@@ -23,48 +23,91 @@ THE SOFTWARE.
 #include "2d/CCAction.h"
 #include "2d/CCActionManager.h"
 #include "2d/CCNode.h"
-#include "base/ccMacros.h" // CC_ASSERT
 
 #include <algorithm>
+#include <cassert>
 
 namespace cocos2d {
 
-static auto cmp_tt1_tt2 = [](auto const target1, auto const tag1,
-                             auto const target2, auto const tag2) {
-    return (target1 < target2
-            || (target1 == target2
-                || tag1 < tag2));
-};
+namespace {
 
-static auto cmp_action_pair = [](auto const& a, auto const& p) {
-    return cmp_tt1_tt2( a->getTarget(), a->getTag(), p.first, p.second);
-};
+inline bool _compare(Node const* target1, Action::tag_t const tag1,
+                     Node const* target2, Action::tag_t const tag2)
+{
+    return target1 < target2
+        || (target1 == target2 && tag1 < tag2);
+}
 
-static auto cmp_pair_action = [](auto const& p, auto const& a) {
-    return cmp_tt1_tt2( p.first, p.second, a->getTarget(), a->getTag());
-};
+inline bool _compare(std::unique_ptr<Action> const& a, std::pair<Node const*,Action::tag_t> const& p)
+{
+    return _compare(a->getTarget(), a->getTag(), p.first, p.second);
+}
 
-static auto cmp_action_action = [](auto const& a, auto const& b) {
-    return cmp_tt1_tt2( a->getTarget(), a->getTag(),  b->getTarget(), b->getTag());
-};
+inline bool _compare(std::pair<Node const*,Action::tag_t> const& p, std::unique_ptr<Action> const& a)
+{
+    return _compare(p.first, p.second, a->getTarget(), a->getTag());
+}
 
-static auto cmp_action_target = [](auto const& a, auto const t) {
+inline bool _compare(std::unique_ptr<Action> const& a, std::unique_ptr<Action> const& b)
+{
+    return _compare(a->getTarget(), a->getTag(), b->getTarget(), b->getTag());
+}
+
+inline bool _compare(std::unique_ptr<Action> const& a, Node const* t)
+{
     return a->getTarget() < t;
-};
+}
 
-static auto cmp_target_action = [](auto const t, auto const& a) {
+inline bool _compare(Node const* t, std::unique_ptr<Action> const& a)
+{
     return t < a->getTarget();
-};
+}
+
+size_t count_matching(auto const& vec, auto const& v, auto match_cmp)
+{
+    size_t rv = 0;
+
+    auto lb = std::lower_bound(vec.begin(), vec.end(), v,
+                               [](auto & a, auto & b) { return _compare(a, b); });
+
+    for ( ; lb != vec.end() && !_compare(v, *lb); lb++)
+    {
+        rv += match_cmp(*lb);
+    }
+
+    return rv;
+}
+
+auto stop_matching(auto const& vec, auto const& v, auto match_cmp)
+{
+    size_t rv = 0;
+    auto lb = std::lower_bound(vec.begin(), vec.end(), v,
+                               [](auto & a, auto & b) { return _compare(a, b); });
+
+    for ( ; lb != vec.end() && !_compare(v, *lb); lb++)
+    {
+        if (match_cmp(*lb))
+        {
+            (*lb)->stop();
+            rv++;
+        }
+    }
+
+    return rv;
+}
+
+} // unnamed namespace
 
 ActionManager::~ActionManager()
 {}
 
 void ActionManager::runAction(std::unique_ptr<Action> action)
 {
-    CC_ASSERT(action);
-    CC_ASSERT(action->getTarget());
+    assert(action);
+    assert(action->getTarget() != nullptr);
 
-    auto ub = std::upper_bound(_actionsToAdd.begin(), _actionsToAdd.end(), action, cmp_action_action);
+    auto ub = std::upper_bound(_actionsToAdd.begin(), _actionsToAdd.end(), action,
+                               [](auto & a, auto & b) { return _compare(a, b); });
 
     _actionsToAdd.insert(ub, std::move(action));
 }
@@ -77,7 +120,7 @@ Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action
                 vec.begin(),
                 vec.end(),
                 std::make_pair(target, tag),
-                cmp_action_pair
+                [](auto & a, auto & b) { return _compare(a, b); }
             );
 
         if (lb != vec.end()
@@ -101,28 +144,12 @@ Action* ActionManager::getFirstActionForTargetWithTag(const Node *target, Action
     return find(_actionsToAdd);
 }
 
-static auto get_n_for = [](auto const& vec, auto const& v,
-                           auto lb_cmp, auto ub_cmp,
-                           auto match_cmp)
-{
-    size_t rv = 0;
-
-    auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
-
-    for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
-    {
-        rv += match_cmp(*lb);
-    }
-
-    return rv;
-};
-
 size_t ActionManager::nOfActionsForTarget(const Node *target) const
 {
     auto match_cmp = [](auto const&) -> bool { return true; };
 
-    return get_n_for(_actions,      target, cmp_action_target, cmp_target_action, match_cmp) 
-        +  get_n_for(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
+    return count_matching(_actions,      target, match_cmp) 
+        +  count_matching(_actionsToAdd, target, match_cmp);
 }
 
 size_t ActionManager::nOfActionsForTargetWithTag(const Node *target, tag_t tag) const
@@ -130,16 +157,16 @@ size_t ActionManager::nOfActionsForTargetWithTag(const Node *target, tag_t tag) 
     auto pair = std::make_pair(target, tag);
     auto match_cmp = [](auto const&) -> bool { return true; };
 
-    return get_n_for(_actions     , pair, cmp_action_pair, cmp_pair_action, match_cmp) 
-        +  get_n_for(_actionsToAdd, pair, cmp_action_pair, cmp_pair_action, match_cmp);
+    return count_matching(_actions     , pair, match_cmp) 
+        +  count_matching(_actionsToAdd, pair, match_cmp);
 }
 
 size_t ActionManager::nOfActionsForTargetWithFlags(const Node* target, flags_t flags) const
 {
     auto match_cmp = [flags](auto const& a) -> bool { return flags | a->getFlags(); };
 
-    return get_n_for(_actions,      target, cmp_action_target, cmp_target_action, match_cmp) 
-        +  get_n_for(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
+    return count_matching(_actions,      target, match_cmp) 
+        +  count_matching(_actionsToAdd, target, match_cmp);
 }
 
 size_t ActionManager::stopAllActions()
@@ -151,31 +178,12 @@ size_t ActionManager::stopAllActions()
     return _actions.size() + _actionsToAdd.size();
 }
 
-static auto stop = [](auto const& vec, auto const& v,
-                      auto lb_cmp, auto ub_cmp,
-                      auto match_cmp)
-{
-    size_t rv = 0;
-    auto lb = std::lower_bound( vec.begin(), vec.end(), v, lb_cmp);
-
-    for ( ; lb != vec.end() && !ub_cmp(v, *lb); lb++)
-    {
-        if (match_cmp(*lb))
-        {
-            (*lb)->stop();
-            rv++;
-        }
-    }
-
-    return rv;
-};
-
 size_t ActionManager::stopActionsForTarget(const Node *target)
 {
     auto match_cmp = [](auto const&) -> bool { return true; };
 
-    return stop(_actions,      target, cmp_action_target, cmp_target_action, match_cmp)
-        +  stop(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
+    return stop_matching(_actions,      target, match_cmp)
+        +  stop_matching(_actionsToAdd, target, match_cmp);
 }
 
 size_t ActionManager::stopActionsForTargetWithTag(const Node *target, tag_t tag)
@@ -183,34 +191,38 @@ size_t ActionManager::stopActionsForTargetWithTag(const Node *target, tag_t tag)
     auto pair = std::make_pair(target, tag);
     auto match_cmp = [](auto const&) -> bool { return true; };
 
-    return stop(_actions,      pair, cmp_action_pair, cmp_pair_action, match_cmp)
-        +  stop(_actionsToAdd, pair, cmp_action_pair, cmp_pair_action, match_cmp);
+    return stop_matching(_actions,      pair, match_cmp)
+        +  stop_matching(_actionsToAdd, pair, match_cmp);
 }
 
 size_t ActionManager::stopActionsForTargetWithFlags(const Node* target, flags_t flags)
 {
     auto match_cmp = [flags](auto const& a) -> bool { return flags | a->getFlags(); };
 
-    return stop(_actions,      target, cmp_action_target, cmp_target_action, match_cmp)
-        +  stop(_actionsToAdd, target, cmp_action_target, cmp_target_action, match_cmp);
+    return stop_matching(_actions,      target, match_cmp)
+        +  stop_matching(_actionsToAdd, target, match_cmp);
 }
 
 void ActionManager::update(float dt)
 {
-    const size_t size = _actions.size();
-    size_t n_stopped = 0;
+    bool some_stopped = false;
 
-    for (size_t i = 0; i < size; i++)
+#ifndef NDEBUG
+    auto min_target = static_cast<decltype(std::declval<Action>().getTarget())>(nullptr);
+    auto min_tag    = std::numeric_limits<decltype(std::declval<Action>().getTag())>::min();
+    auto prev = std::make_pair(min_target, min_tag);
+#endif
+
+    for (auto & a : _actions)
     {
-        auto & a = _actions[i];
-
-        if (a->hasStopped() || (!a->getTarget()->isPaused() && a->last_update(dt)))
-        {
-            n_stopped = true;
-        }
+#ifndef NDEBUG
+        assert( !_compare(a, prev) );
+        prev = std::make_pair(a->getTarget(), a->getTag());
+#endif
+        some_stopped |= (a->hasStopped() || (!a->getTarget()->isPaused() && a->last_update(dt)));
     }
 
-    if (n_stopped)
+    if (some_stopped)
     {
         auto first_to_remove = std::remove_if(_actions.begin(), _actions.end(),
                                               [](auto & a) { return a->hasStopped(); });
@@ -220,18 +232,47 @@ void ActionManager::update(float dt)
         _actions.erase(first_to_remove, _actions.end());
     }
 
+#ifndef NDEBUG
+    prev = std::make_pair(min_target, min_tag);
+#endif
+
     auto begin = _actions.begin();
 
-    for (auto& a : _actionsToAdd)
+    for (auto & a : _actionsToAdd)
     {
+#ifndef NDEBUG
+        assert( !_compare(a, prev) );
+        auto curr = std::make_pair(a->getTarget(), a->getTag());
+        prev = curr;
+#endif
         if (!a->hasStopped())
         {
-            auto ub = std::upper_bound(begin, _actions.end(), a, cmp_action_action);
-            begin = ++_actions.insert(ub, std::move(a));
+            auto ub = std::upper_bound(begin, _actions.end(), a,
+                                       [](auto & a, auto & b) { return _compare(a, b); });
+
+            assert(ub == _actions.end() || _compare(curr, *ub));
+
+            begin = _actions.insert(ub, std::move(a));
+
+            assert(begin == _actions.begin() || !_compare(curr, *(begin - 1)));
+            assert(!_compare(*begin, curr) && !_compare(curr, *begin));
+
+            begin++;
+
+            assert(begin == _actions.end() || _compare(curr, *begin));
+        }
+        else
+        {
+            a.reset();
         }
     }
 
     _actionsToAdd.clear();
+
+#ifndef NDEBUG
+    assert(_actions.end() == std::find_if(_actions.begin(), _actions.end(),
+                                          [](auto const& a) { return a->hasStopped(); }));
+#endif
 }
 
 } // namespace cocos2d
