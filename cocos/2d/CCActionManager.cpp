@@ -236,6 +236,8 @@ void ActionManager::update(float dt)
     prev = std::make_pair(min_target, min_tag);
 #endif
 
+    _actions.reserve(_actions.size() + _actionsToAdd.size());
+
     auto begin = _actions.begin();
 
     for (auto & a : _actionsToAdd)
