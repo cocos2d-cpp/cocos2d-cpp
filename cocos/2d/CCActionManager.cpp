@@ -270,11 +270,6 @@ void ActionManager::update(float dt)
     }
 
     _actionsToAdd.clear();
-
-#ifndef NDEBUG
-    assert(_actions.end() == std::find_if(_actions.begin(), _actions.end(),
-                                          [](auto const& a) { return a->hasStopped(); }));
-#endif
 }
 
 } // namespace cocos2d
