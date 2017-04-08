@@ -42,12 +42,12 @@ ParallaxNode * ParallaxNode::create()
     return ret;
 }
 
-void ParallaxNode::addChild(Node *child, int z, const Vec2& ratio, const Vec2& offset)
+NodeId ParallaxNode::addChild(Node *child, int z, const Vec2& ratio, const Vec2& offset)
 {
-    addChild(to_node_ptr(child), z, ratio, offset);
+    return addChild(to_node_ptr(child), z, ratio, offset);
 }
 
-void ParallaxNode::addChild(node_ptr<Node> child, int z, const Vec2& ratio, const Vec2& offset)
+NodeId ParallaxNode::addChild(node_ptr<Node> child, int z, const Vec2& ratio, const Vec2& offset)
 {
     _parallaxArray.emplace_back(ratio, offset, to_node_ptr(child.get()));
 
@@ -56,26 +56,28 @@ void ParallaxNode::addChild(node_ptr<Node> child, int z, const Vec2& ratio, cons
     pos.y = -pos.y + pos.y * ratio.y + offset.y;
     child->setPosition(pos);
 
-    Node::addChild(std::move(child), z, child->getName());
+    return Node::addChild(std::move(child), z, child->getName());
 }
 
-void ParallaxNode::addChild(node_ptr<Node>, int, int)
+NodeId ParallaxNode::addChild(node_ptr<Node>, int, int)
 {
     CCASSERT(false, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
+    return NodeId();
 }
 
-void ParallaxNode::addChild(node_ptr<Node>, int, const std::string&)
+NodeId ParallaxNode::addChild(node_ptr<Node>, int, const std::string&)
 {
     CCASSERT(false, "ParallaxNode: use addChild:z:parallaxRatio:positionOffset instead");
+    return NodeId();
 }
 
-void ParallaxNode::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> ParallaxNode::removeChild(NodeId id, bool cleanup)
 {
-    if (auto node = Director::getInstance()->getNodeRegister().getNode(id))
+    if (auto child = Director::getInstance()->getNodeRegister().getNode(id))
     {
         auto it = std::find_if(_parallaxArray.begin(), _parallaxArray.end(),
-                               [node] (auto const& v) {
-                                   return v._child.get() == node;
+                               [child] (auto const& v) {
+                                   return v._child.get() == child;
                                });
 
         if (_parallaxArray.end() != it)
@@ -83,8 +85,10 @@ void ParallaxNode::removeChild(NodeId id, bool cleanup)
             _parallaxArray.erase(it);
         }
 
-        Node::removeChild(id, cleanup);
+        return Node::removeChild(id, cleanup);
     }
+
+    return node_ptr<Node>();
 }
 
 void ParallaxNode::removeAllChildrenWithCleanup(bool cleanup)

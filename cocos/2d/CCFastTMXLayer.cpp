@@ -705,11 +705,9 @@ void TMXLayer::setFlaggedTileGIDByIndex(int index, uint32_t gid)
     _dirty = true;
 }
 
-void TMXLayer::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> TMXLayer::removeChild(NodeId id, bool cleanup)
 {
-    auto node = Director::getInstance()->getNodeRegister().getNode(id);
-
-    if (node != nullptr)
+    if (auto node = Director::getInstance()->getNodeRegister().getNode(id))
     {
         int tag = node->getTag();
         auto it = _spriteContainer.find(tag);
@@ -717,8 +715,10 @@ void TMXLayer::removeChild(NodeId id, bool cleanup)
         {
             _spriteContainer.erase(it);
         }
-        Node::removeChild(id, cleanup);
+        return Node::removeChild(id, cleanup);
     }
+
+    return node_ptr<Node>();
 }
 
 // TMXLayer - Properties

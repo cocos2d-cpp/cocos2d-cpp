@@ -382,8 +382,7 @@ Label::Label(TextHAlignment hAlignment /* = TextHAlignment::LEFT */,
     _vAlignment = vAlignment;
 
 #if CC_LABEL_DEBUG_DRAW
-    _debugDrawNode = DrawNode::create();
-    addChild( to_node_ptr(_debugDrawNode) );
+    _debugDrawNodeId = addChild( make_node_ptr<DrawNode>() );
 #endif
 
     _purgeTextureListener = EventListenerCustom::create(FontAtlas::CMD_PURGE_FONTATLAS, [this](EventCustom* event){
@@ -1402,15 +1401,18 @@ void Label::updateContent()
     }
 
 #if CC_LABEL_DEBUG_DRAW
-    _debugDrawNode->clear();
-    Vec2 vertices[4] =
+    if (auto debugDrawNode = _director->getNodeRegister().get<DrawNode>(_debugDrawNodeId))
     {
-        Vec2::ZERO,
-        Vec2(_contentSize.width, 0),
-        Vec2(_contentSize.width, _contentSize.height),
-        Vec2(0, _contentSize.height)
-    };
-    _debugDrawNode->drawPoly(vertices, 4, true, Color4F::WHITE);
+        debugDrawNode->clear();
+        Vec2 vertices[4] =
+        {
+            Vec2::ZERO,
+            Vec2(_contentSize.width, 0),
+            Vec2(_contentSize.width, _contentSize.height),
+            Vec2(0, _contentSize.height)
+        };
+        debugDrawNode->drawPoly(vertices, 4, true, Color4F::WHITE);
+    }
 #endif
 }
 
@@ -2001,23 +2003,23 @@ void Label::removeAllChildrenWithCleanup(bool cleanup)
     _letters.clear();
 }
 
-void Label::removeChild(NodeId id, bool cleanup /* = true */)
+node_ptr<Node> Label::removeChild(NodeId id, bool cleanup /* = true */)
 {
-    Node::removeChild(id, cleanup);
+    auto child = Node::removeChild(id, cleanup);
 
-    auto child = Director::getInstance()->getNodeRegister().getNode(id);
-
-    if (child != nullptr)
+    if (child)
     {
         for (auto && it : _letters)
         {
-            if (it.second == child)
+            if (it.second == child.get())
             {
                 _letters.erase(it.first);
                 break;
             }
         }
     }
+
+    return std::move(child);
 }
 
 FontDefinition Label::_getFontDefinition() const

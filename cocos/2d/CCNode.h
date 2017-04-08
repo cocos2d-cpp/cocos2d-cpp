@@ -771,17 +771,17 @@ public:
     // localZOrder is a Z order for drawing priority. Please refer to `setLocalZOrder(int)`.
     // tag is an integer to identify the node easily. Please refer to `setTag(int)`.
     // name is a string to identify the node easily. Please refer to `setName(int)`.
-    CC_DEPRECATED_ATTRIBUTE void addChild(Node * child);
-    virtual void addChild(node_ptr<Node> child);
+    CC_DEPRECATED_ATTRIBUTE NodeId addChild(Node * child);
+    virtual NodeId addChild(node_ptr<Node> child);
 
-    CC_DEPRECATED_ATTRIBUTE void addChild(Node * child, int localZOrder);
-    virtual void addChild(node_ptr<Node> child, int localZOrder);
+    CC_DEPRECATED_ATTRIBUTE NodeId addChild(Node * child, int localZOrder);
+    virtual NodeId addChild(node_ptr<Node> child, int localZOrder);
     
-    CC_DEPRECATED_ATTRIBUTE void addChild(Node* child, int localZOrder, int tag);
-    virtual void addChild(node_ptr<Node> child, int localZOrder, int tag);
+    CC_DEPRECATED_ATTRIBUTE NodeId addChild(Node* child, int localZOrder, int tag);
+    virtual NodeId addChild(node_ptr<Node> child, int localZOrder, int tag);
 
-    CC_DEPRECATED_ATTRIBUTE void addChild(Node* child, int localZOrder, const std::string &name);
-    virtual void addChild(node_ptr<Node> child, int localZOrder, const std::string &name);
+    CC_DEPRECATED_ATTRIBUTE NodeId addChild(Node* child, int localZOrder, const std::string &name);
+    virtual NodeId addChild(node_ptr<Node> child, int localZOrder, const std::string &name);
 
     /**
      * Gets a child from the container with its tag.
@@ -906,8 +906,13 @@ public:
      * @param child     The child node which will be removed.
      * @param cleanup   True if all running actions and callbacks on the child node will be cleanup, false otherwise.
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void removeChild(Node* child, bool cleanup = true) { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
-    virtual void removeChild(NodeId id, bool cleanup = true);
+    CC_DEPRECATED_ATTRIBUTE virtual node_ptr<Node> removeChild(Node* child, bool cleanup = true)
+    {
+        if (child != nullptr)
+            return removeChild(child->getNodeId(), cleanup);
+        return node_ptr<Node>();
+    }
+    virtual node_ptr<Node> removeChild(NodeId id, bool cleanup = true);
 
     /**
      * Removes a child from the container by tag value. It will also cleanup all running actions depending on the cleanup parameter.
@@ -1645,10 +1650,10 @@ protected:
     void updateRotation3D();
     
 private:
-    void addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag);
+    NodeId addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag);
     
     /// Removes a child, call child->onExit(), do cleanup, remove it from children array.
-    void detachChild(children_iterator, bool doCleanup);
+    node_ptr<Node> detachChild(children_iterator, bool doCleanup);
 
 protected:
 

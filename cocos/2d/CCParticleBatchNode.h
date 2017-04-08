@@ -123,10 +123,15 @@ public:
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
 
     using Node::addChild;
-    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
-    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
-    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
-    virtual void removeChild(NodeId id, bool cleanup) override;
+    virtual NodeId addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual NodeId addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+    CC_DEPRECATED_ATTRIBUTE node_ptr<Node> removeChild(Node* child, bool cleanup = true) override
+    {
+        if (child != nullptr)
+            return removeChild(child->getNodeId(), cleanup);
+        return node_ptr<Node>();
+    }
+    virtual node_ptr<Node> removeChild(NodeId id, bool cleanup) override;
     virtual void reorderChild(Node * child, int zOrder) override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
     virtual const Texture2D* getTexture(void) const;
@@ -135,25 +140,14 @@ public:
     * @code
     * When this function bound into js or lua,the parameter will be changed
     * In js: var setBlendFunc(var src, var dst)
-    * @endcode
-    * @lua NA
     */
     virtual void setBlendFunc(const BlendFunc &blendFunc);
-    /**
-    * @js NA
-    * @lua NA
-    */
+
     virtual const BlendFunc& getBlendFunc(void) const;
     
 protected:
-    /**
-     * @js ctor
-     */
     ParticleBatchNode();
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~ParticleBatchNode();
     
     /** initializes the particle system with Texture2D, a capacity of particles */
@@ -168,7 +162,7 @@ private:
     void increaseAtlasCapacityTo(ssize_t quantity);
     int searchNewPositionInChildrenForZ(int z);
     void getCurrentIndex(int* oldIndex, int* newIndex, Node* child, int z);
-    void addChildByTagOrName(node_ptr<ParticleSystem> child, int z, int tag, const std::string &name, bool setTag);
+    NodeId addChildByTagOrName(node_ptr<ParticleSystem> child, int z, int tag, const std::string &name, bool setTag);
     int addChildHelper(node_ptr<ParticleSystem> child, int z, int aTag, const std::string &name, bool setTag);
     void updateBlendFunc(void);
     /** the texture atlas used for drawing the quads */

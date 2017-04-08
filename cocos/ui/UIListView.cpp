@@ -261,7 +261,7 @@ void ListView::pushBackCustomItem(Widget* item)
     requestDoLayout();
 }
     
-void ListView::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId ListView::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     if (auto widget = dynamic_cast<Widget*>(child.get()))
     {
@@ -269,10 +269,10 @@ void ListView::addChild(node_ptr<Node> child, int zOrder, int tag)
         onItemListChanged();
     }
 
-    ScrollView::addChild(std::move(child), zOrder, tag);
+    return ScrollView::addChild(std::move(child), zOrder, tag);
 }
     
-void ListView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId ListView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
     if (auto widget = dynamic_cast<Widget*>(child.get()))
     {
@@ -280,10 +280,10 @@ void ListView::addChild(node_ptr<Node> child, int zOrder, const std::string &nam
         onItemListChanged();
     }
 
-    ScrollView::addChild(std::move(child), zOrder, name);
+    return ScrollView::addChild(std::move(child), zOrder, name);
 }
     
-void ListView::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> ListView::removeChild(NodeId id, bool cleanup)
 {
     if (auto widget = Director::getInstance()->getNodeRegister().get<Widget>(id))
     {
@@ -310,7 +310,7 @@ void ListView::removeChild(NodeId id, bool cleanup)
         onItemListChanged();
     }
    
-    ScrollView::removeChild(id, cleanup);
+    return ScrollView::removeChild(id, cleanup);
 }
     
 void ListView::removeAllChildren()

@@ -582,32 +582,32 @@ void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos, TMXTileFlags flags)
     }
 }
 
-void TMXLayer::addChild(node_ptr<Node>, int, int)
+NodeId TMXLayer::addChild(node_ptr<Node>, int, int)
 {
     CCASSERT(0, "addChild: is not supported on TMXLayer. Instead use setTileGID:at:/tileAt:");
+    return NodeId();
 }
 
-void TMXLayer::removeChild(Node* node, bool cleanup)
+node_ptr<Node> TMXLayer::removeChild(NodeId id, bool cleanup)
 {
-    Sprite *sprite = (Sprite*)node;
-    // allows removing nil objects
-    if (! sprite)
+    if (auto sprite = Director::getInstance()->getNodeRegister().get<Sprite>(id))
     {
-        return;
+        CCASSERT(getChildren().end()
+                 != std::find_if(getChildren().begin(), getChildren().end(),
+                                 [sprite](const Node::children_container::value_type & c) {
+                                     return c.get() == static_cast<Node*>(sprite);
+                                 }),
+                 "Tile does not belong to TMXLayer");
+
+        ssize_t atlasIndex = sprite->getAtlasIndex();
+        ssize_t zz = (ssize_t)_atlasIndexArray[atlasIndex];
+        _tiles[zz] = 0;
+        _atlasIndexArray.erase(_atlasIndexArray.begin() + atlasIndex);
+
+        return SpriteBatchNode::removeChild(id, cleanup);
     }
 
-    CCASSERT(getChildren().end()
-             != std::find_if(getChildren().begin(), getChildren().end(),
-                             [sprite](const Node::children_container::value_type & c) {
-                                 return c.get() == static_cast<Node*>(sprite);
-                             }),
-             "Tile does not belong to TMXLayer");
-
-    ssize_t atlasIndex = sprite->getAtlasIndex();
-    ssize_t zz = (ssize_t)_atlasIndexArray[atlasIndex];
-    _tiles[zz] = 0;
-    _atlasIndexArray.erase(_atlasIndexArray.begin() + atlasIndex);
-    SpriteBatchNode::removeChild(sprite, cleanup);
+    return node_ptr<Node>();
 }
 
 void TMXLayer::removeTileAt(const Vec2& pos)
@@ -629,10 +629,11 @@ void TMXLayer::removeTileAt(const Vec2& pos)
         _atlasIndexArray.erase(_atlasIndexArray.begin() + atlasIndex);
 
         // remove it from sprites and/or texture atlas
-        Sprite *sprite = (Sprite*)getChildByTag(z);
-        if (sprite)
+        auto sprite = static_cast<Sprite*>(getChildByTag(z));
+
+        if (sprite != nullptr)
         {
-            SpriteBatchNode::removeChild(sprite, true);
+            SpriteBatchNode::removeChild(sprite->getNodeId(), true);
         }
         else 
         {

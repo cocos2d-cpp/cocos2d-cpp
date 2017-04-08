@@ -526,27 +526,39 @@ void ScrollView::updateInset()
 /**
  * make sure all children go to the container
  */
-void ScrollView::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId ScrollView::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     if (_container != child.get())
     {
-        _container->addChild(std::move(child), zOrder, tag);
+        return _container->addChild(std::move(child), zOrder, tag);
     }
     else
     {
-        Layer::addChild(std::move(child), zOrder, tag);
+        return Layer::addChild(std::move(child), zOrder, tag);
     }
 }
 
-void ScrollView::removeChild(NodeId id, bool cleanup)
+NodeId ScrollView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    if(_container != Director::getInstance()->getNodeRegister().getNode(id))
+    if (_container != child.get())
     {
-        _container->removeChild(id, cleanup);
+        return _container->addChild(std::move(child), zOrder, name);
     }
     else
     {
-        Layer::removeChild(id, cleanup);
+        return Layer::addChild(std::move(child), zOrder, name);
+    }
+}
+
+node_ptr<Node> ScrollView::removeChild(NodeId id, bool cleanup)
+{
+    if(_container != Director::getInstance()->getNodeRegister().getNode(id))
+    {
+        return _container->removeChild(id, cleanup);
+    }
+    else
+    {
+        return Layer::removeChild(id, cleanup);
     }
 }
 
@@ -559,18 +571,6 @@ void ScrollView::removeAllChildrenWithCleanup(bool cleanup)
 void ScrollView::removeAllChildren()
 {
     removeAllChildrenWithCleanup(true);
-}
-
-void ScrollView::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
-{
-    if (_container != child.get())
-    {
-        _container->addChild(std::move(child), zOrder, name);
-    }
-    else
-    {
-        Layer::addChild(std::move(child), zOrder, name);
-    }
 }
 
 void ScrollView::beforeDraw()

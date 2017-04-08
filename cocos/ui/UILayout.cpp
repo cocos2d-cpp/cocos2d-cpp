@@ -138,28 +138,28 @@ bool Layout::init()
     return false;
 }
     
-void Layout::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId Layout::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     if (auto widget = dynamic_cast<Widget*>(child.get())) {
         supplyTheLayoutParameterLackToChild(widget);
     }
-    Widget::addChild(std::move(child), zOrder, tag);
     _doLayoutDirty = true;
+    return Widget::addChild(std::move(child), zOrder, tag);
 }
     
-void Layout::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId Layout::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
     if (auto widget = dynamic_cast<Widget*>(child.get())) {
         supplyTheLayoutParameterLackToChild(widget);
     }
-    Widget::addChild(std::move(child), zOrder, name);
     _doLayoutDirty = true;
+    return Widget::addChild(std::move(child), zOrder, name);
 }
     
-void Layout::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> Layout::removeChild(NodeId id, bool cleanup)
 {
-    Widget::removeChild(id, cleanup);
     _doLayoutDirty = true;
+    return Widget::removeChild(id, cleanup);
 }
     
 void Layout::removeAllChildren()

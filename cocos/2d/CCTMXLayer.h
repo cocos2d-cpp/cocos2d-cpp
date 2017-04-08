@@ -237,9 +237,15 @@ public:
      @warning addChild(z, tag); is not supported on TMXLayer. Instead of setTileGID.
      */
     using SpriteBatchNode::addChild;
-    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual NodeId addChild(node_ptr<Node> child, int zOrder, int tag) override;
     // super method
-    void removeChild(Node* child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE node_ptr<Node> removeChild(Node* child, bool cleanup = true) override
+    {
+        if (child != nullptr)
+            return removeChild(child->getNodeId(), cleanup);
+        return node_ptr<Node>();
+    }
+    node_ptr<Node> removeChild(NodeId id, bool cleanup) override;
 
     virtual std::string getDescription() const override;
 

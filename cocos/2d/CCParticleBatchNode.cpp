@@ -143,27 +143,27 @@ void ParticleBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, u
 }
 
 // override addChild:
-void ParticleBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId ParticleBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     CCASSERT(child, "Argument must be non-nullptr");
     auto particleSystem = node_ptr<ParticleSystem>(dynamic_cast<ParticleSystem*>(child.release()));
     CCASSERT(particleSystem, "CCParticleBatchNode only supports QuadParticleSystems as children");
     CCASSERT(particleSystem->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCParticleSystem is not using the same texture id");
     
-    addChildByTagOrName(std::move(particleSystem), zOrder, tag, "", true);
+    return addChildByTagOrName(std::move(particleSystem), zOrder, tag, "", true);
 }
 
-void ParticleBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId ParticleBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
     CCASSERT(child, "Argument must be non-nullptr");
     auto particleSystem = node_ptr<ParticleSystem>(dynamic_cast<ParticleSystem*>(child.release()));
     CCASSERT(particleSystem, "CCParticleBatchNode only supports QuadParticleSystems as children");
     CCASSERT(particleSystem->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCParticleSystem is not using the same texture id");
    
-    addChildByTagOrName(std::move(particleSystem), zOrder, 0, name, false);
+    return addChildByTagOrName(std::move(particleSystem), zOrder, 0, name, false);
 }
 
-void ParticleBatchNode::addChildByTagOrName(node_ptr<ParticleSystem> child, int zOrder, int tag, const std::string &name, bool setTag)
+NodeId ParticleBatchNode::addChildByTagOrName(node_ptr<ParticleSystem> child, int zOrder, int tag, const std::string &name, bool setTag)
 {
     // If this is the 1st children, then copy blending function
     if (getChildren().empty())
@@ -199,6 +199,8 @@ void ParticleBatchNode::addChildByTagOrName(node_ptr<ParticleSystem> child, int 
     
     // update quad info
     child_ptr->setBatchNode(this);
+
+    return child_ptr->getNodeId();
 }
 
 // don't use lazy sorting, reordering the particle systems quads afterwards would be too complex
@@ -364,7 +366,7 @@ int ParticleBatchNode::searchNewPositionInChildrenForZ(int z)
 }
 
 // override removeChild:
-void  ParticleBatchNode::removeChild(NodeId id, bool cleanup)
+node_ptr<Node>  ParticleBatchNode::removeChild(NodeId id, bool cleanup)
 {
     auto child = Director::getInstance()->getNodeRegister().get<ParticleSystem>(id);
 
@@ -384,9 +386,12 @@ void  ParticleBatchNode::removeChild(NodeId id, bool cleanup)
 
     // particle could be reused for self rendering
     child->setBatchNode(nullptr);
-    Node::removeChild(id, cleanup);
+
+    auto nodeId = Node::removeChild(id, cleanup);
 
     updateAllAtlasIndexes();
+
+    return nodeId;
 }
 
 void ParticleBatchNode::removeChildAtIndex(int index, bool doCleanup)

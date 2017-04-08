@@ -254,8 +254,13 @@ public:
     virtual std::string getDescription() const override;
     virtual void draw(Renderer *renderer, const Mat4& transform, uint32_t flags) override;
 
-    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
-    void removeChild(NodeId child, bool cleanup = true) override;
+    CC_DEPRECATED_ATTRIBUTE node_ptr<Node> removeChild(Node* child, bool cleanup = true) override
+    {
+        if (child != nullptr)
+            return removeChild(child->getNodeId(), cleanup);
+        return node_ptr<Node>();
+    }
+    node_ptr<Node> removeChild(NodeId child, bool cleanup = true) override;
 
 protected:
 
