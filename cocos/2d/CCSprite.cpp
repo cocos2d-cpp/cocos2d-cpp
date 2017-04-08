@@ -3,6 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -284,8 +285,7 @@ Sprite::Sprite(void)
 , _insideBounds(true)
 {
 #if CC_SPRITE_DEBUG_DRAW
-    _debugDrawNode = DrawNode::create();
-    addChild(_debugDrawNode);
+    _debugDrawNodeId = addChild(make_node_ptr<DrawNode>());
 #endif //CC_SPRITE_DEBUG_DRAW
 }
 
@@ -944,24 +944,27 @@ void Sprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
         renderer->addCommand(&_trianglesCommand);
 
 #if CC_SPRITE_DEBUG_DRAW
-        _debugDrawNode->clear();
-        auto count = _polyInfo.triangles.indexCount/3;
-        auto indices = _polyInfo.triangles.indices;
-        auto verts = _polyInfo.triangles.verts;
-        for(ssize_t i = 0; i < count; i++)
+        if (auto debugDrawNode = _director->getNodeRegister().get<DrawNode>(_debugDrawNodeId))
         {
-            //draw 3 lines
-            Vec3 from =verts[indices[i*3]].vertices;
-            Vec3 to = verts[indices[i*3+1]].vertices;
-            _debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
+            debugDrawNode->clear();
+            auto count = _polyInfo.triangles.indexCount/3;
+            auto indices = _polyInfo.triangles.indices;
+            auto verts = _polyInfo.triangles.verts;
+            for(ssize_t i = 0; i < count; i++)
+            {
+                //draw 3 lines
+                Vec3 from =verts[indices[i*3]].vertices;
+                Vec3 to = verts[indices[i*3+1]].vertices;
+                debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
 
-            from =verts[indices[i*3+1]].vertices;
-            to = verts[indices[i*3+2]].vertices;
-            _debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
+                from =verts[indices[i*3+1]].vertices;
+                to = verts[indices[i*3+2]].vertices;
+                debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
 
-            from =verts[indices[i*3+2]].vertices;
-            to = verts[indices[i*3]].vertices;
-            _debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
+                from =verts[indices[i*3+2]].vertices;
+                to = verts[indices[i*3]].vertices;
+                debugDrawNode->drawLine(Vec2(from.x, from.y), Vec2(to.x,to.y), Color4F::WHITE);
+            }
         }
 #endif //CC_SPRITE_DEBUG_DRAW
     }
@@ -969,14 +972,9 @@ void Sprite::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 
 // MARK: visit, draw, transform
 
-void Sprite::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId Sprite::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     CCASSERT(child, "Argument must be non-nullptr");
-
-    if (! child)
-    {
-        return;
-    }
 
     if (_batchNode)
     {
@@ -992,18 +990,11 @@ void Sprite::addChild(node_ptr<Node> child, int zOrder, int tag)
         }
     }
     //CCNode already sets isReorderChildDirty_ so this needs to be after batchNode check
-    Node::addChild(std::move(child), zOrder, tag);
+    return Node::addChild(std::move(child), zOrder, tag);
 }
 
-void Sprite::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId Sprite::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
-    CCASSERT(child, "Argument must be non-nullptr");
-
-    if (! child)
-    {
-        return;
-    }
-
     if (_batchNode)
     {
         Sprite* childSprite = dynamic_cast<Sprite*>(child.get());
@@ -1019,7 +1010,7 @@ void Sprite::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
         }
     }
     //CCNode already sets isReorderChildDirty_ so this needs to be after batchNode check
-    Node::addChild(std::move(child), zOrder, name);
+    return Node::addChild(std::move(child), zOrder, name);
 }
 
 void Sprite::reorderChild(Node *child, int zOrder)
@@ -1041,7 +1032,7 @@ void Sprite::reorderChild(Node *child, int zOrder)
     Node::reorderChild(child, zOrder);
 }
 
-void Sprite::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> Sprite::removeChild(NodeId id, bool cleanup)
 {
     if (_batchNode)
     {
@@ -1051,7 +1042,7 @@ void Sprite::removeChild(NodeId id, bool cleanup)
         }
     }
 
-    Node::removeChild(id, cleanup);
+    return Node::removeChild(id, cleanup);
 }
 
 void Sprite::removeAllChildrenWithCleanup(bool cleanup)

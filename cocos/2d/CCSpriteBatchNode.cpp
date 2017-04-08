@@ -173,7 +173,7 @@ void SpriteBatchNode::visit(Renderer *renderer, const Mat4 &parentTransform, uin
     }
 }
 
-void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     CCASSERT(child, "child should not be null");
     auto sprite = dynamic_cast<Sprite*>(child.get());
@@ -181,12 +181,14 @@ void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, int tag)
     // check Sprite is using the same texture id
     CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
 
-    Node::addChild(std::move(child), zOrder, tag);
+    auto nodeId = Node::addChild(std::move(child), zOrder, tag);
 
     appendChild(sprite);
+
+    return nodeId;
 }
 
-void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
     CCASSERT(child, "child should not be null");
     auto sprite = dynamic_cast<Sprite*>(child.get());
@@ -194,9 +196,11 @@ void SpriteBatchNode::addChild(node_ptr<Node> child, int zOrder, const std::stri
     // check Sprite is using the same texture id
     CCASSERT(sprite->getTexture()->getName() == _textureAtlas->getTexture()->getName(), "CCSprite is not using the same texture id");
 
-    Node::addChild(std::move(child), zOrder, name);
+    auto nodeId = Node::addChild(std::move(child), zOrder, name);
 
     appendChild(sprite);
+
+    return nodeId;
 }
 
 // override reorderChild
@@ -220,7 +224,7 @@ void SpriteBatchNode::reorderChild(Node *child, int zOrder)
 }
 
 // override remove child
-void SpriteBatchNode::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> SpriteBatchNode::removeChild(NodeId id, bool cleanup)
 {
     if (auto sprite = Director::getInstance()->getNodeRegister().get<Sprite>(id))
     {
@@ -234,8 +238,10 @@ void SpriteBatchNode::removeChild(NodeId id, bool cleanup)
         // cleanup before removing
         removeSpriteFromAtlas(sprite);
 
-        Node::removeChild(id, cleanup);
+        return Node::removeChild(id, cleanup);
     }
+
+    return node_ptr<Node>();
 }
 
 void SpriteBatchNode::removeChildAtIndex(size_t index, bool doCleanup)
@@ -574,7 +580,7 @@ void SpriteBatchNode::appendChild(Sprite* sprite)
         // Github issue #14730
         if (dynamic_cast<DrawNode*>(child.get()))
         {
-            // to avoid calling Sprite::removeChild()
+            // to anode_ptr<Node> calling Sprite::removeChild()
             sprite->Node::removeChild(child->getNodeId(), true);
         }
         else

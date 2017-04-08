@@ -179,16 +179,16 @@ bool Menu::initWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems)
 /*
 * override add:
 */
-void Menu::addChild(node_ptr<Node> child, int zOrder, int tag)
+NodeId Menu::addChild(node_ptr<Node> child, int zOrder, int tag)
 {
     CCASSERT(dynamic_cast<MenuItem*>(child.get()) != nullptr, "Menu only supports MenuItem objects as children");
-    Layer::addChild(std::move(child), zOrder, tag);
+    return Layer::addChild(std::move(child), zOrder, tag);
 }
 
-void Menu::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
+NodeId Menu::addChild(node_ptr<Node> child, int zOrder, const std::string &name)
 {
     CCASSERT(dynamic_cast<MenuItem*>(child.get()) != nullptr, "Menu only supports MenuItem objects as children");
-    Layer::addChild(std::move(child), zOrder, name);
+    return Layer::addChild(std::move(child), zOrder, name);
 }
 
 void Menu::onEnter()
@@ -212,14 +212,14 @@ void Menu::onExit()
     Layer::onExit();
 }
 
-void Menu::removeChild(NodeId id, bool cleanup)
+node_ptr<Node> Menu::removeChild(NodeId id, bool cleanup)
 {
     if (_selectedItem == Director::getInstance()->getNodeRegister().get<MenuItem>(id))
     {
         _selectedItem = nullptr;
     }
     
-    Node::removeChild(id, cleanup);
+    return Node::removeChild(id, cleanup);
 }
 
 //Menu - Events

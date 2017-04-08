@@ -236,6 +236,8 @@ void ActionManager::update(float dt)
     prev = std::make_pair(min_target, min_tag);
 #endif
 
+    _actions.reserve(_actions.size() + _actionsToAdd.size());
+
     auto begin = _actions.begin();
 
     for (auto & a : _actionsToAdd)
@@ -268,11 +270,6 @@ void ActionManager::update(float dt)
     }
 
     _actionsToAdd.clear();
-
-#ifndef NDEBUG
-    assert(_actions.end() == std::find_if(_actions.begin(), _actions.end(),
-                                          [](auto const& a) { return a->hasStopped(); }));
-#endif
 }
 
 } // namespace cocos2d

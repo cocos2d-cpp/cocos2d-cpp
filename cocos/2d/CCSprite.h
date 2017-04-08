@@ -427,14 +427,19 @@ public:
     virtual void setRotationSkewY(float rotationY) override;
     virtual void setSkewX(float sx) override;
     virtual void setSkewY(float sy) override;
-    CC_DEPRECATED_ATTRIBUTE void removeChild(Node* child, bool cleanup = true) override { if (child != nullptr) removeChild(child->getNodeId(), cleanup); }
-    virtual void removeChild(NodeId child, bool cleanup) override;
+    CC_DEPRECATED_ATTRIBUTE node_ptr<Node> removeChild(Node* child, bool cleanup = true) override
+    {
+        if (child != nullptr)
+            return removeChild(child->getNodeId(), cleanup);
+        return node_ptr<Node>();
+    }
+    virtual node_ptr<Node> removeChild(NodeId child, bool cleanup) override;
     virtual void removeAllChildrenWithCleanup(bool cleanup) override;
     virtual void reorderChild(Node *child, int zOrder) override;
 
     using Node::addChild;
-    virtual void addChild(node_ptr<Node> child, int zOrder, int tag) override;
-    virtual void addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
+    virtual NodeId addChild(node_ptr<Node> child, int zOrder, int tag) override;
+    virtual NodeId addChild(node_ptr<Node> child, int zOrder, const std::string &name) override;
 
     virtual void sortAllChildren() override;
     virtual void setScale(float scale) override;
@@ -583,12 +588,9 @@ protected:
     Rect _rect;                             /// Rectangle of Texture2D
     PolygonInfo  _polyInfo;
 
-
-
-
     TrianglesCommand _trianglesCommand;     ///
 #if CC_SPRITE_DEBUG_DRAW
-    DrawNode *_debugDrawNode;
+    NodeId _debugDrawNodeId;
 #endif //CC_SPRITE_DEBUG_DRAW
     //
     // Shared data

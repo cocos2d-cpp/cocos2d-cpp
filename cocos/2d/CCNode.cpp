@@ -859,56 +859,54 @@ bool Node::doEnumerate(std::string name, std::function<bool (Node *)> callback) 
 * to override this method
 */
 ///////////// deprecated addChild /////////////
-void Node::addChild(Node *child)
+NodeId Node::addChild(Node *child)
 {
-    addChild( to_node_ptr(child) );
+    return addChild( to_node_ptr(child) );
 }
-void Node::addChild(Node *child, int zOrder)
+NodeId Node::addChild(Node *child, int zOrder)
 {
-    addChild(to_node_ptr(child), zOrder);
+    return addChild(to_node_ptr(child), zOrder);
 }
-void Node::addChild(Node * child, int localZOrder, int tag)
+NodeId Node::addChild(Node * child, int localZOrder, int tag)
 {
-    addChild(to_node_ptr(child), localZOrder, tag);
+    return addChild(to_node_ptr(child), localZOrder, tag);
 }
-void Node::addChild(Node * child, int localZOrder, const std::string &name)
+NodeId Node::addChild(Node * child, int localZOrder, const std::string &name)
 {
-    addChild(to_node_ptr(child), localZOrder, name);
+    return addChild(to_node_ptr(child), localZOrder, name);
 }
 ///////////////////////////////////////////////
 
-void Node::addChild(node_ptr<Node> child)
+NodeId Node::addChild(node_ptr<Node> child)
 {
     CCASSERT( child != nullptr, "Argument must be non-nil");
     auto zOrder = child->getLocalZOrder();
     const auto & name = child->_name;
-    addChild(std::move(child), zOrder, name);
+    return addChild(std::move(child), zOrder, name);
 }
 
-void Node::addChild(node_ptr<Node> child, int zOrder)
+NodeId Node::addChild(node_ptr<Node> child, int zOrder)
 {
     CCASSERT( child != nullptr, "Argument must be non-nil");
     const auto & name = child->_name;
-    this->addChild(std::move(child), zOrder, name);
+    return addChild(std::move(child), zOrder, name);
 }
 
-void Node::addChild(node_ptr<Node> child, int localZOrder, int tag)
+NodeId Node::addChild(node_ptr<Node> child, int localZOrder, int tag)
 {    
     CCASSERT( child, "Argument must be non-nil");
     CCASSERT( child->_parent == nullptr, "child already added. It can't be added again");
-
-    addChildHelper(std::move(child), localZOrder, tag, "", true);
+    return addChildHelper(std::move(child), localZOrder, tag, "", true);
 }
 
-void Node::addChild(node_ptr<Node> child, int localZOrder, const std::string &name)
+NodeId Node::addChild(node_ptr<Node> child, int localZOrder, const std::string &name)
 {
     CCASSERT(child, "Argument must be non-nil");
     CCASSERT(child->_parent == nullptr, "child already added. It can't be added again");
-    
-    addChildHelper(std::move(child), localZOrder, INVALID_TAG, name, false);
+    return addChildHelper(std::move(child), localZOrder, INVALID_TAG, name, false);
 }
 
-void Node::addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag)
+NodeId Node::addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const std::string &name, bool setTag)
 {
     auto child_p = child.get();
 
@@ -940,6 +938,8 @@ void Node::addChildHelper(node_ptr<Node> child, int localZOrder, int tag, const 
     {
         updateCascadeOpacity();
     }
+
+    return child_p->getNodeId();
 }
 
 void Node::removeFromParent()
@@ -959,14 +959,19 @@ void Node::removeFromParentAndCleanup(bool cleanup)
 * If a class want's to extend the 'removeChild' behavior it only needs
 * to override this method
 */
-void Node::removeChild(NodeId id, bool cleanup /* = true */)
+node_ptr<Node> Node::removeChild(NodeId id, bool cleanup /* = true */)
 {
-    auto iter = std::find_if(std::begin(_children), std::end(_children),
-                             [id](auto const & p) {
-                                 return p->getNodeId() == id;
-                             });
-    if (std::end(_children) != iter)
-        this->detachChild(iter, cleanup);
+    if (auto child = Director::getInstance()->getNodeRegister().getNode(id))
+    {
+        auto iter = std::find_if(std::begin(_children), std::end(_children),
+                                 [child](auto const & p) {
+                                     return p.get() == child;
+                                 });
+        if (std::end(_children) != iter)
+            return detachChild(iter, cleanup);
+    }
+
+    return node_ptr<Node>();
 }
 
 void Node::removeChildByTag(int tag, bool cleanup/* = true */)
@@ -1013,28 +1018,32 @@ void Node::removeAllChildrenWithCleanup(bool cleanup)
         detachChild((++it).base(), cleanup);
 }
 
-void Node::detachChild(children_iterator it, bool doCleanup)
+node_ptr<Node> Node::detachChild(children_iterator it, bool doCleanup)
 {
+    auto child = std::move(*it);
+
+    _children.erase(it);
+
     // IMPORTANT:
     //  -1st do onExit
     //  -2nd cleanup
     if (_running)
     {
-        (*it)->onExitTransitionDidStart();
-        (*it)->onExit();
+        child->onExitTransitionDidStart();
+        child->onExit();
     }
 
     // If you don't do cleanup, the child's actions will not get removed and the
     // its scheduledSelectors_ dict will not get released!
     if (doCleanup)
     {
-        (*it)->cleanup();
+        child->cleanup();
     }
     
     // set parent nil at the end
-    (*it)->setParent(nullptr);
+    child->setParent(nullptr);
 
-    _children.erase(it);
+    return std::move(child);
 }
 
 
