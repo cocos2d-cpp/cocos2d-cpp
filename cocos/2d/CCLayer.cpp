@@ -527,24 +527,25 @@ std::string LayerGradient::getDescription() const
 
 /// MultiplexLayer
 
-LayerMultiplex::LayerMultiplex()
-: _enabledLayer(0)
-{
-}
-
 LayerMultiplex::~LayerMultiplex()
 {
-    for(const auto &layer : _layers) {
-        layer->cleanup();
+    for(const auto & layer : _layers) {
+        if (layer)
+            layer->cleanup();
     }
 }
 
-LayerMultiplex* LayerMultiplex::createWithArray(std::vector<node_ptr<Layer>> && arrayOfLayers)
+LayerMultiplex* LayerMultiplex::create(std::vector<node_ptr<Layer>> arrayOfLayers)
 {
+    assert(! arrayOfLayers.empty());
+
     LayerMultiplex* ret = new (std::nothrow) LayerMultiplex();
 
-    if (ret && ret->initWithArray( std::move(arrayOfLayers) ))
+    if (ret && ret->init())
     {
+        ret->_layers = std::move( arrayOfLayers );
+        ret->_enabledLayerId = ret->addChild( std::move(ret->_layers.at(0)) );
+        ret->_enabledLayerIndex = 0;
         ret->autorelease();
     }
     else
@@ -555,56 +556,25 @@ LayerMultiplex* LayerMultiplex::createWithArray(std::vector<node_ptr<Layer>> && 
     return ret;
 }
 
-void LayerMultiplex::addLayer(Layer* layer)
+void LayerMultiplex::addLayer(node_ptr<Layer> layer)
 {
-    _layers.push_back(to_node_ptr(layer));
-}
-
-bool LayerMultiplex::init()
-{
-    if (Layer::init())
-    {
-        _enabledLayer = 0;
-        return true;
-    }
-    return false;
-}
-
-bool LayerMultiplex::initWithArray(std::vector<node_ptr<Layer>> && arrayOfLayers)
-{
-    if (Layer::init())
-    {
-        _layers = std::move( arrayOfLayers );
-        _enabledLayer = 0;
-        this->addChild( to_node_ptr(_layers.at(_enabledLayer).get()) );
-        return true;
-    }
-    return false;
+    _layers.push_back( std::move(layer) );
 }
 
 void LayerMultiplex::switchTo(size_t n)
 {
-    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
+    assert(n < _layers.size());
 
-    this->removeChild(_layers.at(_enabledLayer).get(), true);
-
-    _enabledLayer = n;
-
-    this->addChild( to_node_ptr(_layers.at(n).get()) );
-}
-
-void LayerMultiplex::switchToAndReleaseMe(size_t n)
-{
-    CCASSERT( n < _layers.size(), "Invalid index in MultiplexLayer switchTo message" );
-    CCASSERT( n != _enabledLayer, "n != _enabledLayer" );
-
-    auto curr = std::move(_layers.at(_enabledLayer));
-
-    this->removeChild(curr.get(), true);
-    
-    _enabledLayer = n;
-
-    this->addChild( to_node_ptr(_layers.at(_enabledLayer).get()) );
+    if (_enabledLayerIndex != n)
+    {
+        auto child = removeChild(_enabledLayerId, true);
+        assert(nullptr != dynamic_cast<Layer*>(child.get()));
+        _layers.at(_enabledLayerIndex) = node_ptr<Layer>(
+            dynamic_cast<Layer*>(child.release())
+        );
+        _enabledLayerId = addChild( std::move(_layers.at(n)) );
+        _enabledLayerIndex = n;
+    }
 }
 
 std::string LayerMultiplex::getDescription() const

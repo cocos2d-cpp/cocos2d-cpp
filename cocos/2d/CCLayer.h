@@ -422,13 +422,13 @@ public:
      * @param arrayOfLayers An array of layers.
      * @return An autoreleased LayerMultiplex object.
      */
-    static LayerMultiplex* createWithArray(std::vector<node_ptr<Layer>> &&);
+    static LayerMultiplex* create(std::vector<node_ptr<Layer>>);
 
     /** Add a certain layer to LayerMultiplex.
      *
      * @param layer A layer need to be added to the LayerMultiplex.
      */
-    void addLayer(Layer* layer);
+    void addLayer(node_ptr<Layer> layer);
 
     /** Switches to a certain layer indexed by n.
      The current (old) layer will be removed from it's parent with 'cleanup=true'.
@@ -437,35 +437,18 @@ public:
      */
     void switchTo(size_t n);
 
-    /** release the current layer and switches to another layer indexed by n.
-    The current (old) layer will be removed from it's parent with 'cleanup=true'.
-     *
-     * @param n The layer indexed by n will display.
-     */
-    void switchToAndReleaseMe(size_t n);
-
     virtual std::string getDescription() const override;
     
 protected:
-    /**
-     * @js ctor
-     */
-    LayerMultiplex();
-    /**
-     * @js NA
-     * @lua NA
-     */
+
+    LayerMultiplex() = default;
+
     virtual ~LayerMultiplex();
     
-    virtual bool init() override;
-    
-    /** initializes a MultiplexLayer with an array of layers
-     @since v2.1
-     */
-    bool initWithArray(std::vector<node_ptr<Layer>> &&);
+private:
 
-protected:
-    unsigned int                 _enabledLayer;
+    unsigned int                 _enabledLayerIndex;
+    NodeId                       _enabledLayerId;
     std::vector<node_ptr<Layer>> _layers;
 
 private:

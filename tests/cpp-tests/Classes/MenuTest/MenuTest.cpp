@@ -85,8 +85,9 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     auto item2 = MenuItemImage::create(s_SendScore, s_PressSendScore, CC_CALLBACK_1(MenuLayerMainMenu::menuCallback2, this) );
 
     // Label Item (LabelAtlas)
-    auto labelAtlas = LabelAtlas::create("0123456789", "fonts/labelatlas.png", 16, 24, '.');
-    auto item3 = MenuItemLabel::create(labelAtlas, CC_CALLBACK_1(MenuLayerMainMenu::menuCallbackDisabled, this) );
+    auto item3 = MenuItemLabel::create(make_node_ptr<LabelAtlas>("0123456789", "fonts/labelatlas.png", 16, 24, '.'),
+                                       CC_CALLBACK_1(MenuLayerMainMenu::menuCallbackDisabled, this) );
+
     item3->setDisabledColor( Color3B(32,32,64) );
     item3->setColor( Color3B(200,200,255) );
     CCLOG("test MenuItem Label getString: %s", item3->getString().c_str());
@@ -98,8 +99,8 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     item4->setFontSizeObj(20);
     item4->setFontName("fonts/Marker Felt.ttf");
     
-    auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "configuration");
-    auto item5 = MenuItemLabel::create(label, CC_CALLBACK_1(MenuLayerMainMenu::menuCallbackConfig, this));
+    auto label = to_node_ptr( Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "configuration") );
+    auto item5 = MenuItemLabel::create(std::move(label), CC_CALLBACK_1(MenuLayerMainMenu::menuCallbackConfig, this));
 
     // Testing issue #500
     item5->setScale( 0.8f );
@@ -122,9 +123,9 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     );
     item7->runAction( std::make_unique<RepeatForever>( std::move(seq)));
 
-    auto menu = Menu::create( item1, item2, item3, item4, item5, item6, item7, item8,  nullptr);
-    menu->alignItemsVertically();
+    auto menu = make_node_ptr<Menu>( item1, item2, item3, item4, item5, item6, item7, item8,  nullptr);
     
+    menu->alignItemsVertically();
     
     // elastic effect
     auto s = Director::getInstance()->getWinSize();
@@ -146,10 +147,10 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     _disabledItem = item3; item3->retain();
     _disabledItem->setEnabled( false );
 
-    addChild(menu);
     menu->setPosition(Vec2(s.width/2, s.height/2));
     menu->setScale(0);
     menu->runAction(std::make_unique<ScaleTo>(1,1));
+    addChild( std::move(menu) );
 }
 
 bool MenuLayerMainMenu::onTouchBegan(Touch *, Event * )
@@ -241,16 +242,16 @@ MenuLayer2::MenuLayer2()
         item2->setScaleX( 0.5f );
         item3->setScaleX( 0.5f );
         
-        auto menu = Menu::create(item1, item2, item3, nullptr);
+        auto menu = make_node_ptr<Menu>(item1, item2, item3, nullptr);
         
         auto s = Director::getInstance()->getWinSize();
         menu->setPosition(Vec2(s.width/2, s.height/2));
 
         menu->setTag( kTagMenu );
-        
-        addChild(menu, 0, 100+i);
 
         _centeredMenu = menu->getPosition();
+        
+        addChild(std::move(menu), 0, 100+i);
     }
 
     _alignedH = true;
@@ -343,8 +344,8 @@ MenuLayer3::MenuLayer3()
     MenuItemFont::setFontName("fonts/Marker Felt.ttf");
     MenuItemFont::setFontSize(28);
 
-    auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "Enable AtlasItem");
-    auto item1 = MenuItemLabel::create(label, [&](Ref *) {
+    auto label = to_node_ptr( Label::createWithBMFont("fonts/bitmapFontTest3.fnt", "Enable AtlasItem") );
+    auto item1 = MenuItemLabel::create( std::move(label), [&](Ref *) {
 		//CCLOG("Label clicked. Toogling AtlasSprite");
 		_disabledItem->setEnabled( ! _disabledItem->isEnabled() );
 		_disabledItem->stopAllActions();
@@ -364,7 +365,7 @@ MenuLayer3::MenuLayer3()
     _disabledItem = item3;  item3->retain();
     _disabledItem->setEnabled( false );
     
-    auto menu = Menu::create( item1, item2, item3, nullptr);    
+    auto menu = make_node_ptr<Menu>( item1, item2, item3, nullptr);    
     menu->setPosition( Vec2(0,0) );
 
     auto s = Director::getInstance()->getWinSize();
@@ -392,10 +393,10 @@ MenuLayer3::MenuLayer3()
     item1->runAction( std::make_unique<RepeatForever>( std::move(spin1)));
     item2->runAction( std::make_unique<RepeatForever>( std::move(spin2)));
     item3->runAction( std::make_unique<RepeatForever>( std::move(spin3)));
-    
-    addChild( menu ); 
 
     menu->setPosition(Vec2(0,0));
+    
+    addChild( std::move(menu) );
 }
 
 MenuLayer3::~MenuLayer3()
@@ -500,22 +501,23 @@ MenuLayer4::MenuLayer4()
     MenuItemFont::setFontName( "fonts/Marker Felt.ttf" );
     MenuItemFont::setFontSize( 34 );
 
-    auto label = Label::createWithBMFont("fonts/bitmapFontTest3.fnt",  "go back");
-    auto back = MenuItemLabel::create(label, CC_CALLBACK_1(MenuLayer4::backCallback, this) );
+    auto label = to_node_ptr(Label::createWithBMFont("fonts/bitmapFontTest3.fnt",  "go back"));
+    auto back = MenuItemLabel::create( std::move(label), CC_CALLBACK_1(MenuLayer4::backCallback, this) );
 
-    auto menu = Menu::create(
+    auto menu = make_node_ptr<Menu>(
         title1, title2,
         item1, item2,
         title3, title4,
         item3, item4,
-        back, nullptr ); // 9 items.
+        back, nullptr
+    ); // 9 items.
 
     menu->alignItemsInColumns(2, 2, 2, 2, 1, NULL);
 
-    addChild( menu );
-
     auto s = Director::getInstance()->getWinSize();
     menu->setPosition(Vec2(s.width/2, s.height/2));
+
+    addChild( std::move(menu) );
 }
 
 MenuLayer4::~MenuLayer4()
@@ -539,12 +541,11 @@ BugsTest::BugsTest()
     auto issue1410_2 = MenuItemFont::create("Issue 1410 #2", CC_CALLBACK_1(BugsTest::issue1410v2MenuCallback, this));
     auto back = MenuItemFont::create("Back", CC_CALLBACK_1(BugsTest::backMenuCallback, this));
     
-    auto menu = Menu::create(issue1410, issue1410_2, back, nullptr);
-    addChild(menu);
+    auto menu = make_node_ptr<Menu>(issue1410, issue1410_2, back, nullptr);
     menu->alignItemsVertically();
-    
     auto s = Director::getInstance()->getWinSize();
     menu->setPosition(Vec2(s.width/2, s.height/2));
+    addChild( std::move(menu) );
 }
 
 void BugsTest::issue1410MenuCallback(Ref *sender)
@@ -574,20 +575,19 @@ RemoveMenuItemWhenMove::RemoveMenuItemWhenMove()
 {
     auto s = Director::getInstance()->getWinSize();
     
-    auto label = Label::createWithTTF("click item and move, should not crash", "fonts/arial.ttf", 20);
+    auto label = to_node_ptr( Label::createWithTTF("click item and move, should not crash", "fonts/arial.ttf", 20) );
     label->setPosition(Vec2(s.width/2, s.height - 30));
-    addChild(label);
+    addChild( std::move(label) );
     
     item = MenuItemFont::create("item 1");
     item->retain();
     
     auto back = MenuItemFont::create("go back", CC_CALLBACK_1(RemoveMenuItemWhenMove::goBack, this));
     
-    auto menu = Menu::create(item, back, nullptr);
-    addChild(menu);
+    auto menu = make_node_ptr<Menu>(item, back, nullptr);
     menu->alignItemsVertically();
-    
-    menu->setPosition(Vec2(s.width/2, s.height/2));
+    menu->setPosition(Vec2(s.width / 2, s.height / 2));
+    addChild( std::move(menu) );
     
     // Register Touch Event
     _touchListener = EventListenerTouchOneByOne::create();
@@ -648,9 +648,9 @@ bool MenuTest::init()
         layers.push_back(to_node_ptr(layer5));
         layers.push_back(to_node_ptr(layer6));
 
-        auto layer = LayerMultiplex::createWithArray( std::move(layers) );
+        auto layer = make_node_ptr<LayerMultiplex>( std::move(layers) );
 
-        addChild(layer, 0);
+        addChild(std::move(layer), 0);
 
         layer1->release();
         layer2->release();
