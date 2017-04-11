@@ -3,8 +3,7 @@ Copyright (c) 2009      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2012      Ricardo Quesada
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,17 +44,6 @@ class RenderTexture;
 class CC_DLL TransitionProgress : public TransitionScene
 {
 public:
-    /** Creates a transition with duration and incoming scene.
-     *
-     * @param t Duration time, in seconds.
-     * @param scene A given scene.
-     * @return An autoreleased TransitionProgress object.
-     */
-    static TransitionProgress* create(float t, Scene* scene);
-
-    //
-    // Overrides
-    //
     virtual void onEnter() override;
     virtual void onExit() override;
 
@@ -67,7 +55,7 @@ protected:
     virtual void sceneOrder() override;
 
 protected:
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture);
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) = 0;
     virtual void setupTransition();
 
 protected:
@@ -103,7 +91,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
   
 };
 
@@ -134,7 +122,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 
 };
 
@@ -164,7 +152,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressVertical
@@ -192,7 +180,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 };
 
 /** @class TransitionProgressInOut
@@ -220,7 +208,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
     virtual void sceneOrder() override;
     virtual void setupTransition() override;
 };
@@ -250,7 +238,7 @@ protected:
     //
     // Overrides
     //
-    virtual ProgressTimer* progressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
 
 };
 

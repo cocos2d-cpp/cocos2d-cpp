@@ -153,7 +153,7 @@ bool Menu::initWithArray(std::vector<node_ptr<MenuItem>> && arrayOfItems)
             z++;
         }
     
-        _selectedItem = nullptr;
+        _selectedItemId = NodeId();
         _state = Menu::State::WAITING;
         
         // enable cascade color and opacity on menus
@@ -200,10 +200,10 @@ void Menu::onExit()
 {
     if (_state == Menu::State::TRACKING_TOUCH)
     {
-        if (_selectedItem)
+        if (auto selectedItem = Director::getInstance()->getNodeRegister().get<MenuItem>(_selectedItemId))
         {
-            _selectedItem->unselected();
-            _selectedItem = nullptr;
+            selectedItem->unselected();
+            _selectedItemId = NodeId();
         }
         
         _state = Menu::State::WAITING;
@@ -214,9 +214,9 @@ void Menu::onExit()
 
 node_ptr<Node> Menu::removeChild(NodeId id, bool cleanup)
 {
-    if (_selectedItem == Director::getInstance()->getNodeRegister().get<MenuItem>(id))
+    if (_selectedItemId == id)
     {
-        _selectedItem = nullptr;
+        _selectedItemId = NodeId();
     }
     
     return Node::removeChild(id, cleanup);
@@ -239,14 +239,13 @@ bool Menu::onTouchBegan(Touch* touch, Event* /*event*/)
             return false;
         }
     }
-    _selectedItem = this->getItemForTouch(touch, camera);
 
-    if (_selectedItem)
+    if (auto selectedItem = this->getItemForTouch(touch, camera))
     {
         _state = Menu::State::TRACKING_TOUCH;
         _selectedWithCamera = camera;
-        _selectedItem->selected();
-        
+        selectedItem->selected();
+        _selectedItemId = selectedItem->getNodeId();
         return true;
     }
     
@@ -257,10 +256,10 @@ void Menu::onTouchEnded(Touch* /*touch*/, Event* /*event*/)
 {
     CCASSERT(_state == Menu::State::TRACKING_TOUCH, "[Menu ccTouchEnded] -- invalid state");
     this->retain();
-    if (_selectedItem)
+    if (auto selectedItem = Director::getInstance()->getNodeRegister().get<MenuItem>(_selectedItemId))
     {
-        _selectedItem->unselected();
-        _selectedItem->activate();
+        selectedItem->unselected();
+        selectedItem->activate();
     }
     _state = Menu::State::WAITING;
     _selectedWithCamera = nullptr;
@@ -271,9 +270,9 @@ void Menu::onTouchCancelled(Touch* /*touch*/, Event* /*event*/)
 {
     CCASSERT(_state == Menu::State::TRACKING_TOUCH, "[Menu ccTouchCancelled] -- invalid state");
     this->retain();
-    if (_selectedItem)
+    if (auto selectedItem = Director::getInstance()->getNodeRegister().get<MenuItem>(_selectedItemId))
     {
-        _selectedItem->unselected();
+        selectedItem->unselected();
     }
     _state = Menu::State::WAITING;
     this->release();
@@ -282,18 +281,18 @@ void Menu::onTouchCancelled(Touch* /*touch*/, Event* /*event*/)
 void Menu::onTouchMoved(Touch* touch, Event* /*event*/)
 {
     CCASSERT(_state == Menu::State::TRACKING_TOUCH, "[Menu ccTouchMoved] -- invalid state");
+
     MenuItem *currentItem = this->getItemForTouch(touch, _selectedWithCamera);
-    if (currentItem != _selectedItem)
+
+    if (auto selectedItem = Director::getInstance()->getNodeRegister().get<MenuItem>(_selectedItemId))
     {
-        if (_selectedItem)
-        {
-            _selectedItem->unselected();
-        }
-        _selectedItem = currentItem;
-        if (_selectedItem)
-        {
-            _selectedItem->selected();
-        }
+        selectedItem->unselected();
+    }
+
+    if (currentItem != nullptr)
+    {
+        currentItem->selected();
+        _selectedItemId = currentItem->getNodeId();
     }
 }
 

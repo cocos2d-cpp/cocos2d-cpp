@@ -151,11 +151,8 @@ public:
     /** Sets the color that will be used when the item is disabled. */
     void setDisabledColor(const Color3B& color) { _disabledColor = color; }
     
-    /** Gets the label that is rendered. */
-    Node* getLabel() const { return _label.get(); }
-    
     /** Sets the label that is rendered. */
-    void setLabel(node_ptr<Node> node);
+    void setLabel(node_ptr<Node> label);
     
     // Overrides
     virtual void activate() override;
@@ -164,17 +161,11 @@ public:
     virtual void setEnabled(bool enabled) override;
     
 protected:
-    /**
-     * @js ctor
-     */
     MenuItemLabel()
-    : _originalScale(0.0)
-    , _label()
+        : _originalScale(0.0)
+        , _labelId()
     {}
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~MenuItemLabel();
     
     /** Initializes a MenuItemLabel with a Label, target and selector. */
@@ -187,7 +178,7 @@ protected:
     /** The color that will be used to disable the item. */
     Color3B _disabledColor;
     /** Label that is rendered. It can be any Node that implements the LabelProtocol. */
-    node_ptr<Node> _label;
+    NodeId _labelId;
 
 private:
     MenuItemLabel(const MenuItemLabel &) = delete;
@@ -311,29 +302,22 @@ class CC_DLL MenuItemSprite : public MenuItem
 {
 public:
     /** Creates a menu item with a normal, selected and disabled image.*/
-    static MenuItemSprite * create(Node* normalSprite, Node* selectedSprite, Node* disabledSprite = nullptr);
-    /** Creates a menu item with a normal and selected image with a callable object. */
-    static MenuItemSprite * create(Node* normalSprite, Node* selectedSprite, const ccMenuCallback& callback);
-    /** Creates a menu item with a normal,selected  and disabled image with target/selector. */
-    static MenuItemSprite * create(Node* normalSprite, Node* selectedSprite, Node* disabledSprite, const ccMenuCallback& callback);
+    static MenuItemSprite * create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite);
+    static MenuItemSprite * create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite);
 
-    /** Gets the image used when the item is not selected. */
-    Node* getNormalImage() const { return _normalImage; }
-    
+    /** Creates a menu item with a normal and selected image with a callable object. */
+    static MenuItemSprite * create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, const ccMenuCallback& callback);
+    /** Creates a menu item with a normal,selected  and disabled image with target/selector. */
+    static MenuItemSprite * create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite, const ccMenuCallback& callback);
+
     /** Sets the image used when the item is not selected. */
-    void setNormalImage(Node* image);
-    
-    /** Gets the image used when the item is selected. */
-    Node* getSelectedImage() const { return _selectedImage; }
+    void setNormalImage(node_ptr<Node> image);
     
     /** Sets the image used when the item is selected. */
-    void setSelectedImage(Node* image);
-    
-    /** Gets the image used when the item is disabled. */
-    Node* getDisabledImage() const { return _disabledImage; }
+    void setSelectedImage(node_ptr<Node> image);
     
     /** Sets the image used when the item is disabled. */
-    void setDisabledImage(Node* image);
+    void setDisabledImage(node_ptr<Node> image);
     
     /**
      * The item was selected (not activated), similar to "mouse-over".
@@ -348,24 +332,20 @@ public:
     virtual void setEnabled(bool bEnabled);
     
 protected:
-    MenuItemSprite()
-    :_normalImage(nullptr)
-    ,_selectedImage(nullptr)
-    ,_disabledImage(nullptr)
-    {}
+    MenuItemSprite() = default;
     
     /** Initializes a menu item with a normal, selected and disabled image with a callable object. */
-    bool initWithNormalSprite(Node* normalSprite, Node* selectedSprite, Node* disabledSprite, const ccMenuCallback& callback);
+    bool initWithNormalSprite(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite, const ccMenuCallback& callback);
     
 protected:
     virtual void updateImagesVisibility();
 
     /** The image used when the item is not selected. */
-    Node* _normalImage;
+    NodeId _normalImageId;
     /** The image used when the item is selected. */
-    Node* _selectedImage;
+    NodeId _selectedImageId;
     /** The image used when the item is disabled. */
-    Node* _disabledImage;
+    NodeId _disabledImageId;
 
 private:
     MenuItemSprite(const MenuItemSprite &) = delete;
@@ -404,17 +384,9 @@ public:
     void setDisabledSpriteFrame(SpriteFrame* frame);
     
 protected:
-    /**
-     * @js ctor
-     */
     MenuItemImage(){}
-    /**
-     * @js NA
-     * @lua NA
-     */
+
     virtual ~MenuItemImage(){}
-    
-    bool init();
     
     /** Initializes a menu item with a normal, selected and disabled image with a callable object. */
     bool initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback);
