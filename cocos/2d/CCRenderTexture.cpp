@@ -58,7 +58,7 @@ RenderTexture::RenderTexture()
 , _clearDepth(0.0f)
 , _clearStencil(0)
 , _autoDraw(false)
-, _sprite(nullptr)
+, _sprite()
 , _saveFileCallback(nullptr)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA

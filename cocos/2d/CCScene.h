@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -79,7 +78,6 @@ public:
      *
      * @param size The predefined size of scene.
      * @return An autoreleased Scene object.
-     * @js NA
      */
     static Scene *createWithSize(const Size& size);
 
@@ -87,21 +85,14 @@ public:
     virtual std::string getDescription() const override;
     
     /** Get all cameras.
-     * 
      * @return The vector of all cameras, ordered by camera depth.
-     * @js NA
      */
     const std::vector<Camera*>& getCameras();
 
-    /** Get the default camera.
-     * @js NA
-     * @return The default camera of scene.
-     */
-    Camera* getDefaultCamera() const { return _defaultCamera; }
+    Camera* getDefaultCamera() const;
 
     /** Get lights.
      * @return The vector of lights.
-     * @js NA
      */
     const std::vector<BaseLight*>& getLights() const { return _lights; }
 
@@ -109,7 +100,6 @@ public:
      * @param renderer The renderer use to render the scene.
      * @param eyeTransform The AdditionalTransform of camera.
      * @param eyeProjection The projection matrix of camera.
-     * @js NA
      */
     virtual void render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eyeProjection = nullptr);
 
@@ -118,7 +108,6 @@ public:
      * @param eyeTransforms The AdditionalTransform List of camera of multiView.
      * @param eyeProjections The projection matrix List of camera of multiView.
      * @param multiViewCount The number of multiView.
-     * @js NA
      */
     virtual void render(Renderer* renderer, const Mat4* eyeTransforms, const Mat4* eyeProjections, unsigned int multiViewCount);
 
@@ -145,7 +134,7 @@ protected:
     friend class Renderer;
     
     std::vector<Camera*> _cameras; //weak ref to Camera
-    Camera*              _defaultCamera; //weak ref, default camera created by scene, _cameras[0], Caution that the default camera can not be added to _cameras before onEnter is called
+    NodeId               _defaultCameraId; //default camera created by scene, _cameras[0], Caution that the default camera can not be added to _cameras before onEnter is called
     bool                 _cameraOrderDirty; // order is dirty, need sort
     EventListenerCustom*       _event;
 
@@ -161,7 +150,6 @@ public:
 #if CC_USE_PHYSICS
     /** Get the physics world of the scene.
      * @return The physics world of the scene.
-     * @js NA
      */
     PhysicsWorld* getPhysicsWorld() const { return _physicsWorld; }
 #endif
@@ -169,7 +157,6 @@ public:
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
     /** Get the 3d physics world of the scene.
      * @return The 3d physics world of the scene.
-     * @js NA
      */
     Physics3DWorld* getPhysics3DWorld() { return _physics3DWorld; }
     
@@ -181,7 +168,6 @@ public:
     
     /** Create a scene with physics.
      * @return An autoreleased Scene object with physics.
-     * @js NA
      */
     static Scene *createWithPhysics();
     
