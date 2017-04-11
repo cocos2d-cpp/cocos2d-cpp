@@ -29,6 +29,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCLabelAtlas.h"
 #include "2d/CCLabel.h"
+#include "base/CCDirector.h"
 #include "base/ccUTF8.h"
 #include <stdarg.h>
 
@@ -127,20 +128,17 @@ std::string MenuItem::getDescription() const
 //CCMenuItemLabel
 //
 
-void MenuItemLabel::setLabel(node_ptr<Node> var)
+void MenuItemLabel::setLabel(node_ptr<Node> label)
 {
-    if (_label)
-    {
-        removeChild(_label.get(), true);
-    }
-    
-    _label = to_node_ptr(var.get());
+    assert(nullptr != dynamic_cast<LabelProtocol*>(label.get()));
 
-    if (var)
+    removeChild(_labelId, true);
+
+    if (label)
     {
-        var->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-        setContentSize(var->getContentSize()); 
-        addChild( std::move(var) );
+        label->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+        setContentSize(label->getContentSize()); 
+        _labelId = addChild( std::move(label) );
     }
 }
 
@@ -166,7 +164,7 @@ bool MenuItemLabel::initWithLabel(node_ptr<Node> label, const ccMenuCallback& ca
     _originalScale = 1.0f;
     _colorBackup = Color3B::WHITE;
     setDisabledColor(Color3B(126,126,126));
-    this->setLabel( std::move(label) );
+    setLabel( std::move(label) );
 
     setCascadeColorEnabled(true);
     setCascadeOpacityEnabled(true);
@@ -179,24 +177,35 @@ MenuItemLabel::~MenuItemLabel()
 {
 }
 
-void MenuItemLabel::setString(const std::string& label)
+void MenuItemLabel::setString(const std::string& text)
 {
-    dynamic_cast<LabelProtocol*>(_label.get())->setString(label);
-    this->setContentSize(_label->getContentSize());
+    auto node = Director::getInstance()->getNodeRegister().getNode(_labelId);
+
+    if (auto label = dynamic_cast<LabelProtocol*>(node))
+    {
+        label->setString(text);
+        setContentSize(node->getContentSize());
+    }
 }
 
 std::string MenuItemLabel::getString() const
 {
-    auto label = dynamic_cast<LabelProtocol*>(_label.get());
-    return label->getString();
+    auto node = Director::getInstance()->getNodeRegister().getNode(_labelId);
+
+    if (auto label = dynamic_cast<LabelProtocol*>(node))
+    {
+        return label->getString();
+    }
+
+    return "";
 }
 
 void MenuItemLabel::activate()
 {
     if(_enabled)
     {
-        this->stopAllActions();
-        this->setScale( _originalScale );
+        stopAllActions();
+        setScale( _originalScale );
         MenuItem::activate();
     }
 }
@@ -352,8 +361,12 @@ bool MenuItemFont::initWithString(const std::string& value, const ccMenuCallback
 void MenuItemFont::setFontSizeObj(int s)
 {
     _fontSize = s;
-    dynamic_cast<Label*>(_label.get())->setSystemFontSize(_fontSize);
-    this->setContentSize(dynamic_cast<Label*>(_label.get())->getContentSize());
+
+    if (auto label = Director::getInstance()->getNodeRegister().get<Label>(_labelId))
+    {
+        label->setSystemFontSize(_fontSize);
+        setContentSize(label->getContentSize());
+    }
 }
 
 int MenuItemFont::getFontSizeObj() const
@@ -364,8 +377,12 @@ int MenuItemFont::getFontSizeObj() const
 void MenuItemFont::setFontNameObj(const std::string& name)
 {
     _fontName = name;
-    dynamic_cast<Label*>(_label.get())->setSystemFontName(_fontName);
-    this->setContentSize(dynamic_cast<Label*>(_label.get())->getContentSize());
+
+    if (auto label = Director::getInstance()->getNodeRegister().get<Label>(_labelId))
+    {
+        label->setSystemFontName(_fontName);
+        setContentSize(label->getContentSize());
+    }
 }
 
 const std::string& MenuItemFont::getFontNameObj() const
@@ -377,96 +394,88 @@ const std::string& MenuItemFont::getFontNameObj() const
 //CCMenuItemSprite
 //
 
-void MenuItemSprite::setNormalImage(Node* image)
+void MenuItemSprite::setNormalImage(node_ptr<Node> image)
 {
-    if (image != _normalImage)
+    removeChild(_normalImageId, true);
+
+    if (image)
     {
-        if (image)
-        {
-            addChild( to_node_ptr(image) );
-            image->setAnchorPoint(Vec2(0, 0));
-        }
-
-        if (_normalImage)
-        {
-            removeChild(_normalImage, true);
-        }
-
-        _normalImage = image;
-        this->setContentSize(_normalImage->getContentSize());
-        this->updateImagesVisibility();
+        image->setAnchorPoint(Vec2(0, 0));
+        setContentSize(image->getContentSize());
+        _normalImageId = addChild( std::move(image) );
     }
+
+    updateImagesVisibility();
 }
 
-void MenuItemSprite::setSelectedImage(Node* image)
+void MenuItemSprite::setSelectedImage(node_ptr<Node> image)
 {
-    if (image != _normalImage)
+    removeChild(_selectedImageId, true);
+
+    if (image)
     {
-        if (image)
-        {
-            addChild( to_node_ptr(image) );
-            image->setAnchorPoint(Vec2(0, 0));
-        }
-
-        if (_selectedImage)
-        {
-            removeChild(_selectedImage, true);
-        }
-
-        _selectedImage = image;
-        this->updateImagesVisibility();
+        image->setAnchorPoint(Vec2(0, 0));
+        _selectedImageId = addChild( std::move(image) );
     }
+
+    updateImagesVisibility();
 }
 
-void MenuItemSprite::setDisabledImage(Node* image)
+void MenuItemSprite::setDisabledImage(node_ptr<Node> image)
 {
-    if (image != _normalImage)
+    removeChild(_disabledImageId, true);
+
+    if (image)
     {
-        if (image)
-        {
-            addChild( to_node_ptr(image) );
-            image->setAnchorPoint(Vec2(0, 0));
-        }
-
-        if (_disabledImage)
-        {
-            removeChild(_disabledImage, true);
-        }
-
-        _disabledImage = image;
-        this->updateImagesVisibility();
+        image->setAnchorPoint(Vec2(0, 0));
+        _disabledImageId = addChild( std::move(image) );
     }
+
+    updateImagesVisibility();
 }
 
-MenuItemSprite * MenuItemSprite::create(Node* normalSprite, Node* selectedSprite, Node* disabledSprite)
+MenuItemSprite * MenuItemSprite::create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite)
 {
-    return MenuItemSprite::create(normalSprite, selectedSprite, disabledSprite, ccMenuCallback());
+    return MenuItemSprite::create(std::move(normalSprite),
+                                  std::move(selectedSprite),
+                                  std::move(disabledSprite),
+                                  ccMenuCallback());
 }
 
-MenuItemSprite * MenuItemSprite::create(Node* normalSprite, Node* selectedSprite, const ccMenuCallback& callback)
+MenuItemSprite * MenuItemSprite::create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite)
 {
-    return MenuItemSprite::create(normalSprite, selectedSprite, nullptr, callback);
+    return MenuItemSprite::create(std::move(normalSprite),
+                                  std::move(selectedSprite),
+                                  node_ptr<Node>(),
+                                  ccMenuCallback());
 }
 
-MenuItemSprite * MenuItemSprite::create(Node *normalSprite, Node *selectedSprite, Node *disabledSprite, const ccMenuCallback& callback)
+MenuItemSprite * MenuItemSprite::create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, const ccMenuCallback& callback)
+{
+    return MenuItemSprite::create(std::move(normalSprite),
+                                  std::move(selectedSprite),
+                                  node_ptr<Node>(),
+                                  callback);
+}
+
+MenuItemSprite * MenuItemSprite::create(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite, const ccMenuCallback& callback)
 {
     MenuItemSprite *ret = new (std::nothrow) MenuItemSprite();
-    ret->initWithNormalSprite(normalSprite, selectedSprite, disabledSprite, callback);
+    ret->initWithNormalSprite(std::move(normalSprite),
+                              std::move(selectedSprite),
+                              std::move(disabledSprite),
+                              callback);
     ret->autorelease();
     return ret;
 }
 
-bool MenuItemSprite::initWithNormalSprite(Node* normalSprite, Node* selectedSprite, Node* disabledSprite, const ccMenuCallback& callback)
+bool MenuItemSprite::initWithNormalSprite(node_ptr<Node> normalSprite, node_ptr<Node> selectedSprite, node_ptr<Node> disabledSprite, const ccMenuCallback& callback)
 {
     MenuItem::initWithCallback(callback);
-    setNormalImage(normalSprite);
-    setSelectedImage(selectedSprite);
-    setDisabledImage(disabledSprite);
 
-    if(_normalImage)
-    {
-        this->setContentSize(_normalImage->getContentSize());
-    }
+    setNormalImage( std::move(normalSprite) );
+    setSelectedImage( std::move(selectedSprite) );
+    setDisabledImage( std::move(disabledSprite) );
 
     setCascadeColorEnabled(true);
     setCascadeOpacityEnabled(true);
@@ -481,22 +490,23 @@ void MenuItemSprite::selected()
 {
     MenuItem::selected();
 
-    if (_normalImage)
-    {
-        if (_disabledImage)
-        {
-            _disabledImage->setVisible(false);
-        }
+    auto& nodes = Director::getInstance()->getNodeRegister();
 
-        if (_selectedImage)
-        {
-            _normalImage->setVisible(false);
-            _selectedImage->setVisible(true);
-        }
-        else
-        {
-            _normalImage->setVisible(true);
-        }
+    if (auto disabledImage = nodes.getNode(_disabledImageId))
+    {
+        disabledImage->setVisible(false);
+    }
+
+    auto selectedImage = nodes.getNode(_selectedImageId);
+
+    if (selectedImage != nullptr)
+    {
+        selectedImage->setVisible(true);
+    }
+
+    if (auto normalImage = nodes.getNode(_normalImageId))
+    {
+        normalImage->setVisible(selectedImage == nullptr);
     }
 }
 
@@ -518,27 +528,18 @@ void MenuItemSprite::setEnabled(bool bEnabled)
 // Helper 
 void MenuItemSprite::updateImagesVisibility()
 {
-    if (_enabled)
-    {
-        if (_normalImage)   _normalImage->setVisible(true);
-        if (_selectedImage) _selectedImage->setVisible(false);
-        if (_disabledImage) _disabledImage->setVisible(false);
-    }
-    else
-    {
-        if (_disabledImage)
-        {
-            if (_normalImage)   _normalImage->setVisible(false);
-            if (_selectedImage) _selectedImage->setVisible(false);
-            if (_disabledImage) _disabledImage->setVisible(true);
-        }
-        else
-        {
-            if (_normalImage)   _normalImage->setVisible(true);
-            if (_selectedImage) _selectedImage->setVisible(false);
-            if (_disabledImage) _disabledImage->setVisible(false);
-        }
-    }
+    auto& nodes = Director::getInstance()->getNodeRegister();
+
+    auto disabledImage = nodes.getNode(_disabledImageId);
+
+    if (auto normalImage = nodes.getNode(_normalImageId))
+        normalImage->setVisible(_enabled || (nullptr == disabledImage));
+
+    if (auto selectedImage = nodes.getNode(_selectedImageId))
+        selectedImage->setVisible(false);
+
+    if (nullptr != disabledImage)
+        disabledImage->setVisible(!_enabled);
 }
 
 ///
@@ -555,11 +556,6 @@ MenuItemImage* MenuItemImage::create()
     }
     CC_SAFE_DELETE(ret);
     return nullptr;
-}
-
-bool MenuItemImage::init(void)
-{
-    return initWithNormalImage("", "", "", ccMenuCallback());
 }
 
 MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std::string& selectedImage)
@@ -598,25 +594,26 @@ MenuItemImage * MenuItemImage::create(const std::string& normalImage, const std:
 
 bool MenuItemImage::initWithNormalImage(const std::string& normalImage, const std::string& selectedImage, const std::string& disabledImage, const ccMenuCallback& callback)
 {
-    Node *normalSprite = nullptr;
-    Node *selectedSprite = nullptr;
-    Node *disabledSprite = nullptr;
+    node_ptr<Sprite> normalSprite;
+    node_ptr<Sprite> selectedSprite;
+    node_ptr<Sprite> disabledSprite;
 
-    if (normalImage.size() >0)
+    if (! normalImage.empty())
     {
-        normalSprite = Sprite::create(normalImage);
+        normalSprite = make_node_ptr<Sprite>(normalImage);
     }
 
-    if (selectedImage.size() >0)
+    if (! selectedImage.empty())
     {
-        selectedSprite = Sprite::create(selectedImage);
+        selectedSprite = make_node_ptr<Sprite>(selectedImage);
     }
 
-    if(disabledImage.size() >0)
+    if (! disabledImage.size())
     {
-        disabledSprite = Sprite::create(disabledImage);
+        disabledSprite = make_node_ptr<Sprite>(disabledImage);
     }
-    return initWithNormalSprite(normalSprite, selectedSprite, disabledSprite, callback);
+
+    return initWithNormalSprite(std::move(normalSprite), std::move(selectedSprite), std::move(disabledSprite), callback);
 }
 
 //
@@ -624,17 +621,17 @@ bool MenuItemImage::initWithNormalImage(const std::string& normalImage, const st
 //
 void MenuItemImage::setNormalSpriteFrame(SpriteFrame * frame)
 {
-    setNormalImage(Sprite::create(frame));
+    setNormalImage( make_node_ptr<Sprite>(frame) );
 }
 
 void MenuItemImage::setSelectedSpriteFrame(SpriteFrame * frame)
 {
-    setSelectedImage(Sprite::create(frame));
+    setSelectedImage( make_node_ptr<Sprite>(frame));
 }
 
 void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 {
-    setDisabledImage(Sprite::create(frame));
+    setDisabledImage( make_node_ptr<Sprite>(frame));
 }
 
 //

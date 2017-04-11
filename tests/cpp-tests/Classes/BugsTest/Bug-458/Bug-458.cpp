@@ -19,22 +19,21 @@ bool Bug458Layer::init()
         // ask director the the window size
         auto size = Director::getInstance()->getWinSize();
 
-        auto question = new (std::nothrow) QuestionContainerSprite();
-        auto question2 = new (std::nothrow) QuestionContainerSprite();
+        auto question = to_node_ptr(new QuestionContainerSprite());
+        auto question2 = to_node_ptr(new QuestionContainerSprite());
         
-        auto sprite = MenuItemSprite::create(question2, question, CC_CALLBACK_1(Bug458Layer::selectAnswer, this) );
-        auto layer = LayerColor::create(Color4B(0,0,255,255), 100, 100);
-        question->release();
-        question2->release();
+        auto sprite = MenuItemSprite::create(std::move(question2), std::move(question),
+                                             CC_CALLBACK_1(Bug458Layer::selectAnswer, this) );
 
-        auto layer2 = LayerColor::create(Color4B(255,0,0,255), 100, 100);
-        auto sprite2 = MenuItemSprite::create(layer, layer2, CC_CALLBACK_1(Bug458Layer::selectAnswer, this) );
-        auto menu = Menu::create(sprite, sprite2, nullptr);
+        auto sprite2 = MenuItemSprite::create(make_node_ptr<LayerColor>(Color4B(0,0,255,255), 100, 100),
+                                              make_node_ptr<LayerColor>(Color4B(255,0,0,255), 100, 100),
+                                              CC_CALLBACK_1(Bug458Layer::selectAnswer, this) );
+        auto menu = make_node_ptr<Menu>(sprite, sprite2, nullptr);
         menu->alignItemsVerticallyWithPadding(100);
         menu->setPosition(size.width / 2, size.height / 2);
 
         // add the label as a child to this Layer
-        addChild(menu);
+        addChild( std::move(menu) );
 
         return true;
     }

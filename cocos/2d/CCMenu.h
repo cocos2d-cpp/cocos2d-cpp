@@ -176,10 +176,7 @@ public:
     virtual std::string getDescription() const override;
 
 protected:
-    /**
-     * @js ctor
-     */
-    Menu() : _selectedItem(nullptr), _selectedWithCamera(nullptr) {}
+    Menu() = default;
     virtual ~Menu();
 
     /** initializes an empty Menu */
@@ -197,7 +194,7 @@ protected:
 
     virtual MenuItem* getItemForTouch(Touch * touch, const Camera *camera);
     State _state;
-    MenuItem *_selectedItem;
+    NodeId _selectedItemId;
     const Camera *_selectedWithCamera;
 private:
     Menu(const Menu &) = delete;

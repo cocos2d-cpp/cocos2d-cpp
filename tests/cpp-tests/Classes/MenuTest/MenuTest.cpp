@@ -75,11 +75,14 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     _eventDispatcher->addEventListenerWithFixedPriority(_touchListener, 1);
 
     // Font Item    
-    auto spriteNormal = Sprite::create(s_MenuItem, Rect(0,23*2,115,23));
-    auto spriteSelected = Sprite::create(s_MenuItem, Rect(0,23*1,115,23));
-    auto spriteDisabled = Sprite::create(s_MenuItem, Rect(0,23*0,115,23));
+    auto spriteNormal   = make_node_ptr<Sprite>(s_MenuItem, Rect(0,23*2,115,23));
+    auto spriteSelected = make_node_ptr<Sprite>(s_MenuItem, Rect(0,23*1,115,23));
+    auto spriteDisabled = make_node_ptr<Sprite>(s_MenuItem, Rect(0,23*0,115,23));
 
-    auto item1 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, CC_CALLBACK_1(MenuLayerMainMenu::menuCallback, this) );
+    auto item1 = MenuItemSprite::create(std::move(spriteNormal),
+                                        std::move(spriteSelected),
+                                        std::move(spriteDisabled),
+                                        CC_CALLBACK_1(MenuLayerMainMenu::menuCallback, this) );
     
     // Image Item
     auto item2 = MenuItemImage::create(s_SendScore, s_PressSendScore, CC_CALLBACK_1(MenuLayerMainMenu::menuCallback2, this) );
@@ -354,15 +357,17 @@ MenuLayer3::MenuLayer3()
 		    static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 	});
 
-    auto spriteNormal   = Sprite::create(s_MenuItem,  Rect(0,23*2,115,23));
-    auto spriteSelected = Sprite::create(s_MenuItem,  Rect(0,23*1,115,23));
-    auto spriteDisabled = Sprite::create(s_MenuItem,  Rect(0,23*0,115,23));
+    auto spriteNormal   = make_node_ptr<Sprite>(s_MenuItem,  Rect(0,23*2,115,23));
+    auto spriteSelected = make_node_ptr<Sprite>(s_MenuItem,  Rect(0,23*1,115,23));
+    auto spriteDisabled = make_node_ptr<Sprite>(s_MenuItem,  Rect(0,23*0,115,23));
     
     
-    auto item3 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, [](Ref *) {
-		log("sprite clicked!");
-	});
-    _disabledItem = item3;  item3->retain();
+    auto item3 = MenuItemSprite::create(std::move(spriteNormal),
+                                        std::move(spriteSelected),
+                                        std::move(spriteDisabled),
+                                        [](Ref *) { log("sprite clicked!"); });
+    _disabledItem = item3;
+    item3->retain();
     _disabledItem->setEnabled( false );
     
     auto menu = make_node_ptr<Menu>( item1, item2, item3, nullptr);    
