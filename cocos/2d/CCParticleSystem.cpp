@@ -874,7 +874,7 @@ void ParticleSystem::update(float dt)
                 if( _particleCount == 0 && _isAutoRemoveOnFinish )
                 {
                     Director::getInstance()->getScheduler().unscheduleUpdateJob(this);
-                    _parent->removeChild(this, true);
+                    _parent->removeChild(this->getNodeId(), true);
                     return;
                 }
             }

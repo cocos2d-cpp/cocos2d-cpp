@@ -3,8 +3,7 @@ Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -67,8 +66,7 @@ Scene::Scene()
     _cameraOrderDirty = true;
     
     //create default camera
-    _defaultCamera = Camera::create();
-    addChild(_defaultCamera);
+    _defaultCameraId = addChild( make_node_ptr<Camera>() );
     
     _event = Director::getInstance()->getEventDispatcher()->addCustomEventListener(Director::EVENT_PROJECTION_CHANGED, std::bind(&Scene::onProjectionChanged, this, std::placeholders::_1));
     _event->retain();
@@ -146,9 +144,9 @@ std::string Scene::getDescription() const
 
 void Scene::onProjectionChanged(EventCustom* /*event*/)
 {
-    if (_defaultCamera)
+    if (auto defaultCamera = Director::getInstance()->getNodeRegister().get<Camera>(_defaultCameraId))
     {
-        _defaultCamera->initDefault();
+        defaultCamera->initDefault();
     }
 }
 
@@ -165,6 +163,11 @@ const std::vector<Camera*>& Scene::getCameras()
         _cameraOrderDirty = false;
     }
     return _cameras;
+}
+
+Camera* Scene::getDefaultCamera() const
+{
+    return Director::getInstance()->getNodeRegister().get<Camera>(_defaultCameraId);
 }
 
 void Scene::render(Renderer* renderer, const Mat4& eyeTransform, const Mat4* eyeProjection)
@@ -255,15 +258,13 @@ void Scene::render(Renderer* renderer, const Mat4* eyeTransforms, const Mat4* ey
 
 void Scene::removeAllChildren()
 {
-    if (_defaultCamera)
-        _defaultCamera->retain();
+    auto defaultCamera = removeChild(_defaultCameraId, true);
 
     Node::removeAllChildren();
 
-    if (_defaultCamera)
+    if (defaultCamera)
     {
-        addChild(_defaultCamera);
-        _defaultCamera->release();
+        _defaultCameraId = addChild( std::move(defaultCamera) );
     }
 }
 

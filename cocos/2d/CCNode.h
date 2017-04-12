@@ -160,6 +160,11 @@ public:
         return data.all == r.data.all;
     }
 
+    bool operator!=(NodeId r) const
+    {
+        return data.all != r.data.all;
+    }
+
     index_type     index()     const { return data.s.index; }
     signature_type signature() const { return data.s.signature; }
 

@@ -1,9 +1,7 @@
 /*
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2012 Yannick Loriot. All rights reserved.
- * http://yannickloriot.com
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -45,28 +43,14 @@ namespace extension {
 class CC_EX_DLL ControlPotentiometer : public Control
 {
 public:
-    /**
-     * Creates potentiometer with a track filename and a progress filename.
-     */
-    static ControlPotentiometer* create(const char* backgroundFile, const char* progressFile, const char* thumbFile);
-    /**
-     * @js ctor
-     * @lua new
-     */
-    ControlPotentiometer();
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~ControlPotentiometer();
+    ControlPotentiometer(const char* backgroundFile, const char* progressFile, const char* thumbFile);
 
-    /** 
-     * Initializes a potentiometer with a track sprite and a progress bar.
-     *
-     * @param trackSprite   Sprite, that is used as a background.
-     * @param progressTimer ProgressTimer, that is used as a progress bar.
-     */
-    bool initWithTrackSprite_ProgressTimer_ThumbSprite(Sprite* trackSprite, ProgressTimer* progressTimer, Sprite* thumbSprite);
+    static ControlPotentiometer* create(const char* backgroundFile, const char* progressFile, const char* thumbFile)
+    {
+        auto pRet = new ControlPotentiometer(backgroundFile, progressFile, thumbFile);
+        pRet->autorelease();
+        return pRet;
+    }
 
     void setValue(float value);
     float getValue();
@@ -108,9 +92,10 @@ protected:
      * The default value of this property is 1.0. */
     float           _maximumValue;
 
-    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite)
-    CC_SYNTHESIZE_RETAIN(ProgressTimer*, _progressTimer, ProgressTimer)
-    CC_SYNTHESIZE(Vec2, _previousLocation, PreviousLocation)
+private:
+    NodeId _thumbSpriteId;
+    NodeId _progressTimerId;
+    Vec2   _previousLocation;
 };
 
 // end of GUI group

@@ -2,8 +2,7 @@
 Copyright (c) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,32 +39,18 @@ namespace cocos2d {
 const char kProgressTextureCoords = 0x4b;
 
 
-ProgressTimer::ProgressTimer()
+ProgressTimer::ProgressTimer(node_ptr<Sprite> sp)
 :_type(Type::RADIAL)
 ,_midpoint(0,0)
 ,_barChangeRate(0,0)
 ,_percentage(0.0f)
-,_sprite(nullptr)
+,_sprite()
 ,_vertexDataCount(0)
 ,_vertexData(nullptr)
 ,_reverseDirection(false)
-{}
-
-ProgressTimer* ProgressTimer::create(Sprite* sp)
 {
-    ProgressTimer *progressTimer = new (std::nothrow) ProgressTimer();
-    if (progressTimer && progressTimer->initWithSprite(sp))
-    {
-        progressTimer->autorelease();
-        return progressTimer;
-    }
-    
-    delete progressTimer;
-    return nullptr;
-}
+    assert(sp);
 
-bool ProgressTimer::initWithSprite(Sprite* sp)
-{
     setPercentage(0.0f);
     _vertexData = nullptr;
     _vertexDataCount = 0;
@@ -75,17 +60,23 @@ bool ProgressTimer::initWithSprite(Sprite* sp)
     _reverseDirection = false;
     setMidpoint(Vec2(0.5f, 0.5f));
     setBarChangeRate(Vec2(1,1));
-    setSprite(sp);
+    _sprite = std::move(sp);
+    setContentSize(_sprite->getContentSize());
 
     // shader state
-    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR, sp->getTexture()));
-    return true;
+    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR, _sprite->getTexture()));
 }
 
-ProgressTimer::~ProgressTimer(void)
+ProgressTimer* ProgressTimer::create(node_ptr<Sprite> sp)
+{
+    auto progressTimer = new ProgressTimer(std::move(sp));
+    progressTimer->autorelease();
+    return progressTimer;
+}
+
+ProgressTimer::~ProgressTimer()
 {
     CC_SAFE_FREE(_vertexData);
-    CC_SAFE_RELEASE(_sprite);
 }
 
 void ProgressTimer::setPercentage(float percentage)
@@ -95,25 +86,6 @@ void ProgressTimer::setPercentage(float percentage)
         _percentage = clampf(percentage, 0, 100);
         updateProgress();
     }
-}
-
-void ProgressTimer::setSprite(Sprite *sprite)
-{
-    if (_sprite != sprite)
-    {
-        CC_SAFE_RETAIN(sprite);
-        CC_SAFE_RELEASE(_sprite);
-        _sprite = sprite;
-        setContentSize(_sprite->getContentSize());
-
-        //    Every time we set a new sprite, we free the current vertex data
-        if (_vertexData)
-        {
-            CC_SAFE_FREE(_vertexData);
-            _vertexDataCount = 0;
-            updateProgress();
-        }
-    }        
 }
 
 void ProgressTimer::setType(Type type)
@@ -151,9 +123,6 @@ void ProgressTimer::setReverseDirection(bool reverse)
 Tex2F ProgressTimer::textureCoordFromAlphaPoint(Vec2 alpha)
 {
     Tex2F ret(0.0f, 0.0f);
-    if (!_sprite) {
-        return ret;
-    }
     V3F_C4B_T2F_Quad quad = _sprite->getQuad();
     Vec2 min(quad.bl.texCoords.u,quad.bl.texCoords.v);
     Vec2 max(quad.tr.texCoords.u,quad.tr.texCoords.v);
@@ -167,9 +136,6 @@ Tex2F ProgressTimer::textureCoordFromAlphaPoint(Vec2 alpha)
 Vec2 ProgressTimer::vertexFromAlphaPoint(Vec2 alpha)
 {
     Vec2 ret(0.0f, 0.0f);
-    if (!_sprite) {
-        return ret;
-    }
     V3F_C4B_T2F_Quad quad = _sprite->getQuad();
     Vec2 min(quad.bl.vertices.x,quad.bl.vertices.y);
     Vec2 max(quad.tr.vertices.x,quad.tr.vertices.y);
@@ -178,12 +144,8 @@ Vec2 ProgressTimer::vertexFromAlphaPoint(Vec2 alpha)
     return ret;
 }
 
-void ProgressTimer::updateColor(void)
+void ProgressTimer::updateColor()
 {
-    if (!_sprite) {
-        return;
-    }
-
     if (_vertexData)
     {
         Color4B sc = _sprite->getQuad().tl.colors;
@@ -194,7 +156,7 @@ void ProgressTimer::updateColor(void)
     }
 }
 
-void ProgressTimer::updateProgress(void)
+void ProgressTimer::updateProgress()
 {
     switch (_type)
     {
@@ -255,11 +217,8 @@ void ProgressTimer::setMidpoint(const Vec2& midPoint)
 //    It now deals with flipped texture. If you run into this problem, just use the
 //    sprite property and enable the methods flipX, flipY.
 ///
-void ProgressTimer::updateRadial(void)
+void ProgressTimer::updateRadial()
 {
-    if (!_sprite) {
-        return;
-    }
     float alpha = _percentage / 100.f;
 
     float angle = 2.f*((float)M_PI) * ( _reverseDirection ? alpha : 1.0f - alpha);
@@ -375,7 +334,6 @@ void ProgressTimer::updateRadial(void)
     //    hitpoint will go last
     _vertexData[_vertexDataCount - 1].texCoords = textureCoordFromAlphaPoint(hit);
     _vertexData[_vertexDataCount - 1].vertices = vertexFromAlphaPoint(hit);
-
 }
 
 ///
@@ -387,11 +345,8 @@ void ProgressTimer::updateRadial(void)
 //    It now deals with flipped texture. If you run into this problem, just use the
 //    sprite property and enable the methods flipX, flipY.
 ///
-void ProgressTimer::updateBar(void)
+void ProgressTimer::updateBar()
 {
-    if (!_sprite) {
-        return;
-    }
     float alpha = _percentage / 100.0f;
     Vec2 alphaOffset = Vec2(1.0f * (1.0f - _barChangeRate.x) + alpha * _barChangeRate.x, 1.0f * (1.0f - _barChangeRate.y) + alpha * _barChangeRate.y) * 0.5f;
     Vec2 min = _midpoint - alphaOffset;
@@ -532,7 +487,7 @@ void ProgressTimer::onDraw(const Mat4 &transform, uint32_t /*flags*/)
 
 void ProgressTimer::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
 {
-    if( ! _vertexData || ! _sprite)
+    if( ! _vertexData )
         return;
 
     _customCommand.init(_globalZOrder, transform, flags);

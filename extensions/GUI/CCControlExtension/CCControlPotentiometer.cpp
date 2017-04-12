@@ -1,9 +1,7 @@
 /*
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2012 Yannick Loriot. All rights reserved.
- * http://yannickloriot.com
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,81 +24,46 @@
  */
 
 #include "CCControlPotentiometer.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 namespace extension {
 
-ControlPotentiometer::ControlPotentiometer()
+ControlPotentiometer::ControlPotentiometer(const char* backgroundFile, const char* progressFile, const char* thumbFile)
 : _value(0.0f)
 , _minimumValue(0.0f)
 , _maximumValue(0.0f)
-, _thumbSprite(nullptr)
-, _progressTimer(nullptr)
+, _thumbSpriteId()
+, _progressTimerId()
 {
+    Control::init();
 
-}
+    auto trackSprite = make_node_ptr<Sprite>(backgroundFile);
+    auto progressTimer = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(progressFile));
+    auto thumbSprite = make_node_ptr<Sprite>(thumbFile);
 
-ControlPotentiometer::~ControlPotentiometer()
-{
-    CC_SAFE_RELEASE(_thumbSprite);
-    CC_SAFE_RELEASE(_progressTimer);
-}
+    thumbSprite->setPosition(progressTimer->getPosition());
+    setContentSize(trackSprite->getContentSize());
 
-ControlPotentiometer* ControlPotentiometer::create(const char* backgroundFile, const char* progressFile, const char* thumbFile)
-{
-    ControlPotentiometer* pRet = new (std::nothrow) ControlPotentiometer();
-    if (pRet != nullptr)
-    {
-        // Prepare track for potentiometer
-        Sprite *backgroundSprite      = Sprite::create(backgroundFile);
+    _thumbSpriteId   = addChild(std::move(thumbSprite), 2);
+    _progressTimerId = addChild(std::move(progressTimer), 1);
+    addChild( std::move(trackSprite) );
 
-        // Prepare thumb for potentiometer
-        Sprite *thumbSprite           = Sprite::create(thumbFile);
-
-        // Prepare progress for potentiometer
-        ProgressTimer *progressTimer  = ProgressTimer::create(Sprite::create(progressFile));
-        //progressTimer.type              = ProgressTimer::RADIALCW;
-        if (pRet->initWithTrackSprite_ProgressTimer_ThumbSprite(backgroundSprite, progressTimer, thumbSprite))
-        {
-            pRet->autorelease();
-        }
-        else
-        {
-            CC_SAFE_DELETE(pRet);
-        }
-    }
-    return pRet;
-}
-
-bool ControlPotentiometer::initWithTrackSprite_ProgressTimer_ThumbSprite(Sprite* trackSprite, ProgressTimer* progressTimer, Sprite* thumbSprite)
-{
-    if (Control::init())
-    {
-        setProgressTimer(progressTimer);
-        setThumbSprite(thumbSprite);
-        thumbSprite->setPosition(progressTimer->getPosition());
-        
-        addChild(thumbSprite, 2);
-        addChild(progressTimer, 1);
-        addChild(trackSprite);
-        
-        setContentSize(trackSprite->getContentSize());
-        
-        // Init default values
-        _minimumValue           = 0.0f;
-        _maximumValue           = 1.0f;
-        setValue(_minimumValue);
-        return true;
-    }
-    return false;
+    // Init default values
+    _minimumValue           = 0.0f;
+    _maximumValue           = 1.0f;
+    setValue(_minimumValue);
 }
 
 void ControlPotentiometer::setEnabled(bool enabled)
 {
     Control::setEnabled(enabled);
-    if (_thumbSprite != nullptr)
+
+    auto & nodeRegister = Director::getInstance()->getNodeRegister();
+
+    if (auto thumbSprite = nodeRegister.get<Sprite>(_thumbSpriteId))
     {
-        _thumbSprite->setOpacity((enabled) ? 255 : 128);
+        thumbSprite->setOpacity(enabled ? 255 : 128);
     }
 }
 
@@ -121,8 +84,17 @@ void ControlPotentiometer::setValue(float value)
     
     // Update thumb and progress position for new value
     float percent               = (value - _minimumValue) / (_maximumValue - _minimumValue);
-    _progressTimer->setPercentage(percent * 100.0f);
-    _thumbSprite->setRotation(percent * 360.0f);
+ 
+    auto & nodeRegister = Director::getInstance()->getNodeRegister();
+
+    if (auto progressTimer = nodeRegister.get<ProgressTimer>(_progressTimerId))
+    {
+        progressTimer->setPercentage(percent * 100.0f);
+    }
+    if (auto thumbSprite = nodeRegister.get<Sprite>(_thumbSpriteId))
+    {
+        thumbSprite->setRotation(percent * 360.0f);
+    }
     
     sendActionsForControlEvents(Control::EventType::VALUE_CHANGED);    
 }
@@ -168,11 +140,17 @@ float ControlPotentiometer::getMaximumValue()
 
 bool ControlPotentiometer::isTouchInside(Touch * touch)
 {
-    Vec2 touchLocation   = this->getTouchLocation(touch);
+    Vec2 touchLocation = this->getTouchLocation(touch);
     
-    float distance          = this->distanceBetweenPointAndPoint(_progressTimer->getPosition(), touchLocation);
+    auto & nodeRegister = Director::getInstance()->getNodeRegister();
 
-    return distance < MIN(getContentSize().width / 2, getContentSize().height / 2);
+    if (auto progressTimer = nodeRegister.get<ProgressTimer>(_progressTimerId))
+    {
+        float distance = distanceBetweenPointAndPoint(progressTimer->getPosition(), touchLocation);
+        return distance < std::min(getContentSize().width / 2, getContentSize().height / 2);
+    }
+
+    return false;
 }
 
 bool ControlPotentiometer::onTouchBegan(Touch *pTouch, Event* /*pEvent*/)
@@ -229,16 +207,28 @@ float ControlPotentiometer::angleInDegreesBetweenLineFromPoint_toPoint_toLineFro
 void ControlPotentiometer::potentiometerBegan(Vec2 /*location*/)
 {
     setSelected(true);
-    getThumbSprite()->setColor(Color3B::GRAY);
+
+    auto & nodeRegister = Director::getInstance()->getNodeRegister();
+
+    if (auto thumbSprite = nodeRegister.get<Sprite>(_thumbSpriteId))
+    {
+        thumbSprite->setColor(Color3B::GRAY);
+    }
 }
 
 void ControlPotentiometer::potentiometerMoved(Vec2 location)
 {
-    float angle       = this->angleInDegreesBetweenLineFromPoint_toPoint_toLineFromPoint_toPoint(
-        _progressTimer->getPosition(),
+    auto progressTimer = Director::getInstance()->getNodeRegister().get<ProgressTimer>(_progressTimerId);
+
+    if (progressTimer == nullptr)
+        return;
+
+    float angle = angleInDegreesBetweenLineFromPoint_toPoint_toLineFromPoint_toPoint(
+        progressTimer->getPosition(),
         location,
-        _progressTimer->getPosition(),
-        _previousLocation);
+        progressTimer->getPosition(),
+        _previousLocation
+    );
     
     // fix value, if the 12 o'clock position is between location and previousLocation
     if (angle > 180)
@@ -257,7 +247,13 @@ void ControlPotentiometer::potentiometerMoved(Vec2 location)
 
 void ControlPotentiometer::potentiometerEnded(Vec2 /*location*/)
 {
-    getThumbSprite()->setColor(Color3B::WHITE);
+    auto & nodeRegister = Director::getInstance()->getNodeRegister();
+
+    if (auto thumbSprite = nodeRegister.get<Sprite>(_thumbSpriteId))
+    {
+        thumbSprite->setColor(Color3B::WHITE);
+    }
+
     setSelected(false);
 }
 

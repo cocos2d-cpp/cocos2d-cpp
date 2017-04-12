@@ -2,8 +2,7 @@
 Copyright (c) 2009      Jason Booth
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -251,13 +250,7 @@ public:
      *
      * @return A Sprite.
      */
-    Sprite* getSprite() const { return _sprite; }
-    
-    /** Sets the Sprite being used. 
-     *
-     * @param sprite A Sprite.
-     */
-    void setSprite(Sprite* sprite);
+    Sprite* getSprite() const;
     
     // Overrides
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
@@ -337,7 +330,7 @@ protected:
      The blending function can be changed in runtime by calling:
      - renderTexture->getSprite()->setBlendFunc((BlendFunc){GL_ONE, GL_ONE_MINUS_SRC_ALPHA});
      */
-    Sprite* _sprite;
+    NodeId _spriteId;
     
     GroupCommand _groupCommand;
     CustomCommand _beginWithClearCommand;
