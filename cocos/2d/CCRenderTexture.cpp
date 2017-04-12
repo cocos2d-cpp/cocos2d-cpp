@@ -2,8 +2,7 @@
 Copyright (c) 2009      Jason Booth
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +57,7 @@ RenderTexture::RenderTexture()
 , _clearDepth(0.0f)
 , _clearStencil(0)
 , _autoDraw(false)
-, _sprite()
+, _spriteId()
 , _saveFileCallback(nullptr)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
@@ -74,7 +73,6 @@ RenderTexture::RenderTexture()
 
 RenderTexture::~RenderTexture()
 {
-    CC_SAFE_RELEASE(_sprite);
     CC_SAFE_RELEASE(_textureCopy);
     
     glDeleteFramebuffers(1, &_FBO);
@@ -322,14 +320,13 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
 
         _texture->setAliasTexParameters();
 
-        // retained
-        setSprite(Sprite::create(_texture));
+        auto sprite = make_node_ptr<Sprite>(_texture);
 
         _texture->release();
-        _sprite->setFlippedY(true);
+        sprite->setFlippedY(true);
 
-        _sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
-        _sprite->setOpacityModifyRGB(true);
+        sprite->setBlendFunc( BlendFunc::ALPHA_PREMULTIPLIED );
+        sprite->setOpacityModifyRGB(true);
 
         glBindRenderbuffer(GL_RENDERBUFFER, oldRBO);
         glBindFramebuffer(GL_FRAMEBUFFER, _oldFBO);
@@ -338,7 +335,7 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
         _autoDraw = false;
         
         // add sprite for backward compatibility
-        addChild(_sprite);
+        _spriteId = addChild( std::move(sprite) );
         
         ret = true;
     } while (0);
@@ -346,13 +343,6 @@ bool RenderTexture::initWithWidthAndHeight(int w, int h, Texture2D::PixelFormat 
     CC_SAFE_FREE(data);
     
     return ret;
-}
-
-void RenderTexture::setSprite(Sprite* sprite)
-{
-    CC_SAFE_RETAIN(sprite);
-    CC_SAFE_RELEASE(_sprite);
-    _sprite = sprite;
 }
 
 void RenderTexture::setKeepMatrix(bool keepMatrix)
@@ -437,6 +427,11 @@ void RenderTexture::clearStencil(int stencilValue)
     glClearStencil(stencilClearValue);
 }
 
+Sprite* RenderTexture::getSprite() const
+{
+    return Director::getInstance()->getNodeRegister().get<Sprite>(_spriteId);
+}
+
 void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags)
 {
     // override visit.
@@ -455,7 +450,9 @@ void RenderTexture::visit(Renderer *renderer, const Mat4 &parentTransform, uint3
     director->pushMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
     director->loadMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW, _modelViewTransform);
 
-    _sprite->visit(renderer, _modelViewTransform, flags);
+    assert(nullptr != getSprite());
+    getSprite()->visit(renderer, _modelViewTransform, flags);
+
     if (isVisitableByVisitingCamera())
     {
         draw(renderer, _modelViewTransform, flags);
@@ -747,9 +744,11 @@ void RenderTexture::draw(Renderer *renderer, const Mat4 &transform, uint32_t fla
         //! make sure all children are drawn
         sortAllChildren();
 
+        const auto sprite = getSprite();
+
         for(const auto & child: getChildren())
         {
-            if (static_cast<Sprite*>(child.get()) != _sprite)
+            if (static_cast<Sprite*>(child.get()) != sprite)
                 child->visit(renderer, transform, flags);
         }
 
