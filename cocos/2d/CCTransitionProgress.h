@@ -27,6 +27,7 @@ THE SOFTWARE.
 #ifndef __CCTRANSITIONPROGRESS_H__
 #define __CCTRANSITIONPROGRESS_H__
 
+#include "2d/CCSprite.h"
 #include "2d/CCTransition.h"
 
 namespace cocos2d {
@@ -55,7 +56,7 @@ protected:
     virtual void sceneOrder() override;
 
 protected:
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) = 0;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) = 0;
     virtual void setupTransition();
 
 protected:
@@ -91,7 +92,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
   
 };
 
@@ -122,7 +123,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
 
 };
 
@@ -152,7 +153,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
 };
 
 /** @class TransitionProgressVertical
@@ -180,7 +181,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
 };
 
 /** @class TransitionProgressInOut
@@ -208,7 +209,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
     virtual void sceneOrder() override;
     virtual void setupTransition() override;
 };
@@ -238,7 +239,7 @@ protected:
     //
     // Overrides
     //
-    virtual node_ptr<ProgressTimer> createProgressTimerNodeWithRenderTexture(RenderTexture* texture) override;
+    virtual node_ptr<ProgressTimer> makeProgressTimerNodeWithSprite(node_ptr<Sprite> sprite) override;
 
 };
 

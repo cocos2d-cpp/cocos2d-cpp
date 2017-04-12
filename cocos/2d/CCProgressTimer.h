@@ -2,8 +2,7 @@
 Copyright (c) 2010      Lam Pham
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +46,9 @@ class Sprite;
 class CC_DLL ProgressTimer : public Node
 {
 public:
+    explicit ProgressTimer(node_ptr<Sprite> sp);
+    virtual ~ProgressTimer();
+    
     /** Types of progress
      * @since v0.99.1
      */
@@ -61,7 +63,7 @@ public:
      * @param sp The sprite as the shape the timer goes through.
      * @return A ProgressTimer.
      */
-    static ProgressTimer* create(Sprite* sp);
+    static ProgressTimer* create(node_ptr<Sprite> sp);
 
     /** Change the percentage to change progress. 
      *
@@ -79,19 +81,13 @@ public:
      *
      * @return A sprite.
      */
-    Sprite* getSprite() const { return _sprite; }
+    Sprite* getSprite() const { return _sprite.get(); }
     
     /** Set the initial percentage values. 
      *
      * @param percentage The initial percentage values.
      */
     void setPercentage(float percentage);
-    
-    /** Set the sprite as the shape. 
-     *
-     * @param sprite The sprite as the shape.
-     */
-    void setSprite(Sprite *sprite);
     
     /** Set the ProgressTimer type. 
      *
@@ -154,28 +150,21 @@ public:
     virtual GLubyte getOpacity() const override;
     
 protected:
-    ProgressTimer();
-    virtual ~ProgressTimer();
-    
-    /** Initializes a progress timer with the sprite as the shape the timer goes through */
-    bool initWithSprite(Sprite* sp);
-    
-protected:
     void onDraw(const Mat4 &transform, uint32_t flags);
     
     Tex2F textureCoordFromAlphaPoint(Vec2 alpha);
     Vec2 vertexFromAlphaPoint(Vec2 alpha);
-    void updateProgress(void);
-    void updateBar(void);
-    void updateRadial(void);
-    virtual void updateColor(void) override;
+    void updateProgress();
+    void updateBar();
+    void updateRadial();
+    virtual void updateColor() override;
     Vec2 boundaryTexCoord(char index);
 
     Type _type;
     Vec2 _midpoint;
     Vec2 _barChangeRate;
     float _percentage;
-    Sprite *_sprite;
+    node_ptr<Sprite> _sprite;
     int _vertexDataCount;
     V2F_C4B_T2F *_vertexData;
     
