@@ -1183,20 +1183,22 @@ void TransitionFade :: onEnter()
 {
     TransitionScene::onEnter();
 
-    LayerColor* l = LayerColor::create(_color);
     _inScene->setVisible(false);
 
-    addChild(l, 2, kSceneFade);
+    addChild(make_node_ptr<LayerColor>(_color), 2, kSceneFade);
+
     Node* f = getChildByTag(kSceneFade);
 
-    auto a = std::make_unique<Sequence>
+    f->runAction
+    (
+        std::make_unique<Sequence>
         (
             std::make_unique<FadeIn>(_duration / 2),
             std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this)),
             std::make_unique<FadeOut>(_duration / 2),
             std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
-        );
-    f->runAction( std::move( a));
+        )
+    );
 }
 
 void TransitionFade::onExit()
@@ -1236,19 +1238,10 @@ void TransitionCrossFade::onEnter()
 {
     TransitionScene::onEnter();
 
-    // create a transparent color layer
-    // in which we are going to add our rendertextures
-    Color4B  color(0,0,0,0);
     Size size = Director::getInstance()->getWinSize();
-    LayerColor* layer = LayerColor::create(color);
 
     // create the first render texture for inScene
-    RenderTexture* inTexture = RenderTexture::create((int)size.width, (int)size.height,Texture2D::PixelFormat::RGBA8888,GL_DEPTH24_STENCIL8);
-
-    if (nullptr == inTexture)
-    {
-        return;
-    }
+    auto inTexture = make_node_ptr<RenderTexture>((int)size.width, (int)size.height,Texture2D::PixelFormat::RGBA8888,GL_DEPTH24_STENCIL8);
 
     inTexture->getSprite()->setAnchorPoint( Vec2(0.5f,0.5f) );
     inTexture->setPosition(size.width/2, size.height/2);
@@ -1260,7 +1253,7 @@ void TransitionCrossFade::onEnter()
     inTexture->end();
 
     // create the second render texture for outScene
-    RenderTexture* outTexture = RenderTexture::create((int)size.width, (int)size.height,Texture2D::PixelFormat::RGBA8888,GL_DEPTH24_STENCIL8);
+    auto outTexture = make_node_ptr<RenderTexture>((int)size.width, (int)size.height,Texture2D::PixelFormat::RGBA8888,GL_DEPTH24_STENCIL8);
     outTexture->getSprite()->setAnchorPoint( Vec2(0.5f,0.5f) );
     outTexture->setPosition(size.width/2, size.height/2);
     outTexture->setAnchorPoint( Vec2(0.5f,0.5f) );
@@ -1279,28 +1272,32 @@ void TransitionCrossFade::onEnter()
     inTexture->getSprite()->setBlendFunc(blend1);
     outTexture->getSprite()->setBlendFunc(blend2);    
 
-    // add render textures to the layer
-    layer->addChild(inTexture);
-    layer->addChild(outTexture);
-
     // initial opacity:
     inTexture->getSprite()->setOpacity(255);
     outTexture->getSprite()->setOpacity(255);
 
-    // create the blend action
-    auto layerAction = std::make_unique<Sequence>
+    // run the blend action
+    outTexture->getSprite()->runAction
     (
-        std::make_unique<FadeTo>(_duration, 0),
-        std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this)),
-        std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
+        std::make_unique<Sequence>
+        (
+            std::make_unique<FadeTo>(_duration, 0),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::hideOutShowIn,this)),
+            std::make_unique<CallFunc>(CC_CALLBACK_0(TransitionScene::finish,this))
+        )
     );
 
+    // create a transparent color layer
+    // in which we are going to add our rendertextures
+    Color4B  color(0,0,0,0);
+    auto layer = make_node_ptr<LayerColor>(color);
 
-    // run the blend action
-    outTexture->getSprite()->runAction( std::move( layerAction));
+    // add render textures to the layer
+    layer->addChild( std::move(inTexture) );
+    layer->addChild( std::move(outTexture) );
 
     // add the layer (which contains our two rendertextures) to the scene
-    addChild(layer, 2, kSceneFade);
+    addChild(std::move(layer), 2, kSceneFade);
 }
 
 // clean up on exit
