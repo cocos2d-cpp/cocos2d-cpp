@@ -114,16 +114,21 @@ public:
     virtual void nativeCloseKeyboard() = 0;
     virtual void setNativeMaxLength(int /*maxLength*/) {}
 
+private:
+    Label* getLabel() const;
+    Label* getLabelPlaceHolder() const;
 
 private:
+
     void         initInactiveLabels(const Size& size);
     void         setInactiveText(const char* pText);
     void         refreshLabelAlignment();
     void         placeInactiveLabels();
     virtual void doAnimationWhenKeyboardMove(float /*duration*/, float /*distance*/) override {}
 
-    Label* _label;
-    Label* _labelPlaceHolder;
+    NodeId _labelId;
+    NodeId _labelPlaceHolderId;
+
     EditBox::InputMode    _editBoxInputMode;
     EditBox::InputFlag    _editBoxInputFlag;
     EditBox::KeyboardReturnType  _keyboardReturnType;

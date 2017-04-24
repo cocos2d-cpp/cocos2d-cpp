@@ -54,8 +54,16 @@ Mat4::~Mat4()
 
 void Mat4::createLookAt(const Vec3& eyePosition, const Vec3& targetPosition, const Vec3& up, Mat4* dst)
 {
-    createLookAt(eyePosition.x, eyePosition.y, eyePosition.z, targetPosition.x, targetPosition.y, targetPosition.z,
-                 up.x, up.y, up.z, dst);
+    createLookAt(eyePosition.x,
+                 eyePosition.y,
+                 eyePosition.z,
+                 targetPosition.x,
+                 targetPosition.y,
+                 targetPosition.z,
+                 up.x,
+                 up.y,
+                 up.z,
+                 dst);
 }
 
 void Mat4::createLookAt(float eyePositionX, float eyePositionY, float eyePositionZ,
@@ -201,25 +209,6 @@ void Mat4::createBillboardHelper(const Vec3& objectPosition, const Vec3& cameraP
     }
 }
     
-// void Mat4::createReflection(const Plane& plane, Mat4* dst)
-// {
-//     Vec3 normal(plane.getNormal());
-//     float k = -2.0f * plane.getDistance();
-
-//     dst->setIdentity();
-
-//     dst->m[0] -= 2.0f * normal.x * normal.x;
-//     dst->m[5] -= 2.0f * normal.y * normal.y;
-//     dst->m[10] -= 2.0f * normal.z * normal.z;
-//     dst->m[1] = dst->m[4] = -2.0f * normal.x * normal.y;
-//     dst->m[2] = dst->m[8] = -2.0f * normal.x * normal.z;
-//     dst->m[6] = dst->m[9] = -2.0f * normal.y * normal.z;
-    
-//     dst->m[3] = k * normal.x;
-//     dst->m[7] = k * normal.y;
-//     dst->m[11] = k * normal.z;
-// }
-
 void Mat4::createScale(const Vec3& scale, Mat4* dst)
 {
     CCASSERT(dst, "");

@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "base/CCTouch.h"
+#include "base/CCDirector.h"
 #include "ui/UIScale9Sprite.h"
 #include "ui/UIHelper.h"
 
@@ -37,6 +38,21 @@ namespace ui {
 static const int BASEBAR_RENDERER_Z = (-2);
 static const int PROGRESSBAR_RENDERER_Z = (-2);
 static const int SLIDBALL_RENDERER_Z = (-1);
+
+static inline Sprite* getSlidBallSprite(NodeId nodeId)
+{
+    auto & nodes = Director::getInstance()->getNodeRegister();
+    auto slidBallSprite = nodes.get<Sprite>(nodeId);
+
+    assert(slidBallSprite != nullptr);
+
+    if (slidBallSprite == nullptr)
+    {
+        throw std::runtime_error("No sprite for slidBall id");
+    }
+
+    return slidBallSprite;
+}
     
 IMPLEMENT_CLASS_GUI_INFO(Slider)
     
@@ -45,9 +61,9 @@ _barRenderer(nullptr),
 _progressBarRenderer(nullptr),
 _barTextureSize(Size::ZERO),
 _progressBarTextureSize(Size::ZERO),
-_slidBallNormalRenderer(nullptr),
-_slidBallPressedRenderer(nullptr),
-_slidBallDisabledRenderer(nullptr),
+_slidBallNormalRendererId(),
+_slidBallPressedRendererId(),
+_slidBallDisabledRendererId(),
 _slidBallRenderer(nullptr),
 _barLength(0.0),
 _percent(0),
@@ -76,7 +92,18 @@ _slidBallNormalTextureFile(""),
 _slidBallPressedTextureFile(""),
 _slidBallDisabledTextureFile("")
 {
+    Widget::init();
     setTouchEnabled(true);
+}
+
+Slider::Slider(const std::string& barTextureFileName,
+               const std::string& normalBallTextureFileName,
+               TextureResType resType)
+    : Slider()
+{
+    Widget::init();
+    loadBarTexture(barTextureFileName, resType);
+    loadSlidBallTextureNormal(normalBallTextureFileName, resType);
 }
 
 Slider::~Slider()
@@ -86,39 +113,18 @@ Slider::~Slider()
 
 Slider* Slider::create()
 {
-    Slider* widget = new (std::nothrow) Slider();
-    if (widget && widget->init())
-    {
-        widget->autorelease();
-        return widget;
-    }
-    CC_SAFE_DELETE(widget);
-    return nullptr;
+    Slider* slider = new Slider();
+    slider->autorelease();
+    return slider;
 }
     
-Slider* Slider::create(const std::string& barTextureName,
-                      const std::string& normalBallTextureName,
-                      TextureResType resType)
+Slider* Slider::create(const std::string& barTextureFileName,
+                       const std::string& normalBallTextureFileName,
+                       TextureResType resType)
 {
-    Slider* widget = new (std::nothrow) Slider();
-    if (widget && widget->init())
-    {
-        widget->loadBarTexture(barTextureName, resType);
-        widget->loadSlidBallTextureNormal(normalBallTextureName, resType);
-        widget->autorelease();
-        return widget;
-    }
-    CC_SAFE_DELETE(widget);
-    return nullptr;
-}
-
-bool Slider::init()
-{
-    if (Widget::init())
-    {
-        return true;
-    }
-    return false;
+    Slider* slider = new Slider(barTextureFileName, normalBallTextureFileName, resType);
+    slider->autorelease();
+    return slider;
 }
 
 void Slider::initRenderer()
@@ -133,17 +139,18 @@ void Slider::initRenderer()
     addProtectedChild(_barRenderer, BASEBAR_RENDERER_Z, -1);
     addProtectedChild(_progressBarRenderer, PROGRESSBAR_RENDERER_Z, -1);
     
-    _slidBallNormalRenderer = Sprite::create();
-    _slidBallPressedRenderer = Sprite::create();
-    _slidBallPressedRenderer->setVisible(false);
-    _slidBallDisabledRenderer = Sprite::create();
-    _slidBallDisabledRenderer->setVisible(false);
-    
     _slidBallRenderer = Node::create();
+
+    auto slidBallPressed = make_node_ptr<Sprite>();
+    slidBallPressed->setVisible(false);
+    _slidBallPressedRendererId = _slidBallRenderer->addChild( std::move(slidBallPressed) );
+
+    _slidBallNormalRendererId = _slidBallRenderer->addChild( make_node_ptr<Sprite>() );
+
+    auto slidBallDisabled = make_node_ptr<Sprite>();
+    slidBallDisabled->setVisible(false);
+    _slidBallDisabledRendererId = _slidBallRenderer->addChild( std::move(slidBallDisabled) );
     
-    _slidBallRenderer->addChild(_slidBallNormalRenderer);
-    _slidBallRenderer->addChild(_slidBallPressedRenderer);
-    _slidBallRenderer->addChild(_slidBallDisabledRenderer);
     _slidBallRenderer->setCascadeColorEnabled(true);
     _slidBallRenderer->setCascadeOpacityEnabled(true);
     
@@ -315,29 +322,32 @@ const Rect& Slider::getCapInsetsProgressBarRenderer()const
 }
 
 void Slider::loadSlidBallTextures(const std::string& normal,
-                                      const std::string& pressed,
-                                      const std::string& disabled,
-                                      TextureResType texType)
+                                  const std::string& pressed,
+                                  const std::string& disabled,
+                                  TextureResType texType)
 {
     loadSlidBallTextureNormal(normal, texType);
     loadSlidBallTexturePressed(pressed,texType);
     loadSlidBallTextureDisabled(disabled,texType);
 }
 
-void Slider::loadSlidBallTextureNormal(const std::string& normal,TextureResType texType)
+void Slider::loadSlidBallTextureNormal(const std::string& normal, TextureResType texType)
 {
     _slidBallNormalTextureFile = normal;
     _ballNTexType = texType;
+
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
+
     if ( ! normal.empty())
     {
         switch (_ballNTexType)
         {
         case TextureResType::LOCAL:
-            _slidBallNormalRenderer->setTexture(normal);
+            slidBallNormal->setTexture(_slidBallNormalTextureFile);
             break;
         case TextureResType::PLIST:
-            _slidBallNormalRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(normal)
+            slidBallNormal->setSpriteFrame(
+                SpriteFrameCache::getInstance()->getSpriteFrameByName(_slidBallNormalTextureFile)
             );
             break;
         default:
@@ -348,7 +358,8 @@ void Slider::loadSlidBallTextureNormal(const std::string& normal,TextureResType 
 }
 void Slider::loadSlidBallTextureNormal(SpriteFrame* spriteframe)
 {
-    _slidBallNormalRenderer->setSpriteFrame(spriteframe);
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
+    slidBallNormal->setSpriteFrame(spriteframe);
     this->updateChildrenDisplayedRGBA();
 }
 
@@ -357,15 +368,18 @@ void Slider::loadSlidBallTexturePressed(const std::string& pressed,TextureResTyp
     _slidBallPressedTextureFile = pressed;
     _isSliderBallPressedTextureLoaded = !pressed.empty();
     _ballPTexType = texType;
-    if ( ! pressed.empty())
+
+    auto slidBallPressed = getSlidBallSprite(_slidBallPressedRendererId);
+
+    if (! pressed.empty())
     {
         switch (_ballPTexType)
         {
         case TextureResType::LOCAL:
-            _slidBallPressedRenderer->setTexture(pressed);
+            slidBallPressed->setTexture(pressed);
             break;
         case TextureResType::PLIST:
-            _slidBallPressedRenderer->setSpriteFrame(
+            slidBallPressed->setSpriteFrame(
                 SpriteFrameCache::getInstance()->getSpriteFrameByName(pressed)
             );
             break;
@@ -373,13 +387,15 @@ void Slider::loadSlidBallTexturePressed(const std::string& pressed,TextureResTyp
             break;
         }
     }
+
     this->updateChildrenDisplayedRGBA();
 }
 
 
 void Slider::loadSlidBallTexturePressed(SpriteFrame* spriteframe)
 {
-    _slidBallPressedRenderer->setSpriteFrame(spriteframe);
+    auto slidBallPressed = getSlidBallSprite(_slidBallPressedRendererId);
+    slidBallPressed->setSpriteFrame(spriteframe);
     this->updateChildrenDisplayedRGBA();
 }
 
@@ -388,15 +404,18 @@ void Slider::loadSlidBallTextureDisabled(const std::string& disabled,TextureResT
     _slidBallDisabledTextureFile = disabled;
     _isSliderBallDisabledTexturedLoaded = !disabled.empty();
     _ballDTexType = texType;
-    if ( ! disabled.empty())
+
+    auto slidBallDisabled = getSlidBallSprite(_slidBallDisabledRendererId);
+
+    if (! disabled.empty())
     {
         switch (_ballDTexType)
         {
         case TextureResType::LOCAL:
-            _slidBallDisabledRenderer->setTexture(disabled);
+            slidBallDisabled->setTexture(disabled);
             break;
         case TextureResType::PLIST:
-            _slidBallDisabledRenderer->setSpriteFrame(
+            slidBallDisabled->setSpriteFrame(
                 SpriteFrameCache::getInstance()->getSpriteFrameByName(disabled)
             );
             break;
@@ -409,7 +428,8 @@ void Slider::loadSlidBallTextureDisabled(const std::string& disabled,TextureResT
 
 void Slider::loadSlidBallTextureDisabled(SpriteFrame* spriteframe)
 {
-    _slidBallDisabledRenderer->setSpriteFrame(spriteframe);
+    auto slidBallDisabled = getSlidBallSprite(_slidBallDisabledRendererId);
+    slidBallDisabled->setSpriteFrame(spriteframe);
     this->updateChildrenDisplayedRGBA();
 }
 
@@ -455,9 +475,11 @@ void Slider::setPercent(int percent)
     
 bool Slider::hitTest(const cocos2d::Vec2 &pt, const Camera *camera, Vec3* /*p*/) const
 {
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
+
     Rect rect;
-    rect.size = _slidBallNormalRenderer->getContentSize();
-    auto w2l = _slidBallNormalRenderer->getWorldToNodeTransform();
+    rect.size = slidBallNormal->getContentSize();
+    auto w2l = slidBallNormal->getWorldToNodeTransform();
 
     Rect sliderBarRect;
     sliderBarRect.size = this->_barRenderer->getContentSize();
@@ -644,48 +666,52 @@ void Slider::progressBarRendererScaleChangedWithSize()
 
 void Slider::onPressStateChangedToNormal()
 {
-    _slidBallNormalRenderer->setVisible(true);
-    _slidBallPressedRenderer->setVisible(false);
-    _slidBallDisabledRenderer->setVisible(false);
-    
-    _slidBallNormalRenderer->setGLProgramState(this->getNormalGLProgramState(_slidBallNormalRenderer->getTexture()));
-    _slidBallNormalRenderer->setScale(_sliderBallNormalTextureScaleX, _sliderBallNormalTextureScaleY);
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
+
+    slidBallNormal->setVisible(true);
+    getSlidBallSprite(_slidBallPressedRendererId )->setVisible(false);
+    getSlidBallSprite(_slidBallDisabledRendererId)->setVisible(false);
+
+    slidBallNormal->setGLProgramState(this->getNormalGLProgramState(slidBallNormal->getTexture()));
+    slidBallNormal->setScale(_sliderBallNormalTextureScaleX, _sliderBallNormalTextureScaleY);
 }
 
 void Slider::onPressStateChangedToPressed()
 {
-    _slidBallNormalRenderer->setGLProgramState(this->getNormalGLProgramState(_slidBallNormalRenderer->getTexture()));
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
 
+    slidBallNormal->setGLProgramState(this->getNormalGLProgramState(slidBallNormal->getTexture()));
     
     if (!_isSliderBallPressedTextureLoaded)
     {
-        _slidBallNormalRenderer->setScale(_sliderBallNormalTextureScaleX + _zoomScale,
-                                          _sliderBallNormalTextureScaleY + _zoomScale);
+        slidBallNormal->setScale(_sliderBallNormalTextureScaleX + _zoomScale,
+                                 _sliderBallNormalTextureScaleY + _zoomScale);
     }
     else
     {
-        _slidBallNormalRenderer->setVisible(false);
-        _slidBallPressedRenderer->setVisible(true);
-        _slidBallDisabledRenderer->setVisible(false);
+        slidBallNormal->setVisible(false);
+        getSlidBallSprite(_slidBallPressedRendererId)->setVisible(true);
+        getSlidBallSprite(_slidBallDisabledRendererId)->setVisible(false);
     }
 }
 
 void Slider::onPressStateChangedToDisabled()
 {
+    auto slidBallNormal = getSlidBallSprite(_slidBallNormalRendererId);
+
     if (!_isSliderBallDisabledTexturedLoaded)
     {
-        _slidBallNormalRenderer->setGLProgramState(this->getGrayGLProgramState(_slidBallNormalRenderer->getTexture()));
-        _slidBallNormalRenderer->setVisible(true);
+        slidBallNormal->setGLProgramState(this->getGrayGLProgramState(slidBallNormal->getTexture()));
+        slidBallNormal->setVisible(true);
     }
     else
     {
-        _slidBallNormalRenderer->setVisible(false);
-        _slidBallDisabledRenderer->setVisible(true);
+        slidBallNormal->setVisible(false);
+        getSlidBallSprite(_slidBallDisabledRendererId)->setVisible(true);
     }
     
-    _slidBallNormalRenderer->setScale(_sliderBallNormalTextureScaleX, _sliderBallNormalTextureScaleY);
-    
-    _slidBallPressedRenderer->setVisible(false);
+    slidBallNormal->setScale(_sliderBallNormalTextureScaleX, _sliderBallNormalTextureScaleY);
+    getSlidBallSprite(_slidBallPressedRendererId)->setVisible(false);
 }
     
     
@@ -713,6 +739,7 @@ Widget* Slider::createCloneInstance() const
 void Slider::copySpecialProperties(const Widget *widget)
 {
     auto slider = dynamic_cast<const Slider*>(widget);
+
     if (slider)
     {
         _prevIgnoreSize = slider->_prevIgnoreSize;
@@ -727,9 +754,16 @@ void Slider::copySpecialProperties(const Widget *widget)
         {
             loadProgressBarTexture(progressSprite->getSpriteFrame());
         }
-        loadSlidBallTextureNormal(slider->_slidBallNormalRenderer->getSpriteFrame());
-        loadSlidBallTexturePressed(slider->_slidBallPressedRenderer->getSpriteFrame());
-        loadSlidBallTextureDisabled(slider->_slidBallDisabledRenderer->getSpriteFrame());
+
+        loadSlidBallTextureNormal(
+            getSlidBallSprite(slider->_slidBallNormalRendererId)->getSpriteFrame()
+        );
+        loadSlidBallTexturePressed(
+            getSlidBallSprite(slider->_slidBallPressedRendererId)->getSpriteFrame()
+        );
+        loadSlidBallTextureDisabled(
+            getSlidBallSprite(slider->_slidBallDisabledRendererId)->getSpriteFrame()
+        );
         setPercent(slider->getPercent());
         setMaxPercent(slider->getMaxPercent());
         _isSliderBallPressedTextureLoaded = slider->_isSliderBallPressedTextureLoaded;
@@ -738,22 +772,6 @@ void Slider::copySpecialProperties(const Widget *widget)
         _eventCallback = slider->_eventCallback;
         _ccEventCallback = slider->_ccEventCallback;
     }
-}
-
-Sprite* Slider::getSlidBallNormalRenderer() const {
-    return _slidBallNormalRenderer;
-}
-
-Sprite* Slider::getSlidBallPressedRenderer() const {
-    return _slidBallPressedRenderer;
-}
-
-Sprite* Slider::getSlidBallDisabledRenderer() const {
-    return _slidBallDisabledRenderer;
-}
-
-Node* Slider::getSlidBallRenderer() const {
-    return _slidBallRenderer;
 }
 
 }

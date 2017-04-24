@@ -46,8 +46,8 @@ namespace ui {
 
 EditBoxImplCommon::EditBoxImplCommon(EditBox* pEditText)
 : EditBoxImpl(pEditText)
-, _label(nullptr)
-, _labelPlaceHolder(nullptr)
+, _labelId()
+, _labelPlaceHolderId()
 , _editBoxInputMode(EditBox::InputMode::SINGLE_LINE)
 , _editBoxInputFlag(EditBox::InputFlag::INITIAL_CAPS_ALL_CHARACTERS)
 , _keyboardReturnType(EditBox::KeyboardReturnType::DEFAULT)
@@ -62,6 +62,30 @@ EditBoxImplCommon::~EditBoxImplCommon()
 {
 }
 
+
+Label* EditBoxImplCommon::getLabel() const
+{
+    auto label = Director::getInstance()->getNodeRegister().get<Label>(_labelId);
+
+    if (label == nullptr)
+    {
+        throw std::runtime_error("EditBoxImplCommon: label cannot be found");
+    }
+
+    return label;
+}
+
+Label* EditBoxImplCommon::getLabelPlaceHolder() const
+{
+    auto labelPlaceHolder = Director::getInstance()->getNodeRegister().get<Label>(_labelPlaceHolderId);
+
+    if (labelPlaceHolder == nullptr)
+    {
+        throw std::runtime_error("EditBoxImplCommon: label cannot be found");
+    }
+
+    return labelPlaceHolder;
+}
 
 bool EditBoxImplCommon::initWithSize(const Size& size)
 {
@@ -85,16 +109,18 @@ void EditBoxImplCommon::initInactiveLabels(const Size& size)
 {
     const char* pDefaultFontName = this->getNativeDefaultFontName();
 
-    _label = Label::create();
-    _label->setAnchorPoint(Vec2(0, 0.5f));
-    _label->setColor(Color3B::WHITE);
-    _label->setVisible(false);
-    _editBox->addChild(_label, kLabelZOrder);
+    auto label = make_node_ptr<Label>();
+    label->setAnchorPoint(Vec2(0, 0.5f));
+    label->setColor(Color3B::WHITE);
+    label->setVisible(false);
+
+    _labelId = _editBox->addChild( std::move(label), kLabelZOrder);
     
-    _labelPlaceHolder = Label::create();
-    _labelPlaceHolder->setAnchorPoint(Vec2(0, 0.5f));
-    _labelPlaceHolder->setColor(Color3B::GRAY);
-    _editBox->addChild(_labelPlaceHolder, kLabelZOrder);
+    auto labelPlaceHolder = make_node_ptr<Label>();
+    labelPlaceHolder->setAnchorPoint(Vec2(0, 0.5f));
+    labelPlaceHolder->setColor(Color3B::GRAY);
+
+    _labelPlaceHolderId = _editBox->addChild( std::move(labelPlaceHolder), kLabelZOrder);
     
     setFont(pDefaultFontName, size.height*2/3);
     setPlaceholderFont(pDefaultFontName, size.height*2/3);
@@ -102,8 +128,8 @@ void EditBoxImplCommon::initInactiveLabels(const Size& size)
 
 void EditBoxImplCommon::placeInactiveLabels()
 {
-    _label->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
-    _labelPlaceHolder->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
+    getLabel()->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
+    getLabelPlaceHolder()->setPosition(CC_EDIT_BOX_PADDING, _contentSize.height / 2.0f);
     refreshLabelAlignment();
 }
 
@@ -114,33 +140,33 @@ void EditBoxImplCommon::setInactiveText(const char* pText)
         std::string passwordString;
         for(size_t i = 0; i < strlen(pText); ++i)
             passwordString.append(PASSWORD_CHAR);
-        _label->setString(passwordString);
+        getLabel()->setString(passwordString);
     }
     else
     {
-        _label->setString(pText);
+        getLabel()->setString(pText);
     }
     // Clip the text width to fit to the text box
     float fMaxWidth = _editBox->getContentSize().width;
     float fMaxHeight = _editBox->getContentSize().height;
-    Size labelSize = _label->getContentSize();
+    Size labelSize = getLabel()->getContentSize();
     if(labelSize.width > fMaxWidth || labelSize.height > fMaxHeight)
     {
-        _label->setDimensions(fMaxWidth, fMaxHeight);
+        getLabel()->setDimensions(fMaxWidth, fMaxHeight);
     }
 }
     
 void EditBoxImplCommon::setFont(const char* pFontName, int fontSize)
 {
-    this->setNativeFont(pFontName, fontSize * _label->getNodeToWorldAffineTransform().a);
+    this->setNativeFont(pFontName, fontSize * getLabel()->getNodeToWorldAffineTransform().a);
 
     if(strlen(pFontName) > 0)
     {
-        _label->setSystemFontName(pFontName);
+        getLabel()->setSystemFontName(pFontName);
     }
     if(fontSize > 0)
     {
-        _label->setSystemFontSize(fontSize);
+        getLabel()->setSystemFontSize(fontSize);
     }
 }
 
@@ -148,20 +174,20 @@ void EditBoxImplCommon::setFontColor(const Color4B& color)
 {
     this->setNativeFontColor(color);
     
-    _label->setTextColor(color);
+    getLabel()->setTextColor(color);
 }
 
 void EditBoxImplCommon::setPlaceholderFont(const char* pFontName, int fontSize)
 {
-    this->setNativePlaceholderFont(pFontName, fontSize * _labelPlaceHolder->getNodeToWorldAffineTransform().a);
+    this->setNativePlaceholderFont(pFontName, fontSize * getLabelPlaceHolder()->getNodeToWorldAffineTransform().a);
     
     if( strlen(pFontName) > 0)
     {
-        _labelPlaceHolder->setSystemFontName(pFontName);
+        getLabelPlaceHolder()->setSystemFontName(pFontName);
     }
     if(fontSize > 0)
     {
-        _labelPlaceHolder->setSystemFontSize(fontSize);
+        getLabelPlaceHolder()->setSystemFontSize(fontSize);
     }
 }
     
@@ -169,7 +195,7 @@ void EditBoxImplCommon::setPlaceholderFontColor(const Color4B &color)
 {
     this->setNativePlaceholderFontColor(color);
     
-    _labelPlaceHolder->setTextColor(color);
+    getLabelPlaceHolder()->setTextColor(color);
 }
 
 void EditBoxImplCommon::setInputMode(EditBox::InputMode inputMode)
@@ -215,23 +241,23 @@ void EditBoxImplCommon::refreshInactiveText()
 
     if(_text.size() == 0)
     {
-        _label->setVisible(false);
-        _labelPlaceHolder->setVisible(true);
+        getLabel()->setVisible(false);
+        getLabelPlaceHolder()->setVisible(true);
     }
     else
     {
-        _label->setVisible(true);
-        _labelPlaceHolder->setVisible(false);
+        getLabel()->setVisible(true);
+        getLabelPlaceHolder()->setVisible(false);
     }
 }
 
 void EditBoxImplCommon::refreshLabelAlignment()
 {
-    _label->setWidth(_contentSize.width);
-    _labelPlaceHolder->setWidth(_contentSize.width);
+    getLabel()->setWidth(_contentSize.width);
+    getLabelPlaceHolder()->setWidth(_contentSize.width);
 
-    _label->setHorizontalAlignment(_alignment);
-    _labelPlaceHolder->setHorizontalAlignment(_alignment);
+    getLabel()->setHorizontalAlignment(_alignment);
+    getLabelPlaceHolder()->setHorizontalAlignment(_alignment);
 }
 
 void EditBoxImplCommon::setText(const char* text)
@@ -251,7 +277,7 @@ void EditBoxImplCommon::setPlaceHolder(const char* pText)
     if (pText != NULL)
     {
         _placeHolder = pText;
-        _labelPlaceHolder->setString(_placeHolder);
+        getLabelPlaceHolder()->setString(_placeHolder);
 
         this->setNativePlaceHolder(pText);
     }
@@ -264,8 +290,8 @@ void EditBoxImplCommon::setVisible(bool visible)
         refreshInactiveText();
     } else {
         this->setNativeVisible(visible);
-        _label->setVisible(visible);
-        _labelPlaceHolder->setVisible(visible);
+        getLabel()->setVisible(visible);
+        getLabelPlaceHolder()->setVisible(visible);
     }
 }
 
@@ -295,8 +321,8 @@ void EditBoxImplCommon::onEnter(void)
 
 void EditBoxImplCommon::openKeyboard()
 {
-    _label->setVisible(false);
-    _labelPlaceHolder->setVisible(false);
+    getLabel()->setVisible(false);
+    getLabelPlaceHolder()->setVisible(false);
 
     this->setNativeVisible(true);
     this->nativeOpenKeyboard();
