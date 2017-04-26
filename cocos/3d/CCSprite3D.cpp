@@ -355,9 +355,10 @@ bool Sprite3D::initFrom(const NodeDatas& nodeDatas, const MeshDatas& meshdatas, 
     return true;
 }
 
-Sprite3D* Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& materialdatas)
+node_ptr<Sprite3D> Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& materialdatas)
 {
     auto sprite = new (std::nothrow) Sprite3D();
+
     if (sprite)
     {
         sprite->setName(nodedata->id);
@@ -431,21 +432,20 @@ Sprite3D* Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,c
         sprite->autorelease();
         sprite->genMaterial();
     }
-    return   sprite;
+
+    return to_node_ptr(sprite);
 }
+
 void Sprite3D::createAttachSprite3DNode(NodeData* nodedata, const MaterialDatas& materialdatas)
 {
     for(const auto& it : nodedata->modelNodeDatas)
     {
         if(it && getAttachNode(nodedata->id))
         {
-            auto sprite = createSprite3DNode(nodedata,it,materialdatas);
-            if (sprite)
-            {
-                getAttachNode(nodedata->id)->addChild(sprite);
-            } 
+            getAttachNode(nodedata->id)->addChild(createSprite3DNode(nodedata, it, materialdatas));
         }
     }
+
     for(const auto& it : nodedata->children)
     {
         createAttachSprite3DNode(it,materialdatas);
@@ -602,14 +602,14 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
             else
             {
                 auto sprite = createSprite3DNode(nodedata,it,materialdatas);
+                node = sprite.get();
                 if (sprite)
                 {
                     if(root)
                     {
-                        root->addChild(sprite);
+                        root->addChild( std::move(sprite) );
                     } 
                 }
-                node=sprite;
             } 
         }
     }
@@ -677,18 +677,21 @@ void Sprite3D::setTexture(Texture2D* texture)
 AttachNode* Sprite3D::getAttachNode(const std::string& boneName)
 {
     auto it = _attachments.find(boneName);
+
     if (it != _attachments.end())
-        return it->second;
-    
+    {
+        return Director::getInstance()->getNodeRegister().get<AttachNode>(it->second);
+    }
+
     if (_skeleton)
     {
         auto bone = _skeleton->getBoneByName(boneName);
         if (bone)
         {
-            auto attachNode = AttachNode::create(bone);
-            addChild(attachNode);
-            _attachments[boneName] = attachNode;
-            return attachNode;
+            auto attachNode = make_node_ptr<AttachNode>(bone);
+            auto rv = attachNode.get();
+            _attachments[boneName] = addChild( std::move(attachNode) );
+            return rv;
         }
     }
     
@@ -698,6 +701,7 @@ AttachNode* Sprite3D::getAttachNode(const std::string& boneName)
 void Sprite3D::removeAttachNode(const std::string& boneName)
 {
     auto it = _attachments.find(boneName);
+
     if (it != _attachments.end())
     {
         removeChild(it->second);
@@ -707,7 +711,8 @@ void Sprite3D::removeAttachNode(const std::string& boneName)
 
 void Sprite3D::removeAllAttachNode()
 {
-    for (auto& it : _attachments) {
+    for (auto& it : _attachments) 
+    {
         removeChild(it.second);
     }
     _attachments.clear();
