@@ -262,31 +262,38 @@ static cpSpaceDebugColor ColorForShape(cpShape *shape, cpDataPointer /*data*/)
 
 void PhysicsWorld::debugDraw()
 {
-    if (_debugDraw == nullptr)
+    DrawNode* debugDrawNode;
+
+    if (! _debugDrawId)
     {
-        _debugDraw = DrawNode::create();
-        _debugDraw->retain();
-        Director::getInstance()->getRunningScene()->addChild(_debugDraw);
+        auto node = make_node_ptr<DrawNode>();
+        debugDrawNode = node.get();
+        _debugDrawId = Director::getInstance()->getRunningScene()->addChild( std::move(node) );
+    }
+    else
+    {
+        debugDrawNode = Director::getInstance()->getNodeRegister().get<DrawNode>(_debugDrawId);
     }
     
-    cpSpaceDebugDrawOptions drawOptions = {
-        DrawCircle,
-        DrawSegment,
-        DrawFatSegment,
-        DrawPolygon,
-        DrawDot,
-        
-        (cpSpaceDebugDrawFlags)(_debugDrawMask),
-        
-        {1.0f, 0.0f, 0.0f, 1.0f},
-        ColorForShape,
-        {0.0f, 0.75f, 0.0f, 1.0f},
-        {0.0f, 0.0f, 1.0f, 1.0f},
-        _debugDraw,
-    };
-    if (_debugDraw)
+    if (debugDrawNode != nullptr)
     {
-        _debugDraw->clear();
+        cpSpaceDebugDrawOptions drawOptions = {
+            DrawCircle,
+            DrawSegment,
+            DrawFatSegment,
+            DrawPolygon,
+            DrawDot,
+
+            (cpSpaceDebugDrawFlags)(_debugDrawMask),
+
+            {1.0f, 0.0f, 0.0f, 1.0f},
+            ColorForShape,
+            {0.0f, 0.75f, 0.0f, 1.0f},
+            {0.0f, 0.0f, 1.0f, 1.0f},
+            debugDrawNode,
+        };
+
+        debugDrawNode->clear();
         cpSpaceDebugDraw(_cpSpace, &drawOptions);
     }
 }
@@ -845,8 +852,12 @@ void PhysicsWorld::setDebugDrawMask(DebugDraw mask)
 {
     if (mask == DebugDraw::NONE)
     {
-        _debugDraw->removeFromParent();
-        CC_SAFE_RELEASE_NULL(_debugDraw);
+        auto debugDrawNode = Director::getInstance()->getNodeRegister().get<DrawNode>(_debugDrawId);
+
+        if (debugDrawNode != nullptr)
+        {
+            debugDrawNode->removeFromParent();
+        }
     }
     
     _debugDrawMask = mask;
@@ -1003,7 +1014,7 @@ PhysicsWorld::PhysicsWorld()
 , _updateBodyTransform(false)
 , _scene(nullptr)
 , _autoStep(true)
-, _debugDraw(nullptr)
+, _debugDrawId()
 , _debugDrawMask(DebugDraw::NONE)
 , _eventDispatcher(nullptr)
 {
@@ -1022,7 +1033,8 @@ PhysicsWorld::~PhysicsWorld()
 		cpHastySpaceFree(_cpSpace);
 #endif 
     }
-    CC_SAFE_RELEASE_NULL(_debugDraw);
+
+    Director::getInstance()->getRunningScene()->removeChild(_debugDrawId);
 }
 
 void PhysicsWorld::beforeSimulation(Node *node, const Mat4& parentToWorldTransform, float nodeParentScaleX, float nodeParentScaleY, float parentRotation)
