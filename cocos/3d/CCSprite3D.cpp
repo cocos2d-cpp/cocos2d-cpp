@@ -355,94 +355,92 @@ bool Sprite3D::initFrom(const NodeDatas& nodeDatas, const MeshDatas& meshdatas, 
     return true;
 }
 
-node_ptr<Sprite3D> Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& materialdatas)
+node_ptr<Sprite3D> Sprite3D::createSprite3DNode(NodeData* nodedata,ModelData* modeldata, const MaterialDatas& materialdatas)
 {
-    auto sprite = new (std::nothrow) Sprite3D();
+    auto sprite = to_node_ptr(new Sprite3D);
 
-    if (sprite)
+    sprite->setName(nodedata->id);
+
+    auto mesh = Mesh::create(nodedata->id, this->getMeshIndexData(modeldata->subMeshId));
+
+    if (_skeleton && modeldata->bones.size())
     {
-        sprite->setName(nodedata->id);
-        auto mesh = Mesh::create(nodedata->id, getMeshIndexData(modeldata->subMeshId));
-        
-        if (_skeleton && modeldata->bones.size())
-        {
-            mesh->setSkin(
-                std::unique_ptr<MeshSkin>(
-                    new MeshSkin(_skeleton, modeldata->bones, modeldata->invBindPose)
-                )
-            );
-        }
-        
-        if (modeldata->matrialId == "" && materialdatas.materials.size())
-        {
-            const NTextureData* textureData = materialdatas.materials[0].getTextureData(NTextureData::Usage::Diffuse);
-            mesh->setTexture(textureData->filename);
-        }
-        else
-        {
-            const NMaterialData*  materialData=materialdatas.getMaterialData(modeldata->matrialId);
-            if(materialData)
-            {
-                const NTextureData* textureData = materialData->getTextureData(NTextureData::Usage::Diffuse);
-                if(textureData)
-                {
-                    mesh->setTexture(textureData->filename);
-                    auto tex = mesh->getTexture();
-                    if(tex)
-                    {
-                        Texture2D::TexParams texParams;
-                        texParams.minFilter = GL_LINEAR;
-                        texParams.magFilter = GL_LINEAR;
-                        texParams.wrapS = textureData->wrapS;
-                        texParams.wrapT = textureData->wrapT;
-                        tex->setTexParameters(texParams);
-                        mesh->_isTransparent = (materialData->getTextureData(NTextureData::Usage::Transparency) != nullptr);
-                    }
-                }
-                textureData = materialData->getTextureData(NTextureData::Usage::Normal);
-                if (textureData)
-                {
-                    auto tex = Director::getInstance()->getTextureCache()->addImage(textureData->filename);
-                    if(tex)
-                    {
-                        Texture2D::TexParams texParams;
-                        texParams.minFilter = GL_LINEAR;
-                        texParams.magFilter = GL_LINEAR;
-                        texParams.wrapS = textureData->wrapS;
-                        texParams.wrapT = textureData->wrapT;
-                        tex->setTexParameters(texParams);
-                    }
-                    mesh->setTexture(tex, NTextureData::Usage::Normal);
-                }
-            }
-        }
-
-        // set locale transform
-        Vec3 pos;
-        Quaternion qua;
-        Vec3 scale;
-        nodedata->transform.decompose(&scale, &qua, &pos);
-        sprite->setPosition3D(pos);
-        sprite->setRotationQuat(qua);
-        sprite->setScaleX(scale.x);
-        sprite->setScaleY(scale.y);
-        sprite->setScaleZ(scale.z);
-        
-        sprite->addMesh(mesh);
-        sprite->autorelease();
-        sprite->genMaterial();
+        mesh->setSkin(
+            std::make_unique<MeshSkin>(_skeleton, modeldata->bones, modeldata->invBindPose)
+        );
     }
 
-    return to_node_ptr(sprite);
+    if (modeldata->matrialId == "" && materialdatas.materials.size())
+    {
+        const NTextureData* textureData = materialdatas.materials[0].getTextureData(NTextureData::Usage::Diffuse);
+        mesh->setTexture(textureData->filename);
+    }
+    else
+    {
+        const NMaterialData*  materialData=materialdatas.getMaterialData(modeldata->matrialId);
+        if(materialData)
+        {
+            const NTextureData* textureData = materialData->getTextureData(NTextureData::Usage::Diffuse);
+            if(textureData)
+            {
+                mesh->setTexture(textureData->filename);
+                auto tex = mesh->getTexture();
+                if(tex)
+                {
+                    Texture2D::TexParams texParams;
+                    texParams.minFilter = GL_LINEAR;
+                    texParams.magFilter = GL_LINEAR;
+                    texParams.wrapS = textureData->wrapS;
+                    texParams.wrapT = textureData->wrapT;
+                    tex->setTexParameters(texParams);
+                    mesh->_isTransparent = (materialData->getTextureData(NTextureData::Usage::Transparency) != nullptr);
+                }
+            }
+            textureData = materialData->getTextureData(NTextureData::Usage::Normal);
+            if (textureData)
+            {
+                auto tex = Director::getInstance()->getTextureCache()->addImage(textureData->filename);
+                if(tex)
+                {
+                    Texture2D::TexParams texParams;
+                    texParams.minFilter = GL_LINEAR;
+                    texParams.magFilter = GL_LINEAR;
+                    texParams.wrapS = textureData->wrapS;
+                    texParams.wrapT = textureData->wrapT;
+                    tex->setTexParameters(texParams);
+                }
+                mesh->setTexture(tex, NTextureData::Usage::Normal);
+            }
+        }
+    }
+
+    // set locale transform
+    Vec3 pos;
+    Quaternion qua;
+    Vec3 scale;
+    nodedata->transform.decompose(&scale, &qua, &pos);
+    sprite->setPosition3D(pos);
+    sprite->setRotationQuat(qua);
+    sprite->setScaleX(scale.x);
+    sprite->setScaleY(scale.y);
+    sprite->setScaleZ(scale.z);
+
+    sprite->addMesh(mesh);
+    sprite->autorelease();
+    sprite->genMaterial();
+
+    return std::move(sprite);
 }
 
 void Sprite3D::createAttachSprite3DNode(NodeData* nodedata, const MaterialDatas& materialdatas)
 {
     for(const auto& it : nodedata->modelNodeDatas)
     {
-        if(it && getAttachNode(nodedata->id))
+        auto attachedNode = getAttachNode(nodedata->id);
+
+        if(it && attachedNode != nullptr)
         {
-            getAttachNode(nodedata->id)->addChild(createSprite3DNode(nodedata, it, materialdatas));
+            attachedNode->addChild(createSprite3DNode(nodedata, it, materialdatas));
         }
     }
 
@@ -519,25 +517,28 @@ void Sprite3D::genMaterial(bool useLight)
 
 void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& materialdatas, bool singleSprite)
 {
-    Node* node=nullptr;
+    assert(root != nullptr);
+
+    Node* node = nullptr;
+
     for(const auto& it : nodedata->modelNodeDatas)
     {
-        if(it)
+        if (it)
         {
             if(it->bones.size() > 0 || singleSprite)
             {
-                if(singleSprite && root!=nullptr)
+                if(singleSprite)
                     root->setName(nodedata->id);
+
                 auto mesh = Mesh::create(nodedata->id, getMeshIndexData(it->subMeshId));
+
                 if(mesh)
                 {
                     _meshes.push_back(to_retaining_ptr(mesh));
                     if (_skeleton && it->bones.size())
                     {
                         mesh->setSkin(
-                            std::unique_ptr<MeshSkin>(
-                                new MeshSkin(_skeleton, it->bones, it->invBindPose)
-                            )
+                            std::make_unique<MeshSkin>(_skeleton, it->bones, it->invBindPose)
                         );
                     }
                     mesh->_visibleChanged = std::bind(&Sprite3D::onAABBDirty, this);
@@ -601,47 +602,39 @@ void Sprite3D::createNode(NodeData* nodedata, Node* root, const MaterialDatas& m
             }
             else
             {
-                auto sprite = createSprite3DNode(nodedata,it,materialdatas);
+                auto sprite = createSprite3DNode(nodedata, it, materialdatas);
                 node = sprite.get();
-                if (sprite)
-                {
-                    if(root)
-                    {
-                        root->addChild( std::move(sprite) );
-                    } 
-                }
-            } 
-        }
-    }
-    if(nodedata->modelNodeDatas.size() ==0 )
-    {
-        node= Node::create();
-        if(node)
-        {
-            node->setName(nodedata->id);
-            
-            // set locale transform
-            Vec3 pos;
-            Quaternion qua;
-            Vec3 scale;
-            nodedata->transform.decompose(&scale, &qua, &pos);
-            node->setPosition3D(pos);
-            node->setRotationQuat(qua);
-            node->setScaleX(scale.x);
-            node->setScaleY(scale.y);
-            node->setScaleZ(scale.z);
-            
-            if(root)
-            {
-                root->addChild(node);
+                root->addChild( std::move(sprite) );
             } 
         }
     }
 
+    if (nodedata->modelNodeDatas.size() ==0 )
+    {
+        auto new_node = make_node_ptr<Node>();
+        node = new_node.get();
+
+        new_node->setName(nodedata->id);
+        // set locale transform
+        Vec3 pos;
+        Quaternion qua;
+        Vec3 scale;
+        nodedata->transform.decompose(&scale, &qua, &pos);
+        new_node->setPosition3D(pos);
+        new_node->setRotationQuat(qua);
+        new_node->setScaleX(scale.x);
+        new_node->setScaleY(scale.y);
+        new_node->setScaleZ(scale.z);
+        root->addChild( std::move(new_node) );
+    }
+
     auto size = nodedata->children.size();
+
     for(const auto& it : nodedata->children)
     {
-        createNode(it,node, materialdatas, size == 1);
+        assert(it);
+        assert(node != nullptr);
+        createNode(it, node, materialdatas, size == 1);
     }
 }
 
@@ -686,6 +679,7 @@ AttachNode* Sprite3D::getAttachNode(const std::string& boneName)
     if (_skeleton)
     {
         auto bone = _skeleton->getBoneByName(boneName);
+
         if (bone)
         {
             auto attachNode = make_node_ptr<AttachNode>(bone);
@@ -711,7 +705,7 @@ void Sprite3D::removeAttachNode(const std::string& boneName)
 
 void Sprite3D::removeAllAttachNode()
 {
-    for (auto& it : _attachments) 
+    for (auto& it : _attachments)
     {
         removeChild(it.second);
     }

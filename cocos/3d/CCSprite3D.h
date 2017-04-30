@@ -204,13 +204,14 @@ public:
     }
 
 protected:
-    
+
     Sprite3D();
     virtual ~Sprite3D();
+    bool initWithFile(const std::string &path);
+    
+private:
     
     virtual bool init() override;
-    
-    bool initWithFile(const std::string &path);
     
     bool initFrom(const NodeDatas& nodedatas, const MeshDatas& meshdatas, const MaterialDatas& materialdatas);
     
