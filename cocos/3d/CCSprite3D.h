@@ -204,13 +204,14 @@ public:
     }
 
 protected:
-    
+
     Sprite3D();
     virtual ~Sprite3D();
+    bool initWithFile(const std::string &path);
+    
+private:
     
     virtual bool init() override;
-    
-    bool initWithFile(const std::string &path);
     
     bool initFrom(const NodeDatas& nodedatas, const MeshDatas& meshdatas, const MaterialDatas& materialdatas);
     
@@ -225,7 +226,7 @@ protected:
 
     void createNode(NodeData* nodedata, Node* root, const MaterialDatas& matrialdatas, bool singleSprite);
     void createAttachSprite3DNode(NodeData* nodedata,const MaterialDatas& matrialdatas);
-    Sprite3D* createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& matrialdatas);
+    node_ptr<Sprite3D> createSprite3DNode(NodeData* nodedata,ModelData* modeldata,const MaterialDatas& matrialdatas);
 
     /**get MeshIndexData by Id*/
     std::shared_ptr<MeshIndexData> getMeshIndexData(const std::string& indexId) const;
@@ -244,7 +245,7 @@ protected:
     
     std::vector<std::shared_ptr<MeshVertexData>> _meshVertexDatas;
     
-    std::unordered_map<std::string, AttachNode*> _attachments;
+    std::unordered_map<std::string, NodeId> _attachments;
 
     BlendFunc                    _blend;
 

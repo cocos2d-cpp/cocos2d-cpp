@@ -61,35 +61,19 @@ public:
         ON_SLIDEBALL_CANCEL
     };
     typedef std::function<void(Ref*,EventType)> ccSliderCallback;
-    /**
-     * Default constructor.
-     * @js ctor
-     * @lua new
-     */
+
     Slider();
+
+    Slider(const std::string& barTextureName,
+           const std::string& normalBallTextureName,
+           TextureResType resType = TextureResType::LOCAL);
     
-    /**
-     * Default destructor.
-     * @js NA
-     * @lua NA
-     */
     virtual ~Slider();
     
-    /** Create a slider widget.
-     *
-     * @return An autoreleased Slider object.
-     */
     static Slider* create();
     
-    /** Create a slider widget with bar texture, ball texture and texture resource type.
-     *
-     * @param barTextureName Bar texture file name.
-     * @param normalBallTextureName Ball texture file name.
-     * @param resType Texture resource type.
-     * @return An autoreleased Slider object.
-     */
-    static Slider* create(const std::string& barTextureName,
-                          const std::string& normalBallTextureName,
+    static Slider* create(const std::string& barTextureFileName,
+                          const std::string& normalBallTextureFileName,
                           TextureResType resType = TextureResType::LOCAL);
     
     /**
@@ -255,15 +239,8 @@ public:
      */
     float getZoomScale()const;
 
-    Sprite* getSlidBallNormalRenderer() const;
-    Sprite* getSlidBallPressedRenderer() const;
-    Sprite* getSlidBallDisabledRenderer() const;
-    Node* getSlidBallRenderer() const;
+private:
 
-protected:
-    virtual bool init() override;
-
-protected:
     virtual void initRenderer() override;
     float getPercentWithBallPos(const Vec2 &pt) const;
     void percentChangedEvent(EventType event);
@@ -285,15 +262,16 @@ protected:
     virtual Widget* createCloneInstance() const override;
     virtual void copySpecialProperties(const Widget* model) override;
     virtual void adaptRenderers() override;
+
 protected:
     Scale9Sprite*  _barRenderer;
     Scale9Sprite* _progressBarRenderer;
     Size _barTextureSize;
     Size _progressBarTextureSize;
     
-    Sprite* _slidBallNormalRenderer;
-    Sprite* _slidBallPressedRenderer;
-    Sprite* _slidBallDisabledRenderer;
+    NodeId _slidBallNormalRendererId;
+    NodeId _slidBallPressedRendererId;
+    NodeId _slidBallDisabledRendererId;
     Node* _slidBallRenderer;
     
     float _barLength;

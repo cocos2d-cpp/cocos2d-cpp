@@ -74,18 +74,6 @@ namespace cocos2d {
 class CC_DLL Mat4
 {
 public:
-    // //temp add conversion
-    // operator kmMat4() const
-    // {
-    //     kmMat4 result;
-    //     kmMat4Fill(&result, m);
-    //     return result;
-    // }
-    
-    // Mat4(const kmMat4& mat)
-    // {
-    //     set(mat.mat);
-    // }
     /**
      * Stores the columns of this 4x4 matrix.
      * */
@@ -280,11 +268,6 @@ public:
     static void createBillboard(const Vec3& objectPosition, const Vec3& cameraPosition,
                                 const Vec3& cameraUpVector, const Vec3& cameraForwardVector,
                                 Mat4* dst);
-
-    //Fills in an existing Mat4 so that it reflects the coordinate system about a specified Plane.
-    //plane The Plane about which to create a reflection.
-    //dst A matrix to store the result in.
-    //static void createReflection(const Plane& plane, Mat4* dst);
 
     /**
      * Creates a scale matrix.

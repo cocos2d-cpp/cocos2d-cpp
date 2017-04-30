@@ -184,7 +184,7 @@ namespace {
         }
         
         float getRatio () {
-            _ratio = 1.0f * _percent / _maxPercent;
+            _ratio = 1.0f * getPercent() / getMaxPercent();
             return _ratio;
         }
         

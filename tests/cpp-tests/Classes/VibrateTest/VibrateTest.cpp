@@ -179,7 +179,7 @@ namespace {
             }
             
             _ratio = ratio;
-            _percent = 100 * _ratio;
+            setPercent(100 * _ratio);
             
             float dis = _barLength * _ratio;
             _slidBallRenderer->setPosition(Vec2(dis, _contentSize.height / 2.0f));

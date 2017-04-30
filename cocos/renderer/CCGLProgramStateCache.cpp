@@ -77,29 +77,4 @@ GLProgramState* GLProgramStateCache::getGLProgramState(GLProgram* glprogram)
     return ret;
 }
 
-void GLProgramStateCache::removeUnusedGLProgramState()
-{
-    for (auto it=_glProgramStates.cbegin(); it!=_glProgramStates.cend(); /* nothing */)
-    {
-        auto & value = it->second;
-
-        if ( value->getReferenceCount() == 1 )
-        {
-            CCLOG("cocos2d: GLProgramStateCache: removing unused GLProgramState");
-
-            //value->release();
-            it = _glProgramStates.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
-
-void GLProgramStateCache::removeAllGLProgramState()
-{
-    _glProgramStates.clear();
-}
-
 } // namespace cocos2d
