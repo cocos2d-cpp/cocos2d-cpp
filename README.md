@@ -15,7 +15,7 @@ The main objectives of cocos2d-cpp:
 
     The original engine badly suffered from its objective-C origin. cocos2d-cpp is an uncompromised C++11 implementation. For example, cocos2d::Ref intrusive pointer - a base of all classes - is to be removed and substituted with C++11 standard smart pointers - std::unique_ptr, std::shared_ptr, etc. Objects created not via static create methods but via direct calls to public constructors.
 
-2.  Make it clear and simple
+2.  Make it clear, simple, and stable
 
     The aim for cocos2d to make the engine simple in use ironically resulted in an engine itself being unnecessarily complicated. Which in turn inevitably makes the engine vulnerable to bugs and hard to maintain. Moreover, it eventually leads to ambiguity and complexity in usage patterns. cocos2d-cpp is trying to follow the KISS principle.
 
