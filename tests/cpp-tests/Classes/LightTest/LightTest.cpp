@@ -1,13 +1,15 @@
 #include "LightTest.h"
 
+#include "base/CCDirector.h"
 #include "2d/CCCamera.h"
-#include "2d/CCLabel.cpp"
-#include "2d/CCLight.cpp"
-#include "2d/CCMenu.cpp"
-#include "2d/CCMenuItem.cpp"
-#include "3d/CCAnimation3D.cpp"
-#include "3d/CCAnimate3D.cpp"
-#include "3d/CCSprite3D.cpp"
+#include "2d/CCLabel.h"
+#include "2d/CCLight.h"
+#include "2d/CCMenu.h"
+#include "2d/CCMenuItem.h"
+#include "3d/CCAnimation3D.h"
+#include "3d/CCAnimate3D.h"
+#include "3d/CCAttachNode.h"
+#include "3d/CCSprite3D.h"
 
 using namespace cocos2d;
 
