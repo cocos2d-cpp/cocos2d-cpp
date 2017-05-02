@@ -145,11 +145,6 @@ protected: varType varName;\
 public: virtual varType get##funName(void) const { return varName; }\
 public: virtual void set##funName(varType var){ varName = var; }
 
-#define CC_SYNTHESIZE_PASS_BY_REF(varType, varName, funName)\
-protected: varType varName;\
-public: virtual const varType& get##funName(void) const { return varName; }\
-public: virtual void set##funName(const varType& var){ varName = var; }
-
 #define CC_SYNTHESIZE_RETAIN(varType, varName, funName)    \
 private: varType varName; \
 public: virtual varType get##funName(void) const { return varName; } \
