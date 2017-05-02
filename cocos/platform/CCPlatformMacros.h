@@ -114,11 +114,6 @@ protected: varType varName;\
 public: virtual varType get##funName(void) const;\
 public: virtual void set##funName(varType var);
 
-#define CC_PROPERTY_PASS_BY_REF(varType, varName, funName)\
-protected: varType varName;\
-public: virtual const varType& get##funName(void) const;\
-public: virtual void set##funName(const varType& var);
-
 /** @def CC_SYNTHESIZE_READONLY 
  * It is used to declare a protected variable. We can use getter to read the variable.
  *

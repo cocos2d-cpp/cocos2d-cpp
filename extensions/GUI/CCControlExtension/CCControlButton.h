@@ -231,14 +231,22 @@ public:
     CC_SYNTHESIZE_RETAIN(cocos2d::ui::Scale9Sprite*, _backgroundSprite, BackgroundSprite);
 
     /** The preferred size of the button, if label is larger it will be expanded. */
-    CC_PROPERTY_PASS_BY_REF(Size, _preferredSize, PreferredSize);
+protected:
+    Size _preferredSize;
+public:
+    virtual const Size & getPreferredSize() const;
+    virtual void setPreferredSize(const Size & var);
 
     /** Adjust the button zooming on touchdown. Default value is YES. */
     CC_PROPERTY(bool, _zoomOnTouchDown, ZoomOnTouchDown);
     /** Scale ratio button on touchdown. Default value 1.1f */
     CC_SYNTHESIZE(float, _scaleRatio, ScaleRatio);
 
-    CC_PROPERTY_PASS_BY_REF(Vec2, _labelAnchorPoint, LabelAnchorPoint);
+protected:
+    Vec2 _labelAnchorPoint;
+public:
+    virtual const Vec2 & getLabelAnchorPoint() const;
+    virtual void setLabelAnchorPoint(const Vec2 & var);
 
     std::unordered_map<int, std::string> _titleDispatchTable;
     std::unordered_map<int, Color3B> _titleColorDispatchTable;
