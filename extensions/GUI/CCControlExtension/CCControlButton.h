@@ -218,7 +218,11 @@ protected:
     std::string _currentTitle;
 
     /** The current color used to display the title. */
-    CC_SYNTHESIZE_READONLY_PASS_BY_REF(Color3B, _currentTitleColor, CurrentTitleColor);
+protected:
+    Color3B _currentTitleColor;
+
+public:
+    virtual const Color3B & getCurrentTitleColor() const { return _currentTitleColor; }
 
     /** The current title label. */
     CC_SYNTHESIZE_RETAIN(Node*, _titleLabel, TitleLabel);
