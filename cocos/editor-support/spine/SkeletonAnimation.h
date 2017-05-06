@@ -44,10 +44,19 @@ typedef std::function<void(int trackIndex, spEvent* event)> EventListener;
 
 /** Draws an animated skeleton, providing an AnimationState for applying one or more animations and queuing animations to be
   * played later. */
-class SkeletonAnimation: public SkeletonRenderer {
+class SkeletonAnimation : public SkeletonRenderer {
 public:
-	CREATE_FUNC(SkeletonAnimation);
-	static SkeletonAnimation* createWithData (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
+	SkeletonAnimation ();
+	virtual ~SkeletonAnimation();
+
+	static SkeletonAnimation* create()
+    {
+        auto ret = new SkeletonAnimation;
+        ret->autorelease();
+        return ret;
+    }
+	
+    static SkeletonAnimation* createWithData (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
 	static SkeletonAnimation* createWithJsonFile (const std::string& skeletonJsonFile, spAtlas* atlas, float scale = 1);
 	static SkeletonAnimation* createWithJsonFile (const std::string& skeletonJsonFile, const std::string& atlasFile, float scale = 1);
 	static SkeletonAnimation* createWithBinaryFile (const std::string& skeletonBinaryFile, spAtlas* atlas, float scale = 1);
@@ -81,8 +90,6 @@ public:
 	spAnimationState* getState() const;
 
 protected:
-	SkeletonAnimation ();
-	virtual ~SkeletonAnimation ();
 	virtual void initialize () override;
 
 protected:
