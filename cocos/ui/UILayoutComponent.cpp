@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +27,11 @@
 #include "ui/UIHelper.h"
 
 namespace cocos2d {
-
 namespace ui {
+
     LayoutComponent::LayoutComponent()
-        :_horizontalEdge(HorizontalEdge::None)
+        : Component(__LAYOUT_COMPONENT_NAME)
+        , _horizontalEdge(HorizontalEdge::None)
         , _verticalEdge(VerticalEdge::None)
         , _leftMargin(0)
         , _rightMargin(0)
@@ -50,46 +50,6 @@ namespace ui {
         , _actived(true)
         , _isPercentOnly(false)
     {
-        _name = __LAYOUT_COMPONENT_NAME;
-    }
-
-    LayoutComponent::~LayoutComponent()
-    {
-
-    }
-
-    LayoutComponent* LayoutComponent::bindLayoutComponent(Node* node)
-    {
-        LayoutComponent * layout = (LayoutComponent*)node->getComponent(__LAYOUT_COMPONENT_NAME);
-        if (layout != nullptr)
-            return layout;
-
-        layout = new (std::nothrow) LayoutComponent();
-        if (layout && layout->init())
-        {
-            layout->autorelease();
-            node->addComponent(layout);
-            return layout;
-        }
-        CC_SAFE_DELETE(layout);
-        return nullptr;
-    }
-
-    bool LayoutComponent::init()
-    {
-        bool ret = true;
-        do
-        {
-            if (!Component::init())
-            {
-                ret = false;
-                break;
-            }
-
-            //put layout component initialized code here
-
-        } while (0);
-        return ret;
     }
 
     Node* LayoutComponent::getOwnerParent()
@@ -669,6 +629,6 @@ namespace ui {
     {
         _isPercentOnly = enable;
     }
-}
 
+} // namespace ui
 } // namespace cocos2d

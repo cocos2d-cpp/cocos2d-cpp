@@ -39,7 +39,6 @@ THE SOFTWARE.
 
 #if CC_USE_3D_PHYSICS && CC_ENABLE_BULLET_INTEGRATION
 #include "physics3d/CCPhysics3DWorld.h"
-#include "physics3d/CCPhysics3DComponent.h"
 #endif
 
 #if CC_USE_NAVMESH

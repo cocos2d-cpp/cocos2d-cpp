@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +45,10 @@ namespace cocos2d {
 class CC_DLL NavMeshObstacle : public Component
 {
     friend class NavMesh;
+
 public:
+
+    static const std::string NAV_MESH_OBSTACLE_COMPONENT_NAME;
 
     enum NavMeshObstacleSyncFlag
     {
@@ -57,13 +59,18 @@ public:
     };
 
     /**
-    Create obstacle, shape is cylinder
-
+    shape is cylinder
     @param radius The radius of obstacle.
     @param height The height of obstacle.
     */
-    static NavMeshObstacle* create(float radius, float height);
-    static const std::string& getNavMeshObstacleComponentName();
+    NavMeshObstacle(float radius, float height);
+
+    static NavMeshObstacle* create(float radius, float height)
+    {
+        auto ref = new NavMeshObstacle(radius, height);
+        ref->autorelease();
+        return ref;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -91,12 +98,6 @@ public:
 
     /** synchronize parameter to node. */
     void syncToNode();
-
-protected:
-    NavMeshObstacle();
-    virtual ~NavMeshObstacle();
-
-    bool initWith(float radius, float height);
 
 private:
 

@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -45,10 +44,13 @@ class Physics3DObject;
 class Physics3DWorld;
 
 /** @brief Physics3DComponent: A component with 3D physics, you can add a rigid body to it, and then add this component to a node, the node will move and rotate with this rigid body */
-class CC_DLL Physics3DComponent : public cocos2d::Component
+class CC_DLL Physics3DComponent : public Component
 {
     friend class Physics3DWorld;
+
 public:
+    static const std::string PHYSICS_3D_COMPONENT_NAME;
+
     enum class PhysicsSyncFlag
     {
         NONE = 0,
@@ -57,18 +59,24 @@ public:
         NODE_AND_NODE = NODE_TO_PHYSICS | PHYSICS_TO_NODE, //pre simulation, align the physics object to the node and align the node transform according to physics object after simulation
     };
     
-    CREATE_FUNC(Physics3DComponent);
-    virtual ~Physics3DComponent();
-    virtual bool init() override;
+    Physics3DComponent();
 
     /**
-     * create Physics3DComponent
      * @param physicsObj pointer to a Physics object contain in the component
      * @param translateInPhysics offset that the owner node in the physics object's space
      * @param rotInPhsyics offset rotation that the owner node in the physics object's space
-     * @return created Physics3DComponent
      */
-    static Physics3DComponent* create(Physics3DObject* physicsObj, const cocos2d::Vec3& translateInPhysics = cocos2d::Vec3::ZERO, const cocos2d::Quaternion& rotInPhsyics = cocos2d::Quaternion::ZERO);
+    Physics3DComponent(Physics3DObject* physicsObj, const cocos2d::Vec3& translateInPhysics = cocos2d::Vec3::ZERO, const cocos2d::Quaternion& rotInPhsyics = cocos2d::Quaternion::ZERO);
+
+    virtual ~Physics3DComponent();
+
+    template<typename ...Args>
+    static Physics3DComponent* create(Args&&... args)
+    {
+        auto rv = new Physics3DComponent(std::forward<Args>(args)...);
+        rv->autorelease();
+        return rv;
+    }
     
     /**
      * set Physics object to the component
@@ -79,11 +87,6 @@ public:
      * get physics object
      */
     Physics3DObject* getPhysics3DObject() const { return _physics3DObj; }
-    
-    /**
-     * get the component name, it is used to find whether it is Physics3DComponent
-     */
-    static std::string& getPhysics3DComponentName();
     
     /**
      * set it enable or not
@@ -118,9 +121,6 @@ public:
      * synchronize physics transformation to node
      */
     void syncPhysicsToNode();
-    
-protected:
-    Physics3DComponent();
     
 protected:
     void preSimulate();

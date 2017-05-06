@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,19 +25,11 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-Component::Component()
+Component::Component(std::string name)
 : _owner(nullptr)
+, _name( std::move(name) )
 , _enabled(true)
 {
-}
-
-Component::~Component()
-{
-}
-
-bool Component::init()
-{
-    return true;
 }
 
 void Component::onEnter()
@@ -64,22 +55,6 @@ void Component::update(float /*delta*/)
 bool Component::serialize(void* /*ar*/)
 {
     return true;
-}
-
-Component* Component::create()
-{
-    Component * ret = new (std::nothrow) Component();
-
-    if (ret && ret->init())
-    {
-        ret->autorelease();
-    }
-    else
-    {
-        CC_SAFE_DELETE(ret);
-    }
-
-    return ret;
 }
 
 void Component::setOwner(Node *owner)

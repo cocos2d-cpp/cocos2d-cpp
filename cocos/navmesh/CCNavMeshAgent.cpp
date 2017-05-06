@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -45,29 +44,14 @@ NavMeshAgentParam::NavMeshAgentParam()
 , obstacleAvoidanceType(3)
 , queryFilterType(0)
 {
-
 }
 
-NavMeshAgent* NavMeshAgent::create(const NavMeshAgentParam &param)
-{
-    auto ref = new (std::nothrow) NavMeshAgent();
-    if (ref && ref->initWith(param))
-    {
-        ref->autorelease();
-        return ref;
-    }
-    CC_SAFE_DELETE(ref);
-    return nullptr;
-}
+const std::string NavMeshAgent::NAV_MESH_AGENT_COMPONENT_NAME = "___NavMeshAgentComponent___";
 
-const std::string& NavMeshAgent::getNavMeshAgentComponentName()
-{
-    static std::string comName = "___NavMeshAgentComponent___";
-    return comName;
-}
-
-cocos2d::NavMeshAgent::NavMeshAgent()
-    : _syncFlag(NODE_AND_NODE)
+NavMeshAgent::NavMeshAgent(const NavMeshAgentParam & param)
+    : Component(NAV_MESH_AGENT_COMPONENT_NAME)
+    , _param(param)
+    , _syncFlag(NODE_AND_NODE)
     , _rotRefAxes(Vec3::UNIT_Z)
     , _state(DT_CROWDAGENT_STATE_WALKING)
     , _needAutoOrientation(true)
@@ -79,18 +63,6 @@ cocos2d::NavMeshAgent::NavMeshAgent()
     , _crowd(nullptr)
     , _navMeshQuery(nullptr)
 {
-
-}
-
-cocos2d::NavMeshAgent::~NavMeshAgent()
-{
-}
-
-bool NavMeshAgent::initWith(const NavMeshAgentParam &param)
-{
-    _param = param;
-    setName(getNavMeshAgentComponentName());
-    return true;
 }
 
 void cocos2d::NavMeshAgent::setNavMeshQuery(dtNavMeshQuery *query)
