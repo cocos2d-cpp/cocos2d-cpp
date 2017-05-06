@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +33,7 @@
 #include "recast/DetourCrowd/DetourCrowd.h"
 
 class dtNavMeshQuery;
+
 namespace cocos2d {
 
 /**
@@ -78,7 +78,10 @@ struct CC_DLL OffMeshLinkData
 class CC_DLL NavMeshAgent : public Component
 {
     friend class NavMesh;
+
 public:
+
+    static const std::string NAV_MESH_AGENT_COMPONENT_NAME;
 
     enum NavMeshAgentSyncFlag
     {
@@ -90,13 +93,14 @@ public:
 
     typedef std::function<void(NavMeshAgent *agent, float totalTimeAfterMove)> MoveCallback;
 
-    /**
-    Create agent
+    explicit NavMeshAgent(const NavMeshAgentParam &param);
 
-    @param param The parameters of agent.
-    */
-    static NavMeshAgent* create(const NavMeshAgentParam &param);
-    static const std::string& getNavMeshAgentComponentName();
+    static NavMeshAgent* create(const NavMeshAgentParam &param)
+    {
+        auto rv = new NavMeshAgent(param);
+        rv->autorelease();
+        return rv;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -197,13 +201,8 @@ public:
     /** get current velocity */
     Vec3 getVelocity() const;
 
-protected:
-    NavMeshAgent();
-    virtual ~NavMeshAgent();
-
 private:
 
-    bool initWith(const NavMeshAgentParam &param);
     void addTo(dtCrowd *crowed);
     void removeFrom(dtCrowd *crowed);
     void setNavMeshQuery(dtNavMeshQuery *query);

@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2013 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -68,18 +67,17 @@ static void internalBodyUpdateVelocity(cpBody *body, cpVect gravity, cpFloat dam
 }
 
 namespace cocos2d {
+
 extern const float PHYSICS_INFINITY;
 
 const std::string PhysicsBody::COMPONENT_NAME = "PhysicsBody";
 
-namespace
-{
-    static const float MASS_DEFAULT = 1.0;
-    static const float MOMENT_DEFAULT = 200;
-}
+static const float MASS_DEFAULT = 1.0;
+static const float MOMENT_DEFAULT = 200;
 
 PhysicsBody::PhysicsBody()
-: _world(nullptr)
+: Component(COMPONENT_NAME)
+, _world(nullptr)
 , _cpBody(nullptr)
 , _dynamic(true)
 , _rotationEnabled(true)
@@ -104,7 +102,12 @@ PhysicsBody::PhysicsBody()
 , _recordScaleX(1.f)
 , _recordScaleY(1.f)
 {
-    _name = COMPONENT_NAME;
+    _cpBody = cpBodyNew(_mass, _moment);
+    if (_cpBody == nullptr)
+        throw std::runtime_error("Chipmunk: cpBodyNew error");
+    internalBodySetMass(_cpBody, _mass);
+    cpBodySetUserData(_cpBody, this);
+    cpBodySetVelocityUpdateFunc(_cpBody, internalBodyUpdateVelocity);
 }
 
 PhysicsBody::~PhysicsBody()
@@ -122,178 +125,80 @@ PhysicsBody::~PhysicsBody()
     }
 }
 
-PhysicsBody* PhysicsBody::create()
+PhysicsBody::PhysicsBody(float mass)
+    : PhysicsBody()
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
+    this->_mass = mass;
+    this->_massDefault = false;
 }
 
-PhysicsBody* PhysicsBody::create(float mass)
+PhysicsBody::PhysicsBody(float mass, float moment)
+    : PhysicsBody()
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body)
-    {
-        body->_mass = mass;
-        body->_massDefault = false;
-        if (body->init())
-        {
-            body->autorelease();
-            return body;
-        }
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
-}
-
-PhysicsBody* PhysicsBody::create(float mass, float moment)
-{
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body)
-    {
-        body->_mass = mass;
-        body->_massDefault = false;
-        body->_moment = moment;
-        body->_momentDefault = false;
-        if (body->init())
-        {
-            body->autorelease();
-            return body;
-        }
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
-    
+    this->_mass = mass;
+    this->_massDefault = false;
+    this->_moment = moment;
+    this->_momentDefault = false;
 }
 
 PhysicsBody* PhysicsBody::createCircle(float radius, const PhysicsMaterial& material, const Vec2& offset)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeCircle::create(radius, material, offset));
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeCircle::create(radius, material, offset));
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createBox(const Size& size, const PhysicsMaterial& material, const Vec2& offset)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeBox::create(size, material, offset));
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeBox::create(size, material, offset));
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createPolygon(const Vec2* points, int count, const PhysicsMaterial& material, const Vec2& offset)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapePolygon::create(points, count, material, offset));
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapePolygon::create(points, count, material, offset));
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createEdgeSegment(const Vec2& a, const Vec2& b, const PhysicsMaterial& material, float border/* = 1*/)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeEdgeSegment::create(a, b, material, border));
-        body->setDynamic(false);
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeEdgeSegment::create(a, b, material, border));
+    body->setDynamic(false);
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createEdgeBox(const Size& size, const PhysicsMaterial& material, float border/* = 1*/, const Vec2& offset)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeEdgeBox::create(size, material, border, offset));
-        body->setDynamic(false);
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeEdgeBox::create(size, material, border, offset));
+    body->setDynamic(false);
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createEdgePolygon(const Vec2* points, int count, const PhysicsMaterial& material, float border/* = 1*/)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeEdgePolygon::create(points, count, material, border));
-        body->setDynamic(false);
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    
-    return nullptr;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeEdgePolygon::create(points, count, material, border));
+    body->setDynamic(false);
+    body->autorelease();
+    return body;
 }
 
 PhysicsBody* PhysicsBody::createEdgeChain(const Vec2* points, int count, const PhysicsMaterial& material, float border/* = 1*/)
 {
-    PhysicsBody* body = new (std::nothrow) PhysicsBody();
-    if (body && body->init())
-    {
-        body->addShape(PhysicsShapeEdgeChain::create(points, count, material, border));
-        body->setDynamic(false);
-        body->autorelease();
-        return body;
-    }
-    
-    CC_SAFE_DELETE(body);
-    
-    return nullptr;
-}
-
-bool PhysicsBody::init()
-{
-    do
-    {
-        _cpBody = cpBodyNew(_mass, _moment);
-        internalBodySetMass(_cpBody, _mass);
-        cpBodySetUserData(_cpBody, this);
-        cpBodySetVelocityUpdateFunc(_cpBody, internalBodyUpdateVelocity);
-        
-        CC_BREAK_IF(_cpBody == nullptr);
-        
-        return true;
-    } while (false);
-    
-    return false;
+    PhysicsBody* body = new PhysicsBody;
+    body->addShape(PhysicsShapeEdgeChain::create(points, count, material, border));
+    body->setDynamic(false);
+    body->autorelease();
+    return body;
 }
 
 void PhysicsBody::removeJoint(PhysicsJoint* joint)

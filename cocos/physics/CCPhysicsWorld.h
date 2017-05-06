@@ -29,6 +29,7 @@
 #if CC_USE_PHYSICS
 
 #include <list>
+#include "2d/CCNode.h" // NodeId
 #include "math/CCGeometry.h"
 #include "physics/CCPhysicsBody.h"
 
@@ -396,7 +397,7 @@ private:
     Scene* _scene;
     
     bool _autoStep;
-    DrawNode* _debugDraw;
+    NodeId _debugDrawId;
     DebugDraw _debugDrawMask;
     
     EventDispatcher* _eventDispatcher;

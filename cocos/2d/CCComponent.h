@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,16 +43,6 @@ enum {
 class CC_DLL Component : public Ref
 {
 public:
-    static Component* create();
-
-    /**
-     * @js NA
-     * @lua NA
-     */
-    virtual ~Component();
-
-    virtual bool init();
-
     bool isEnabled() const { return _enabled; }
     virtual void setEnabled(bool enabled);
     
@@ -72,10 +61,7 @@ public:
     virtual void onRemove();
 
 protected:
-    /**
-    * @js ctor
-    */
-    Component();
+    explicit Component(std::string name);
 
 protected:
     Node* _owner;

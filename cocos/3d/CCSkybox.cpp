@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +42,34 @@ Skybox::Skybox()
     , _indexBuffer(0)
     ,_texture(nullptr)
 {
+    auto shader = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_3D_SKYBOX);
+    auto state = GLProgramState::create(shader);
+    state->setVertexAttribPointer(GLProgram::ATTRIBUTE_NAME_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), nullptr);
+    setGLProgramState(state);
+
+    initBuffers();
+
+    CHECK_GL_ERROR_DEBUG();
+}
+
+Skybox::Skybox(const std::string& positive_x,
+               const std::string& negative_x,
+               const std::string& positive_y,
+               const std::string& negative_y,
+               const std::string& positive_z,
+               const std::string& negative_z)
+    : Skybox()
+{
+    this->setTexture(
+        TextureCube::create(
+            positive_x,
+            negative_x,
+            positive_y,
+            negative_y,
+            positive_z,
+            negative_z
+        )
+    );
 }
 
 Skybox::~Skybox()
@@ -63,43 +90,30 @@ Skybox::~Skybox()
     _texture->release();
 }
 
-Skybox* Skybox::create(const std::string& positive_x, const std::string& negative_x,
-               const std::string& positive_y, const std::string& negative_y,
-               const std::string& positive_z, const std::string& negative_z)
+Skybox* Skybox::create()
 {
-    auto ret = new (std::nothrow) Skybox();
-    ret->init(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
-    
+    auto skybox = new Skybox;
+    skybox->autorelease();
+    return skybox;
+}
+
+Skybox* Skybox::create(const std::string& positive_x,
+                       const std::string& negative_x,
+                       const std::string& positive_y,
+                       const std::string& negative_y,
+                       const std::string& positive_z,
+                       const std::string& negative_z)
+{
+    auto ret = new Skybox(
+        positive_x,
+        negative_x,
+        positive_y,
+        negative_y,
+        positive_z,
+        negative_z
+    );
     ret->autorelease();
     return ret;
-}
-
-bool Skybox::init()
-{
-    // create and set our custom shader
-    auto shader = GLProgramCache::getInstance()->getGLProgram(GLProgram::SHADER_3D_SKYBOX);
-    auto state = GLProgramState::create(shader);
-    state->setVertexAttribPointer(GLProgram::ATTRIBUTE_NAME_POSITION, 3, GL_FLOAT, GL_FALSE, sizeof(Vec3), nullptr);
-    setGLProgramState(state);
-
-    initBuffers();
-
-    CHECK_GL_ERROR_DEBUG();
-
-    return true;
-}
-
-bool Skybox::init(const std::string& positive_x, const std::string& negative_x,
-          const std::string& positive_y, const std::string& negative_y,
-          const std::string& positive_z, const std::string& negative_z)
-{
-    auto texture = TextureCube::create(positive_x, negative_x, positive_y, negative_y, positive_z, negative_z);
-    if (texture == nullptr)
-        return false;
-    
-    init();
-    setTexture(texture);
-    return true;
 }
 
 void Skybox::initBuffers()

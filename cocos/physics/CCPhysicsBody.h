@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2013 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -62,34 +61,20 @@ const PhysicsMaterial PHYSICSBODY_MATERIAL_DEFAULT(0.1f, 0.5f, 0.5f);
 class CC_DLL PhysicsBody : public Component
 {
 public:
+    PhysicsBody();
+    explicit PhysicsBody(float mass);
+    explicit PhysicsBody(float mass, float moment);
+
     const static std::string COMPONENT_NAME;
 
-    /** 
-     * Create a body with default mass and moment.
-     *
-     * This default mass value is 1.0.
-     * This default moment value is 200.
-     * @return  An autoreleased PhysicsBody object pointer.
-     */
-    static PhysicsBody* create();
+    template<typename ...Args>
+    static PhysicsBody* create(Args&&... args)
+    {
+        PhysicsBody* body = new PhysicsBody(std::forward<Args>(args)...);
+        body->autorelease();
+        return body;
+    }
    
-    /** 
-     * Create a body with mass and default moment.
-     *
-     * @param mass This body's mass.
-     * @return  An autoreleased PhysicsBody object pointer.
-     */
-    static PhysicsBody* create(float mass);
-    
-    /** 
-     * Create a body with mass and moment.
-     *
-     * @param mass This body's mass.
-     * @param moment This body's moment.
-     * @return  An autoreleased PhysicsBody object pointer.
-     */
-    static PhysicsBody* create(float mass, float moment);
-    
     /**
      * Create a body contains a circle.
      *
@@ -497,11 +482,8 @@ public:
     virtual void onRemove() override;
     
 protected:
-    PhysicsBody();
     virtual ~PhysicsBody();
 
-    virtual bool init()override;
-    
     virtual void setPosition(float positionX, float positionY);
 
     virtual void setRotation(float rotation);

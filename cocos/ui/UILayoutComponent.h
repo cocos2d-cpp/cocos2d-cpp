@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +27,6 @@ THE SOFTWARE.
 #include "ui/GUIExport.h"
 
 namespace cocos2d {
-/**
- * @addtogroup ui
- * @{
- */
-
 namespace ui {
     /**
      *@brief A component class used for layout.
@@ -41,35 +35,14 @@ namespace ui {
     class CC_GUI_DLL LayoutComponent : public Component
     {
     public:
-        /**
-         * Default constructor
-         *
-         * @lua new
-         */
         LayoutComponent();
 
-        /**
-         * Default destructor
-         *
-         * @lua NA
-         */
-        ~LayoutComponent();
-
-        virtual bool init()override;
-
-        /**
-         * Create a LayoutComponent instance with default settings.
-         */
-        CREATE_FUNC(LayoutComponent);
-
-        /**
-         * Bind a LayoutComponent to a specified node.
-         * If the node has already binded a LayoutComponent named __LAYOUT_COMPONENT_NAME, just return the LayoutComponent.
-         * Otherwise, create a new LayoutComponent and bind the LayoutComponent to the node.
-         *@param node A Node* instance pointer.
-         *@return The binded LayoutComponent instance pointer.
-         */
-        static LayoutComponent* bindLayoutComponent(Node* node);
+        static LayoutComponent* create()
+        {
+            auto ret = new LayoutComponent;
+            ret->autorelease();
+            return ret;
+        }
 
         /**
          * Horizontal dock position type.

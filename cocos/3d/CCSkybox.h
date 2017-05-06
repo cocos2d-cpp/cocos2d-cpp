@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -45,7 +44,7 @@ class TextureCube;
 class CC_DLL Skybox : public Node
 {
 public:
-    CREATE_FUNC(Skybox);
+    static Skybox* create();
     
     /** create skybox from 6 textures.
      @param positive_x texture for the right side of the texture cube face.
@@ -75,22 +74,16 @@ protected:
     */
     Skybox();
 
+    Skybox(const std::string& positive_x,
+           const std::string& negative_x,
+           const std::string& positive_y,
+           const std::string& negative_y,
+           const std::string& positive_z,
+           const std::string& negative_z);
     /**
     * Destructor.
     */
     virtual ~Skybox();
-
-    /**
-    * init Skybox.
-    */
-    virtual bool init() override;
-    
-    /**
-     * initialize with texture path
-     */
-    bool init(const std::string& positive_x, const std::string& negative_x,
-              const std::string& positive_y, const std::string& negative_y,
-              const std::string& positive_z, const std::string& negative_z);
 
 protected:
 

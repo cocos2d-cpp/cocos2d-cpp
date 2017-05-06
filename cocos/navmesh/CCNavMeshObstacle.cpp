@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -32,45 +31,16 @@
 
 namespace cocos2d {
 
-NavMeshObstacle* NavMeshObstacle::create(float radius, float height)
+const std::string NavMeshObstacle::NAV_MESH_OBSTACLE_COMPONENT_NAME = "___NavMeshObstacleComponent___";
+
+NavMeshObstacle::NavMeshObstacle(float radius, float height)
+    : Component(NAV_MESH_OBSTACLE_COMPONENT_NAME)
+    , _radius(radius)
+    , _height(height)
+    , _syncFlag(NODE_AND_NODE)
+    , _obstacleID(-1)
+    , _tileCache(nullptr)
 {
-    auto ref = new (std::nothrow) NavMeshObstacle();
-    if (ref && ref->initWith(radius, height))
-    {
-        ref->autorelease();
-        return ref;
-    }
-    CC_SAFE_DELETE(ref);
-    return nullptr;
-}
-
-const std::string& NavMeshObstacle::getNavMeshObstacleComponentName()
-{
-    static std::string comName = "___NavMeshObstacleComponent___";
-    return comName;
-}
-
-NavMeshObstacle::NavMeshObstacle()
-: _radius(0.0f)
-, _height(0.0f)
-, _syncFlag(NODE_AND_NODE)
-, _obstacleID(-1)
-, _tileCache(nullptr)
-{
-
-}
-
-cocos2d::NavMeshObstacle::~NavMeshObstacle()
-{
-
-}
-
-bool NavMeshObstacle::initWith(float radius, float height)
-{
-    _radius = radius;
-    _height = height;
-    setName(getNavMeshObstacleComponentName());
-    return true;
 }
 
 void cocos2d::NavMeshObstacle::removeFrom(dtTileCache* /*tileCache*/)

@@ -1,7 +1,7 @@
 /****************************************************************************
- Copyright (c) 2013      Zynga Inc.
- Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017      Iakov Sergeev <yahont@github>
+ Copyright (c) 2013-2016 Chukong Technologies Inc.
+ Copyright (c) 2013      Zynga Inc.
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -53,24 +53,30 @@ class LabelLetter : public Sprite
 public:
     LabelLetter()
     {
+        this->init();
         _textureAtlas = nullptr;
         _letterVisible = true;
     }
 
-    static LabelLetter* createWithTexture(Texture2D *texture, const Rect& rect, bool rotated = false)
+    LabelLetter(Texture2D *texture, const Rect& rect, bool rotated = false)
     {
-        auto letter = new (std::nothrow) LabelLetter();
-        if (letter && letter->initWithTexture(texture, rect, rotated))
-        {
-            letter->Sprite::setVisible(false);
-            letter->autorelease();
-            return letter;
-        }
-        CC_SAFE_DELETE(letter);
-        return nullptr;
+        this->initWithTexture(texture, rect, rotated);
+        this->Sprite::setVisible(false);
+    }
+
+    static LabelLetter* create(Texture2D *texture, const Rect& rect, bool rotated = false)
+    {
+        auto letter = new LabelLetter(texture, rect, rotated);
+        letter->autorelease();
+        return letter;
     }
     
-    CREATE_FUNC(LabelLetter);
+    static LabelLetter* create()
+    {
+        auto letter = new LabelLetter;
+        letter->autorelease();
+        return letter;
+    }
 
     virtual void updateTransform() override
     {
@@ -1728,7 +1734,7 @@ Sprite* Label::getLetter(int letterIndex)
                 }
                 else
                 {
-                    letter = LabelLetter::createWithTexture(_fontAtlas->getTexture(textureID), uvRect);
+                    letter = LabelLetter::create(_fontAtlas->getTexture(textureID), uvRect);
                     letter->setTextureAtlas(_batchNodes.at(textureID)->getTextureAtlas());
                     letter->setAtlasIndex(letterInfo.atlasIndex);
                     auto px = letterInfo.positionX + uvRect.size.width / 2 + _linesOffsetX[letterInfo.lineIndex];

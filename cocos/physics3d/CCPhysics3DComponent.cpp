@@ -1,7 +1,6 @@
  /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -32,35 +31,25 @@
 
 namespace cocos2d {
 
+const std::string Physics3DComponent::PHYSICS_3D_COMPONENT_NAME = "___Physics3DComponent___";
+
+Physics3DComponent::Physics3DComponent()
+    : Component(PHYSICS_3D_COMPONENT_NAME)
+    , _physics3DObj(nullptr)
+    , _syncFlag(Physics3DComponent::PhysicsSyncFlag::NODE_AND_NODE)
+{
+}
+
+Physics3DComponent::Physics3DComponent(Physics3DObject* physicsObj, const cocos2d::Vec3& translateInPhysics, const cocos2d::Quaternion& rotInPhsyics)
+    : Physics3DComponent()
+{
+    this->setPhysics3DObject(physicsObj);
+    this->setTransformInPhysics(translateInPhysics, rotInPhsyics);
+}
+
 Physics3DComponent::~Physics3DComponent()
 {
     CC_SAFE_RELEASE(_physics3DObj);
-}
-
-std::string& Physics3DComponent::getPhysics3DComponentName()
-{
-    static std::string comName = "___Physics3DComponent___";
-    return comName;
-}
-
-bool Physics3DComponent::init()
-{
-    setName(getPhysics3DComponentName());
-    return Component::init();
-}
-
-Physics3DComponent* Physics3DComponent::create(Physics3DObject* physicsObj, const cocos2d::Vec3& translateInPhysics, const cocos2d::Quaternion& rotInPhsyics)
-{
-    auto ret = new (std::nothrow) Physics3DComponent();
-    if (ret && ret->init())
-    {
-        ret->setPhysics3DObject(physicsObj);
-        ret->setTransformInPhysics(translateInPhysics, rotInPhsyics);
-        ret->autorelease();
-        return ret;
-    }
-    CC_SAFE_DELETE(ret);
-    return nullptr;
 }
 
 void Physics3DComponent::setPhysics3DObject(Physics3DObject* physicsObj)
@@ -68,13 +57,6 @@ void Physics3DComponent::setPhysics3DObject(Physics3DObject* physicsObj)
     CC_SAFE_RETAIN(physicsObj);
     CC_SAFE_RELEASE(_physics3DObj);
     _physics3DObj = physicsObj;
-}
-
-Physics3DComponent::Physics3DComponent()
-: _physics3DObj(nullptr)
-, _syncFlag(Physics3DComponent::PhysicsSyncFlag::NODE_AND_NODE)
-{
-    
 }
 
 void Physics3DComponent::setEnabled(bool b)
