@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2013 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -352,7 +351,7 @@ bool PhysicsWorld::collisionBeginCallback(PhysicsContact& contact)
     {
         contact.setEventCode(PhysicsContact::EventCode::BEGIN);
         contact.setWorld(this);
-        _eventDispatcher->dispatchEvent(&contact);
+        Director::getInstance()->getEventDispatcher()->dispatchEvent(&contact);
     }
     
     return ret ? contact.resetResult() : false;
@@ -367,7 +366,7 @@ bool PhysicsWorld::collisionPreSolveCallback(PhysicsContact& contact)
     
     contact.setEventCode(PhysicsContact::EventCode::PRESOLVE);
     contact.setWorld(this);
-    _eventDispatcher->dispatchEvent(&contact);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&contact);
     
     return contact.resetResult();
 }
@@ -381,7 +380,7 @@ void PhysicsWorld::collisionPostSolveCallback(PhysicsContact& contact)
     
     contact.setEventCode(PhysicsContact::EventCode::POSTSOLVE);
     contact.setWorld(this);
-    _eventDispatcher->dispatchEvent(&contact);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&contact);
 }
 
 void PhysicsWorld::collisionSeparateCallback(PhysicsContact& contact)
@@ -393,7 +392,7 @@ void PhysicsWorld::collisionSeparateCallback(PhysicsContact& contact)
     
     contact.setEventCode(PhysicsContact::EventCode::SEPARATE);
     contact.setWorld(this);
-    _eventDispatcher->dispatchEvent(&contact);
+    Director::getInstance()->getEventDispatcher()->dispatchEvent(&contact);
 }
 
 void PhysicsWorld::rayCast(PhysicsRayCastCallbackFunc func, const Vec2& point1, const Vec2& point2, void* data)
@@ -994,7 +993,7 @@ PhysicsWorld* PhysicsWorld::construct(Scene* scene)
     if (world && world->init())
     {
         world->_scene = scene;
-        world->_eventDispatcher = scene->getEventDispatcher();
+        world->_eventDispatcher = Director::getInstance()->getEventDispatcher();
         return world;
     }
 

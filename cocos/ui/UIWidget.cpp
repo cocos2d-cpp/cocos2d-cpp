@@ -179,7 +179,7 @@ Widget::~Widget()
 void Widget::cleanupWidget()
 {
     //clean up _touchListener
-    _eventDispatcher->removeEventListener(_touchListener);
+    _director->getEventDispatcher()->removeEventListener(_touchListener);
     CC_SAFE_RELEASE_NULL(_touchListener);
 
     //cleanup focused widget and focus navigation controller
@@ -562,11 +562,11 @@ void Widget::setTouchEnabled(bool enable)
         _touchListener->onTouchMoved = CC_CALLBACK_2(Widget::onTouchMoved, this);
         _touchListener->onTouchEnded = CC_CALLBACK_2(Widget::onTouchEnded, this);
         _touchListener->onTouchCancelled = CC_CALLBACK_2(Widget::onTouchCancelled, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_touchListener, this);
     }
     else
     {
-        _eventDispatcher->removeEventListener(_touchListener);
+        _director->getEventDispatcher()->removeEventListener(_touchListener);
         CC_SAFE_RELEASE_NULL(_touchListener);
     }
 }

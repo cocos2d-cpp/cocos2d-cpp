@@ -82,7 +82,7 @@ private:
         listener->onTouchEnded = CC_CALLBACK_2(Button::onTouchEnded, this);
         listener->onTouchCancelled = CC_CALLBACK_2(Button::onTouchCancelled, this);
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
         
     }
 

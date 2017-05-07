@@ -2,6 +2,7 @@
 #include "../testResource.h"
 
 #include "2d/CCSprite.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 
 using namespace cocos2d;
@@ -21,7 +22,7 @@ ClickAndMoveTestCase::ClickAndMoveTestCase()
     auto listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(ClickAndMoveTestCase::onTouchBegan, this);
     listener->onTouchEnded = CC_CALLBACK_2(ClickAndMoveTestCase::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     auto sprite = Sprite::create(s_pathGrossini);
     

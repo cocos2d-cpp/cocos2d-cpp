@@ -115,16 +115,16 @@ void TouchableSpriteTest::onEnter()
         }
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, sprite1);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1->clone(), sprite2);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1->clone(), sprite3);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, sprite1);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1->clone(), sprite2);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1->clone(), sprite3);
     
 
     auto removeAllTouchItem = MenuItemFont::create("Remove All Touch Listeners", [this](Ref* sender){
         auto senderItem = static_cast<MenuItemFont*>(sender);
         senderItem->setString("Only Next item could be clicked");
         
-        _eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
+        _director->getEventDispatcher()->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
         
         auto nextItem = MenuItemFont::create("Next", [=](Ref*){
             getTestSuite()->enterNextTest();
@@ -212,17 +212,17 @@ public:
             
             if (_removeListenerOnTouchEnded)
             {
-                _eventDispatcher->removeEventListener(listener);
+                _director->getEventDispatcher()->removeEventListener(listener);
             }
         };
         
         if (_fixedPriority != 0)
         {
-            _eventDispatcher->addEventListenerWithFixedPriority(listener, _fixedPriority);
+            _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, _fixedPriority);
         }
         else
         {
-            _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+            _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
         }
 
         _listener = listener;
@@ -230,7 +230,7 @@ public:
     
     void onExit() override
     {
-        _eventDispatcher->removeEventListener(_listener);
+        _director->getEventDispatcher()->removeEventListener(_listener);
         
         Sprite::onExit();
     }
@@ -315,7 +315,7 @@ void RemoveListenerWhenDispatching::onEnter()
         sprite1->setColor(Color3B::WHITE);
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, sprite1);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, sprite1);
     
     auto statusLabel = Label::createWithSystemFont("The sprite could be touched!", "", 20);
     statusLabel->setPosition(origin + Vec2(size.width/2, size.height-90));
@@ -342,14 +342,14 @@ void RemoveListenerWhenDispatching::onEnter()
         [=](Ref* ){
             if (*enable)
             {
-                _eventDispatcher->removeEventListener(listener1);
+                _director->getEventDispatcher()->removeEventListener(listener1);
                 statusLabel->setString("The sprite could not be touched!");
 
                 (*enable) = false;
             }
             else
             {
-                _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, sprite1);
+                _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, sprite1);
                 statusLabel->setString("The sprite could be touched!");
 
                 (*enable) = true;
@@ -397,7 +397,7 @@ void CustomEventTest::onEnter()
         statusLabel->setString(str.c_str());
     });
     
-    _eventDispatcher->addEventListenerWithFixedPriority(_listener, 1);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_listener, 1);
     
     auto sendItem = MenuItemFont::create("Send Custom Event 1", [=](Ref* ){
         static int count = 0;
@@ -406,7 +406,7 @@ void CustomEventTest::onEnter()
         sprintf(buf, "%d", count);
         EventCustom event("game_custom_event1");
         event.setUserData(buf);
-        _eventDispatcher->dispatchEvent(&event);
+        _director->getEventDispatcher()->dispatchEvent(&event);
         CC_SAFE_DELETE_ARRAY(buf);
     });
     sendItem->setPosition(origin + Vec2(size.width/2, size.height/2));
@@ -423,7 +423,7 @@ void CustomEventTest::onEnter()
         statusLabel2->setString(str.c_str());
     });
     
-    _eventDispatcher->addEventListenerWithFixedPriority(_listener2, 1);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_listener2, 1);
     
     auto sendItem2 = MenuItemFont::create("Send Custom Event 2", [=](Ref* ){
         static int count = 0;
@@ -432,7 +432,7 @@ void CustomEventTest::onEnter()
         sprintf(buf, "%d", count);
         EventCustom event("game_custom_event2");
         event.setUserData(buf);
-        _eventDispatcher->dispatchEvent(&event);
+        _director->getEventDispatcher()->dispatchEvent(&event);
         CC_SAFE_DELETE_ARRAY(buf);
     });
     sendItem2->setPosition(origin + Vec2(size.width/2, size.height/2 - 40));
@@ -445,8 +445,8 @@ void CustomEventTest::onEnter()
 
 void CustomEventTest::onExit()
 {
-    _eventDispatcher->removeEventListener(_listener);
-    _eventDispatcher->removeEventListener(_listener2);
+    _director->getEventDispatcher()->removeEventListener(_listener);
+    _director->getEventDispatcher()->removeEventListener(_listener2);
     EventDispatcherTestDemo::onExit();
 }
 
@@ -487,7 +487,7 @@ void LabelKeyboardEventTest::onEnter()
         label->setString(buf);
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, statusLabel);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, statusLabel);
 }
 
 std::string LabelKeyboardEventTest::title() const
@@ -535,7 +535,7 @@ _pos = _max;        \
         sprite->setPosition(ptNow);
     });
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, sprite);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, sprite);
 }
 
 void SpriteAccelerationEventTest::onExit()
@@ -599,7 +599,7 @@ void RemoveAndRetainNodeTest::onEnter()
         target->setOpacity(255);
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, _sprite);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, _sprite);
     
     this->runAction(
         std::make_unique<Sequence>(
@@ -650,8 +650,8 @@ void RemoveListenerAfterAddingTest::onEnter()
             return true;
         };
         
-        _eventDispatcher->addEventListenerWithFixedPriority(listener, -1);
-        _eventDispatcher->removeEventListener(listener);
+        _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -1);
+        _director->getEventDispatcher()->removeEventListener(listener);
     });
 
     item1->setPosition(VisibleRect::center() + Vec2(0, 80));
@@ -675,8 +675,8 @@ void RemoveListenerAfterAddingTest::onEnter()
             return true;
         };
         
-        _eventDispatcher->addEventListenerWithFixedPriority(listener, -1);
-        _eventDispatcher->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
+        _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -1);
+        _director->getEventDispatcher()->removeEventListenersForType(EventListener::Type::TOUCH_ONE_BY_ONE);
         
         addNextButton();
     });
@@ -690,8 +690,8 @@ void RemoveListenerAfterAddingTest::onEnter()
             return true;
         };
         
-        _eventDispatcher->addEventListenerWithFixedPriority(listener, -1);
-        _eventDispatcher->removeAllEventListeners();
+        _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -1);
+        _director->getEventDispatcher()->removeAllEventListeners();
         
         addNextButton();
     });
@@ -892,7 +892,7 @@ GlobalZTouchTest::GlobalZTouchTest()
             sprite = Sprite::create("Images/YellowSquare.png");
         }
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener->clone(), sprite);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener->clone(), sprite);
         
         this->addChild(sprite);
         
@@ -1021,11 +1021,11 @@ StopPropagationTest::StopPropagationTest()
             addChild(sprite2, 0);
         }
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(touchOneByOneListener->clone(), sprite);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardEventListener->clone(), sprite);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchOneByOneListener->clone(), sprite);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardEventListener->clone(), sprite);
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(touchAllAtOnceListener->clone(), sprite2);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(keyboardEventListener->clone(), sprite2);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchAllAtOnceListener->clone(), sprite2);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyboardEventListener->clone(), sprite2);
 
         
         Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -1092,14 +1092,14 @@ PauseResumeTargetTest::PauseResumeTargetTest()
     auto popup = MenuItemFont::create("Popup", [=](Ref* ){
         
         sprite3->getListener()->setEnabled(false);
-        _eventDispatcher->pauseEventListenersForTarget(this, true);
+        _director->getEventDispatcher()->pauseEventListenersForTarget(this, true);
         
         auto colorLayer = LayerColor::create(Color4B(0, 0, 255, 100));
         this->addChild(colorLayer, 99999);
         
         auto closeItem = MenuItemFont::create("close", [=](Ref* ){
             colorLayer->removeFromParent();
-            _eventDispatcher->resumeEventListenersForTarget(this, true);
+            _director->getEventDispatcher()->resumeEventListenersForTarget(this, true);
             sprite3->getListener()->setEnabled(true);
         });
         
@@ -1140,7 +1140,7 @@ std::string PauseResumeTargetTest::subtitle() const
 Issue4129::Issue4129()
 : _bugFixed(false)
 {
-    _customlistener = _eventDispatcher->addCustomEventListener(EVENT_COME_TO_BACKGROUND, [this](EventCustom* ){
+    _customlistener = _director->getEventDispatcher()->addCustomEventListener(EVENT_COME_TO_BACKGROUND, [this](EventCustom* ){
         
         auto label = Label::createWithSystemFont("Yeah, this issue was fixed.", "", 20);
         label->setAnchorPoint(Vec2(0, 0.5f));
@@ -1148,7 +1148,7 @@ Issue4129::Issue4129()
         this->addChild(label);
         
         // After test, remove it.
-        _eventDispatcher->removeEventListener(_customlistener);
+        _director->getEventDispatcher()->removeEventListener(_customlistener);
         _customlistener = nullptr;
 
         _bugFixed = true;
@@ -1158,7 +1158,7 @@ Issue4129::Issue4129()
         auto senderItem = static_cast<MenuItemFont*>(sender);
         senderItem->setString("Only 'Reset' item could be clicked");
         
-        _eventDispatcher->removeAllEventListeners();
+        _director->getEventDispatcher()->removeAllEventListeners();
         
         auto nextItem = MenuItemFont::create("Reset", [=](Ref* /*sender*/){
             CCASSERT(_bugFixed, "This issue was not fixed!");
@@ -1174,7 +1174,7 @@ Issue4129::Issue4129()
         this->addChild(menu2);
         
         // Simulate to dispatch 'come to background' event
-        _eventDispatcher->dispatchCustomEvent(EVENT_COME_TO_BACKGROUND);
+        _director->getEventDispatcher()->dispatchCustomEvent(EVENT_COME_TO_BACKGROUND);
     });
     
     removeAllTouchItem->setFontSizeObj(16);
@@ -1190,7 +1190,7 @@ Issue4129::~Issue4129()
 {
     if (_customlistener)
     {
-        _eventDispatcher->removeEventListener(_customlistener);
+        _director->getEventDispatcher()->removeEventListener(_customlistener);
     }
 }
 
@@ -1292,12 +1292,12 @@ public:
             // Do nothing
         };
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(_eventListener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_eventListener, this);
     }
     
     void onExit() override
     {
-        _eventDispatcher->removeEventListenersForTarget(this);
+        _director->getEventDispatcher()->removeEventListenersForTarget(this);
         _eventListener = nullptr;
         Sprite::onExit();
     }
@@ -1449,14 +1449,14 @@ Issue8194::Issue8194()
 #define tagA 100
 #define tagB 101
     // dispatch custom event in another custom event, make the custom event "Issue8194" take effect immediately
-    _listener = getEventDispatcher()->addCustomEventListener(Director::EVENT_AFTER_UPDATE, [this](cocos2d::EventCustom *){
+    _listener = _director->getEventDispatcher()->addCustomEventListener(Director::EVENT_AFTER_UPDATE, [this](cocos2d::EventCustom *){
         if (nodesAdded)
         {
             // CCLOG("Fire Issue8194 Event");
-            getEventDispatcher()->dispatchCustomEvent("Issue8194");
+            _director->getEventDispatcher()->dispatchCustomEvent("Issue8194");
             
             // clear test nodes and listeners
-            getEventDispatcher()->removeCustomEventListeners("Issue8194");
+            _director->getEventDispatcher()->removeCustomEventListeners("Issue8194");
             removeChildByTag(tagA);
             removeChildByTag(tagB);
             nodesAdded = false;
@@ -1474,7 +1474,7 @@ Issue8194::Issue8194()
             _subtitleLabel->setString("Bug has been fixed.");
             event->stopPropagation();
         });
-        getEventDispatcher()->addEventListenerWithSceneGraphPriority(listenerA, nodeA);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listenerA, nodeA);
        
         // add nodeB to scene
         auto nodeB = Node::create();
@@ -1484,7 +1484,7 @@ Issue8194::Issue8194()
             _subtitleLabel->setString("Bug exist yet.");
             event->stopPropagation();
         });
-        getEventDispatcher()->addEventListenerWithSceneGraphPriority(listenerB, nodeB);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listenerB, nodeB);
         
         nodesAdded = true;
     });
@@ -1497,7 +1497,7 @@ Issue8194::Issue8194()
 
 Issue8194::~Issue8194()
 {
-    getEventDispatcher()->removeEventListener(_listener);
+    _director->getEventDispatcher()->removeEventListener(_listener);
 }
 
 std::string Issue8194::title() const
@@ -1519,13 +1519,13 @@ Issue9898::Issue9898()
     addChild(nodeA);
 
     _listener = cocos2d::EventListenerCustom::create("Issue9898", [&](cocos2d::EventCustom *){
-        _eventDispatcher->removeEventListener(_listener);
-        _eventDispatcher->dispatchCustomEvent("Issue9898");
+        _director->getEventDispatcher()->removeEventListener(_listener);
+        _director->getEventDispatcher()->dispatchCustomEvent("Issue9898");
     });
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, nodeA);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_listener, nodeA);
 
     auto menuItem = MenuItemFont::create("Dispatch Custom Event", [&](Ref *) {
-        _eventDispatcher->dispatchCustomEvent("Issue9898");
+        _director->getEventDispatcher()->dispatchCustomEvent("Issue9898");
     });
     menuItem->setPosition(origin.x + size.width/2, origin.y + size.height/2);
     auto menu = Menu::create(menuItem, nullptr);

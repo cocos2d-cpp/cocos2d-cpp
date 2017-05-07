@@ -2,9 +2,8 @@
 Copyright (c) 2008-2010 Ricardo Quesada
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
-CopyRight (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2013-2016 Chukong Technologies Inc.
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +25,7 @@ THE SOFTWARE.
 ****************************************************************************/
 #include "2d/CCAnimationCache.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 
 using namespace std;
@@ -107,7 +107,7 @@ AnimationFrame* AnimationCache::getAnimationFrame(const std::string& animationNa
 
  void AnimationCache::parseVersion1(const ValueMap& animations)
 {
-    SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+    SpriteFrameCache & frameCache = Director::getInstance()->getSpriteFrameCache();
 
     for (const auto& anim : animations)
     {
@@ -127,7 +127,7 @@ AnimationFrame* AnimationCache::getAnimationFrame(const std::string& animationNa
 
         for (auto& frameName : frameNames)
         {
-            SpriteFrame* spriteFrame = frameCache->getSpriteFrameByName(frameName.asString());
+            SpriteFrame* spriteFrame = frameCache.getSpriteFrameByName(frameName.asString());
 
             if ( ! spriteFrame ) {
                 CCLOG("cocos2d: AnimationCache: Animation '%s' refers to frame '%s' which is not currently in the SpriteFrameCache. This frame will not be added to the animation.", anim.first.c_str(), frameName.asString().c_str());
@@ -158,7 +158,7 @@ AnimationFrame* AnimationCache::getAnimationFrame(const std::string& animationNa
 
 void AnimationCache::parseVersion2(const ValueMap& animations)
 {
-    SpriteFrameCache *frameCache = SpriteFrameCache::getInstance();
+    SpriteFrameCache & frameCache = Director::getInstance()->getSpriteFrameCache();
 
     for (const auto& anim : animations)
     {
@@ -184,7 +184,7 @@ void AnimationCache::parseVersion2(const ValueMap& animations)
         {
             ValueMap& entry = obj.asValueMap();
             std::string spriteFrameName = entry["spriteframe"].asString();
-            SpriteFrame *spriteFrame = frameCache->getSpriteFrameByName(spriteFrameName);
+            SpriteFrame *spriteFrame = frameCache.getSpriteFrameByName(spriteFrameName);
 
             if( ! spriteFrame ) {
                 CCLOG("cocos2d: AnimationCache: Animation '%s' refers to frame '%s' which is not currently in the SpriteFrameCache. This frame will not be added to the animation.", name.c_str(), spriteFrameName.c_str());
@@ -232,9 +232,11 @@ void AnimationCache::addAnimationsWithDictionary(const ValueMap& dictionary,cons
         version = properties.at("format").asInt();
         const ValueVector& spritesheets = properties.at("spritesheets").asValueVector();
 
+        SpriteFrameCache & frameCache = Director::getInstance()->getSpriteFrameCache();
+
         for(const auto &value : spritesheets) {
             std::string path = FileUtils::getInstance()->fullPathFromRelativeFile(value.asString(),plist);
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile(path);
+            frameCache.addSpriteFramesWithFile(path);
         }
     }
 

@@ -755,7 +755,7 @@ void CustomEventDispatchingPerfTest::onEnter()
     for (int i = 0; i < 2000; i++)
     {
         auto listener = EventListenerCustom::create(StringUtils::format("custom_event_%d", i), [](EventCustom*){});
-        _eventDispatcher->addEventListenerWithFixedPriority(listener, i + 1);
+        _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, i + 1);
         _customListeners.push_back(listener);
     }
 }
@@ -764,7 +764,7 @@ void CustomEventDispatchingPerfTest::onExit()
 {
     for (auto& l : _customListeners)
     {
-        _eventDispatcher->removeEventListener(l);
+        _director->getEventDispatcher()->removeEventListener(l);
     }
     PerformanceEventDispatcherScene::onExit();
 }

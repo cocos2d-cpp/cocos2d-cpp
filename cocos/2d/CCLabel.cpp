@@ -407,7 +407,8 @@ Label::Label(TextHAlignment hAlignment /* = TextHAlignment::LEFT */,
             }
         }
     });
-    _eventDispatcher->addEventListenerWithFixedPriority(_purgeTextureListener, 1);
+
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_purgeTextureListener, 1);
     
     _resetTextureListener = EventListenerCustom::create(FontAtlas::CMD_RESET_FONTATLAS, [this](EventCustom* event){
         if (_fontAtlas && _currentLabelType == LabelType::TTF && event->getUserData() == _fontAtlas)
@@ -420,7 +421,7 @@ Label::Label(TextHAlignment hAlignment /* = TextHAlignment::LEFT */,
             }
         }
     });
-    _eventDispatcher->addEventListenerWithFixedPriority(_resetTextureListener, 2);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_resetTextureListener, 2);
 }
 
 Label::~Label()
@@ -434,8 +435,8 @@ Label::~Label()
         _batchNodes.clear();
         FontAtlasCache::releaseFontAtlas(_fontAtlas);
     }
-    _eventDispatcher->removeEventListener(_purgeTextureListener);
-    _eventDispatcher->removeEventListener(_resetTextureListener);
+    _director->getEventDispatcher()->removeEventListener(_purgeTextureListener);
+    _director->getEventDispatcher()->removeEventListener(_resetTextureListener);
 
     CC_SAFE_RELEASE_NULL(_textSprite);
     CC_SAFE_RELEASE_NULL(_shadowNode);

@@ -3,8 +3,7 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +36,7 @@ DEFINE_TEST_SUITE(PerformceSpriteTests);
 class SubTest
 {
 public:
+    SubTest();
     ~SubTest();
     void removeByTag(int tag);
     cocos2d::Sprite* createSpriteWithTag(int tag);
@@ -44,6 +44,7 @@ public:
     cocos2d::Node* getTheParentNode() { return _parentNode; }
 
 protected:
+    cocos2d::Director* _director;
     int _subtestNumber;
     cocos2d::Node* _parentNode;
 };

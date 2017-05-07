@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include <chrono>
 
 #include "2d/CCScene.h"
+#include "2d/CCSpriteFrameCache.h"
 #include "base/CCNodeRegister.h"
 #include "base/CCScheduler.h"
 #include "math/CCMath.h"
@@ -43,28 +44,20 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
-/**
- * @addtogroup base
- * @{
- */
-
 /* Forward declarations. */
 class ActionManager;
+class Console;
+class EventCustom;
+class EventDispatcher;
 class LabelAtlas;
 class Node;
-class EventDispatcher;
-class EventCustom;
-class TextureCache;
 class Renderer;
-class Console;
+class TextureCache;
 
 namespace experimental {
     class FrameBuffer;
 }
 
-/**
- * @brief Matrix stack type.
- */
 enum class MATRIX_STACK_TYPE
 {
     /// Model view matrix stack
@@ -129,7 +122,6 @@ public:
 private:
     Director();
     ~Director();
-    bool init();
 
 public:
     // attribute
@@ -161,11 +153,12 @@ public:
      */
     void setOpenGLView(GLView *openGLView);
 
-    /*
-     * Gets singleton of TextureCache.
-     * @js NA
-     */
     TextureCache* getTextureCache() const;
+
+    SpriteFrameCache & getSpriteFrameCache()
+    {
+        return _spriteFrameCache;
+    }
 
     /** Whether or not `_nextDeltaTimeZero` is set to 0. */
     bool isNextDeltaTimeZero() { return _nextDeltaTimeZero; }
@@ -389,17 +382,9 @@ public:
     ActionManager & getActionManager() { return *_actionManager; }
     
     /** Gets the EventDispatcher associated with this director.
-     * @since v3.0
-     * @js NA
      */
     EventDispatcher* getEventDispatcher() const { return _eventDispatcher; }
     
-    /** Sets the EventDispatcher associated with this director.
-     * @since v3.0
-     * @js NA
-     */
-    void setEventDispatcher(EventDispatcher* dispatcher);
-
     /** Returns the Renderer associated with this director.
      * @since v3.0
      */
@@ -657,6 +642,8 @@ private:
 
     // GLView will recreate stats labels to fit visible rect
     friend class GLView;
+
+    SpriteFrameCache _spriteFrameCache;
 };
 
 // end of base group

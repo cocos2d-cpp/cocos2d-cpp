@@ -1,5 +1,6 @@
 #include "Paddle.h"
 
+#include "base/CCDirector.h"
 #include "base/CCEventListenerTouch.h"
 #include "base/CCEventDispatcher.h"
 #include "base/CCTouch.h"
@@ -51,7 +52,7 @@ void Paddle::onEnter()
     listener->onTouchMoved = CC_CALLBACK_2(Paddle::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(Paddle::onTouchEnded, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 void Paddle::onExit()

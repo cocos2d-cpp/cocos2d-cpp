@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017 Iakov Sergeev <yahont@github>
 Copyright (c) 2015 Neo Kim (neo.kim@neofect.com)
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +25,7 @@ THE SOFTWARE.
 
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
 #include "base/ccUtils.h"
 
 static const char* CIRCLE_IMAGE = "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAA8ElEQVRIx62VyRGCQBBF+6gWRCEmYDIQkhiBCgHhSclC8YqWzOV5oVzKAYZp3r1/9fpbxAIBMTsKrjx5cqVgR0wgLhCRUWOjJiPqD56xoaGPhpRZV/iSEy6crHmw5oIrF9b/lVeMofrJgjlnxlIy/wik+JB+mme8BExbBhm+5CJC2LE2LtSEQoyGWDioBA5CoRIohJtK4CYDxzNEM4GAugR1E9VjVC+SZpXvhCJCrjomESLvc17pDGX7bWmlh6UtpjPVCWy9zaJ0TD7qfm3pwERMz2trRVZk3K3BD/L34AY+dEDCniMVBkPFkT2J/b2/AIV+dRpFLOYoAAAAAElFTkSuQmCC";
@@ -186,7 +186,7 @@ void PageViewIndicator::setIndexNodesTexture(const std::string& texName, Widget:
         break;
 
         case Widget::TextureResType::PLIST: {
-            auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(texName);
+            auto frame = _director->getSpriteFrameCache().getSpriteFrameByName(texName);
             _currentIndexNode->setSpriteFrame(frame);
             for(auto& indexNode : _indexNodes) {
                 indexNode->setSpriteFrame(frame);
@@ -205,7 +205,7 @@ void PageViewIndicator::increaseNumberOfPages()
 {
     Sprite* indexNode;
     
-    auto cache = SpriteFrameCache::getInstance();
+    auto & cache = _director->getSpriteFrameCache();
 
     if(_useDefaultTexture)
     {
@@ -219,7 +219,7 @@ void PageViewIndicator::increaseNumberOfPages()
                 indexNode = Sprite::create(_indexNodesTextureFile);
                 break;
             case Widget::TextureResType::PLIST:
-                indexNode = Sprite::create(cache->getSpriteFrameByName(_indexNodesTextureFile));
+                indexNode = Sprite::create(cache.getSpriteFrameByName(_indexNodesTextureFile));
                 break;
             default:
                 break;

@@ -60,7 +60,7 @@ void ScenarioTest::performTests()
 {
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(ScenarioTest::onTouchesMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     _particleNumber = _initParticleNum;
 

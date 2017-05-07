@@ -34,7 +34,7 @@ RenderTextureTests::RenderTextureTests()
 */
 RenderTextureSave::RenderTextureSave()
 {
-    auto s = Director::getInstance()->getWinSize();
+    auto s = _director->getWinSize();
 
     // create a render texture, this is what we are going to draw into
     _target = RenderTexture::create(s.width, s.height, Texture2D::PixelFormat::RGBA8888);
@@ -47,7 +47,7 @@ RenderTextureSave::RenderTextureSave()
     
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(RenderTextureSave::onTouchesMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     // Save Image menu
     MenuItemFont::setFontSize(16);
@@ -101,7 +101,7 @@ void RenderTextureSave::saveImage(cocos2d::Ref *)
 RenderTextureSave::~RenderTextureSave()
 {
     _target->release();
-    Director::getInstance()->getTextureCache()->removeUnusedTextures();
+    _director->getTextureCache()->removeUnusedTextures();
 }
 
 void RenderTextureSave::onTouchesMoved(const std::vector<Touch*>& touches, Event* )
@@ -169,7 +169,7 @@ RenderTextureIssue937::RenderTextureIssue937()
     auto background = LayerColor::create(Color4B(200,200,200,255));
     addChild(background);
 
-    auto s = Director::getInstance()->getWinSize();
+    auto s = _director->getWinSize();
     auto spr_premulti = Sprite::create("Images/fire.png");
     spr_premulti->setPosition(Vec2(s.width/2-16, s.height/2+16));
 
@@ -185,7 +185,7 @@ RenderTextureIssue937::RenderTextureIssue937()
     }
 
     rend->setKeepMatrix(true);
-    Size pixelSize = Director::getInstance()->getWinSizeInPixels();
+    Size pixelSize = _director->getWinSizeInPixels();
     rend->setVirtualViewport(Vec2(s.width/2-32, s.height/2-32),Rect(0,0,s.width,s.height),Rect(0,0,pixelSize.width,pixelSize.height));
 
     // It's possible to modify the RenderTexture blending function by
@@ -222,9 +222,9 @@ RenderTextureZbuffer::RenderTextureZbuffer()
     listener->onTouchesBegan = CC_CALLBACK_2(RenderTextureZbuffer::onTouchesBegan, this);
     listener->onTouchesMoved = CC_CALLBACK_2(RenderTextureZbuffer::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(RenderTextureZbuffer::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
-    auto size = Director::getInstance()->getWinSize();
+    auto size = _director->getWinSize();
     auto label = Label::createWithTTF("vertexZ = 50", "fonts/Marker Felt.ttf", 64);
     label->setPosition(Vec2(size.width / 2, size.height * 0.25f));
     this->addChild(label);
@@ -241,19 +241,19 @@ RenderTextureZbuffer::RenderTextureZbuffer()
     label2->setPositionZ(0);
     label3->setPositionZ(-50);
 
-    auto cache = SpriteFrameCache::getInstance();
-    cache->addSpriteFramesWithFile("Images/bugs/circle.plist");
+    auto & cache = _director->getSpriteFrameCache();
+    cache.addSpriteFramesWithFile("Images/bugs/circle.plist");
     mgr = SpriteBatchNode::create("Images/bugs/circle.png", 9);
     this->addChild(mgr);
-    sp1 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp2 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp3 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp4 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp5 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp6 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp7 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp8 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
-    sp9 = Sprite::create(cache->getSpriteFrameByName("circle.png"));
+    sp1 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp2 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp3 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp4 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp5 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp6 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp7 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp8 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
+    sp9 = Sprite::create(cache.getSpriteFrameByName("circle.png"));
 
     mgr->addChild(sp1, 9);
     mgr->addChild(sp2, 8);
@@ -664,7 +664,7 @@ SpriteRenderTextureBug::SpriteRenderTextureBug()
 {
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesEnded = CC_CALLBACK_2(SpriteRenderTextureBug::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     auto s = Director::getInstance()->getWinSize();
     addNewSpriteWithCoords(Vec2(s.width/2, s.height/2));

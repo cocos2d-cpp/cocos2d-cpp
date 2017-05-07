@@ -100,8 +100,6 @@ Node::Node()
 {
     // set default scheduler and actionManager
     _director = Director::getInstance();
-    _eventDispatcher = _director->getEventDispatcher();
-    _eventDispatcher->retain();
     
     _transform = _inverse = Mat4::IDENTITY;
 
@@ -145,15 +143,13 @@ Node::~Node()
     stopAllActions();
     _director->getScheduler().unscheduleAllForTarget(this);
     
-    _eventDispatcher->removeEventListenersForTarget(this);
+    _director->getEventDispatcher()->removeEventListenersForTarget(this);
     
 #if CC_NODE_DEBUG_VERIFY_EVENT_LISTENERS && COCOS2D_DEBUG > 0
-    _eventDispatcher->debugCheckNodeHasNoEventListenersOnDestruction(this);
+    _director->getEventDispatcher()->debugCheckNodeHasNoEventListenersOnDestruction(this);
 #endif
 
     CCASSERT(!_running, "Node still marked as running on node destruction! Was base class onExit() called in derived class onExit() implementations?");
-    CC_SAFE_RELEASE(_eventDispatcher);
-
     delete[] _additionalTransform;
 
     _director->getNodeRegister().delNode(this);
@@ -222,7 +218,7 @@ void Node::setLocalZOrder(int z)
         _parent->reorderChild(this, z);
     }
 
-    _eventDispatcher->setDirtyForNode(this);
+    _director->getEventDispatcher()->setDirtyForNode(this);
 }
 
 /// zOrder setter : private method
@@ -237,7 +233,7 @@ void Node::setGlobalZOrder(float globalZOrder)
     if (_globalZOrder != globalZOrder)
     {
         _globalZOrder = globalZOrder;
-        _eventDispatcher->setDirtyForNode(this);
+        _director->getEventDispatcher()->setDirtyForNode(this);
     }
 }
 
@@ -1240,17 +1236,6 @@ void Node::onExit()
         child->onExit();
 }
 
-void Node::setEventDispatcher(EventDispatcher* dispatcher)
-{
-    if (dispatcher != _eventDispatcher)
-    {
-        _eventDispatcher->removeEventListenersForTarget(this);
-        CC_SAFE_RETAIN(dispatcher);
-        CC_SAFE_RELEASE(_eventDispatcher);
-        _eventDispatcher = dispatcher;
-    }
-}
-
 // MARK: actions
 
 void Node::runAction(std::unique_ptr<Action> action)
@@ -1301,13 +1286,13 @@ ssize_t Node::getNumberOfRunningActions() const
 void Node::resume()
 {
     _director->getScheduler().resumeAllForTarget(this);
-    _eventDispatcher->resumeEventListenersForTarget(this);
+    _director->getEventDispatcher()->resumeEventListenersForTarget(this);
 }
 
 void Node::pause()
 {
     _director->getScheduler().pauseAllForTarget(this);
-    _eventDispatcher->pauseEventListenersForTarget(this);
+    _director->getEventDispatcher()->pauseEventListenersForTarget(this);
 }
 
 // override me

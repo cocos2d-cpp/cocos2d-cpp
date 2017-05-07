@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +22,12 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UILoadingBar.h"
-#include "ui/UIHelper.h"
-#include "ui/UIScale9Sprite.h"
+
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+#include "ui/UIHelper.h"
+#include "ui/UIScale9Sprite.h"
 
 namespace cocos2d {
 
@@ -141,7 +142,7 @@ void LoadingBar::loadTexture(const std::string& texture, TextureResType texType)
             break;
         case TextureResType::PLIST:
             _barRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(texture)
+                _director->getSpriteFrameCache().getSpriteFrameByName(texture)
             );
             break;
         default:

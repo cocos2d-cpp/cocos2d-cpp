@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +71,7 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     _touchListener->onTouchEnded = CC_CALLBACK_2(MenuLayerMainMenu::onTouchEnded, this);
     _touchListener->onTouchCancelled = CC_CALLBACK_2(MenuLayerMainMenu::onTouchCancelled, this);
     
-    _eventDispatcher->addEventListenerWithFixedPriority(_touchListener, 1);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_touchListener, 1);
 
     // Font Item    
     auto spriteNormal   = make_node_ptr<Sprite>(s_MenuItem, Rect(0,23*2,115,23));
@@ -175,7 +174,7 @@ void MenuLayerMainMenu::onTouchMoved(Touch *, Event * )
 
 MenuLayerMainMenu::~MenuLayerMainMenu()
 {
-    _eventDispatcher->removeEventListener(_touchListener);
+    _director->getEventDispatcher()->removeEventListener(_touchListener);
     _disabledItem->release();
 }
 
@@ -191,7 +190,7 @@ void MenuLayerMainMenu::menuCallbackConfig(Ref* )
 
 void MenuLayerMainMenu::allowTouches(float )
 {
-    _eventDispatcher->setPriority(_touchListener, 1);
+    _director->getEventDispatcher()->setPriority(_touchListener, 1);
     Director::getInstance()->getScheduler().unscheduleAllForTarget(this);
     log("TOUCHES ALLOWED AGAIN");
 }
@@ -199,7 +198,7 @@ void MenuLayerMainMenu::allowTouches(float )
 void MenuLayerMainMenu::menuCallbackDisabled(Ref* ) 
 {
     // hijack all touch events for 5 seconds
-    _eventDispatcher->setPriority(_touchListener, -1);
+    _director->getEventDispatcher()->setPriority(_touchListener, -1);
     Director::getInstance()->getScheduler().schedule(
         TimedJob(this, &MenuLayerMainMenu::allowTouches)
             .delay(5.0f)
@@ -601,7 +600,7 @@ RemoveMenuItemWhenMove::RemoveMenuItemWhenMove()
     _touchListener->onTouchBegan = CC_CALLBACK_2(RemoveMenuItemWhenMove::onTouchBegan, this);
     _touchListener->onTouchMoved = CC_CALLBACK_2(RemoveMenuItemWhenMove::onTouchMoved, this);
     
-    _eventDispatcher->addEventListenerWithFixedPriority(_touchListener, -129);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_touchListener, -129);
     
 }
 
@@ -612,7 +611,7 @@ void RemoveMenuItemWhenMove::goBack(Ref *)
 
 RemoveMenuItemWhenMove::~RemoveMenuItemWhenMove()
 {
-    _eventDispatcher->removeEventListener(_touchListener);
+    _director->getEventDispatcher()->removeEventListener(_touchListener);
     CC_SAFE_RELEASE(item);
 }
 

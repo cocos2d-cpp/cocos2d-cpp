@@ -73,7 +73,7 @@ bool ShaderNode::initWithVertex(const std::string &vert, const std::string &frag
             loadShaderVertex(_vertFileName, _fragFileName);
         });
 
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 #endif
 
     loadShaderVertex(vert, frag);
@@ -403,7 +403,7 @@ bool SpriteBlur::initWithTexture(Texture2D* texture, const Rect& rect)
                 initGLProgram();
             });
 
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 #endif
         
         initGLProgram();

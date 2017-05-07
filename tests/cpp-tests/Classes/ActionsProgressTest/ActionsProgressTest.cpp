@@ -359,11 +359,11 @@ void SpriteProgressWithSpriteFrame::onEnter()
 
     auto to = std::make_unique<Sequence>(std::make_unique<ProgressTo>(6, 100), std::make_unique<ProgressTo>(0, 0));
 
-    auto cache = SpriteFrameCache::getInstance();
+    auto & cache = _director->getSpriteFrameCache();
 
-    cache->addSpriteFramesWithFile("zwoptex/grossini.plist");
+    cache.addSpriteFramesWithFile("zwoptex/grossini.plist");
 
-    auto left = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache->getSpriteFrameByName("grossini_dance_01.png")));
+    auto left = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache.getSpriteFrameByName("grossini_dance_01.png")));
     left->setType(ProgressTimer::Type::BAR);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     left->setMidpoint(Vec2(0.5f, 0.5f));
@@ -373,7 +373,7 @@ void SpriteProgressWithSpriteFrame::onEnter()
     left->runAction(std::make_unique<RepeatForever>( std::unique_ptr<Sequence>( to->clone())));
     addChild( std::move(left) );
 
-    auto middle = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache->getSpriteFrameByName("grossini_dance_02.png")));
+    auto middle = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache.getSpriteFrameByName("grossini_dance_02.png")));
     middle->setType(ProgressTimer::Type::BAR);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     middle->setMidpoint(Vec2(0.5f, 0.5f));
@@ -383,7 +383,7 @@ void SpriteProgressWithSpriteFrame::onEnter()
     middle->runAction(std::make_unique<RepeatForever>( std::unique_ptr<Sequence>( to->clone())));
     addChild( std::move(middle) );
 
-    auto right = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache->getSpriteFrameByName("grossini_dance_03.png")));
+    auto right = make_node_ptr<ProgressTimer>(make_node_ptr<Sprite>(cache.getSpriteFrameByName("grossini_dance_03.png")));
     right->setType(ProgressTimer::Type::RADIAL);
     //    Setup for a bar starting from the bottom since the midpoint is 0 for the y
     right->setMidpoint(Vec2(0.5f, 0.5f));

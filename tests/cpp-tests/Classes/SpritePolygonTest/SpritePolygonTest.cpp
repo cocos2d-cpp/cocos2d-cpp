@@ -150,7 +150,7 @@ void SpritePolygonTestDemo::initTouches()
             _normalSprite->setScale(newScale);
             updateDrawNode();
         };
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     }
 }
 
@@ -435,7 +435,7 @@ void SpritePolygonTest5::initTouch()
         auto pos = touch->getLocation();
         addSpritePolygon(pos);
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
 }
 
 void SpritePolygonTest5::loadDefaultSprites()
@@ -697,10 +697,10 @@ SpritePolygonTestTPIsland::SpritePolygonTestTPIsland()
 void SpritePolygonTestTPIsland::initSprites()
 {
     auto s = Director::getInstance()->getWinSize();
-    auto cache = SpriteFrameCache::getInstance();
-    cache->addSpriteFramesWithFile("Images/test_polygon.plist");
+    auto & cache = _director->getSpriteFrameCache();
+    cache.addSpriteFramesWithFile("Images/test_polygon.plist");
 
-    auto sprite = Sprite::create(cache->getSpriteFrameByName("island_polygon.png"));
+    auto sprite = Sprite::create(cache.getSpriteFrameByName("island_polygon.png"));
     addChild(sprite);
     sprite->setPosition(s.width/2, s.height/2);
 
@@ -758,14 +758,14 @@ void SpritePolygonTestFrameAnim::initSprites()
     auto action = std::make_unique<RepeatForever>(std::make_unique<RotateBy>(10, 360));
     char str[100] = {0};
 
-    auto cache = SpriteFrameCache::getInstance();
-    cache->addSpriteFramesWithFile("animations/grossini_dance_poly.plist");
+    auto & cache = _director->getSpriteFrameCache();
+    cache.addSpriteFramesWithFile("animations/grossini_dance_poly.plist");
 
     Sprite *sprite;
     for(int i=0;i<10;i++)
     {
         sprintf(str, "grossini_dance_%02d.png", i+1);
-        sprite = Sprite::create(cache->getSpriteFrameByName(str));
+        sprite = Sprite::create(cache.getSpriteFrameByName(str));
 
         sprite->setPosition(Vec2(screen.width/6*(i%5+1), screen.height*2/3 - screen.height*(i/5)/3));
 
@@ -794,7 +794,7 @@ void SpritePolygonTestFrameAnim::initSprites()
         sprintf(str, "grossini_dance_%02d.png", i+1);
         animFrames.push_back(
             to_retaining_ptr(
-                cache->getSpriteFrameByName(str)
+                cache.getSpriteFrameByName(str)
             )
         );
     }

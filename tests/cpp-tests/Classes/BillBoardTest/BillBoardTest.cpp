@@ -120,7 +120,7 @@ BillBoardTest::BillBoardTest()
     //Create touch listener
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(BillBoardTest::onTouchesMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     auto layer3D=Layer::create();
     addChild(layer3D,0);

@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +24,7 @@
 #include "VibrateTest.h"
 
 #include "2d/CCLabel.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/ccUTF8.h"
 #include "platform/CCDevice.h"
@@ -86,7 +86,7 @@ namespace {
             listener->onTouchEnded = CC_CALLBACK_2(TextButton::onTouchEnded, this);
             listener->onTouchCancelled = CC_CALLBACK_2(TextButton::onTouchCancelled, this);
             
-            _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);            
+            _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);            
         }
         
         bool touchHits(Touch  *touch)

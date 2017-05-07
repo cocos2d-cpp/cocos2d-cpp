@@ -3,8 +3,7 @@
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2011      Zynga Inc.
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -77,6 +76,12 @@ static int autoTestSpriteCounts[] = {
 // SubTest
 //
 ////////////////////////////////////////////////////////
+
+SubTest::SubTest()
+    : _director(cocos2d::Director::getInstance())
+{
+}
+
 SubTest::~SubTest()
 {
     _parentNode->release();
@@ -116,7 +121,7 @@ void SubTest::initWithSubTest(int subtest, Node* p)
     mgr->removeTextureForKey("Images/grossinis_sister1.png");
     mgr->removeTextureForKey("Images/grossini_dance_atlas.png");
     mgr->removeTextureForKey("Images/spritesheet1.png");
-    SpriteFrameCache::getInstance()->removeSpriteFrames();
+    _director->getSpriteFrameCache().removeSpriteFrames();
 
     switch ( _subtestNumber)
     {
@@ -174,19 +179,19 @@ void SubTest::initWithSubTest(int subtest, Node* p)
         case 14:
             Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA8888);
             _parentNode = Node::create();
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/grossini_quad.plist"); // sprite sheet with rectangular frames
+            _director->getSpriteFrameCache().addSpriteFramesWithFile("Images/grossini_quad.plist"); // sprite sheet with rectangular frames
             break;
         case 15:
             Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA8888);
             _parentNode = Node::create();
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/grossini_polygon.plist"); // sprite sheet with triangulation of sprite outlines
+            _director->getSpriteFrameCache().addSpriteFramesWithFile("Images/grossini_polygon.plist"); // sprite sheet with triangulation of sprite outlines
             break;
 
         case 16:
             Texture2D::setDefaultAlphaPixelFormat(Texture2D::PixelFormat::RGBA4444);
             _parentNode = Node::create();
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/grossinis_sister1_sp.plist");
-            SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Images/grossinis_sister2_sp.plist");
+            _director->getSpriteFrameCache().addSpriteFramesWithFile("Images/grossinis_sister1_sp.plist");
+            _director->getSpriteFrameCache().addSpriteFramesWithFile("Images/grossinis_sister2_sp.plist");
             break;
 
         default:
@@ -327,22 +332,22 @@ Sprite* SubTest::createSpriteWithTag(int tag)
         case 14:
         case 15:
         {
-            auto frameCache = SpriteFrameCache::getInstance();
-            sprite = Sprite::create(frameCache->getSpriteFrameByName("grossini_dance_05.png"));
+            auto & frameCache = _director->getSpriteFrameCache();
+            sprite = Sprite::create(frameCache.getSpriteFrameByName("grossini_dance_05.png"));
             _parentNode->addChild(sprite, 0, tag+100);
             break;
         }
         case 16:
         {
             int test = (CCRANDOM_0_1() * 2);
-            auto frameCache = SpriteFrameCache::getInstance();
+            auto & frameCache = _director->getSpriteFrameCache();
             if(test==0) {
-                sprite = Sprite::create(frameCache->getSpriteFrameByName("grossinis_sister1.png"));
+                sprite = Sprite::create(frameCache.getSpriteFrameByName("grossinis_sister1.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             else if(test==1)
             {
-                sprite = Sprite::create(frameCache->getSpriteFrameByName("grossinis_sister2.png"));
+                sprite = Sprite::create(frameCache.getSpriteFrameByName("grossinis_sister2.png"));
                 _parentNode->addChild(sprite, 0, tag+100);
             }
             break;
@@ -560,9 +565,7 @@ void SpriteMainScene::onEnter()
 
 void SpriteMainScene::onExit()
 {
-    auto director = Director::getInstance();
-    auto & sched = director->getScheduler();
-    sched.unscheduleAllForTarget(this);
+    _director->getScheduler().unscheduleAllForTarget(this);
     Scene::onExit();
 }
 

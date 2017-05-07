@@ -1,6 +1,7 @@
 #include "OpenURLTest.h"
 
 #include "2d/CCLabel.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "platform/CCApplication.h"
 
@@ -19,7 +20,7 @@ OpenURLTest::OpenURLTest()
 
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesEnded = CC_CALLBACK_2(OpenURLTest::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     // create a label to display the tip string
     _label = Label::createWithTTF("Touch the screen to open\nthe cocos2d-x home page", "fonts/arial.ttf", 22);

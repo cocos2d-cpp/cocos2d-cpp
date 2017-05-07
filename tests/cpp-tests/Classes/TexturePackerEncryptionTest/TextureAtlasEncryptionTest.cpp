@@ -29,13 +29,13 @@ void TextureAtlasEncryptionDemo::onEnter()
     
     auto s = Director::getInstance()->getWinSize();
 
-    auto cache = SpriteFrameCache::getInstance();
+    auto & cache = _director->getSpriteFrameCache();
 
     // Load the non-encrypted atlas
-    cache->addSpriteFramesWithFile("Images/nonencryptedAtlas.plist", "Images/nonencryptedAtlas.pvr.ccz");
+    cache.addSpriteFramesWithFile("Images/nonencryptedAtlas.plist", "Images/nonencryptedAtlas.pvr.ccz");
     
     // Create a sprite from the non-encrypted atlas
-    auto nonencryptedSprite = Sprite::create(cache->getSpriteFrameByName("Icon.png"));
+    auto nonencryptedSprite = Sprite::create(cache.getSpriteFrameByName("Icon.png"));
     nonencryptedSprite->setPosition(Vec2(s.width * 0.25f, s.height * 0.5f));
     this->addChild(nonencryptedSprite);
     
@@ -58,10 +58,10 @@ void TextureAtlasEncryptionDemo::onEnter()
     // found in the compiled source. See the header docs for more information.
 
     // 2) Load the encrypted atlas
-    cache->addSpriteFramesWithFile("Images/encryptedAtlas.plist", "Images/encryptedAtlas.pvr.ccz");
+    cache.addSpriteFramesWithFile("Images/encryptedAtlas.plist", "Images/encryptedAtlas.pvr.ccz");
     
     // 3) Create a sprite from the encrypted atlas
-    auto encryptedSprite = Sprite::create(cache->getSpriteFrameByName("powered.png"));
+    auto encryptedSprite = Sprite::create(cache.getSpriteFrameByName("powered.png"));
     encryptedSprite->setPosition(Vec2(s.width * 0.75f, s.height * 0.5f));
     this->addChild(encryptedSprite);
     

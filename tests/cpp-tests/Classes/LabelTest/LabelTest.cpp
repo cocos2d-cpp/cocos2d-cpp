@@ -1116,7 +1116,7 @@ BitmapFontMultiLineAlignment::BitmapFontMultiLineAlignment()
     listener->onTouchesMoved = CC_CALLBACK_2(BitmapFontMultiLineAlignment::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(BitmapFontMultiLineAlignment::onTouchesEnded, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     // ask director the the window size
     auto size = Director::getInstance()->getWinSize();

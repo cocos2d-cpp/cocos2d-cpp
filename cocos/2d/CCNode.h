@@ -1209,21 +1209,6 @@ public:
      */
     virtual Rect getBoundingBox() const;
 
-    /** Set event dispatcher for scene.
-     *
-     * @param dispatcher The event dispatcher of scene.
-     */
-    virtual void setEventDispatcher(EventDispatcher* dispatcher);
-
-    /** Get the event dispatcher of scene.
-     *
-     * @return The event dispatcher of scene.
-     */
-    virtual EventDispatcher* getEventDispatcher() const { return _eventDispatcher; };
-
-    /// @{
-    /// @name Actions
-
     /**
      * Executes an action, and returns the action that is executed.
      *
@@ -1722,8 +1707,6 @@ protected:
     Ref *_userObject;               ///< A user assigned Object
 
     GLProgramState *_glProgramState; ///< OpenGL Program State
-
-    EventDispatcher* _eventDispatcher;  ///< event dispatcher used to dispatch all kinds of events
 
     bool _running;                  ///< is running
 

@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +29,7 @@
 #include "2d/CCLabel.h"
 #include "2d/CCMenuItem.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
 #include "network/CCDownloader.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIButton.h"
@@ -80,10 +80,10 @@ struct DownloaderTest : public TestCase
         Size viewSize(220, 120);
         float margin = 5;
         
-        auto cache = SpriteFrameCache::getInstance();
+        auto & cache = _director->getSpriteFrameCache();
 
         // create background
-        auto bg = ui::Scale9Sprite::create(cache->getSpriteFrameByName("button_actived.png"));
+        auto bg = ui::Scale9Sprite::create(cache.getSpriteFrameByName("button_actived.png"));
         bg->setContentSize(viewSize);
         
         // add a titile on the top
@@ -131,7 +131,7 @@ struct DownloaderTest : public TestCase
         TestCase::onEnter();
         _restartTestItem->setVisible(true);
         
-        SpriteFrameCache::getInstance()->addSpriteFramesWithFile(s_s9s_ui_plist);
+        _director->getSpriteFrameCache().addSpriteFramesWithFile(s_s9s_ui_plist);
 
         // add four download view in test case
         Node* topRightView = createDownloadView(sNameList[0], [this](Ref*)

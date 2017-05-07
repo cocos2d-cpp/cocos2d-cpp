@@ -5,8 +5,7 @@ Copyright (c) 2009      Robert J Payne
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -49,33 +48,10 @@ namespace cocos2d {
 
 static SpriteFrameCache *_sharedSpriteFrameCache = nullptr;
 
-SpriteFrameCache* SpriteFrameCache::getInstance()
-{
-    if (! _sharedSpriteFrameCache)
-    {
-        _sharedSpriteFrameCache = new (std::nothrow) SpriteFrameCache();
-        _sharedSpriteFrameCache->init();
-    }
-
-    return _sharedSpriteFrameCache;
-}
-
-void SpriteFrameCache::destroyInstance()
-{
-    CC_SAFE_RELEASE_NULL(_sharedSpriteFrameCache);
-}
-
-bool SpriteFrameCache::init()
+SpriteFrameCache::SpriteFrameCache()
 {
     _spriteFrames.reserve(20);
     _spriteFramesAliases.reserve(20);
-    _loadedFileNames = new std::set<std::string>();
-    return true;
-}
-
-SpriteFrameCache::~SpriteFrameCache()
-{
-    CC_SAFE_DELETE(_loadedFileNames);
 }
 
 void SpriteFrameCache::parseIntegerList(const std::string &string, std::vector<int> &res)
@@ -361,7 +337,7 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dict, const std::
 
 void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, Texture2D *texture)
 {
-    if (_loadedFileNames->find(plist) != _loadedFileNames->end())
+    if (_loadedFileNames.find(plist) != _loadedFileNames.end())
     {
         return; // We already added it
     }
@@ -370,7 +346,7 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, Texture
     ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
 
     addSpriteFramesWithDictionary(dict, texture);
-    _loadedFileNames->insert(plist);
+    _loadedFileNames.insert(plist);
 }
 
 void SpriteFrameCache::addSpriteFramesWithFileContent(const std::string& plist_content, Texture2D *texture)
@@ -382,7 +358,7 @@ void SpriteFrameCache::addSpriteFramesWithFileContent(const std::string& plist_c
 void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, const std::string& textureFileName)
 {
     CCASSERT(textureFileName.size()>0, "texture name should not be null");
-    if (_loadedFileNames->find(plist) != _loadedFileNames->end())
+    if (_loadedFileNames.find(plist) != _loadedFileNames.end())
     {
         return; // We already added it
     }
@@ -390,7 +366,7 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist, const s
     const std::string fullPath = FileUtils::getInstance()->fullPathForFilename(plist);
     ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
     addSpriteFramesWithDictionary(dict, textureFileName);
-    _loadedFileNames->insert(plist);
+    _loadedFileNames.insert(plist);
 }
 
 void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist)
@@ -405,7 +381,7 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist)
         return;
     }
 
-    if (_loadedFileNames->find(plist) == _loadedFileNames->end())
+    if (_loadedFileNames.find(plist) == _loadedFileNames.end())
     {
         ValueMap dict = FileUtils::getInstance()->getValueMapFromFile(fullPath);
 
@@ -438,7 +414,7 @@ void SpriteFrameCache::addSpriteFramesWithFile(const std::string& plist)
             CCLOG("cocos2d: SpriteFrameCache: Trying to use file %s as texture", texturePath.c_str());
         }
         addSpriteFramesWithDictionary(dict, texturePath);
-        _loadedFileNames->insert(plist);
+        _loadedFileNames.insert(plist);
     }
 }
 
@@ -446,7 +422,7 @@ bool SpriteFrameCache::isSpriteFramesWithFileLoaded(const std::string& plist) co
 {
     bool result = false;
 
-    if (_loadedFileNames->find(plist) != _loadedFileNames->end())
+    if (_loadedFileNames.find(plist) != _loadedFileNames.end())
     {
         result = true;
     }
@@ -464,7 +440,7 @@ void SpriteFrameCache::removeSpriteFrames()
 {
     _spriteFrames.clear();
     _spriteFramesAliases.clear();
-    _loadedFileNames->clear();
+    _loadedFileNames.clear();
 }
 
 void SpriteFrameCache::removeUnusedSpriteFrames()
@@ -489,7 +465,7 @@ void SpriteFrameCache::removeUnusedSpriteFrames()
     // FIXME:. Since we don't know the .plist file that originated the frame, we must remove all .plist from the cache
     if( removed )
     {
-        _loadedFileNames->clear();
+        _loadedFileNames.clear();
     }
 }
 
@@ -515,7 +491,7 @@ void SpriteFrameCache::removeSpriteFrameByName(const std::string& name)
     }
 
     // FIXME:. Since we don't know the .plist file that originated the frame, we must remove all .plist from the cache
-    _loadedFileNames->clear();
+    _loadedFileNames.clear();
 }
 
 void SpriteFrameCache::removeSpriteFramesFromFile(const std::string& plist)
@@ -530,10 +506,10 @@ void SpriteFrameCache::removeSpriteFramesFromFile(const std::string& plist)
     removeSpriteFramesFromDictionary(dict);
 
     // remove it from the cache
-    set<string>::iterator ret = _loadedFileNames->find(plist);
-    if (ret != _loadedFileNames->end())
+    set<string>::iterator ret = _loadedFileNames.find(plist);
+    if (ret != _loadedFileNames.end())
     {
-        _loadedFileNames->erase(ret);
+        _loadedFileNames.erase(ret);
     }
 }
 
@@ -739,9 +715,9 @@ bool SpriteFrameCache::reloadTexture(const std::string& plist)
 {
     CCASSERT(plist.size()>0, "plist filename should not be nullptr");
 
-    auto it = _loadedFileNames->find(plist);
-    if (it != _loadedFileNames->end()) {
-        _loadedFileNames->erase(it);
+    auto it = _loadedFileNames.find(plist);
+    if (it != _loadedFileNames.end()) {
+        _loadedFileNames.erase(it);
     }
     else
     {
@@ -786,7 +762,7 @@ bool SpriteFrameCache::reloadTexture(const std::string& plist)
     if (texture)
     {
         reloadSpriteFramesWithDictionary(dict, texture);
-        _loadedFileNames->insert(plist);
+        _loadedFileNames.insert(plist);
     }
     else
     {

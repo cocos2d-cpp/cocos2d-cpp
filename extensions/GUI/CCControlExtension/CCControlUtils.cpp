@@ -1,8 +1,6 @@
 /****************************************************************************
-Copyright (c) 2012 cocos2d-x.org
-Copyright (c) 2016 Iakov Sergeev
-
-http://www.cocos2d-x.org
+Copyright (c) 2016-2017 Iakov Sergeev <yahont@github>
+Copyright (c) 2012      cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,24 +24,24 @@ THE SOFTWARE.
 #include "CCControlUtils.h"
 
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 namespace extension {
 
 Sprite* ControlUtils::addSpriteToTargetWithPosAndAnchor(const char* spriteName, Node * target, Vec2 pos, Vec2 anchor)
 {
-    auto cache = SpriteFrameCache::getInstance();
+    auto & cache = Director::getInstance()->getSpriteFrameCache();
 
-    Sprite *sprite = Sprite::create(cache->getSpriteFrameByName(spriteName));
-    
-    if (!sprite)
-        return nullptr;
+    auto sprite = make_node_ptr<Sprite>(cache.getSpriteFrameByName(spriteName));
+    auto rv = sprite.get();
 
     sprite->setPosition(pos);
     sprite->setAnchorPoint(anchor);
-    target->addChild(sprite);
 
-    return sprite;
+    target->addChild( std::move(sprite) );
+
+    return rv;
 }
 
 

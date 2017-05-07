@@ -188,7 +188,9 @@ bool ScrollView::isTouchEnabled() const
 
 void ScrollView::setTouchEnabled(bool enabled)
 {
-    _eventDispatcher->removeEventListener(_touchListener);
+    auto eventDispatcher = _director->getEventDispatcher();
+
+    eventDispatcher->removeEventListener(_touchListener);
     _touchListener = nullptr;
 
     if (enabled)
@@ -200,7 +202,7 @@ void ScrollView::setTouchEnabled(bool enabled)
         _touchListener->onTouchEnded = CC_CALLBACK_2(ScrollView::onTouchEnded, this);
         _touchListener->onTouchCancelled = CC_CALLBACK_2(ScrollView::onTouchCancelled, this);
         
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+        eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
     }
     else
     {

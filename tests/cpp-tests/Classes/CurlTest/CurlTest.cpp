@@ -6,6 +6,7 @@
 #include "curl/curl.h"
 
 #include "2d/CCLabel.h"
+#include "base/CCDirector.h"
 #include "base/CCEventDispatcher.h"
 #include "base/ccUTF8.h"
 
@@ -24,7 +25,7 @@ CurlTest::CurlTest()
 
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesEnded = CC_CALLBACK_2(CurlTest::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     // create a label to display the tip string
     _label = Label::createWithTTF("Touch the screen to connect", "fonts/arial.ttf", 22);

@@ -1,6 +1,6 @@
 /*******************************************************************************
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * Copyright (c) 2013, Esoteric Software
- * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -107,7 +107,7 @@ bool SpineTestLayerNormal::init () {
 		
         return true;
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
 	return true;
 }
@@ -143,7 +143,7 @@ bool SpineTestLayerFFD::init () {
         }
 		return true;
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
 	return true;
 }
@@ -171,7 +171,7 @@ bool SpineTestPerformanceLayer::init () {
         addChild(skeletonNode);
         return true;
 	};
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	_director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
 	return true;
 }
@@ -205,7 +205,7 @@ bool SpineTestLayerRapor::init () {
             skeletonNode->setDebugBonesEnabled(false);
         return true;
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
 }
@@ -262,7 +262,7 @@ bool SpineTestLayerNormalBin::init () {
 
         return true;
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     return true;
 }
@@ -297,7 +297,7 @@ bool SpineTestLayerFFDBin::init () {
         }
         return true;
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     return true;
 }
@@ -324,7 +324,7 @@ bool SpineTestPerformanceLayerBin::init () {
         addChild(skeletonNode);
         return true;
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     return true;
 }
@@ -358,7 +358,7 @@ bool SpineTestLayerRaporBin::init () {
             skeletonNode->setDebugBonesEnabled(false);
         return true;
     };
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     return true;
 }
