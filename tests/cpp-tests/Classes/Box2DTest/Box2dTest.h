@@ -9,7 +9,13 @@ DEFINE_TEST_SUITE(Box2DTests);
 class Box2DTest : public TestCase
 {
 public:
-    CREATE_FUNC(Box2DTest);
+    static Box2DTest* create()
+    {
+        auto ret = new Box2DTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 

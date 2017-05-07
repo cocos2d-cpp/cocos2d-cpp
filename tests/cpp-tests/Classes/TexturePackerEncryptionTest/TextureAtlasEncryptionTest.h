@@ -9,7 +9,13 @@ DEFINE_TEST_SUITE(TextureAtlasEncryptionTests);
 class TextureAtlasEncryptionDemo : public TestCase
 {
 public:
-    CREATE_FUNC(TextureAtlasEncryptionDemo);
+    static TextureAtlasEncryptionDemo* create()
+    {
+        auto ret = new TextureAtlasEncryptionDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void onEnter() override;

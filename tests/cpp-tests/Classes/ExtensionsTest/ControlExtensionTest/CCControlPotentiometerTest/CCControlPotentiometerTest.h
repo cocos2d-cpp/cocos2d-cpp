@@ -40,7 +40,13 @@ public:
 
     void valueChanged(cocos2d::Ref* sender, cocos2d::extension::Control::EventType controlEvent);
 
-    CREATE_FUNC(ControlPotentiometerTest)
+    static ControlPotentiometerTest* create()
+    {
+        auto ret = new ControlPotentiometerTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 

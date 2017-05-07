@@ -26,7 +26,13 @@ protected:
     cocos2d::MotionStreak*        _streak;
 
 public:
-    CREATE_FUNC(Parallax1);
+    static Parallax1* create()
+    {
+        auto ret = new Parallax1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Parallax1();
     virtual std::string title() const override;
 };
@@ -39,7 +45,13 @@ protected:
     cocos2d::MotionStreak*        _streak;
 
 public:
-    CREATE_FUNC(Parallax2);
+    static Parallax2* create()
+    {
+        auto ret = new Parallax2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Parallax2();
     
     void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
@@ -62,7 +74,13 @@ protected:
     cocos2d::Vec2 _wholeMoveSize;
 
 public:
-    CREATE_FUNC(Issue2572);
+    static Issue2572* create()
+    {
+        auto ret = new Issue2572;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue2572();
     
     virtual void update(float dt) override;

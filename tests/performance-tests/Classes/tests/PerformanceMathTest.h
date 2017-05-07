@@ -38,7 +38,12 @@ protected:
 class PerformanceMathLayer1 : public PerformanceMathLayer
 {
 public:
-    CREATE_FUNC(PerformanceMathLayer1);
+    static PerformanceMathLayer1* create()
+    {
+        auto ret = new PerformanceMathLayer1;
+        ret->autorelease();
+        return ret;
+    }
 
     PerformanceMathLayer1()
     {
@@ -54,7 +59,12 @@ private:
 class PerformanceMathLayer2 : public PerformanceMathLayer
 {
 public:
-    CREATE_FUNC(PerformanceMathLayer2);
+    static PerformanceMathLayer2* create()
+    {
+        auto ret = new PerformanceMathLayer2;
+        ret->autorelease();
+        return ret;
+    }
 
     PerformanceMathLayer2()
     {

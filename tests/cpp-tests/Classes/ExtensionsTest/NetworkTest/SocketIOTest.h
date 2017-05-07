@@ -37,7 +37,13 @@ class SocketIOTest: public TestCase
 	, public cocos2d::network::SocketIO::SIODelegate
 {
 public:
-    CREATE_FUNC(SocketIOTest);
+    static SocketIOTest* create()
+    {
+        auto ret = new SocketIOTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SocketIOTest();
     virtual ~SocketIOTest();

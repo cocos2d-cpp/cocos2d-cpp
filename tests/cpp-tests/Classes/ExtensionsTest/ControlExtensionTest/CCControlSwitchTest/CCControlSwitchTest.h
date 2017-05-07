@@ -36,6 +36,12 @@ public:
     /** Callback for the change value. */
     void valueChanged(cocos2d::Ref* sender, cocos2d::extension::Control::EventType controlEvent);
     cocos2d::Label* _displayValueLabel;
-    CREATE_FUNC(ControlSwitchTest);
+    static ControlSwitchTest* create()
+    {
+        auto ret = new ControlSwitchTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 

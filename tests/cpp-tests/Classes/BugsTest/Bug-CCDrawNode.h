@@ -6,7 +6,13 @@
 class BugDrawNodeLayer : public BugsTestBase
 {
 public:
-    CREATE_FUNC(BugDrawNodeLayer);
+    static BugDrawNodeLayer* create()
+    {
+        auto ret = new BugDrawNodeLayer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 };

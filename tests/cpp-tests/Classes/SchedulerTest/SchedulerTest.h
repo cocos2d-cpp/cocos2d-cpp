@@ -14,7 +14,13 @@ public:
 class SchedulerAutoremove : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerAutoremove);
+    static SchedulerAutoremove* create()
+    {
+        auto ret = new SchedulerAutoremove;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -29,7 +35,13 @@ private:
 class SchedulerPauseResume : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerPauseResume);
+    static SchedulerPauseResume* create()
+    {
+        auto ret = new SchedulerPauseResume;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -44,7 +56,13 @@ public:
 class SchedulerPauseResumeAll : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerPauseResumeAll);
+    static SchedulerPauseResumeAll* create()
+    {
+        auto ret = new SchedulerPauseResumeAll;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SchedulerPauseResumeAll();
     virtual ~SchedulerPauseResumeAll();
@@ -65,7 +83,13 @@ public:
 class SchedulerPauseResumeAllUser : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerPauseResumeAllUser);
+    static SchedulerPauseResumeAllUser* create()
+    {
+        auto ret = new SchedulerPauseResumeAllUser;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SchedulerPauseResumeAllUser();
     virtual ~SchedulerPauseResumeAllUser();
@@ -85,7 +109,13 @@ public:
 class SchedulerUnscheduleAll : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerUnscheduleAll);
+    static SchedulerUnscheduleAll* create()
+    {
+        auto ret = new SchedulerUnscheduleAll;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -101,7 +131,13 @@ public:
 class SchedulerUnscheduleAllUserLevel : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerUnscheduleAllUserLevel);
+    static SchedulerUnscheduleAllUserLevel* create()
+    {
+        auto ret = new SchedulerUnscheduleAllUserLevel;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -117,7 +153,13 @@ public:
 class SchedulerSchedulesAndRemove : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerSchedulesAndRemove);
+    static SchedulerSchedulesAndRemove* create()
+    {
+        auto ret = new SchedulerSchedulesAndRemove;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -133,7 +175,13 @@ public:
 class SchedulerUpdate : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerUpdate);
+    static SchedulerUpdate* create()
+    {
+        auto ret = new SchedulerUpdate;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -145,7 +193,13 @@ public:
 class SchedulerUpdateAndCustom : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerUpdateAndCustom);
+    static SchedulerUpdateAndCustom* create()
+    {
+        auto ret = new SchedulerUpdateAndCustom;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual float getDuration() const override;
 
@@ -161,7 +215,13 @@ public:
 class SchedulerUpdateFromCustom : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerUpdateFromCustom);
+    static SchedulerUpdateFromCustom* create()
+    {
+        auto ret = new SchedulerUpdateFromCustom;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -175,7 +235,13 @@ public:
 class TestNode : public cocos2d::Node
 {
 public:
-    CREATE_FUNC(TestNode);
+    static TestNode* create()
+    {
+        auto ret = new TestNode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~TestNode();
 
@@ -188,7 +254,13 @@ private:
 class RescheduleSelector : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(RescheduleSelector);
+    static RescheduleSelector* create()
+    {
+        auto ret = new RescheduleSelector;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -203,7 +275,13 @@ private:
 class SchedulerDelayAndRepeat : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerDelayAndRepeat);
+    static SchedulerDelayAndRepeat* create()
+    {
+        auto ret = new SchedulerDelayAndRepeat;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -214,7 +292,13 @@ public:
 class SchedulerSpeedup : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerSpeedup);
+    static SchedulerSpeedup* create()
+    {
+        auto ret = new SchedulerSpeedup;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     void onExit() override;
@@ -228,7 +312,13 @@ public:
 class SchedulerIssue2268 : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerIssue2268);
+    static SchedulerIssue2268* create()
+    {
+        auto ret = new SchedulerIssue2268;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~SchedulerIssue2268();
     virtual std::string title() const override;
@@ -243,7 +333,13 @@ private:
 class ScheduleCallbackTest : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(ScheduleCallbackTest);
+    static ScheduleCallbackTest* create()
+    {
+        auto ret = new ScheduleCallbackTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     ~ScheduleCallbackTest();
     virtual std::string title() const override;
@@ -258,7 +354,13 @@ private:
 class ScheduleUpdatePriority : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(ScheduleUpdatePriority);
+    static ScheduleUpdatePriority* create()
+    {
+        auto ret = new ScheduleUpdatePriority;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -273,7 +375,13 @@ public:
 class SchedulerIssue10232 : public SchedulerTestLayer
 {
 public:
-    CREATE_FUNC(SchedulerIssue10232);
+    static SchedulerIssue10232* create()
+    {
+        auto ret = new SchedulerIssue10232;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

@@ -43,7 +43,13 @@ public:
 class SpriteProgressToRadial : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressToRadial);
+    static SpriteProgressToRadial* create()
+    {
+        auto ret = new SpriteProgressToRadial;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -52,7 +58,13 @@ public:
 class SpriteProgressToHorizontal : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressToHorizontal);
+    static SpriteProgressToHorizontal* create()
+    {
+        auto ret = new SpriteProgressToHorizontal;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -61,7 +73,13 @@ public:
 class SpriteProgressToVertical : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressToVertical);
+    static SpriteProgressToVertical* create()
+    {
+        auto ret = new SpriteProgressToVertical;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -70,7 +88,13 @@ public:
 class SpriteProgressToRadialMidpointChanged : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressToRadialMidpointChanged);
+    static SpriteProgressToRadialMidpointChanged* create()
+    {
+        auto ret = new SpriteProgressToRadialMidpointChanged;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -79,7 +103,13 @@ public:
 class SpriteProgressBarVarious : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressBarVarious);
+    static SpriteProgressBarVarious* create()
+    {
+        auto ret = new SpriteProgressBarVarious;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -88,7 +118,13 @@ public:
 class SpriteProgressBarTintAndFade : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressBarTintAndFade);
+    static SpriteProgressBarTintAndFade* create()
+    {
+        auto ret = new SpriteProgressBarTintAndFade;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -97,7 +133,13 @@ public:
 class SpriteProgressWithSpriteFrame : public SpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteProgressWithSpriteFrame);
+    static SpriteProgressWithSpriteFrame* create()
+    {
+        auto ret = new SpriteProgressWithSpriteFrame;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;

@@ -45,7 +45,13 @@ protected:
 class NodeCreateTest : public PerformceAllocScene
 {
 public:
-    CREATE_FUNC(NodeCreateTest);
+    static NodeCreateTest* create()
+    {
+        auto ret = new NodeCreateTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void updateQuantityOfNodes() override;
     virtual void initWithQuantityOfNodes(unsigned int nNodes) override;
@@ -59,7 +65,13 @@ public:
 class NodeDeallocTest : public PerformceAllocScene
 {
 public:
-    CREATE_FUNC(NodeDeallocTest);
+    static NodeDeallocTest* create()
+    {
+        auto ret = new NodeDeallocTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void updateQuantityOfNodes() override;
     virtual void initWithQuantityOfNodes(unsigned int nNodes) override;
@@ -73,7 +85,13 @@ public:
 class SpriteCreateEmptyTest : public PerformceAllocScene
 {
 public:
-    CREATE_FUNC(SpriteCreateEmptyTest);
+    static SpriteCreateEmptyTest* create()
+    {
+        auto ret = new SpriteCreateEmptyTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void updateQuantityOfNodes() override;
     virtual void initWithQuantityOfNodes(unsigned int nNodes) override;
@@ -87,7 +105,13 @@ public:
 class SpriteCreateTest : public PerformceAllocScene
 {
 public:
-    CREATE_FUNC(SpriteCreateTest);
+    static SpriteCreateTest* create()
+    {
+        auto ret = new SpriteCreateTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void updateQuantityOfNodes() override;
     virtual void initWithQuantityOfNodes(unsigned int nNodes) override;
@@ -101,7 +125,13 @@ public:
 class SpriteDeallocTest : public PerformceAllocScene
 {
 public:
-    CREATE_FUNC(SpriteDeallocTest);
+    static SpriteDeallocTest* create()
+    {
+        auto ret = new SpriteDeallocTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void updateQuantityOfNodes() override;
     virtual void initWithQuantityOfNodes(unsigned int nNodes) override;

@@ -14,7 +14,13 @@ public:
 class WindowTestWindowed1 : public WindowTest
 {
 public:
-    CREATE_FUNC(WindowTestWindowed1);
+    static WindowTestWindowed1* create()
+    {
+        auto ret = new WindowTestWindowed1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -22,7 +28,13 @@ public:
 class WindowTestWindowed2 : public WindowTest
 {
 public:
-    CREATE_FUNC(WindowTestWindowed2);
+    static WindowTestWindowed2* create()
+    {
+        auto ret = new WindowTestWindowed2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -30,7 +42,13 @@ public:
 class WindowTestFullscreen1 : public WindowTest
 {
 public:
-    CREATE_FUNC(WindowTestFullscreen1);
+    static WindowTestFullscreen1* create()
+    {
+        auto ret = new WindowTestFullscreen1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -38,7 +56,13 @@ public:
 class WindowTestFullscreen2 : public WindowTest
 {
 public:
-    CREATE_FUNC(WindowTestFullscreen2);
+    static WindowTestFullscreen2* create()
+    {
+        auto ret = new WindowTestFullscreen2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };

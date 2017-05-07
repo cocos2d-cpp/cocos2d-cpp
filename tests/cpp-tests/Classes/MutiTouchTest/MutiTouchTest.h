@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(MutiTouchTests);
 class MutiTouchTest : public TestCase
 {
 public:
-    CREATE_FUNC(MutiTouchTest);
+    static MutiTouchTest* create()
+    {
+        auto ret = new MutiTouchTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 

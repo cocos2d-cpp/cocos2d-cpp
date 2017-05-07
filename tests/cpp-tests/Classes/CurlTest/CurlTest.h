@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(CurlTests);
 class CurlTest : public TestCase
 {
 public:
-    CREATE_FUNC(CurlTest);
+    static CurlTest* create()
+    {
+        auto ret = new CurlTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     CurlTest();
     ~CurlTest();

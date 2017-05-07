@@ -51,7 +51,13 @@ protected:
 class IterateSpriteSheetForLoop : public IterateSpriteSheet
 {
 public:
-    CREATE_FUNC(IterateSpriteSheetForLoop);
+    static IterateSpriteSheetForLoop* create()
+    {
+        auto ret = new IterateSpriteSheetForLoop;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     IterateSpriteSheetForLoop() {}
     virtual void update(float dt) override;
@@ -64,7 +70,12 @@ public:
 class IterateSpriteSheetIterator : public IterateSpriteSheet
 {
 public:
-    CREATE_FUNC(IterateSpriteSheetIterator);
+    static IterateSpriteSheetIterator* create()
+    {
+        auto ret = new IterateSpriteSheetIterator;
+        ret->autorelease();
+        return ret;
+    }
 
     IterateSpriteSheetIterator() {}
     virtual void update(float dt) override;
@@ -77,7 +88,12 @@ public:
 class IterateSpriteSheetForEach : public IterateSpriteSheet
 {
 public:
-    CREATE_FUNC(IterateSpriteSheetForEach);
+    static IterateSpriteSheetForEach* create()
+    {
+        auto ret = new IterateSpriteSheetForEach;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -109,7 +125,12 @@ protected:
 class CallFuncsSpriteSheetForEach : public IterateSpriteSheet
 {
 public:
-    CREATE_FUNC(CallFuncsSpriteSheetForEach);
+    static CallFuncsSpriteSheetForEach* create()
+    {
+        auto ret = new CallFuncsSpriteSheetForEach;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -123,7 +144,12 @@ public:
 class AddSprite : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(AddSprite);
+    static AddSprite* create()
+    {
+        auto ret = new AddSprite;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -135,7 +161,12 @@ public:
 class AddSpriteSheet : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(AddSpriteSheet);
+    static AddSpriteSheet* create()
+    {
+        auto ret = new AddSpriteSheet;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -147,7 +178,12 @@ public:
 class GetSpriteSheet : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(GetSpriteSheet);
+    static GetSpriteSheet* create()
+    {
+        auto ret = new GetSpriteSheet;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -159,7 +195,12 @@ public:
 class RemoveSprite : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(RemoveSprite);
+    static RemoveSprite* create()
+    {
+        auto ret = new RemoveSprite;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -171,7 +212,12 @@ public:
 class RemoveSpriteSheet : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(RemoveSpriteSheet);
+    static RemoveSpriteSheet* create()
+    {
+        auto ret = new RemoveSpriteSheet;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -183,7 +229,12 @@ public:
 class ReorderSpriteSheet : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(ReorderSpriteSheet);
+    static ReorderSpriteSheet* create()
+    {
+        auto ret = new ReorderSpriteSheet;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -195,7 +246,12 @@ public:
 class SortAllChildrenSpriteSheet : public AddRemoveSpriteSheet
 {
 public:
-    CREATE_FUNC(SortAllChildrenSpriteSheet);
+    static SortAllChildrenSpriteSheet* create()
+    {
+        auto ret = new SortAllChildrenSpriteSheet;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void update(float dt) override;
 
@@ -207,7 +263,12 @@ public:
 class VisitSceneGraph : public NodeChildrenMainScene
 {
 public:
-    CREATE_FUNC(VisitSceneGraph);
+    static VisitSceneGraph* create()
+    {
+        auto ret = new VisitSceneGraph;
+        ret->autorelease();
+        return ret;
+    }
 
     void initWithQuantityOfNodes(unsigned int nodes) override;
 

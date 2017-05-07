@@ -94,7 +94,12 @@ protected:
 class SpritePerformTestA : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestA);
+    static SpritePerformTestA* create()
+    {
+        auto ret = new SpritePerformTestA;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -104,7 +109,12 @@ public:
 class SpritePerformTestB : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestB);
+    static SpritePerformTestB* create()
+    {
+        auto ret = new SpritePerformTestB;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -114,7 +124,12 @@ public:
 class SpritePerformTestC : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestC);
+    static SpritePerformTestC* create()
+    {
+        auto ret = new SpritePerformTestC;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -124,7 +139,12 @@ public:
 class SpritePerformTestD : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestD);
+    static SpritePerformTestD* create()
+    {
+        auto ret = new SpritePerformTestD;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -134,7 +154,12 @@ public:
 class SpritePerformTestE : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestE);
+    static SpritePerformTestE* create()
+    {
+        auto ret = new SpritePerformTestE;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -144,7 +169,12 @@ public:
 class SpritePerformTestF : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestF);
+    static SpritePerformTestF* create()
+    {
+        auto ret = new SpritePerformTestF;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;
@@ -154,7 +184,12 @@ public:
 class SpritePerformTestG : public SpriteMainScene
 {
 public:
-    CREATE_FUNC(SpritePerformTestG);
+    static SpritePerformTestG* create()
+    {
+        auto ret = new SpritePerformTestG;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void doTest(cocos2d::Sprite* sprite) override;
     virtual std::string title() const override;

@@ -54,7 +54,13 @@ public:
 class ActionMove : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionMove);
+    static ActionMove* create()
+    {
+        auto ret = new ActionMove;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -63,7 +69,13 @@ public:
 class ActionMove3D : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionMove3D);
+    static ActionMove3D* create()
+    {
+        auto ret = new ActionMove3D;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -72,7 +84,13 @@ public:
 class ActionScale : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionScale);
+    static ActionScale* create()
+    {
+        auto ret = new ActionScale;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -81,7 +99,13 @@ public:
 class ActionSkew : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSkew);
+    static ActionSkew* create()
+    {
+        auto ret = new ActionSkew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -90,7 +114,13 @@ public:
 class ActionRotationalSkew : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRotationalSkew);
+    static ActionRotationalSkew* create()
+    {
+        auto ret = new ActionRotationalSkew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -99,7 +129,13 @@ public:
 class ActionRotationalSkewVSStandardSkew : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRotationalSkewVSStandardSkew);
+    static ActionRotationalSkewVSStandardSkew* create()
+    {
+        auto ret = new ActionRotationalSkewVSStandardSkew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -108,7 +144,13 @@ public:
 class ActionSkewRotateScale : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSkewRotateScale);
+    static ActionSkewRotateScale* create()
+    {
+        auto ret = new ActionSkewRotateScale;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -117,7 +159,13 @@ public:
 class ActionRotate : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRotate);
+    static ActionRotate* create()
+    {
+        auto ret = new ActionRotate;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -126,7 +174,13 @@ public:
 class ActionRotateBy3D : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRotateBy3D);
+    static ActionRotateBy3D* create()
+    {
+        auto ret = new ActionRotateBy3D;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -135,7 +189,13 @@ public:
 class ActionJump : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionJump);
+    static ActionJump* create()
+    {
+        auto ret = new ActionJump;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -144,7 +204,13 @@ public:
 class ActionBezier : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionBezier);
+    static ActionBezier* create()
+    {
+        auto ret = new ActionBezier;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -153,7 +219,13 @@ public:
 class ActionBlink : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionBlink);
+    static ActionBlink* create()
+    {
+        auto ret = new ActionBlink;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -162,7 +234,13 @@ public:
 class ActionFade : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionFade);
+    static ActionFade* create()
+    {
+        auto ret = new ActionFade;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -171,7 +249,13 @@ public:
 class ActionTint : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionTint);
+    static ActionTint* create()
+    {
+        auto ret = new ActionTint;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -180,7 +264,13 @@ public:
 class ActionAnimate : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionAnimate);
+    static ActionAnimate* create()
+    {
+        auto ret = new ActionAnimate;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -194,7 +284,13 @@ private:
 class ActionSequence : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSequence);
+    static ActionSequence* create()
+    {
+        auto ret = new ActionSequence;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -203,7 +299,13 @@ public:
 class ActionSequence2 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSequence2);
+    static ActionSequence2* create()
+    {
+        auto ret = new ActionSequence2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -216,7 +318,13 @@ public:
 class ActionSequence3 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSequence3);
+    static ActionSequence3* create()
+    {
+        auto ret = new ActionSequence3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -225,7 +333,13 @@ public:
 class ActionSpawn : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSpawn);
+    static ActionSpawn* create()
+    {
+        auto ret = new ActionSpawn;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -234,7 +348,13 @@ public:
 class ActionSpawn2 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionSpawn2);
+    static ActionSpawn2* create()
+    {
+        auto ret = new ActionSpawn2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -243,7 +363,13 @@ public:
 class ActionReverse : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionReverse);
+    static ActionReverse* create()
+    {
+        auto ret = new ActionReverse;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -252,7 +378,13 @@ public:
 class ActionRepeat : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRepeat);
+    static ActionRepeat* create()
+    {
+        auto ret = new ActionRepeat;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -261,7 +393,13 @@ public:
 class ActionDelayTime : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionDelayTime);
+    static ActionDelayTime* create()
+    {
+        auto ret = new ActionDelayTime;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -270,7 +408,13 @@ public:
 class ActionReverseSequence : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionReverseSequence);
+    static ActionReverseSequence* create()
+    {
+        auto ret = new ActionReverseSequence;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -279,7 +423,13 @@ public:
 class ActionReverseSequence2 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionReverseSequence2);
+    static ActionReverseSequence2* create()
+    {
+        auto ret = new ActionReverseSequence2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -288,7 +438,13 @@ public:
 class ActionOrbit : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionOrbit);
+    static ActionOrbit* create()
+    {
+        auto ret = new ActionOrbit;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -298,7 +454,13 @@ public:
 class ActionRemoveSelf : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRemoveSelf);
+    static ActionRemoveSelf* create()
+    {
+        auto ret = new ActionRemoveSelf;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 	virtual void onEnter() override;
 	virtual std::string subtitle() const override;
@@ -307,7 +469,13 @@ public:
 class ActionRepeatForever : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRepeatForever);
+    static ActionRepeatForever* create()
+    {
+        auto ret = new ActionRepeatForever;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -318,7 +486,13 @@ public:
 class ActionRotateToRepeat : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionRotateToRepeat);
+    static ActionRotateToRepeat* create()
+    {
+        auto ret = new ActionRotateToRepeat;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -327,7 +501,13 @@ public:
 class ActionCallFuncN : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCallFuncN);
+    static ActionCallFuncN* create()
+    {
+        auto ret = new ActionCallFuncN;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -338,7 +518,13 @@ public:
 class ActionCallFuncND : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCallFuncND);
+    static ActionCallFuncND* create()
+    {
+        auto ret = new ActionCallFuncND;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -349,7 +535,13 @@ public:
 class ActionCallFunction : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCallFunction);
+    static ActionCallFunction* create()
+    {
+        auto ret = new ActionCallFunction;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -363,7 +555,13 @@ public:
 class ActionFollow : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionFollow);
+    static ActionFollow* create()
+    {
+        auto ret = new ActionFollow;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -373,7 +571,13 @@ class ActionFollowWithOffset : public ActionsDemo
 {
     
 public:
-    CREATE_FUNC(ActionFollowWithOffset);
+    static ActionFollowWithOffset* create()
+    {
+        auto ret = new ActionFollowWithOffset;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -382,7 +586,13 @@ public:
 class ActionTargeted : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionTargeted);
+    static ActionTargeted* create()
+    {
+        auto ret = new ActionTargeted;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -392,7 +602,13 @@ public:
 class ActionTargetedReverse : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionTargetedReverse);
+    static ActionTargetedReverse* create()
+    {
+        auto ret = new ActionTargetedReverse;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -402,7 +618,13 @@ public:
 class ActionStacked : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionStacked);
+    static ActionStacked* create()
+    {
+        auto ret = new ActionStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -415,7 +637,13 @@ public:
 class ActionMoveStacked : public ActionStacked
 {
 public:
-    CREATE_FUNC(ActionMoveStacked);
+    static ActionMoveStacked* create()
+    {
+        auto ret = new ActionMoveStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void runActionsInSprite(cocos2d::Sprite* sprite) override;
@@ -424,7 +652,13 @@ public:
 class ActionMoveJumpStacked : public ActionStacked
 {
 public:
-    CREATE_FUNC(ActionMoveJumpStacked);
+    static ActionMoveJumpStacked* create()
+    {
+        auto ret = new ActionMoveJumpStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void runActionsInSprite(cocos2d::Sprite* sprite) override;
@@ -433,7 +667,13 @@ public:
 class ActionMoveBezierStacked : public ActionStacked
 {
 public:
-    CREATE_FUNC(ActionMoveBezierStacked);
+    static ActionMoveBezierStacked* create()
+    {
+        auto ret = new ActionMoveBezierStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void runActionsInSprite(cocos2d::Sprite* sprite) override;
@@ -442,7 +682,13 @@ public:
 class ActionCatmullRomStacked : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCatmullRomStacked);
+    static ActionCatmullRomStacked* create()
+    {
+        auto ret = new ActionCatmullRomStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual ~ActionCatmullRomStacked();
     virtual void onEnter() override;
@@ -453,7 +699,13 @@ public:
 class ActionCardinalSplineStacked : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCardinalSplineStacked);
+    static ActionCardinalSplineStacked* create()
+    {
+        auto ret = new ActionCardinalSplineStacked;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual ~ActionCardinalSplineStacked();
     virtual void onEnter() override;
@@ -464,7 +716,13 @@ public:
 class Issue1305 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1305);
+    static Issue1305* create()
+    {
+        auto ret = new Issue1305;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -478,7 +736,13 @@ private:
 class Issue1305_2 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1305_2);
+    static Issue1305_2* create()
+    {
+        auto ret = new Issue1305_2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     void printLog1();
@@ -492,7 +756,13 @@ public:
 class Issue1288 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1288);
+    static Issue1288* create()
+    {
+        auto ret = new Issue1288;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -502,7 +772,13 @@ public:
 class Issue1288_2 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1288_2);
+    static Issue1288_2* create()
+    {
+        auto ret = new Issue1288_2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -512,7 +788,13 @@ public:
 class Issue1327 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1327);
+    static Issue1327* create()
+    {
+        auto ret = new Issue1327;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -523,7 +805,13 @@ public:
 class Issue1398 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue1398);
+    static Issue1398* create()
+    {
+        auto ret = new Issue1398;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void incrementInteger();
     void incrementIntegerCallback(void* data);
@@ -537,7 +825,13 @@ private:
 class Issue2599 : public ActionsDemo
 {
 public:
-    CREATE_FUNC(Issue2599);
+    static Issue2599* create()
+    {
+        auto ret = new Issue2599;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -549,7 +843,13 @@ private:
 class ActionCatmullRom : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCatmullRom);
+    static ActionCatmullRom* create()
+    {
+        auto ret = new ActionCatmullRom;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~ActionCatmullRom();
     
@@ -561,7 +861,13 @@ public:
 class ActionCardinalSpline : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionCardinalSpline);
+    static ActionCardinalSpline* create()
+    {
+        auto ret = new ActionCardinalSpline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~ActionCardinalSpline();
     
@@ -573,7 +879,13 @@ public:
 class PauseResumeActions : public ActionsDemo
 {
 public:
-    CREATE_FUNC(PauseResumeActions);
+    static PauseResumeActions* create()
+    {
+        auto ret = new PauseResumeActions;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     PauseResumeActions();
     virtual ~PauseResumeActions();
@@ -587,7 +899,13 @@ private:
 class ActionResize : public ActionsDemo 
 {
 public:
-    CREATE_FUNC(ActionResize);
+    static ActionResize* create()
+    {
+        auto ret = new ActionResize;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -596,7 +914,13 @@ public:
 class ActionFloatTest : public ActionsDemo
 {
 public:
-    CREATE_FUNC(ActionFloatTest);
+    static ActionFloatTest* create()
+    {
+        auto ret = new ActionFloatTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;

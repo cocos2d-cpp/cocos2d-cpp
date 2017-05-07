@@ -42,7 +42,13 @@ public:
 class VibrateControlTest : public VibrateTestDemo
 {
 public:
-    CREATE_FUNC(VibrateControlTest);    
+    static VibrateControlTest* create()
+    {
+        auto ret = new VibrateControlTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }    
     virtual ~VibrateControlTest();
     
     virtual bool init()override;    

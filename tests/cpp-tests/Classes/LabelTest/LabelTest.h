@@ -22,7 +22,13 @@ class Atlas1 : public AtlasDemo
 {
     cocos2d::TextureAtlas*        _textureAtlas;
 public:
-    CREATE_FUNC(Atlas1);
+    static Atlas1* create()
+    {
+        auto ret = new Atlas1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Atlas1();
     ~Atlas1();
@@ -39,7 +45,13 @@ class LabelAtlasTest : public AtlasDemo
 {
     float        _time;
 public:
-    CREATE_FUNC(LabelAtlasTest);
+    static LabelAtlasTest* create()
+    {
+        auto ret = new LabelAtlasTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAtlasTest();
 
@@ -53,7 +65,13 @@ class LabelAtlasColorTest : public AtlasDemo
 {
     float        _time;
 public:
-    CREATE_FUNC(LabelAtlasColorTest);
+    static LabelAtlasColorTest* create()
+    {
+        auto ret = new LabelAtlasColorTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAtlasColorTest();
     virtual void step(float dt);
@@ -65,7 +83,13 @@ public:
 class LabelTTFAlignment : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelTTFAlignment);
+    static LabelTTFAlignment* create()
+    {
+        auto ret = new LabelTTFAlignment;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFAlignment();
     virtual std::string title() const override;
@@ -77,7 +101,13 @@ class Atlas3 : public AtlasDemo
 {
     float        _time;
 public:
-    CREATE_FUNC(Atlas3);
+    static Atlas3* create()
+    {
+        auto ret = new Atlas3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Atlas3();
 
@@ -91,7 +121,13 @@ class Atlas4 : public AtlasDemo
 {
     float        _time;
 public:
-    CREATE_FUNC(Atlas4);
+    static Atlas4* create()
+    {
+        auto ret = new Atlas4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Atlas4();
     virtual void step(float dt);
@@ -103,7 +139,13 @@ public:
 class Atlas5 : public AtlasDemo
 {
 public:
-    CREATE_FUNC(Atlas5);
+    static Atlas5* create()
+    {
+        auto ret = new Atlas5;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Atlas5();
     virtual std::string title() const override;
@@ -114,7 +156,13 @@ public:
 class Atlas6 : public AtlasDemo
 {
 public:
-    CREATE_FUNC(Atlas6);
+    static Atlas6* create()
+    {
+        auto ret = new Atlas6;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Atlas6();
     virtual std::string title() const override;
@@ -124,7 +172,13 @@ public:
 class AtlasBitmapColor : public AtlasDemo
 {
 public:
-    CREATE_FUNC(AtlasBitmapColor);
+    static AtlasBitmapColor* create()
+    {
+        auto ret = new AtlasBitmapColor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     AtlasBitmapColor();
     virtual std::string title() const override;
@@ -135,7 +189,13 @@ public:
 class AtlasFastBitmap : public AtlasDemo
 {
 public:
-    CREATE_FUNC(AtlasFastBitmap);
+    static AtlasFastBitmap* create()
+    {
+        auto ret = new AtlasFastBitmap;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     AtlasFastBitmap();
     virtual std::string title() const override;
@@ -145,7 +205,13 @@ public:
 class BitmapFontMultiLine : public AtlasDemo
 {
 public:
-    CREATE_FUNC(BitmapFontMultiLine);
+    static BitmapFontMultiLine* create()
+    {
+        auto ret = new BitmapFontMultiLine;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     BitmapFontMultiLine();
     virtual std::string title() const override;
@@ -155,7 +221,13 @@ public:
 class LabelsEmpty : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelsEmpty);
+    static LabelsEmpty* create()
+    {
+        auto ret = new LabelsEmpty;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelsEmpty();
     void updateStrings(float dt);
@@ -169,7 +241,13 @@ private:
 class LabelBMFontHD : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelBMFontHD);
+    static LabelBMFontHD* create()
+    {
+        auto ret = new LabelBMFontHD;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelBMFontHD();
     virtual std::string title() const override;
@@ -179,7 +257,13 @@ public:
 class LabelAtlasHD : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelAtlasHD);
+    static LabelAtlasHD* create()
+    {
+        auto ret = new LabelAtlasHD;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAtlasHD();
     virtual std::string title() const override;
@@ -189,7 +273,13 @@ public:
 class LabelGlyphDesigner : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelGlyphDesigner);
+    static LabelGlyphDesigner* create()
+    {
+        auto ret = new LabelGlyphDesigner;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelGlyphDesigner();
     virtual std::string title() const override;
@@ -199,7 +289,13 @@ public:
 class LabelTTFTest : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelTTFTest);
+    static LabelTTFTest* create()
+    {
+        auto ret = new LabelTTFTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFTest();
     virtual ~LabelTTFTest();
@@ -223,7 +319,13 @@ private:
 class LabelTTFMultiline : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelTTFMultiline);
+    static LabelTTFMultiline* create()
+    {
+        auto ret = new LabelTTFMultiline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFMultiline();
     virtual std::string title() const override;
@@ -233,7 +335,13 @@ public:
 class LabelTTFChinese : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelTTFChinese);
+    static LabelTTFChinese* create()
+    {
+        auto ret = new LabelTTFChinese;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFChinese();
     virtual std::string title() const override;
@@ -242,7 +350,13 @@ public:
 class LabelBMFontChinese : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelBMFontChinese);
+    static LabelBMFontChinese* create()
+    {
+        auto ret = new LabelBMFontChinese;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelBMFontChinese();
     virtual std::string title() const override;
@@ -251,7 +365,13 @@ public:
 class BitmapFontMultiLineAlignment : public AtlasDemo
 {
 public:
-    CREATE_FUNC(BitmapFontMultiLineAlignment);
+    static BitmapFontMultiLineAlignment* create()
+    {
+        auto ret = new BitmapFontMultiLineAlignment;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     BitmapFontMultiLineAlignment();
     ~BitmapFontMultiLineAlignment();
@@ -275,7 +395,13 @@ public:
 class LabelTTFOpacityTest : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelTTFOpacityTest);
+    static LabelTTFOpacityTest* create()
+    {
+        auto ret = new LabelTTFOpacityTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFOpacityTest();
 
@@ -286,7 +412,13 @@ public:
 class BMFontOneAtlas : public AtlasDemo
 {
 public:
-    CREATE_FUNC(BMFontOneAtlas);
+    static BMFontOneAtlas* create()
+    {
+        auto ret = new BMFontOneAtlas;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     BMFontOneAtlas();
 
@@ -297,7 +429,13 @@ public:
 class BMFontUnicode : public AtlasDemo
 {
 public:
-    CREATE_FUNC(BMFontUnicode);
+    static BMFontUnicode* create()
+    {
+        auto ret = new BMFontUnicode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     BMFontUnicode();
 
@@ -308,7 +446,13 @@ public:
 class BMFontInit : public AtlasDemo
 {
 public:
-    CREATE_FUNC(BMFontInit);
+    static BMFontInit* create()
+    {
+        auto ret = new BMFontInit;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     BMFontInit();
 
@@ -319,7 +463,13 @@ public:
 class TTFFontInit : public AtlasDemo
 {
 public:
-    CREATE_FUNC(TTFFontInit);
+    static TTFFontInit* create()
+    {
+        auto ret = new TTFFontInit;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     TTFFontInit();
 
@@ -330,7 +480,13 @@ public:
 class Issue1343 : public AtlasDemo
 {
 public:
-    CREATE_FUNC(Issue1343);
+    static Issue1343* create()
+    {
+        auto ret = new Issue1343;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Issue1343();
 
@@ -341,7 +497,13 @@ public:
 class LabelBMFontBounds : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelBMFontBounds);
+    static LabelBMFontBounds* create()
+    {
+        auto ret = new LabelBMFontBounds;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelBMFontBounds();
     
@@ -352,7 +514,13 @@ public:
 class NewLabelTTFUnicode : public AtlasDemo
 {
 public:
-    CREATE_FUNC(NewLabelTTFUnicode);
+    static NewLabelTTFUnicode* create()
+    {
+        auto ret = new NewLabelTTFUnicode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     NewLabelTTFUnicode();
     
@@ -363,7 +531,13 @@ public:
 class NewLabelBMFontTest : public AtlasDemo
 {
 public:
-    CREATE_FUNC(NewLabelBMFontTest);
+    static NewLabelBMFontTest* create()
+    {
+        auto ret = new NewLabelBMFontTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     NewLabelBMFontTest();
 
@@ -376,7 +550,13 @@ private:
 class NewLabelFontDefTest : public AtlasDemo
 {
 public:
-    CREATE_FUNC(NewLabelFontDefTest);
+    static NewLabelFontDefTest* create()
+    {
+        auto ret = new NewLabelFontDefTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     NewLabelFontDefTest();
 
@@ -389,7 +569,13 @@ private:
 class LabelBMFontCrashTest : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelBMFontCrashTest);
+    static LabelBMFontCrashTest* create()
+    {
+        auto ret = new LabelBMFontCrashTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -399,7 +585,13 @@ public:
 class LabelBMFontBinaryFormat : public AtlasDemo
 {
 public:
-    CREATE_FUNC(LabelBMFontBinaryFormat);
+    static LabelBMFontBinaryFormat* create()
+    {
+        auto ret = new LabelBMFontBinaryFormat;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelBMFontBinaryFormat();
 

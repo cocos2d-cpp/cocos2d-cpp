@@ -42,7 +42,13 @@ public:
 class ConsoleCustomCommand : public BaseTestConsole
 {
 public:
-    CREATE_FUNC(ConsoleCustomCommand);
+    static ConsoleCustomCommand* create()
+    {
+        auto ret = new ConsoleCustomCommand;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -62,7 +68,13 @@ private:
 class ConsoleUploadFile : public BaseTestConsole
 {
 public:
-    CREATE_FUNC(ConsoleUploadFile);
+    static ConsoleUploadFile* create()
+    {
+        auto ret = new ConsoleUploadFile;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;

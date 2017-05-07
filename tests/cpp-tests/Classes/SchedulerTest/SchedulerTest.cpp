@@ -930,7 +930,13 @@ std::string SchedulerSpeedup::subtitle() const
 class TestNode2 : public Node
 {
 public:
-    CREATE_FUNC(TestNode2);
+    static TestNode2* create()
+    {
+        auto ret = new TestNode2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 	~TestNode2() {
 		cocos2d::log("Delete TestNode (should not crash)");

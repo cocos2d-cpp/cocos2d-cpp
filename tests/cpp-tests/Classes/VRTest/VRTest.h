@@ -41,7 +41,13 @@ public:
 class VRTest1 : public VRTestDemo
 {
 public:
-    CREATE_FUNC(VRTest1);
+    static VRTest1* create()
+    {
+        auto ret = new VRTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     VRTest1();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

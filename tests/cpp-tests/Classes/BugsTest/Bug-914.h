@@ -12,7 +12,13 @@ public:
     void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
     void restart(cocos2d::Ref* sender);
 
-    CREATE_FUNC(Bug914Layer);
+    static Bug914Layer* create()
+    {
+        auto ret = new Bug914Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 #endif // __BUG_914_H__

@@ -14,7 +14,13 @@ public:
 class TestResolutionDirectories : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestResolutionDirectories);
+    static TestResolutionDirectories* create()
+    {
+        auto ret = new TestResolutionDirectories;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -28,7 +34,13 @@ private:
 class TestSearchPath : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestSearchPath);
+    static TestSearchPath* create()
+    {
+        auto ret = new TestSearchPath;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -42,7 +54,13 @@ private:
 class TestFilenameLookup : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestFilenameLookup);
+    static TestFilenameLookup* create()
+    {
+        auto ret = new TestFilenameLookup;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -52,7 +70,13 @@ public:
 class TestIsFileExist : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestIsFileExist);
+    static TestIsFileExist* create()
+    {
+        auto ret = new TestIsFileExist;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -63,7 +87,13 @@ public:
 class TestIsDirectoryExist : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestIsDirectoryExist);
+    static TestIsDirectoryExist* create()
+    {
+        auto ret = new TestIsDirectoryExist;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -74,7 +104,13 @@ public:
 class TestFileFuncs : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestFileFuncs);
+    static TestFileFuncs* create()
+    {
+        auto ret = new TestFileFuncs;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -84,7 +120,13 @@ public:
 class TestDirectoryFuncs : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestDirectoryFuncs);
+    static TestDirectoryFuncs* create()
+    {
+        auto ret = new TestDirectoryFuncs;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -94,7 +136,13 @@ public:
 class TestWriteString : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestWriteString);
+    static TestWriteString* create()
+    {
+        auto ret = new TestWriteString;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -105,7 +153,13 @@ public:
 class TestGetContents : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestGetContents);
+    static TestGetContents* create()
+    {
+        auto ret = new TestGetContents;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -118,7 +172,13 @@ private:
 class TestWriteData : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestWriteData);
+    static TestWriteData* create()
+    {
+        auto ret = new TestWriteData;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -129,7 +189,13 @@ public:
 class TestWriteValueMap : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestWriteValueMap);
+    static TestWriteValueMap* create()
+    {
+        auto ret = new TestWriteValueMap;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -140,7 +206,13 @@ public:
 class TestWriteValueVector : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestWriteValueVector);
+    static TestWriteValueVector* create()
+    {
+        auto ret = new TestWriteValueVector;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -151,7 +223,13 @@ public:
 class TestUnicodePath : public FileUtilsDemo
 {
 public:
-    CREATE_FUNC(TestUnicodePath);
+    static TestUnicodePath* create()
+    {
+        auto ret = new TestUnicodePath;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual void onExit() override;

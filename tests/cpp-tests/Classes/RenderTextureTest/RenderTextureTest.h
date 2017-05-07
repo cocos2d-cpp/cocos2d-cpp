@@ -19,7 +19,13 @@ class RenderTextureTest : public TestCase
 class RenderTextureSave : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTextureSave);
+    static RenderTextureSave* create()
+    {
+        auto ret = new RenderTextureSave;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureSave();
     ~RenderTextureSave();
     virtual std::string title() const override;
@@ -36,7 +42,13 @@ private:
 class RenderTextureIssue937 : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTextureIssue937);
+    static RenderTextureIssue937* create()
+    {
+        auto ret = new RenderTextureIssue937;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureIssue937();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -45,7 +57,13 @@ public:
 class RenderTextureZbuffer : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTextureZbuffer);
+    static RenderTextureZbuffer* create()
+    {
+        auto ret = new RenderTextureZbuffer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureZbuffer();
 
     void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
@@ -73,7 +91,13 @@ private:
 class RenderTextureTestDepthStencil : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTextureTestDepthStencil);
+    static RenderTextureTestDepthStencil* create()
+    {
+        auto ret = new RenderTextureTestDepthStencil;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureTestDepthStencil();
     virtual ~RenderTextureTestDepthStencil();
     virtual std::string title() const override;
@@ -98,7 +122,13 @@ private:
     cocos2d::Sprite *sprite1, *sprite2;
     cocos2d::RenderTexture *renderTexture;
 public:
-    CREATE_FUNC(RenderTextureTargetNode);
+    static RenderTextureTargetNode* create()
+    {
+        auto ret = new RenderTextureTargetNode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureTargetNode();
     
     virtual void update(float t)override;
@@ -111,7 +141,13 @@ public:
 class RenderTexturePartTest : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTexturePartTest);
+    static RenderTexturePartTest* create()
+    {
+        auto ret = new RenderTexturePartTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTexturePartTest();
     virtual ~RenderTexturePartTest();
     virtual std::string title() const override;
@@ -138,7 +174,13 @@ public:
     };
         
 public:
-    CREATE_FUNC(SpriteRenderTextureBug);
+    static SpriteRenderTextureBug* create()
+    {
+        auto ret = new SpriteRenderTextureBug;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpriteRenderTextureBug();
     
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
@@ -151,7 +193,13 @@ public:
 class Issue16113Test : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(Issue16113Test);
+    static Issue16113Test* create()
+    {
+        auto ret = new Issue16113Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue16113Test();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -164,7 +212,13 @@ private:
 class RenderTextureWithSprite3DIssue16894 : public RenderTextureTest
 {
 public:
-    CREATE_FUNC(RenderTextureWithSprite3DIssue16894);
+    static RenderTextureWithSprite3DIssue16894* create()
+    {
+        auto ret = new RenderTextureWithSprite3DIssue16894;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RenderTextureWithSprite3DIssue16894();
     virtual ~RenderTextureWithSprite3DIssue16894();
 

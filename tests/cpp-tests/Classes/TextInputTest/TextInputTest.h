@@ -42,7 +42,13 @@ protected:
 class TextFieldTTFDefaultTest : public KeyboardNotificationLayer
 {
 public:
-    CREATE_FUNC(TextFieldTTFDefaultTest);
+    static TextFieldTTFDefaultTest* create()
+    {
+        auto ret = new TextFieldTTFDefaultTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     // KeyboardNotificationLayer
     virtual std::string subtitle() const override;
     virtual void onClickTrackNode(bool bClicked) override;
@@ -62,7 +68,13 @@ class TextFieldTTFActionTest : public KeyboardNotificationLayer, public cocos2d:
     size_t              _charLimit;       // the textfield max char limit
 
 public:
-    CREATE_FUNC(TextFieldTTFActionTest);
+    static TextFieldTTFActionTest* create()
+    {
+        auto ret = new TextFieldTTFActionTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void callbackRemoveNodeWhenDidAction(Node * node);
 
     // KeyboardNotificationLayer
@@ -88,7 +100,13 @@ public:
 class TextFieldTTFSecureTextEntryTest : public TextFieldTTFDefaultTest
 {
 public:
-    CREATE_FUNC(TextFieldTTFSecureTextEntryTest);
+    static TextFieldTTFSecureTextEntryTest* create()
+    {
+        auto ret = new TextFieldTTFSecureTextEntryTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string subtitle() const override;
     // Layer

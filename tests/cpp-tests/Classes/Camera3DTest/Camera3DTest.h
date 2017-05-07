@@ -79,7 +79,13 @@ protected:
 class CameraRotationTest : public CameraBaseTest {
 
 public:
-    CREATE_FUNC(CameraRotationTest);
+    static CameraRotationTest* create()
+    {
+        auto ret = new CameraRotationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     CameraRotationTest(void);
     virtual ~CameraRotationTest(void);
 
@@ -100,7 +106,13 @@ protected:
 class Camera3DTestDemo : public CameraBaseTest
 {
 public:
-    CREATE_FUNC(Camera3DTestDemo);
+    static Camera3DTestDemo* create()
+    {
+        auto ret = new Camera3DTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Camera3DTestDemo(void);
     virtual ~Camera3DTestDemo(void);
 
@@ -157,7 +169,13 @@ protected:
 class CameraCullingDemo : public CameraBaseTest
 {
 public:
-    CREATE_FUNC(CameraCullingDemo);
+    static CameraCullingDemo* create()
+    {
+        auto ret = new CameraCullingDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     CameraCullingDemo(void);
     virtual ~CameraCullingDemo(void);
     
@@ -191,7 +209,13 @@ protected:
 class CameraArcBallDemo : public CameraBaseTest
 {
 public:
-    CREATE_FUNC(CameraArcBallDemo);
+    static CameraArcBallDemo* create()
+    {
+        auto ret = new CameraArcBallDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     CameraArcBallDemo(void);
     virtual ~CameraArcBallDemo(void);
     
@@ -226,7 +250,13 @@ protected:
 class FogTestDemo : public CameraBaseTest
 {
 public:
-    CREATE_FUNC(FogTestDemo);
+    static FogTestDemo* create()
+    {
+        auto ret = new FogTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FogTestDemo(void);
     virtual ~FogTestDemo(void);
     
@@ -257,7 +287,13 @@ protected:
 class CameraFrameBufferTest : public CameraBaseTest
 {
 public:
-    CREATE_FUNC(CameraFrameBufferTest);
+    static CameraFrameBufferTest* create()
+    {
+        auto ret = new CameraFrameBufferTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     CameraFrameBufferTest(void);
     virtual ~CameraFrameBufferTest(void);
     // overrides

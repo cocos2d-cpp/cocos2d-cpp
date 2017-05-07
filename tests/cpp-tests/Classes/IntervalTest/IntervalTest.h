@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(IntervalTests);
 class IntervalTest : public TestCase
 {
 public:
-    CREATE_FUNC(IntervalTest);
+    static IntervalTest* create()
+    {
+        auto ret = new IntervalTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     IntervalTest();
     virtual ~IntervalTest();
 

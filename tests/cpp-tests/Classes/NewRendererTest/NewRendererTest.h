@@ -22,7 +22,13 @@ protected:
 class NewSpriteTest : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(NewSpriteTest);
+    static NewSpriteTest* create()
+    {
+        auto ret = new NewSpriteTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -39,7 +45,13 @@ protected:
 class GroupCommandTest : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(GroupCommandTest);
+    static GroupCommandTest* create()
+    {
+        auto ret = new GroupCommandTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -53,7 +65,13 @@ class NewClippingNodeTest : public MultiSceneTest
 {
 public:
 
-    CREATE_FUNC(NewClippingNodeTest);
+    static NewClippingNodeTest* create()
+    {
+        auto ret = new NewClippingNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -73,7 +91,13 @@ class NewDrawNodeTest : public MultiSceneTest
 {
 public:
 
-    CREATE_FUNC(NewDrawNodeTest)
+    static NewDrawNodeTest* create()
+    {
+        auto ret = new NewDrawNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -86,7 +110,13 @@ class NewCullingTest : public MultiSceneTest
 {
 public:
     
-    CREATE_FUNC(NewCullingTest)
+    static NewCullingTest* create()
+    {
+        auto ret = new NewCullingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
@@ -101,7 +131,13 @@ protected:
 class VBOFullTest : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(VBOFullTest);
+    static VBOFullTest* create()
+    {
+        auto ret = new VBOFullTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
@@ -114,7 +150,13 @@ class CaptureScreenTest : public MultiSceneTest
 {
     static const int childTag = 119;
 public:
-    CREATE_FUNC(CaptureScreenTest);
+    static CaptureScreenTest* create()
+    {
+        auto ret = new CaptureScreenTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -132,7 +174,13 @@ class CaptureNodeTest : public MultiSceneTest
 {
     static const int childTag = 120;
 public:
-    CREATE_FUNC(CaptureNodeTest);
+    static CaptureNodeTest* create()
+    {
+        auto ret = new CaptureNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -148,7 +196,13 @@ protected:
 class BugAutoCulling : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(BugAutoCulling);
+    static BugAutoCulling* create()
+    {
+        auto ret = new BugAutoCulling;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 protected:
@@ -158,7 +212,13 @@ protected:
 class RendererBatchQuadTri : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(RendererBatchQuadTri);
+    static RendererBatchQuadTri* create()
+    {
+        auto ret = new RendererBatchQuadTri;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 protected:
@@ -168,7 +228,13 @@ protected:
 class RendererUniformBatch : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(RendererUniformBatch);
+    static RendererUniformBatch* create()
+    {
+        auto ret = new RendererUniformBatch;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 protected:
@@ -181,7 +247,13 @@ protected:
 class RendererUniformBatch2 : public MultiSceneTest
 {
 public:
-    CREATE_FUNC(RendererUniformBatch2);
+    static RendererUniformBatch2* create()
+    {
+        auto ret = new RendererUniformBatch2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 protected:

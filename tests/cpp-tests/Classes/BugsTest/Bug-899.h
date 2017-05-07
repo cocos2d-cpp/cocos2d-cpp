@@ -6,7 +6,13 @@
 class Bug899Layer : public BugsTestBase
 {
 public:
-    CREATE_FUNC(Bug899Layer);
+    static Bug899Layer* create()
+    {
+        auto ret = new Bug899Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 };

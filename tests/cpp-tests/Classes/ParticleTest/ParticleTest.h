@@ -39,7 +39,13 @@ public:
 class DemoFirework : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoFirework);
+    static DemoFirework* create()
+    {
+        auto ret = new DemoFirework;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -47,7 +53,13 @@ public:
 class DemoFire : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoFire);
+    static DemoFire* create()
+    {
+        auto ret = new DemoFire;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -55,7 +67,13 @@ public:
 class DemoSun : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoSun);
+    static DemoSun* create()
+    {
+        auto ret = new DemoSun;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -63,7 +81,13 @@ public:
 class DemoGalaxy : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoGalaxy);
+    static DemoGalaxy* create()
+    {
+        auto ret = new DemoGalaxy;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -71,7 +95,13 @@ public:
 class DemoFlower : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoFlower);
+    static DemoFlower* create()
+    {
+        auto ret = new DemoFlower;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -79,7 +109,13 @@ public:
 class DemoBigFlower : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoBigFlower);
+    static DemoBigFlower* create()
+    {
+        auto ret = new DemoBigFlower;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -87,7 +123,13 @@ public:
 class DemoRotFlower : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoRotFlower);
+    static DemoRotFlower* create()
+    {
+        auto ret = new DemoRotFlower;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -95,7 +137,13 @@ public:
 class DemoMeteor : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoMeteor);
+    static DemoMeteor* create()
+    {
+        auto ret = new DemoMeteor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -103,7 +151,13 @@ public:
 class DemoSpiral : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoSpiral);
+    static DemoSpiral* create()
+    {
+        auto ret = new DemoSpiral;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -111,7 +165,13 @@ public:
 class DemoExplosion : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoExplosion);
+    static DemoExplosion* create()
+    {
+        auto ret = new DemoExplosion;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -119,7 +179,13 @@ public:
 class DemoSmoke : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoSmoke);
+    static DemoSmoke* create()
+    {
+        auto ret = new DemoSmoke;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -127,7 +193,13 @@ public:
 class DemoSnow : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoSnow);
+    static DemoSnow* create()
+    {
+        auto ret = new DemoSnow;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -135,7 +207,13 @@ public:
 class DemoRain : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoRain);
+    static DemoRain* create()
+    {
+        auto ret = new DemoRain;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -143,7 +221,13 @@ public:
 class DemoModernArt : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoModernArt);
+    static DemoModernArt* create()
+    {
+        auto ret = new DemoModernArt;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -151,7 +235,13 @@ public:
 class DemoRing : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoRing);
+    static DemoRing* create()
+    {
+        auto ret = new DemoRing;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -159,7 +249,13 @@ public:
 class ParallaxParticle : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParallaxParticle);
+    static ParallaxParticle* create()
+    {
+        auto ret = new ParallaxParticle;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -196,7 +292,13 @@ public:
 class RadiusMode1 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(RadiusMode1);
+    static RadiusMode1* create()
+    {
+        auto ret = new RadiusMode1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -204,7 +306,13 @@ public:
 class RadiusMode2 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(RadiusMode2);
+    static RadiusMode2* create()
+    {
+        auto ret = new RadiusMode2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -212,7 +320,13 @@ public:
 class Issue704 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(Issue704);
+    static Issue704* create()
+    {
+        auto ret = new Issue704;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -221,7 +335,13 @@ public:
 class Issue870 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(Issue870);
+    static Issue870* create()
+    {
+        auto ret = new Issue870;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -234,7 +354,13 @@ private:
 class Issue1201 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(Issue1201);
+    static Issue1201* create()
+    {
+        auto ret = new Issue1201;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -243,7 +369,13 @@ public:
 class ParticleBatchHybrid : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleBatchHybrid);
+    static ParticleBatchHybrid* create()
+    {
+        auto ret = new ParticleBatchHybrid;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void switchRender(float dt);
     virtual std::string title() const override;
@@ -256,7 +388,13 @@ private:
 class ParticleBatchMultipleEmitters : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleBatchMultipleEmitters);
+    static ParticleBatchMultipleEmitters* create()
+    {
+        auto ret = new ParticleBatchMultipleEmitters;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -266,7 +404,13 @@ public:
 class ParticleReorder : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleReorder);
+    static ParticleReorder* create()
+    {
+        auto ret = new ParticleReorder;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void reorderParticles(float dt);
     virtual std::string title() const override;
@@ -278,7 +422,13 @@ private:
 class MultipleParticleSystems : public ParticleDemo
 {
 public:
-    CREATE_FUNC(MultipleParticleSystems);
+    static MultipleParticleSystems* create()
+    {
+        auto ret = new MultipleParticleSystems;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -288,7 +438,13 @@ public:
 class MultipleParticleSystemsBatched : public ParticleDemo
 {
 public:
-    CREATE_FUNC(MultipleParticleSystemsBatched);
+    static MultipleParticleSystemsBatched* create()
+    {
+        auto ret = new MultipleParticleSystemsBatched;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void update(float dt) override;
     virtual std::string title() const override;
@@ -298,7 +454,13 @@ public:
 class AddAndDeleteParticleSystems : public ParticleDemo
 {
 public:
-    CREATE_FUNC(AddAndDeleteParticleSystems);
+    static AddAndDeleteParticleSystems* create()
+    {
+        auto ret = new AddAndDeleteParticleSystems;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void update(float dt) override;
     void removeSystem(float dt);
@@ -311,7 +473,13 @@ private:
 class ReorderParticleSystems : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ReorderParticleSystems);
+    static ReorderParticleSystems* create()
+    {
+        auto ret = new ReorderParticleSystems;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void reorderSystem(float time);
     virtual void update(float dt) override;
@@ -325,7 +493,13 @@ class PremultipliedAlphaTest : public ParticleDemo
 {
     bool _hasEmitter;
 public:
-    CREATE_FUNC(PremultipliedAlphaTest);
+    static PremultipliedAlphaTest* create()
+    {
+        auto ret = new PremultipliedAlphaTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void readdPaticle(float delta);
     virtual std::string title() const override;
@@ -335,7 +509,13 @@ public:
 class PremultipliedAlphaTest2 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(PremultipliedAlphaTest2);
+    static PremultipliedAlphaTest2* create()
+    {
+        auto ret = new PremultipliedAlphaTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -344,7 +524,13 @@ public:
 class Issue3990 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(Issue3990);
+    static Issue3990* create()
+    {
+        auto ret = new Issue3990;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -353,7 +539,13 @@ public:
 class ParticleVisibleTest : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleVisibleTest);
+    static ParticleVisibleTest* create()
+    {
+        auto ret = new ParticleVisibleTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -363,7 +555,13 @@ public:
 class ParticleAutoBatching : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleAutoBatching);
+    static ParticleAutoBatching* create()
+    {
+        auto ret = new ParticleAutoBatching;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -372,7 +570,13 @@ public:
 class ParticleResetTotalParticles : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleResetTotalParticles);
+    static ParticleResetTotalParticles* create()
+    {
+        auto ret = new ParticleResetTotalParticles;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -381,7 +585,13 @@ public:
 class ParticleIssue12310 : public ParticleDemo
 {
 public:
-    CREATE_FUNC(ParticleIssue12310);
+    static ParticleIssue12310* create()
+    {
+        auto ret = new ParticleIssue12310;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -389,7 +599,13 @@ public:
 class DemoPause : public ParticleDemo
 {
 public:
-    CREATE_FUNC(DemoPause);
+    static DemoPause* create()
+    {
+        auto ret = new DemoPause;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
     void pauseEmitter(float time);

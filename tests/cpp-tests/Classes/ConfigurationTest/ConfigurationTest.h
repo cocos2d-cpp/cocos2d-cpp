@@ -16,7 +16,13 @@ public:
 class ConfigurationLoadConfig : public ConfigurationBase
 {
 public:
-    CREATE_FUNC(ConfigurationLoadConfig);
+    static ConfigurationLoadConfig* create()
+    {
+        auto ret = new ConfigurationLoadConfig;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -25,7 +31,13 @@ public:
 class ConfigurationQuery : public ConfigurationBase
 {
 public:
-    CREATE_FUNC(ConfigurationQuery);
+    static ConfigurationQuery* create()
+    {
+        auto ret = new ConfigurationQuery;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -34,7 +46,13 @@ public:
 class ConfigurationInvalid : public ConfigurationBase
 {
 public:
-    CREATE_FUNC(ConfigurationInvalid);
+    static ConfigurationInvalid* create()
+    {
+        auto ret = new ConfigurationInvalid;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -43,7 +61,13 @@ public:
 class ConfigurationDefault : public ConfigurationBase
 {
 public:
-    CREATE_FUNC(ConfigurationDefault);
+    static ConfigurationDefault* create()
+    {
+        auto ret = new ConfigurationDefault;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -52,7 +76,13 @@ public:
 class ConfigurationSet : public ConfigurationBase
 {
 public:
-    CREATE_FUNC(ConfigurationSet);
+    static ConfigurationSet* create()
+    {
+        auto ret = new ConfigurationSet;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;

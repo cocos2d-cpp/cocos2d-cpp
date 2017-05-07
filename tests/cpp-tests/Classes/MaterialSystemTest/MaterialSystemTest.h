@@ -43,7 +43,13 @@ public:
 class Material_Sprite3DTest : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_Sprite3DTest);
+    static Material_Sprite3DTest* create()
+    {
+        auto ret = new Material_Sprite3DTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -52,7 +58,13 @@ public:
 class Material_MultipleSprite3D : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_MultipleSprite3D);
+    static Material_MultipleSprite3D* create()
+    {
+        auto ret = new Material_MultipleSprite3D;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -61,7 +73,13 @@ public:
 class Material_2DEffects : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_2DEffects);
+    static Material_2DEffects* create()
+    {
+        auto ret = new Material_2DEffects;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -71,7 +89,13 @@ class EffectAutoBindingResolver;
 class Material_AutoBindings : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_AutoBindings);
+    static Material_AutoBindings* create()
+    {
+        auto ret = new Material_AutoBindings;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Material_AutoBindings();
     virtual ~Material_AutoBindings();
@@ -86,7 +110,13 @@ private:
 class Material_setTechnique : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_setTechnique);
+    static Material_setTechnique* create()
+    {
+        auto ret = new Material_setTechnique;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -101,7 +131,13 @@ private:
 class Material_clone : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_clone);
+    static Material_clone* create()
+    {
+        auto ret = new Material_clone;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -110,7 +146,13 @@ public:
 class Material_parsePerformance : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_parsePerformance);
+    static Material_parsePerformance* create()
+    {
+        auto ret = new Material_parsePerformance;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -122,7 +164,13 @@ protected:
 class Material_invalidate : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_invalidate);
+    static Material_invalidate* create()
+    {
+        auto ret = new Material_invalidate;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -135,7 +183,13 @@ public:
 class Material_renderState : public MaterialSystemBaseTest
 {
 public:
-    CREATE_FUNC(Material_renderState);
+    static Material_renderState* create()
+    {
+        auto ret = new Material_renderState;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;

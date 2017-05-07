@@ -11,7 +11,13 @@
 class ChipmunkTest : public TestCase
 {
 public:
-    CREATE_FUNC(ChipmunkTest);
+    static ChipmunkTest* create()
+    {
+        auto ret = new ChipmunkTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ChipmunkTest();
     ~ChipmunkTest();

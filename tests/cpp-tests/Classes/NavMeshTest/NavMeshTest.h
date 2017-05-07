@@ -39,7 +39,13 @@ DEFINE_TEST_SUITE(NavMeshTests);
 class NavMeshDisabled : public TestCase
 {
 public:
-    CREATE_FUNC(NavMeshDisabled);
+    static NavMeshDisabled* create()
+    {
+        auto ret = new NavMeshDisabled;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
 };
@@ -48,7 +54,13 @@ public:
 class NavMeshBaseTestDemo : public TestCase
 {
 public:
-    CREATE_FUNC(NavMeshBaseTestDemo);
+    static NavMeshBaseTestDemo* create()
+    {
+        auto ret = new NavMeshBaseTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     NavMeshBaseTestDemo(void);
     virtual ~NavMeshBaseTestDemo(void);
 
@@ -79,7 +91,13 @@ protected:
 class NavMeshBasicTestDemo : public NavMeshBaseTestDemo
 {
 public:
-    CREATE_FUNC(NavMeshBasicTestDemo);
+    static NavMeshBasicTestDemo* create()
+    {
+        auto ret = new NavMeshBasicTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     NavMeshBasicTestDemo(void);
     virtual ~NavMeshBasicTestDemo(void);
     
@@ -103,7 +121,13 @@ protected:
 class NavMeshAdvanceTestDemo : public NavMeshBaseTestDemo
 {
 public:
-    CREATE_FUNC(NavMeshAdvanceTestDemo);
+    static NavMeshAdvanceTestDemo* create()
+    {
+        auto ret = new NavMeshAdvanceTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     NavMeshAdvanceTestDemo(void);
     virtual ~NavMeshAdvanceTestDemo(void);
 

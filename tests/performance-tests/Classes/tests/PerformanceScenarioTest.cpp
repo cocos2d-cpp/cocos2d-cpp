@@ -45,17 +45,6 @@ static TestCaseInfo autoTestCounts[] = {
     { 1500, 1500, 150 }
 };
 
-bool ScenarioTest::init()
-{
-    if (TestCase::init())
-    {
-        performTests();
-        return true;
-    }
-
-    return false;
-}
-
 void ScenarioTest::performTests()
 {
     auto listener = EventListenerTouchAllAtOnce::create();

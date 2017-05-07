@@ -41,7 +41,13 @@ DEFINE_TEST_SUITE(LightTests);
 class LightTest : public TestCase
 {
 public:
-    CREATE_FUNC(LightTest);
+    static LightTest* create()
+    {
+        auto ret = new LightTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     LightTest();
     virtual ~LightTest();
 

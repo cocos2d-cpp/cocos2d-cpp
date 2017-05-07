@@ -3668,7 +3668,13 @@ std::string SpriteNilTexture::subtitle() const
 class MySprite1 : public Sprite
 {
 public:
-    CREATE_FUNC(MySprite1);
+    static MySprite1* create()
+    {
+        auto ret = new MySprite1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     MySprite1() {}
     static MySprite1* createWithSpriteFrame(SpriteFrame *spriteFrameName)
     {
@@ -3681,7 +3687,13 @@ public:
 class MySprite2 : public Sprite
 {
 public:
-    CREATE_FUNC(MySprite2);
+    static MySprite2* create()
+    {
+        auto ret = new MySprite2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     MySprite2() {}
     static MySprite2* create(const std::string& name)
     {

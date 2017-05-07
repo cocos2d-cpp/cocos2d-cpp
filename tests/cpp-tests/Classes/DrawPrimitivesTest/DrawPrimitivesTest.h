@@ -23,7 +23,13 @@ public:
 class SimpleDrawNodeTest : public DrawNodeBaseTest
 {
 public:
-    CREATE_FUNC(SimpleDrawNodeTest);
+    static SimpleDrawNodeTest* create()
+    {
+        auto ret = new SimpleDrawNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SimpleDrawNodeTest();
     
     virtual std::string title() const override;
@@ -38,7 +44,13 @@ protected:
 class DrawNodeTest : public DrawNodeBaseTest
 {
 public:
-    CREATE_FUNC(DrawNodeTest);
+    static DrawNodeTest* create()
+    {
+        auto ret = new DrawNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     DrawNodeTest();
     
@@ -49,7 +61,13 @@ public:
 class PrimitivesCommandTest : public DrawNodeBaseTest
 {
 public:
-    CREATE_FUNC(PrimitivesCommandTest);
+    static PrimitivesCommandTest* create()
+    {
+        auto ret = new PrimitivesCommandTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     PrimitivesCommandTest();
     virtual ~PrimitivesCommandTest();
@@ -69,7 +87,13 @@ protected:
 class Issue11942Test : public DrawNodeBaseTest
 {
 public:
-    CREATE_FUNC(Issue11942Test);
+    static Issue11942Test* create()
+    {
+        auto ret = new Issue11942Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     Issue11942Test();
 

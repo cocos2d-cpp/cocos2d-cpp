@@ -33,7 +33,13 @@ DEFINE_TEST_SUITE(AllocatorTests);
 class AllocatorTest : public TestCase
 {
 public:
-    CREATE_FUNC(AllocatorTest);
+    static AllocatorTest* create()
+    {
+        auto ret = new AllocatorTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     AllocatorTest();
     virtual ~AllocatorTest();

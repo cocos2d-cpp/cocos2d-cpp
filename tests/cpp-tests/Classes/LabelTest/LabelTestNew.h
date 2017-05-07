@@ -35,7 +35,13 @@ class LabelFNTColorAndOpacity : public AtlasDemoNew
 {
     float        _time;
 public:
-    CREATE_FUNC(LabelFNTColorAndOpacity);
+    static LabelFNTColorAndOpacity* create()
+    {
+        auto ret = new LabelFNTColorAndOpacity;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTColorAndOpacity();
 
@@ -49,7 +55,13 @@ class LabelFNTSpriteActions : public AtlasDemoNew
 {
     float        _time;
 public:
-    CREATE_FUNC(LabelFNTSpriteActions);
+    static LabelFNTSpriteActions* create()
+    {
+        auto ret = new LabelFNTSpriteActions;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTSpriteActions();
     virtual void step(float dt);
@@ -61,7 +73,13 @@ public:
 class LabelFNTPadding : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTPadding);
+    static LabelFNTPadding* create()
+    {
+        auto ret = new LabelFNTPadding;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTPadding();
     virtual std::string title() const override;
@@ -72,7 +90,13 @@ public:
 class LabelFNTOffset : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTOffset);
+    static LabelFNTOffset* create()
+    {
+        auto ret = new LabelFNTOffset;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTOffset();
     virtual std::string title() const override;
@@ -82,7 +106,13 @@ public:
 class LabelFNTColor : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTColor);
+    static LabelFNTColor* create()
+    {
+        auto ret = new LabelFNTColor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTColor();
     virtual std::string title() const override;
@@ -93,7 +123,13 @@ public:
 class LabelFNTOpacity : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTOpacity);
+    static LabelFNTOpacity* create()
+    {
+        auto ret = new LabelFNTOpacity;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTOpacity();
     virtual std::string title() const override;
@@ -104,7 +140,13 @@ public:
 class LabelFNTHundredLabels : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTHundredLabels);
+    static LabelFNTHundredLabels* create()
+    {
+        auto ret = new LabelFNTHundredLabels;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTHundredLabels();
     virtual std::string title() const override;
@@ -114,7 +156,13 @@ public:
 class LabelFNTMultiLine : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTMultiLine);
+    static LabelFNTMultiLine* create()
+    {
+        auto ret = new LabelFNTMultiLine;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTMultiLine();
     virtual std::string title() const override;
@@ -124,7 +172,13 @@ public:
 class LabelFNTandTTFEmpty : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTandTTFEmpty);
+    static LabelFNTandTTFEmpty* create()
+    {
+        auto ret = new LabelFNTandTTFEmpty;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTandTTFEmpty();
     void updateStrings(float dt);
@@ -138,7 +192,13 @@ private:
 class LabelFNTRetina : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTRetina);
+    static LabelFNTRetina* create()
+    {
+        auto ret = new LabelFNTRetina;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTRetina();
     virtual std::string title() const override;
@@ -148,7 +208,13 @@ public:
 class LabelFNTGlyphDesigner : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTGlyphDesigner);
+    static LabelFNTGlyphDesigner* create()
+    {
+        auto ret = new LabelFNTGlyphDesigner;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTGlyphDesigner();
     virtual std::string title() const override;
@@ -158,7 +224,13 @@ public:
 class LabelFNTMultiLineAlignment : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTMultiLineAlignment);
+    static LabelFNTMultiLineAlignment* create()
+    {
+        auto ret = new LabelFNTMultiLineAlignment;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTMultiLineAlignment();
     ~LabelFNTMultiLineAlignment();
@@ -182,7 +254,13 @@ public:
 class LabelFNTUNICODELanguages : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTUNICODELanguages);
+    static LabelFNTUNICODELanguages* create()
+    {
+        auto ret = new LabelFNTUNICODELanguages;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTUNICODELanguages();
 
@@ -193,7 +271,13 @@ public:
 class LabelFNTBounds : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFNTBounds);
+    static LabelFNTBounds* create()
+    {
+        auto ret = new LabelFNTBounds;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFNTBounds();
     
@@ -204,7 +288,13 @@ public:
 class LabelTTFLongLineWrapping : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFLongLineWrapping);
+    static LabelTTFLongLineWrapping* create()
+    {
+        auto ret = new LabelTTFLongLineWrapping;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFLongLineWrapping();
 
@@ -215,7 +305,13 @@ public:
 class LabelTTFColor : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFColor);
+    static LabelTTFColor* create()
+    {
+        auto ret = new LabelTTFColor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFColor();
 
@@ -226,7 +322,13 @@ public:
 class LabelTTFUnicodeNew : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFUnicodeNew);
+    static LabelTTFUnicodeNew* create()
+    {
+        auto ret = new LabelTTFUnicodeNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFUnicodeNew();
     
@@ -237,7 +339,13 @@ public:
 class LabelTTFDynamicAlignment : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFDynamicAlignment);
+    static LabelTTFDynamicAlignment* create()
+    {
+        auto ret = new LabelTTFDynamicAlignment;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFDynamicAlignment();
     virtual std::string title() const override;
@@ -259,7 +367,13 @@ private:
 class LabelTTFCJKWrappingTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFCJKWrappingTest);
+    static LabelTTFCJKWrappingTest* create()
+    {
+        auto ret = new LabelTTFCJKWrappingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFCJKWrappingTest();
     virtual std::string title() const override;
@@ -271,7 +385,13 @@ private:
 class LabelTTFFontsTestNew : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFFontsTestNew);
+    static LabelTTFFontsTestNew* create()
+    {
+        auto ret = new LabelTTFFontsTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFFontsTestNew();
 
@@ -282,7 +402,13 @@ public:
 class LabelFontDefTestNew : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFontDefTestNew);
+    static LabelFontDefTestNew* create()
+    {
+        auto ret = new LabelFontDefTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFontDefTestNew();
 
@@ -295,7 +421,13 @@ private:
 class LabelTTFDistanceField : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFDistanceField);
+    static LabelTTFDistanceField* create()
+    {
+        auto ret = new LabelTTFDistanceField;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFDistanceField();
 
@@ -306,7 +438,13 @@ public:
 class LabelOutlineAndGlowTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelOutlineAndGlowTest);
+    static LabelOutlineAndGlowTest* create()
+    {
+        auto ret = new LabelOutlineAndGlowTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelOutlineAndGlowTest();
 
@@ -317,7 +455,13 @@ public:
 class LabelShadowTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelShadowTest);
+    static LabelShadowTest* create()
+    {
+        auto ret = new LabelShadowTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelShadowTest();
 
@@ -334,7 +478,13 @@ private:
 class LabelCharMapTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelCharMapTest);
+    static LabelCharMapTest* create()
+    {
+        auto ret = new LabelCharMapTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelCharMapTest();
 
@@ -350,7 +500,13 @@ private:
 class LabelCharMapColorTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelCharMapColorTest);
+    static LabelCharMapColorTest* create()
+    {
+        auto ret = new LabelCharMapColorTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelCharMapColorTest();
 
@@ -367,7 +523,13 @@ private:
 class LabelCrashTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelCrashTest);
+    static LabelCrashTest* create()
+    {
+        auto ret = new LabelCrashTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelCrashTest();
 
@@ -378,7 +540,13 @@ public:
 class LabelTTFOldNew : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelTTFOldNew);
+    static LabelTTFOldNew* create()
+    {
+        auto ret = new LabelTTFOldNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelTTFOldNew();
 
@@ -389,7 +557,13 @@ public:
 class LabelFontNameTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelFontNameTest);
+    static LabelFontNameTest* create()
+    {
+        auto ret = new LabelFontNameTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelFontNameTest();
 
@@ -400,7 +574,13 @@ public:
 class LabelAlignmentTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelAlignmentTest);
+    static LabelAlignmentTest* create()
+    {
+        auto ret = new LabelAlignmentTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAlignmentTest();
     virtual std::string title() const override;
@@ -419,7 +599,13 @@ private:
 class LabelIssue4428Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue4428Test);
+    static LabelIssue4428Test* create()
+    {
+        auto ret = new LabelIssue4428Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue4428Test();
 
@@ -430,7 +616,13 @@ public:
 class LabelIssue4999Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue4999Test);
+    static LabelIssue4999Test* create()
+    {
+        auto ret = new LabelIssue4999Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue4999Test();
 
@@ -441,7 +633,13 @@ public:
 class LabelLineHeightTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelLineHeightTest);
+    static LabelLineHeightTest* create()
+    {
+        auto ret = new LabelLineHeightTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelLineHeightTest();
 
@@ -456,7 +654,13 @@ private:
 class LabelAdditionalKerningTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelAdditionalKerningTest);
+    static LabelAdditionalKerningTest* create()
+    {
+        auto ret = new LabelAdditionalKerningTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAdditionalKerningTest();
 
@@ -471,7 +675,13 @@ private:
 class LabelIssue8492Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue8492Test);
+    static LabelIssue8492Test* create()
+    {
+        auto ret = new LabelIssue8492Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue8492Test();
 
@@ -482,7 +692,13 @@ public:
 class LabelMultilineWithOutline : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelMultilineWithOutline);
+    static LabelMultilineWithOutline* create()
+    {
+        auto ret = new LabelMultilineWithOutline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelMultilineWithOutline();
 
@@ -495,7 +711,13 @@ public:
 class LabelIssue9255Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue9255Test);
+    static LabelIssue9255Test* create()
+    {
+        auto ret = new LabelIssue9255Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue9255Test();
 
@@ -506,7 +728,13 @@ public:
 class LabelSmallDimensionsTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelSmallDimensionsTest);
+    static LabelSmallDimensionsTest* create()
+    {
+        auto ret = new LabelSmallDimensionsTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelSmallDimensionsTest();
 
@@ -517,7 +745,13 @@ public:
 class LabelIssue10089Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue10089Test);
+    static LabelIssue10089Test* create()
+    {
+        auto ret = new LabelIssue10089Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue10089Test();
 
@@ -528,7 +762,13 @@ public:
 class LabelSystemFontColor : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelSystemFontColor);
+    static LabelSystemFontColor* create()
+    {
+        auto ret = new LabelSystemFontColor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelSystemFontColor();
 
@@ -539,7 +779,13 @@ public:
 class LabelIssue10773Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue10773Test);
+    static LabelIssue10773Test* create()
+    {
+        auto ret = new LabelIssue10773Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue10773Test();
 
@@ -550,7 +796,13 @@ public:
 class LabelIssue11576Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue11576Test);
+    static LabelIssue11576Test* create()
+    {
+        auto ret = new LabelIssue11576Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue11576Test();
 
@@ -561,7 +813,13 @@ public:
 class LabelIssue11699Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue11699Test);
+    static LabelIssue11699Test* create()
+    {
+        auto ret = new LabelIssue11699Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue11699Test();
 
@@ -572,7 +830,13 @@ public:
 class LabelIssue12409Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue12409Test);
+    static LabelIssue12409Test* create()
+    {
+        auto ret = new LabelIssue12409Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue12409Test();
 
@@ -583,7 +847,13 @@ public:
 class LabelAddChildTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelAddChildTest);
+    static LabelAddChildTest* create()
+    {
+        auto ret = new LabelAddChildTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelAddChildTest();
 
@@ -593,7 +863,13 @@ public:
 class LabelIssue12775Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue12775Test);
+    static LabelIssue12775Test* create()
+    {
+        auto ret = new LabelIssue12775Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue12775Test();
 
@@ -604,7 +880,13 @@ public:
 class LabelIssue11585Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue11585Test);
+    static LabelIssue11585Test* create()
+    {
+        auto ret = new LabelIssue11585Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue11585Test();
 
@@ -615,7 +897,13 @@ public:
 class LabelIssue10688Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue10688Test);
+    static LabelIssue10688Test* create()
+    {
+        auto ret = new LabelIssue10688Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue10688Test();
 
@@ -626,7 +914,13 @@ public:
 class LabelIssue13202Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue13202Test);
+    static LabelIssue13202Test* create()
+    {
+        auto ret = new LabelIssue13202Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue13202Test();
 
@@ -637,7 +931,13 @@ public:
 class LabelIssue9500Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue9500Test);
+    static LabelIssue9500Test* create()
+    {
+        auto ret = new LabelIssue9500Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue9500Test();
 
@@ -676,7 +976,13 @@ protected:
 class LabelWrapByWordTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelWrapByWordTest);
+    static LabelWrapByWordTest* create()
+    {
+        auto ret = new LabelWrapByWordTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelWrapByWordTest();
 
@@ -687,7 +993,13 @@ public:
 class LabelWrapByCharTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelWrapByCharTest);
+    static LabelWrapByCharTest* create()
+    {
+        auto ret = new LabelWrapByCharTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelWrapByCharTest();
 
@@ -698,7 +1010,13 @@ public:
 class LabelShrinkByWordTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelShrinkByWordTest);
+    static LabelShrinkByWordTest* create()
+    {
+        auto ret = new LabelShrinkByWordTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelShrinkByWordTest();
 
@@ -709,7 +1027,13 @@ public:
 class LabelShrinkByCharTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelShrinkByCharTest);
+    static LabelShrinkByCharTest* create()
+    {
+        auto ret = new LabelShrinkByCharTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelShrinkByCharTest();
 
@@ -720,7 +1044,13 @@ public:
 class LabelResizeTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelResizeTest);
+    static LabelResizeTest* create()
+    {
+        auto ret = new LabelResizeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelResizeTest();
 
@@ -731,7 +1061,13 @@ public:
 class LabelToggleTypeTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelToggleTypeTest);
+    static LabelToggleTypeTest* create()
+    {
+        auto ret = new LabelToggleTypeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelToggleTypeTest();
     void initToggleCheckboxes();
@@ -744,7 +1080,13 @@ public:
 class LabelSystemFontTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelSystemFontTest);
+    static LabelSystemFontTest* create()
+    {
+        auto ret = new LabelSystemFontTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelSystemFontTest();
     void initToggleCheckboxes();
@@ -757,7 +1099,13 @@ public:
 class LabelCharMapFontTest : public LabelLayoutBaseTest
 {
 public:
-    CREATE_FUNC(LabelCharMapFontTest);
+    static LabelCharMapFontTest* create()
+    {
+        auto ret = new LabelCharMapFontTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelCharMapFontTest();
 
@@ -768,7 +1116,13 @@ public:
 class LabelIssue13846Test : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue13846Test);
+    static LabelIssue13846Test* create()
+    {
+        auto ret = new LabelIssue13846Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     LabelIssue13846Test();
     
@@ -779,7 +1133,13 @@ public:
 class LabelRichText : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelRichText);
+    static LabelRichText* create()
+    {
+        auto ret = new LabelRichText;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelRichText();
     virtual std::string title() const override;
@@ -789,7 +1149,13 @@ public:
 class LabelItalics : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelItalics);
+    static LabelItalics* create()
+    {
+        auto ret = new LabelItalics;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelItalics();
     virtual std::string title() const override;
@@ -802,7 +1168,13 @@ public:
 class LabelBold : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelBold);
+    static LabelBold* create()
+    {
+        auto ret = new LabelBold;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelBold();
     virtual std::string title() const override;
@@ -815,7 +1187,13 @@ public:
 class LabelUnderline : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelUnderline);
+    static LabelUnderline* create()
+    {
+        auto ret = new LabelUnderline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelUnderline();
     virtual std::string title() const override;
@@ -828,7 +1206,13 @@ public:
 class LabelUnderlineMultiline : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelUnderlineMultiline);
+    static LabelUnderlineMultiline* create()
+    {
+        auto ret = new LabelUnderlineMultiline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelUnderlineMultiline();
     virtual std::string title() const override;
@@ -841,7 +1225,13 @@ public:
 class LabelStrikethrough : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelStrikethrough);
+    static LabelStrikethrough* create()
+    {
+        auto ret = new LabelStrikethrough;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelStrikethrough();
     virtual std::string title() const override;
@@ -854,7 +1244,13 @@ public:
 class LabelLocalizationTest : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelLocalizationTest);
+    static LabelLocalizationTest* create()
+    {
+        auto ret = new LabelLocalizationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelLocalizationTest();
     void onChangedRadioButtonSelect(cocos2d::ui::RadioButton* radioButton, cocos2d::ui::RadioButton::EventType type);
@@ -869,7 +1265,13 @@ public:
 class LabelIssue15214 : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue15214);
+    static LabelIssue15214* create()
+    {
+        auto ret = new LabelIssue15214;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue15214();
 
@@ -880,7 +1282,13 @@ public:
 class LabelIssue16293 : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue16293);
+    static LabelIssue16293* create()
+    {
+        auto ret = new LabelIssue16293;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue16293();
 
@@ -891,7 +1299,13 @@ public:
 class LabelIssue16471 : public AtlasDemoNew
 {
 public:
-    CREATE_FUNC(LabelIssue16471);
+    static LabelIssue16471* create()
+    {
+        auto ret = new LabelIssue16471;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LabelIssue16471();
 

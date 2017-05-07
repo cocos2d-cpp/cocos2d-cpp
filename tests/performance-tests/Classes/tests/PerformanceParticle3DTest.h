@@ -40,7 +40,13 @@ protected:
 class Particle3DPerformTest : public Particle3DMainScene
 {
 public:
-    CREATE_FUNC(Particle3DPerformTest);
+    static Particle3DPerformTest* create()
+    {
+        auto ret = new Particle3DPerformTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
     virtual std::string title() const override;

@@ -33,28 +33,6 @@ Copyright (c) 2013-2015 Chukong Technologies
 #include "platform/CCPlatformConfig.h"
 #include "platform/CCPlatformDefine.h"
 
-/** @def CREATE_FUNC(__TYPE__)
- * Define a create function for a specific type, such as Layer.
- *
- * @param __TYPE__  class type to add create(), such as Layer.
- */
-#define CREATE_FUNC(__TYPE__) \
-static __TYPE__* create() \
-{ \
-    __TYPE__ *pRet = new(std::nothrow) __TYPE__(); \
-    if (pRet && pRet->init()) \
-    { \
-        pRet->autorelease(); \
-        return pRet; \
-    } \
-    else \
-    { \
-        delete pRet; \
-        pRet = nullptr; \
-        return nullptr; \
-    } \
-}
-
 /** @def CC_ENABLE_CACHE_TEXTURE_DATA
  * Enable it if you want to cache the texture data.
  * Not enabling for Emscripten any more -- doesn't seem necessary and don't want

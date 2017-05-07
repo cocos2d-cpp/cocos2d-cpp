@@ -32,7 +32,13 @@ DEFINE_TEST_SUITE(SpriteFrameCacheTests);
 class SpriteFrameCachePixelFormatTest : public TestCase
 {
 public:
-    CREATE_FUNC(SpriteFrameCachePixelFormatTest);
+    static SpriteFrameCachePixelFormatTest* create()
+    {
+        auto ret = new SpriteFrameCachePixelFormatTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string title() const override { return "Pixel formats test"; }
     virtual std::string subtitle() const override { return "It shouldn't crash"; }

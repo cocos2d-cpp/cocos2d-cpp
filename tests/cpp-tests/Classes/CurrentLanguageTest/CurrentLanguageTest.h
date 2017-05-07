@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(CurrentLanguageTests);
 class CurrentLanguageTest : public TestCase
 {
 public:
-    CREATE_FUNC(CurrentLanguageTest);
+    static CurrentLanguageTest* create()
+    {
+        auto ret = new CurrentLanguageTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     CurrentLanguageTest();
 };

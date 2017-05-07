@@ -34,7 +34,13 @@ DEFINE_TEST_SUITE(TransitionsTests);
 class TransitionsTest : public TestCase
 {
 public:
-    CREATE_FUNC(TransitionsTest);
+    static TransitionsTest* create()
+    {
+        auto ret = new TransitionsTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 class TestLayer1 : public cocos2d::Layer

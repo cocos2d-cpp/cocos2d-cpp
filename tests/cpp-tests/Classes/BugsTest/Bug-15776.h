@@ -14,7 +14,13 @@
 class Bug15776Layer : public BugsTestBase
 {
 public:
-    CREATE_FUNC(Bug15776Layer);
+    static Bug15776Layer* create()
+    {
+        auto ret = new Bug15776Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 

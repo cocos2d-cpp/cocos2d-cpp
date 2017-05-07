@@ -27,7 +27,13 @@ public:
 class TouchableSpriteTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(TouchableSpriteTest);
+    static TouchableSpriteTest* create()
+    {
+        auto ret = new TouchableSpriteTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -36,7 +42,13 @@ public:
 class FixedPriorityTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(FixedPriorityTest);
+    static FixedPriorityTest* create()
+    {
+        auto ret = new FixedPriorityTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -45,7 +57,13 @@ public:
 class RemoveListenerWhenDispatching : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(RemoveListenerWhenDispatching);
+    static RemoveListenerWhenDispatching* create()
+    {
+        auto ret = new RemoveListenerWhenDispatching;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -54,7 +72,13 @@ public:
 class CustomEventTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(CustomEventTest);
+    static CustomEventTest* create()
+    {
+        auto ret = new CustomEventTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
@@ -67,7 +91,13 @@ private:
 class LabelKeyboardEventTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(LabelKeyboardEventTest);
+    static LabelKeyboardEventTest* create()
+    {
+        auto ret = new LabelKeyboardEventTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -76,7 +106,13 @@ public:
 class SpriteAccelerationEventTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(SpriteAccelerationEventTest);
+    static SpriteAccelerationEventTest* create()
+    {
+        auto ret = new SpriteAccelerationEventTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
@@ -86,7 +122,13 @@ public:
 class RemoveAndRetainNodeTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(RemoveAndRetainNodeTest);
+    static RemoveAndRetainNodeTest* create()
+    {
+        auto ret = new RemoveAndRetainNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
@@ -99,7 +141,13 @@ private:
 class RemoveListenerAfterAddingTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(RemoveListenerAfterAddingTest);
+    static RemoveListenerAfterAddingTest* create()
+    {
+        auto ret = new RemoveListenerAfterAddingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
@@ -109,7 +157,13 @@ public:
 class DirectorEventTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(DirectorEventTest);
+    static DirectorEventTest* create()
+    {
+        auto ret = new DirectorEventTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     DirectorEventTest();
     virtual void onEnter() override;
     virtual void onExit() override;
@@ -131,7 +185,13 @@ protected:
 class GlobalZTouchTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(GlobalZTouchTest);
+    static GlobalZTouchTest* create()
+    {
+        auto ret = new GlobalZTouchTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     GlobalZTouchTest();
     
     virtual void update(float dt) override;
@@ -147,7 +207,13 @@ protected:
 class StopPropagationTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(StopPropagationTest);
+    static StopPropagationTest* create()
+    {
+        auto ret = new StopPropagationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     StopPropagationTest();
     
     virtual std::string title() const override;
@@ -161,7 +227,13 @@ protected:
 class PauseResumeTargetTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(PauseResumeTargetTest);
+    static PauseResumeTargetTest* create()
+    {
+        auto ret = new PauseResumeTargetTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     PauseResumeTargetTest();
     virtual ~PauseResumeTargetTest();
     
@@ -174,7 +246,13 @@ private:
 class Issue4129 : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(Issue4129);
+    static Issue4129* create()
+    {
+        auto ret = new Issue4129;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue4129();
     virtual ~Issue4129();
     
@@ -189,7 +267,13 @@ private:
 class Issue4160 : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(Issue4160);
+    static Issue4160* create()
+    {
+        auto ret = new Issue4160;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue4160();
     virtual ~Issue4160();
     
@@ -202,7 +286,13 @@ private:
 class DanglingNodePointersTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(DanglingNodePointersTest);
+    static DanglingNodePointersTest* create()
+    {
+        auto ret = new DanglingNodePointersTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     DanglingNodePointersTest();
     virtual ~DanglingNodePointersTest();
     
@@ -213,7 +303,13 @@ public:
 class RegisterAndUnregisterWhileEventHanldingTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(RegisterAndUnregisterWhileEventHanldingTest);
+    static RegisterAndUnregisterWhileEventHanldingTest* create()
+    {
+        auto ret = new RegisterAndUnregisterWhileEventHanldingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     RegisterAndUnregisterWhileEventHanldingTest();
     
     virtual std::string title() const override;
@@ -223,7 +319,13 @@ public:
 class WindowEventsTest : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(WindowEventsTest);
+    static WindowEventsTest* create()
+    {
+        auto ret = new WindowEventsTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     WindowEventsTest();
 
     virtual std::string title() const override;
@@ -233,7 +335,13 @@ public:
 class Issue8194 : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(Issue8194);
+    static Issue8194* create()
+    {
+        auto ret = new Issue8194;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue8194();
     virtual ~Issue8194();
     
@@ -247,7 +355,13 @@ private:
 class Issue9898 : public EventDispatcherTestDemo
 {
 public:
-    CREATE_FUNC(Issue9898);
+    static Issue9898* create()
+    {
+        auto ret = new Issue9898;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue9898();
 
     virtual std::string title() const override;

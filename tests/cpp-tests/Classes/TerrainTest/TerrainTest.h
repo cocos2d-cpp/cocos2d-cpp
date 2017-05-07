@@ -18,7 +18,13 @@ protected:
 class TerrainSimple : public TerrainTestDemo
 {
 public:
-    CREATE_FUNC(TerrainSimple);
+    static TerrainSimple* create()
+    {
+        auto ret = new TerrainSimple;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TerrainSimple();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -60,7 +66,13 @@ private:
 class TerrainWalkThru : public TerrainTestDemo
 {
 public:
-    CREATE_FUNC(TerrainWalkThru);
+    static TerrainWalkThru* create()
+    {
+        auto ret = new TerrainWalkThru;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TerrainWalkThru();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -75,7 +87,13 @@ protected:
 class TerrainWithLightMap : public TerrainTestDemo
 {
 public:
-    CREATE_FUNC(TerrainWithLightMap);
+    static TerrainWithLightMap* create()
+    {
+        auto ret = new TerrainWithLightMap;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TerrainWithLightMap();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

@@ -58,7 +58,13 @@ public:
 class SpriteEase : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEase);
+    static SpriteEase* create()
+    {
+        auto ret = new SpriteEase;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -69,7 +75,13 @@ public:
 class SpriteEaseInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseInOut);
+    static SpriteEaseInOut* create()
+    {
+        auto ret = new SpriteEaseInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -78,7 +90,13 @@ public:
 class SpriteEaseExponential : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseExponential);
+    static SpriteEaseExponential* create()
+    {
+        auto ret = new SpriteEaseExponential;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -87,7 +105,13 @@ public:
 class SpriteEaseExponentialInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseExponentialInOut);
+    static SpriteEaseExponentialInOut* create()
+    {
+        auto ret = new SpriteEaseExponentialInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -96,7 +120,13 @@ public:
 class SpriteEaseSine : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseSine);
+    static SpriteEaseSine* create()
+    {
+        auto ret = new SpriteEaseSine;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -105,7 +135,13 @@ public:
 class SpriteEaseSineInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseSineInOut);
+    static SpriteEaseSineInOut* create()
+    {
+        auto ret = new SpriteEaseSineInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -114,7 +150,13 @@ public:
 class SpriteEaseElastic : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseElastic);
+    static SpriteEaseElastic* create()
+    {
+        auto ret = new SpriteEaseElastic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -123,7 +165,13 @@ public:
 class SpriteEaseElasticInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseElasticInOut);
+    static SpriteEaseElasticInOut* create()
+    {
+        auto ret = new SpriteEaseElasticInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -132,7 +180,13 @@ public:
 class SpriteEaseBounce : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseBounce);
+    static SpriteEaseBounce* create()
+    {
+        auto ret = new SpriteEaseBounce;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -141,7 +195,13 @@ public:
 class SpriteEaseBounceInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseBounceInOut);
+    static SpriteEaseBounceInOut* create()
+    {
+        auto ret = new SpriteEaseBounceInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -150,7 +210,13 @@ public:
 class SpriteEaseBack : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseBack);
+    static SpriteEaseBack* create()
+    {
+        auto ret = new SpriteEaseBack;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -159,7 +225,13 @@ public:
 class SpriteEaseBackInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseBackInOut);
+    static SpriteEaseBackInOut* create()
+    {
+        auto ret = new SpriteEaseBackInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -168,7 +240,13 @@ public:
 class SpriteEaseBezier : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseBezier);
+    static SpriteEaseBezier* create()
+    {
+        auto ret = new SpriteEaseBezier;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -177,7 +255,13 @@ public:
 class SpriteEaseQuadratic : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuadratic);
+    static SpriteEaseQuadratic* create()
+    {
+        auto ret = new SpriteEaseQuadratic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -186,7 +270,13 @@ public:
 class SpriteEaseQuadraticInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuadraticInOut);
+    static SpriteEaseQuadraticInOut* create()
+    {
+        auto ret = new SpriteEaseQuadraticInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -195,7 +285,13 @@ public:
 class SpriteEaseQuartic : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuartic);
+    static SpriteEaseQuartic* create()
+    {
+        auto ret = new SpriteEaseQuartic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -204,7 +300,13 @@ public:
 class SpriteEaseQuarticInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuarticInOut);
+    static SpriteEaseQuarticInOut* create()
+    {
+        auto ret = new SpriteEaseQuarticInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -213,7 +315,13 @@ public:
 class SpriteEaseQuintic : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuintic);
+    static SpriteEaseQuintic* create()
+    {
+        auto ret = new SpriteEaseQuintic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -222,7 +330,13 @@ public:
 class SpriteEaseQuinticInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseQuinticInOut);
+    static SpriteEaseQuinticInOut* create()
+    {
+        auto ret = new SpriteEaseQuinticInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -232,7 +346,13 @@ public:
 class SpriteEaseCircle : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseCircle);
+    static SpriteEaseCircle* create()
+    {
+        auto ret = new SpriteEaseCircle;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -241,7 +361,13 @@ public:
 class SpriteEaseCircleInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseCircleInOut);
+    static SpriteEaseCircleInOut* create()
+    {
+        auto ret = new SpriteEaseCircleInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -250,7 +376,13 @@ public:
 class SpriteEaseCubic : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseCubic);
+    static SpriteEaseCubic* create()
+    {
+        auto ret = new SpriteEaseCubic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;
@@ -259,7 +391,13 @@ public:
 class SpriteEaseCubicInOut : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpriteEaseCubicInOut);
+    static SpriteEaseCubicInOut* create()
+    {
+        auto ret = new SpriteEaseCubicInOut;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string title() const override;
@@ -267,7 +405,13 @@ public:
 class SpeedTest : public EaseSpriteDemo
 {
 public:
-    CREATE_FUNC(SpeedTest);
+    static SpeedTest* create()
+    {
+        auto ret = new SpeedTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string subtitle() const override;

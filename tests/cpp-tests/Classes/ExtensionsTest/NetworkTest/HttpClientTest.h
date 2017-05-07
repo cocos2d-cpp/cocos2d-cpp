@@ -10,7 +10,13 @@ DEFINE_TEST_SUITE(HttpClientTests);
 class HttpClientTest : public TestCase
 {
 public:
-    CREATE_FUNC(HttpClientTest);
+    static HttpClientTest* create()
+    {
+        auto ret = new HttpClientTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     HttpClientTest();
     virtual ~HttpClientTest();

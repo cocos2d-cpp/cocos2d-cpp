@@ -43,7 +43,13 @@ protected:
 class ParticlePerformTest1 : public ParticleMainScene
 {
 public:
-    CREATE_FUNC(ParticlePerformTest1);
+    static ParticlePerformTest1* create()
+    {
+        auto ret = new ParticlePerformTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void initWithSubTest(int subtest, int particles) override;
@@ -52,7 +58,13 @@ public:
 class ParticlePerformTest2 : public ParticleMainScene
 {
 public:
-    CREATE_FUNC(ParticlePerformTest2);
+    static ParticlePerformTest2* create()
+    {
+        auto ret = new ParticlePerformTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void initWithSubTest(int subtest, int particles) override;
@@ -61,7 +73,13 @@ public:
 class ParticlePerformTest3 : public ParticleMainScene
 {
 public:
-    CREATE_FUNC(ParticlePerformTest3);
+    static ParticlePerformTest3* create()
+    {
+        auto ret = new ParticlePerformTest3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void initWithSubTest(int subtest, int particles) override;
@@ -70,7 +88,13 @@ public:
 class ParticlePerformTest4 : public ParticleMainScene
 {
 public:
-    CREATE_FUNC(ParticlePerformTest4);
+    static ParticlePerformTest4* create()
+    {
+        auto ret = new ParticlePerformTest4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual void initWithSubTest(int subtest, int particles) override;

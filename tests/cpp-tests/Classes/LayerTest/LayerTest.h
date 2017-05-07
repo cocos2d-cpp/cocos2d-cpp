@@ -16,7 +16,13 @@ protected:
 class LayerTestCascadingOpacityA : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingOpacityA);
+    static LayerTestCascadingOpacityA* create()
+    {
+        auto ret = new LayerTestCascadingOpacityA;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -24,7 +30,13 @@ public:
 class LayerTestCascadingOpacityB : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingOpacityB);
+    static LayerTestCascadingOpacityB* create()
+    {
+        auto ret = new LayerTestCascadingOpacityB;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -32,7 +44,13 @@ public:
 class LayerTestCascadingOpacityC : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingOpacityC);
+    static LayerTestCascadingOpacityC* create()
+    {
+        auto ret = new LayerTestCascadingOpacityC;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -40,7 +58,13 @@ public:
 class LayerTestCascadingColorA : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingColorA);
+    static LayerTestCascadingColorA* create()
+    {
+        auto ret = new LayerTestCascadingColorA;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -48,7 +72,13 @@ public:
 class LayerTestCascadingColorB : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingColorB);
+    static LayerTestCascadingColorB* create()
+    {
+        auto ret = new LayerTestCascadingColorB;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -56,7 +86,13 @@ public:
 class LayerTestCascadingColorC : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestCascadingColorC);
+    static LayerTestCascadingColorC* create()
+    {
+        auto ret = new LayerTestCascadingColorC;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -65,7 +101,13 @@ public:
 class LayerTest1 : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTest1);
+    static LayerTest1* create()
+    {
+        auto ret = new LayerTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -80,7 +122,13 @@ public:
 class LayerTest2 : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTest2);
+    static LayerTest2* create()
+    {
+        auto ret = new LayerTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -89,7 +137,13 @@ public:
 class LayerTestBlend : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerTestBlend);
+    static LayerTestBlend* create()
+    {
+        auto ret = new LayerTestBlend;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     LayerTestBlend();
     void newBlend(float dt);
@@ -99,7 +153,13 @@ public:
 class LayerGradientTest : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerGradientTest);
+    static LayerGradientTest* create()
+    {
+        auto ret = new LayerGradientTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     LayerGradientTest();
     void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
     virtual std::string title() const override;
@@ -110,7 +170,13 @@ public:
 class LayerGradientTest2 : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerGradientTest2);
+    static LayerGradientTest2* create()
+    {
+        auto ret = new LayerGradientTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     LayerGradientTest2();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -119,7 +185,13 @@ public:
 class LayerIgnoreAnchorPointPos : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerIgnoreAnchorPointPos);
+    static LayerIgnoreAnchorPointPos* create()
+    {
+        auto ret = new LayerIgnoreAnchorPointPos;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void onToggle(cocos2d::Ref* pObject);
     virtual std::string title() const override;
@@ -129,7 +201,13 @@ public:
 class LayerIgnoreAnchorPointRot : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerIgnoreAnchorPointRot);
+    static LayerIgnoreAnchorPointRot* create()
+    {
+        auto ret = new LayerIgnoreAnchorPointRot;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void onToggle(cocos2d::Ref* pObject);
     virtual std::string title() const override;
@@ -139,7 +217,13 @@ public:
 class LayerIgnoreAnchorPointScale : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerIgnoreAnchorPointScale);
+    static LayerIgnoreAnchorPointScale* create()
+    {
+        auto ret = new LayerIgnoreAnchorPointScale;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void onToggle(cocos2d::Ref* pObject);
     virtual std::string title() const override;
@@ -149,7 +233,13 @@ public:
 class LayerExtendedBlendOpacityTest : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerExtendedBlendOpacityTest);
+    static LayerExtendedBlendOpacityTest* create()
+    {
+        auto ret = new LayerExtendedBlendOpacityTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     LayerExtendedBlendOpacityTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -158,7 +248,13 @@ public:
 class LayerBug3162A : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerBug3162A);
+    static LayerBug3162A* create()
+    {
+        auto ret = new LayerBug3162A;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -172,7 +268,13 @@ private:
 class LayerBug3162B : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerBug3162B);
+    static LayerBug3162B* create()
+    {
+        auto ret = new LayerBug3162B;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -186,7 +288,13 @@ private:
 class LayerColorOccludeBug : public LayerTest
 {
 public:
-    CREATE_FUNC(LayerColorOccludeBug);
+    static LayerColorOccludeBug* create()
+    {
+        auto ret = new LayerColorOccludeBug;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
