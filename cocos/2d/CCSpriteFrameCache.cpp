@@ -46,8 +46,6 @@ using namespace std;
 
 namespace cocos2d {
 
-static SpriteFrameCache *_sharedSpriteFrameCache = nullptr;
-
 SpriteFrameCache::SpriteFrameCache()
 {
     _spriteFrames.reserve(20);
