@@ -836,7 +836,7 @@ void ActionAnimate::onEnter()
          log("target %p with data %s", userData->target, Value(userData->userInfo).getDescription().c_str());
     });
 
-    _eventDispatcher->addEventListenerWithFixedPriority(_frameDisplayedListener, -1);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(_frameDisplayedListener, -1);
 
     //
     // File animation
@@ -853,7 +853,7 @@ void ActionAnimate::onEnter()
 void ActionAnimate::onExit()
 {
     ActionsDemo::onExit();
-    _eventDispatcher->removeEventListener(_frameDisplayedListener);
+    _director->getEventDispatcher()->removeEventListener(_frameDisplayedListener);
 }
 
 std::string ActionAnimate::title() const
@@ -1636,7 +1636,7 @@ void ActionStacked::onEnter()
     
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesEnded = CC_CALLBACK_2(ActionStacked::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     auto s = Director::getInstance()->getWinSize();
     this->addNewSpriteWithCoords(Vec2(s.width/2, s.height/2));

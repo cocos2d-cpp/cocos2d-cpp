@@ -39,7 +39,7 @@ Box2dTestBed::Box2dTestBed()
 
 Box2dTestBed::~Box2dTestBed()
 {
-    _eventDispatcher->removeEventListener(_touchListener);
+    _director->getEventDispatcher()->removeEventListener(_touchListener);
 }
 
 Box2dTestBed* Box2dTestBed::createWithEntryID(int entryId)
@@ -79,7 +79,7 @@ bool Box2dTestBed::initWithEntryID(int entryId)
     listener->onTouchBegan = CC_CALLBACK_2(Box2dTestBed::onTouchBegan, this);
     listener->onTouchMoved = CC_CALLBACK_2(Box2dTestBed::onTouchMoved, this);
 
-    _eventDispatcher->addEventListenerWithFixedPriority(listener, 1);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, 1);
 
     _touchListener = listener;
     
@@ -131,13 +131,13 @@ bool Box2DView::initWithEntryID(int entryId)
     listener->onTouchMoved = CC_CALLBACK_2(Box2DView::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(Box2DView::onTouchEnded, this);
     
-    _eventDispatcher->addEventListenerWithFixedPriority(listener, -10);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(listener, -10);
     _touchListener = listener;
     
     auto keyboardListener = EventListenerKeyboard::create();
     keyboardListener->onKeyPressed = CC_CALLBACK_2(Box2DView::onKeyPressed, this);
     keyboardListener->onKeyReleased = CC_CALLBACK_2(Box2DView::onKeyReleased, this);
-    _eventDispatcher->addEventListenerWithFixedPriority(keyboardListener, -11);
+    _director->getEventDispatcher()->addEventListenerWithFixedPriority(keyboardListener, -11);
     _keyboardListener = keyboardListener;
     
     return true;
@@ -175,8 +175,8 @@ void Box2DView::onDraw(const Mat4 &transform, uint32_t flags)
 Box2DView::~Box2DView()
 {
     // Removes Touch Event Listener
-    _eventDispatcher->removeEventListener(_touchListener);
-    _eventDispatcher->removeEventListener(_keyboardListener);
+    _director->getEventDispatcher()->removeEventListener(_touchListener);
+    _director->getEventDispatcher()->removeEventListener(_keyboardListener);
     delete m_test;
 }
 

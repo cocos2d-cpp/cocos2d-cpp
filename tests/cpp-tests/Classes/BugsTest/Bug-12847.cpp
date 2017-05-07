@@ -36,16 +36,16 @@ bool Bug12847Layer::init()
         }
         //Create with SpriteFrame
         {
-            auto cache = SpriteFrameCache::getInstance();
+            auto & cache = _director->getSpriteFrameCache();
 
-            cache->addSpriteFramesWithFile("Images/bug12847_spriteframe.plist");
+            cache.addSpriteFramesWithFile("Images/bug12847_spriteframe.plist");
             
-            sprite3 = Sprite::create(cache->getSpriteFrameByName("bug12847_sprite2.png"));
+            sprite3 = Sprite::create(cache.getSpriteFrameByName("bug12847_sprite2.png"));
             sprite3->getTexture()->setAliasTexParameters();
             sprite3->setPosition(Vec2(_visibleSize.width * 2/3, 50));
             this->addChild(sprite3, 1);
             
-            sprite4 = Sprite::create(cache->getSpriteFrameByName("bug12847_sprite2.png"));
+            sprite4 = Sprite::create(cache.getSpriteFrameByName("bug12847_sprite2.png"));
             sprite4->getTexture()->setAliasTexParameters();
             sprite4->setPosition(sprite3->getPosition() + Vec2(0.0f, sprite3->getContentSize().height));
             this->addChild(sprite4, 1);

@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2013-2016 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -78,8 +77,8 @@ SpriteFrameCachePixelFormatTest::SpriteFrameCachePixelFormatTest()
 
 void SpriteFrameCachePixelFormatTest::loadSpriteFrames(const std::string &file, cocos2d::Texture2D::PixelFormat expectedFormat)
 {
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile(file);
-    SpriteFrame *spriteFrame = SpriteFrameCache::getInstance()->getSpriteFrameByName("grossini.png");
+    _director->getSpriteFrameCache().addSpriteFramesWithFile(file);
+    SpriteFrame *spriteFrame = _director->getSpriteFrameCache().getSpriteFrameByName("grossini.png");
     const Texture2D *texture = spriteFrame->getTexture();
     const ssize_t bitsPerKB = 8 * 1024;
     const double memorySize = 1.0 * texture->getBitsPerPixelForFormat() * texture->getContentSizeInPixels().width * texture->getContentSizeInPixels().height / bitsPerKB;
@@ -88,6 +87,6 @@ void SpriteFrameCachePixelFormatTest::loadSpriteFrames(const std::string &file, 
     const std::string textureInfo = StringUtils::format("%s: %.2f KB\r\n", texture->getStringForFormat(), memorySize);
     infoLabel->setString(infoLabel->getString() + textureInfo);
     
-    SpriteFrameCache::getInstance()->removeSpriteFramesFromFile(file);
+    _director->getSpriteFrameCache().removeSpriteFramesFromFile(file);
     Director::getInstance()->getTextureCache()->removeTexture(texture);
 }

@@ -1,8 +1,7 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2014 cocos2d-x.org
  Copyright (c) 2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -78,13 +77,13 @@ const Controller::KeyStatus& Controller::getKeyStatus(int keyCode)
 void Controller::onConnected()
 {
     _connectEvent->setConnectStatus(true);
-    _eventDispatcher->dispatchEvent(_connectEvent);
+    _director->getEventDispatcher()->dispatchEvent(_connectEvent);
 }
 
 void Controller::onDisconnected()
 {
     _connectEvent->setConnectStatus(false);
-    _eventDispatcher->dispatchEvent(_connectEvent);
+    _director->getEventDispatcher()->dispatchEvent(_connectEvent);
 
     delete this;
 }
@@ -97,7 +96,7 @@ void Controller::onButtonEvent(int keyCode, bool isPressed, float value, bool is
     _allKeyStatus[keyCode].isAnalog = isAnalog;
 
     _keyEvent->setKeyCode(keyCode);
-    _eventDispatcher->dispatchEvent(_keyEvent);
+    _director->getEventDispatcher()->dispatchEvent(_keyEvent);
 }
 
 void Controller::onAxisEvent(int axisCode, float value, bool isAnalog)
@@ -107,7 +106,7 @@ void Controller::onAxisEvent(int axisCode, float value, bool isAnalog)
     _allKeyStatus[axisCode].isAnalog = isAnalog;
 
     _axisEvent->setKeyCode(axisCode);
-    _eventDispatcher->dispatchEvent(_axisEvent);
+    _director->getEventDispatcher()->dispatchEvent(_axisEvent);
 }
 
 } // namespace cocos2d

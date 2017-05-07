@@ -590,7 +590,7 @@ LabelFNTMultiLineAlignment::LabelFNTMultiLineAlignment()
     listener->onTouchesMoved = CC_CALLBACK_2(LabelFNTMultiLineAlignment::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(LabelFNTMultiLineAlignment::onTouchesEnded, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     // ask director the the window size
     auto size = Director::getInstance()->getWinSize();
 

@@ -1,8 +1,7 @@
 /****************************************************************************
  Copyright (c) 2012 cocos2d-x.org
  Copyright (c) 2015 Chukong Technologies Inc.
- 
- http://www.cocos2d-x.org
+ Copyright (c) 2017      Iakov Sergeev <yahont@github> 
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +103,7 @@ bool NavMeshBaseTestDemo::init()
         listener->onTouchesBegan = CC_CALLBACK_2(NavMeshBaseTestDemo::onTouchesBegan, this);
         listener->onTouchesMoved = CC_CALLBACK_2(NavMeshBaseTestDemo::onTouchesMoved, this);
         listener->onTouchesEnded = CC_CALLBACK_2(NavMeshBaseTestDemo::onTouchesEnded, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
         initScene();
         Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));

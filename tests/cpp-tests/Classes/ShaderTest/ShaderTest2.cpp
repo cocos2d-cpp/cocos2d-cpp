@@ -1,7 +1,6 @@
 /****************************************************************************
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  Copyright (c) 2014 Chukong Technologies Inc.
-
- http://www.cocos2d-x.org
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -560,7 +559,7 @@ bool EffectSpriteLamp::init()
         listerner->onTouchesBegan = CC_CALLBACK_2(EffectSpriteLamp::onTouchesBegan, this);
         listerner->onTouchesMoved = CC_CALLBACK_2(EffectSpriteLamp::onTouchesMoved, this);
         listerner->onTouchesEnded = CC_CALLBACK_2(EffectSpriteLamp::onTouchesEnded, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listerner, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listerner, this);
         return true;
     }
     return false;

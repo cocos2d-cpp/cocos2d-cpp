@@ -1,7 +1,6 @@
 /****************************************************************************
  Copyright (c) 2013 cocos2d-x.org
-
- http://www.cocos2d-x.org
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -242,7 +241,7 @@ NewClippingNodeTest::NewClippingNodeTest()
     listener->onTouchesBegan = CC_CALLBACK_2(NewClippingNodeTest::onTouchesBegan, this);
     listener->onTouchesMoved = CC_CALLBACK_2(NewClippingNodeTest::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(NewClippingNodeTest::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 NewClippingNodeTest::~NewClippingNodeTest()
@@ -347,7 +346,7 @@ NewCullingTest::NewCullingTest()
     listener->onTouchBegan = CC_CALLBACK_2(NewCullingTest::onTouchBegan, this);
     listener->onTouchMoved = CC_CALLBACK_2(NewCullingTest::onTouchMoved, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
 }
 

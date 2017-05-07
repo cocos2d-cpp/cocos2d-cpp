@@ -44,12 +44,12 @@ MouseEventTest::MouseEventTest()
     _mouseListener->onMouseDown = CC_CALLBACK_1(MouseEventTest::onMouseDown, this);
     _mouseListener->onMouseScroll = CC_CALLBACK_1(MouseEventTest::onMouseScroll, this);
 
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(_mouseListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_mouseListener, this);
 }
 
 MouseEventTest::~MouseEventTest()
 {
-    _eventDispatcher->removeEventListener(_mouseListener);
+    _director->getEventDispatcher()->removeEventListener(_mouseListener);
 }
 
 void MouseEventTest::onMouseDown(Event *event)
@@ -112,12 +112,12 @@ HideMouseTest::HideMouseTest()
         Director::getInstance()->getOpenGLView()->setCursorVisible(true);
     };
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(_lis, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_lis, this);
 }
 
 HideMouseTest::~HideMouseTest()
 {
-    _eventDispatcher->removeEventListener(_lis);
+    _director->getEventDispatcher()->removeEventListener(_lis);
 }
 
 std::string HideMouseTest::title() const

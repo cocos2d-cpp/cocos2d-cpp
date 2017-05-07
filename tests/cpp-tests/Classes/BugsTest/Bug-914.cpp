@@ -27,7 +27,7 @@ bool Bug914Layer::init()
         auto listener = EventListenerTouchAllAtOnce::create();
         listener->onTouchesBegan = CC_CALLBACK_2(Bug914Layer::onTouchesBegan, this);
         listener->onTouchesMoved = CC_CALLBACK_2(Bug914Layer::onTouchesMoved, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
         
         // ask director the the window size
         auto size = Director::getInstance()->getWinSize();

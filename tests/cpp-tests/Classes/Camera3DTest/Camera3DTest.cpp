@@ -1,8 +1,7 @@
 /****************************************************************************
 Copyright (c) 2012 cocos2d-x.org
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -269,7 +268,7 @@ void Camera3DTestDemo::onEnter()
     listener->onTouchesBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesBegan, this);
     listener->onTouchesMoved = CC_CALLBACK_2(Camera3DTestDemo::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     auto layer3D=Layer::create();
     addChild(layer3D,0);
     _layer3D=layer3D;
@@ -289,7 +288,7 @@ void Camera3DTestDemo::onEnter()
     listener1->onTouchBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesZoomOut, this);
     listener1->onTouchEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesZoomOutEnd, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, _ZoomOutlabel);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener1, _ZoomOutlabel);
     
     auto containerForLabel2 = Node::create();
     _ZoomInlabel = Label::createWithTTF(ttfConfig,"zoom in");
@@ -303,7 +302,7 @@ void Camera3DTestDemo::onEnter()
     listener2->onTouchBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesZoomIn, this);
     listener2->onTouchEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesZoomInEnd, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener2, _ZoomInlabel);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener2, _ZoomInlabel);
     
     auto containerForLabel3 = Node::create();
     _RotateLeftlabel = Label::createWithTTF(ttfConfig,"rotate left");
@@ -317,7 +316,7 @@ void Camera3DTestDemo::onEnter()
     listener3->onTouchBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesRotateLeft, this);
     listener3->onTouchEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesRotateLeftEnd, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener3, _RotateLeftlabel);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener3, _RotateLeftlabel);
     
     auto containerForLabel4 = Node::create();
     _RotateRightlabel = Label::createWithTTF(ttfConfig,"rotate right");
@@ -331,7 +330,7 @@ void Camera3DTestDemo::onEnter()
     listener4->onTouchBegan = CC_CALLBACK_2(Camera3DTestDemo::onTouchesRotateRight, this);
     listener4->onTouchEnded = CC_CALLBACK_2(Camera3DTestDemo::onTouchesRotateRightEnd, this);
     
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener4, _RotateRightlabel);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener4, _RotateRightlabel);
     
     auto label1 = Label::createWithTTF(ttfConfig,"free ");
     auto menuItem1 = MenuItemLabel::create(label1, CC_CALLBACK_1(Camera3DTestDemo::SwitchViewCallback,this,CameraType::Free));
@@ -1027,7 +1026,7 @@ void CameraArcBallDemo::onEnter()
     auto s = Director::getInstance()->getWinSize();
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(CameraArcBallDemo::onTouchsMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     // swich camera
     MenuItemFont::setFontName("fonts/arial.ttf");
@@ -1238,7 +1237,7 @@ void FogTestDemo::onEnter()
     auto s = Director::getInstance()->getWinSize();
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(FogTestDemo::onTouchesMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     // swich fog type
     TTFConfig ttfConfig("fonts/arial.ttf", 20);

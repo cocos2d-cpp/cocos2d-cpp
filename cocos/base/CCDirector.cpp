@@ -30,7 +30,6 @@ THE SOFTWARE.
 // standard includes
 #include <string>
 
-#include "2d/CCSpriteFrameCache.h"
 #include "platform/CCFileUtils.h"
 
 #include "2d/CCActionManager.h"
@@ -93,7 +92,6 @@ Director* Director::getInstance()
     {
         s_SharedDirector = new (std::nothrow) Director;
         CCASSERT(s_SharedDirector, "FATAL: Not enough memory");
-        s_SharedDirector->init();
     }
 
     return s_SharedDirector;
@@ -103,10 +101,6 @@ Director::Director()
 : _runningScene()
 , _isStatusLabelUpdated(true)
 , _invalid(true)
-{
-}
-
-bool Director::init()
 {
     setDefaultValues();
 
@@ -168,11 +162,9 @@ bool Director::init()
 
     _renderer = new (std::nothrow) Renderer;
     RenderState::initialize();
-
-    return true;
 }
 
-Director::~Director(void)
+Director::~Director()
 {
     CCLOGINFO("deallocing Director: %p", this);
 
@@ -205,7 +197,7 @@ Director::~Director(void)
     s_SharedDirector = nullptr;
 }
 
-void Director::setDefaultValues(void)
+void Director::setDefaultValues()
 {
     Configuration *conf = Configuration::getInstance();
 
@@ -679,7 +671,7 @@ void Director::purgeCachedData(void)
 
     if (s_SharedDirector->getOpenGLView())
     {
-        SpriteFrameCache::getInstance()->removeUnusedSpriteFrames();
+        _spriteFrameCache.removeUnusedSpriteFrames();
         _textureCache->removeUnusedTextures();
 
         // Note: some tests such as ActionsTest are leaking refcounted textures
@@ -972,7 +964,7 @@ void Director::reset()
     FontFreeType::shutdownFreeType();
     
     AnimationCache::destroyInstance();
-    SpriteFrameCache::destroyInstance();
+    _spriteFrameCache.removeSpriteFrames();
     GLProgramCache::destroyInstance();
     GLProgramStateCache::destroyInstance();
     FileUtils::destroyInstance();
@@ -1263,16 +1255,6 @@ void Director::setNotificationNode(Node *node)
 	_notificationNode->onEnter();
 	_notificationNode->onEnterTransitionDidFinish();
     CC_SAFE_RETAIN(_notificationNode);
-}
-
-void Director::setEventDispatcher(EventDispatcher* dispatcher)
-{
-    if (_eventDispatcher != dispatcher)
-    {
-        CC_SAFE_RETAIN(dispatcher);
-        CC_SAFE_RELEASE(_eventDispatcher);
-        _eventDispatcher = dispatcher;
-    }
 }
 
 void Director::startAnimation()

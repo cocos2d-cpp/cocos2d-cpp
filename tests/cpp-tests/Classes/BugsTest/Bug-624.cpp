@@ -36,7 +36,7 @@ bool Bug624Layer::init()
         
         Device::setAccelerometerEnabled(true);
         auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(Bug624Layer::onAcceleration,  this));
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
         Director::getInstance()->getScheduler().schedule(
             TimedJob(this, &Bug624Layer::switchLayer, 0)
@@ -87,7 +87,7 @@ bool Bug624Layer2::init()
         
         Device::setAccelerometerEnabled(true);
         auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(Bug624Layer2::onAcceleration, this));
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
         
         Director::getInstance()->getScheduler().schedule(
             TimedJob(this, &Bug624Layer2::switchLayer, 0)

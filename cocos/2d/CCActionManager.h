@@ -1,5 +1,5 @@
 /****************************************************************************
-CopyRight (c) 2017      Iakov Sergeev <yahont@github>
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

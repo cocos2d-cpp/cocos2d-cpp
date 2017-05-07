@@ -96,7 +96,6 @@ private:
     Node* _parent;      // weak ref.
     std::string _url;
     RichText::OpenUrlHandler _handleOpenUrl;
-    EventDispatcher* _eventDispatcher;  // weak ref.
     EventListenerTouchAllAtOnce* _touchListener;    // strong ref.
 };
 

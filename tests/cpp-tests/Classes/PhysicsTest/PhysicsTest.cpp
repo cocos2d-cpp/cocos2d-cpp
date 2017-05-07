@@ -362,11 +362,11 @@ void PhysicsDemoClickAdd::onEnter()
     
     auto touchListener = EventListenerTouchAllAtOnce::create();
     touchListener->onTouchesEnded = CC_CALLBACK_2(PhysicsDemoClickAdd::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     Device::setAccelerometerEnabled(true);
     auto accListener = EventListenerAcceleration::create(CC_CALLBACK_2(PhysicsDemoClickAdd::onAcceleration, this));
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(accListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(accListener, this);
     
     auto node = Node::create();
     node->addComponent(PhysicsBody::createEdgeBox(VisibleRect::getVisibleRect().size));
@@ -419,7 +419,7 @@ void PhysicsDemoPyramidStack::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemoPyramidStack::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoPyramidStack::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoPyramidStack::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     auto node = Node::create();
     node->addComponent(PhysicsBody::createEdgeSegment(VisibleRect::leftBottom() + Vec2(0, 50), 
@@ -476,7 +476,7 @@ void PhysicsDemoRayCast::onEnter()
     
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesEnded = CC_CALLBACK_2(PhysicsDemoRayCast::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     _physicsWorld->setGravity(Point::ZERO);
     
@@ -651,7 +651,7 @@ void PhysicsDemoActions::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemoActions::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoActions::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoActions::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     auto node = Node::create();
     node->addComponent(PhysicsBody::createEdgeBox(VisibleRect::getVisibleRect().size));
@@ -709,7 +709,7 @@ void PhysicsDemoJoints::onEnter()
     listener->onTouchBegan = CC_CALLBACK_2(PhysicsDemo::onTouchBegan, this);
     listener->onTouchMoved = CC_CALLBACK_2(PhysicsDemo::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(PhysicsDemo::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     float width = (VisibleRect::getVisibleRect().size.width - 10) / 4;
     float height = (VisibleRect::getVisibleRect().size.height - 50) / 4;
@@ -952,7 +952,7 @@ void PhysicsDemoPump::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemoPump::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoPump::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoPump::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     Director::getInstance()->getScheduler().schedule(UpdateJob(this).paused(isPaused()));
     
     auto node = Node::create();
@@ -1117,7 +1117,7 @@ void PhysicsDemoOneWayPlatform::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemoOneWayPlatform::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemoOneWayPlatform::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoOneWayPlatform::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     auto ground = Node::create();
     ground->addComponent(PhysicsBody::createEdgeSegment(VisibleRect::leftBottom() + Vec2(0, 50), 
@@ -1140,7 +1140,7 @@ void PhysicsDemoOneWayPlatform::onEnter()
     
     auto contactListener = EventListenerPhysicsContactWithBodies::create(platformBody, ballBody);
     contactListener->onContactBegin = CC_CALLBACK_1(PhysicsDemoOneWayPlatform::onContactBegin, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
 }
 
 bool PhysicsDemoOneWayPlatform::onContactBegin(PhysicsContact& contact)
@@ -1163,7 +1163,7 @@ void PhysicsDemoSlice::onEnter()
     auto touchListener = EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = [](Touch*, Event*)->bool{ return true; };
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemoSlice::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     auto ground = Node::create();
     ground->addComponent(PhysicsBody::createEdgeSegment(VisibleRect::leftBottom() + Vec2(0, 50), VisibleRect::rightBottom() + Vec2(0, 50)));
@@ -1449,7 +1449,7 @@ void PhysicsContactTest::resetTest()
     
     auto contactListener = EventListenerPhysicsContact::create();
     contactListener->onContactBegin = CC_CALLBACK_1(PhysicsContactTest::onContactBegin, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(contactListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(contactListener, this);
     
     // yellow box, will collide with itself and blue box.
     for (int i = 0; i < _yellowBoxNum; ++i)
@@ -1558,7 +1558,7 @@ void PhysicsPositionRotationTest::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemo::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemo::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemo::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     auto wall = Node::create();
     wall->addComponent(PhysicsBody::createEdgeBox(VisibleRect::getVisibleRect().size));
@@ -1615,7 +1615,7 @@ void PhysicsSetGravityEnableTest::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemo::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemo::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemo::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     // wall
     auto wall = Node::create();
@@ -1679,7 +1679,7 @@ void PhysicsDemoBug5482::onEnter()
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsDemo::onTouchBegan, this);
     touchListener->onTouchMoved = CC_CALLBACK_2(PhysicsDemo::onTouchMoved, this);
     touchListener->onTouchEnded = CC_CALLBACK_2(PhysicsDemo::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     _bodyInA = false;
     
@@ -1811,7 +1811,7 @@ void PhysicsTransformTest::onEnter()
     
     auto touchListener = EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(PhysicsTransformTest::onTouchBegan, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(touchListener, this);
     
     _rootLayer = Layer::create();
     addChild(_rootLayer);

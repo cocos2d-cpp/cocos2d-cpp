@@ -23,14 +23,14 @@ void ZwoptexGenericTest::onEnter()
 
     auto s = Director::getInstance()->getWinSize();
 
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("zwoptex/grossini.plist");
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("zwoptex/grossini-generic.plist");
+    _director->getSpriteFrameCache().addSpriteFramesWithFile("zwoptex/grossini.plist");
+    _director->getSpriteFrameCache().addSpriteFramesWithFile("zwoptex/grossini-generic.plist");
     
     auto layer1 = LayerColor::create(Color4B(255, 0, 0, 255), 85, 121);
     layer1->setPosition(Vec2(s.width/2-80 - (85.0f * 0.5f), s.height/2 - (121.0f * 0.5f)));
     addChild(layer1);
 
-    sprite1 = Sprite::create(SpriteFrameCache::getInstance()->getSpriteFrameByName("grossini_dance_01.png"));
+    sprite1 = Sprite::create(_director->getSpriteFrameCache().getSpriteFrameByName("grossini_dance_01.png"));
     sprite1->setPosition(Vec2( s.width/2-80, s.height/2));
     addChild(sprite1);
 
@@ -41,7 +41,7 @@ void ZwoptexGenericTest::onEnter()
     layer2->setPosition(Vec2(s.width/2+80 - (85.0f * 0.5f), s.height/2 - (121.0f * 0.5f)));
     addChild(layer2);
     
-    sprite2 = Sprite::create(SpriteFrameCache::getInstance()->getSpriteFrameByName("grossini_dance_generic_01.png"));
+    sprite2 = Sprite::create(_director->getSpriteFrameCache().getSpriteFrameByName("grossini_dance_generic_01.png"));
     sprite2->setPosition(Vec2( s.width/2 + 80, s.height/2));
     addChild(sprite2);
 
@@ -115,17 +115,17 @@ void ZwoptexGenericTest::flipSprites(float /*dt*/)
     char str2[32] = {0};
     sprintf(str1, "grossini_dance_%02d.png", spriteFrameIndex);
     sprintf(str2, "grossini_dance_generic_%02d.png", spriteFrameIndex);
-    sprite1->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(str1));
-    sprite2->setSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(str2));
+    sprite1->setSpriteFrame(_director->getSpriteFrameCache().getSpriteFrameByName(str1));
+    sprite2->setSpriteFrame(_director->getSpriteFrameCache().getSpriteFrameByName(str2));
 }
 
 ZwoptexGenericTest::~ZwoptexGenericTest()
 {
     sprite1->release();
     sprite2->release();
-    auto cache = SpriteFrameCache::getInstance();
-    cache->removeSpriteFramesFromFile("zwoptex/grossini.plist");
-    cache->removeSpriteFramesFromFile("zwoptex/grossini-generic.plist");
+    auto & cache = _director->getSpriteFrameCache();
+    cache.removeSpriteFramesFromFile("zwoptex/grossini.plist");
+    cache.removeSpriteFramesFromFile("zwoptex/grossini-generic.plist");
 }
 
 std::string ZwoptexGenericTest::title() const

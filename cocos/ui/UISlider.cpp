@@ -1,6 +1,6 @@
 /****************************************************************************
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-Copyright (c) 2017 Iakov Sergeev
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -174,7 +174,7 @@ void Slider::loadBarTexture(const std::string& fileName, TextureResType texType)
             break;
         case TextureResType::PLIST:
             _barRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+                _director->getSpriteFrameCache().getSpriteFrameByName(fileName)
             );
             break;
         default:
@@ -219,7 +219,7 @@ void Slider::loadProgressBarTexture(const std::string& fileName, TextureResType 
             break;
         case TextureResType::PLIST:
             _progressBarRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName)
+                _director->getSpriteFrameCache().getSpriteFrameByName(fileName)
             );
             break;
         default:
@@ -347,7 +347,7 @@ void Slider::loadSlidBallTextureNormal(const std::string& normal, TextureResType
             break;
         case TextureResType::PLIST:
             slidBallNormal->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(_slidBallNormalTextureFile)
+                _director->getSpriteFrameCache().getSpriteFrameByName(_slidBallNormalTextureFile)
             );
             break;
         default:
@@ -380,7 +380,7 @@ void Slider::loadSlidBallTexturePressed(const std::string& pressed,TextureResTyp
             break;
         case TextureResType::PLIST:
             slidBallPressed->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(pressed)
+                _director->getSpriteFrameCache().getSpriteFrameByName(pressed)
             );
             break;
         default:
@@ -416,7 +416,7 @@ void Slider::loadSlidBallTextureDisabled(const std::string& disabled,TextureResT
             break;
         case TextureResType::PLIST:
             slidBallDisabled->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(disabled)
+                _director->getSpriteFrameCache().getSpriteFrameByName(disabled)
             );
             break;
         default:

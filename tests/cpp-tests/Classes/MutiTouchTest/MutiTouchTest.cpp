@@ -54,7 +54,7 @@ bool MutiTouchTest::init()
         listener->onTouchesBegan = CC_CALLBACK_2(MutiTouchTest::onTouchesBegan, this);
         listener->onTouchesMoved = CC_CALLBACK_2(MutiTouchTest::onTouchesMoved, this);
         listener->onTouchesEnded = CC_CALLBACK_2(MutiTouchTest::onTouchesEnded, this);
-        _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+        _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
         
         auto title = Label::createWithSystemFont("Please touch the screen!", "", 24);
         title->setPosition(VisibleRect::top()+Vec2(0, -40));

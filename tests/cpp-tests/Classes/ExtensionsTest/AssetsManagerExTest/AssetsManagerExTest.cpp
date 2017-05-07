@@ -189,7 +189,7 @@ void AssetsManagerExLoaderScene::startDownloadCallback(Ref*)
 
 void AssetsManagerExLoaderScene::onExit()
 {
-    _eventDispatcher->removeEventListener(_amListener);
+    _director->getEventDispatcher()->removeEventListener(_amListener);
     _am->release();
     TestCase::onExit();
 }

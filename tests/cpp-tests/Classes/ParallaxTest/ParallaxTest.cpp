@@ -100,7 +100,7 @@ Parallax2::Parallax2()
 {
     auto listener = EventListenerTouchAllAtOnce::create();
     listener->onTouchesMoved = CC_CALLBACK_2(Parallax2::onTouchesMoved, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
     // Top Layer, a simple image
     auto cocosImage = Sprite::create(s_Power);

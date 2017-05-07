@@ -20,14 +20,9 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-// on "init" you need to initialize your instance
-bool HelloWorld::init()
+HelloWorld::HelloWorld()
 {
-    // 1. super init first
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+    Layer::init();
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -66,13 +61,15 @@ bool HelloWorld::init()
     this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto sprite = make_node_ptr<Sprite>("HelloWorld.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    sprite->setPosition(
+        Vec2(
+            visibleSize.width  / 2 + origin.x,
+            visibleSize.height / 2 + origin.y
+        ));
 
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-
-    return true;
+    this->addChild(std::move(sprite), 0);
 }

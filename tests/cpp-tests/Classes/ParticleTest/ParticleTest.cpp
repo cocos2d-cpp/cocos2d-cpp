@@ -1092,7 +1092,7 @@ void ParticleDemo::onEnter(void)
     listener->onTouchesBegan = CC_CALLBACK_2(ParticleDemo::onTouchesBegan, this);
     listener->onTouchesMoved = CC_CALLBACK_2(ParticleDemo::onTouchesMoved, this);
     listener->onTouchesEnded = CC_CALLBACK_2(ParticleDemo::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
     auto s = Director::getInstance()->getWinSize();
 

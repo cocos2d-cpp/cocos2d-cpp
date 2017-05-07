@@ -1,6 +1,6 @@
 /****************************************************************************
-Copyright (c) 2013-2016 Chukong Technologies Inc.
 Copyright (c) 2017      Iakov Sergeev <yahont@github>
+Copyright (c) 2013-2016 Chukong Technologies Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,15 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIButton.h"
-#include "ui/UIScale9Sprite.h"
+
 #include "2d/CCLabel.h"
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
 #include "2d/CCActionInterval.h"
+#include "base/CCDirector.h"
 #include "platform/CCFileUtils.h"
 #include "ui/UIHelper.h"
+#include "ui/UIScale9Sprite.h"
 #include <algorithm>
 
 namespace cocos2d {
@@ -268,7 +270,7 @@ void Button::loadTextureNormal(const std::string& normal,TextureResType texType)
             break;
         case TextureResType::PLIST:
             _buttonNormalRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(normal)
+                _director->getSpriteFrameCache().getSpriteFrameByName(normal)
             );
             break;
         default:
@@ -328,7 +330,7 @@ void Button::loadTexturePressed(const std::string& selected,TextureResType texTy
             break;
         case TextureResType::PLIST:
             _buttonClickedRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(selected)
+                _director->getSpriteFrameCache().getSpriteFrameByName(selected)
             );
             break;
         default:
@@ -373,7 +375,7 @@ void Button::loadTextureDisabled(const std::string& disabled,TextureResType texT
             break;
         case TextureResType::PLIST:
             _buttonDisabledRenderer->initWithSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(disabled)
+                _director->getSpriteFrameCache().getSpriteFrameByName(disabled)
             );
             break;
         default:

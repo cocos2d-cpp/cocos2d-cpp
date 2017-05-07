@@ -164,7 +164,7 @@ void TransitionScene::onEnter()
     Scene::onEnter();
     
     // disable events while transitions
-    _eventDispatcher->setEnabled(false);
+    _director->getEventDispatcher()->setEnabled(false);
     
     // outScene should not receive the onEnter callback
     // only the onExitTransitionDidStart
@@ -179,7 +179,7 @@ void TransitionScene::onExit()
     Scene::onExit();
     
     // enable events while transitions
-    _eventDispatcher->setEnabled(true);
+    _director->getEventDispatcher()->setEnabled(true);
     _outScene->onExit();
 
     // _inScene should not receive the onEnter callback

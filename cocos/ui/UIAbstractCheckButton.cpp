@@ -1,7 +1,6 @@
 /****************************************************************************
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +22,10 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "ui/UIAbstractCheckButton.h"
+
 #include "2d/CCSprite.h"
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 
@@ -145,7 +146,7 @@ void AbstractCheckButton::loadTextureBackGround(const std::string& backGround,Te
             break;
         case TextureResType::PLIST:
             _backGroundBoxRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(backGround)
+                _director->getSpriteFrameCache().getSpriteFrameByName(backGround)
             );
             break;
         default:
@@ -183,7 +184,7 @@ void AbstractCheckButton::loadTextureBackGroundSelected(const std::string& backG
             break;
         case TextureResType::PLIST:
             _backGroundSelectedBoxRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(backGroundSelected)
+                _director->getSpriteFrameCache().getSpriteFrameByName(backGroundSelected)
             );
             break;
         default:
@@ -216,7 +217,7 @@ void AbstractCheckButton::loadTextureFrontCross(const std::string& cross,Texture
             break;
         case TextureResType::PLIST:
             _frontCrossRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(cross)
+                _director->getSpriteFrameCache().getSpriteFrameByName(cross)
             );
             break;
         default:
@@ -250,7 +251,7 @@ void AbstractCheckButton::loadTextureBackGroundDisabled(const std::string& backG
             break;
         case TextureResType::PLIST:
             _backGroundBoxDisabledRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(backGroundDisabled)
+                _director->getSpriteFrameCache().getSpriteFrameByName(backGroundDisabled)
             );
             break;
         default:
@@ -285,7 +286,7 @@ void AbstractCheckButton::loadTextureFrontCrossDisabled(const std::string& front
             break;
         case TextureResType::PLIST:
             _frontCrossDisabledRenderer->setSpriteFrame(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(frontCrossDisabled)
+                _director->getSpriteFrameCache().getSpriteFrameByName(frontCrossDisabled)
             );
             break;
         default:

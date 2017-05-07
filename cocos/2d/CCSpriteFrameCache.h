@@ -5,8 +5,7 @@ Copyright (c) 2009      Robert J Payne
 Copyright (c) 2010-2012 cocos2d-x.org
 Copyright (c) 2011      Zynga Inc.
 Copyright (c) 2013-2016 Chukong Technologies Inc.
-
-http://www.cocos2d-x.org
+Copyright (c) 2017      Iakov Sergeev <yahont@github>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,14 +39,9 @@ THE SOFTWARE.
 
 namespace cocos2d {
 
+class PolygonInfo;
 class Sprite;
 class Texture2D;
-class PolygonInfo;
-
-/**
- * @addtogroup _2d
- * @{
- */
 
 /** @class SpriteFrameCache
  * @brief Singleton that handles the loading of the sprite frames.
@@ -84,28 +78,10 @@ class PolygonInfo;
  
  @since v0.9
  */
-class CC_DLL SpriteFrameCache : public Ref
+class CC_DLL SpriteFrameCache
 {
 public:
-    /** Returns the shared instance of the Sprite Frame cache.
-     *
-     * @return The instance of the Sprite Frame Cache.
-     */
-    static SpriteFrameCache* getInstance();
-
-    /** Destroys the cache. It releases all the Sprite Frames and the retained instance.
-     */
-    static void destroyInstance();
-
-    /** Destructor.
-     */
-    virtual ~SpriteFrameCache();
-    
-    /** Initialize method.
-     *
-     * @return if success return true.
-     */
-    bool init();
+    SpriteFrameCache();
 
     /** Adds multiple Sprite Frames from a plist file.
      * A texture will be loaded automatically. The texture name will composed by replacing the .plist suffix with .png.
@@ -209,8 +185,6 @@ public:
     bool reloadTexture(const std::string& plist);
 
 protected:
-    // MARMALADE: Made this protected not private, as deriving from this class is pretty useful
-    SpriteFrameCache(){}
 
     /*Adds multiple Sprite Frames with a dictionary. The texture will be associated with the created sprite frames.
      */
@@ -240,11 +214,12 @@ protected:
 
     std::unordered_map<std::string, retaining_ptr<SpriteFrame>> _spriteFrames;
     ValueMap _spriteFramesAliases;
-    std::set<std::string>*  _loadedFileNames;
-};
+    std::set<std::string>  _loadedFileNames;
 
-// end of _2d group
-/// @}
+private:
+    SpriteFrameCache(SpriteFrameCache const&) = delete;
+    SpriteFrameCache & operator=(SpriteFrameCache const&) = delete;
+};
 
 } // namespace cocos2d
 

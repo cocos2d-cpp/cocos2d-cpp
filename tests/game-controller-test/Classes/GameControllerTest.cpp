@@ -18,7 +18,7 @@ void GameControllerTest::registerControllerListener()
     _listener->onKeyUp = CC_CALLBACK_3(GameControllerTest::onKeyUp, this);
     _listener->onAxisEvent = CC_CALLBACK_3(GameControllerTest::onAxisEvent, this);
 
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(_listener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(_listener, this);
 
     Controller::startDiscoveryController();
 }

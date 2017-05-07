@@ -64,10 +64,10 @@ RenderTexture::RenderTexture()
     // Listen this event to save render texture before come to background.
     // Then it can be restored after coming to foreground on Android.
     auto toBackgroundListener = EventListenerCustom::create(EVENT_COME_TO_BACKGROUND, CC_CALLBACK_1(RenderTexture::listenToBackground, this));
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(toBackgroundListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(toBackgroundListener, this);
 
     auto toForegroundListener = EventListenerCustom::create(EVENT_COME_TO_FOREGROUND, CC_CALLBACK_1(RenderTexture::listenToForeground, this));
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(toForegroundListener, this);
+    _director->getEventDispatcher()->addEventListenerWithSceneGraphPriority(toForegroundListener, this);
 #endif
 }
 

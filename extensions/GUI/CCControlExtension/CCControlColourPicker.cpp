@@ -1,12 +1,8 @@
 /*
+ * Copyright (c) 2017 Iakov Sergeev <yahont@github>
  * Copyright (c) 2012 cocos2d-x.org
- * http://www.cocos2d-x.org
- *
  * Copyright 2012 Stewart Hamilton-Arrandale.
- * http://creativewax.co.uk
- *
  * Modified by Yannick Loriot.
- * http://yannickloriot.com
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +26,10 @@
  */
 
 #include "CCControlColourPicker.h"
+
 #include "2d/CCSpriteFrameCache.h"
 #include "2d/CCSpriteBatchNode.h"
+#include "base/CCDirector.h"
 
 namespace cocos2d {
 namespace extension {
@@ -41,7 +39,6 @@ ControlColourPicker::ControlColourPicker()
 , _huePicker(nullptr)
 , _background(nullptr)
 {
-
 }
 
 ControlColourPicker::~ControlColourPicker()
@@ -56,7 +53,7 @@ bool ControlColourPicker::init()
     if (Control::init())
     {
         // Cache the sprites
-        SpriteFrameCache::getInstance()->addSpriteFramesWithFile("extensions/CCControlColourPickerSpriteSheet.plist");
+        _director->getSpriteFrameCache().addSpriteFramesWithFile("extensions/CCControlColourPickerSpriteSheet.plist");
         
         // Create the sprite batch node
         SpriteBatchNode *spriteSheet  = SpriteBatchNode::create("extensions/CCControlColourPickerSpriteSheet.png");

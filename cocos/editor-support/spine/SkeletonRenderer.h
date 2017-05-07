@@ -43,10 +43,19 @@ namespace spine {
 class AttachmentVertices;
 
 /* Draws a skeleton. */
-class SkeletonRenderer: public cocos2d::Node
+class SkeletonRenderer : public cocos2d::Node
 {
 public:
-	CREATE_FUNC(SkeletonRenderer);
+	SkeletonRenderer ();
+	virtual ~SkeletonRenderer();
+
+	static SkeletonRenderer* create()
+    {
+        auto ret = new SkeletonRenderer;
+        ret->autorelease();
+        return ret;
+    }
+	
 	static SkeletonRenderer* createWithData (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
 	static SkeletonRenderer* createWithFile (const std::string& skeletonDataFile, spAtlas* atlas, float scale = 1);
 	static SkeletonRenderer* createWithFile (const std::string& skeletonDataFile, const std::string& atlasFile, float scale = 1);
@@ -104,12 +113,9 @@ public:
     virtual bool isOpacityModifyRGB () const override;
 
 protected:
-	SkeletonRenderer ();
 	SkeletonRenderer (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
 	SkeletonRenderer (const std::string& skeletonDataFile, spAtlas* atlas, float scale = 1);
 	SkeletonRenderer (const std::string& skeletonDataFile, const std::string& atlasFile, float scale = 1);
-
-	virtual ~SkeletonRenderer ();
 
 	void initWithData (spSkeletonData* skeletonData, bool ownsSkeletonData = false);
 	void initWithJsonFile (const std::string& skeletonDataFile, spAtlas* atlas, float scale = 1);

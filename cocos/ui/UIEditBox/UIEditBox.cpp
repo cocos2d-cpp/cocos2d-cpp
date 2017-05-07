@@ -1,9 +1,7 @@
 /****************************************************************************
  Copyright (c) 2010-2012 cocos2d-x.org
  Copyright (c) 2012 James Chen
- Copyright (c) 2016 Iakov Sergeev
- 
- http://www.cocos2d-x.org
+ Copyright (c) 2017 Iakov Sergeev <yahont@github>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +23,10 @@
  ****************************************************************************/
 
 #include "ui/UIEditBox/UIEditBox.h"
-#include "ui/UIEditBox/UIEditBoxImpl.h"
+
 #include "2d/CCSpriteFrameCache.h"
+#include "base/CCDirector.h"
+#include "ui/UIEditBox/UIEditBoxImpl.h"
 
 namespace cocos2d {
 
@@ -143,7 +143,7 @@ bool EditBox::initWithSizeAndBackgroundSprite(const Size& size,
         else
         {
             _backgroundSprite = Scale9Sprite::create(
-                SpriteFrameCache::getInstance()->getSpriteFrameByName(pNormal9SpriteBg)
+                _director->getSpriteFrameCache().getSpriteFrameByName(pNormal9SpriteBg)
             );
         }
         this->setContentSize(size);
