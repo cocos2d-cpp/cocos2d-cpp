@@ -24,7 +24,13 @@ public:
 class ShaderMonjori : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderMonjori);
+    static ShaderMonjori* create()
+    {
+        auto ret = new ShaderMonjori;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderMonjori();
 
     virtual std::string title() const override;
@@ -35,7 +41,13 @@ public:
 class ShaderMandelbrot : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderMandelbrot);
+    static ShaderMandelbrot* create()
+    {
+        auto ret = new ShaderMandelbrot;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderMandelbrot();
 
     virtual std::string title() const override;
@@ -46,7 +58,13 @@ public:
 class ShaderJulia : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderJulia);
+    static ShaderJulia* create()
+    {
+        auto ret = new ShaderJulia;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderJulia();
 
     virtual std::string title() const override;
@@ -57,7 +75,13 @@ public:
 class ShaderHeart : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderHeart);
+    static ShaderHeart* create()
+    {
+        auto ret = new ShaderHeart;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderHeart();
 
     virtual std::string title() const override;
@@ -68,7 +92,13 @@ public:
 class ShaderFlower : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderFlower);
+    static ShaderFlower* create()
+    {
+        auto ret = new ShaderFlower;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderFlower();
 
     virtual std::string title() const override;
@@ -79,7 +109,13 @@ public:
 class ShaderPlasma : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderPlasma);
+    static ShaderPlasma* create()
+    {
+        auto ret = new ShaderPlasma;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderPlasma();
 
     virtual std::string title() const override;
@@ -91,7 +127,13 @@ class SpriteBlur;
 class ShaderBlur : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderBlur);
+    static ShaderBlur* create()
+    {
+        auto ret = new ShaderBlur;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderBlur();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -109,7 +151,13 @@ protected:
 class ShaderRetroEffect : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderRetroEffect);
+    static ShaderRetroEffect* create()
+    {
+        auto ret = new ShaderRetroEffect;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderRetroEffect();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -123,7 +171,13 @@ protected:
 class ShaderNode : public cocos2d::Node
 {
 public:
-    CREATE_FUNC(ShaderNode);
+    static ShaderNode* create()
+    {
+        auto ret = new ShaderNode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     static ShaderNode* shaderNodeWithVertex(const std::string &vert, const std::string &frag);
 
     virtual void update(float dt) override;
@@ -150,7 +204,13 @@ protected:
 class ShaderLensFlare : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderLensFlare);
+    static ShaderLensFlare* create()
+    {
+        auto ret = new ShaderLensFlare;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderLensFlare();
     
     virtual std::string title() const override;
@@ -161,7 +221,13 @@ public:
 class ShaderGlow : public ShaderTestDemo
 {
 public:
-    CREATE_FUNC(ShaderGlow);
+    static ShaderGlow* create()
+    {
+        auto ret = new ShaderGlow;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderGlow();
     
     virtual std::string title() const override;
@@ -173,7 +239,13 @@ class ShaderMultiTexture : public ShaderTestDemo
 {
     static const int rightSpriteTag = 2014;
 public:
-    CREATE_FUNC(ShaderMultiTexture);
+    static ShaderMultiTexture* create()
+    {
+        auto ret = new ShaderMultiTexture;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShaderMultiTexture();
     cocos2d::ui::Slider* createSliderCtl();
     void changeTexture(cocos2d::Ref*);

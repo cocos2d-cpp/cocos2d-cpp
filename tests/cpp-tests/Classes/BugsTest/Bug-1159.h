@@ -11,7 +11,13 @@ public:
 
     void callBack(cocos2d::Ref* sender);
 
-    CREATE_FUNC(Bug1159Layer);
+    static Bug1159Layer* create()
+    {
+        auto ret = new Bug1159Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 #endif // __BUG_1159_H__

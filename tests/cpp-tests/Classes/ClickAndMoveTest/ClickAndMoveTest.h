@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(ClickAndMoveTest);
 class ClickAndMoveTestCase : public TestCase
 {
 public:
-    CREATE_FUNC(ClickAndMoveTestCase);
+    static ClickAndMoveTestCase* create()
+    {
+        auto ret = new ClickAndMoveTestCase;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ClickAndMoveTestCase();
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);

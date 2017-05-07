@@ -8,7 +8,13 @@
 class Bug14327Layer : public BugsTestBase, public cocos2d::ui::EditBoxDelegate
 {
 public:
-    CREATE_FUNC(Bug14327Layer);
+    static Bug14327Layer* create()
+    {
+        auto ret = new Bug14327Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 

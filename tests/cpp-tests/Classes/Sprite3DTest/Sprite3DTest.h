@@ -56,7 +56,13 @@ public:
 class Sprite3DForceDepthTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DForceDepthTest);
+    static Sprite3DForceDepthTest* create()
+    {
+        auto ret = new Sprite3DForceDepthTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DForceDepthTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -65,7 +71,13 @@ public:
 class Sprite3DEmptyTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DEmptyTest);
+    static Sprite3DEmptyTest* create()
+    {
+        auto ret = new Sprite3DEmptyTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DEmptyTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -74,7 +86,13 @@ public:
 class Sprite3DBasicTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DBasicTest);
+    static Sprite3DBasicTest* create()
+    {
+        auto ret = new Sprite3DBasicTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DBasicTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -86,7 +104,13 @@ public:
 class Sprite3DUVAnimationTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DUVAnimationTest);
+    static Sprite3DUVAnimationTest* create()
+    {
+        auto ret = new Sprite3DUVAnimationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DUVAnimationTest();
     virtual ~Sprite3DUVAnimationTest();
     virtual std::string title() const override;
@@ -114,7 +138,13 @@ public:
         State_Move = 0x02,
         State_Rotate = 0x04
     };
-    CREATE_FUNC(Sprite3DFakeShadowTest);
+    static Sprite3DFakeShadowTest* create()
+    {
+        auto ret = new Sprite3DFakeShadowTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DFakeShadowTest();
     virtual ~Sprite3DFakeShadowTest();
     virtual std::string title() const override;
@@ -143,7 +173,13 @@ private:
 class Sprite3DLightMapTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DLightMapTest);
+    static Sprite3DLightMapTest* create()
+    {
+        auto ret = new Sprite3DLightMapTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DLightMapTest();
     virtual ~Sprite3DLightMapTest();
     virtual std::string title() const override;
@@ -156,7 +192,13 @@ private:
 class Sprite3DBasicToonShaderTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DBasicToonShaderTest);
+    static Sprite3DBasicToonShaderTest* create()
+    {
+        auto ret = new Sprite3DBasicToonShaderTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DBasicToonShaderTest();
     virtual ~Sprite3DBasicToonShaderTest();
     virtual std::string title() const override;
@@ -174,7 +216,13 @@ protected:
 class Sprite3DHitTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DHitTest);
+    static Sprite3DHitTest* create()
+    {
+        auto ret = new Sprite3DHitTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DHitTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -183,7 +231,13 @@ public:
 class Sprite3DEffectTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DEffectTest);
+    static Sprite3DEffectTest* create()
+    {
+        auto ret = new Sprite3DEffectTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DEffectTest();
     virtual ~Sprite3DEffectTest();
     virtual std::string title() const override;
@@ -204,7 +258,13 @@ protected:
 class AsyncLoadSprite3DTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(AsyncLoadSprite3DTest);
+    static AsyncLoadSprite3DTest* create()
+    {
+        auto ret = new AsyncLoadSprite3DTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     AsyncLoadSprite3DTest();
     virtual ~AsyncLoadSprite3DTest();
     virtual std::string title() const override;
@@ -221,7 +281,13 @@ protected:
 class Sprite3DWithSkinTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DWithSkinTest);
+    static Sprite3DWithSkinTest* create()
+    {
+        auto ret = new Sprite3DWithSkinTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DWithSkinTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -241,7 +307,13 @@ private:
 class Sprite3DWithSkinOutlineTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DWithSkinOutlineTest);
+    static Sprite3DWithSkinOutlineTest* create()
+    {
+        auto ret = new Sprite3DWithSkinOutlineTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DWithSkinOutlineTest();
     virtual ~Sprite3DWithSkinOutlineTest();
     virtual std::string title() const override;
@@ -262,7 +334,13 @@ protected:
 class Animate3DTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Animate3DTest);
+    static Animate3DTest* create()
+    {
+        auto ret = new Animate3DTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Animate3DTest();
     ~Animate3DTest();
     virtual std::string title() const override;
@@ -300,7 +378,13 @@ protected:
 class AttachmentTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(AttachmentTest);
+    static AttachmentTest* create()
+    {
+        auto ret = new AttachmentTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     AttachmentTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -317,7 +401,13 @@ protected:
 class Sprite3DReskinTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DReskinTest);
+    static Sprite3DReskinTest* create()
+    {
+        auto ret = new Sprite3DReskinTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DReskinTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -347,7 +437,13 @@ protected:
 class Sprite3DWithOBBPerformanceTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DWithOBBPerformanceTest);
+    static Sprite3DWithOBBPerformanceTest* create()
+    {
+        auto ret = new Sprite3DWithOBBPerformanceTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DWithOBBPerformanceTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -382,7 +478,13 @@ protected:
 class Sprite3DMirrorTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DMirrorTest);
+    static Sprite3DMirrorTest* create()
+    {
+        auto ret = new Sprite3DMirrorTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DMirrorTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -398,7 +500,13 @@ protected:
 class QuaternionTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(QuaternionTest);
+    static QuaternionTest* create()
+    {
+        auto ret = new QuaternionTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     QuaternionTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -417,7 +525,13 @@ protected:
 class UseCaseSprite3D : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(UseCaseSprite3D);
+    static UseCaseSprite3D* create()
+    {
+        auto ret = new UseCaseSprite3D;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     UseCaseSprite3D();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -444,7 +558,13 @@ protected:
 class NodeAnimationTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(NodeAnimationTest);
+    static NodeAnimationTest* create()
+    {
+        auto ret = new NodeAnimationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     NodeAnimationTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -463,7 +583,13 @@ class Skybox;
 class Sprite3DCubeMapTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DCubeMapTest);
+    static Sprite3DCubeMapTest* create()
+    {
+        auto ret = new Sprite3DCubeMapTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DCubeMapTest();
     ~Sprite3DCubeMapTest();
     virtual std::string title() const override;
@@ -493,7 +619,13 @@ class Issue9767 : public Sprite3DTestDemo
         SHADER_COLOR,
     };
 public:
-    CREATE_FUNC(Issue9767);
+    static Issue9767* create()
+    {
+        auto ret = new Issue9767;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue9767();
     ~Issue9767();
     virtual std::string title() const override;
@@ -510,7 +642,13 @@ protected:
 class Sprite3DClippingTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DClippingTest);
+    static Sprite3DClippingTest* create()
+    {
+        auto ret = new Sprite3DClippingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DClippingTest();
     ~Sprite3DClippingTest();
     virtual std::string title() const override;
@@ -520,7 +658,13 @@ public:
 class Animate3DCallbackTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Animate3DCallbackTest);
+    static Animate3DCallbackTest* create()
+    {
+        auto ret = new Animate3DCallbackTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Animate3DCallbackTest();
     ~Animate3DCallbackTest();
     virtual std::string title() const override;
@@ -533,7 +677,13 @@ protected:
 class Sprite3DTestMeshLight : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DTestMeshLight);
+    static Sprite3DTestMeshLight* create()
+    {
+        auto ret = new Sprite3DTestMeshLight;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DTestMeshLight();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -545,7 +695,13 @@ protected:
 class CameraBackgroundClearTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(CameraBackgroundClearTest);
+    static CameraBackgroundClearTest* create()
+    {
+        auto ret = new CameraBackgroundClearTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     CameraBackgroundClearTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -559,7 +715,13 @@ protected:
 class Sprite3DVertexColorTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DVertexColorTest);
+    static Sprite3DVertexColorTest* create()
+    {
+        auto ret = new Sprite3DVertexColorTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DVertexColorTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -575,7 +737,13 @@ protected:
 class MotionStreak3DTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(MotionStreak3DTest);
+    static MotionStreak3DTest* create()
+    {
+        auto ret = new MotionStreak3DTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     MotionStreak3DTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -589,7 +757,13 @@ protected:
 class Sprite3DNormalMappingTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DNormalMappingTest);
+    static Sprite3DNormalMappingTest* create()
+    {
+        auto ret = new Sprite3DNormalMappingTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DNormalMappingTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -600,7 +774,13 @@ public:
 class Sprite3DPropertyTest : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Sprite3DPropertyTest);
+    static Sprite3DPropertyTest* create()
+    {
+        auto ret = new Sprite3DPropertyTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Sprite3DPropertyTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -620,7 +800,13 @@ protected:
 class Issue16155Test : public Sprite3DTestDemo
 {
 public:
-    CREATE_FUNC(Issue16155Test);
+    static Issue16155Test* create()
+    {
+        auto ret = new Issue16155Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue16155Test();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

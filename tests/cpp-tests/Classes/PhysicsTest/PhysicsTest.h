@@ -52,7 +52,13 @@ protected:
 class PhysicsDemoLogoSmash : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoLogoSmash);
+    static PhysicsDemoLogoSmash* create()
+    {
+        auto ret = new PhysicsDemoLogoSmash;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -61,7 +67,13 @@ public:
 class PhysicsDemoClickAdd : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoClickAdd);
+    static PhysicsDemoClickAdd* create()
+    {
+        auto ret = new PhysicsDemoClickAdd;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~PhysicsDemoClickAdd();
     void onEnter() override;
@@ -74,7 +86,13 @@ public:
 class PhysicsDemoPyramidStack : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoPyramidStack);
+    static PhysicsDemoPyramidStack* create()
+    {
+        auto ret = new PhysicsDemoPyramidStack;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     void updateOnce(float delta);
@@ -84,7 +102,13 @@ public:
 class PhysicsDemoRayCast : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoRayCast);
+    static PhysicsDemoRayCast* create()
+    {
+        auto ret = new PhysicsDemoRayCast;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     PhysicsDemoRayCast();
     
@@ -106,7 +130,13 @@ private:
 class PhysicsDemoActions : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoActions);
+    static PhysicsDemoActions* create()
+    {
+        auto ret = new PhysicsDemoActions;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -115,7 +145,13 @@ public:
 class PhysicsDemoJoints : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoJoints);
+    static PhysicsDemoJoints* create()
+    {
+        auto ret = new PhysicsDemoJoints;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -124,7 +160,13 @@ public:
 class PhysicsDemoPump : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoPump);
+    static PhysicsDemoPump* create()
+    {
+        auto ret = new PhysicsDemoPump;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     void update(float delta) override;
@@ -143,7 +185,13 @@ private:
 class PhysicsDemoOneWayPlatform : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoOneWayPlatform);
+    static PhysicsDemoOneWayPlatform* create()
+    {
+        auto ret = new PhysicsDemoOneWayPlatform;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -154,7 +202,13 @@ public:
 class PhysicsDemoSlice : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoSlice);
+    static PhysicsDemoSlice* create()
+    {
+        auto ret = new PhysicsDemoSlice;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -172,7 +226,13 @@ private:
 class PhysicsDemoBug3988 : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoBug3988);
+    static PhysicsDemoBug3988* create()
+    {
+        auto ret = new PhysicsDemoBug3988;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -182,7 +242,13 @@ public:
 class PhysicsContactTest : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsContactTest);
+    static PhysicsContactTest* create()
+    {
+        auto ret = new PhysicsContactTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     void resetTest();
@@ -203,7 +269,13 @@ private:
 class PhysicsPositionRotationTest : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsPositionRotationTest);
+    static PhysicsPositionRotationTest* create()
+    {
+        auto ret = new PhysicsPositionRotationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -212,7 +284,13 @@ public:
 class PhysicsSetGravityEnableTest : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsSetGravityEnableTest);
+    static PhysicsSetGravityEnableTest* create()
+    {
+        auto ret = new PhysicsSetGravityEnableTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     void onScheduleOnce(float delta);
@@ -223,7 +301,13 @@ public:
 class PhysicsDemoBug5482 : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsDemoBug5482);
+    static PhysicsDemoBug5482* create()
+    {
+        auto ret = new PhysicsDemoBug5482;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     void onExit() override;
@@ -242,7 +326,13 @@ private:
 class PhysicsFixedUpdate : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsFixedUpdate);
+    static PhysicsFixedUpdate* create()
+    {
+        auto ret = new PhysicsFixedUpdate;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void onEnter() override;
     void updateStart(float delta);
     void addBall();
@@ -254,7 +344,13 @@ public:
 class PhysicsTransformTest : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsTransformTest);
+    static PhysicsTransformTest* create()
+    {
+        auto ret = new PhysicsTransformTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -269,7 +365,13 @@ private:
 class PhysicsIssue9959 : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsIssue9959);
+    static PhysicsIssue9959* create()
+    {
+        auto ret = new PhysicsIssue9959;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     void onEnter() override;
     virtual std::string title() const override;
@@ -279,7 +381,13 @@ public:
 class PhysicsIssue15932 : public PhysicsDemo
 {
 public:
-    CREATE_FUNC(PhysicsIssue15932);
+    static PhysicsIssue15932* create()
+    {
+        auto ret = new PhysicsIssue15932;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void onEnter() override;
     virtual std::string title() const override;

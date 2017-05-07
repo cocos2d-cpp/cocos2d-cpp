@@ -190,7 +190,13 @@ Effect::~Effect()
 class EffectBlur : public Effect
 {
 public:
-    CREATE_FUNC(EffectBlur);
+    static EffectBlur* create()
+    {
+        auto ret = new EffectBlur;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void setTarget(EffectSprite *sprite) override;
     void setBlurRadius(float radius);
     void setBlurSampleNum(float num);
@@ -242,7 +248,13 @@ void EffectBlur::setBlurSampleNum(float num)
 class EffectOutline : public Effect
 {
 public:
-    CREATE_FUNC(EffectOutline);
+    static EffectOutline* create()
+    {
+        auto ret = new EffectOutline;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     bool init()
     {
@@ -263,7 +275,13 @@ public:
 class EffectNoise : public Effect
 {
 public:
-    CREATE_FUNC(EffectNoise);
+    static EffectNoise* create()
+    {
+        auto ret = new EffectNoise;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -282,7 +300,13 @@ protected:
 class EffectEdgeDetect : public Effect
 {
 public:
-    CREATE_FUNC(EffectEdgeDetect);
+    static EffectEdgeDetect* create()
+    {
+        auto ret = new EffectEdgeDetect;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -301,7 +325,13 @@ protected:
 class EffectGreyScale : public Effect
 {
 public:
-    CREATE_FUNC(EffectGreyScale);
+    static EffectGreyScale* create()
+    {
+        auto ret = new EffectGreyScale;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -314,7 +344,13 @@ protected:
 class EffectSepia : public Effect
 {
 public:
-    CREATE_FUNC(EffectSepia);
+    static EffectSepia* create()
+    {
+        auto ret = new EffectSepia;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -327,7 +363,13 @@ protected:
 class EffectBloom : public Effect
 {
 public:
-    CREATE_FUNC(EffectBloom);
+    static EffectBloom* create()
+    {
+        auto ret = new EffectBloom;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -346,7 +388,13 @@ protected:
 class EffectCelShading : public Effect
 {
 public:
-    CREATE_FUNC(EffectCelShading);
+    static EffectCelShading* create()
+    {
+        auto ret = new EffectCelShading;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -365,7 +413,13 @@ protected:
 class EffectLensFlare : public Effect
 {
 public:
-    CREATE_FUNC(EffectLensFlare);
+    static EffectLensFlare* create()
+    {
+        auto ret = new EffectLensFlare;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 protected:
     bool init() {
@@ -387,7 +441,13 @@ protected:
 class EffectNormalMapped : public Effect
 {
 public:
-    CREATE_FUNC(EffectNormalMapped);
+    static EffectNormalMapped* create()
+    {
+        auto ret = new EffectNormalMapped;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     static EffectNormalMapped* create(const std::string&normalMapFileName)
     {
         EffectNormalMapped *normalMappedSprite = new (std::nothrow) EffectNormalMapped();

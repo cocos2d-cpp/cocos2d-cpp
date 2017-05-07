@@ -8,9 +8,18 @@ DEFINE_TEST_SUITE(PerformceScenarioTests);
 class ScenarioTest : public TestCase
 {
 public:
-    CREATE_FUNC(ScenarioTest);
+    ScenarioTest()
+    {
+        performTests();
+    }
 
-    virtual bool init() override;
+    static ScenarioTest* create()
+    {
+        auto ret = new ScenarioTest;
+        ret->autorelease();
+        return ret;
+    }
+
     virtual std::string title() const override;
     virtual void performTests();
 
@@ -26,6 +35,7 @@ public:
     void doAutoTest();
     
 private:
+
     void addNewSprites(int num);
     void removeSprites();
 

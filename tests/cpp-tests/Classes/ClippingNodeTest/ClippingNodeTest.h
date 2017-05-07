@@ -19,7 +19,13 @@ DEFINE_TEST_SUITE(ClippingNodeTests);
 class BaseClippingNodeTest : public TestCase
 {
 public:
-    CREATE_FUNC(BaseClippingNodeTest);
+    static BaseClippingNodeTest* create()
+    {
+        auto ret = new BaseClippingNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~BaseClippingNodeTest();
     virtual bool init() override;
@@ -31,7 +37,13 @@ public:
 class BasicTest : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(BasicTest);
+    static BasicTest* create()
+    {
+        auto ret = new BasicTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -51,7 +63,13 @@ public:
 class ShapeTest : public BasicTest
 {
 public:
-    CREATE_FUNC(ShapeTest);
+    static ShapeTest* create()
+    {
+        auto ret = new ShapeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -63,7 +81,13 @@ public:
 class ShapeInvertedTest : public ShapeTest
 {
 public:
-    CREATE_FUNC(ShapeInvertedTest);
+    static ShapeInvertedTest* create()
+    {
+        auto ret = new ShapeInvertedTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -73,7 +97,13 @@ public:
 class SpriteTest : public BasicTest
 {
 public:
-    CREATE_FUNC(SpriteTest);
+    static SpriteTest* create()
+    {
+        auto ret = new SpriteTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -86,7 +116,13 @@ public:
 class SpriteNoAlphaTest : public SpriteTest
 {
 public:
-    CREATE_FUNC(SpriteNoAlphaTest);
+    static SpriteNoAlphaTest* create()
+    {
+        auto ret = new SpriteNoAlphaTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -96,7 +132,13 @@ public:
 class SpriteInvertedTest : public SpriteTest
 {
 public:
-    CREATE_FUNC(SpriteInvertedTest);
+    static SpriteInvertedTest* create()
+    {
+        auto ret = new SpriteInvertedTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -106,7 +148,13 @@ public:
 class NestedTest : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(NestedTest);
+    static NestedTest* create()
+    {
+        auto ret = new NestedTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -116,7 +164,13 @@ public:
 class HoleDemo : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(HoleDemo);
+    static HoleDemo* create()
+    {
+        auto ret = new HoleDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~HoleDemo();
     virtual void setup() override;
@@ -133,7 +187,13 @@ private:
 class ScrollViewDemo : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(ScrollViewDemo);
+    static ScrollViewDemo* create()
+    {
+        auto ret = new ScrollViewDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -151,7 +211,13 @@ private:
 class RawStencilBufferTest : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest);
+    static RawStencilBufferTest* create()
+    {
+        auto ret = new RawStencilBufferTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ~RawStencilBufferTest();
 
@@ -180,7 +246,13 @@ protected:
 class RawStencilBufferTest2 : public RawStencilBufferTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest2);
+    static RawStencilBufferTest2* create()
+    {
+        auto ret = new RawStencilBufferTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void setupStencilForClippingOnPlane(GLint plane) override;
@@ -190,7 +262,13 @@ public:
 class RawStencilBufferTest3 : public RawStencilBufferTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest3);
+    static RawStencilBufferTest3* create()
+    {
+        auto ret = new RawStencilBufferTest3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void setupStencilForClippingOnPlane(GLint plane) override;
@@ -206,7 +284,13 @@ public:
 class RawStencilBufferTest4 : public RawStencilBufferTestAlphaTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest4);
+    static RawStencilBufferTest4* create()
+    {
+        auto ret = new RawStencilBufferTest4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void setupStencilForClippingOnPlane(GLint plane) override;
@@ -216,7 +300,13 @@ public:
 class RawStencilBufferTest5 : public RawStencilBufferTestAlphaTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest5);
+    static RawStencilBufferTest5* create()
+    {
+        auto ret = new RawStencilBufferTest5;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void setupStencilForClippingOnPlane(GLint plane) override;
@@ -226,7 +316,13 @@ public:
 class RawStencilBufferTest6 : public RawStencilBufferTestAlphaTest
 {
 public:
-    CREATE_FUNC(RawStencilBufferTest6);
+    static RawStencilBufferTest6* create()
+    {
+        auto ret = new RawStencilBufferTest6;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void setupStencilForClippingOnPlane(GLint plane) override;
     virtual void setupStencilForDrawingOnPlane(GLint plane) override;
@@ -241,7 +337,13 @@ public:
 class ClippingToRenderTextureTest : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(ClippingToRenderTextureTest);
+    static ClippingToRenderTextureTest* create()
+    {
+        auto ret = new ClippingToRenderTextureTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void expectedBehaviour();
     void reproduceBug();
@@ -255,7 +357,13 @@ public:
 class ClippingRectangleNodeTest : public BaseClippingNodeTest
 {
 public:
-    CREATE_FUNC(ClippingRectangleNodeTest);
+    static ClippingRectangleNodeTest* create()
+    {
+        auto ret = new ClippingRectangleNodeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

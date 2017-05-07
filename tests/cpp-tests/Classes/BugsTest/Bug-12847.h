@@ -10,7 +10,13 @@ class Sprite;
 class Bug12847Layer : public BugsTestBase
 {
 public:
-    CREATE_FUNC(Bug12847Layer);
+    static Bug12847Layer* create()
+    {
+        auto ret = new Bug12847Layer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
     virtual void update(float dt) override;

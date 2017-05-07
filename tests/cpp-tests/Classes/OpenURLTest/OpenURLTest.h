@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(OpenURLTests);
 class OpenURLTest : public TestCase
 {
 public:
-    CREATE_FUNC(OpenURLTest);
+    static OpenURLTest* create()
+    {
+        auto ret = new OpenURLTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     OpenURLTest();
     ~OpenURLTest();
 

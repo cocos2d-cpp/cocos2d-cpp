@@ -19,7 +19,13 @@ class Sprite;
 class BugChild : public BugsTestBase
 {
 public:
-    CREATE_FUNC(BugChild);
+    static BugChild* create()
+    {
+        auto ret = new BugChild;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
     
@@ -38,7 +44,13 @@ protected:
 class BugCameraMask : public BugsTestBase
 {
 public:
-    CREATE_FUNC(BugCameraMask);
+    static BugCameraMask* create()
+    {
+        auto ret = new BugCameraMask;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
     

@@ -38,7 +38,13 @@ protected:
 class EffectSpriteTest : public ShaderTestDemo2
 {
 public:
-    CREATE_FUNC(EffectSpriteTest);
+    static EffectSpriteTest* create()
+    {
+        auto ret = new EffectSpriteTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     EffectSpriteTest();
     virtual bool init();
     virtual std::string subtitle() const {return "Different effects on Sprite";}
@@ -52,7 +58,13 @@ protected:
 class EffectSpriteLamp : public ShaderTestDemo2
 {
 public:
-    CREATE_FUNC(EffectSpriteLamp);
+    static EffectSpriteLamp* create()
+    {
+        auto ret = new EffectSpriteLamp;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     EffectSpriteLamp();
     virtual bool init();
     virtual std::string subtitle() const {return "Sprite Lamp effects";}

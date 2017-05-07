@@ -10,7 +10,13 @@ DEFINE_TEST_SUITE(CocosDenshionTests);
 class CocosDenshionTest : public TestCase
 {
 public:
-    CREATE_FUNC(CocosDenshionTest);
+    static CocosDenshionTest* create()
+    {
+        auto ret = new CocosDenshionTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     CocosDenshionTest(void);
     ~CocosDenshionTest(void);

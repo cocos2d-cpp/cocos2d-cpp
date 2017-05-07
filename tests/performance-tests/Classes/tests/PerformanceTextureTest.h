@@ -8,7 +8,12 @@ DEFINE_TEST_SUITE(PerformceTextureTests);
 class TexturePerformceTest : public TestCase
 {
 public:
-    CREATE_FUNC(TexturePerformceTest);
+    static TexturePerformceTest* create()
+    {
+        auto ret = new TexturePerformceTest;
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void performTests();
     void performTestsPNG(const char* filename, const char* fileType, const char* resolution, const char* remark);

@@ -38,7 +38,13 @@ DEFINE_TEST_SUITE(Physics3DTests);
 class Physics3DDemoDisabled : public TestCase
 {
 public:
-    CREATE_FUNC(Physics3DDemoDisabled);
+    static Physics3DDemoDisabled* create()
+    {
+        auto ret = new Physics3DDemoDisabled;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
 };
@@ -47,7 +53,13 @@ public:
 class Physics3DTestDemo : public TestCase
 {
 public:
-    CREATE_FUNC(Physics3DTestDemo);
+    static Physics3DTestDemo* create()
+    {
+        auto ret = new Physics3DTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DTestDemo(void);
     virtual ~Physics3DTestDemo(void);
     
@@ -76,7 +88,13 @@ class BasicPhysics3DDemo : public Physics3DTestDemo
 {
 public:
 
-    CREATE_FUNC(BasicPhysics3DDemo);
+    static BasicPhysics3DDemo* create()
+    {
+        auto ret = new BasicPhysics3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     BasicPhysics3DDemo(){};
     virtual ~BasicPhysics3DDemo(){};
 
@@ -89,7 +107,13 @@ class Physics3DConstraintDemo : public Physics3DTestDemo
 {
 public:
     
-    CREATE_FUNC(Physics3DConstraintDemo);
+    static Physics3DConstraintDemo* create()
+    {
+        auto ret = new Physics3DConstraintDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DConstraintDemo():_constraint(nullptr), _pickingDistance(0.f){};
     virtual ~Physics3DConstraintDemo(){};
     
@@ -110,7 +134,13 @@ class Physics3DKinematicDemo : public Physics3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Physics3DKinematicDemo);
+    static Physics3DKinematicDemo* create()
+    {
+        auto ret = new Physics3DKinematicDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DKinematicDemo(){};
     virtual ~Physics3DKinematicDemo(){};
 
@@ -123,7 +153,13 @@ class Physics3DCollisionCallbackDemo : public Physics3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Physics3DCollisionCallbackDemo);
+    static Physics3DCollisionCallbackDemo* create()
+    {
+        auto ret = new Physics3DCollisionCallbackDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DCollisionCallbackDemo(){};
     virtual ~Physics3DCollisionCallbackDemo(){};
 
@@ -136,7 +172,13 @@ class Physics3DTerrainDemo : public Physics3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Physics3DTerrainDemo);
+    static Physics3DTerrainDemo* create()
+    {
+        auto ret = new Physics3DTerrainDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DTerrainDemo(){};
     virtual ~Physics3DTerrainDemo(){};
 
@@ -151,7 +193,13 @@ class Physics3DColliderDemo : public Physics3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Physics3DColliderDemo);
+    static Physics3DColliderDemo* create()
+    {
+        auto ret = new Physics3DColliderDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Physics3DColliderDemo(){};
     virtual ~Physics3DColliderDemo(){};
 

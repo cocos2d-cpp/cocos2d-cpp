@@ -14,7 +14,13 @@ public:
     void menuCloseCallback(Ref* sender);
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    static HelloWorld* create()
+    {
+        auto ret = new HelloWorld;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 #endif // __HELLOWORLD_SCENE_H__

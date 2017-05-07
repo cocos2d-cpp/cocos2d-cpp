@@ -17,7 +17,13 @@ public:
 class ZwoptexGenericTest : public ZwoptexTest
 {
 public:
-    CREATE_FUNC(ZwoptexGenericTest);
+    static ZwoptexGenericTest* create()
+    {
+        auto ret = new ZwoptexGenericTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual ~ZwoptexGenericTest();
 

@@ -51,7 +51,13 @@ protected:
 class NodeTest2 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeTest2);
+    static NodeTest2* create()
+    {
+        auto ret = new NodeTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
@@ -60,7 +66,13 @@ public:
 class NodeTest4 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeTest4);
+    static NodeTest4* create()
+    {
+        auto ret = new NodeTest4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void delay2(float dt);
     void delay4(float dt);
 
@@ -73,7 +85,13 @@ protected:
 class NodeTest5 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeTest5);
+    static NodeTest5* create()
+    {
+        auto ret = new NodeTest5;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     void addAndRemove(float dt);
     virtual std::string subtitle() const override;
@@ -85,7 +103,13 @@ protected:
 class NodeTest6 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeTest6);
+    static NodeTest6* create()
+    {
+        auto ret = new NodeTest6;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void addAndRemove(float dt);
     virtual std::string subtitle() const override;
 
@@ -96,7 +120,13 @@ protected:
 class StressTest1 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(StressTest1);
+    static StressTest1* create()
+    {
+        auto ret = new StressTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void shouldNotCrash(float dt);
     void removeMe(Node* node);
     virtual std::string subtitle() const override;
@@ -108,7 +138,13 @@ protected:
 class StressTest2 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(StressTest2);
+    static StressTest2* create()
+    {
+        auto ret = new StressTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void shouldNotLeak(float dt);
     virtual std::string subtitle() const override;
 
@@ -119,7 +155,13 @@ protected:
 class SchedulerTest1 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(SchedulerTest1);
+    static SchedulerTest1* create()
+    {
+        auto ret = new SchedulerTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void doSomething(float dt);
     virtual std::string subtitle() const override;
 
@@ -130,7 +172,13 @@ protected:
 class SchedulerCallbackTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(SchedulerCallbackTest);
+    static SchedulerCallbackTest* create()
+    {
+        auto ret = new SchedulerCallbackTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
 
@@ -143,7 +191,13 @@ protected:
 class NodeToWorld : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeToWorld);
+    static NodeToWorld* create()
+    {
+        auto ret = new NodeToWorld;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string subtitle() const override;
 
 protected:
@@ -153,7 +207,13 @@ protected:
 class NodeToWorld3D : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeToWorld3D);
+    static NodeToWorld3D* create()
+    {
+        auto ret = new NodeToWorld3D;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string subtitle() const override;
 
 protected:
@@ -163,7 +223,13 @@ protected:
 class CameraOrbitTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(CameraOrbitTest);
+    static CameraOrbitTest* create()
+    {
+        auto ret = new CameraOrbitTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string subtitle() const override;
@@ -175,7 +241,13 @@ protected:
 class CameraZoomTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(CameraZoomTest);
+    static CameraZoomTest* create()
+    {
+        auto ret = new CameraZoomTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void update(float dt) override;
 
     virtual void onEnter() override;
@@ -190,7 +262,13 @@ protected:
 class CameraCenterTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(CameraCenterTest);
+    static CameraCenterTest* create()
+    {
+        auto ret = new CameraCenterTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
@@ -204,7 +282,13 @@ protected:
 class CameraTest1 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(CameraTest1);
+    static CameraTest1* create()
+    {
+        auto ret = new CameraTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -220,7 +304,13 @@ protected:
 class CameraTest2 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(CameraTest2);
+    static CameraTest2* create()
+    {
+        auto ret = new CameraTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -236,7 +326,13 @@ protected:
 class ConvertToNode : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(ConvertToNode);
+    static ConvertToNode* create()
+    {
+        auto ret = new ConvertToNode;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -248,7 +344,13 @@ protected:
 class NodeOpaqueTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeOpaqueTest);
+    static NodeOpaqueTest* create()
+    {
+        auto ret = new NodeOpaqueTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -259,7 +361,13 @@ protected:
 class NodeNonOpaqueTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeNonOpaqueTest);
+    static NodeNonOpaqueTest* create()
+    {
+        auto ret = new NodeNonOpaqueTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -270,7 +378,13 @@ protected:
 class NodeGlobalZValueTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeGlobalZValueTest);
+    static NodeGlobalZValueTest* create()
+    {
+        auto ret = new NodeGlobalZValueTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -284,7 +398,13 @@ protected:
 class NodeNormalizedPositionTest1 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeNormalizedPositionTest1);
+    static NodeNormalizedPositionTest1* create()
+    {
+        auto ret = new NodeNormalizedPositionTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -295,7 +415,13 @@ protected:
 class NodeNormalizedPositionTest2 : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeNormalizedPositionTest2);
+    static NodeNormalizedPositionTest2* create()
+    {
+        auto ret = new NodeNormalizedPositionTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -311,7 +437,13 @@ protected:
 class NodeNormalizedPositionBugTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeNormalizedPositionBugTest);
+    static NodeNormalizedPositionBugTest* create()
+    {
+        auto ret = new NodeNormalizedPositionBugTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
@@ -327,7 +459,13 @@ protected:
 class NodeNameTest : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(NodeNameTest);
+    static NodeNameTest* create()
+    {
+        auto ret = new NodeNameTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
     
@@ -340,7 +478,13 @@ public:
 class Issue16100Test : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(Issue16100Test);
+    static Issue16100Test* create()
+    {
+        auto ret = new Issue16100Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 
@@ -351,7 +495,13 @@ public:
 class Issue16735Test : public TestCocosNodeDemo
 {
 public:
-    CREATE_FUNC(Issue16735Test);
+    static Issue16735Test* create()
+    {
+        auto ret = new Issue16735Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
 

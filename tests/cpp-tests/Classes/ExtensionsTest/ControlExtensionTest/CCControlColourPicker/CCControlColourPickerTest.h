@@ -12,6 +12,12 @@ public:
 
     CC_SYNTHESIZE_RETAIN(cocos2d::Label*, _colorLabel, ColorLabel)
 
-    CREATE_FUNC(ControlColourPickerTest)
+    static ControlColourPickerTest* create()
+    {
+        auto ret = new ControlColourPickerTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 

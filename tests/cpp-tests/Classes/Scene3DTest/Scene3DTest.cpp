@@ -71,7 +71,13 @@ public:
 class Scene3DTestScene : public TestCase
 {
 public:
-    CREATE_FUNC(Scene3DTestScene);
+    static Scene3DTestScene* create()
+    {
+        auto ret = new Scene3DTestScene;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     bool onTouchBegan(Touch*, Event*) { return true; }
     void onTouchEnd(Touch*, Event*);

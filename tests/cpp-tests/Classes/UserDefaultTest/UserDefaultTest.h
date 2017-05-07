@@ -9,7 +9,13 @@ DEFINE_TEST_SUITE(UserDefaultTests);
 class UserDefaultTest : public TestCase
 {
 public:
-    CREATE_FUNC(UserDefaultTest);
+    static UserDefaultTest* create()
+    {
+        auto ret = new UserDefaultTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     UserDefaultTest();
     ~UserDefaultTest();
 

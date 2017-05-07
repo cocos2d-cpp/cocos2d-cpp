@@ -27,7 +27,13 @@ public:
 class CrashTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(CrashTest);
+    static CrashTest* create()
+    {
+        auto ret = new CrashTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -37,7 +43,13 @@ public:
 class LogicTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(LogicTest);
+    static LogicTest* create()
+    {
+        auto ret = new LogicTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -47,7 +59,13 @@ public:
 class PauseTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(PauseTest);
+    static PauseTest* create()
+    {
+        auto ret = new PauseTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -57,7 +75,13 @@ public:
 class StopActionTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(StopActionTest);
+    static StopActionTest* create()
+    {
+        auto ret = new StopActionTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -67,7 +91,13 @@ public:
 class StopAllActionsTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(StopAllActionsTest);
+    static StopAllActionsTest* create()
+    {
+        auto ret = new StopAllActionsTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -77,7 +107,13 @@ public:
 class ResumeTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(ResumeTest);
+    static ResumeTest* create()
+    {
+        auto ret = new ResumeTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -87,7 +123,13 @@ public:
 class StopActionsByFlagsTest : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(StopActionsByFlagsTest);
+    static StopActionsByFlagsTest* create()
+    {
+        auto ret = new StopActionsByFlagsTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;
@@ -102,7 +144,13 @@ protected:
 class Issue14050Test : public ActionManagerTest
 {
 public:
-    CREATE_FUNC(Issue14050Test);
+    static Issue14050Test* create()
+    {
+        auto ret = new Issue14050Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string subtitle() const override;
     virtual void onEnter() override;

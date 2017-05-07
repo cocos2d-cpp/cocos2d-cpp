@@ -45,7 +45,13 @@ class ControlButton;
 class ControlButtonTest_HelloVariableSize : public ControlScene
 {
 public:
-    CREATE_FUNC(ControlButtonTest_HelloVariableSize);
+    static ControlButtonTest_HelloVariableSize* create()
+    {
+        auto ret = new ControlButtonTest_HelloVariableSize;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
     /** Creates and return a button with a default background and title color. */
@@ -55,7 +61,13 @@ public:
 class ControlButtonTest_Event : public ControlScene
 {
 public:
-    CREATE_FUNC(ControlButtonTest_Event);
+    static ControlButtonTest_Event* create()
+    {
+        auto ret = new ControlButtonTest_Event;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ControlButtonTest_Event();
     ~ControlButtonTest_Event();
@@ -82,7 +94,13 @@ class ControlButtonTest_Styling : public ControlScene
 public:
     virtual bool init() override;
     cocos2d::extension::ControlButton* standardButtonWithTitle(const char *title);
-    CREATE_FUNC(ControlButtonTest_Styling);
+    static ControlButtonTest_Styling* create()
+    {
+        auto ret = new ControlButtonTest_Styling;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 

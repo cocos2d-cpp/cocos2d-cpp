@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(PerformceLabelTests);
 class LabelMainScene : public TestCase
 {
 public:
-    CREATE_FUNC(LabelMainScene);
+    static LabelMainScene* create()
+    {
+        auto ret = new LabelMainScene;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual ~LabelMainScene();
 

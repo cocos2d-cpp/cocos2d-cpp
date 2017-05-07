@@ -47,7 +47,13 @@ protected:
 class AudioControlTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioControlTest);
+    static AudioControlTest* create()
+    {
+        auto ret = new AudioControlTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~AudioControlTest();
     
@@ -74,7 +80,13 @@ private:
 class PlaySimultaneouslyTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(PlaySimultaneouslyTest);
+    static PlaySimultaneouslyTest* create()
+    {
+        auto ret = new PlaySimultaneouslyTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~PlaySimultaneouslyTest();
     
@@ -92,7 +104,13 @@ private:
 class AudioProfileTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioProfileTest);
+    static AudioProfileTest* create()
+    {
+        auto ret = new AudioProfileTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~AudioProfileTest();
     
@@ -118,7 +136,13 @@ private:
 class InvalidAudioFileTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(InvalidAudioFileTest);
+    static InvalidAudioFileTest* create()
+    {
+        auto ret = new InvalidAudioFileTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~InvalidAudioFileTest();
     
@@ -134,7 +158,13 @@ private:
 class LargeAudioFileTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(LargeAudioFileTest);
+    static LargeAudioFileTest* create()
+    {
+        auto ret = new LargeAudioFileTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual ~LargeAudioFileTest();
     
@@ -149,7 +179,13 @@ private:
 class AudioLoadTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioLoadTest);
+    static AudioLoadTest* create()
+    {
+        auto ret = new AudioLoadTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 
@@ -159,7 +195,13 @@ public:
 class AudioIssue11143Test : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioIssue11143Test);
+    static AudioIssue11143Test* create()
+    {
+        auto ret = new AudioIssue11143Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 
@@ -170,7 +212,13 @@ public:
 class AudioPerformanceTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioPerformanceTest);
+    static AudioPerformanceTest* create()
+    {
+        auto ret = new AudioPerformanceTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
     
@@ -181,7 +229,13 @@ public:
 class AudioSwitchStateTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioSwitchStateTest);
+    static AudioSwitchStateTest* create()
+    {
+        auto ret = new AudioSwitchStateTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
     
@@ -192,7 +246,13 @@ public:
 class AudioSmallFileTest : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioSmallFileTest);
+    static AudioSmallFileTest* create()
+    {
+        auto ret = new AudioSmallFileTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
     
@@ -203,7 +263,13 @@ public:
 class AudioPauseResumeAfterPlay : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioPauseResumeAfterPlay);
+    static AudioPauseResumeAfterPlay* create()
+    {
+        auto ret = new AudioPauseResumeAfterPlay;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     
@@ -214,7 +280,13 @@ public:
 class AudioPreloadSameFileMultipleTimes : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioPreloadSameFileMultipleTimes);
+    static AudioPreloadSameFileMultipleTimes* create()
+    {
+        auto ret = new AudioPreloadSameFileMultipleTimes;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     
@@ -225,7 +297,13 @@ public:
 class AudioPlayFileInWritablePath : public AudioEngineTestDemo
 {
 public:
-    CREATE_FUNC(AudioPlayFileInWritablePath);
+    static AudioPlayFileInWritablePath* create()
+    {
+        auto ret = new AudioPlayFileInWritablePath;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual void onExit() override;

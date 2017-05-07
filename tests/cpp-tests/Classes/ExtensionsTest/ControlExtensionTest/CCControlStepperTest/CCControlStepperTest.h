@@ -41,7 +41,13 @@ class ControlStepper;
 class ControlStepperTest : public ControlScene
 {
 public:
-    CREATE_FUNC(ControlStepperTest);
+    static ControlStepperTest* create()
+    {
+        auto ret = new ControlStepperTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ControlStepperTest();
     virtual ~ControlStepperTest();
     virtual bool init() override;

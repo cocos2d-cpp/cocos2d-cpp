@@ -66,7 +66,12 @@ protected:
 class TouchEventDispatchingPerfTest : public PerformanceEventDispatcherScene
 {
 public:
-    CREATE_FUNC(TouchEventDispatchingPerfTest);
+    static TouchEventDispatchingPerfTest* create()
+    {
+        auto ret = new TouchEventDispatchingPerfTest;
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void generateTestFunctions() override;
     
@@ -77,7 +82,12 @@ public:
 class KeyboardEventDispatchingPerfTest : public PerformanceEventDispatcherScene
 {
 public:
-    CREATE_FUNC(KeyboardEventDispatchingPerfTest);
+    static KeyboardEventDispatchingPerfTest* create()
+    {
+        auto ret = new KeyboardEventDispatchingPerfTest;
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void generateTestFunctions() override;
     
@@ -88,7 +98,12 @@ public:
 class CustomEventDispatchingPerfTest : public PerformanceEventDispatcherScene
 {
 public:
-    CREATE_FUNC(CustomEventDispatchingPerfTest);
+    static CustomEventDispatchingPerfTest* create()
+    {
+        auto ret = new CustomEventDispatchingPerfTest;
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual void onExit() override;

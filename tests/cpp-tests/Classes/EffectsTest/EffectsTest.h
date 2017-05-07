@@ -27,7 +27,13 @@ protected:
 class Shaky3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(Shaky3DDemo);
+    static Shaky3DDemo* create()
+    {
+        auto ret = new Shaky3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Shaky3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -36,7 +42,13 @@ protected:
 class Waves3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(Waves3DDemo);
+    static Waves3DDemo* create()
+    {
+        auto ret = new Waves3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Waves3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -45,7 +57,13 @@ protected:
 class FlipX3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FlipX3DDemo);
+    static FlipX3DDemo* create()
+    {
+        auto ret = new FlipX3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FlipX3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -54,7 +72,13 @@ protected:
 class FlipY3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FlipY3DDemo);
+    static FlipY3DDemo* create()
+    {
+        auto ret = new FlipY3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FlipY3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -63,7 +87,13 @@ protected:
 class Lens3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(Lens3DDemo);
+    static Lens3DDemo* create()
+    {
+        auto ret = new Lens3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Lens3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -72,7 +102,13 @@ protected:
 class Ripple3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(Ripple3DDemo);
+    static Ripple3DDemo* create()
+    {
+        auto ret = new Ripple3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Ripple3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -81,7 +117,13 @@ protected:
 class LiquidDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(LiquidDemo);
+    static LiquidDemo* create()
+    {
+        auto ret = new LiquidDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     LiquidDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -90,7 +132,13 @@ protected:
 class WavesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(WavesDemo);
+    static WavesDemo* create()
+    {
+        auto ret = new WavesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     WavesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -99,7 +147,13 @@ protected:
 class TwirlDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(TwirlDemo);
+    static TwirlDemo* create()
+    {
+        auto ret = new TwirlDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TwirlDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -108,7 +162,13 @@ protected:
 class ShakyTiles3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(ShakyTiles3DDemo);
+    static ShakyTiles3DDemo* create()
+    {
+        auto ret = new ShakyTiles3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShakyTiles3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -117,7 +177,13 @@ protected:
 class ShatteredTiles3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(ShatteredTiles3DDemo);
+    static ShatteredTiles3DDemo* create()
+    {
+        auto ret = new ShatteredTiles3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShatteredTiles3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -126,7 +192,13 @@ protected:
 class ShuffleTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(ShuffleTilesDemo);
+    static ShuffleTilesDemo* create()
+    {
+        auto ret = new ShuffleTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     ShuffleTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -135,7 +207,13 @@ protected:
 class FadeOutTRTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FadeOutTRTilesDemo);
+    static FadeOutTRTilesDemo* create()
+    {
+        auto ret = new FadeOutTRTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FadeOutTRTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -144,7 +222,13 @@ protected:
 class FadeOutBLTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FadeOutBLTilesDemo);
+    static FadeOutBLTilesDemo* create()
+    {
+        auto ret = new FadeOutBLTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FadeOutBLTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -153,7 +237,13 @@ protected:
 class FadeOutUpTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FadeOutUpTilesDemo);
+    static FadeOutUpTilesDemo* create()
+    {
+        auto ret = new FadeOutUpTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FadeOutUpTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -162,7 +252,13 @@ protected:
 class FadeOutDownTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(FadeOutDownTilesDemo);
+    static FadeOutDownTilesDemo* create()
+    {
+        auto ret = new FadeOutDownTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     FadeOutDownTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -171,7 +267,13 @@ protected:
 class TurnOffTilesDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(TurnOffTilesDemo);
+    static TurnOffTilesDemo* create()
+    {
+        auto ret = new TurnOffTilesDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TurnOffTilesDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -180,7 +282,13 @@ protected:
 class WavesTiles3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(WavesTiles3DDemo);
+    static WavesTiles3DDemo* create()
+    {
+        auto ret = new WavesTiles3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     WavesTiles3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -189,7 +297,13 @@ protected:
 class JumpTiles3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(JumpTiles3DDemo);
+    static JumpTiles3DDemo* create()
+    {
+        auto ret = new JumpTiles3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     JumpTiles3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -198,7 +312,13 @@ protected:
 class SplitRowsDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(SplitRowsDemo);
+    static SplitRowsDemo* create()
+    {
+        auto ret = new SplitRowsDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SplitRowsDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -207,7 +327,13 @@ protected:
 class SplitColsDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(SplitColsDemo);
+    static SplitColsDemo* create()
+    {
+        auto ret = new SplitColsDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SplitColsDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -216,7 +342,13 @@ protected:
 class PageTurn3DDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(PageTurn3DDemo);
+    static PageTurn3DDemo* create()
+    {
+        auto ret = new PageTurn3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     PageTurn3DDemo();
 protected:
     virtual std::unique_ptr<cocos2d::ActionInterval> createEffect(float t) override;
@@ -225,7 +357,13 @@ protected:
 class PageTurn3DRectDemo : public EffectBaseTest
 {
 public:
-    CREATE_FUNC(PageTurn3DRectDemo);
+    static PageTurn3DRectDemo* create()
+    {
+        auto ret = new PageTurn3DRectDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     PageTurn3DRectDemo();
 protected:
     virtual bool isRectEffect() override {return true;}

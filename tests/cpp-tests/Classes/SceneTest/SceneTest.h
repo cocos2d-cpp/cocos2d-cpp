@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(SceneTests);
 class SceneTestLayer1 : public cocos2d::Layer
 {
 public:
-    CREATE_FUNC(SceneTestLayer1);
+    static SceneTestLayer1* create()
+    {
+        auto ret = new SceneTestLayer1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SceneTestLayer1();
     ~SceneTestLayer1();
@@ -26,7 +32,13 @@ class SceneTestLayer2 : public cocos2d::Layer
 {
     float    _timeCounter;
 public:
-    CREATE_FUNC(SceneTestLayer2);
+    static SceneTestLayer2* create()
+    {
+        auto ret = new SceneTestLayer2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SceneTestLayer2();
 
@@ -39,7 +51,13 @@ public:
 class SceneTestLayer3 : public cocos2d::LayerColor
 {
 public:
-    CREATE_FUNC(SceneTestLayer3);
+    static SceneTestLayer3* create()
+    {
+        auto ret = new SceneTestLayer3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     SceneTestLayer3();
 

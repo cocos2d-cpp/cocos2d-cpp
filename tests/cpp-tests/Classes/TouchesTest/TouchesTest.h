@@ -10,7 +10,13 @@ DEFINE_TEST_SUITE(TouchesTests);
 class PongScene : public TestCase
 {
 public:
-    CREATE_FUNC(PongScene);
+    static PongScene* create()
+    {
+        auto ret = new PongScene;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual bool init() override;
 };
@@ -24,7 +30,13 @@ private:
     std::vector<cocos2d::node_ptr<Paddle>>  _paddles;
     cocos2d::Vec2     _ballStartingVelocity; 
 public:
-    CREATE_FUNC(PongLayer);
+    static PongLayer* create()
+    {
+        auto ret = new PongLayer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     PongLayer();
     ~PongLayer();
 
@@ -35,7 +47,13 @@ public:
 class ForceTouchTest : public TestCase
 {
 public:
-    CREATE_FUNC(ForceTouchTest);
+    static ForceTouchTest* create()
+    {
+        auto ret = new ForceTouchTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

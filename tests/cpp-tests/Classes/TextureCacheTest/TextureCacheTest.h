@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(TextureCacheTests);
 class TextureCacheTest : public TestCase
 {
 public:
-    CREATE_FUNC(TextureCacheTest);
+    static TextureCacheTest* create()
+    {
+        auto ret = new TextureCacheTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     TextureCacheTest();
 

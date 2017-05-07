@@ -38,7 +38,13 @@ DEFINE_TEST_SUITE(MenuTests);
 class MenuTest : public TestCase
 {
 public:
-    CREATE_FUNC(MenuTest);
+    static MenuTest* create()
+    {
+        auto ret = new MenuTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 };

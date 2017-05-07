@@ -34,7 +34,13 @@ DEFINE_TEST_SUITE(Particle3DTests);
 class Particle3DTestDemo : public TestCase
 {
 public:
-    CREATE_FUNC(Particle3DTestDemo);
+    static Particle3DTestDemo* create()
+    {
+        auto ret = new Particle3DTestDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DTestDemo(void);
     virtual ~Particle3DTestDemo(void);
     
@@ -58,7 +64,13 @@ class Particle3DAdvancedLodSystemDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DAdvancedLodSystemDemo);
+    static Particle3DAdvancedLodSystemDemo* create()
+    {
+        auto ret = new Particle3DAdvancedLodSystemDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DAdvancedLodSystemDemo(){};
     virtual ~Particle3DAdvancedLodSystemDemo(){};
 
@@ -71,7 +83,13 @@ class Particle3DBlackHoleDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DBlackHoleDemo);
+    static Particle3DBlackHoleDemo* create()
+    {
+        auto ret = new Particle3DBlackHoleDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DBlackHoleDemo(){};
     virtual ~Particle3DBlackHoleDemo(){};
 
@@ -84,7 +102,13 @@ class Particle3DHypnoDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DHypnoDemo);
+    static Particle3DHypnoDemo* create()
+    {
+        auto ret = new Particle3DHypnoDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DHypnoDemo(){};
     virtual ~Particle3DHypnoDemo(){};
 
@@ -97,7 +121,13 @@ class Particle3DTimeShiftDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DTimeShiftDemo);
+    static Particle3DTimeShiftDemo* create()
+    {
+        auto ret = new Particle3DTimeShiftDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DTimeShiftDemo(){};
     virtual ~Particle3DTimeShiftDemo(){};
 
@@ -111,7 +141,13 @@ class Particle3DUVAnimDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DUVAnimDemo);
+    static Particle3DUVAnimDemo* create()
+    {
+        auto ret = new Particle3DUVAnimDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DUVAnimDemo(){};
     virtual ~Particle3DUVAnimDemo(){};
 
@@ -124,7 +160,13 @@ class Particle3DFirePlaceDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DFirePlaceDemo);
+    static Particle3DFirePlaceDemo* create()
+    {
+        auto ret = new Particle3DFirePlaceDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DFirePlaceDemo(){};
     virtual ~Particle3DFirePlaceDemo(){};
 
@@ -137,7 +179,13 @@ class Particle3DLineStreakDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DLineStreakDemo);
+    static Particle3DLineStreakDemo* create()
+    {
+        auto ret = new Particle3DLineStreakDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DLineStreakDemo(){};
     virtual ~Particle3DLineStreakDemo(){};
 
@@ -150,7 +198,13 @@ class Particle3DElectricBeamSystemDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DElectricBeamSystemDemo);
+    static Particle3DElectricBeamSystemDemo* create()
+    {
+        auto ret = new Particle3DElectricBeamSystemDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DElectricBeamSystemDemo(){};
     virtual ~Particle3DElectricBeamSystemDemo(){};
 
@@ -163,7 +217,13 @@ class Particle3DFlareShieldDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DFlareShieldDemo);
+    static Particle3DFlareShieldDemo* create()
+    {
+        auto ret = new Particle3DFlareShieldDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DFlareShieldDemo(){};
     virtual ~Particle3DFlareShieldDemo(){};
 
@@ -176,7 +236,13 @@ class Particle3DLightningBoltDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DLightningBoltDemo);
+    static Particle3DLightningBoltDemo* create()
+    {
+        auto ret = new Particle3DLightningBoltDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DLightningBoltDemo(){};
     virtual ~Particle3DLightningBoltDemo(){};
 
@@ -189,7 +255,13 @@ class Particle3DExplosionSystemDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DExplosionSystemDemo);
+    static Particle3DExplosionSystemDemo* create()
+    {
+        auto ret = new Particle3DExplosionSystemDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DExplosionSystemDemo(){};
     virtual ~Particle3DExplosionSystemDemo(){};
 
@@ -202,7 +274,13 @@ class Particle3DCanOfWormsDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DCanOfWormsDemo);
+    static Particle3DCanOfWormsDemo* create()
+    {
+        auto ret = new Particle3DCanOfWormsDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DCanOfWormsDemo(){};
     virtual ~Particle3DCanOfWormsDemo(){};
 
@@ -215,7 +293,13 @@ class Particle3DRibbonTrailDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DRibbonTrailDemo);
+    static Particle3DRibbonTrailDemo* create()
+    {
+        auto ret = new Particle3DRibbonTrailDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DRibbonTrailDemo(){};
     virtual ~Particle3DRibbonTrailDemo(){};
 
@@ -228,7 +312,13 @@ class Particle3DWeaponTrailDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DWeaponTrailDemo);
+    static Particle3DWeaponTrailDemo* create()
+    {
+        auto ret = new Particle3DWeaponTrailDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DWeaponTrailDemo(){};
     virtual ~Particle3DWeaponTrailDemo(){};
 
@@ -241,7 +331,13 @@ class Particle3DWithSprite3DDemo : public Particle3DTestDemo
 {
 public:
 
-    CREATE_FUNC(Particle3DWithSprite3DDemo);
+    static Particle3DWithSprite3DDemo* create()
+    {
+        auto ret = new Particle3DWithSprite3DDemo;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Particle3DWithSprite3DDemo(){};
     virtual ~Particle3DWithSprite3DDemo(){};
 

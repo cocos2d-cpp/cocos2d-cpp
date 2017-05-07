@@ -36,7 +36,13 @@ namespace cocos2d {
 class BillBoardRotationTest : public TestCase
 {
 public:
-    CREATE_FUNC(BillBoardRotationTest);
+    static BillBoardRotationTest* create()
+    {
+        auto ret = new BillBoardRotationTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     BillBoardRotationTest();
     virtual ~BillBoardRotationTest(void);
     virtual std::string title() const override;
@@ -49,7 +55,13 @@ class BillBoardTest : public TestCase
 {
 public:
     virtual ~BillBoardTest(void);
-    CREATE_FUNC(BillBoardTest);
+    static BillBoardTest* create()
+    {
+        auto ret = new BillBoardTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     BillBoardTest();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

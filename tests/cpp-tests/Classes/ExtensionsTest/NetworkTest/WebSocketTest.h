@@ -19,7 +19,13 @@ class WebSocketTest : public TestCase
 , public cocos2d::network::WebSocket::Delegate
 {
 public:
-    CREATE_FUNC(WebSocketTest);
+    static WebSocketTest* create()
+    {
+        auto ret = new WebSocketTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     WebSocketTest();
     virtual ~WebSocketTest();
@@ -55,7 +61,13 @@ class WebSocketCloseTest : public TestCase
     , public cocos2d::network::WebSocket::Delegate
 {
 public:
-    CREATE_FUNC(WebSocketCloseTest);
+    static WebSocketCloseTest* create()
+    {
+        auto ret = new WebSocketCloseTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual void onOpen(cocos2d::network::WebSocket* ws)override;
     virtual void onMessage(cocos2d::network::WebSocket* ws, const cocos2d::network::WebSocket::Data& data)override;

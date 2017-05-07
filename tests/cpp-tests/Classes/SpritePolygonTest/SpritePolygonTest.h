@@ -42,7 +42,13 @@ protected:
 class SpritePolygonTest1 : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTest1);
+    static SpritePolygonTest1* create()
+    {
+        auto ret = new SpritePolygonTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTest1();
     void initSprites() override;
 };
@@ -50,7 +56,13 @@ public:
 class SpritePolygonTest2 : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTest2);
+    static SpritePolygonTest2* create()
+    {
+        auto ret = new SpritePolygonTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTest2();
     virtual void initSprites() override;
 };
@@ -72,7 +84,13 @@ protected:
 class SpritePolygonTest3 : public SpritePolygonTestSlider
 {
 public:
-    CREATE_FUNC(SpritePolygonTest3);
+    static SpritePolygonTest3* create()
+    {
+        auto ret = new SpritePolygonTest3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTest3();
     void initSprites() override;
 };
@@ -80,7 +98,13 @@ public:
 class SpritePolygonTest4 : public SpritePolygonTestSlider
 {
 public:
-    CREATE_FUNC(SpritePolygonTest4);
+    static SpritePolygonTest4* create()
+    {
+        auto ret = new SpritePolygonTest4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTest4();
     void initSprites() override;
 };
@@ -88,7 +112,13 @@ public:
 class SpritePolygonTest5 : public SpritePolygonTestCase
 {
 public:
-    CREATE_FUNC(SpritePolygonTest5);
+    static SpritePolygonTest5* create()
+    {
+        auto ret = new SpritePolygonTest5;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTest5();
     void update(float dt) override;
 protected:
@@ -104,7 +134,13 @@ private:
 class SpritePolygonPerformance : public SpritePolygonTestCase
 {
 public:
-    CREATE_FUNC(SpritePolygonPerformance);
+    static SpritePolygonPerformance* create()
+    {
+        auto ret = new SpritePolygonPerformance;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonPerformance();
     virtual void update(float dt) override;
 protected:
@@ -141,7 +177,13 @@ protected:
 class SpritePolygonPerformanceTestDynamic : public SpritePolygonPerformance
 {
 public:
-    CREATE_FUNC(SpritePolygonPerformanceTestDynamic);
+    static SpritePolygonPerformanceTestDynamic* create()
+    {
+        auto ret = new SpritePolygonPerformanceTestDynamic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonPerformanceTestDynamic();
 protected:
     cocos2d::Sprite* makeSprite() override;
@@ -152,7 +194,13 @@ protected:
 class SpritePerformanceTestDynamic : public SpritePolygonPerformance
 {
 public:
-    CREATE_FUNC(SpritePerformanceTestDynamic);
+    static SpritePerformanceTestDynamic* create()
+    {
+        auto ret = new SpritePerformanceTestDynamic;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePerformanceTestDynamic();
 protected:
     virtual cocos2d::Sprite* makeSprite() override;
@@ -162,7 +210,13 @@ protected:
 class SpritePolygonTestNoCrash : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTestNoCrash);
+    static SpritePolygonTestNoCrash* create()
+    {
+        auto ret = new SpritePolygonTestNoCrash;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTestNoCrash();
     virtual void initSprites() override;
 };
@@ -170,7 +224,13 @@ public:
 class SpritePolygonTestTPIsland : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTestTPIsland);
+    static SpritePolygonTestTPIsland* create()
+    {
+        auto ret = new SpritePolygonTestTPIsland;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTestTPIsland();
     virtual void initSprites() override;
 };
@@ -178,7 +238,13 @@ public:
 class SpritePolygonTestAutoPolyIsland : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTestAutoPolyIsland);
+    static SpritePolygonTestAutoPolyIsland* create()
+    {
+        auto ret = new SpritePolygonTestAutoPolyIsland;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTestAutoPolyIsland();
     virtual void initSprites() override;
 };
@@ -186,7 +252,13 @@ public:
 class SpritePolygonTestFrameAnim : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(SpritePolygonTestFrameAnim);
+    static SpritePolygonTestFrameAnim* create()
+    {
+        auto ret = new SpritePolygonTestFrameAnim;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     SpritePolygonTestFrameAnim();
     virtual void initSprites() override;
 };
@@ -194,7 +266,13 @@ public:
 class Issue14017Test : public SpritePolygonTestDemo
 {
 public:
-    CREATE_FUNC(Issue14017Test);
+    static Issue14017Test* create()
+    {
+        auto ret = new Issue14017Test;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     Issue14017Test();
     virtual void initSprites() override;
 };

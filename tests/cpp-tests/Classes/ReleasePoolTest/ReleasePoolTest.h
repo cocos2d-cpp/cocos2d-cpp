@@ -10,7 +10,13 @@ DEFINE_TEST_SUITE(ReleasePoolTests);
 class ReleasePoolTest : public TestCase
 {
 public:
-    CREATE_FUNC(ReleasePoolTest);
+    static ReleasePoolTest* create()
+    {
+        auto ret = new ReleasePoolTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 private:

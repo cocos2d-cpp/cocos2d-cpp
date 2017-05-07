@@ -56,7 +56,13 @@ static const char* sNameList[sListSize] =
 
 struct DownloaderTest : public TestCase
 {
-    CREATE_FUNC(DownloaderTest);
+    static DownloaderTest* create()
+    {
+        auto ret = new DownloaderTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual std::string title() const override { return "Downloader Test"; }
     

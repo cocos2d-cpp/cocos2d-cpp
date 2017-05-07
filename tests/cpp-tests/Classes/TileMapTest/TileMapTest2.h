@@ -25,7 +25,13 @@ public:
 class TileMapTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TileMapTestNew);
+    static TileMapTestNew* create()
+    {
+        auto ret = new TileMapTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TileMapTestNew();
     virtual std::string title() const override;
 };
@@ -33,7 +39,13 @@ public:
 class TileMapEditTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TileMapEditTestNew);
+    static TileMapEditTestNew* create()
+    {
+        auto ret = new TileMapEditTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TileMapEditTestNew ();
     virtual std::string title() const override;
 
@@ -43,7 +55,13 @@ public:
 class TMXOrthoTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoTestNew);
+    static TMXOrthoTestNew* create()
+    {
+        auto ret = new TMXOrthoTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoTestNew();
     virtual std::string title() const override;
 
@@ -54,7 +72,13 @@ public:
 class TMXOrthoTest2New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoTest2New);
+    static TMXOrthoTest2New* create()
+    {
+        auto ret = new TMXOrthoTest2New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoTest2New();
     virtual std::string title() const override;
 };
@@ -62,7 +86,13 @@ public:
 class TMXOrthoTest3New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoTest3New);
+    static TMXOrthoTest3New* create()
+    {
+        auto ret = new TMXOrthoTest3New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoTest3New();
     virtual std::string title() const override;
 };
@@ -70,7 +100,13 @@ public:
 class TMXOrthoTest4New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoTest4New);
+    static TMXOrthoTest4New* create()
+    {
+        auto ret = new TMXOrthoTest4New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoTest4New();
     void removeSprite(float dt);
     virtual std::string title() const override;
@@ -81,7 +117,13 @@ class TMXReadWriteTestNew : public TileDemoNew
     unsigned int _gid;
     unsigned int _gid2;
 public:
-    CREATE_FUNC(TMXReadWriteTestNew);
+    static TMXReadWriteTestNew* create()
+    {
+        auto ret = new TMXReadWriteTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXReadWriteTestNew();
     virtual std::string title() const override;
 
@@ -94,7 +136,13 @@ public:
 class TMXHexTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXHexTestNew);
+    static TMXHexTestNew* create()
+    {
+        auto ret = new TMXHexTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXHexTestNew();
     virtual std::string title() const override;
 };
@@ -102,7 +150,13 @@ public:
 class TMXIsoTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXIsoTestNew);
+    static TMXIsoTestNew* create()
+    {
+        auto ret = new TMXIsoTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoTestNew();
     virtual std::string title() const override;
 };
@@ -110,7 +164,13 @@ public:
 class TMXIsoTest1New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXIsoTest1New);
+    static TMXIsoTest1New* create()
+    {
+        auto ret = new TMXIsoTest1New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoTest1New();
     virtual std::string title() const override;
 };
@@ -118,7 +178,13 @@ public:
 class TMXIsoTest2New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXIsoTest2New);
+    static TMXIsoTest2New* create()
+    {
+        auto ret = new TMXIsoTest2New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoTest2New();
     virtual std::string title() const override;
 };
@@ -126,7 +192,13 @@ public:
 class TMXUncompressedTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXUncompressedTestNew);
+    static TMXUncompressedTestNew* create()
+    {
+        auto ret = new TMXUncompressedTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXUncompressedTestNew();
     virtual std::string title() const override;
 };
@@ -134,7 +206,13 @@ public:
 class TMXTilesetTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXTilesetTestNew);
+    static TMXTilesetTestNew* create()
+    {
+        auto ret = new TMXTilesetTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXTilesetTestNew();
     virtual std::string title() const override;
 };
@@ -142,7 +220,13 @@ public:
 class TMXOrthoObjectsTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoObjectsTestNew);
+    static TMXOrthoObjectsTestNew* create()
+    {
+        auto ret = new TMXOrthoObjectsTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoObjectsTestNew();
     virtual std::string title() const override;
 
@@ -152,7 +236,13 @@ public:
 class TMXIsoObjectsTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXIsoObjectsTestNew);
+    static TMXIsoObjectsTestNew* create()
+    {
+        auto ret = new TMXIsoObjectsTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoObjectsTestNew();
     virtual std::string title() const override;
 
@@ -162,7 +252,13 @@ public:
 class TMXResizeTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXResizeTestNew);
+    static TMXResizeTestNew* create()
+    {
+        auto ret = new TMXResizeTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXResizeTestNew();
     virtual std::string title() const override;
 
@@ -173,7 +269,13 @@ class TMXIsoZorderNew : public TileDemoNew
 {
     cocos2d::Sprite*    _tamara;
 public:
-    CREATE_FUNC(TMXIsoZorderNew);
+    static TMXIsoZorderNew* create()
+    {
+        auto ret = new TMXIsoZorderNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoZorderNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -187,7 +289,13 @@ class TMXOrthoZorderNew : public TileDemoNew
 {
     cocos2d::Sprite*    _tamara;
 public:
-    CREATE_FUNC(TMXOrthoZorderNew);
+    static TMXOrthoZorderNew* create()
+    {
+        auto ret = new TMXOrthoZorderNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoZorderNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -200,7 +308,13 @@ class TMXIsoVertexZNew : public TileDemoNew
 {
     cocos2d::Sprite*    _tamara;
 public:
-    CREATE_FUNC(TMXIsoVertexZNew);
+    static TMXIsoVertexZNew* create()
+    {
+        auto ret = new TMXIsoVertexZNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoVertexZNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -215,7 +329,13 @@ class TMXOrthoVertexZNew : public TileDemoNew
 {
     cocos2d::Sprite*    _tamara;
 public:
-    CREATE_FUNC(TMXOrthoVertexZNew);
+    static TMXOrthoVertexZNew* create()
+    {
+        auto ret = new TMXOrthoVertexZNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoVertexZNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -229,7 +349,13 @@ public:
 class TMXIsoMoveLayerNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXIsoMoveLayerNew);
+    static TMXIsoMoveLayerNew* create()
+    {
+        auto ret = new TMXIsoMoveLayerNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXIsoMoveLayerNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -238,7 +364,13 @@ public:
 class TMXOrthoMoveLayerNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoMoveLayerNew);
+    static TMXOrthoMoveLayerNew* create()
+    {
+        auto ret = new TMXOrthoMoveLayerNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoMoveLayerNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -247,7 +379,13 @@ public:
 class TMXTilePropertyTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXTilePropertyTestNew);
+    static TMXTilePropertyTestNew* create()
+    {
+        auto ret = new TMXTilePropertyTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXTilePropertyTestNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -256,7 +394,13 @@ public:
 class TMXOrthoFlipTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoFlipTestNew);
+    static TMXOrthoFlipTestNew* create()
+    {
+        auto ret = new TMXOrthoFlipTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoFlipTestNew();
     virtual std::string title() const override;
 };
@@ -264,7 +408,13 @@ public:
 class TMXOrthoFlipRunTimeTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoFlipRunTimeTestNew);
+    static TMXOrthoFlipRunTimeTestNew* create()
+    {
+        auto ret = new TMXOrthoFlipRunTimeTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoFlipRunTimeTestNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -274,7 +424,13 @@ public:
 class TMXOrthoFromXMLTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoFromXMLTestNew);
+    static TMXOrthoFromXMLTestNew* create()
+    {
+        auto ret = new TMXOrthoFromXMLTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoFromXMLTestNew();
     virtual std::string title() const override;
 };
@@ -282,7 +438,13 @@ public:
 class TMXOrthoXMLFormatTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXOrthoXMLFormatTestNew);
+    static TMXOrthoXMLFormatTestNew* create()
+    {
+        auto ret = new TMXOrthoXMLFormatTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXOrthoXMLFormatTestNew();
     virtual std::string title() const override;
 };
@@ -290,7 +452,13 @@ public:
 class TMXBug987New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXBug987New);
+    static TMXBug987New* create()
+    {
+        auto ret = new TMXBug987New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXBug987New();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -299,7 +467,13 @@ public:
 class TMXBug787New : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXBug787New);
+    static TMXBug787New* create()
+    {
+        auto ret = new TMXBug787New;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXBug787New();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -308,7 +482,13 @@ public:
 class TMXGIDObjectsTestNew : public TileDemoNew
 {
 public:
-    CREATE_FUNC(TMXGIDObjectsTestNew);
+    static TMXGIDObjectsTestNew* create()
+    {
+        auto ret = new TMXGIDObjectsTestNew;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     TMXGIDObjectsTestNew();
     virtual std::string title() const override;
     virtual std::string subtitle() const override;   

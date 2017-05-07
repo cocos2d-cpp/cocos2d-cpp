@@ -31,7 +31,13 @@ protected:
     cocos2d::Node*        _target;
 
 public:
-    CREATE_FUNC(MotionStreakTest1);
+    static MotionStreakTest1* create()
+    {
+        auto ret = new MotionStreakTest1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void onUpdate(float delta);
     virtual std::string title() const override;
@@ -44,7 +50,13 @@ protected:
     cocos2d::Node*        _target;
 
 public:
-    CREATE_FUNC(MotionStreakTest2);
+    static MotionStreakTest2* create()
+    {
+        auto ret = new MotionStreakTest2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event* event);
     virtual std::string title() const override;
@@ -53,7 +65,13 @@ public:
 class Issue1358 : public MotionStreakTest
 {
 public:
-    CREATE_FUNC(Issue1358);
+    static Issue1358* create()
+    {
+        auto ret = new Issue1358;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;
@@ -68,7 +86,13 @@ private:
 class Issue12226 : public MotionStreakTest
 {
 public:
-    CREATE_FUNC(Issue12226);
+    static Issue12226* create()
+    {
+        auto ret = new Issue12226;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

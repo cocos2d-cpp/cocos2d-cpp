@@ -9,7 +9,13 @@ DEFINE_TEST_SUITE(TableViewTests);
 class TableViewTest : public TestCase, public cocos2d::extension::TableViewDataSource, public cocos2d::extension::TableViewDelegate
 {
 public:
-    CREATE_FUNC(TableViewTest);
+    static TableViewTest* create()
+    {
+        auto ret = new TableViewTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;  
     

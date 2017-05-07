@@ -8,7 +8,13 @@ DEFINE_TEST_SUITE(RotateWorldTests);
 class RotateWorldTest : public TestCase
 {
 public:
-    CREATE_FUNC(RotateWorldTest);
+    static RotateWorldTest* create()
+    {
+        auto ret = new RotateWorldTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init() override;
 };
@@ -17,7 +23,13 @@ class SpriteLayer : public cocos2d::Layer
 {
 public:
     virtual void onEnter() override;
-    CREATE_FUNC(SpriteLayer)
+    static SpriteLayer* create()
+    {
+        auto ret = new SpriteLayer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 class TestLayer : public cocos2d::Layer
@@ -25,7 +37,13 @@ class TestLayer : public cocos2d::Layer
 public:
     virtual void onEnter() override;
 
-    CREATE_FUNC(TestLayer)
+    static TestLayer* create()
+    {
+        auto ret = new TestLayer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 class RotateWorldMainLayer : public cocos2d::Layer
@@ -33,7 +51,13 @@ class RotateWorldMainLayer : public cocos2d::Layer
 public:
     virtual void onEnter() override;
 
-    CREATE_FUNC(RotateWorldMainLayer)
+    static RotateWorldMainLayer* create()
+    {
+        auto ret = new RotateWorldMainLayer;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 #endif

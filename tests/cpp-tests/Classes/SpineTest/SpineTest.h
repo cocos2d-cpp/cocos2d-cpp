@@ -54,7 +54,13 @@ public:
 	virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
     
-	CREATE_FUNC (SpineTestLayerNormal);
+	static SpineTestLayerNormal* create()
+	{
+	    auto ret = new SpineTestLayerNormal;
+	    ret->init();
+	    ret->autorelease();
+	    return ret;
+	}
 };
 
 class SpineTestLayerFFD: public SpineTestLayer {
@@ -74,7 +80,13 @@ public:
 	virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
     
-	CREATE_FUNC (SpineTestLayerFFD);
+	static SpineTestLayerFFD* create()
+	{
+	    auto ret = new SpineTestLayerFFD;
+	    ret->init();
+	    ret->autorelease();
+	    return ret;
+	}
 };
 
 class SpineTestLayerRapor: public SpineTestLayer
@@ -90,7 +102,13 @@ public:
     }
     virtual bool init () override;
     
-    CREATE_FUNC (SpineTestLayerRapor);
+    static SpineTestLayerRapor* create()
+    {
+        auto ret = new SpineTestLayerRapor;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
 private:
     spine::SkeletonAnimation* skeletonNode;
@@ -111,7 +129,13 @@ public:
 	virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
     
-	CREATE_FUNC (SpineTestPerformanceLayer);
+	static SpineTestPerformanceLayer* create()
+	{
+	    auto ret = new SpineTestPerformanceLayer;
+	    ret->init();
+	    ret->autorelease();
+	    return ret;
+	}
 };
 
 
@@ -132,7 +156,13 @@ public:
     virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
 
-    CREATE_FUNC (SpineTestLayerNormalBin);
+    static SpineTestLayerNormalBin* create()
+    {
+        auto ret = new SpineTestLayerNormalBin;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 class SpineTestLayerFFDBin: public SpineTestLayer {
@@ -152,7 +182,13 @@ public:
     virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
 
-    CREATE_FUNC (SpineTestLayerFFDBin);
+    static SpineTestLayerFFDBin* create()
+    {
+        auto ret = new SpineTestLayerFFDBin;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 class SpineTestLayerRaporBin: public SpineTestLayer
@@ -168,7 +204,13 @@ public:
     }
     virtual bool init () override;
 
-    CREATE_FUNC (SpineTestLayerRaporBin);
+    static SpineTestLayerRaporBin* create()
+    {
+        auto ret = new SpineTestLayerRaporBin;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
 private:
     spine::SkeletonAnimation* skeletonNode;
@@ -189,7 +231,13 @@ public:
     virtual void update (float deltaTime) override;
     //    void animationStateEvent (spine::SkeletonAnimation* node, int trackIndex, spEventType type, spEvent* event, int loopCount);
 
-    CREATE_FUNC (SpineTestPerformanceLayerBin);
+    static SpineTestPerformanceLayerBin* create()
+    {
+        auto ret = new SpineTestPerformanceLayerBin;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 };
 
 #endif // _EXAMPLELAYER_H_

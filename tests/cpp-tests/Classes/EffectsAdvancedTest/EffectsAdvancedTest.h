@@ -31,7 +31,13 @@ public:
 class Effect1 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Effect1);
+    static Effect1* create()
+    {
+        auto ret = new Effect1;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
 };
@@ -39,7 +45,13 @@ public:
 class Effect2 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Effect2);
+    static Effect2* create()
+    {
+        auto ret = new Effect2;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
 };
@@ -47,7 +59,13 @@ public:
 class Effect3 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Effect3);
+    static Effect3* create()
+    {
+        auto ret = new Effect3;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
 };
@@ -55,7 +73,13 @@ public:
 class Effect4 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Effect4);
+    static Effect4* create()
+    {
+        auto ret = new Effect4;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
 };
@@ -63,7 +87,13 @@ public:
 class Effect5 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Effect5);
+    static Effect5* create()
+    {
+        auto ret = new Effect5;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual void onExit() override;
     virtual std::string title() const override;
@@ -72,7 +102,13 @@ public:
 class Issue631 : public EffectAdvanceBaseTest
 {
 public:
-    CREATE_FUNC(Issue631);
+    static Issue631* create()
+    {
+        auto ret = new Issue631;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string title() const override;
     virtual std::string subtitle() const override;

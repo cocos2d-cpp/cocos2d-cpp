@@ -10,7 +10,13 @@ DEFINE_TEST_SUITE(JNITests);
 class JNITest : public TestCase
 {
 public:
-    CREATE_FUNC(JNITest);
+    static JNITest* create()
+    {
+        auto ret = new JNITest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     JNITest();
 };

@@ -18,7 +18,13 @@ public:
 class ValueTest : public UnitTestDemo
 {
 public:
-    CREATE_FUNC(ValueTest);
+    static ValueTest* create()
+    {
+        auto ret = new ValueTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
     void constFunc(const cocos2d::Value& value) const;
@@ -27,7 +33,13 @@ public:
 class UTFConversionTest : public UnitTestDemo
 {
 public:
-    CREATE_FUNC(UTFConversionTest);
+    static UTFConversionTest* create()
+    {
+        auto ret = new UTFConversionTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -35,7 +47,13 @@ public:
 class UIHelperSubStringTest : public UnitTestDemo
 {
 public:
-    CREATE_FUNC(UIHelperSubStringTest);
+    static UIHelperSubStringTest* create()
+    {
+        auto ret = new UIHelperSubStringTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };
@@ -43,7 +61,13 @@ public:
 class MathUtilTest : public UnitTestDemo
 {
 public:
-    CREATE_FUNC(MathUtilTest);
+    static MathUtilTest* create()
+    {
+        auto ret = new MathUtilTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     virtual void onEnter() override;
     virtual std::string subtitle() const override;
 };

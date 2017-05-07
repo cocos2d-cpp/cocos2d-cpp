@@ -30,7 +30,13 @@
 class ControlSliderTest : public ControlScene
 {
 public:
-    CREATE_FUNC(ControlSliderTest);
+    static ControlSliderTest* create()
+    {
+        auto ret = new ControlSliderTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     ControlSliderTest();
     virtual ~ControlSliderTest();

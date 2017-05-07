@@ -27,7 +27,13 @@ protected:
 class SimulateNewSchedulerCallbackPerfTest : public PerformanceCallbackScene
 {
 public:
-    CREATE_FUNC(SimulateNewSchedulerCallbackPerfTest);
+    static SimulateNewSchedulerCallbackPerfTest* create()
+    {
+        auto ret = new SimulateNewSchedulerCallbackPerfTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     // overrides
     virtual void onEnter() override;
@@ -59,7 +65,13 @@ private:
 class InvokeMemberFunctionPerfTest : public PerformanceCallbackScene
 {
 public:
-    CREATE_FUNC(InvokeMemberFunctionPerfTest);
+    static InvokeMemberFunctionPerfTest* create()
+    {
+        auto ret = new InvokeMemberFunctionPerfTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     virtual void onEnter() override;
     virtual std::string title() const override;
@@ -77,7 +89,13 @@ private:
 class InvokeStdFunctionPerfTest : public PerformanceCallbackScene
 {
 public:
-    CREATE_FUNC(InvokeStdFunctionPerfTest);
+    static InvokeStdFunctionPerfTest* create()
+    {
+        auto ret = new InvokeStdFunctionPerfTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     
     // overrides
     virtual void onEnter() override;

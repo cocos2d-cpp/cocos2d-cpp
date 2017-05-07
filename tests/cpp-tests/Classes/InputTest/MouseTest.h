@@ -18,7 +18,13 @@ public:
 class MouseEventTest : public BaseMouseTest
 {
 public:
-    CREATE_FUNC(MouseEventTest);
+    static MouseEventTest* create()
+    {
+        auto ret = new MouseEventTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     MouseEventTest();
     ~MouseEventTest();
 
@@ -39,7 +45,13 @@ private:
 class HideMouseTest : public BaseMouseTest
 {
 public:
-    CREATE_FUNC(HideMouseTest);
+    static HideMouseTest* create()
+    {
+        auto ret = new HideMouseTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
     HideMouseTest();
     ~HideMouseTest();
     

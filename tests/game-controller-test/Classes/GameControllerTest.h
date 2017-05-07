@@ -11,7 +11,13 @@ class GameControllerTest : public cocos2d::Layer
 public:
     virtual ~GameControllerTest();
     
-    CREATE_FUNC(GameControllerTest);
+    static GameControllerTest* create()
+    {
+        auto ret = new GameControllerTest;
+        ret->init();
+        ret->autorelease();
+        return ret;
+    }
 
     virtual bool init();
     
