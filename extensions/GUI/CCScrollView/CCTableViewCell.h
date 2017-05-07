@@ -43,9 +43,13 @@ namespace extension {
 class CC_EX_DLL TableViewCell: public Node
 {
 public:
-    CREATE_FUNC(TableViewCell);
+    static TableViewCell* create()
+    {
+        auto ret = new TableViewCell;
+        ret->autorelease();
+        return ret;
+    }
     
-    TableViewCell() {}
     /**
      * The index used internally by SWTableView and its subclasses
      */
