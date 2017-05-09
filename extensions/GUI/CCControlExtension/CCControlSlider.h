@@ -4,17 +4,17 @@
  *
  * Copyright 2011 Yannick Loriot. All rights reserved.
  * http://yannickloriot.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,13 +36,6 @@
 
 namespace cocos2d {
 namespace extension {
-
-/**
- * @addtogroup GUI
- * @{
- * @addtogroup control_extension
- * @{
- */
 
 class CC_EX_DLL ControlSlider: public Control
 {
@@ -97,7 +90,7 @@ public:
     */
     virtual bool initWithSprites(Sprite * backgroundSprite, Sprite* progressSprite, Sprite* thumbSprite);
 
-    /** 
+    /**
     * Initializes a slider with a background sprite, a progress bar and a thumb
     * item.
     *
@@ -130,32 +123,80 @@ protected:
     /** Returns the value for the given location. */
     float valueForLocation(Vec2 location);
 
-    //manually put in the setters
-    /** Contains the receiver's current value. */
-    CC_SYNTHESIZE_READONLY(float, _value, Value);
+public:
+    virtual float getValue(void) const { return _value; }
+    virtual float getMinimumValue(void) const { return _minimumValue; }
+    virtual float getMaximumValue(void) const { return _minimumValue; }
 
+    virtual float getMinimumAllowedValue() const { return _minimumAllowedValue; }
+    virtual void  setMinimumAllowedValue(float var){ _minimumAllowedValue = var; }
+    
+    virtual float getMaximumAllowedValue() const { return _maximumAllowedValue; }
+    virtual void  setMaximumAllowedValue(float var){ _maximumAllowedValue = var; }
+
+    virtual Sprite* getThumbSprite() const { return _thumbSprite; }
+    virtual void setThumbSprite(Sprite* var)
+    {
+        if (_thumbSprite != var)
+        {
+            CC_SAFE_RETAIN(var);
+            CC_SAFE_RELEASE(_thumbSprite);
+            _thumbSprite = var;
+        }
+    }
+
+    virtual Sprite* getSelectedThumbSprite() const { return _selectedThumbSprite; }
+    virtual void setSelectedThumbSprite(Sprite* var)
+    {
+        if (_selectedThumbSprite != var)
+        {
+            CC_SAFE_RETAIN(var);
+            CC_SAFE_RELEASE(_selectedThumbSprite);
+            _selectedThumbSprite = var;
+        }
+    }
+
+    virtual Sprite* getProgressSprite() const { return _progressSprite; }
+    virtual void setProgressSprite(Sprite* var)
+    {
+        if (_progressSprite != var)
+        {
+            CC_SAFE_RETAIN(var);
+            CC_SAFE_RELEASE(_progressSprite);
+            _progressSprite = var;
+        }
+    }
+
+    virtual Sprite* getBackgroundSprite() const { return _backgroundSprite; }
+    virtual void setBackgroundSprite(Sprite* var)
+    {
+        if (_backgroundSprite != var)
+        {
+            CC_SAFE_RETAIN(var);
+            CC_SAFE_RELEASE(_backgroundSprite);
+            _backgroundSprite = var;
+        }
+    }
+
+private:
+
+    /** Contains the receiver's current value. */
+    float _value;
     /** Contains the minimum value of the receiver.
      * The default value of this property is 0.0. */
-    CC_SYNTHESIZE_READONLY(float, _minimumValue, MinimumValue);
-
+    float _minimumValue;
     /** Contains the maximum value of the receiver.
      * The default value of this property is 1.0. */
-    CC_SYNTHESIZE_READONLY(float, _maximumValue, MaximumValue);
+    float _maximumValue;
 
-    CC_SYNTHESIZE(float, _minimumAllowedValue, MinimumAllowedValue);
-    CC_SYNTHESIZE(float, _maximumAllowedValue, MaximumAllowedValue);
+    float _minimumAllowedValue;
+    float _maximumAllowedValue;
 
-    // maybe this should be read-only
-    CC_SYNTHESIZE_RETAIN(Sprite*, _thumbSprite, ThumbSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _selectedThumbSprite, SelectedThumbSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _progressSprite, ProgressSprite);
-    CC_SYNTHESIZE_RETAIN(Sprite*, _backgroundSprite, BackgroundSprite);
-
+    Sprite* _thumbSprite;
+    Sprite* _selectedThumbSprite;
+    Sprite* _progressSprite;
+    Sprite* _backgroundSprite;
 };
-
-// end of GUI group
-/// @}
-/// @}
 
 } // namespace extension
 } // namespace cocos2d

@@ -220,12 +220,12 @@ void ControlSlider::setEnabled(bool enabled)
 
 bool ControlSlider::isTouchInside(Touch * touch)
 {
-  Vec2 touchLocation   = touch->getLocation();
-  touchLocation           = this->getParent()->convertToNodeSpace(touchLocation);
+  Vec2 touchLocation  = touch->getLocation();
+  touchLocation       = this->getParent()->convertToNodeSpace(touchLocation);
 
-  Rect rect             = this->getBoundingBox();
-  rect.size.width         += _thumbSprite->getContentSize().width;
-  rect.origin.x           -= _thumbSprite->getContentSize().width / 2;
+  Rect rect           = this->getBoundingBox();
+  rect.size.width    += _thumbSprite->getContentSize().width;
+  rect.origin.x      -= _thumbSprite->getContentSize().width / 2;
 
   return rect.containsPoint(touchLocation);
 }
@@ -272,8 +272,10 @@ void ControlSlider::onTouchEnded(Touch* /*pTouch*/, Event* /*pEvent*/)
 
 void ControlSlider::needsLayout()
 {
-    if (nullptr == _thumbSprite || nullptr == _selectedThumbSprite || nullptr == _backgroundSprite
-    		|| nullptr == _progressSprite)
+    if (nullptr == _thumbSprite
+        || nullptr == _selectedThumbSprite
+        || nullptr == _backgroundSprite
+        || nullptr == _progressSprite)
     {
         return;
     }
